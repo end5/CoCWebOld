@@ -24,10 +24,10 @@
     }
     //End of Interface Implementation
 
-    public encounterMarae(): void {
+    public encounterMarae() {
         DisplaySprite(40);
-        DisplayText(images.showImage("marae-first-encounter"));
-        DisplayText("Like a hidden emerald jewel, a small island appears in the distance.  You wager that you're somewhere near the center of this lake.  How coincidental.   You row closer, eager to get out of the boat and stretch your " + LegDescriptor.describeLegs(player) + ".  The rowboat grounds itself in the moist earth of the island, coming to a dead stop.   You climb out, noting that this island is little more than a raised mound of earth and grass, with a small tree perched atop its apex.  ");
+        DisplayImage(images.showImage("marae-first-encounter"));
+        DisplayText("Like a hidden emerald jewel, a small island appears in the distance.  You wager that you're somewhere near the center of this lake.  How coincidental.   You row closer, eager to get out of the boat and stretch your " + Desc.Leg.describeLegs(player) + ".  The rowboat grounds itself in the moist earth of the island, coming to a dead stop.   You climb out, noting that this island is little more than a raised mound of earth and grass, with a small tree perched atop its apex.  ");
         //Dungeon operational
         if (!player.statusAffects.has(StatusAffectType.DungeonShutDown)) {
             //First meeting
@@ -130,23 +130,23 @@
         }
     }
 
-    private grabHerBoob(): void {
+    private grabHerBoob() {
         DisplayText().clear();
         DisplayText("You reach forward to cop a feel.  The goddess' eyes go wide with fury as a massive branch swings down, catching you in the sternum.  It hits you hard enough that you land in your boat and float back a few feet into the water.  Nothing to do but leave and hope for another chance at her breasts...");
         player.takeDamage(player.stats.HP - 1);
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private runFromPervertedGoddess(): void {
+    private runFromPervertedGoddess() {
         DisplayText().clear();
         DisplayText("You turn and run for the boat, leaving the corrupt goddess behind.  High pitched laugher seems to chase you as you row away from the island.");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private maraeBadEnd(): void {
+    private maraeBadEnd() {
         DisplaySprite(40);
         DisplayText().clear();
-        DisplayText(images.showImage("marae-bad-end"));
+        DisplayImage(images.showImage("marae-bad-end"));
         if (!player.statusAffects.has(StatusAffectType.MetCorruptMarae)) DisplayText("The goddess flows out of the tree, stepping away from it as a living woman, curvy and nude.\n\n");
         DisplayText("She approaches you, her breasts swinging pendulously and dripping sap.   Mesmerized by her swaying mammaries, you watch until she mashes you into them with an enormous hug.  A hand traces down your chest to your groin");
         if (player.gender === Gender.NONE) DisplayText(" where it pauses in momentary confusion");
@@ -157,14 +157,14 @@
         DisplayText("Foggy euphoria seems to float into your mind, making it difficult to think of anything but emptying the nipple in front of you.   You feel the last few drops splash on your tongue before unnatural strength breaks the seal, yanking you away and forcing a fresh dripping tit into your lips.\n\n");
 
         if (player.torso.cocks.count === 0) {
-            DisplayText("A building sense of pressure grows in your groin, bulging the flesh of your crotch out.  You ignore it, focusing on suckling more of the sweet fluids from your goddess' breasts.   The warmth in your middle feels like it's dripping down into that new bulge, making it tingle with sensitivity.  You ignore it, and lash your tongue across the slippery nipple in your mouth, being rewarded with another warm blast of syrupy sap.   Your mind fills with an impenetrable haze of lust, overcoming any logic with thoughts of raw sex intermingled with animal desire. You're pulled back again by that unholy strength, fighting to get one last lick on that nipple.  Your " + LegDescriptor.describeLegs(player) + " and " + LowerBodyDescriptor.describeHips(player) + " shake with lust, driven mad by sweet desire.  Marae reaches down to cup your groin, and blinds you with intense sensation.  She guides your gaze down to a new appendage that's sprouted from your needy groin – <b>a tentacle dick</b>!  It wavers to and fro, coiling on itself and tasting the air like a snake.\n\n");
+            DisplayText("A building sense of pressure grows in your groin, bulging the flesh of your crotch out.  You ignore it, focusing on suckling more of the sweet fluids from your goddess' breasts.   The warmth in your middle feels like it's dripping down into that new bulge, making it tingle with sensitivity.  You ignore it, and lash your tongue across the slippery nipple in your mouth, being rewarded with another warm blast of syrupy sap.   Your mind fills with an impenetrable haze of lust, overcoming any logic with thoughts of raw sex intermingled with animal desire. You're pulled back again by that unholy strength, fighting to get one last lick on that nipple.  Your " + Desc.Leg.describeLegs(player) + " and " + Desc.Hip.describeHips(player) + " shake with lust, driven mad by sweet desire.  Marae reaches down to cup your groin, and blinds you with intense sensation.  She guides your gaze down to a new appendage that's sprouted from your needy groin – <b>a tentacle dick</b>!  It wavers to and fro, coiling on itself and tasting the air like a snake.\n\n");
             player.torso.cocks.add(new Cock());
             player.torso.cocks.get(0).length = 36;
             player.torso.cocks.get(0).thickness = 2;
             player.torso.cocks.get(0).type = CockType.TENTACLE;
         }
         else {
-            DisplayText("You drink deeply, suckling her thick syrupy milk with strength born of an instantaneous addiction.  The desire to attain more of her 'milk' overrides any other thoughts, clouding over them like a dense morning fog.  The slick nipples feel like they tense and squirm in your mouth as you draw every last bit of their delicious cargo into your greedy gullet.  You " + LowerBodyDescriptor.describeHips(player) + " twitch and squirm, throbbing and hard, making your " + CockDescriptor.describeMultiCockShort(player) + " bob in the air.   Heedless of your groin's incessant begging, you work the nipple in your mouth as if it was your whole world, trying to pleasure as much as suckle.  You can feel your " + CockDescriptor.describeMultiCockShort(player) + " squirming in the air  as if reaching for her.  Wait, squirming!?  You're pulled back from her nipple and given the chance to look down, where ");
+            DisplayText("You drink deeply, suckling her thick syrupy milk with strength born of an instantaneous addiction.  The desire to attain more of her 'milk' overrides any other thoughts, clouding over them like a dense morning fog.  The slick nipples feel like they tense and squirm in your mouth as you draw every last bit of their delicious cargo into your greedy gullet.  You " + Desc.Hip.describeHips(player) + " twitch and squirm, throbbing and hard, making your " + Desc.Cock.describeMultiCockShort(player) + " bob in the air.   Heedless of your groin's incessant begging, you work the nipple in your mouth as if it was your whole world, trying to pleasure as much as suckle.  You can feel your " + Desc.Cock.describeMultiCockShort(player) + " squirming in the air  as if reaching for her.  Wait, squirming!?  You're pulled back from her nipple and given the chance to look down, where ");
             if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) < player.torso.cocks.count)).length {
                 //Single cawks
                 if (player.torso.cocks.count === 1) {
@@ -181,10 +181,10 @@
                     }
                 }
             }
-            DisplayText("<b>you see your " + CockDescriptor.describeMultiCockShort(player) + " waving around, seeking a nearby orifice to fuck!</b>\n\n");
+            DisplayText("<b>you see your " + Desc.Cock.describeMultiCockShort(player) + " waving around, seeking a nearby orifice to fuck!</b>\n\n");
         }
 
-        DisplayText("\"<i>Yum,</i>\" whispers Marae, throwing you against her tree and advancing confidently, \"<i>nothing feels quite as good as burying a squirming tentacle into some hot wet cunt's pussy and asshole.</i>\" She beckons you closer and begins advancing on you.  Your body edges closer of its own volition, as if she has a hook buried in your groin and pulling you away from the tree, towards her needy flower.   When she closes within a few feet, your " + CockDescriptor.describeMultiCock(player) + " splits into a dozen different appendages, each waving in the air with licentious intent.  Before you can react, they lash forwards, wrapping her arms and legs tightly, hauling her onto two central tendrils.  In seconds, your primary tentacle-dick buries itself up to her cervix, pressing roughly against her internal opening while it squirms like a trapped snake inside her cunt.  The secondary cock-vine manages to penetrate her bum with ease, tingling as lubricant splatters around the rough penetration.\n\n");
+        DisplayText("\"<i>Yum,</i>\" whispers Marae, throwing you against her tree and advancing confidently, \"<i>nothing feels quite as good as burying a squirming tentacle into some hot wet cunt's pussy and asshole.</i>\" She beckons you closer and begins advancing on you.  Your body edges closer of its own volition, as if she has a hook buried in your groin and pulling you away from the tree, towards her needy flower.   When she closes within a few feet, your " + Desc.Cock.describeMultiCock(player) + " splits into a dozen different appendages, each waving in the air with licentious intent.  Before you can react, they lash forwards, wrapping her arms and legs tightly, hauling her onto two central tendrils.  In seconds, your primary tentacle-dick buries itself up to her cervix, pressing roughly against her internal opening while it squirms like a trapped snake inside her cunt.  The secondary cock-vine manages to penetrate her bum with ease, tingling as lubricant splatters around the rough penetration.\n\n");
 
         DisplayText("You don't really know what's going on anymore.  You're leaning against a tree while your crotch is forcefully double-teaming both of a goddess' holes.  You're too full of warmth and arousal to do anything about it, so you slump down and enjoy it.  Marae cries and moans like a bitch in heat, clearly enjoying the two wriggling tendrils working her over.  Sap leaks from her nipples, and a few spare tentacles immediately latch on, their tips forming into twisted lips.  You can <b>taste</b> the flavor... with your tentacles.  The fog in your mind thickens, and you squeeze another tentacle into her ass without thinking about it.   One more erupts from the bundle at your crotch, and latches onto the goddess' clit, locking her in a state of near-constant orgasm.   Her orgasms milk your cocks with violent muscle contracts, actually managing to pull the member buried inside her through her cervix and into her womb.  It's too much and you start to cum, blacking out from the intensity of it.\n\n");
         DisplayText("<b>Some time passes...</b>\n\n");
@@ -193,7 +193,7 @@
         Game.gameOver();
     }
 
-    private maraeStealLethicite(): void {
+    private maraeStealLethicite() {
         DisplaySprite(40);
         DisplayText().clear();
         //(SUCCESS)
@@ -217,18 +217,18 @@
             if (player.gender === Gender.MALE || (player.gender === Gender.HERM && randInt(2) === 1)) {
                 DisplayText("She extends a hand expectantly, watching with detached concentration while a tentacle lowers from the tree into her palm.   Hips swaying sexually, she advances, peeling back the tentacle's outer layer.  It opens up to reveal a wet, gummy mouth.  She giggles and bumps the opening against your ");
                 if (player.torso.cocks.count > 1) DisplayText("largest ");
-                DisplayText(CockDescriptor.describeCock(player, player.torso.cocks.get(0)));
-                DisplayText("'s tip.  Immediately a powerful suction draws your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " inside the tentacle-maw, burying you up to the base in squirming pleasure.   Marae watches the plant go to work, squeezing teasingly until you orgasm.  It takes mere moments for the gifted tentacle to achieve its goal.  Your cum makes a tasty treat for the plant-beast, and it sucks and sucks until your body feels empty and drained.\n\n");
+                DisplayText(Desc.Cock.describeCock(player, player.torso.cocks.get(0)));
+                DisplayText("'s tip.  Immediately a powerful suction draws your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " inside the tentacle-maw, burying you up to the base in squirming pleasure.   Marae watches the plant go to work, squeezing teasingly until you orgasm.  It takes mere moments for the gifted tentacle to achieve its goal.  Your cum makes a tasty treat for the plant-beast, and it sucks and sucks until your body feels empty and drained.\n\n");
                 DisplayText("\"<i>Oh that simply won't do,</i>\" Marae whispers, cupping your ");
-                if (player.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeBalls(true, true, player));
+                if (player.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, player));
                 else {
-                    if (player.torso.vaginas.count > 0) DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+                    if (player.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
                     else DisplayText("crotch");
                 }
                 DisplayText(", \"<i>You'll be my prized breeder.</i>\"  The sharp point of a fingernail presses against your taint, scratching the skin.  \"<i>Just one tiny change to make,</i>\" exhales the goddess.  Pain explodes at the base of your crotch as it feels like her fingernail impales you, penetrating inches into your flesh.  You thrash in agony as it reaches something sensitive inside you.  You black out from pain and the shock of watching your blood flow down her arm.\n\n");
-                DisplayText("You feel warm, enclosed in comfort and pleasure.  Is this heaven?  No, your head is throbbing and your eyes are closed... you open them and discover you're still lying at the base of the tree.  That greedy tentacle is still locked around your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " pinning it in the throes of orgasm.  You watch thick bulges of cum pump up the tentacle, evidence of a truly garguantuan fluid output.  It goes on and on, and you realize the pleasure ought to drive you mad.\n\n");
-                DisplayText("Marae steps into your field of view, and pulls the tentacle free.  Your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " twitches pitifully, blasting a few massive loads onto your belly as your orgasm withers and dies from lack of stimulation.\n\n");
-                DisplayText("\"<i>Sorry about the pain, I had to tweak your body to make you a true breeder.  You can go now stud.  I expect the monsters ought to worry about you now, or they'll all have dripping twats and swollen bellies,</i>\" apologizes Marae.  She turns away from you, returning to the embrace of her tree's tentacles, sinking into debauchery.  You stagger into your boat and row away, oblivious to the stream to pre-cum dripping from your " + CockDescriptor.describeMultiCock(player) + ".");
+                DisplayText("You feel warm, enclosed in comfort and pleasure.  Is this heaven?  No, your head is throbbing and your eyes are closed... you open them and discover you're still lying at the base of the tree.  That greedy tentacle is still locked around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " pinning it in the throes of orgasm.  You watch thick bulges of cum pump up the tentacle, evidence of a truly garguantuan fluid output.  It goes on and on, and you realize the pleasure ought to drive you mad.\n\n");
+                DisplayText("Marae steps into your field of view, and pulls the tentacle free.  Your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " twitches pitifully, blasting a few massive loads onto your belly as your orgasm withers and dies from lack of stimulation.\n\n");
+                DisplayText("\"<i>Sorry about the pain, I had to tweak your body to make you a true breeder.  You can go now stud.  I expect the monsters ought to worry about you now, or they'll all have dripping twats and swollen bellies,</i>\" apologizes Marae.  She turns away from you, returning to the embrace of her tree's tentacles, sinking into debauchery.  You stagger into your boat and row away, oblivious to the stream to pre-cum dripping from your " + Desc.Cock.describeMultiCock(player) + ".");
                 player.createPerk(PerkLib.MaraesGiftStud, 0, 0, 0, 0);
                 return { next: Scenes.camp.returnToCampUseTwoHours };
             }
@@ -240,24 +240,24 @@
                     player.createVagina();
                     player.updateGender();
                 }
-                else DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  ");
+                else DisplayText(Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  ");
                 DisplayText("She guides the tentacle forwards, letting it brush your nether-lips.  Without any guidance from its mistress, the bulbous plant-member buries itself inside you, sliding in easily until it's pushing hard against your womb.  A quick blast of fluid sends cramps spasming up your gut, forcing your cervix to dilate.  It wastes no time, flowing into your unprotected womb.  As soon as it reaches the back of your womb, thick bulges begin sliding down the exposed portion of the tentacle.  It stretches you wide, almost painfully so, as they pass through your lips and work up your passage.  They begin exploding in your cunt, one after the other, cum-bombs bursting in your womb, filling you to the brink.  Your belly swells out, giving you the appearance of a pregnant woman.  Finished with its nasty work, the plant-prick pulls free leaving your puffy pussy lips slightly agape.  A small runner of a thick green substance slowly slides out.");
-                player.displayStretchVagina(20, true, true, false);
+                Mod.Vagina.displayStretchVagina(player, 20, true, true, false);
                 DisplayText("\n\n");
                 DisplayText("Marae winks, \"<i>Sorry about making you look so pregnant my dear, it's a necessary part of the process.  All that sloshing seed is going to flow right into your tender little mortal ovaries, and remake them.  You'll be so fertile just looking at a hard cock could knock you up!</i>\"\n\n");
                 DisplayText("She giggles at your expression of horror, \"<i>No, not literally, but it won't take much to make you a mommy, and you'll find the gestation to be quite a bit... shorter.  Now get out of here before I change my mind and lock in an orgasm for the rest of your life.</i>\"\n\n");
-                DisplayText("You are dropped from the tree, and with little choice, you waddle to your boat, doing your best to cover up your violated " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".");
+                DisplayText("You are dropped from the tree, and with little choice, you waddle to your boat, doing your best to cover up your violated " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".");
                 player.createPerk(PerkLib.MaraesGiftFertility, 0, 0, 0, 0);
                 return { next: Scenes.camp.returnToCampUseOneHour };
             }
         }
     }
 
-    public level2MaraeEncounter(): void {
+    public level2MaraeEncounter() {
         DisplaySprite(40);
         Flags.list[FlagEnum.CORRUPT_MARAE_FOLLOWUP_ENCOUNTER_STATE] = 1;
         DisplayText().clear();
-        DisplayText(images.showImage("marae-second-encounter"));
+        DisplayImage(images.showImage("marae-second-encounter"));
         DisplayText("While rowing about the lake");
         if (player.stats.str > 70) DisplayText(" with ease");
         DisplayText(", a familiar island resolves itself in the center of the lake.  There's a familiar tree perched atop it, though the wriggling tentacles' silhouette against the sky are a cruel reminder that this island will no longer be the peaceful haven it once was.  ");
@@ -277,7 +277,7 @@
         //(FORK HERE BETWEEN STOLE LETHICITE AND LAZY ASSHOLEZ)\"
         //(STOLE)
         if (player.hasKeyItem("Marae's Lethicite") >= 0) {
-            DisplayText("Welcome back, sneak-thief.  What kind of " + player.mf("gentleman", "lady") + " is offered sex and then ransacks a god's soul?  Honestly, that right-right theeeeeree-oh yeah right there-is true depravity.</i>");
+            DisplayText("Welcome back, sneak-thief.  What kind of " + Desc.Gender.mf(player, "gentleman", "lady") + " is offered sex and then ransacks a god's soul?  Honestly, that right-right theeeeeree-oh yeah right there-is true depravity.</i>");
         }
         //(FAIL-STOLE)
         else if (player.perks.has(PerkType.MaraesGiftStud) || player.perks.has(PerkType.MaraesGiftFertility)) {
@@ -306,10 +306,10 @@
         }
     }
 
-    private MaraeIIStageII(): void {
+    private MaraeIIStageII() {
         DisplaySprite(40);
         DisplayText().clear();
-        DisplayText(images.showImage("marae-second-encounter-pt-two"));
+        DisplayImage(images.showImage("marae-second-encounter-pt-two"));
         Flags.list[FlagEnum.CORRUPT_MARAE_FOLLOWUP_ENCOUNTER_STATE] = 2;
         //[Girls]
         //Marae grows vine-cawks for DP action
@@ -323,26 +323,26 @@
             DisplayText(", you don't manage a single backwards step before the warm bulge is rubbing ");
             if (player.tallness > 48) DisplayText("at your crotch");
             else DisplayText("against your belly");
-            DisplayText(", and her sap-drooling teats are crushed into you.  Unbidden, your own " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s grow hard under your " + player.inventory.equipment.armor.displayName + ".  Marae glances down knowingly and begins to undo your gear, tossing it aside with almost bored contempt.  The sharp edges of her fingernails trace down your abdomen, circle your belly-button, and then slide wide to caress your " + LowerBodyDescriptor.describeHips(player) + ".  The unexpected shift makes you gasp and rock against her, trying to get her fingertips between your " + LegDescriptor.describeLegs(player) + ".  The goddess laughs and whispers, \"<i>No dear, that's a dick's job.</i>\"\n\n");
+            DisplayText(", and her sap-drooling teats are crushed into you.  Unbidden, your own " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s grow hard under your " + player.inventory.equipment.armor.displayName + ".  Marae glances down knowingly and begins to undo your gear, tossing it aside with almost bored contempt.  The sharp edges of her fingernails trace down your abdomen, circle your belly-button, and then slide wide to caress your " + Desc.Hip.describeHips(player) + ".  The unexpected shift makes you gasp and rock against her, trying to get her fingertips between your " + Desc.Leg.describeLegs(player) + ".  The goddess laughs and whispers, \"<i>No dear, that's a dick's job.</i>\"\n\n");
 
-            DisplayText("Your heart hammers in your chest, flushing your " + player.skinDesc + " with heat from the goddess' presence and perfect, knowing touches.   There's no way you could resist her at this point, even if you wanted to.  Her smooth, flawless hands grab your shoulders and push down with a gentle but firm pressure that brooks no resistance.  Your " + LegDescriptor.describeLegs(player) + " fold underneath Marae's guidance, allowing you to take a proper, worshipful stance.  A confused, half-formed thought claws its way out of the arousal that's swimming through your brain, but you shake your head in irritation and begin to lick your lips while you gawk at Marae's proud new shaft.\n\n");
+            DisplayText("Your heart hammers in your chest, flushing your " + player.skin.desc + " with heat from the goddess' presence and perfect, knowing touches.   There's no way you could resist her at this point, even if you wanted to.  Her smooth, flawless hands grab your shoulders and push down with a gentle but firm pressure that brooks no resistance.  Your " + Desc.Leg.describeLegs(player) + " fold underneath Marae's guidance, allowing you to take a proper, worshipful stance.  A confused, half-formed thought claws its way out of the arousal that's swimming through your brain, but you shake your head in irritation and begin to lick your lips while you gawk at Marae's proud new shaft.\n\n");
 
-            DisplayText("Marae runs her slender fingers through your " + HeadDescriptor.describeHair(player) + ", pulling your " + HeadDescriptor.describeFace(player) + " closer and closer until you smell the fragrance of her nectar and make out every detail of her impeccably smooth penis.  The goddess commands, \"<i>Worship it as you would worship me.</i>\"  You nod, feeling remarkably obedient as you lean forwards to take her in your mouth.   A bead of moisture rolls down the tip, smearing over your lower lip as you open up to encapsulate the suddenly hermaphroditic goddess' prick.  Her pre is sweet, though it doesn't surprise you considering it's coming from part of a flower.  It reminds you a little of honey, though there is an undercurrent of something else that you can't quite place.\n\n");
+            DisplayText("Marae runs her slender fingers through your " + Desc.Head.describeHair(player) + ", pulling your " + Desc.Face.describeFace(player) + " closer and closer until you smell the fragrance of her nectar and make out every detail of her impeccably smooth penis.  The goddess commands, \"<i>Worship it as you would worship me.</i>\"  You nod, feeling remarkably obedient as you lean forwards to take her in your mouth.   A bead of moisture rolls down the tip, smearing over your lower lip as you open up to encapsulate the suddenly hermaphroditic goddess' prick.  Her pre is sweet, though it doesn't surprise you considering it's coming from part of a flower.  It reminds you a little of honey, though there is an undercurrent of something else that you can't quite place.\n\n");
 
-            DisplayText("Bobbing back and forth, you begin to fellate the goddess of fertility with unthinking, flawless precision.  Marae's hands continue to toy with your " + HeadDescriptor.describeHair(player) + ", wrenching it painfully once when you accidentally bump her with your teeth.  You whimper submissively and work harder, and your goddess rewards you by sending a tentacle to your groin.  The rounded tip nuzzles against you through your " + player.inventory.equipment.armor.displayName + ", but quickly angles itself to slip inside.  It curls around your body, coating you with slippery fluids as it works its way back towards your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
+            DisplayText("Bobbing back and forth, you begin to fellate the goddess of fertility with unthinking, flawless precision.  Marae's hands continue to toy with your " + Desc.Head.describeHair(player) + ", wrenching it painfully once when you accidentally bump her with your teeth.  You whimper submissively and work harder, and your goddess rewards you by sending a tentacle to your groin.  The rounded tip nuzzles against you through your " + player.inventory.equipment.armor.displayName + ", but quickly angles itself to slip inside.  It curls around your body, coating you with slippery fluids as it works its way back towards your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
 
-            DisplayText("The tentacle squirts something slippery and warm over your outer lips before arching up to pass inside you.  A half-articulated hum of pleasure escapes through your throat to vibrate Marae's plant-like prick.  She grunts and deposits a fat bead of nectar in your mouth, and trickles of the goddess' vaginal fluids start to slide down her inner thighs.  Marae's hips start to pump into you in time with the tentacle that's worming its way inside your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".");
-            player.displayStretchVagina(12, true, true, false);
+            DisplayText("The tentacle squirts something slippery and warm over your outer lips before arching up to pass inside you.  A half-articulated hum of pleasure escapes through your throat to vibrate Marae's plant-like prick.  She grunts and deposits a fat bead of nectar in your mouth, and trickles of the goddess' vaginal fluids start to slide down her inner thighs.  Marae's hips start to pump into you in time with the tentacle that's worming its way inside your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".");
+            Mod.Vagina.displayStretchVagina(player, 12, true, true, false);
             DisplayText("  Both are dripping and giving tiny squirts of sweet pleasure that simultaneously dull the mind and reinforce your worship of this sexually-charged deity.\n\n");
 
             DisplayText("Marae grunts and pulls on ");
             if (player.torso.neck.head.horns > 0) DisplayText("your horns");
-            else DisplayText("your " + HeadDescriptor.describeHair(player));
+            else DisplayText("your " + Desc.Head.describeHair(player));
             DisplayText(", shoving her thick clit-cock deep inside your throat.  You reflexively swallow down the bulging fuck-meat and ");
             if (player.stats.cor < 33) DisplayText("struggle to ");
             else if (player.stats.cor < 66) DisplayText("work to ");
             else DisplayText("easily ");
-            DisplayText("suppress your gag reflex as her cock grows thick in your mouth and begins to dump its cream down your wanton gullet.  The slippery tentacle goes into overdrive while Marae cums, pumping away at your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " with incredibly violent fervor.   Your belly bubbles as it's stuffed full of goddess-cum, and your pussy clamps down hard on its invader while it spurts out its own syrupy load into your womb.   Swooning with lust, you orgasm from the twin violations, squirming on Marae's rod while she packs you with nectar.");
+            DisplayText("suppress your gag reflex as her cock grows thick in your mouth and begins to dump its cream down your wanton gullet.  The slippery tentacle goes into overdrive while Marae cums, pumping away at your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " with incredibly violent fervor.   Your belly bubbles as it's stuffed full of goddess-cum, and your pussy clamps down hard on its invader while it spurts out its own syrupy load into your womb.   Swooning with lust, you orgasm from the twin violations, squirming on Marae's rod while she packs you with nectar.");
             DisplayText("\n\nThe goddess pulls back with a satisfied sigh, dragging her length out of your throat and shivering from the sensations of your hot, oral vice on her twitching member.  You look up at her with eyes full of adoration, feeling your gut churn from the quantity of her deposit.  Marae ruffles your hair and pulls the tentacle back with a suddenness that makes you feel empty and void.   You feel a little drowsy and close your eyes while your goddess watches over you.  Everything is perfect...");
         }
         //[Dudezillaz]
@@ -354,20 +354,20 @@
             if (player.stats.lust > 80) DisplayText("lust");
             else if (player.stats.cor > 50) DisplayText("indecision");
             else DisplayText("worry");
-            DisplayText(".  Marae's advance seems like an inexorable march to your eyes, and before you have a chance to react, she's crushed against you in a full-body hug.  Her tongue digs into your mouth, rooting out your tongue and melting your resistance in an overwhelming, lust-powered assault.  You vision swims for a moment when she releases you and pulls back.  It's hard to focus with the busty, nude image of fertility beckoning you.  It makes " + CockDescriptor.describeMultiCockSimpleOne(player) + " strain to reach her, but she dances back with a knowing smile and says, \"<i>Not yet my eager little subject.  Let me undress you, THEN you can worship me.</i>\"\n\n");
+            DisplayText(".  Marae's advance seems like an inexorable march to your eyes, and before you have a chance to react, she's crushed against you in a full-body hug.  Her tongue digs into your mouth, rooting out your tongue and melting your resistance in an overwhelming, lust-powered assault.  You vision swims for a moment when she releases you and pulls back.  It's hard to focus with the busty, nude image of fertility beckoning you.  It makes " + Desc.Cock.describeMultiCockSimpleOne(player) + " strain to reach her, but she dances back with a knowing smile and says, \"<i>Not yet my eager little subject.  Let me undress you, THEN you can worship me.</i>\"\n\n");
 
-            DisplayText("Vines whip out, sliding under your " + player.inventory.equipment.armor.displayName + ", undoing clasps, and removing it until you stand naked and exposed to Marae.  She smirks and crooks her finger at you in a 'come hither' gesture.  You lurch forward, as if pulled on an invisible string until you're standing inches away from her, your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " rubbing her belly");
+            DisplayText("Vines whip out, sliding under your " + player.inventory.equipment.armor.displayName + ", undoing clasps, and removing it until you stand naked and exposed to Marae.  She smirks and crooks her finger at you in a 'come hither' gesture.  You lurch forward, as if pulled on an invisible string until you're standing inches away from her, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " rubbing her belly");
             if (player.torso.cocks.count === 2) DisplayText(" while your other dangles against her thigh");
             else if (player.torso.cocks.count > 2) DisplayText(" while your others dangle against her thighs");
             DisplayText(".  The goddess gives you a cruel smile, as if she knows something you don't, and she commands, \"<i>Worship me with your cum, champion.  Submit to your goddess and spend your fertile seed for her.</i>\"\n\n");
 
-            DisplayText("Marae extends her arms, and the twin tentacles crawl forward like snakes as they wriggle down her appendages.  You thrust your crotch forwards, presenting it to the goddess, and only wonder why for a brief second before you toss away the nagging, useless thought.  Why would anything but pleasuring the living goddess before you matter?  Her corruptive aura floats in the air, filling you with the desire to submit to your queen and obey her every whim.  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " twitches and starts to drip pre-cum, itching to fulfill your deity's desires.\n\n");
+            DisplayText("Marae extends her arms, and the twin tentacles crawl forward like snakes as they wriggle down her appendages.  You thrust your crotch forwards, presenting it to the goddess, and only wonder why for a brief second before you toss away the nagging, useless thought.  Why would anything but pleasuring the living goddess before you matter?  Her corruptive aura floats in the air, filling you with the desire to submit to your queen and obey her every whim.  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " twitches and starts to drip pre-cum, itching to fulfill your deity's desires.\n\n");
 
-            DisplayText("The tentacle on her right arm convulses, then splits open along four joints.  The tip folds open to reveal a pink, wriggling interior that promises pleasures mortal minds weren't meant to comprehend.  Meanwhile, while you're distracted by the eager plant-hole, the other tentacle slips behind you and climbs up your " + LegDescriptor.describeLeg(player) + ", leaving a trail of slime in its wake.   It slides between your cheeks and prods at your " + ButtDescriptor.describeButthole(character.torso.butt) + ".  You jerk forwards in surprise, but Marae pushes your " + LowerBodyDescriptor.describeHips(player) + " back, allowing it to work its way inside.");
-            player.displayStretchButt(12, true, true, false);
-            DisplayText("  The open plant-hole dives for your groin while you're distracted, hits your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " and devours it with a greedy sluuuuurp.");
-            if (player.torso.cocks.count === 2) DisplayText("  Another vine that may as well be the first's twin snakes from between the goddess' legs and jumps onto your " + CockDescriptor.describeCock(player, 1) + ".");
-            else if (player.torso.cocks.count > 2) DisplayText("  More 'open' vines shimmy forth from between Marae's legs and jump up onto your " + CockDescriptor.nounCock(CockType.HUMAN) + "s.");
+            DisplayText("The tentacle on her right arm convulses, then splits open along four joints.  The tip folds open to reveal a pink, wriggling interior that promises pleasures mortal minds weren't meant to comprehend.  Meanwhile, while you're distracted by the eager plant-hole, the other tentacle slips behind you and climbs up your " + LegDescriptor.describeLeg(player) + ", leaving a trail of slime in its wake.   It slides between your cheeks and prods at your " + Desc.Butt.describeButthole(character.torso.butt) + ".  You jerk forwards in surprise, but Marae pushes your " + Desc.Hip.describeHips(player) + " back, allowing it to work its way inside.");
+            Mod.Butt.displayStretchButt(player, 12, true, true, false);
+            DisplayText("  The open plant-hole dives for your groin while you're distracted, hits your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and devours it with a greedy sluuuuurp.");
+            if (player.torso.cocks.count === 2) DisplayText("  Another vine that may as well be the first's twin snakes from between the goddess' legs and jumps onto your " + Desc.Cock.describeCock(player, 1) + ".");
+            else if (player.torso.cocks.count > 2) DisplayText("  More 'open' vines shimmy forth from between Marae's legs and jump up onto your " + Desc.Cock.nounCock(CockType.HUMAN) + "s.");
 
             DisplayText("You grunt and pump your hips, shameless as you give in to the squeezing, textured tentacle");
             if (player.torso.cocks.count > 1) DisplayText("s");
@@ -382,59 +382,59 @@
                 if (player.torso.cocks.count > 1) DisplayText("s");
                 DisplayText(".  ");
             }
-            DisplayText("A hot, slippery pressure touches something inside your " + ButtDescriptor.describeButthole(character.torso.butt) + " and makes you squirt even harder.  Marae's minions have found your prostate!  You grunt and groan, but the orgasm doesn't seem to stop.  The goddess teases, \"<i>What?  You didn't think I'd actually let you cum on me did you?</i>\"\n\n");
+            DisplayText("A hot, slippery pressure touches something inside your " + Desc.Butt.describeButthole(character.torso.butt) + " and makes you squirt even harder.  Marae's minions have found your prostate!  You grunt and groan, but the orgasm doesn't seem to stop.  The goddess teases, \"<i>What?  You didn't think I'd actually let you cum on me did you?</i>\"\n\n");
 
-            DisplayText("It doesn't matter, you're giving her what she wants.  You cum until your " + LegDescriptor.describeLegs(player) + " give out and you're sprawled on your back, " + CockDescriptor.describeMultiCockSimpleOne(player) + " being milked of its seed by the slurping, cunt-tentacles.  Every time you start to come down, the one in your backdoor rubs you just right and forces out another load.  Marae steps over your " + HeadDescriptor.describeFace(player) + " and drops down, allowing you to lick the nectar that drips from her sensitive, flower-like folds while you cum.  It's sweet, potent, and refreshing.  It makes it easy to keep cumming but hard to stay awake, and your eyes roll back as you pass out from an overload of pleasure.");
+            DisplayText("It doesn't matter, you're giving her what she wants.  You cum until your " + Desc.Leg.describeLegs(player) + " give out and you're sprawled on your back, " + Desc.Cock.describeMultiCockSimpleOne(player) + " being milked of its seed by the slurping, cunt-tentacles.  Every time you start to come down, the one in your backdoor rubs you just right and forces out another load.  Marae steps over your " + Desc.Face.describeFace(player) + " and drops down, allowing you to lick the nectar that drips from her sensitive, flower-like folds while you cum.  It's sweet, potent, and refreshing.  It makes it easy to keep cumming but hard to stay awake, and your eyes roll back as you pass out from an overload of pleasure.");
         }
         //[Hermz]  Marae grows vinecawks for DP under her flowercunt and sexes.
         else {
-            DisplayText("Marae coos with pleasure and allows a nectar-slicked tentacle to slip free of her flower.   Her sweet, corrupted smell filters through the air, like pollen carried on a spring breeze.  You watch, breathlessly staring as she advances, trailing a single finger around the entrance of her plant-like pussy in a provocative manner.  Amber fluid leaks down her thighs, showing you just how ready for sex she is.   The stickiness of your crotch combined with the tightness of " + CockDescriptor.describeMultiCockSimpleOne(player) + " makes it difficult to focus.  Your body is reacting to Marae in a way that's making it hard to focus or think, and though you know she's incredibly dangerous since her fall from grace, you have a hard time caring.\n\n");
+            DisplayText("Marae coos with pleasure and allows a nectar-slicked tentacle to slip free of her flower.   Her sweet, corrupted smell filters through the air, like pollen carried on a spring breeze.  You watch, breathlessly staring as she advances, trailing a single finger around the entrance of her plant-like pussy in a provocative manner.  Amber fluid leaks down her thighs, showing you just how ready for sex she is.   The stickiness of your crotch combined with the tightness of " + Desc.Cock.describeMultiCockSimpleOne(player) + " makes it difficult to focus.  Your body is reacting to Marae in a way that's making it hard to focus or think, and though you know she's incredibly dangerous since her fall from grace, you have a hard time caring.\n\n");
 
-            DisplayText("The goddess closes with deliberately slow, hip-swaying steps that make your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " tremble and leave no doubt that she's the goddess of fertility.  Marae giggles and wraps her arms around you, planting a firm, wet kiss on your lips while she undoes your " + player.inventory.equipment.armor.displayName + ".  Your gear hits the ground with a dull thump, and then her taut green nipples are pressed against your own");
-            if (player.torso.chest.hasFuckableNipples()) DisplayText(", slipping inside your cunt-like nipples with ease.  You moan into her ear at the unexpected penetration and shiver from the tingling shocks of pleasure in your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + ".");
+            DisplayText("The goddess closes with deliberately slow, hip-swaying steps that make your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " tremble and leave no doubt that she's the goddess of fertility.  Marae giggles and wraps her arms around you, planting a firm, wet kiss on your lips while she undoes your " + player.inventory.equipment.armor.displayName + ".  Your gear hits the ground with a dull thump, and then her taut green nipples are pressed against your own");
+            if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(", slipping inside your cunt-like nipples with ease.  You moan into her ear at the unexpected penetration and shiver from the tingling shocks of pleasure in your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + ".");
             else DisplayText(".");
-            DisplayText("  Hammering in your chest, your heart beats fast enough to flush your whole body when your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " manages to slip between Marae's legs.  It doesn't penetrate, merely trapping itself between her fluid-lubed thighs");
+            DisplayText("  Hammering in your chest, your heart beats fast enough to flush your whole body when your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " manages to slip between Marae's legs.  It doesn't penetrate, merely trapping itself between her fluid-lubed thighs");
             if (player.torso.cocks.count === 2) DisplayText(" while your other cock rubs over her surface");
             else if (player.torso.cocks.count > 2) DisplayText(" while your other cocks rubs over her surface");
             DisplayText(".\n\n");
 
             DisplayText("You swoon, your head buzzing with desire for more of this buzzing goddess' embrace.  The urge to kneel before her and worship her cunt rocks you to the core, blasting away the last of your feeble resistance, but before you can do so, Marae grabs you by the chin and commands, \"<i>No my child.  You can serve me better by breeding.</i>\"  Her fingers pull apart the petals of her flowery fuck-hole while she continues, \"<i>Go ahead, put it inside.  I'll show you how to practice the new faith of Marae.</i>\"\n\n");
 
-            DisplayText("She's easy to push down into the soft grasses of the island, and her legs part to allow you better access.  Your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " doesn't need to be told what to do, and it slips into her waiting wetness as if it was made for her.  ");
+            DisplayText("She's easy to push down into the soft grasses of the island, and her legs part to allow you better access.  Your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " doesn't need to be told what to do, and it slips into her waiting wetness as if it was made for her.  ");
             if (player.torso.cocks.get(0).thickness > 5 || player.torso.cocks.get(0).area > 100) DisplayText("With how big you are, there's no way it should be able to fit, but her body isn't even distorted by your girth.  Perhaps she changed you to fit her?  You pull back and your thickness seems unchanged.  You shake your head to clear the unwelcome thoughts and ram yourself back into her.  Fucking is what's important.  ");
-            else DisplayText("She feels perfect.  A velvet vice of hot, slippery wetness clutches tightly around your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  It almost feels like it's actually gripping you, cradling your cock in her ambrosia-slicked box.");
+            else DisplayText("She feels perfect.  A velvet vice of hot, slippery wetness clutches tightly around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  It almost feels like it's actually gripping you, cradling your cock in her ambrosia-slicked box.");
             if (player.torso.cocks.count > 1) {
                 if (player.torso.cocks.count > 2) DisplayText("  Another ");
                 else DisplayText("Your other ");
-                DisplayText(CockDescriptor.nounCock(CockType.HUMAN) + " prods at her tight pucker, and with a slight adjustment, you're able to line it up.  It's wet!  Inch after inch slides in with incredible ease, violating her slippery butthole until you've completely double-penetrated her.");
+                DisplayText(Desc.Cock.nounCock(CockType.HUMAN) + " prods at her tight pucker, and with a slight adjustment, you're able to line it up.  It's wet!  Inch after inch slides in with incredible ease, violating her slippery butthole until you've completely double-penetrated her.");
             }
             DisplayText("\n\n");
 
             if (player.torso.vaginas.get(0).wetness < VaginaWetness.WET) DisplayText("Sticky wetness glistens between your thighs");
             else if (player.torso.vaginas.get(0).wetness < VaginaWetness.DROOLING) DisplayText("Drops of feminine arousal run down your thighs");
-            else DisplayText("Trails of viscous feminine fluid leak from your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
-            DisplayText(", reminding you of your unused femsex.  Marae grunts underneath you, and while at first you assume it's from the penetration, the prodding of two cock-like protrusions at your lusty holes corrects your misguided assumptions.  You pull back and begin to fuck her in earnest, and with each long rock back, you can see she's grown tentacles from underneath her ass, like two prehensile tails.  They push forwards and spear you, arresting your movement while you try to cope with the sudden stretching of two of your orifices.  Warmth radiates from the twin intruders along with a slippery fullness.  They're pumping something inside you that tingles and makes " + CockDescriptor.describeMultiCockSimpleOne(player) + " bounce and drip.");
-            player.displayStretchVagina(12, true, true, false);
-            player.displayStretchButt(12, true, true, false);
+            else DisplayText("Trails of viscous feminine fluid leak from your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
+            DisplayText(", reminding you of your unused femsex.  Marae grunts underneath you, and while at first you assume it's from the penetration, the prodding of two cock-like protrusions at your lusty holes corrects your misguided assumptions.  You pull back and begin to fuck her in earnest, and with each long rock back, you can see she's grown tentacles from underneath her ass, like two prehensile tails.  They push forwards and spear you, arresting your movement while you try to cope with the sudden stretching of two of your orifices.  Warmth radiates from the twin intruders along with a slippery fullness.  They're pumping something inside you that tingles and makes " + Desc.Cock.describeMultiCockSimpleOne(player) + " bounce and drip.");
+            Mod.Vagina.displayStretchVagina(player, 12, true, true, false);
+            Mod.Butt.displayStretchButt(player, 12, true, true, false);
             DisplayText("\n\n");
 
-            DisplayText("Marae laughs and teases, \"<i>If this is how you fuck it's no wonder I haven't met your children yet.  If you're going to be my disciple you need to fuck your partners hard until you're stuffing them with cum.  Then you need to do it again.  Alternatively you should be bouncing on their cock and milking it with your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " until your womb is packed so full you can't walk.  Now show me how you'll do it, or I might keep you here until you're properly trained!</i>\"\n\n");
+            DisplayText("Marae laughs and teases, \"<i>If this is how you fuck it's no wonder I haven't met your children yet.  If you're going to be my disciple you need to fuck your partners hard until you're stuffing them with cum.  Then you need to do it again.  Alternatively you should be bouncing on their cock and milking it with your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " until your womb is packed so full you can't walk.  Now show me how you'll do it, or I might keep you here until you're properly trained!</i>\"\n\n");
 
-            DisplayText("You happily thrust forwards, ramming your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " into her cunt with such force that a wet slap echoes over the lake and her fluids splatter your abdomen.  ");
-            if (player.torso.cocks.count > 1) DisplayText("Her asshole is squelching and dripping from your " + CockDescriptor.describeCock(player, 1) + ", actually squirting more lubricant than her pussy from the violent fucking!  ");
-            DisplayText("In spite of the obscene amount of pleasure " + CockDescriptor.describeMultiCockSimpleOne(player) + " is getting, you focus on obeying your goddess, and you work the muscles in your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and " + ButtDescriptor.describeButthole(character.torso.butt) + " to pleasure her tentacles.  Muffled sloshes and spurts reach your ears, and you realize just how successful your efforts are.  Marae's pinching her nipples and arching her back, and a moment later a wave of pleasure hits you upside the head with the force of a hammer-blow.\n\n");
+            DisplayText("You happily thrust forwards, ramming your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " into her cunt with such force that a wet slap echoes over the lake and her fluids splatter your abdomen.  ");
+            if (player.torso.cocks.count > 1) DisplayText("Her asshole is squelching and dripping from your " + Desc.Cock.describeCock(player, 1) + ", actually squirting more lubricant than her pussy from the violent fucking!  ");
+            DisplayText("In spite of the obscene amount of pleasure " + Desc.Cock.describeMultiCockSimpleOne(player) + " is getting, you focus on obeying your goddess, and you work the muscles in your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " and " + Desc.Butt.describeButthole(character.torso.butt) + " to pleasure her tentacles.  Muffled sloshes and spurts reach your ears, and you realize just how successful your efforts are.  Marae's pinching her nipples and arching her back, and a moment later a wave of pleasure hits you upside the head with the force of a hammer-blow.\n\n");
 
             DisplayText("Cum boils out of your ");
             if (player.torso.balls.quantity > 0) DisplayText("rapidly contracting balls");
             else DisplayText("tentacle-squeezed prostate");
-            DisplayText(" and erupts into Marae's womb.  Your hips rock forward, grazing her cervix with your " + player.cockHead() + " to better fill her uterus.  ");
-            if (player.torso.cocks.count > 1) DisplayText("The " + CockDescriptor.describeCock(player, 1) + " in her ass spasms and explodes with its brother, glazing her slippery colon with a coating of syrupy spunk.  ");
+            DisplayText(" and erupts into Marae's womb.  Your hips rock forward, grazing her cervix with your " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " to better fill her uterus.  ");
+            if (player.torso.cocks.count > 1) DisplayText("The " + Desc.Cock.describeCock(player, 1) + " in her ass spasms and explodes with its brother, glazing her slippery colon with a coating of syrupy spunk.  ");
             if (player.torso.cocks.count > 2) {
                 DisplayText("Neglected but orgasming, ");
                 if (player.torso.cocks.count > 3) DisplayText("the remainder of ");
                 DisplayText("your ");
-                if (player.torso.cocks.count > 3) DisplayText(CockDescriptor.describeMultiCockShort(player));
-                else DisplayText(CockDescriptor.describeCock(player, 2));
+                if (player.torso.cocks.count > 3) DisplayText(Desc.Cock.describeMultiCockShort(player));
+                else DisplayText(Desc.Cock.describeCock(player, 2));
                 DisplayText(" does its best to coat Marae's thighs with whiteness.  ");
             }
             DisplayText("The goop from inside you never seems to end, and you pump Marae's belly up with it until she looks a little pregnant.  ");
@@ -448,13 +448,13 @@
         return { next: MaraePt2RoundIIIPrizes };
     }
 
-    private MaraePt2RoundIIIPrizes(): void {
+    private MaraePt2RoundIIIPrizes() {
         DisplaySprite(40);
         DisplayText().clear();
         //[EPILOGUE]
         //[Dudes]
         if (player.gender === Gender.MALE) {
-            DisplayText("You awaken in the midst of a powerful orgasm.  Jism boils out of " + CockDescriptor.describeMultiCockSimpleOne(player) + ", pumping into the tight, sucking tentacle-hole.  Your eyes open wider, and your head clears while you rock your hips in bliss.  You're hanging upside down, suspended in the tentacle tree!  Marae isn't far from you, and she's busy deep-throating the fattest tentacle you've seen while another pair are working her openings.  She turns to you, aware of your wakefulness, and removes the oral intruder, though it manages to squirt a layer of spunk into her face in defiance.   The goddess smirks and slaps it, scolding it before she speaks, \"<i>");
+            DisplayText("You awaken in the midst of a powerful orgasm.  Jism boils out of " + Desc.Cock.describeMultiCockSimpleOne(player) + ", pumping into the tight, sucking tentacle-hole.  Your eyes open wider, and your head clears while you rock your hips in bliss.  You're hanging upside down, suspended in the tentacle tree!  Marae isn't far from you, and she's busy deep-throating the fattest tentacle you've seen while another pair are working her openings.  She turns to you, aware of your wakefulness, and removes the oral intruder, though it manages to squirt a layer of spunk into her face in defiance.   The goddess smirks and slaps it, scolding it before she speaks, \"<i>");
             //(FORK STUD vs NO STUD)
             //(STUD)
             if (player.perks.has(PerkType.MaraesGiftStud)) DisplayText("Well, I see my gift is working out quite well for you, isn't it?  That's excellent.  It was an incomplete gift given by an incomplete goddess, but now that I've gotten my hands on you again, I was able to fix it.  You'll build up cum three times as fast as before, no more waiting for days just to build up a huge load for all the horny girls out there!</i>\"  ");
@@ -463,7 +463,7 @@
             //(CONTINUED)
             DisplayText("Her speech is broken by pauses for her to lick up the goo and swallow it, but still perfectly intelligible.  The entire time she was speaking, you were trapped in orgasm, milked by her tree with unthinking intensity.\n\n");
 
-            DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + LowerBodyDescriptor.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to knock up all the prettiest girls!</i>\"\n\n");
+            DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + Desc.Leg.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to knock up all the prettiest girls!</i>\"\n\n");
             if (player.perks.has(PerkType.MaraesGiftStud)) {
                 DisplayText("<b>(New Perk Gained: Marae's Gift – Profractory)</b>");
                 player.createPerk(PerkLib.MaraesGiftProfractory, 0, 0, 0, 0);
@@ -490,7 +490,7 @@
             }
             DisplayText("The entire time she was speaking, you were trapped in orgasm, fucked by her tree with unthinking intensity.\n\n");
 
-            DisplayText("Breathless and panting, you give Marae a confused nod as her tentacles lower you back towards your equipment.  They plant you on shaky " + LowerBodyDescriptor.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<I>Thanks for visiting and letting my little friend try out your pussy!  Once I get it to flower I might swing by and plant one for you at your camp!  Bye now, and don't forget to have lots of babies!</i>\"\n\n");
+            DisplayText("Breathless and panting, you give Marae a confused nod as her tentacles lower you back towards your equipment.  They plant you on shaky " + Desc.Leg.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<I>Thanks for visiting and letting my little friend try out your pussy!  Once I get it to flower I might swing by and plant one for you at your camp!  Bye now, and don't forget to have lots of babies!</i>\"\n\n");
 
             if (player.perks.has(PerkType.MaraesGiftFertility)) {
                 DisplayText("<b>(New Perk Gained: Marae's Gift – Buttslut)</b>");
@@ -504,7 +504,7 @@
         }
         //[HERMS]
         else {
-            DisplayText("You awaken in the midst of a powerful orgasm.  Jism boils out of " + CockDescriptor.describeMultiCockSimpleOne(player) + ", pumping into the tight, sucking tentacle-hole.  Plant-spooge is pumping into your clenching birth-canal, and you can feel it worming its way into your over-packed womb.  Your eyes open wider, and your head clears while you rock your hips in bliss.  You're hanging upside down, suspended in the tentacle tree!  Marae isn't far from you, and she's busy deep-throating the fattest tentacle you've seen while another pair are working her openings.  She turns to you, aware of your wakefulness, and removes the oral intruder, though it manages to squirt a layer of spunk into her face in defiance.   The goddess smirks and slaps it, scolding it before she speaks, \"<i>");
+            DisplayText("You awaken in the midst of a powerful orgasm.  Jism boils out of " + Desc.Cock.describeMultiCockSimpleOne(player) + ", pumping into the tight, sucking tentacle-hole.  Plant-spooge is pumping into your clenching birth-canal, and you can feel it worming its way into your over-packed womb.  Your eyes open wider, and your head clears while you rock your hips in bliss.  You're hanging upside down, suspended in the tentacle tree!  Marae isn't far from you, and she's busy deep-throating the fattest tentacle you've seen while another pair are working her openings.  She turns to you, aware of your wakefulness, and removes the oral intruder, though it manages to squirt a layer of spunk into her face in defiance.   The goddess smirks and slaps it, scolding it before she speaks, \"<i>");
 
             //(HAZ NEITHER)
             if (!player.perks.has(PerkType.MaraesGiftFertility) && !player.perks.has(PerkType.MaraesGiftStud)) {
@@ -521,7 +521,7 @@
                 }
                 DisplayText("The entire time she was speaking, you were trapped in orgasm, milked by her tree with unthinking intensity.\n\n");
 
-                DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + LowerBodyDescriptor.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to have lots of sex!</i>\"\n\n");
+                DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + Desc.Leg.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to have lots of sex!</i>\"\n\n");
                 if (player.perks.has(PerkType.MaraesGiftFertility)) DisplayText("<b>(New Perk Gained: Marae's Gift - Fertility)</b>");
                 else DisplayText("<b>New Perk Gained: Marae's Gift - Stud)</b>");
             }
@@ -531,7 +531,7 @@
 
                 DisplayText("The entire time she was speaking, you were trapped in orgasm, milked by her tree with unthinking intensity.\n\n");
 
-                DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + LowerBodyDescriptor.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to have lots of sex!</i>\"\n\n");
+                DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + Desc.Leg.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae nor the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to have lots of sex!</i>\"\n\n");
                 player.createPerk(PerkLib.MaraesGiftStud, 0, 0, 0, 0);
                 DisplayText("<b>(New Perk Gained: Marae's Gift - Stud)</b>");
             }
@@ -541,7 +541,7 @@
 
                 DisplayText("The entire time she was speaking, you were trapped in orgasm, milked by her tree with unthinking intensity.\n\n");
 
-                DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + LowerBodyDescriptor.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae or the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to have lots of sex!</i>\"\n\n");
+                DisplayText("Breathless and panting, you give Marae a nod of thanks as her tentacles lower you back towards your equipment.  They plant you on shaky " + Desc.Leg.describeFeet(player) + " and uncoil slowly, stroking your body as they depart.  They must like you.  You get dressed in a hurry, but neither Marae or the tree are paying you any attention any more.   The boat isn't far, and as you're climbing into it the goddess calls out her goodbyes, \"<i>Thanks for visiting and giving my tree so much of your sperm!  Once its fruit is ready I might come plant one at your camp!  Bye now, and don't forget to have lots of sex!</i>\"\n\n");
                 player.createPerk(PerkLib.MaraesGiftFertility, 0, 0, 0, 0);
                 DisplayText("<b>(New Perk Gained: Marae's Gift - Fertility)</b>");
             }
@@ -549,7 +549,7 @@
         return { next: Scenes.camp.returnToCampUseTwoHours };
     }
 
-    private MaraeIIFlyAway(): void {
+    private MaraeIIFlyAway() {
         DisplaySprite(40);
         DisplayText().clear();
         DisplayText("You launch into the air and beat your wings, taking to the skies.  The tentacle-tree lashes at you, but comes up short.  You've escaped!  Something large whooshes by, and you glance up to see your boat sailing past you.  She must have hurled it at you!  It lands with a splash near the mooring, somehow surviving the impact.  You dive down and drag it back to the dock before you return to camp.  That was close!");

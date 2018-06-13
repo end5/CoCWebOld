@@ -1,14 +1,14 @@
 export class SandWitchMob extends Monster {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.sandWitchMobAI();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.yoYouBeatUpSomeSandWitchesYOUMONSTER();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.loseToSammitchMob();
 	}
 
@@ -36,7 +36,9 @@ export class SandWitchMob extends Monster {
 this.baseStats.tou = 25;
 this.baseStats.spe = 35;
 this.baseStats.int = 45;
-		initLibSensCor(55, 40, 30);
+		this.baseStats.lib = 55;
+this.baseStats.sens = 40;
+this.baseStats.cor = 30;
 		this.weaponName = "fists";
 		this.weaponVerb = "punches";
 		this.weaponAttack = 0;

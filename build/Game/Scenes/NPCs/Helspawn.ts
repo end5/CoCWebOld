@@ -1,6 +1,6 @@
 export class Helspawn extends Monster {
 
-	public doAI(): void {
+	public doAI() {
 		let choices: Array = [];
 		choices[choices.length] = helspawnTwinStrikes;
 		//Bowmander only
@@ -21,7 +21,7 @@ export class Helspawn extends Monster {
 
 	//Basic Attack - Twin Strike
 	// Two light attacks
-	private helspawnTwinStrikes(): void {
+	private helspawnTwinStrikes() {
 		//if Bowmander
 		if (Flags.list[FlagEnum.HELSPAWN_WEAPON] === "bow") DisplayText(Flags.list[FlagEnum.HELSPAWN_NAME] + " leaps back out of your reach and nocks a pair of blunted arrows, drawing them back together and loosing them at once!\n");
 		else DisplayText(Flags.list[FlagEnum.HELSPAWN_NAME] + " lunges at you, scimitar cleaving through the air toward your throat!\n");
@@ -31,7 +31,7 @@ export class Helspawn extends Monster {
 
 	//Called Shot (Bowmander Only)
 	// Super-high chance of hitting. On hit, speed debuff
-	private calledShot(): void {
+	private calledShot() {
 		DisplayText(Flags.list[FlagEnum.HELSPAWN_NAME] + " draws back her bowstring, spending an extra second aiming before letting fly!");
 		let damage: number = int((str + weaponAttack) - randInt(player.stats.tou) - player.armorDef);
 		//standard dodge/miss text
@@ -67,14 +67,14 @@ export class Helspawn extends Monster {
 
 	//Berzerkergang (Berzerkermander Only)
 	//Gives Helspawn the benefit of the Berzerk special ability
-	private helSpawnBerserk(): void {
+	private helSpawnBerserk() {
 		DisplayText(Flags.list[FlagEnum.HELSPAWN_NAME] + " lets out a savage warcry, throwing her head back in primal exaltation before charging back into the fray with utter bloodlust in her wild eyes!");
 		this.weaponAttack = weaponAttack + 30;
 		armorDef = 0;
 	}
 
 	//Shield Bash (Shieldmander Only)
-	private helSpawnShieldBash(): void {
+	private helSpawnShieldBash() {
 		DisplayText().clear();
 		let damage: number = int((str) - randInt(player.stats.tou) - player.armorDef);
 		// Stuns a bitch
@@ -93,7 +93,7 @@ export class Helspawn extends Monster {
 	}
 
 	//Tail Whip
-	private tailWhipShitYo(): void {
+	private tailWhipShitYo() {
 		// Light physical, armor piercing (fire, bitch). Random chance to get this on top of any other attack
 		let damage: number = int((str) - randInt(player.stats.tou));
 		DisplayText("\n" + Flags.list[FlagEnum.HELSPAWN_NAME] + " whips at you with her tail, trying to sear you with her brilliant flames!");
@@ -107,7 +107,7 @@ export class Helspawn extends Monster {
 	}
 
 	//Tease (Sluttymander Only)
-	private sluttyMander(): void {
+	private sluttyMander() {
 		// Medium Lust damage
 		DisplayText(Flags.list[FlagEnum.HELSPAWN_NAME] + " jumps just out of reach before spinning around, planting her weapon in the ground as she turns her backside to you and gives her sizable ass a rhythmic shake, swaying her full hips hypnotically.");
 		//if no effect:
@@ -126,19 +126,19 @@ export class Helspawn extends Monster {
 
 	//Focus (Chastemander Only)
 	//Self-healing & lust restoration
-	private helSpawnFocus(): void {
+	private helSpawnFocus() {
 		DisplayText("Seeing a momentary lull in the melee, " + Flags.list[FlagEnum.HELSPAWN_NAME] + " slips out of reach, stumbling back and clutching at the bruises forming all over her body.  \"<i>Come on, " + Flags.list[FlagEnum.HELSPAWN_NAME] + ", you can do this. Focus, focus,</i>\" she mutters, trying to catch her breath.  A moment later and she seems to have taken a second wind as she readies her weapon with a renewed vigor.");
 		lust -= 30;
 		if (lust < 0) lust = 0;
 		addHP(eMaxHP() / 3.0);
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.helSpawnScene.beatUpYourDaughter();
 	}
 
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.helSpawnScene.loseSparringToDaughter();
 	}
 

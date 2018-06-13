@@ -7,6 +7,7 @@ import { BreastRow } from '../../Body/BreastRow';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
+import { Gender } from '../../Body/GenderIdentity';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
 import { Tail, TailType } from '../../Body/Tail';
@@ -126,7 +127,7 @@ export class GoldenSeed extends Consumable {
                     // (female 1)
                     if (randInt(2) === 0) {
                         DisplayText("In your fantasy you're a happy harpy mother, your womb stretched by the sizable egg it contains. The surging hormones in your body arouse you again, and you turn to the father of your children, planting a wet kiss on his slobbering, lipstick-gilt cock. The poor adventurer writhes, hips pumping futilely in the air. He's been much more agreeable since you started keeping his cock coated with your kisses. You mount the needy boy, fantasizing about that first time when you found him near the portal, in the ruins of your old camp. The feeling of your stiff nipples ");
-                        if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("and pussy leaking over ");
+                        if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("and pussy leaking over ");
                         else if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1.5) DisplayText("dripping milk inside ");
                         else DisplayText("rubbing inside ");
                         DisplayText("your " + character.inventory.equipment.armor.displayName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?");

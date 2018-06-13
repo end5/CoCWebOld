@@ -1,6 +1,6 @@
 ﻿export class SandTrap extends Monster {
 	//Wait:
-	public sandTrapWait(): void {
+	public sandTrapWait() {
 		DisplayText().clear();
 		game.DisplaySprite(97);
 		if (findStatusAffect(StatusAffects.Climbed) < 0) statusAffects.add(StatusAffectType.Climbed, 0, 0, 0, 0);
@@ -38,7 +38,7 @@
 
 
 	//sandtrap pheromone attack:
-	private sandTrapPheremones(): void {
+	private sandTrapPheremones() {
 		game.DisplaySprite(97);
 		DisplayText("The sandtrap puckers its lips.  For one crazed moment you think it's going to blow you a kiss... but instead it spits clear fluid at you!   You desperately try to avoid it, even as your lower half is mired in sand.");
 		if (player.stats.spe / 10 + randInt(20) > 10 || combatEvade() || combatFlexibility()) {
@@ -54,7 +54,7 @@
 	}
 
 	//sandtrap quicksand attack:
-	private nestleQuikSandAttack(): void {
+	private nestleQuikSandAttack() {
 		game.DisplaySprite(97);
 		DisplayText("The sandtrap smiles at you winningly as it thrusts its hands into the sifting granules.  The sand beneath you suddenly seems to lose even more of its density; you're sinking up to your thighs!");
 		//Quicksand attack fail:
@@ -70,7 +70,7 @@
 		}
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (statusAffects.has(StatusAffectType.Level)) {
 			if (trapLevel() === 4 && findStatusAffect(StatusAffects.Climbed) < 0) nestleQuikSandAttack();
 			else sandTrapPheremones();
@@ -84,11 +84,11 @@
 		} else super.performCombatAction();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.desert.sandTrapScene.pcBeatsATrap();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe sand trap seems bemused by the insects your body houses...");
 			return { next: game.endLustLoss };
@@ -126,7 +126,9 @@
 this.baseStats.tou = 10;
 this.baseStats.spe = 45;
 this.baseStats.int = 55;
-		initLibSensCor(60, 45, 50);
+		this.baseStats.lib = 60;
+this.baseStats.sens = 45;
+this.baseStats.cor = 50;
 		this.weaponName = "claws";
 		this.weaponVerb = "claw";
 		this.weaponAttack = 10;

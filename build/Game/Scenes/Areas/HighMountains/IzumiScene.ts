@@ -44,7 +44,7 @@ export class IzumiScene {
 	 */
 	// Entry point from HighMountain explores
 	// Tested
-	public encounter(): void {
+	public encounter() {
 		DisplayText().clear();
 
 		if (Flags.list[FlagEnum.IZUMI_MET] === 0) {
@@ -54,7 +54,7 @@ export class IzumiScene {
 
 			DisplayText("Your curiosity piqued, you search around the obstruction for a way inside, and finally manage to find a slim gap between the bottom of the rock and the cliff face.  Kneeling down, you peer inside and can make out the distinct glowing embers of a campfire.  You’re pretty sure you can make it inside, but it might be difficult to get away if danger threatens.  On the other hand, wild animals don’t light campfires, and a lust-crazed demon probably wouldn’t bother to hide itself so effectively....\n\n");
 
-			menu();
+			
 			MainScreen.addButton(0, "Enter", enterFirstTime);
 			MainScreen.addButton(1, "Leave", abortabortleavethefukkencave);
 		}
@@ -63,14 +63,14 @@ export class IzumiScene {
 
 			DisplayText("Considering how your last visit to the cave ended, you hesitate for a moment and wonder if you should push forward to enter Izumi’s home... or if turning back to camp would be a wiser decision.\n\n");
 
-			menu();
+			
 			MainScreen.addButton(0, "Enter", enterAfterMet);
 			MainScreen.addButton(1, "Leave", nopeLeavePlz);
 		}
 	}
 
 	// Repeat encounters with Izumi after having met in the past
-	public enterAfterMet(): void {
+	public enterAfterMet() {
 		DisplayText().clear();
 
 		if (Flags.list[FlagEnum.IZUMI_LAST_ENCOUNTER] === 0) Flags.list[FlagEnum.IZUMI_LAST_ENCOUNTER] = 2;
@@ -94,14 +94,14 @@ export class IzumiScene {
 			throw new Error("Izumi encounter flag wasn't set during a previous encounter.");
 		}
 
-		menu();
+		
 		MainScreen.addButton(0, "Fight", fightTheFuckhugeOni);
 		MainScreen.addButton(1, "Surrender", fuckhugeOniGetsWhatSheWants);
 		MainScreen.addButton(2, "Flee", fuckinChegIt);
 	}
 
 	// Leave the cave, no meeting
-	protected abortabortleavethefukkencave(): void {
+	protected abortabortleavethefukkencave() {
 		DisplayText().clear();
 
 		DisplayText("Spelunking in random caves around these parts is probably not the best idea; especially considering the kinds of creatures that you keep tripping over whenever you <i>do</i> decide to poke your nose somewhere it doesn't belong.\n\n");
@@ -111,7 +111,7 @@ export class IzumiScene {
 	}
 
 	// Already met, dun wanna get oniraepd again plz
-	protected nopeLeavePlz(): void {
+	protected nopeLeavePlz() {
 		DisplayText().clear();
 
 		DisplayText("You decide discretion is the better part of valour and choose not to barge into the strange woman's cave again, opting to slip away before she notices you hanging around outside her home.");
@@ -121,7 +121,7 @@ export class IzumiScene {
 	// Introduce the fuckhuge oni
 	// Long: Untested
 	// Short: Tested
-	protected enterFirstTime(): void {
+	protected enterFirstTime() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.IZUMI_MET] = 1;
 
@@ -230,11 +230,11 @@ export class IzumiScene {
 		else DisplayText(", let");
 		DisplayText(" me get some air in here for you...</i>”  She launches herself to her feet with surprising speed and breezes past you.\n\n");
 
-		menu();
+		
 		MainScreen.addButton(0, "Next", enterFirstTimePartII);
 	}
 
-	protected enterFirstTimePartII(): void {
+	protected enterFirstTimePartII() {
 		DisplayText().clear();
 
 		DisplayText("Still");
@@ -279,7 +279,7 @@ export class IzumiScene {
 
 		DisplayText("You talk animatedly with Izumi some more over the next hour or so, inquiring about the horn on her forehead, what life is like where she comes from, how she came to be here and a dozen other topics.  She explains that all of her race, the Oni, have horns that reflect their power and strength.  For her part, she asks a myriad questions about your home.  When you ask about the pipe she’s smoking, she surprises you by wordlessly handing it to you.\n\n");
 
-		menu();
+		
 		MainScreen.addButton(0, "Smoke", smokeThePipe);
 		MainScreen.addButton(1, "NoSmoke", dontSmokeThePipe);
 	}
@@ -291,7 +291,7 @@ export class IzumiScene {
 	private const SMOKE_DURATION: number = 24;
 
 	// Applies the smokeeffect to a player, based on if they used the pipe directly or not
-	protected smokeEffect(smokedPipe: boolean): void {
+	protected smokeEffect(smokedPipe: boolean) {
 		let deltaSpd: number = player.stats.spe - (player.stats.spe * SMOKE_SPEED_REDUCE);
 		let deltaSns: number = (player.stats.sens * SMOKE_SENS_BOOST) - player.stats.sens;
 		let deltaLib: number = (player.stats.lib * SMOKE_LIBIDO_BOOST) - player.stats.lib;
@@ -324,7 +324,7 @@ export class IzumiScene {
 	}
 
 	// Update the duration of the pipe smoke effect
-	public updateSmokeDuration(hours: number): void {
+	public updateSmokeDuration(hours: number) {
 		let affectIndex: number = player.findStatusAffect(StatusAffects.IzumisPipeSmoke);
 
 		if (affectIndex >= 0) {
@@ -337,7 +337,7 @@ export class IzumiScene {
 	}
 
 	// Method to contain removal mechanics + scene text to spit out
-	protected smokeEffectWearsOff(): void {
+	protected smokeEffectWearsOff() {
 		let affectIndex: number = player.findStatusAffect(StatusAffects.IzumisPipeSmoke);
 
 		if (affectIndex >= 0) {
@@ -360,7 +360,7 @@ export class IzumiScene {
 	}
 
 	// Actual introduction scene content for pipesmokin
-	protected smokeThePipe(): void {
+	protected smokeThePipe() {
 		DisplayText().clear();
 
 		DisplayText("Whatever it is she has in there, the smoke is thick and cloying and even the smallest puff makes");
@@ -377,7 +377,7 @@ export class IzumiScene {
 	}
 
 	// Turn down the pipe -- still recieve SOME effect from the smoke in the cave
-	protected dontSmokeThePipe(): void {
+	protected dontSmokeThePipe() {
 		DisplayText().clear();
 
 		DisplayText("You do your best to politely refuse the pipe, explaining your unwillingness to eat, drink, chew, chug or otherwise consume various items you’ve come across during your travels, having witnessed some of the effects first-hand.\n\n");
@@ -387,7 +387,7 @@ export class IzumiScene {
 	}
 
 	// Continue after the pipe smoke split
-	protected smokeJoins(): void {
+	protected smokeJoins() {
 		DisplayText("Finally, the two of you seem to run out of things to speak about and the conversation dies down.  Izumi puffs on her pipe and lets out a long column of smoke, still gazing at you speculatively.  “<i>Hmm.  You’ve been pretty interesting, I didn’t expect to meet anyone who might be </i>fun<i> out here.</i>”  She mutters.  “<i>If you </i>are<i> going to keep going with this whole heroic deeds thing, try not to die, okay?  You’re the only halfway entertaining person I’ve met on this rock, and I’d hate to imagine you winding up as some imp’s body pillow, or whatever....</i>”\n\n");
 
 		DisplayText("You hear Izumi let out a quiet giggle.  Looking up, you see she’s shifted closer to you, edging right up to the fire.  She makes a show of appraising you physically, her golden-amber eyes sparkling in the dancing firelight as her gaze roams over your body, from head to [foot].");
@@ -407,7 +407,7 @@ export class IzumiScene {
 
 		DisplayText("You could let her continue with whatever it is that she’s planning, but her truly gargantuan stature is more than a little intimidating.  On the other hand, you could try to fight her or make a break for it, but you don’t know how well either of those plans would work out; if there’s anything Izumi appears to be, it’s physically fit... although, as your eyes begin to adjust and Izumi’s scandalous neckline swims back into focus, the third option does seem somewhat tantalizing as well...\n\n");
 
-		menu();
+		
 		MainScreen.addButton(0, "Fight", fightTheFuckhugeOni);
 		MainScreen.addButton(1, "Surrender", fuckhugeOniGetsWhatSheWants);
 		MainScreen.addButton(2, "Flee", fuckinChegIt);
@@ -415,7 +415,7 @@ export class IzumiScene {
 
 	// Player opts to leave rather than do anything
 	// TODO: Bulk this up some, its way short.
-	protected fuckinChegIt(): void {
+	protected fuckinChegIt() {
 		hideUpDown();
 
 		Flags.list[FlagEnum.IZUMI_LAST_ENCOUNTER] = 2;
@@ -429,7 +429,7 @@ export class IzumiScene {
 	/**
 	 * FIGHT SHIT
 	 */
-	protected fightTheFuckhugeOni(): void {
+	protected fightTheFuckhugeOni() {
 		hideUpDown();
 
 		DisplayText().clear();
@@ -478,7 +478,7 @@ export class IzumiScene {
 	/**
 	 * SURRENDER SCENES
 	 */
-	protected fuckhugeOniGetsWhatSheWants(): void {
+	protected fuckhugeOniGetsWhatSheWants() {
 		hideUpDown();
 
 		DisplayText().clear();
@@ -494,8 +494,8 @@ export class IzumiScene {
 			else DisplayText(" chest and forcing you backwards onto the ground.");
 			DisplayText("  You grunt from the impact and try to sit up, but Izumi easily restrains you with a single well-muscled arm.  “<i>Well now, let’s see what we’re workin’ with here, shall we?</i>” she announces casually, as she pulls aside your [armor] to reveal your cock.\n\n");
 
-			if (player.biggestCockLength() <= 6) surrenderSmallCock();
-			else if (player.biggestCockLength() <= 14) surrenderMediumCock();
+			if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length <= 6) surrenderSmallCock();
+			else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length <= 14) surrenderMediumCock();
 			else surrenderLargeCock();
 		}
 		// Female
@@ -513,7 +513,7 @@ export class IzumiScene {
 	}
 
 	// Male/Herm scene for cocks <= 4"
-	protected surrenderSmallCock(): void {
+	protected surrenderSmallCock() {
 		DisplayText("“<i>Ohhh!</i>”  She positively purrs as her eyes fall upon your naked [cock biggest] for the first time.  “<i>What’s this?</i>”  She leans forwards to stare at your genitals with undisguised interest.  “<i>Well, now... I figured you [race]s would be pretty");
 		if (player.torso.hips.legs.isTaur()) DisplayText(" big");
 		else DisplayText(" small");
@@ -595,12 +595,12 @@ export class IzumiScene {
 
 		player.orgasm();
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Male/Herm scene for cocks <= 10"
-	protected surrenderMediumCock(): void {
+	protected surrenderMediumCock() {
 		DisplayText("“<i>Huh.  Not bad, " + this.heightDesc() + "; I gotta say, I thought you people’d be");
 		if (player.torso.hips.legs.isTaur()) DisplayText(" bigger");
 		else DisplayText(" smaller");
@@ -634,13 +634,13 @@ export class IzumiScene {
 
 		DisplayText("“<i>Lay back and settle down, or I ruin your fun.</i>” she purrs.\n\n");
 
-		menu();
+		
 		MainScreen.addButton(0, "Obey", surrenderMediumCockObey);
 		MainScreen.addButton(1, "Refuse", surrenderMediumCockRefuse);
 	}
 
 	// Male/Herm play along scene split
-	protected surrenderMediumCockObey(): void {
+	protected surrenderMediumCockObey() {
 		DisplayText("Taking a deep breath, you grit your teeth and force yourself to calm down.");
 		if (player.torso.hips.legs.isTaur()) DisplayText("  Y");
 		else DisplayText("  Lowering your shaking hips, y");
@@ -662,12 +662,12 @@ export class IzumiScene {
 
 		player.orgasm();
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Male/Herm be a jerk about it split
-	protected surrenderMediumCockRefuse(): void {
+	protected surrenderMediumCockRefuse() {
 		DisplayText("Sick of Izumi and the strange, uncomfortable feelings the Oni keeps forcing you to experience, you defy her command.  Instead, you thrust more vigorously into the air, turning this way and that, trying to force some form of stimulation from the hand mercilessly gripping your member.\n\n");
 
 		DisplayText("“<i>Fine.</i>”  Izumi says, apparently unconcerned.  “<i>Go ahead and try.  It won’t do you any good.</i>”\n\n");
@@ -695,12 +695,12 @@ export class IzumiScene {
 
 		player.orgasm();
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Urtadicks itt
-	protected surrenderLargeCock(): void {
+	protected surrenderLargeCock() {
 		DisplayText("Izumi grunts in surprise as your [cock biggest] flops free of its confinement.  “<i>Damn.  This is pretty impressive, you know?</i>”  She frowns, running an exploratory hand across the length of your flesh.  “<i>Let me guess, you got a bit too frisky with one of the natives?  Maybe didn’t think to boil the water before you drank it?  Look, no offence, but there is no way this thing is legit, " + this.heightDesc() + ".</i>”\n\n");
 
 		DisplayText("Izumi continues to frown as she inspects you, turning your stiffening cock this way and that in her hands, apparently indifferent to the way her touch has begun to coax you towards full hardness.  She murmurs to herself under her breath, tapping a finger to her lips whilst absentmindedly wringing your cock with her other hand.  Eventually, she appears to reach a decision.  “<i>Alright!</i>”  She announces, loudly.  “<i>Let’s try it like this, shall we?!</i>”\n\n");
@@ -746,11 +746,11 @@ export class IzumiScene {
 
 		player.orgasm();
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	protected surrenderOhGodTheFemaleSurrenderContentIsFuckingHugeSendHelp(): void {
+	protected surrenderOhGodTheFemaleSurrenderContentIsFuckingHugeSendHelp() {
 		DisplayText("You resign yourself to letting Izumi do as she wills with you, and hesitantly reach to start undressing.");
 
 		// First time addition to the start of the scene
@@ -862,18 +862,18 @@ export class IzumiScene {
 
 		// More exhibitionist shit (!)
 		if (Flags.list[FlagEnum.PC_FETISH] >= 1) {
-			menu();
+			
 			MainScreen.addButton(0, "ShowMeOff", surrenderFemaleExhibitionVariant);
 			MainScreen.addButton(1, "HideMe", surrenderFemaleNonExhibitionVariant);
 		}
 		else {
-			menu();
+			
 			MainScreen.addButton(0, "Next", surrenderFemaleNonExhibitionVariant);
 		}
 	}
 
 	// Female surrender, "regular" path
-	protected surrenderFemaleNonExhibitionVariant(): void {
+	protected surrenderFemaleNonExhibitionVariant() {
 		DisplayText().clear();
 
 		DisplayText("You squirm desperately, the feeling of a dozen pairs of eyes leering at you making you feel decidedly uncomfortable.  Izumi apparently notices your distress, however, as a few seconds later you hear a thunderous crack as she reaches out to a nearby outcropping of jagged rock, snapping it off with one massive hand.\n\n");
@@ -973,12 +973,12 @@ export class IzumiScene {
 
 		player.orgasm();
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Female surrender, ask player if which variant they want
-	protected surrenderFemaleExhibitionVariant(): void {
+	protected surrenderFemaleExhibitionVariant() {
 		DisplayText().clear();
 
 		DisplayText("For some reason, you find that idea to be quite possibly the hottest thought you’ve ever had.  You’re surrounded by a ring of barely-unseen onlookers, all waiting to see you get fucked, many of them already masturbating just at the sight of your naked form.  Without a moment’s hesitation");
@@ -988,13 +988,13 @@ export class IzumiScene {
 
 		DisplayText("“<i>Get off on being watched, huh?  That’s kinda slutty, you know?  Well, I don’t mind playing you in front of a crowd,</i>” She purrs into your ear.  “<i>But if you’re <b>that</b> kind of kinky, maybe you wanna try a little... Audience participation?</i>”\n\n");
 
-		menu();
+		
 		MainScreen.addButton(0, "Yes", surrenderFemaleLookitYouTheCenterOfAttentionYouSlut);
 		MainScreen.addButton(1, "No", surrenderFemaleNonExhibitionVariant); // Take the non-exhibitionist path
 	}
 
 	// Female surrender, Exhibitionist variant scene body
-	protected surrenderFemaleLookitYouTheCenterOfAttentionYouSlut(): void {
+	protected surrenderFemaleLookitYouTheCenterOfAttentionYouSlut() {
 		DisplayText("You nod your head vigorously at the idea of getting some of your beloved audience actually involved.  Izumi chuckles again.\n\n");
 
 		DisplayText("“<i>Alright. Let’s get this party started, then.</i>”  Izumi releases you and stands.  You start to follow, thankful of the opportunity to stretch out your strained muscles, but Izumi places a hand firmly on your head and pushes you back down.  “<i>Oh no,</i>” she says, smiling at you. “<i>No, you just sit right back down. You’re going to be staying on your knees for a while, " + this.heightDesc() + ".</i>”  Her words send a chill of excitement rushing through you, so you obediently adopt a kneeling position, waiting patiently.  Izumi’s smirk only grows wider as she pats you on the head.  Then she turns towards the assembled crowd of lurking masturbators.\n\n");
@@ -1033,14 +1033,14 @@ export class IzumiScene {
 
 		player.orgasm();
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	/**
 	 * LOSS SCENES
 	 */
-	public fuckedUpByAFuckhugeOni(titLoss: boolean = false): void {
+	public fuckedUpByAFuckhugeOni(titLoss: boolean = false) {
 		Flags.list[FlagEnum.IZUMI_LAST_ENCOUNTER] = 1;
 		Flags.list[FlagEnum.IZUMI_SEEN_PC_GENDER] = player.gender;
 
@@ -1079,7 +1079,7 @@ export class IzumiScene {
 		if (player.stats.lust >= 75) DisplayText("  Despite yourself, you have to wonder exactly what it would feel like to slide between those giant sweat-slicked thighs, bury your face into Izumi’s mountainous bust, and just let your libido run wild.");
 		DisplayText("\n\n");
 
-		menu();
+		
 
 		if (player.torso.cocks.count > 0) {
 			MainScreen.addButton(0, "Anal", cowedIntoPuttingItInIntoHerGiantOniButt);
@@ -1102,19 +1102,19 @@ export class IzumiScene {
 	}
 
 	// Nah, fuck this crazy bitch
-	protected lossSceneLeave(): void {
+	protected lossSceneLeave() {
 		DisplayText().clear();
 
 		DisplayText("You rise and make your excuses, and to her credit Izumi takes your refusal in stride; already seeming to have cheered up a little after her earlier outburst.  As you exit the cave, she raises a hand in farewell.\n\n");
 
 		DisplayText("“<i>Feel free to come back if you want me to clean your clock again, yeah?</i>”  She calls after you with a grin.  You shake your head ruefully as you make your way down the mountain and back to your camp.  Overall, that could have gone better, but it could have gone a lot worse, too.\n\n");
 
-		menu();
-		cleanupAfterCombat();
+		
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Call this shit at the top of any "Stay" scene for shared initial content
-	protected lossSceneStay(): void {
+	protected lossSceneStay() {
 		DisplayText().clear();
 
 		DisplayText("Your mind made up, you lean forwards, reach out your hands and firmly grasp one of Izumi’s sizeable breasts.\n\n");
@@ -1125,7 +1125,7 @@ export class IzumiScene {
 	}
 
 	// Special loss scene if the player loses whilst being titsmothered by izumi
-	public deathBySnuSnuIMeanGiantOniTits(): void {
+	public deathBySnuSnuIMeanGiantOniTits() {
 		Flags.list[FlagEnum.IZUMI_LAST_ENCOUNTER] = 1;
 
 		if (player.torso.hips.legs.isTaur() || player.torso.hips.legs.isDrider() || player.torso.cocks.count <= 0) {
@@ -1151,7 +1151,7 @@ export class IzumiScene {
 			DisplayText("At the same time, the arm gripping your waist slides downwards too, hooking under your [butt] almost like some kind of seat, freeing you to keep grinding your needy cock");
 			if (player.torso.cocks.count > 1) DisplayText("s");
 			DisplayText(" into her midsection while you suck at her teat.");
-			if (player.biggestCockLength() <= 5) {
+			if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length <= 5) {
 				DisplayText("  “<i>Hmph.</i>” Izumi grunts, smirking as she cups your balls.  “<i>Just like a baby... in more ways than one, am I right?</i>”  She continues, extending her middle finger to stroke the entirety of the underside of");
 				if (player.torso.cocks.count > 1) DisplayText(" one of your");
 				else DisplayText(" your");
@@ -1194,11 +1194,11 @@ export class IzumiScene {
 		DisplayText("“<i>Well, I gotta admit, that wasn’t exactly how I was expecting the fight to end,</i>” she says, scratching the back of her neck in a manner that seems almost coquettish. “<i>But it was pretty fun all the same. Next time you’re in the neighborhood, let me know if you’re up for a rematch, or... whatever.  Okay?</i>” She asks, retaking her seat by the fire and retrieving her pipe.  You nod, absently, still kind of dazed after the abortive end to the fight, and wander off to find somewhere to wash the increasingly unpleasant feeling contents of your underclothing away.\n\n");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Loss scene for buttstuffins
-	protected cowedIntoPuttingItInIntoHerGiantOniButt(): void {
+	protected cowedIntoPuttingItInIntoHerGiantOniButt() {
 		lossSceneStay();
 
 		DisplayText("“<i>Hey,</i>”  Izumi whispers, fingers rolling tantalizingly over [eachCock].  “<i>Let’s try something dirty...</i>”\n\n");
@@ -1258,11 +1258,11 @@ export class IzumiScene {
 		DisplayText("Either way, after assuring Izumi that you’ll survive, you stagger out of the cave and begin to make your decidedly wobbly way back to camp.  Hopefully, your bruises won’t keep you awake....\n\n");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Super Ordinary Regular Missionary Sexy Time, honest
-	protected fuckhugeOniWantsYourBabiesOrSomeShit(): void {
+	protected fuckhugeOniWantsYourBabiesOrSomeShit() {
 		lossSceneStay();
 
 		DisplayText("Izumi leans over you as she pulls [eachCock] free of your clothing.  You let out a soft grunt as she straddles you, her hand almost absent-mindedly gliding over your [cock biggest] as she positions herself.  Her eyes glimmer in the dim light as she lowers herself down onto you, staring intently as your straining hardon slips between her lips, her pussy already slickening in anticipation. With a quick glance up at your face, she rests her free hand on your chest and pulls you inside.\n\n");
@@ -1293,14 +1293,14 @@ export class IzumiScene {
 		DisplayText("You nod, pulling yourself to your feet and after exchanging a hasty goodbye with Izumi, you stumble towards the exit.  You’re not quite sure about ‘next time’, but you have to admit that really could have gone worse....\n\n");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// No bits, no scenes. Izumi had no scenes written for genderless players. In some cases, other scenes would do a p. reasonable job with some reformatting.
 	// This is one of the ones where I think something new has to be written. Get it coded, get it working, then considering doing it.
 	// TODO: Actual genderless scene potentials
 	// Eatin the oni; might as well put your mouf to work rite?
-	protected noDickNoVagNoService(): void {
+	protected noDickNoVagNoService() {
 		lossSceneStay();
 		Flags.list[FlagEnum.IZUMI_SEEN_PC_GENDER] = player.gender;
 
@@ -1319,11 +1319,11 @@ export class IzumiScene {
 
 		DisplayText("She gently lowers you toward the floor, and releases her grip on your ankles.  “I-I guess you can go, yeah?” She says, motioning toward the entrance to her cave.  Paying you no mind, she heads off toward her tent, clearly no longer interested in you.\n\n");
 
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Big bad oni gonna eatcha
-	protected littleChampLittleChampFuckhugeOniIsCominTaEatcha(): void {
+	protected littleChampLittleChampFuckhugeOniIsCominTaEatcha() {
 		lossSceneStay();
 
 		if (Flags.list[FlagEnum.IZUMI_SEEN_PC_GENDER] != 2 && player.torso.cocks.count <= 0) {
@@ -1363,7 +1363,7 @@ export class IzumiScene {
 		DisplayText("Izumi is gracious or wracked by her guilty conscious enough to let you rest up quietly in her cave without further molestation until the pounding in your head fades away.  As you carefully pick your way back down the mountain, you muster up a half-hearted wave of goodbye back to the cheerfully waving giantess.  While you’re not sure if you’d exactly describe what you just experienced as fun... at the very least, you’re glad she didn’t <i>actually</i> try to eat you.  Deep down though, part of you can’t help wondering if she really would...\n\n");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	/**
@@ -1372,7 +1372,7 @@ export class IzumiScene {
 
 	// touch the horn. TOUCH IT
 	// Entry to VICTORRRYYYY scenes
-	public touchThatFluffyHorn(): void {
+	public touchThatFluffyHorn() {
 		Flags.list[FlagEnum.IZUMI_LAST_ENCOUNTER] = 3;
 		Flags.list[FlagEnum.IZUMI_TIMES_GRABBED_THE_HORN]++;
 
@@ -1445,7 +1445,7 @@ export class IzumiScene {
 			else if (player.stats.tou >= 90) {
 				DisplayText("her arm lunges out in an uppercutting grab, her fist latching around your throat and lifting you from the floor.  Her grip is crushingly tight, but you can endure it... for now, at least.  Looking to respond in kind, you reach out for the bright red curve of Izumi’s horn.\n\n");
 			}
-			else if (player.stats.lib >= 40 && (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2 || player.biggestCockLength() >= 5)) {
+			else if (player.stats.lib >= 40 && (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2 || player.torso.cocks.sort(Cock.LargestCockArea)[0].length >= 5)) {
 				DisplayText("her arm lunges out in an uppercutting grab, her fist latching around your throat and wrenching you from the floor.  You struggle, helplessly, against her arm for a moment before an idea strikes; \n\n");
 
 				if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 2) DisplayText("maybe giving her face a little personal time nestled between your [chest] will finally distract the Oni enough.  You reach out for the bright red curve of Izumi’s horn, ");
@@ -1475,7 +1475,7 @@ export class IzumiScene {
 
 		DisplayText("You could play nice and let the Oni go free... she is asking nicely, after all.  On the other hand, after the way she tried to ravage you earlier, you figure Izumi’s arrogant attitude could use being taken down a notch or two.  The only question is, what exactly are you going to do?\n\n");
 
-		menu();
+		
 		MainScreen.addButton(0, "Let Go", letGoAndLeaveYouSillyFuck);
 
 		Flags.list[FlagEnum.IZUMI_SEEN_PC_GENDER] = player.gender;
@@ -1494,7 +1494,7 @@ export class IzumiScene {
 	}
 
 	// Pfft, nofux
-	protected letGoAndLeaveYouSillyFuck(): void {
+	protected letGoAndLeaveYouSillyFuck() {
 		DisplayText().clear();
 
 		DisplayText("Against the wishes of your libido, you decide to let Izumi off the hook.  You release her horn, soliciting a relieved gasp from Izumi, then take a step back.  The Oni woman straightens hastily and shoots you a grateful look before scurrying back into her tent, emerging a few moments later with an oversized fistful of gems.\n\n");
@@ -1507,11 +1507,11 @@ export class IzumiScene {
 
 		DisplayText("She swirls around and disappears into the gloom of the cave in a flurry of scented smoke.  For your part, you’re left with a long trek home and a complete lack of any idea what the hell just happened.  But on the upside, you <i>do</i> also have a nice stack of shiny gems to make up for the confusion.\n\n");
 
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Kinda friendly fux
-	protected letGoAndFuck(): void {
+	protected letGoAndFuck() {
 		DisplayText().clear();
 
 		DisplayText("You decide to let Izumi off the hook - up to a point.  You release her horn, soliciting a relieved gasp from Izumi, then take a step back.  The Oni woman straightens hastily and shoots you a grateful look before turning back to her tent.\n\n");
@@ -1587,11 +1587,11 @@ export class IzumiScene {
 		DisplayText("“<i>It’s just a little thank you gift. You know, for uh...</i>”  She winks, provocatively.  “<i>Services rendered?</i>”  Smiling, you make your way back to camp, feeling decidedly good about yourself.\n\n");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Fuck dat giant oni butt
-	protected gonnaGetMeSomeRevengeButtsexin(): void {
+	protected gonnaGetMeSomeRevengeButtsexin() {
 		DisplayText().clear();
 
 		DisplayText("You know <i>exactly</i> how you want to get your revenge on the uppity giantess.  Firstly, you order her to disrobe; she looks like she’s considering a refusal, but a quick squeeze to the horn ensures she acquiesces, blushing furiously.\n\n");
@@ -1613,7 +1613,7 @@ export class IzumiScene {
 		DisplayText("She goes very quiet for a moment, then practically spits out a “<i>Fine.</i>”  Grinning, you slowly, tentatively release your grip on her horn.  True to her word, she doesn’t budge, glaring at the wall so hard you’d think she was trying to bore a hole through it.  You give her a congratulatory pat on the butt for obeying so reliably as you return to your position behind her, Izumi turning her head to stare furiously as you unfasten your clothing...\n\n");
 
 		// Small cocks
-		if (player.biggestCockLength() <= 4) {
+		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length <= 4) {
 			DisplayText("There’s a moment of silence as you unveil yourself to the captive Oni, your [cock biggest] on full display.  She stares at your crotch blankly, then her eyes flick up to meet your own.\n\n");
 
 			DisplayText("“<i>Are you serious?</i>”  She says, flatly.  “<i>You are, aren’t you?  You’re actually going to try and rape me with... </i>that.<i>  Seriously kid, I hate to break it to you, but most women prefer dicks they can actually, you know, feel. Or </i>see.”  You scowl at her in response and step up to her backside; she can talk trash all she wants for now, but she’s going to be the one begging for another taste of your dick by the end of the time you’re through with her.\n\n");
@@ -1673,7 +1673,7 @@ export class IzumiScene {
 			DisplayText("Shrugging to yourself, you snatch up a purse full of gems from next to the Oni’s campfire - payment for the insult - then wander off back to camp.\n\n");
 		}
 		// Regular dicks
-		else if (player.biggestCockLength() > 4 && player.biggestCockLength() <= 12) {
+		else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length > 4 && player.torso.cocks.sort(Cock.LargestCockArea)[0].length <= 12) {
 			DisplayText("“<i>Tch, I should have known...</i>”  Izumi grumbles.  “<i>Well, whatever.  Just just hurry up and blow your load before- H-Hey wait, what are you doing back there?!</i>”  She raises her voice in alarm as your intent becomes clear, lining your [cock biggest] up not with her obediently displayed pussy, but with her asshole.\n\n");
 
 			DisplayText("“<i>Hey!  W-Who said you could use that hole?!</i>” she yells.  You just flash her a charming smile, then return to the much more interesting business of getting ready to fuck her ass raw.  She glares at you for a moment, then turns back to the wall with a snort.  “<i>Whatever.  I won’t lose,</i>”  she growls.\n\n");
@@ -1763,11 +1763,11 @@ export class IzumiScene {
 		}
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Huehue, Tentacruel!
-	protected tentacruelRevengeFux(): void {
+	protected tentacruelRevengeFux() {
 		DisplayText().clear();
 
 		DisplayText("You release your grip on Izumi’s horn, but only to reach down to remove your [armor].  As you open your clothing and unveil yourself, your [multicockdescriptlight] arch themselves like some kind of deadly snakes preparing to strike.  Izumi slips backwards in surprise, falling onto her rump.\n\n");
@@ -1806,11 +1806,11 @@ export class IzumiScene {
 		DisplayText("Amidst some miscellaneous junk that you cannot for the life of you figure out, you find a small pile of gems.  You help yourself to them as payment for the good time you just showed the uppity Oni, stow them safely away and wander back to camp, whistling happily to yourself.\n\n");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Facefuck
-	protected sayThatsAPrettyFaceBeAShameIfSomebodyJizzedAllOverIt(): void {
+	protected sayThatsAPrettyFaceBeAShameIfSomebodyJizzedAllOverIt() {
 		DisplayText().clear();
 
 		DisplayText("An evil idea begins to form inside your head.  You give Izumi’s horn a quick yank, causing her to yelp out loud, flinching massively.\n\n");
@@ -1871,11 +1871,11 @@ export class IzumiScene {
 		DisplayText("On the way out, you notice a small leather bag just laying out in the open.  Inspecting it, you discover it to be filled with a small fortune in gems!  You decide to take it with you - after all, it’s not like Izumi seems to need the money, plus she <i>did</i> try to rape you, so it’s technically a trophy.  Feeling decidedly more light hearted about your situation, you leave the cave and make your way back to camp, happily inspecting the gems as you go.\n\n");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	// Nice horn, be a shame if somebody got it all sticky, huh?
-	protected tribThatRockyHornGirl(): void {
+	protected tribThatRockyHornGirl() {
 		DisplayText().clear();
 
 		DisplayText("After listening to her request and offer of a bribe in exchange for letting her go unmolested, you respond by giving Izumi a sweet, innocent smile.\n\n");
@@ -1925,7 +1925,7 @@ export class IzumiScene {
 		DisplayText("By the time you get back to camp, you’re almost feeling good enough to whistle.");
 
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 }
 }

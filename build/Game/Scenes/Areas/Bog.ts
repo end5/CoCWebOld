@@ -6,7 +6,7 @@ export class Bog {
     public let chameleonGirlScene: ChameleonGirlScene = new ChameleonGirlScene();
     public let phoukaScene: PhoukaScene = new PhoukaScene();
 
-    public exploreBog(): void {
+    public exploreBog() {
         Flags.list[FlagEnum.BOG_EXPLORED]++;
         //Helia monogamy fucks
         if (Flags.list[FlagEnum.PC_PROMISED_HEL_MONOGAMY_FUCKS] === 1 && Flags.list[FlagEnum.HEL_RAPED_TODAY] === 0 && randInt(10) === 0 && player.gender > 0 && !kGAMECLASS.helFollower.followerHel()) {

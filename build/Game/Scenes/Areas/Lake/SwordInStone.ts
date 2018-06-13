@@ -1,5 +1,5 @@
 ﻿export class SwordInStone extends AbstractLakeContent {
-	public findSwordInStone(): void {
+	public findSwordInStone() {
 		if (!player.statusAffects.has(StatusAffectType.FactoryOverload)) {
 			//Encounter it!
 			DisplayText("While walking along the lake, the glint of metal catches your eye.  You drop into a combat stance, readying your " + player.weaponName + " for another fight.   Your eyes dart about, searching for the source of the light. You feel rather foolish when you locate the source of the reflection.  It came from a sword lodged hilt-deep in the trunk of a tree.  You relax a bit, approaching the odd sight to get a better look.\n\n", true);
@@ -20,7 +20,7 @@
 		}
 	}
 
-	private tryToTakeSwordInStone(): void {
+	private tryToTakeSwordInStone() {
 		DisplayText().clear();
 		//if corrupted...
 		if (player.stats.cor >= 25) {

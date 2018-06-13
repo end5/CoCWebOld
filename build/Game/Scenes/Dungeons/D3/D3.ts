@@ -17,7 +17,7 @@ export class D3 {
 		configureRooms();
 	}
 
-	private configureRooms(): void {
+	private configureRooms() {
 		let tRoom: room;
 
 		// Entrance
@@ -218,7 +218,7 @@ export class D3 {
 			DisplayText("\n\n<b>You’ve discovered a hidden entrance to Lethice’s lair. It can be accessed from the Dungeons submenu in the future.</b>");
 			DisplayText("\n\nDo you step inside, or wait until you’re better prepared?");
 
-			menu();
+			
 			MainScreen.addButton(0, "Enter", enterD3);
 			MainScreen.addButton(1, "Leave", Scenes.camp.returnToCampUseOneHour);
 
@@ -227,23 +227,23 @@ export class D3 {
 		return false;
 	}
 
-	public enterD3(): void {
+	public enterD3() {
 		inRoomedDungeon = true;
 		inRoomedDungeonResume = resumeFromFight;
 		move("entrance");
 	}
 
-	public exitD3(): void {
+	public exitD3() {
 		inRoomedDungeon = false;
 		inRoomedDungeonResume = null;
 		Scenes.camp.returnToCampUseOneHour();
 	}
 
-	public resumeFromFight(): void {
+	public resumeFromFight() {
 		move(_currentRoom);
 	}
 
-	private generateRoomMenu(tRoom: room): void {
+	private generateRoomMenu(tRoom: room) {
 		if (tRoom.NorthExit != null && tRoom.NorthExit.length > 0) {
 			if (tRoom.NorthExitCondition === null || tRoom.NorthExitCondition()) {
 				MainScreen.addButton(0, "North", move, tRoom.NorthExit);
@@ -276,7 +276,7 @@ export class D3 {
 		MainScreen.addButton(9, "Masturbate", Game.masturbation.masturbateGo);
 	}
 
-	public move(roomName: string): void {
+	public move(roomName: string) {
 		trace("Entering room", roomName);
 
 		DisplayText().clear();
@@ -284,7 +284,7 @@ export class D3 {
 		if (rooms[roomName] === undefined) {
 			DisplayText().clear();
 			DisplayText("Error: Couldn't find the room indexed as: " + roomName);
-			menu();
+			
 			return;
 		}
 
@@ -295,7 +295,7 @@ export class D3 {
 			return;
 		}
 
-		menu();
+		
 
 		if (!tRoom.RoomFunction()) {
 			generateRoomMenu(tRoom);
@@ -361,7 +361,7 @@ export class D3 {
 				else DisplayText("  You take the Laybans out of your pocket, turning them around in your hands as you consider. Are you going to try this?");
 			}
 
-			menu();
+			
 			MainScreen.addButton(0, "Go!", jeanClaude.gogoFuckTheseBasilisks);
 			MainScreen.addButton(1, "Fall Back", fallbackFromMagpieHallS);
 
@@ -399,11 +399,11 @@ export class D3 {
 		return eggs;
 	}
 
-	private goToEggPile(): void {
+	private goToEggPile() {
 		DisplayText().clear();
 		DisplayText("You head down the stairs into the hall proper to inspect the ramble hoard of eggs the basilisks collected. They’re mostly unfertilised harpy ovum, but you quickly pick out a number of differently coloured transformative eggs stolen from Gods know who.");
 
-		menu();
+		
 
 		let flagNum: number = Flags.list[FlagEnum.D3_EGGS_AVAILABLE];
 
@@ -417,7 +417,7 @@ export class D3 {
 		MainScreen.addButton(9, "Back", resumeFromFight);
 	}
 
-	private takeEgg(eggMask: number): void {
+	private takeEgg(eggMask: number) {
 		let item: SimpleConsumable;
 
 		if (eggMask === BLACK) item = consumables.L_BLKEG;
@@ -437,13 +437,13 @@ export class D3 {
 		inventory.takeItem(item, playerMenu); //playerMenu is equivalent to MainScreen.doNext(1)
 	}
 
-	private fallbackFromMagpieHallS(): void {
+	private fallbackFromMagpieHallS() {
 		DisplayText().clear();
 		DisplayText("No, there has to be a better way.");
 		if (player.hasKeyItem("Laybans") < 0 && player.stats.int >= 50) DisplayText("  Surely the demons themselves are not immune to the basilisks’ glares - the darkened screen is proof of that. How do they interact with the creatures, then? Maybe if you keep poking around, you might find an answer.");
 		DisplayText("\n\nYou head back through the archway into the gloomy antechamber.");
 
-		menu();
+		
 		MainScreen.addButton(1, "Next", move, "antechamber");
 	}
 
@@ -451,7 +451,7 @@ export class D3 {
 		if (Flags.list[FlagEnum.D3_JEAN_CLAUDE_DEFEATED] === 0) {
 			DisplayText("You find yourself back in the small booth, with the locked door leading out into the Magpie Hall. Just like the one on the opposite side, there is a darkened screen here through which you can see hundreds of basilisks milling down below, sorting through the vast amount of junk and eggs they have collected from the mountainside. They don’t seem to have taken any extra precautions following your narrow escape of them- the gantry remains free of any guards, and the door on the other side looks open.");
 
-			menu();
+			
 
 			MainScreen.addButton(0, "Go!", jeanClaude.gogoFuckTheseBasilisksNorth);
 			MainScreen.addButton(1, "Stronghold", move, "tunnel2");
@@ -514,7 +514,7 @@ export class D3 {
 			DisplayText("\n\nShe smiles encouragingly. <i>\"What'll it be?\"</i>");
 
 			//[Surrender] [Fight]
-			menu();
+			
 			MainScreen.addButton(0, "Fight", startCombatImmediate, new SuccubusGardener());
 			MainScreen.addButton(1, "Surrender", succubusGardener.surrenderToTheGardener);
 
@@ -590,7 +590,7 @@ export class D3 {
 		if (Flags.list[FlagEnum.D3_STATUE_DEFEATED] === 0) {
 			DisplayText("\n\nWait... what’s that?");
 
-			menu();
+			
 			MainScreen.addButton(0, "Next", livingStatue.encounter);
 			return true;
 		}

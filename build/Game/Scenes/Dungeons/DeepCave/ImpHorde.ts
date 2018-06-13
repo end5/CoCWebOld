@@ -1,15 +1,15 @@
 ﻿export class ImpHorde extends Monster {
 
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.impGangAI();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.impGangVICTORY();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foes don't seem put off enough to leave...");
 			return { next: game.endLustLoss };
@@ -45,7 +45,9 @@
 this.baseStats.tou = 10;
 this.baseStats.spe = 25;
 this.baseStats.int = 12;
-		initLibSensCor(45, 45, 100);
+		this.baseStats.lib = 45;
+this.baseStats.sens = 45;
+this.baseStats.cor = 100;
 		this.weaponName = "fists";
 		this.weaponVerb = "punches";
 		this.armorName = "skin";

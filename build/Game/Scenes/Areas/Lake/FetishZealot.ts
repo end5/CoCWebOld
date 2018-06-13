@@ -6,7 +6,7 @@
 	private static const LEATHER_CLOTHES: string = "leather clothes";
 	private static const STUDENTS_CLOTHES: string = "student's clothes";
 
-	public combatRoundUpdate(): void {
+	public combatRoundUpdate() {
 		super.combatRoundUpdate();
 		let changed: boolean = false;
 		//Fetish Zealot Update!
@@ -60,7 +60,7 @@
 
 	//Special1: Tease
 	//See Costumes section for text
-	private zealotSpecial1(): void {
+	private zealotSpecial1() {
 		//Costumes
 		//This foe periodically switches between outfits; this determines what text is displayed when they use tease.
 
@@ -86,7 +86,7 @@
 		//Gimp gear;
 		if (armorName === LEATHER_CLOTHES) {
 			//The Zealot has taken on an appearance that seems more suitable for the level of perversion he exudes.  He is wearing a full-body suit of leather, with a cock case over his crotch; you can clearly see a large zipper on it.  The zipper handle is far bigger than you think is absolutely necessary.
-			DisplayText("The Zealot turns around and gives you a full view of his tight leather clad body.  He smacks his ass and says \"<i>You like what you see, don't you " + player.mf("stud", "slut") + "?</i>\"  You can't help but be incredibly aroused by the scene.");
+			DisplayText("The Zealot turns around and gives you a full view of his tight leather clad body.  He smacks his ass and says \"<i>You like what you see, don't you " + Desc.Gender.mf(player, "stud", "slut") + "?</i>\"  You can't help but be incredibly aroused by the scene.");
 		}
 		//Well dressed and well groomed student in uniform;
 		if (armorName === STUDENTS_CLOTHES) {
@@ -99,14 +99,14 @@
 	//Special2: Lust transfer spell, it becomes more and 
 	//more likely that he will use this power as his lust gets 
 	//higher, but he can use it at any time (like the cultist).
-	private zealotSpecial2(): void {
+	private zealotSpecial2() {
 		DisplayText("The zealot suddenly cries out and extends his arms towards you; your mind is suddenly overwhelmed with a massive wave of arousal as images of every kind of fetish you can imagine wash over you, all blended together.  After a moment you are able to recover, but you notice that the Zealot doesn't seem to be as aroused as before.");
 		game.dynStats("lus", lust / 2);
 		lust /= 2;
 		combatRoundOver();
 	}
 
-	override protected postAttack(damage: number): void {
+	override protected postAttack(damage: number) {
 		if (damage > 0) {
 			DisplayText("\nYou notice that some kind of unnatural heat is flowing into your body from the wound");
 			if (player.stats.int > 50) DisplayText(", was there some kind of aphrodisiac on the knife?");
@@ -116,11 +116,11 @@
 		super.postAttack(damage);
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.lake.fetishZealotScene.zealotDefeated();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe fetish cultist ignores the perverse display and continues on as if nothing had happened...");
 			player.orgasm();
@@ -153,7 +153,9 @@
 this.baseStats.tou = 35;
 this.baseStats.spe = 30;
 this.baseStats.int = 1;
-		initLibSensCor(75, 80, 90);
+		this.baseStats.lib = 75;
+this.baseStats.sens = 80;
+this.baseStats.cor = 90;
 		this.weaponName = "wavy dagger";
 		this.weaponVerb = "stab";
 		this.weaponAttack = 3;

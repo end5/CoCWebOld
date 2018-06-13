@@ -16,7 +16,7 @@ import WeaponName from '../../Items/Weapons/WeaponName';
 import { Utils } from '../../Utilities/Utils';
 
 export class Anemone extends Character {
-    public eAttack(): void {
+    public eAttack() {
         DisplayText("Giggling playfully, the anemone launches several tentacles at you.  Most are aimed for your crotch, but a few attempt to caress your chest and face.\n");
         super.eAttack();
     }
@@ -27,7 +27,7 @@ export class Anemone extends Character {
     }
 
     //Apply the effects of AnemoneVenom()
-    public applyVenom(str: number = 1): void {
+    public applyVenom(str: number = 1) {
         //First application
         if (!player.statusAffects.has(StatusAffectType.AnemoneVenom)) player.statusAffects.add(StatusAffectType.AnemoneVenom, 0, 0, 0, 0);
         //Gain some lust
@@ -61,11 +61,11 @@ export class Anemone extends Character {
     }
 
 
-    public defeated(hpVictory: boolean): void {
+    public defeated(hpVictory: boolean) {
         game.anemoneScene.defeatAnemone();
     }
 
-    public won(hpVictory: boolean, pcCameWorms: boolean): void {
+    public won(hpVictory: boolean, pcCameWorms: boolean) {
         if (pcCameWorms) {
             DisplayText("\n\nYour foe doesn't seem to mind at all...");
             return { next: game.endLustLoss };
@@ -74,7 +74,7 @@ export class Anemone extends Character {
         }
     }
 
-    public outputAttack(damage: number): void {
+    public outputAttack(damage: number) {
         DisplayText("You jink and dodge valiantly but the tentacles are too numerous and coming from too many directions.  A few get past your guard and caress your skin, leaving a tingling, warm sensation that arouses you further.");
     }
 

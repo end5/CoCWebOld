@@ -13,7 +13,7 @@ export class SatyrScene {
 
 
 
-	public satyrEncounter(location: number = 0): void {
+	public satyrEncounter(location: number = 0) {
 		DisplayText().clear();
 		DisplaySprite(98);
 		if (randInt(2) === 0 || player.pregnancyIncubation > 0 || player.buttPregnancyIncubation > 0 || player.gender === Gender.NONE) {
@@ -38,7 +38,7 @@ export class SatyrScene {
 	}
 
 	//[=Yes=]
-	private consensualSatyrFuck(loc: number = 0): void {
+	private consensualSatyrFuck(loc: number = 0) {
 		DisplayText().clear();
 		DisplaySprite(98);
 		DisplayText("You decide to search for the source of the music.");
@@ -65,13 +65,13 @@ export class SatyrScene {
 		DisplayText("\n\nIt suddenly dawns upon you that this satyr might not have the most noble intentions... you're pretty sure there's some sort of aphrodisiac inside this beverage he offered you, judging by the heat that spreads through your body.");
 		//Trick him only available to High Int PCs and Skip Foreplay only available to High Libido PCs.
 
-		let trick: Function = null;
+		let trick;
 		//(if High Int)
 		if (player.stats.int > 60 && player.stats.lust <= 99) {
 			DisplayText("\n\nPerhaps you could trick him into knocking himself out with it?");
 			trick = trickZeSatyr;
 		}
-		let foreplay: Function = null;
+		let foreplay;
 		//(if High Libido)
 		if (player.stats.lib > 60) {
 			DisplayText("\n\nThat cock of his looks yummy, though... there's no need for all this ruse, you're pretty sure you know how to handle a dick; maybe you should skip foreplay and let him fill you up...");
@@ -83,7 +83,7 @@ export class SatyrScene {
 	}
 
 	//[=Keep Drinking=]
-	private keepDrinking(): void {
+	private keepDrinking() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		DisplayText("You grin at the satyr's encouragement and continue drinking, setting on a slower pace so you won't spill any more; shortly you pass him the empty skin and ask for more.");
@@ -93,11 +93,11 @@ export class SatyrScene {
 
 		DisplayText("\n\nThe satyr eats and drinks right alongside you, exhorting you to just enjoy yourself.  Eventually, though, he stops eating and instead pulls out his pan pipes, starting to play a soft, gentle tune that almost reminds you of a lullaby.");
 
-		DisplayText("\n\nYou can't resist the soft melody and begin to feel sleepy; you stop your drinking and eating to yawn... now that you've stopped, you feel awfully hot.  You strip off your [armor] without a second thought, not even bothering to protect your modesty.  Once you feel the cool air against your " + player.skinFurScales() + " you sigh and lay to relax for a nap.");
+		DisplayText("\n\nYou can't resist the soft melody and begin to feel sleepy; you stop your drinking and eating to yawn... now that you've stopped, you feel awfully hot.  You strip off your [armor] without a second thought, not even bothering to protect your modesty.  Once you feel the cool air against your " + Desc.Skin.skinFurScales(player) + " you sigh and lay to relax for a nap.");
 		DisplayText("\n\nThe satyr keeps playing, smiling.  The last thing you see before unconsciousness takes you is an eager light in strangely goat-like eyes...");
 		//[hymen check]
-		if (player.torso.vaginas.count > 0) player.displayStretchVagina(25, true, true, false);
-		else player.displayStretchButt(25, true, true, false);
+		if (player.torso.vaginas.count > 0) Mod.Vagina.displayStretchVagina(player, 25, true, true, false);
+		else Mod.Butt.displayStretchButt(player, 25, true, true, false);
 		DisplayText("\n\nYou wake up you don't know how many hours later, head spinning in pain at the heavy drinking you did earlier.  Come to think of it... all the bottles and dishes of food seem to be gone.  The only thing left are puddles of warm cum all around you and on you.  You get up, dazed, only to feel a strange feeling inside your [vagOrAss]; you double over as pain explodes from your [vagOrAss] and gasp as a flood of semen dribbles from your used ");
 		if (player.torso.vaginas.count > 0) DisplayText("vagina");
 		else DisplayText("ass");
@@ -108,7 +108,7 @@ export class SatyrScene {
 	}
 
 	//[=Leave=]
-	private leavePartySatyr(): void {
+	private leavePartySatyr() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		DisplayText("You thank the satyr for his generosity, but you don't think you can handle this kind of booze, so you get up and start on your way back to your camp.");
@@ -122,7 +122,7 @@ export class SatyrScene {
 		//(Initiate combat with frenzied satyr, on the first round PC suffers the effects of a satyr charge (some HP lost and stunned))
 	}
 	//[=Trick Him=]
-	private trickZeSatyr(): void {
+	private trickZeSatyr() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		DisplayText("You come up with a plan and pretend to start drinking again; once you notice the satyr is distracted, you quickly spill most of your drink on the floor and return an empty skin to him.");
@@ -139,12 +139,12 @@ export class SatyrScene {
 
 		DisplayText("\n\nGuess there's a first time for everything... you throw the last skin of booze away and proceed to check on the snoring satyr; searching him, you manage to find a pouch filled with gems.  Since he tried to trick you, you might as well as get something in return, so you pocket the gems in the pouch and discard it.");
 
-		player.stats.gems += 10 + randInt(10);
+		player.inventory.gems += 10 + randInt(10);
 		statScreenRefresh();
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//[=Skip Foreplay=]
-	private skipForeplay(): void {
+	private skipForeplay() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		DisplayText("You smirk and crawl towards the satyr, discarding the skin of alcohol and knocking over several dishes and bottle in your way.  Once you're close enough, you roughly grab at his massive shaft and begin stroking it.  \"<i>We both know where this is headed...</i>\" you whisper, \"<i>so why not skip the foreplay?</i>\"");
@@ -158,7 +158,7 @@ export class SatyrScene {
 	//Sex Scenes
 	//Loss Rape (Z)
 	//If PC has a vagina, Satyrs will use that. If not, use ass instead.
-	internal function loseToSatyr(): void {
+	internal function loseToSatyr() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		//[Lust loss
@@ -177,8 +177,8 @@ export class SatyrScene {
 		if ((player.torso.vaginas.count > 0 && player.vaginalCapacity() < monster.torso.cocks.get(0).area) || (player.torso.vaginas.count <= 0 && player.analCapacity() < monster.torso.cocks.get(0).area)) DisplayText(", not even bothered by the fact that his cock doesn't even fit inside you");
 		DisplayText(".");
 		//[cunt/buttchange]
-		if (player.torso.vaginas.count > 0) player.displayStretchVagina(monster.torso.cocks.get(0).area, true, true, false);
-		else player.displayStretchButt(monster.torso.cocks.get(0).area, true, true, false);
+		if (player.torso.vaginas.count > 0) Mod.Vagina.displayStretchVagina(player, monster.torso.cocks.get(0).area, true, true, false);
+		else Mod.Butt.displayStretchButt(player, monster.torso.cocks.get(0).area, true, true, false);
 		DisplayText("\n\nYou scream in pain and pleasure from the satyr's rough entry, and struggle in a vain attempt to escape his imposing shaft.");
 
 		DisplayText("\n\nThe beast-man merely shifts his grip from your [butt] to your shoulders, grunting lewdly as he starts to roughly piston himself in and out of your abused orifice; he doesn't care anything about you, only that he can empty his aching, needy balls into your belly.");
@@ -212,19 +212,19 @@ export class SatyrScene {
 		player.orgasm();
 		player.stats.sens += 3;
 		if (player.stats.cor < 50) player.stats.cor += 1;
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//Victory Rapes
-	internal function defeatASatyr(): void {
+	internal function defeatASatyr() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		//Lust Victory
 		if (monster.lust > 99) DisplayText("The satyr collapses to its caprine knees, bleating in dismay as it paws frantically at its huge cock, oblivious to everything in its need to get off.  Already, pre-cum is fountaining from the goat-man's shaft, his jerking motions smearing the pungent sexual fluid across the crown.");
 		//HP Victory
 		else DisplayText("Beaten and dazed, the satyr collapses to its caprine knees, shaking his head in a futile attempt to recover himself from the brutal trouncing you've just given him.  The combination of the blows and his previous drunken state mean he's quite incapable of getting back, however.");
-		let butt: Function = null;
-		let faces: Function = null;
+		let butt;
+		let faces;
 		if (player.stats.lust >= 33 && player.gender > 0) {
 			DisplayText("\n\nYou wonder if you should give the satyr some sort of payback for attempting to rape you... do you take advantage of the helpless goat-man?");
 			//[Male][Female][Leave]
@@ -232,12 +232,12 @@ export class SatyrScene {
 			else if (player.torso.cocks.count > 0) DisplayText("\n\nYou're too big to fuck his ass...");
 			if (player.torso.vaginas.count > 0) faces = femaleTakesAdvantageOfSatyr;
 		}
-		let bikiniTits: Function = null;
+		let bikiniTits;
 		if (player.torso.vaginas.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && player.armor === armors.LMARMOR) bikiniTits = (player.armor as LustyMaidensArmor).lustyMaidenPaizuri;
 		simpleChoices("FuckHisButt", butt, "Ride Face", faces, "B.Titfuck", bikiniTits, "", null, "Leave", cleanupAfterCombat);
 	}
 	//Female (Z)
-	private femaleTakesAdvantageOfSatyr(): void {
+	private femaleTakesAdvantageOfSatyr() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		DisplayText("You eye his massive shaft speculatively, then decide against it.  Why should he receive the true pleasures of your cunt when he attacked you so rudely?  No, if there will be anyone taking pleasure from this, it will be you alone.  With that in mind, you cast aside your [armor] in the most imperious manner you can muster, until you are standing stark naked.");
@@ -248,7 +248,7 @@ export class SatyrScene {
 		if (player.torso.cocks.count > 0) {
 			DisplayText(", even going as far as to deliver a tongue-stroke or two to ");
 			if (player.torso.balls.quantity > 0) DisplayText("your [sack]");
-			else DisplayText("the base of your " + CockDescriptor.describeMultiCockShort(player));
+			else DisplayText("the base of your " + Desc.Cock.describeMultiCockShort(player));
 		}
 		DisplayText("; despite your earlier hint about how disobedience might be dealt with, the satyr bucks and thrusts against your hands, hoping to achieve release by any means available.  You scowl and grab hold of his shaft, slimy with pre-cum already, and squeeze it tightly to warn him to stay still and focus on licking you, gripping his head with your thighs in an effort to hold him in place.");
 
@@ -267,11 +267,11 @@ export class SatyrScene {
 		DisplayText("\n\nYou grind your pussy into his face one last time, then, with regal delicacy, you remove yourself from the unconscious, sex-splattered satyr.  Picking up your clothes, you redress yourself.  Once you're decent, you leave the unconscious goatman as prey for whatever creature comes to investigate the stink of cum spattered about in such copious quantities.");
 		//reduce lust
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//Male (Z)
-	private malesTakeAdvantageOfSatyrs(): void {
+	private malesTakeAdvantageOfSatyrs() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		let x: number = player.cockThatFits(monster.analCapacity());
@@ -284,7 +284,7 @@ export class SatyrScene {
 
 		DisplayText("\n\nYou ignore his efforts and do your best to brutally pin him to the ground, reaching around to take hold of his girthy prick... hah!  The monster's cock is already oozing pre-cum, no matter how much he struggles.  You roughly pump your hand up and down the satyr's shaft, gathering a great handful of his pre and then smearing it onto your own cock as makeshift lube.  Not very effective, but you guess it will suffice.  You take a second handful, and then a third, which you instead massage into the satyr's black rosebud - the ease with which two, then three of your fingers slide inside him confirms he's not a virgin when it comes to this particular act.");
 
-		DisplayText("\n\nThe moment your fingers slide inside the helpless satyr he bleats, not in horror, but in delight.  His insistent struggles to get away from you make a complete U-turn, and instead he struggles to get more of your hand inside his gripping hole; his cock throbs and grows even harder, spurting pre on the ground below, as his balls churn and slosh eager for the prostate massage you'll be giving him with your own " + CockDescriptor.describeCock(player, x) + ".  You can't help but laugh at the satyr's change of heart; what a slut.");
+		DisplayText("\n\nThe moment your fingers slide inside the helpless satyr he bleats, not in horror, but in delight.  His insistent struggles to get away from you make a complete U-turn, and instead he struggles to get more of your hand inside his gripping hole; his cock throbs and grows even harder, spurting pre on the ground below, as his balls churn and slosh eager for the prostate massage you'll be giving him with your own " + Desc.Cock.describeCock(player, x) + ".  You can't help but laugh at the satyr's change of heart; what a slut.");
 
 		DisplayText("\n\nWell, you know what to do with buttsluts who are in the mood, now don't you?  You whisper as much to the satyr, who lets out a soft bleat of anticipation, then take hold of his horns for extra leverage and, without further ado, shove your cock as far as you can into him.  The satyr emits a screaming bleat of pleasure and immediately begins to push his ass against you, humping you with a ferociousness you could only attribute to a wild animal.  His hands stop supporting his upper body, and immediately travel to his rock hard erection, milking it.");
 
@@ -303,14 +303,14 @@ export class SatyrScene {
 		DisplayText("\n\nSated for the moment, your gaze drifts towards the satyr.  He makes no sound; indeed, when you take a better look at him, you realize he's fallen asleep, still idly shaking his ass back and forth and jerking his cum-dribbling cock.  You don't even spare him a contemptuous look as you pull your bottoms up and head back.");
 		//reduce lust
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 
 	//Willing Sex (Z)
 	//from skip foreplay
 	//always impregnates PC
-	private willinglyBoneSatyr(): void {
+	private willinglyBoneSatyr() {
 		DisplayText().clear();
 		DisplaySprite(98);
 		DisplayText("The satyr eyes you up and down hungrily; his hands move to grope your [chest], gently tweaking your [nipples], then he moves down towards your ");
@@ -320,7 +320,7 @@ export class SatyrScene {
 		if (player.torso.vaginas.count > 0) DisplayText("[vagina], spreading your labia wide to see the interior of your rapidly moistening walls.");
 		else DisplayText("[ass], spreading your cheeks apart to gaze at your winking rosebud.");
 
-		DisplayText("\"<i>Wonderful!  With a [vagOrAss] like this I'm sure you'll make a great " + player.mf("father", "mother") + " for our children,</i>\" he says, leaning closer to sniff at your ");
+		DisplayText("\"<i>Wonderful!  With a [vagOrAss] like this I'm sure you'll make a great " + Desc.Gender.mf(player, "father", "mother") + " for our children,</i>\" he says, leaning closer to sniff at your ");
 		if (player.torso.vaginas.count > 0) DisplayText("[vagina], licking all over your netherlips and tasting your juices.");
 		else DisplayText("[butt], licking all around your hole to prepare it for what's coming.");
 
@@ -330,8 +330,8 @@ export class SatyrScene {
 
 		DisplayText("\n\nHe takes hold of your hips and aligns his massive meat with your [vagOrAss]; then with a bleat he pushes in agonizingly slowly.  He slips a few inches in, then waits as his cock throbs, painting your [vagOrAss] walls with a slick dose of pre, then pulls out a couple inches and pushes more inches in. This process is repeated over and over, until finally he's hilted deep inside you.");
 		//(cunt/buttchange)
-		if (player.torso.vaginas.count > 0) player.displayStretchVagina(25, true, true, false);
-		else player.displayStretchButt(25, true, true, false);
+		if (player.torso.vaginas.count > 0) Mod.Vagina.displayStretchVagina(player, 25, true, true, false);
+		else Mod.Butt.displayStretchButt(player, 25, true, true, false);
 
 		DisplayText("\n\nYou cry out as his massive manhood fills you, wrapping your [legs] around your caprine lover and pulling yourself fiercely against him, imploring him to hold you tight and fuck you senseless.  The satyr begins trembling and bucking lightly against you, slapping his balls on your [butt] softly with each small thrust.  Yet he resists letting his lust dominate him and smiles at you.  \"<i>I said I want you to remember me... and no matter how much I want to unload into you right now, this is exactly what I'm going to do.</i>\"");
 
@@ -387,7 +387,7 @@ export class SatyrScene {
 
 
 	//Pregnancy Stuff (Z)
-	private satyrPreggo(): void {
+	private satyrPreggo() {
 		if (player.torso.vaginas.count > 0) {
 			player.knockUp(PregnancyType.SATYR, PregnancyType.INCUBATION_SATYR); //Satyrs can now fertilize eggs for ovipositing players
 		}
@@ -398,7 +398,7 @@ export class SatyrScene {
 
 	//Birthing (Z)
 	//Baby is always male.
-	public satyrBirth(vag: boolean): void {
+	public satyrBirth(vag: boolean) {
 		DisplaySprite(98);
 		DisplayText("\nSudden sharp, intense pangs rip through your gut, seeming to emanate from your ");
 		if (vag && player.torso.vaginas.count <= 0) {
@@ -415,8 +415,8 @@ export class SatyrScene {
 		if (vag) DisplayText("[vagina]");
 		else DisplayText("[asshole]");
 		DisplayText("; it's adorned with a pair of miniscule horns.  You groan in pain as its shoulders stretch you even wider, but the worst part of it is over and, within moments, you are delivered of your child.  ");
-		if (vag) player.displayStretchVagina(40, true, false, true);
-		else player.displayStretchButt(40, true, false, true);
+		if (vag) Mod.Vagina.displayStretchVagina(player, 40, true, false, true);
+		else Mod.Butt.displayStretchButt(player, 40, true, false, true);
 		DisplayText("Long minutes pass as your body recovers from the strain, bouncing back with unnatural vitality from the exhaustion and pain of giving birth, but finally you are ready to look at it.");
 
 		DisplayText("\n\nIt looks like a cute little goat-man; the proof of such hangs between his legs, far larger than it should be on any infant.  He bleats at you meekly, and then begins to grow on his own!  His horns extend into curling, extravagant loops of bone, bending over his head; his soft flesh becomes tougher as his muscles develop, giving him a nice athletic build.  Finally his cock and balls grow to an impressive size, not only because of his natural - or unnatural - growth, but because it hardens with each passing moment; despite having been born only moments ago, your new son seems to be sexually aware.  Moments later he unbends and you get to take a good look at your newborn, and grown up, satyr.");

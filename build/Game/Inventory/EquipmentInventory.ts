@@ -1,10 +1,12 @@
 import { CockSockList } from './CockSockList';
 import { EquipSlot } from './EquipSlot';
+import { EquipSlotList } from './EquipSlotList';
 import { PiercingInventory } from './PiercingInventory';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
 import { Character } from '../Character/Character';
 import { Armor } from '../Items/Armors/Armor';
+import { CockSock } from '../Items/Misc/CockSock';
 import { Weapon } from '../Items/Weapons/Weapon';
 import { ListMonitor } from '../Utilities/ListMonitor';
 
@@ -14,7 +16,7 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
     public readonly defaultArmorSlot: EquipSlot<Armor>;
     public readonly equippedArmorSlot: EquipSlot<Armor>;
     public readonly piercings: PiercingInventory;
-    public readonly cockSocks: CockSockList;
+    public readonly cockSocks: EquipSlotList<CockSock>;
     private cocksMonitor: ListMonitor;
     public armorDescMod: string;
     private character: Character;
@@ -25,7 +27,7 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
         this.defaultArmorSlot = new EquipSlot(character);
         this.equippedArmorSlot = new EquipSlot(character);
         this.piercings = new PiercingInventory(character);
-        this.cockSocks = new CockSockList(character);
+        this.cockSocks = new EquipSlotList<CockSock>(character);
         this.cocksMonitor = new ListMonitor(this.cockSocks, EquipSlot, character);
         character.torso.cocks.attach(this.cocksMonitor);
         this.armorDescMod = "";
@@ -42,9 +44,7 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
 
     public serialize(): object | undefined {
         return {
-            defaultWeaponSlot: this.defaultWeaponSlot.serialize(),
             equippedWeaponSlot: this.equippedWeaponSlot.serialize(),
-            defaultArmorSlot: this.defaultArmorSlot.serialize(),
             equippedArmorSlot: this.equippedArmorSlot.serialize(),
             piercings: this.piercings.serialize(),
             cockSocks: ListSerializer.serialize(this.cockSocks),
@@ -53,9 +53,7 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
     }
 
     public deserialize(saveObject: EquipmentInventory) {
-        this.defaultWeaponSlot.deserialize(saveObject.defaultWeaponSlot);
         this.equippedWeaponSlot.deserialize(saveObject.equippedWeaponSlot);
-        this.defaultArmorSlot.deserialize(saveObject.defaultArmorSlot);
         this.equippedArmorSlot.deserialize(saveObject.equippedArmorSlot);
         this.piercings.deserialize(saveObject.piercings);
         ListSerializer.deserialize(saveObject.cockSocks, this.cockSocks, EquipSlot, this.character);

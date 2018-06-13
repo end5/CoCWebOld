@@ -5,16 +5,16 @@
  */
 export class JeanClaudeScenes {
 
-	public gogoFuckTheseBasilisksNorth(): void {
+	public gogoFuckTheseBasilisksNorth() {
 		DisplayText().clear();
 		DisplayText("You put your Laybans back on, carefully unlock the door and then, as quietly as you can, creep back out onto the wire gantry. The throng of greyish green below seems oblivious. It’s only when you get halfway across that you realize that you’ve been had. As soon as you are as far away from one exit as the other, two big groups of the lizards near the stairs immediately jump up and climb upwards determinedly. You speed as fast as you can to the door ahead, but the team of basilisks are ready and plough into you, grabbing your body as they reach for your shades. You desperately push and elbow them away from you but you cannot stop one from deftly hooking your Laybans off with his sickle claw.");
 		DisplayText("\n\nA horrible leaden weight settles upon your bones as your naked eyes gaze into a dozen basilisk eyes, your body turning into rapidly solidifying cement. You reach for your [weapon], but it’s as if it were a continent away, and the lizards press into you, grabbing your hands and [hips], forcing you to stare deeper and deeper into the ocean of depthless grey which surrounds you on all sides, and encompasses you, and where you were and what you were doing no longer matters, because the grey permeates your body and soul, and you are just an atom in a sky of peaceful, dove coloured submission, and whether you’re up or down or sideways or down doesn’t matter...");
 
-		menu();
+		
 		MainScreen.addButton(0, "Next", capturedByBasilisks);
 	}
 
-	public gogoFuckTheseBasilisks(): void {
+	public gogoFuckTheseBasilisks() {
 		DisplayText().clear();
 
 		DisplayText("You breathe deep, steel yourself")
@@ -39,7 +39,7 @@ export class JeanClaudeScenes {
 			DisplayText("\n\nImmediately you break into a run, pelting for the other side, as below you there’s a general rush for the stairs. Your heart feels like it’s going to burst out of your chest as the gantry bounces to your frantic motion, and to the beat of many feet climbing it. The booth is in reach... a sickle claw catches you in the thigh, and you stagger. Growling, you frantically right yourself- only to find yourself staring directly into the face of a basilisk. You punch that one in the nose, wildly tearing your eyes away... to another. And another. They surround you as horrible leaden weights settle on your bones, your body turning into rapidly solidifying cement. You reach for your [weapon], but it’s as if it were a continent away, and the basilisks press into you, grabbing your hands and [hips], forcing you to stare deeper and deeper into the ocean of depthless grey which surrounds you on all sides, and encompasses you, and where you were and what you were doing no longer matters, because the grey permeates your body and soul, and you are just an atom in a sky of peaceful, dove coloured submission, and whether you’re up or down or sideways or down doesn’t matter....");
 
 			// [go to Captured]
-			menu();
+			
 			MainScreen.addButton(0, "Next", capturedByBasilisks);
 
 			return;
@@ -51,7 +51,7 @@ export class JeanClaudeScenes {
 				DisplayText("\n\nThe booth is in reach... a sickle claw catches you in the thigh, and you stagger. Growling, you frantically right yourself- only to find yourself staring directly into the face of a basilisk. You punch that one in the nose, wildly tearing your eyes away... to another. And another. They surround you and though you wheel around, desperately pushing and elbowing them away from you, you cannot stop one deftly hooking your Laybans off with his sickle claw. A horrible leaden weight settles itself upon your bones as your naked gaze is trapped by a dozen basilisk eyes, your body turning into rapidly solidifying cement. You reach for your [weapon], but it’s as if it were a continent away, and the lizards press into you, grabbing your hands and [hips], forcing you to stare deeper and deeper into the ocean of depthless grey which surrounds you on all sides, and encompasses you, and where you were and what you were doing no longer matters, because the grey permeates your body and soul, and you are just an atom in a sky of peaceful, dove coloured submission, and whether you’re up or down or sideways or down doesn’t matter...");
 
 				//[go to Captured]
-				menu();
+				
 				MainScreen.addButton(0, "Next", capturedByBasilisks);
 
 				return;
@@ -64,13 +64,13 @@ export class JeanClaudeScenes {
 
 				DisplayText("\n\nYou’re free to continue- but you will have to find an alternative route if you want to go back, unless you’re crazy enough to unlock the door and try the catwalk dash again.");
 
-				menu();
+				
 				MainScreen.addButton(0, "Next", d3.move, "magpiehalln");
 			}
 		}
 	}
 
-	public capturedByBasilisks(): void {
+	public capturedByBasilisks() {
 		DisplayText().clear();
 		DisplayText("Down. You’re staring up at the ceiling of the magpie hall, from your position upon your back. Your limbs are seized up, are not responding to any of your brain’s frantic demands, and you can only see what is in the corner of your frozen gaze, which is lots and lots of basilisks standing over you staring back.");
 
@@ -96,28 +96,28 @@ export class JeanClaudeScenes {
 		if (player.stats.int >= 80) {
 			DisplayText("\n\nThe last of the petrifying curse slips from your limbs and a thought leaps lightning fast through your mind, cutting through the warm haze for a moment. It tells you that you have to act now - with your body free of the grey and your mind still resisting the gold. What do you do in this one, free, desperate moment?");
 
-			menu();
+			
 			MainScreen.addButton(0, "Taunt", capturedbyBasilisksTaunt);
 			MainScreen.addButton(1, "Run", capturedByBasilisksRun);
 		}
 		else {
-			menu();
+			
 			MainScreen.addButton(0, "Next", basiliskBadEnds);
 		}
 	}
 
-	private capturedByBasilisksRun(): void {
+	private capturedByBasilisksRun() {
 		DisplayText().clear();
 		DisplayText("With all your willpower you tear away from the monster’s lidless gaze. His sharp claws graze your cheeks as you throw yourself backwards, turn and charge with a defiant cry into the ranks of reptiles which surround you. You have your [weapon] loose, and you swing it this way and that, adrenaline and desperation lending you strength as you send basilisks flying... but there are hundreds of them, and one of you, and too many places not to look. You strike, you punch, you scratch, you bite, but eventually your limbs tire; they seize up as you tear yourself away from one grey gaze only to find another, and the basilisks simply have to surround you, pack you tight with their bodies while one of them stares deep into your eyes, flooding your mind with a blaring, hypnotic wash. There’s a sound coming from somewhere: a strange, staccato bark. It’s only when the lizards return you frozen to the feet of their king that you realize what it is. The Rude King is laughing, sat on a table and doubled up with gulping mirth.");
 
 		DisplayText("\n\n“<i>You’re fast, interloper! And you fight good! But not so bright, eh? I think you think fast, but a stupid thought is a stupid thought, whether it takes a second or an hour to arrive.</i>” He reaches forward and almost tenderly takes you by the cheek again, rubbing the lines he left there with his smooth thumb, forcing you to look back into his eyes. “<i>See? All you managed was to damage yourself. That’s no good to anyone, is it?</i>” It occurs to you that since you were captured none of the basilisks have used their claws or teeth against you, and you realize why that is- they want you whole. You groan deep in your still throat as the hot, yellow glow of Jean-Claude’s eyes encompasses you.");
 
 		// [go to bad ends]
-		menu();
+		
 		MainScreen.addButton(0, "Next", basiliskBadEnds);
 	}
 
-	private capturedbyBasilisksTaunt(): void {
+	private capturedbyBasilisksTaunt() {
 		DisplayText().clear();
 		DisplayText("You stare into the yellow, hypnotic eyes and for a moment see beyond them, see them as part of this being rather than the whole, see the arrogance that sits behind them, see, perhaps, a way out of this. With all your willpower you force your mouth to open, work your vocal chords- and make a 'pfft' noise.");
 
@@ -136,7 +136,7 @@ export class JeanClaudeScenes {
 		startCombat(new JeanClaude());
 	}
 
-	public beatDaFuckhugeBasilisk(hpVictory: boolean): void {
+	public beatDaFuckhugeBasilisk(hpVictory: boolean) {
 		DisplayText().clear();
 		Flags.list[FlagEnum.D3_JEAN_CLAUDE_DEFEATED] = 1;
 
@@ -162,19 +162,19 @@ export class JeanClaudeScenes {
 		}
 
 		DisplayText("\n\nThere’s an echoing silence as the ranks of basilisks stare at their dead king. Then, with a shifting sound that spreads out like a tidal wave through the huge room, they drop one by one to a knee, their eyes closed and spiked heads pointed towards you. Elation inflates in your breast and fills out to the very tips of your digits as you take in the reptile horde bowing before you, the significance of it dawning brilliantly.");
-		if (player.mf("m", "f") === "f" && silly()) DisplayText("  You raise your fists in glee and crow “<i>I AM THE LIZARD QUEEN!</i>” at the ceiling.");
+		if (Desc.Gender.mf(player, "m", "f") === "f" && silly()) DisplayText("  You raise your fists in glee and crow “<i>I AM THE LIZARD QUEEN!</i>” at the ceiling.");
 
 		DisplayText("\n\nThere’s a bit of scuffling and shoving at the front, and finally a smaller-than-average basilisk is pushed out towards you. He almost trips over the flagstones in his attempts to keep his eyes squeezed shut and head bowed in deference to you.");
 
 		// What are your orders, my king/my queen (assuming bost basilisks don't speak english)
-		DisplayText("\n\n“<i>Que- quels sont vos ordres, " + player.mf("mon roi", "ma reine") + "?</i>” he whispers.");
+		DisplayText("\n\n“<i>Que- quels sont vos ordres, " + Desc.Gender.mf(player, "mon roi", "ma reine") + "?</i>” he whispers.");
 
 		// Fight for me!/Go away
-		menu();
+		
 		MainScreen.addButton(0, "Go Away", goAway);
 	}
 
-	private goAway(): void {
+	private goAway() {
 		DisplayText().clear();
 		DisplayText("You draw yourself up to your full height, calm your slightly giddy emotions and make your voice as cold and commanding as possible. You say you aren’t anyone’s new king, but since they ask, your orders are that any basilisk still within half a mile of this place in five minutes time is going to get twice the ass-whupping you just handed out to this one. You indicate with an airy wave what was, until recently, Jean-Claude. There’s a pause, followed by a minor earthquake, as the horde of reptiles pours towards the exit. You climb onto the table and watch them go, assuring that they all do indeed vamoose. If they display any emotion at all during their mass exodus, it’s one of distinct relief.");
 
@@ -186,7 +186,7 @@ export class JeanClaudeScenes {
 
 	}
 
-	public fuckhugeBasiliskFuckedYouUp(hpVictory: boolean): void {
+	public fuckhugeBasiliskFuckedYouUp(hpVictory: boolean) {
 		DisplayText().clear();
 
 		if (!hpVictory) {
@@ -200,16 +200,16 @@ export class JeanClaudeScenes {
 			DisplayText("\n\n“<i>I told you it was a mistake, interloper,</i>” he husks, as the golden glow encompasses your tired, dazed mind. “<i>But a good one, as far as mistakes go. It got my blood pumping. You cannot enjoy something you haven’t properly earned, eh?</i>”");
 		}
 
-		menu();
+		
 		MainScreen.addButton(0, "Next", basiliskBadEnds);
 	}
 
-	public basiliskBadEnds(): void {
+	public basiliskBadEnds() {
 		if (player.perks.has(PerkType.BasiliskWomb)) bwombBadEnd();
 		else regularBadEnd();
 	}
 
-	private regularBadEnd(): void {
+	private regularBadEnd() {
 		DisplayText().clear();
 
 		DisplayText("The Rex’s yellow glow encompasses you, glaring out everything - your purpose, your memories, your sense of self, replaced only by the need to stare deeper and deeper into the pits of gold, the depthless lava of his will which rolls over you, heating you within and without. When he steps into you and puts his warm, smooth hand on your waist you almost flinch, you are that sensitive to his presence. He grins with the exhilaration of a conqueror as he draws you further into himself. The nagging undercurrents of your own body rise to the surface as you feel his warmth and smell his powerful musk;");
@@ -279,7 +279,7 @@ export class JeanClaudeScenes {
 		Game.gameOver();
 	}
 
-	private bwombBadEnd(): void {
+	private bwombBadEnd() {
 		DisplayText().clear();
 
 		DisplayText("The Rex’s yellow glow encompasses you, glaring out everything- your purpose, your memories, your sense of self, replaced only by the need to stare deeper and deeper into the pits of gold, the depthless lava of his will which rolls over you, heats you within and without. When he steps into you and puts his warm, smooth hand on your waist you almost flinch, you are that sensitive to his presence. He grins with the exhilaration of a conqueror as he draws you further into himself. The nagging undercurrents of your own body rise to the surface as you feel his warmth and smell his powerful musk; your [vagina] beads with excitement and the bubble which sits in front of your stomach seems to expand, flooding your system with pheromones which make your heart pump faster and your skin turn red as your body reacts to the presence of this alpha male. Jean-Claude breathes your own smell deeply, his smile widening as he stares into your unfocused, helpless eyes.");
@@ -302,7 +302,7 @@ export class JeanClaudeScenes {
 
 		DisplayText("\n\nIn front of your huge audience- who for once are the ones who can’t tear their eyes away- the basilisk rex mounts you, pinning your arms down with his hands; his hot, agitated breath rolls over your face as with one powerful thrust, he spears into your sopping cunt with one of his bulging pricks. You arch your back to the sensation, opening your mouth as he pushes into your wet, sensitive tunnel, fucking you with the roughness of bestial urgency.");
 
-		if (player.averageVaginalLooseness() < 2) {
+		if (player.torso.vaginas.reduce(Vagina.AverageLooseness, 0) < 2) {
 			DisplayText("\n\n“<i>Ungh! Tight little bitch,</i>” he gasps. He thrusts into you with wicked force and you gasp, grasping at his scaled shoulders, upon the threshold of pain and exquisite pleasure as he spreads your [vagina] wide with his huge girth. “<i>Been saving yourself for this? Good girl.</i>”");
 		}
 		else {

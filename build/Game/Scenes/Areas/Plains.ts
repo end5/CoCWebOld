@@ -7,7 +7,7 @@ export class Plains {
 	public let gnollSpearThrowerScene:GnollSpearThrowerScene = new GnollSpearThrowerScene();
 	public let satyrScene:SatyrScene = new SatyrScene();
 
-	public explorePlains(): void {
+	public explorePlains() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.TIMES_EXPLORED_PLAINS]++;
 		//Dem Kangasluts!  Force Sheila relationship phase!
@@ -82,7 +82,7 @@ export class Plains {
 		choices[randInt(choices.length)]();
 	}
 
-	private plainsLoot(): void {
+	private plainsLoot() {
 		if (randInt(2) === 0) { //OVI
 			DisplayText("While exploring the plains you nearly trip over a discarded, hexagonal bottle.  ");
 			inventory.takeItem(consumables.OVIELIX, Scenes.camp.returnToCampUseOneHour);

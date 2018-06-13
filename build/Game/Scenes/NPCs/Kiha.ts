@@ -1,5 +1,5 @@
 export class Kiha extends Monster {
-	private kihaTimeWaster(): void {
+	private kihaTimeWaster() {
 		game.DisplaySprite(72);
 		DisplayText("She supports the axe on a shoulder, cracking her neck and arching her back to stretch herself, giving you an unintended show.  ");
 		game.player.stats.lust += 5;
@@ -7,7 +7,7 @@ export class Kiha extends Monster {
 	}
 
 	//This could be silly mode worthy! Should Expand? oh ok
-	private sillyModeKihaAttack(): void {
+	private sillyModeKihaAttack() {
 		game.DisplaySprite(72);
 		DisplayText("Before you can stop to think, the dragon-woman steps back - throwing her axe into the air before she starts sprinting towards you. In seconds she's reached a hair's distance between her lithe form and your own, her fist recoiling and time seemingly stopping to allow you to note the powerful energy seeping from her arms.  ");
 		//Miss:
@@ -30,7 +30,7 @@ export class Kiha extends Monster {
 		combatRoundOver();
 	}
 
-	private kihaFirePunch(): void {
+	private kihaFirePunch() {
 		game.DisplaySprite(72);
 		DisplayText("The draconic girl throws her trusty weapon into the sodden ground, using the distraction to build up balls of flame around her fists.  She runs towards you, launching herself in your direction with a flurry of punches.\n");
 
@@ -61,7 +61,7 @@ export class Kiha extends Monster {
 
 
 	//Fire breath
-	private kihaFireBreath(): void {
+	private kihaFireBreath() {
 		game.DisplaySprite(72);
 		DisplayText("Kiha throws her arms back and roars, exhaling a swirling tornado of fire directly at you!\n");
 		//Miss:
@@ -104,14 +104,14 @@ export class Kiha extends Monster {
 	}
 
 
-	override protected postAttack(damage: number): void {
+	override protected postAttack(damage: number) {
 		super.postAttack(damage);
 		let flame: number = 15 + randInt(6);
 		flame = player.takeDamage(flame);
 		DisplayText("\nAn afterwash of flames trails behind her blow, immolating you! (" + flame + ")");
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		let select: number = randInt(5);
 		if (select <= 1) eAttack();
 		else if (select === 2) {
@@ -122,7 +122,7 @@ export class Kiha extends Monster {
 		else kihaTimeWaster();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (statusAffects.has(StatusAffectType.spiderfight))
 			game.kihaFollower.playerBeatsUpKihaPreSpiderFight();
 		else if (statusAffects.has(StatusAffectType.DomFight))
@@ -133,7 +133,7 @@ export class Kiha extends Monster {
 	}
 
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (statusAffects.has(StatusAffectType.spiderfight))
 			game.kihaFollower.loseKihaPreSpiderFight();
 		else if (statusAffects.has(StatusAffectType.DomFight))

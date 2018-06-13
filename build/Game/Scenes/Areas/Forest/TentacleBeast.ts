@@ -66,11 +66,11 @@ class Entwine implements CombatAction {
             else {
                 DisplayText("While you attempt to avoid the onslaught of pseudopods, one catches you around your " + LegDescriptor.describeFoot(enemy) + " and drags you to the ground. You attempt to reach for it to pull it off only to have all of the other tentacles grab you in various places and immobilize you in the air. You are trapped and helpless!!!\n\n");
                 // Male/Herm Version:
-                if (enemy.torso.cocks.count > 0) DisplayText("The creature, having immobilized you, coils a long tendril about your penis. You shudder as the creature begins stroking your cock like a maid at a dairy farm in an attempt to provoke a response from you. Unable to resist, your " + CockDescriptor.describeCock(enemy, enemy.torso.cocks.get(0)) + " easily becomes erect, signaling to the creature that you are responsive to harsher stimulation.\n");
+                if (enemy.torso.cocks.count > 0) DisplayText("The creature, having immobilized you, coils a long tendril about your penis. You shudder as the creature begins stroking your cock like a maid at a dairy farm in an attempt to provoke a response from you. Unable to resist, your " + Desc.Cock.describeCock(enemy, enemy.torso.cocks.get(0)) + " easily becomes erect, signaling to the creature that you are responsive to harsher stimulation.\n");
                 // Female Version:
-                else if (enemy.torso.vaginas.count > 0) DisplayText("The creature quickly positions a long tentacle with a single sucker over your clitoris. You feel the power of the suction on you, and your body quickly heats up.  Your clit engorges, prompting the beast to latch the sucker onto your " + VaginaDescriptor.describeClit(enemy) + ".\n");
+                else if (enemy.torso.vaginas.count > 0) DisplayText("The creature quickly positions a long tentacle with a single sucker over your clitoris. You feel the power of the suction on you, and your body quickly heats up.  Your clit engorges, prompting the beast to latch the sucker onto your " + Desc.Vagina.describeClit(enemy) + ".\n");
                 // Genderless
-                else DisplayText("The creature quickly positions a long tentacle against your " + ButtDescriptor.describeButthole(enemy.torso.butt) + ". It circles your pucker with slow, delicate strokes that bring unexpected warmth to your body.\n");
+                else DisplayText("The creature quickly positions a long tentacle against your " + Desc.Butt.describeButthole(enemy.torso.butt) + ". It circles your pucker with slow, delicate strokes that bring unexpected warmth to your body.\n");
                 // game.dynStats("lus", (8 + enemy.stats.sens / 20));
                 enemy.stats.lust += (8 + enemy.stats.sens / 20);
                 enemy.statusAffects.add(StatusAffectType.TentacleBind, 0, 0, 0, 0);
@@ -82,9 +82,9 @@ class Entwine implements CombatAction {
 class TentacleBeastEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean { return false; }
     public hasDefeated(enemy: Character): boolean { return false; }
-    public claimsVictory(howYouWon: DefeatType, enemy: Character): void { }
-    public criesInDefeat(howYouLost: DefeatType, enemy: Character): void { }
-    protected beforeEndingScene(howEnemyWon: DefeatType, enemy: Character): void { }
+    public claimsVictory(howYouWon: DefeatType, enemy: Character) { }
+    public criesInDefeat(howYouLost: DefeatType, enemy: Character) { }
+    protected beforeEndingScene(howEnemyWon: DefeatType, enemy: Character) { }
 
     public hasVictoryScene: boolean = true;
     protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
@@ -136,7 +136,7 @@ class TentacleBeastEndScenes extends EndScenes {
 }
 
 export class TentacleBeast extends Character {
-    public performCombatAction(): void {
+    public performCombatAction() {
         // tentacle beasts have special AI
         if (randInt(2) === 0 || this.statusAffects.has(StatusAffectType.TentacleCoolDown))
             special1();

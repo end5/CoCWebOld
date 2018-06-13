@@ -39,9 +39,9 @@ class BeeGirlEndScenes extends EndScenes {
     public hasDefeated(enemy: Character): boolean {
         return false;
     }
-    public claimsVictory(howYouWon: DefeatType, enemy: Character): void { }
-    public criesInDefeat(howYouLost: DefeatType, enemy: Character): void { }
-    protected beforeEndingScene(howYouLost: DefeatType, enemy: Character): void { }
+    public claimsVictory(howYouWon: DefeatType, enemy: Character) { }
+    public criesInDefeat(howYouLost: DefeatType, enemy: Character) { }
+    protected beforeEndingScene(howYouLost: DefeatType, enemy: Character) { }
     public readonly hasVictoryScene: boolean = true;
     protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
         if (howYouWon === DefeatType.Lust && enemy.statusAffects.has(StatusAffectType.Infested)) {

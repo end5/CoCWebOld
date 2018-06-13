@@ -2,7 +2,7 @@
 export class SandWitch extends Monster {
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (player.findStatusAffect(StatusAffects.StoneLust)) {
 			player.statusAffects.remove("StoneLust");
 		}
@@ -14,24 +14,24 @@ export class SandWitch extends Monster {
 		}
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe witch blanches and backs away, leaving you to your fate.");
-			game.cleanupAfterCombat();
+			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		} else {
 			game.desert.sandWitchScene.sandwitchRape();
 		}
 	}
 
-	private lustMagicAttack(): void {
+	private lustMagicAttack() {
 		DisplayText("The sand witch points at you, drawing a circle in the air and mouthing strange words.\n\n");
 		if (player.statusAffects.has(StatusAffectType.StoneLust)) {
 			DisplayText("The orb inside you grows warm, almost hot, suffusing your body with heat and arousal.  ");
 			game.dynStats("lus", 8 + int(player.stats.sens) / 10);
 		}
 		else {
-			DisplayText("You feel the sands shift by your " + LowerBodyDescriptor.describeFeet(player) + ", and look down to see something slip out of the sands and into your clothes!  It feels incredibly smooth and circular as it glides upward along your " + LegDescriptor.describeLeg(player) + ", its progress unaffected by your frantic effort to dislodge it.  ");
-			if (player.torso.vaginas.count > 0) DisplayText("It glides up your thighs to the entrance of your sex, and its intentions dawn on you!\n\nToo late! You reach to stop it, but it pushes against your lips and slips inside your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " in an instant.  You groan in frustration as it begins pulsing and vibrating, sometimes even seeming to change size.");
+			DisplayText("You feel the sands shift by your " + Desc.Leg.describeFeet(player) + ", and look down to see something slip out of the sands and into your clothes!  It feels incredibly smooth and circular as it glides upward along your " + LegDescriptor.describeLeg(player) + ", its progress unaffected by your frantic effort to dislodge it.  ");
+			if (player.torso.vaginas.count > 0) DisplayText("It glides up your thighs to the entrance of your sex, and its intentions dawn on you!\n\nToo late! You reach to stop it, but it pushes against your lips and slips inside your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " in an instant.  You groan in frustration as it begins pulsing and vibrating, sometimes even seeming to change size.");
 			else DisplayText("It glides up your thighs, curving around your buttocks, and its intentions dawn on you.\n\nYou desperately grab for it, but are too late!  It pushes firmly against your rectum and slips inside instantaneously.  You groan in frustration as it begins pulsing and vibrating, sometimes even seeming to change size.");
 			player.statusAffects.add(StatusAffectType.StoneLust, 0, 0, 0, 0);
 			game.dynStats("lus", 4 + int(player.stats.sens) / 10);
@@ -65,7 +65,9 @@ export class SandWitch extends Monster {
 this.baseStats.tou = 25;
 this.baseStats.spe = 35;
 this.baseStats.int = 45;
-		initLibSensCor(55, 40, 30);
+		this.baseStats.lib = 55;
+this.baseStats.sens = 40;
+this.baseStats.cor = 30;
 		this.weaponName = "kick";
 		this.weaponVerb = "kick";
 		this.armorName = "robes";

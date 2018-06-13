@@ -2,7 +2,7 @@ export class SpiderMorphMob extends Monster {
 	//==============================
 	// SPOIDAH HORDE COMBAT SHIZZLE HERE!
 	//==============================
-	private spiderStandardAttack(): void {
+	private spiderStandardAttack() {
 		//SPIDER HORDE ATTACK - Miss (guaranteed if turns 1-3 and PC lost to Kiha)
 		if (statusAffects.has(StatusAffectType.MissFirstRound) || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
 			statusAffects.remove("MissFirstRound");
@@ -39,7 +39,7 @@ export class SpiderMorphMob extends Monster {
 	}
 
 	//SPIDER HORDE WEB - Hit
-	private spoidahHordeWebLaunchahs(): void {
+	private spoidahHordeWebLaunchahs() {
 		//SPIDER HORDE WEB - Miss (guaranteed if turns 1-3 and PC lost to Kiha)
 		if (statusAffects.has(StatusAffectType.MissFirstRound) || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
 			DisplayText("One of the driders launches a huge glob of webbing right at you!  Luckily, Kiha manages to burn it out of the air with a well-timed gout of flame!");
@@ -54,7 +54,7 @@ export class SpiderMorphMob extends Monster {
 		}
 	}
 
-	private kihaSPOIDAHAI(): void {
+	private kihaSPOIDAHAI() {
 		DisplayText("[pg]");
 		game.DisplaySprite(72);
 		DisplayText("While they're tangled up with you, however, Kiha takes the opportunity to get in a few shallow swings with her axe, to the accompaniment of crunching chitin.");
@@ -63,18 +63,18 @@ export class SpiderMorphMob extends Monster {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.DisplaySprite(72);
 		if (randInt(2) === 0 || player.statusAffects.has(StatusAffectType.UBERWEB)) spiderStandardAttack();
 		else spoidahHordeWebLaunchahs();
 	}
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.kihaFollower.beatSpiderMob();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe spiders smile to one at another as they watch your display, then close in...");
 			return { next: game.endLustLoss };
@@ -111,7 +111,9 @@ export class SpiderMorphMob extends Monster {
 this.baseStats.tou = 50;
 this.baseStats.spe = 99;
 this.baseStats.int = 99;
-		initLibSensCor(35, 35, 20);
+		this.baseStats.lib = 35;
+this.baseStats.sens = 35;
+this.baseStats.cor = 20;
 		this.weaponName = "claws";
 		this.weaponVerb = "claws";
 		this.armorName = "chitin";

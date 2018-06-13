@@ -36,13 +36,13 @@ You might want to write a special Scene class for the monster, which will contai
 
 * approach scene that describes how monster attacks the player and calls `startCombat(new MyMonster())`;
 * player victory scene that shows victory rape options.
-  Don't forget to call `cleanupAfterCombat()`, `awardPlayer()`, or `finishCombat()` in the end (after the rape/leave).
+  Don't forget to call `return { next: Scenes.camp.returnToCampUseOneHour }`, `awardPlayer()`, or `finishCombat()` in the end (after the rape/leave).
   The difference is:
-    - `cleanupAfterCombat()` calls `awardPlayer()`.
+    - `return { next: Scenes.camp.returnToCampUseOneHour }` calls `awardPlayer()`.
     - `finishCombat()` displays _"You defeat..."_ message and calls `awardPlayer()`.
     - `awardPlayer()` gives player XP and gems, displays messages about it, and resets `gameState` to 0.
 * monster victory scene when player is defeated and raped by monster.
-  Don't forget to call `cleanupAfterCombat()` in the end (after the rape).
+  Don't forget to call `return { next: Scenes.camp.returnToCampUseOneHour }` in the end (after the rape).
 
 ### Overriding AI
 

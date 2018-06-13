@@ -93,7 +93,7 @@
 		return Flags.list[FlagEnum.GOO_OBEDIENCE];
 	}
 	private gooTits(): string {
-		return BreastStore.BreastDescriptor.describeBreastRow(gooTitSize());
+		return BreastStore.Desc.Breast.describeBreastRow(gooTitSize());
 	}
 
 	private gooCock(): string {
@@ -118,7 +118,7 @@
 
 
 	//TF Scene:
-	public meanGooGirlRecruitment(): void {
+	public meanGooGirlRecruitment() {
 		Game.inCombat = false;
 		DisplayText().clear();
 		Flags.list[FlagEnum.GOO_TFED_MEAN] = 1;
@@ -164,18 +164,18 @@
 			return;
 		}
 		//[Next] (Go to aftermath)
-		menu();
+		
 		MainScreen.addButton(0, "Next", PCCarriedGooBackHome);
 	}
 
 	//Goo -> Latex Aftermath:
 	//PC Carried Her Back:
-	private PCCarriedGooBackHome(): void {
+	private PCCarriedGooBackHome() {
 		DisplayText().clear();
 		DisplayText("You set the once-goo down in a secluded section of your camp");
 		if (camp.companionsCount() > 0) DisplayText(", away from prying eyes");
 		DisplayText(".  She looks almost alien in a way... more than she did before, when she was just an aqueous blob with tits and faux hair.  Now, every facet of her being is shiny, reflective latex.  Even her vaginal secretions, which dribble freely, are liquid latex, glossy black juices that slowly harden into a flexible solid once freed from her body.");
-		if (player.torso.cocks.count > 1) DisplayText("  You can't help but wonder what it would feel like to let her sheath your " + CockDescriptor.describeMultiCockShort(player) + " with her juices.");
+		if (player.torso.cocks.count > 1) DisplayText("  You can't help but wonder what it would feel like to let her sheath your " + Desc.Cock.describeMultiCockShort(player) + " with her juices.");
 		DisplayText("\n\nSurprisingly, she has hair, or what passes for hair for a woman made entirely of supple, inorganic semi-solids.  Her tresses hang down past her shoulders, slender strands that are as reflective as her skin.  Unlike her skin, the latex-goo's hair seems perpetually oily, slippery and lubricated.  Hesitantly, you extend a hand to touch, carefully caressing a few of the rubbery strands.  Their texture is smooth and slick, unlike any hair you've ever had the pleasure of touching.");
 		DisplayText("\n\n\"<i>I can feel that, you know.</i>\"");
 		DisplayText("\n\nYou backpedal wildly, surprised at the sudden statement to such a degree that you nearly fall flat on your [butt].  Giggling laughter bubbles up in response, \"<i>Sorry, I didn't mean to scare you.</i>\"");
@@ -188,14 +188,14 @@
 		DisplayText("  Abruptly, you ask her what you should call her besides 'girl' or 'slave'.  Even pets need names, after all.");
 
 		DisplayText("\n\n\"<i>Name?  My name is the warmth of my soul and the scent of the forgotten sea... or it was, before you made me like... this.  I don't think I could even communicate with my people properly at this point.  To your ears, I have no name, and honestly... my old name may as well be a forgotten memory.</i>\"  A solitary onyx teardrop runs from the corner of her eye, hardening on her cheek.  She brushes it away with a sniffle.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", PCCarriedGooBackHomeII);
 	}
-	private PCCarriedGooBackHomeII(): void {
+	private PCCarriedGooBackHomeII() {
 		DisplayText().clear();
 		DisplayText("\"<i>Call me what you want, my name doesn't matter.</i>\"");
 		DisplayText("\n\nWhat will you name her?");
-		menu();
+		
 		MainScreen.addButton(0, "Next", nameZeLatexGoo);
 		mainView.nameBox.text = "";
 		mainView.nameBox.visible = true;
@@ -203,7 +203,7 @@
 		mainView.nameBox.x = mainView.mainText.x + 5;
 		mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
 	}
-	private nameZeLatexGoo(): void {
+	private nameZeLatexGoo() {
 		if (kGAMECLASS.testingBlockExiting) {
 			// We're running under the testing script.
 			// Stuff a name in the box and go go go
@@ -214,7 +214,7 @@
 			DisplayText("<b>You must select a name.</b>");
 			mainView.nameBox.x = mainView.mainText.x + 5;
 			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
-			menu();
+			
 			MainScreen.addButton(0, "Next", nameZeLatexGoo);
 			return;
 		}
@@ -264,12 +264,12 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//PC Couldn't Bring Her Back
-	public encounterLeftBehindGooSlave(): void {
+	public encounterLeftBehindGooSlave() {
 		DisplayText().clear();
 		if (Flags.list[FlagEnum.GOO_TFED_NICE] > 0) {
 			DisplayText("While exploring, you see something odd in the lake.  It's a black blob, barely visible in the azure waves, though it seems to be splashing wildly, as if it was struggling.  You walk up to the lake shore just as the black blob flops limply onto the beach, breathing hard.  It's the poor goo-girl that got turned into latex!");
 			DisplayText("\n\n\"<i>It's... you...</i>\" she moans, looking up at you with wide " + Flags.list[FlagEnum.GOO_EYES] + " eyes before they close...  It seems she's fainted.  She looks almost alien in a way... more than she did before, when she was just an aqueous blob with tits and faux hair.  Now, every facet of her being is shiny, reflective latex.  Even her vaginal secretions, which dribble freely, are liquid latex, glossy black juices that slowly harden into a flexible solid once freed from her body.");
-			if (player.torso.cocks.count > 1) DisplayText("  You can't help but wonder what it would feel like to let her sheath your " + CockDescriptor.describeMultiCockShort(player) + " with her juices.");
+			if (player.torso.cocks.count > 1) DisplayText("  You can't help but wonder what it would feel like to let her sheath your " + Desc.Cock.describeMultiCockShort(player) + " with her juices.");
 			DisplayText("\n\nSurprisingly, she has hair, or what passes for hair for a woman made entirely of supple, inorganic semi-solids.  Her tresses grow down past her shoulders, slender strands that are as reflective as her skin.  Unlike her skin, the latex-goo's hair seems perpetually oily, slippery and lubricated.  Hesitantly, you extend a hand to touch, carefully caressing a few of the rubbery strands.  Their texture is smooth and slick, unlike any hair you've ever had the pleasure of touching.");
 			DisplayText("\n\n\"<i>I can feel that, you know.</i>\"");
 			DisplayText("\n\nYou backpedal wildly, surprised at the sudden statement so much that you nearly fall flat on your [butt].  Giggling laughter bubbles up in response, \"<i>Sorry, I didn't mean to scare you.</i>\"");
@@ -294,15 +294,15 @@
 			DisplayText("\n\nYou take her by the hand and lift her to her feet, leading her to camp.  She plies you with questions, but you ignore her, bringing her back to a secluded portion of home.  Once safe and secure, you abruptly ask her what you should call her besides 'girl' or 'slave'.  Even pets need names, after all.");
 			DisplayText("\n\n\"<i>Name?  My name is the warmth of my soul and the scent of the forgotten sea... or it was, before you made me like... this.  I don't think I can even communicate with my people properly at this point.  To your ears, I have no name, and honestly... my old name may as well be a forgotten memory.</i>\"  A solitary onyx teardrop runs from the corner of her eye, hardening on her cheek.  She brushes it away with a sniffle.");
 		}
-		menu();
+		
 		MainScreen.addButton(0, "Next", encounterLeftBehindGooSlaveII);
 	}
-	private encounterLeftBehindGooSlaveII(): void {
+	private encounterLeftBehindGooSlaveII() {
 		DisplayText().clear();
 		DisplayText("\"<i>Call me what you want, my name doesn't matter.</i>\"");
 		DisplayText("\n\nWhat will you name her?");
 		//{To standard name prompts}
-		menu();
+		
 		MainScreen.addButton(0, "Next", nameZeLatexGoo);
 		mainView.nameBox.text = "";
 		mainView.nameBox.visible = true;
@@ -312,7 +312,7 @@
 	}
 
 	//Pure Characters Intro(F):
-	public pureGooRecruitmentStart(): void {
+	public pureGooRecruitmentStart() {
 		Game.inCombat = false;
 		DisplayText().clear();
 		Flags.list[FlagEnum.GOO_TFED_NICE] = 1;
@@ -329,18 +329,18 @@
 		DisplayText("\n\nShe wiggles but fails to rise, too encumbered by solidifying tits to move.  Her arms have congealed into smooth onyx up to the elbows by now, and her asscheeks are equally dark spheres of reflective material, just begging to be touched.  Below that, her pool is shrinking, pulling inward even as it becomes more opaque.  It divides in two, gradually twisting around itself until two shapely calves are visible, capped with a dainty pair of feet.  These solidify almost instantly - the transformation is accelerating!  Permeable membrane swiftly gives way to reflective, glossy latex all over her shuddering form, crafting the goo-girl into a visage of a bondage-slut's wet dream.  With her whole body changed from liquid to solid, the once-goo collapses into unconsciousness, black eyelids closing over her solid " + monster.skin.tone + " eyes.");
 		DisplayText("\n\nWorried that you might have killed her, you dart forward to check her breathing.  Whew!  She's okay, just out like a lamp.  You hold the poor girl in your arms for a long moment, looking around for somewhere to put her, for someone to help you deal with... whatever's she's just done to herself.  It looks like you've got yourself a latex goo-girl... or a latex-girl... whatever.  Leaving her out here seems cruel, as she'd certainly be snatched up by some horrid monster...  She'd be safer back at your camp, though that might be committing to a more long-term project than you're ready for.");
 		//[Take her Home] [Leave Her]
-		menu();
+		
 		MainScreen.addButton(0, "Take Home", niceGuysTakeLatexHome);
 		MainScreen.addButton(4, "Leave Her", leaveTheLatexGooGirl);
 	}
 	//Leave Her(F)
-	private leaveTheLatexGooGirl(): void {
+	private leaveTheLatexGooGirl() {
 		DisplayText().clear();
 		DisplayText("You don't have the time to deal with this... thing.  You put the girl down on the shore and head on back to camp.  Hopefully, whatever finds her won't be TOO horrible.");
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Take her Home(F)
-	private niceGuysTakeLatexHome(): void {
+	private niceGuysTakeLatexHome() {
 		DisplayText().clear();
 		//{Intelligent:}
 		if (player.stats.int >= 60) {
@@ -367,14 +367,14 @@
 			return;
 		}
 		//[Next] (Go to PURE aftermath)
-		menu();
+		
 		MainScreen.addButton(0, "Next", pureGooGalRecruitAftermath);
 	}
 	//PURE Aftermath(F)
-	private pureGooGalRecruitAftermath(): void {
+	private pureGooGalRecruitAftermath() {
 		DisplayText().clear();
 		DisplayText("You set the once-goo down in a secluded section of your camp.  She looks almost alien in a way... more than she did before, when she was just an aqueous blob with tits and faux hair.  Now, every facet of her being is shiny, reflective latex.  Even her vaginal secretions, which dribble freely, are liquid latex, glossy black juices that slowly harden into a flexible solid once freed from her body.");
-		if (player.torso.cocks.count > 1) DisplayText("  You can't help but wonder what it would feel like to let her sheath your " + CockDescriptor.describeMultiCockShort(player) + " with her juices.");
+		if (player.torso.cocks.count > 1) DisplayText("  You can't help but wonder what it would feel like to let her sheath your " + Desc.Cock.describeMultiCockShort(player) + " with her juices.");
 		DisplayText("\n\nSurprisingly, she has hair, or what passes for hair for a woman made entirely of supple, inorganic semi-solids.  Her tresses grow down past her shoulders, slender strands that are as reflective as her skin.  Unlike her skin, the latex-goo's hair seems perpetually oily, slippery and lubricated.  Hesitantly, you extend a hand to touch, carefully caressing a few of the rubbery strands.  Their texture is smooth and slick, unlike any hair you've ever had the pleasure of touching.");
 		DisplayText("\n\n\"<i>I can feel that, you know.</i>\"");
 		DisplayText("\n\nYou backpedal wildly, surprised at the sudden statement so much that you nearly fall flat on your [butt].  Giggling laughter bubbles up in response, \"<i>Sorry, I didn't mean to scare you.</i>\"");
@@ -383,14 +383,14 @@
 		DisplayText("\n\nAs gently as you can, you try to tell her what happened: the black egg and milk fell out of your pack and splattered onto - into - her, and changed her.  She moans in misery, hugging her hands across her expansive chest and shuddering, an action made all the more marvelous by the way her twisted body jiggles and shines in the light.  You can't help but notice how sexy her body is, how sensual it seems, her latex form practically crying out for your touch and caress...  Just as the girl inside that body is crying in sorrow and desperation, you remind yourself.");
 		DisplayText("\n\nTrying to be comforting isn't easy without knowing her name, though. You ask her, trying to be as friendly as you can as you sit down beside her.");
 		DisplayText("\n\n\"<i>Name?  My name is the warmth of my soul and the scent of the forgotten sea... or it was, before you made me like... this.  I don't think I could even communicate with my people properly at this point.  To your ears, I have no name, and honestly... my old name may as well be a forgotten memory.</i>\"  A solitary onyx teardrop runs from the corner of her eye, hardening on her cheek.  She brushes it away with a sniffle.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", pureGooGalRecruitAftermathII);
 	}
-	private pureGooGalRecruitAftermathII(): void {
+	private pureGooGalRecruitAftermathII() {
 		DisplayText().clear();
 		DisplayText("\"<i>Call me what you want, my name doesn't matter.</i>\"");
 		DisplayText("\n\nWhat will you name her?");
-		menu();
+		
 		MainScreen.addButton(0, "Next", nameZeLatexGooNice);
 		mainView.nameBox.text = "";
 		mainView.nameBox.visible = true;
@@ -401,13 +401,13 @@
 	}
 
 	//After Naming Latexy(F):
-	private nameZeLatexGooNice(): void {
+	private nameZeLatexGooNice() {
 		if (mainView.nameBox.text === "") {
 			DisplayText().clear();
 			DisplayText("<b>You must select a name.</b>");
 			mainView.nameBox.x = mainView.mainText.x + 5;
 			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
-			menu();
+			
 			MainScreen.addButton(0, "Next", nameZeLatexGoo);
 			return;
 		}
@@ -441,12 +441,12 @@
 		else DisplayText(Flags.list[FlagEnum.GOO_NAME] + ", huh?  I can live with that, I suppose,");
 		DisplayText("</i>\" she muses, her mood brightening.  \"<i>I-I suppose I should start to get used to it... to all of this.  I... thank you, friend.  You didn't have to take me back here, to help me, but you did.  I'm grateful, truly I am.  But I don't think I would survive long out in the wilds, on my own.  I've lived my whole life as a goo, and it will take some time - years, maybe - to relearn how to survive on my own.  I know it's a lot to ask, but would you mind if I stayed here?  With... with you?  At least until I can get on my, uh, feet, as it were,</i>\" she says, her hands tracing along her body down to her new, dainty little feet.");
 		//[Keep Her] [Boot her Out]
-		menu();
+		
 		MainScreen.addButton(0, "Keep Her", niceGuysKeepTheirGooGals);
 		MainScreen.addButton(1, "Boot Her", bootOutNiceGoo);
 	}
 	//Boot her Out(F):
-	private bootOutNiceGoo(): void {
+	private bootOutNiceGoo() {
 		DisplayText().clear();
 		DisplayText("You did your civic duty bringing her back with you, but taking care of her in the long term... that's asking too much.  \"<i>I understand,</i>\" she says, bowing her head sadly as she struggles unsteadily to her feet.  \"<i>It's all right.  You've done more than enough, really.  I'll go.  Hopefully some of my sisters in the lake will be willing to help me, even if I'm so... so different... from them, now.  Goodbye, my friend.  Maybe we'll meet again sometime.</i>\"");
 		DisplayText("\n\nShe's gone a moment later, waving over her shoulder as she unsteadily walks back toward the lake.");
@@ -455,7 +455,7 @@
 	}
 
 	//Keep Her(F):
-	private niceGuysKeepTheirGooGals(): void {
+	private niceGuysKeepTheirGooGals() {
 		DisplayText().clear();
 		DisplayText("You take her by the chin, tilting her head up to look at you.  Of course you'll help her.  How could you not?  Overjoyed by your answer, " + Flags.list[FlagEnum.GOO_NAME] + " throws her slender arms around you, pulling herself up so that her slick black lips press against yours.  \"<i>Oh, thank you! Thank you!</i>\" she cries, kissing you again.  Suddenly realizing what she's done, though, the latex-girl releases you and slips back against her rock, looking abashedly away.  \"<i>I'm sorry, I just...  Thank you.  I'm not going to just be a burden on you, I promise!  I don't know how much I can do, but so long as I'm here...  Just ask, for anything, and I promise I'll do my best.  It's the least I can do to pay you back for being so kind to me.</i>\"");
 		DisplayText("\n\nYou smile, telling that seeing her safe and sound will be payment enough.  Speaking of which, what exactly is she going to need -- what can you do to help her now?  \"<i>All I used to need to survive was liquid, but... not that much.  Not any more,</i>\" " + Flags.list[FlagEnum.GOO_NAME] + " says.  \"<i>I can already tell that I'm not losing it like I used to... but I still hunger for... well, juices.  I can probably live on water, but I won't be healthy that way.  I'll need you to, well, uh... feed me");
@@ -472,7 +472,7 @@
 
 
 	//Approach Her (Select From Slaves Tab)(F)
-	public approachLatexy(): void {
+	public approachLatexy() {
 		DisplayText().clear();
 		//First Line - Happiness Dependent
 		//(Sub 10)
@@ -534,7 +534,7 @@
 		//Fourth+ - special shit - NEWLINE
 		DisplayText("\n\n");
 		//{Dick}
-		if (Flags.list[FlagEnum.GOO_DICK_LENGTH] > 0) DisplayText("Below her waist, a " + num2Text(Math.round(Flags.list[FlagEnum.GOO_DICK_LENGTH] * 10) / 10) + "-inch, " + gooCock() + " hangs, soft and shiny.  ");
+		if (Flags.list[FlagEnum.GOO_DICK_LENGTH] > 0) DisplayText("Below her waist, a " + numToCardinalText(Math.round(Flags.list[FlagEnum.GOO_DICK_LENGTH] * 10) / 10) + "-inch, " + gooCock() + " hangs, soft and shiny.  ");
 		DisplayText("A glittering cleft that oozes with coal-colored lubricant nestles firmly at the joining of her sensuous latex legs.  They shine that much brighter thanks to the unnatural slickness.");
 		//Last Pg Obedience:
 		DisplayText("\n\n");
@@ -563,7 +563,7 @@
 		DisplayText("\n\n<b>Fluid %:</b> " + Math.round(gooFluid()));
 		DisplayText("\n<b>Happiness %:</b> " + Math.round(gooHappiness()));
 		DisplayText("\n<b>Obedience %:</b> " + Math.round(gooObedience()));
-		menu();
+		
 		MainScreen.addButton(9, "Back", camp.campSlavesMenu);
 		MainScreen.addButton(0, "Feed Her", feedLatexy);
 		if (player.gender > 0 && player.stats.lust >= 33) MainScreen.addButton(1, "Use Her", useLatexy);
@@ -576,7 +576,7 @@
 		if (Flags.list[FlagEnum.FOLLOWER_AT_FARM_LATEXY] === 1) MainScreen.addButton(5, "Go Camp", backToCamp);
 	}
 
-	private sendToFarm(): void {
+	private sendToFarm() {
 		DisplayText().clear();
 
 		DisplayText("You tell your goo pet that she is to head towards the lake, find a farm, present herself to the lady who works there and do as she says. The word “lake” has the effect you expected it would have; joy creases [latexyname]’s liquid face as you mention the Promised Land.");
@@ -590,7 +590,7 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	private backToCamp(): void {
+	private backToCamp() {
 		DisplayText().clear();
 
 		DisplayText("You tell her to head back to camp; there are things you need to do to her you can’t do whilst she’s here. Repeatedly. [latexyname] pauses and then glances over towards the lake, clearly unhappy at the prospect of being torn away from it. However, she knows her place.");
@@ -603,10 +603,10 @@
 		return { next: kGAMECLASS.farm.farmCorruption.rootScene };
 	}
 
-	private useLatexy(): void {
+	private useLatexy() {
 		DisplayText().clear();
 		DisplayText("How will you use your pet?");
-		menu();
+		
 		if (player.torso.vaginas.count > 0) {
 			MainScreen.addButton(0, "DomWithVag", femalePCDomFucksLatexGoo);
 			if (Flags.list[FlagEnum.GOO_DICK_LENGTH] > 0) MainScreen.addButton(1, "RideGooCock", femalePCDomFucksLatexGooFuta);
@@ -617,7 +617,7 @@
 	}
 
 	//Setting Dick Type(F)
-	private changeGooDick(): void {
+	private changeGooDick() {
 		DisplayText().clear();
 		//Supah High obedience slut!
 		if (gooObedience() >= 60) {
@@ -648,11 +648,11 @@
 			DisplayText("  She rolls her eyes and says, \"<i>Sorry, but I think you've made me change quite enough for right now.</i>\"");
 			DisplayText("\n\nShe's going to have to learn to be a little more obedient before she'll do that.");
 			gooObedience(-3);
-			menu();
+			
 			MainScreen.addButton(0, "Next", approachLatexy);
 			return;
 		}
-		menu();
+		
 		if (Flags.list[FlagEnum.GOO_DICK_LENGTH] > 0) {
 			if (player.inventory.items.has(consumables.CANINEP) && Flags.list[FlagEnum.GOO_DICK_TYPE] != CockType.DOG) MainScreen.addButton(2, "Canine Pepper", latexyEatsADickItem, consumables.CANINEP);
 			if (player.inventory.items.has(consumables.EQUINUM) && Flags.list[FlagEnum.GOO_DICK_TYPE] != CockType.HORSE) MainScreen.addButton(3, "Equinum", latexyEatsADickItem, consumables.EQUINUM);
@@ -670,7 +670,7 @@
 		MainScreen.addButton(9, "Back", approachLatexy);
 	}
 
-	private latexyEatsADickItem(item: ItemType): void {
+	private latexyEatsADickItem(item: ItemType) {
 		player.inventory.items.consumeItem(item, 1);
 		DisplayText().clear();
 		DisplayText(Flags.list[FlagEnum.GOO_NAME] + " uses your proffered item without a second though.  Surprisingly she doesn't seem to react in any way, aside from closing her eyes and taking on a look of incredible concentration.  ");
@@ -686,7 +686,7 @@
 				Flags.list[FlagEnum.GOO_DICK_TYPE] = CockType.HORSE;
 			}
 			DisplayText("Then, it begins to stiffen, arching up into full arousal.  The new-grown cock appears to have grown from her clit, but as you lean down to examine her vagina, you realize her cunt has shifted down slightly, and a new clit has grown to replace the old.");
-			DisplayText("\n\n\"<i>You're making it harder!</i>\" " + Flags.list[FlagEnum.GOO_NAME] + " whines, trying to cover it with her hands.  Of course, that only makes it harder, and a bead of oily pre-cum beads at the tip.  You could get used to this.  <b>" + Flags.list[FlagEnum.GOO_NAME] + " now has a " + num2Text(Flags.list[FlagEnum.GOO_DICK_LENGTH]) + "-inch ");
+			DisplayText("\n\n\"<i>You're making it harder!</i>\" " + Flags.list[FlagEnum.GOO_NAME] + " whines, trying to cover it with her hands.  Of course, that only makes it harder, and a bead of oily pre-cum beads at the tip.  You could get used to this.  <b>" + Flags.list[FlagEnum.GOO_NAME] + " now has a " + numToCardinalText(Flags.list[FlagEnum.GOO_DICK_LENGTH]) + "-inch ");
 			if (item === consumables.MINOBLO) DisplayText("horse-");
 			DisplayText("cock!</b>");
 			gooObedience(5);
@@ -712,18 +712,18 @@
 			}
 			gooObedience(2);
 		}
-		menu();
+		
 		MainScreen.addButton(0, "Next", approachLatexy);
 	}
 	//Setting Preferred Bust Size(F)
-	private setLatexysBustSize(): void {
+	private setLatexysBustSize() {
 		DisplayText().clear();
 		DisplayText("You ask " + Flags.list[FlagEnum.GOO_NAME] + " if she wouldn't mind keeping her tits around a certain size.");
 		//Low Obedience
 		if (gooObedience() < 60) {
 			DisplayText("\n\nShe puts her hands on her hips and shouts, \"<i>As if!  I'll make 'em as big or as small as I want!  You're already getting a sexy latex woman who's dependent on you for sexual fluids - you don't need to micromanage everything about me too!</i>\"  She blushes a little when she realized she just discussed her new self as 'sexy'.  She must like this a little more than she lets on.");
 			gooObedience(-2);
-			menu();
+			
 			MainScreen.addButton(0, "Next", approachLatexy);
 			return;
 		}
@@ -733,7 +733,7 @@
 		else {
 			DisplayText("\n\nShe nods and casually hefts her tits in her hands, bouncing them back and forth with a slutty expression on her face.  \"<i>How big do you want me to be, [Master]?  I could be a big-breasted whore for you, barely able to move under the weight of my own tits.  Then you'd have a mountain of latex cleavage to play in.  Or, I could keep them as pert, apple-sized breasts that just barely fit into your hands.  I'd be a glossy, petite slut for you then, wouldn't I?</i>\"  She groans at the thoughts coursing through her obedient, depraved little mind and whimpers, \"<i>Just keep me well fed if you want them full, [Master].  Without enough fluid, I can't keep them big!</i>\"  " + Flags.list[FlagEnum.GOO_NAME] + " watches you, awaiting the command to change herself.");
 		}
-		menu();
+		
 		if (gooTitClass(gooTitSize()) != 1) MainScreen.addButton(0, "A-Cups", changeLatexyTits, 1);
 		if (gooTitClass(gooTitSize()) != 2) MainScreen.addButton(1, "C-Cups", changeLatexyTits, 3);
 		if (gooTitClass(gooTitSize()) != 3) MainScreen.addButton(2, "DD-Cups", changeLatexyTits, 4);
@@ -756,7 +756,7 @@
 
 
 	//She Changes Her Bust Size(F)
-	private changeLatexyTits(arg: number = 0): void {
+	private changeLatexyTits(arg: number = 0) {
 		DisplayText().clear();
 		//PC wants tits bigger than current preferred and fluid not sufficient to reach new size
 		if (gooTitClass(arg) > gooTitClass(Flags.list[FlagEnum.GOO_PREFERRED_TIT_SIZE]) && gooTitClass(Flags.list[FlagEnum.GOO_FLUID_AMOUNT] / 2) < gooTitClass(arg)) {
@@ -808,7 +808,7 @@
 		}
 		//To A {light} sized:
 		else if (gooTitClass(arg) === 1 && arg > 0) {
-			DisplayText(Flags.list[FlagEnum.GOO_NAME] + " says, \"<i>I'll look anemic!  The other goo-girls will think I'm starving!</i>\"  You give her a condescending look and she sighs.  \"<i>All right, all right.  If my [master] wants tiny tits, " + player.mf("he'll", "she'll") + " get them.</i>\"  She grabs hold of her " + gooTits() + " and compresses them in her grip.  Amazingly, the latex chest-flesh recedes into her as she pushes, diminishing before your very eyes.  She whimpers when they hit B-cups and groans when they reach A's.  " + Flags.list[FlagEnum.GOO_NAME] + " pulls her hands away to show you the fruits of her labors - two tiny breasts, each barely a palmful.  A river of latex lubricants runs from her cleft, her arousal enhanced by the very act of obeying you against her wishes.");
+			DisplayText(Flags.list[FlagEnum.GOO_NAME] + " says, \"<i>I'll look anemic!  The other goo-girls will think I'm starving!</i>\"  You give her a condescending look and she sighs.  \"<i>All right, all right.  If my [master] wants tiny tits, " + Desc.Gender.mf(player, "he'll", "she'll") + " get them.</i>\"  She grabs hold of her " + gooTits() + " and compresses them in her grip.  Amazingly, the latex chest-flesh recedes into her as she pushes, diminishing before your very eyes.  She whimpers when they hit B-cups and groans when they reach A's.  " + Flags.list[FlagEnum.GOO_NAME] + " pulls her hands away to show you the fruits of her labors - two tiny breasts, each barely a palmful.  A river of latex lubricants runs from her cleft, her arousal enhanced by the very act of obeying you against her wishes.");
 		}
 		else {
 			DisplayText(Flags.list[FlagEnum.GOO_NAME] + " blushes and gives you a smile that would be radiant, were it not on a midnight black canvas.  \"<i>Thank you.</i>\"");
@@ -824,11 +824,11 @@
 	//Can be fed directly or indirectly.  
 	//Direct feeding boosts happiness a fair bit but reduces obedience until obedience is over 50.
 	//Indirect feeding increases happiness somewhat.
-	private feedLatexy(): void {
+	private feedLatexy() {
 		DisplayText().clear();
 		DisplayText("How will you feed her?");
 		if (player.stats.lust < 33 && player.gender > 0) DisplayText("  You aren't aroused enough to try and feed her any sexual fluids.");
-		menu();
+		
 		if (player.torso.cocks.count > 0 && player.stats.lust >= 33) {
 			MainScreen.addButton(0, "Cum, Indirect", feedLatexyCumIndirectly);
 			MainScreen.addButton(1, "Cum, Direct", feedLatexyCumDirectly);
@@ -845,7 +845,7 @@
 	}
 
 	//Feed Cum Indirectly(F)
-	private feedLatexyCumIndirectly(): void {
+	private feedLatexyCumIndirectly() {
 		DisplayText().clear();
 		//{1st Time, any indirect scene:  
 		if (Flags.list[FlagEnum.GOO_INDIRECT_FED] === 0) {
@@ -875,7 +875,7 @@
 		else if (player.cumQ() < 1000) DisplayText("dribbling pre-cum");
 		else DisplayText("oozing out a river of pre-cum");
 		DisplayText(".  The sensitive skin around your [cockHead] is the perfect fodder for a quick caress, one that makes your spine tingle with forced sensation.  You pump again and shudder at the exquisite jolt of electric bliss, rocking your hips involuntarily.  " + Flags.list[FlagEnum.GOO_NAME] + " is watching expectantly for the first sign of your jizz.");
-		DisplayText("\n\nRather than disappoint those eager eyes, you cum.  The torrent of heat that swells inside you doubles in power and then, explodes.  You arch your back and pump forward, barely remembering to angle your " + CockDescriptor.describeMultiCockShort(player) + " down toward the bowl before you spurt.  Spooge squirts from ");
+		DisplayText("\n\nRather than disappoint those eager eyes, you cum.  The torrent of heat that swells inside you doubles in power and then, explodes.  You arch your back and pump forward, barely remembering to angle your " + Desc.Cock.describeMultiCockShort(player) + " down toward the bowl before you spurt.  Spooge squirts from ");
 		if (player.torso.cocks.count > 1) DisplayText("all of ");
 		DisplayText("your tip");
 		if (player.torso.cocks.count > 1) DisplayText("s at once");
@@ -897,7 +897,7 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Feed Lady-Cum Indirectly(F)
-	private feedLatexyGirlCumIndirectly(): void {
+	private feedLatexyGirlCumIndirectly() {
 		DisplayText().clear();
 		//{1st Time, any indirect scene:  
 		if (Flags.list[FlagEnum.GOO_INDIRECT_FED] === 0) {
@@ -940,7 +940,7 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Feed Her Minotaur Cum {Nice Vs Hard}:(F)
-	private minotaurCumFeedingGoo(nice: boolean = false): void {
+	private minotaurCumFeedingGoo(nice: boolean = false) {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.MINOCUM);
 		DisplayText("You pull a vial of minotaur cum from the pouches at your waist");
@@ -1010,7 +1010,7 @@
 	}
 
 	//Feed Cum Directly(F)
-	private feedLatexyCumDirectly(): void {
+	private feedLatexyCumDirectly() {
 		DisplayText().clear();
 		DisplayText("Opening your [armor], you let [eachCock] flop free.  " + Flags.list[FlagEnum.GOO_NAME] + " looks down immediately, " + Flags.list[FlagEnum.GOO_EYES] + " eyes locking tightly to [oneCock], raptly watching it stiffen with rising lust.  You take it in hand to heft its weight.  Explaining that this is to be her meal, you give it an encouraging shake.  After all, what kind of master would you be if you didn't feed your goo-girl?");
 		//HUNGRY: 
@@ -1036,7 +1036,7 @@
 		else DisplayText("  O");
 		DisplayText("nyx lips purse idly, slowly spreading as if of their own volition as their mistress bends closer to inhale your scent.  Her smooth nostrils flare as she sniffs at your [cock biggest], savoring the scent of her meal.  Slowly, she's drawn forward to her meal, eventually coming to rest that puckered orifice tightly against your [cockHead biggest].");
 		DisplayText("\n\n" + Flags.list[FlagEnum.GOO_NAME] + " has the sense to look up and give you a wink.  Then, she reveals her tongue - an ebony protrusion that spools without end.  A gleeful smile spreads over " + Flags.list[FlagEnum.GOO_NAME] + "'s raven-hued mouth while her spit-glossed tongue wraps [eachCock] up tight.  Once satisfied, she stretches her jaw downward in order to fully open her mouth.  The puckered lips morph into a distended 'o' and advance, marching down the length of your [cock biggest] with unceasing determination, gleefully devouring your erection.");
-		if (player.torso.cocks.biggestCocks[0].area > 80) DisplayText("  Her throat is stretched so tightly that it appears more like an inky condom than anything else.  Every vein, every variation in length is perfectly represented - until it disappears into her chest.");
+		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area > 80) DisplayText("  Her throat is stretched so tightly that it appears more like an inky condom than anything else.  Every vein, every variation in length is perfectly represented - until it disappears into her chest.");
 		else DisplayText("  Her body, devoid of gag reflex, swallows you with ease.");
 		DisplayText("\n\nWith [oneCock] buried [sheath]-deep in your pet, you cannot help but groan.  You realize, after a moment, that her tongue untwisted as soon as she pulled you in, as you can feel the wet, pulsing walls of the latex woman's throat massaging your length, meticulously stimulating you with the semi-solid pressure that only a goo-girl can provide.  Her innards feel like gelatinous waves cresting over you, warm and gooey all at the same time.  " + Flags.list[FlagEnum.GOO_NAME] + " tenderly milks your [cock biggest], squeezing out a few flows of pre-cum into her belly.  Pulling back, she squeezes a dollop of cream from your [cockHead biggest] as she withdraws, her oily tongue clinging to the underside of your tool as it's abandoned to cool air.");
 		DisplayText("\n\nThe entirety of your maleness is wreathed in slowly solidifying blackness, a liquid latex that makes you appear to wear an inky, leaking condom.  The tightness of it tingles as it snugs tight about you.  It feels good in an unusual way, but you want more!  You grab hold of " + Flags.list[FlagEnum.GOO_NAME] + " by the head and ram forward, hilting yourself back inside that sable fuck-cave, allowing the liquid latex of her core hug you close.  She gives a muffled grunt of surprise, but her expression quickly settles into one of content.  Driven by surging arousal, you bunch her slick strands in your hands and pull her back by her hair, yanking her back and forth.  You're fucking her face, and she loves it!");
@@ -1080,13 +1080,13 @@
 		//{DISOBEDIENT:}
 		else {
 			DisplayText("\n\nAt the sound of your command, her suction redoubles.  That suckling heat plumps your [cock biggest] even bigger inside her, bombarding you with cacophonous sensation that scatters your bodily control like leaves in the breeze.  You give a strangled whimper as you slide down the stone, landing softly on your [butt] before the sensuous shape of your rebellious pet.  Her lips are locked vacuum tight to your groin, pumping up and down with wet, hungry smacks.  You arch your back into her ministrations, rolling your eyes back into your head.  What need is there for sight when the jolts of pleasure coming from your [cock biggest] are so powerful that they make the previous orgasm seem a wasted, worthless thing.");
-			menu();
+			
 			MainScreen.addButton(0, "Let Her", maleDirectFeedLatexGooGoneWrong);
 			MainScreen.addButton(1, "Try2Assert", tryToAssertMaleDomWhileLatexGooDrains);
 		}
 	}
 
-	private maleDirectFeedLatexGooGoneWrong(): void {
+	private maleDirectFeedLatexGooGoneWrong() {
 		DisplayText().clear();
 		if (player.torso.cocks.count > 1) {
 			DisplayText("A flawless hand wraps around ");
@@ -1102,7 +1102,7 @@
 		DisplayText("your cum-slit");
 		if (player.torso.cocks.count > 1) DisplayText("s");
 		DisplayText(".  " + Flags.list[FlagEnum.GOO_NAME] + " looks up at your seizing body, smiling wide around her ");
-		if (player.torso.cocks.biggestCocks[0].area > 80) DisplayText("impressive ");
+		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area > 80) DisplayText("impressive ");
 		DisplayText("mouthful of cock as it pumps directly into her belly, allowing her to drink even more deeply of your essence.");
 		DisplayText("\n\n" + Flags.list[FlagEnum.GOO_NAME] + " releases you from your oral imprisonment long enough to leak a few trailing strands of spunk from your [cockHead biggest].  ");
 		if (player.torso.cocks.count === 1) DisplayText("Her hands fixate on your slick, black-coated length, beginning to stroke it with eager pumps");
@@ -1120,14 +1120,14 @@
 		DisplayText(" into something that gives you even stronger strokes of pleasure.  If you could roll your eyes down to look, you'd see " + Flags.list[FlagEnum.GOO_NAME] + "'s fingers merging together, joining into a single cylinder.  Dark-oil begins to drip from that tight grip, made all the more difficult to endure by the pleasant, purple-tinged latex lips that form on the bottom of her 'hand', a mock-pussy complete with latex-based lubricant.  At the bottom of every downstroke, your dick bursts free from the top, appearing just long enough for her to slurp languidly on your [cockHead].");
 		DisplayText("\n\nOrgasm slams into you with the force of a sledgehammer, turning your vision red and ringing your ears.  More wet slurps and squelches emanate from your groin as " + Flags.list[FlagEnum.GOO_NAME] + " drinks deeper of your essence, coaxing fresh spurts of white from your thoroughly milked [balls].  As you fire your liquid bliss into her, your tired eyelids close.");
 		DisplayText("\n\n\"<i>You're not done yet, are you?</i>\" a sultry voice whispers, accompanied by fresh ministrations to your maleness.  \"<i>You promised to feed me, [Master], now come on, squirt in my slippery squeezes.  Give me your spunk!</i>\"  The voice begs and pleads, only silencing itself to plant itself back on your [cock biggest] again.  You lapse from conscious thought, only stirring to lift your hips high and release a fresh draught of nutrients for your greedy pet.");
-		menu();
+		
 		player.orgasm();
 		player.stats.lib += .5;
 		player.stats.sens += -3;
 		MainScreen.addButton(0, "Next", feedCumDirectEpilogue);
 	}
 	//[Next]
-	private feedCumDirectEpilogue(): void {
+	private feedCumDirectEpilogue() {
 		DisplayText().clear();
 		DisplayText("You wake with your mouth so dry that it feels like sandpaper.  Looking around, you see " + Flags.list[FlagEnum.GOO_NAME] + " slumbering in the corner, looking rather... full and fecund, plump with weight.  You feel equally, obnoxiously empty.  Your groin is tingling painfully from the forceful draining.  Staggering away toward some water, you realize you'll have to raise her obedience if you want her to stop on command.  Letting her drink so deeply probably didn't help either.");
 		temp = 50
@@ -1140,11 +1140,11 @@
 		return { next: Scenes.camp.returnToCampUseFourHours };
 	}
 	//Feed Lady-Cum Direct(F)
-	private feedLatexyGirlCumDirect(): void {
+	private feedLatexyGirlCumDirect() {
 		DisplayText().clear();
 		DisplayText("Gently shimmying out of your [armor], you languidly stretch and offhandedly mention that it's feeding time.");
 		if (player.torso.cocks.count > 0) {
-			DisplayText("  When " + Flags.list[FlagEnum.GOO_NAME] + " glances to your " + CockDescriptor.describeMultiCockShort(player) + ", you tut and ");
+			DisplayText("  When " + Flags.list[FlagEnum.GOO_NAME] + " glances to your " + Desc.Cock.describeMultiCockShort(player) + ", you tut and ");
 			if (player.torso.balls.quantity > 0) DisplayText("lift your [balls]");
 			else DisplayText("shift position");
 			DisplayText(" to show your [vagina].");
@@ -1212,13 +1212,13 @@
 		//{DISOBEDIENT; chose not to/could not Assert Control}
 		else {
 			DisplayText("\n\nAt the sound of your order, your pet's efforts redouble.  Her slick onyx opening latches tight to your [clit] while what feels like a foot of thick tongue thrashes inside you.  As sensitive as you are after cumming, you simply can't endure such rampant stimulation.  The strength goes out of your [legs] in weak little twitches as you slump back against a boulder, the rough stone slowing your descent as you slide to the ground.  " + Flags.list[FlagEnum.GOO_NAME] + "'s mouth stays locked to your [vagina], attached with vacuum-like tightness.  You can actually feel your vulva puffing larger under the suction.  Hotter and more sensitive, your labia plump up nice and thick.");
-			menu();
+			
 			MainScreen.addButton(0, "Let Her", letLatexGooDrainCuntDry);
 			MainScreen.addButton(1, "Try2Assert", assertControlOverCuntDrainingLatexGoo);
 		}
 	}
 
-	private letLatexGooDrainCuntDry(): void {
+	private letLatexGooDrainCuntDry() {
 		DisplayText().clear();
 		DisplayText(Flags.list[FlagEnum.GOO_NAME] + "'s face remains firmly, stubbornly attached to your loins.  No matter how you writhe or push against her, she stays latched onto your [vagina].  The near supernatural pleasure has turned your arms to jello, and you slump back ineffectually after a few attempts at freedom.  The " + Flags.list[FlagEnum.GOO_EYES] + " of your hungry pet's eyes watches you, unblinking.  Mercilessly, she tongues your sodden slit to another orgasm.  The slippery latex lips slip and slide across your womanhood as sexual ecstasy subsumes your thoughts, eyes rolling back as your mind dedicates the whole of its power to simply experiencing the pleasure that's thrust upon you.");
 		DisplayText("\n\nWordlessly, you writhe on " + Flags.list[FlagEnum.GOO_NAME] + " until the orgasm finally releases you from its grip.  Your pet goo pulls back, even withdrawing her tongue from your well-juiced box.  Her fist doesn't waste any time in replacing in.  In fact, as the smooth limb slides home, you can feel the bulkiest parts smoothing, shaping it into a cylindrical object with a noticeable ridge just above the 'wrist'.  " + Flags.list[FlagEnum.GOO_NAME] + " giggles, \"<i>Gosh, you taste good, and we goo girls... we love to drink.  Mmm...</i>\"  Her voice trails into a hum of delight as she digests your newest offering, eventually returning to say, \"<i>Your little slit here seems awful happy, [name]... I don't want to stop, and it's so sweet, so delectable...  Swallowing your cum makes my pussy gush and my stomach purr.  You don't mind if I sample a few more swallows do you?</i>\"");
@@ -1227,7 +1227,7 @@
 		else DisplayText("  She happily licks and sucks your most sensitive spot in time with the pumping of her arm.");
 		DisplayText("  The lurid squelches of her pumping, dildo-like limb fill the air, easily drowning out your more coherent vocalizations.  There's nothing you can do but cum for your latex goo-girl.  Nothing to do but feel pleasure and orgasm, feeding her every drop of your liquid pleasure, again and again.");
 		DisplayText("\n\nA whimper of protest slips out of your mouth, your [vagina] cums again, and " + Flags.list[FlagEnum.GOO_NAME] + " drinks deeply once more.  With eyelids fluttering closed, you pass beyond conscious awareness, yielding your body to " + Flags.list[FlagEnum.GOO_NAME] + " to claim again and again.");
-		menu();
+		
 		player.orgasm();
 		player.stats.lib += .5;
 		player.stats.sens += -3;
@@ -1235,7 +1235,7 @@
 	}
 
 	//[Next]
-	private feedCumDirectEpilogueGirls(): void {
+	private feedCumDirectEpilogueGirls() {
 		DisplayText().clear();
 		DisplayText("You wake with your mouth so dry that it feels like sandpaper.  Looking around, you see " + Flags.list[FlagEnum.GOO_NAME] + " slumbering in the corner, looking rather... full and fecund, plump with weight.  You feel equally, obnoxiously empty.  Your groin is tingling painfully from the forceful suckling.  Staggering away toward some water, you realize you'll have to raise her obedience if you want her to stop on command.  Letting her drink so deeply probably didn't help either.");
 		gooFluid(50 + player.torso.vaginas.get(0).wetness * 8);
@@ -1248,7 +1248,7 @@
 	/*Savin Says: Disobedient Pets get Punished with Gentle Loving PC-Dom (FEMALE)(F)*/
 
 	//[Display option to \"<i>Assert Control</i>\" with Moderate strength check if achieve Femdom end to direct feed scene: \"<i>You're strong enough to pull her off before she utterly dominates you!</i>\"]
-	private assertControlOverCuntDrainingLatexGoo(): void {
+	private assertControlOverCuntDrainingLatexGoo() {
 		if (player.stats.str < 40 || player.stats.str / 10 + randInt(20) + 1 < 9) {
 			letLatexGooDrainCuntDry();
 			return;
@@ -1260,10 +1260,10 @@
 		else DisplayText("[Master]");
 		DisplayText("</i>\" she mewls, giving you a long, tentative lick between your womanly folds.  You hold her firmly, telling her to prove just how sorry she is.  Your breath catches in your throat as her long, slick tongue slides through you again, stopping to swirl and tease your sensitive [clit], sending shudders of sudden pleasure wracking through you.");
 		DisplayText("\n\n\"<i>Good girl,</i>\" you moan, arching your back as she slithers more and more of her long tongue into you, filling your [cunt] with black latex.  You run your fingers through her hair, urging " + Flags.list[FlagEnum.GOO_NAME] + " on as she begins to explore your passage, still delightfully sensitive and malleable after the recent face-fucking you just received from her.  More and more of her creeps into you, spreading your vaginal walls wide until the tip of her tongue tickles the mouth of your cervix, pleasantly circling it with slow, rhythmic motions.  You remind " + Flags.list[FlagEnum.GOO_NAME] + " that this is how it ought to be, with her meekly servicing your needy cunt as you desire; not her trying to dominate you. That isn't how this works, and she should know better by now.");
-		DisplayText("\n\n\"<i>I'm sowwy, " + player.mf("Mashta", "Mishtrish") + ",</i>\" she mumbles, her words slurred by her tongue being fully buried inside you.  She retracts herself from you, leaving you feeling empty and cold as she adds, \"<i>I didn't mean to, Master... I just, lose control...</i>\"  You smile down at the little latex girl and tell her that she doesn't need to worry.  You'll always be here to keep her nice and full with delicious femcum, so full that she's fit to burst with how much you've given her.  " + Flags.list[FlagEnum.GOO_NAME] + " squirms, stirred by your words, and looking over your shoulders, you can see a fresh sprout of liquid latex pouring down between her thighs.");
+		DisplayText("\n\n\"<i>I'm sowwy, " + Desc.Gender.mf(player, "Mashta", "Mishtrish") + ",</i>\" she mumbles, her words slurred by her tongue being fully buried inside you.  She retracts herself from you, leaving you feeling empty and cold as she adds, \"<i>I didn't mean to, Master... I just, lose control...</i>\"  You smile down at the little latex girl and tell her that she doesn't need to worry.  You'll always be here to keep her nice and full with delicious femcum, so full that she's fit to burst with how much you've given her.  " + Flags.list[FlagEnum.GOO_NAME] + " squirms, stirred by your words, and looking over your shoulders, you can see a fresh sprout of liquid latex pouring down between her thighs.");
 		DisplayText("\n\nYou release " + Flags.list[FlagEnum.GOO_NAME] + "'s head, leaving one hand to stroke her hair as your other plays down her slick, smooth skin, tracing along her shapely curves and huge, jiggling breasts until your fingertips brush along her thighs.  She gasps as a single digit plunges into her, sliding up to the knuckle into her ready cunt in one slow, languid motion.  Your other hand guides her head upwards, urging her back to her duties; she hesitates for a moment, but so do you, both still holding until she finally accepts your demand and resumes, her tongue flicking out to play along your [cunt].  \"<i>Good girl,</i>\" you say again, and start to move your hand, gently fingering her pussy as she tongues up the lubricant freely leaking from your loins.");
 		DisplayText("\n\nBefore she can fall into a rhythm of tongue-fucking you, though, you decide to reward her newfound submissiveness: you twist around, leaving her pinned beneath your [legs] as you move your head between her shapely thighs.  You breathe in deep, reveling in the smell of her as " + Flags.list[FlagEnum.GOO_NAME] + " slips her long tongue back into you, filling your empty [cunt] with her oral appendage.  You return the favor, gently sliding your middle-three fingers into her eager twat, stretching her until you can slide the whole of your fist in.  She gasps, her breath hot on your sensitive box, but you don't skip a beat as you push your fist into her, sliding in until you run out of cunt to fill.  You start to move, fisting her with slow, gentle motions, enjoying the feeling of her slick passage desperately contracting around the huge block inside it, trying to push you out as you push in; trying to suck you in as you pull out to the knuckles.");
-		DisplayText("\n\n\"<i>" + player.mf("Masterrrr", "Mistriiiiissss") + "!</i>\"  " + Flags.list[FlagEnum.GOO_NAME] + " groans, rolling her head back as you fist-fuck her. She redoubles her oral ministrations, eagerly lapping at your sodden box, desperately trying to bring you to orgasm even as lube spurts liberally from between her legs, signaling her impending climax.  You're closer, though, so close to the edge that you'd cum even if she stopped.  But she wouldn't dare, instead grasping your thighs and shoving her face between your [legs], slurping her tongue through you with mind-wrecking speed.");
+		DisplayText("\n\n\"<i>" + Desc.Gender.mf(player, "Masterrrr", "Mistriiiiissss") + "!</i>\"  " + Flags.list[FlagEnum.GOO_NAME] + " groans, rolling her head back as you fist-fuck her. She redoubles her oral ministrations, eagerly lapping at your sodden box, desperately trying to bring you to orgasm even as lube spurts liberally from between her legs, signaling her impending climax.  You're closer, though, so close to the edge that you'd cum even if she stopped.  But she wouldn't dare, instead grasping your thighs and shoving her face between your [legs], slurping her tongue through you with mind-wrecking speed.");
 		DisplayText("\n\nYou jam your fist as far into " + Flags.list[FlagEnum.GOO_NAME] + " as you can before you cum, making her shriek in pleasure and sending reverberations through your cunt as you rocket over the edge.  Your [cunt] practically explodes with femcum, showering " + Flags.list[FlagEnum.GOO_NAME] + "'s face with it as your box squeezes down on her tongue, trapping her inside you as you pound her box, throwing her into orgasmic throes beneath you, her tongue writhing and squirming inside you to further your pleasure.");
 		DisplayText("\n\nWhen your second orgasm passes, you roll limply off of " + Flags.list[FlagEnum.GOO_NAME] + ", utterly sated.  Your [chest] heaving, you sigh peacefully as you close your heavy lids, eager to rest.  A moment later, though, you feel slick skin press against your own as " + Flags.list[FlagEnum.GOO_NAME] + " curls up beside you, her face inches from your own.  With a wan smile, you reach out and run your fingers through her hair before pulling her into a long kiss that leaves the taste of womanhood on your lips.");
 		//{Low happiness}
@@ -1283,7 +1283,7 @@
 
 	//Savin Says: Disobedient Pets get Punished with Gentle Loving PC-Dom (MALE)
 	//[Display option to \"<i>Assert Control</i>\" with Moderate strength check if achieve Femdom end to direct feed scene: \"<i>You're strong enough to pull her off before she utterly dominates you!</i>\"]
-	private tryToAssertMaleDomWhileLatexGooDrains(): void {
+	private tryToAssertMaleDomWhileLatexGooDrains() {
 		if (player.stats.str < 40 || player.stats.str / 10 + randInt(20) + 1 < 9) {
 			maleDirectFeedLatexGooGoneWrong();
 			return;
@@ -1321,11 +1321,11 @@
 	//Dominant Fucking Her(F)
 	//Requires obedience of 60+
 	//Female Dominant Fuck (Goo No Futa)(F)
-	private femalePCDomFucksLatexGoo(): void {
+	private femalePCDomFucksLatexGoo() {
 		DisplayText().clear();
 		DisplayText("You start to undress, remarking to " + Flags.list[FlagEnum.GOO_NAME] + " that you've got an itch she'd be great at scratching.  As if your language wasn't clear enough, you ");
 		if (player.torso.balls.quantity > 0) DisplayText("lift your [sack] out of the way to ");
-		else if (player.torso.cocks.count > 0) DisplayText("lift your " + CockDescriptor.describeMultiCockShort(player) + " out of the way to ");
+		else if (player.torso.cocks.count > 0) DisplayText("lift your " + Desc.Cock.describeMultiCockShort(player) + " out of the way to ");
 		DisplayText("expose your [vagina], labia already engorged and rosy with lust.");
 
 		//{NOT OBEDIENT ENOUGH}
@@ -1364,7 +1364,7 @@
 		}
 		else DisplayText(", pinching your [nipples]");
 		DisplayText(".  Arching your back, you grab hold of " + Flags.list[FlagEnum.GOO_NAME] + " by the ankles and drag her against you.  She whimpers at the pressure on her nethers, too sensitive to endure what you're forcing her to experience.  A high-pitched trill of excitement splits the air.  " + Flags.list[FlagEnum.GOO_NAME] + " is cumming, hard by the sounds of it.  Hot, inky discharge splatters across your [clit] and into your [vagina].");
-		if (player.torso.cocks.count > 0) DisplayText("  Some of it even splats onto your " + CockDescriptor.describeMultiCockShort(player) + ", leaving tight black spots on your maleness.");
+		if (player.torso.cocks.count > 0) DisplayText("  Some of it even splats onto your " + Desc.Cock.describeMultiCockShort(player) + ", leaving tight black spots on your maleness.");
 		if (Flags.list[FlagEnum.GOO_DICK_LENGTH] > 0) DisplayText("  Her " + gooCock() + " practically bursts from within, distending to accommodate its lurid latex discharge.  Most of it splatters against " + Flags.list[FlagEnum.GOO_NAME] + "'s skin and rolls down her flesh in a march of onyx droplets.");
 		DisplayText("\n\nAs her essence burrows inside you, your [vagina] clenches of its own volition.  Your eyes roll back from the ecstasy your netherlips jolt into your spine, and you pull tighter on your toy's legs, dragging her oily quim tighter against your goo-gilt slit.  The two latex pussies gush and gleam with each other's hot lubricants.  They quiver feverishly, clits rigid and erect, happily sharing in feminine bliss.  There's two voices screaming, crying out to the heavens in mismatched harmony.  The higher one dies down to a low moan of contentment, and once your cunt slackens in the aftermath of your orgasm, you realize the second is your own.");
 		DisplayText("\n\nYou mash your [vagina] against " + Flags.list[FlagEnum.GOO_NAME] + "'s a few more times to savor the aftershocks of climax.  She grunts each time, her mouth widening into simple 'o's.  The sensuously skinned lady fails can't even scream any more.  The best she can do is moan, low and lewd as you finish using her.  As you slowly begin to separate, a tangle of sable webs hangs in the air, glittering with a coating of femcum.  Some of them are already semi-solid and snap at your withdrawal.  The others just come apart, wetly slapping against each twat as they separate.");
@@ -1391,7 +1391,7 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Female Dominant Fuck (Goo IS Futa)(F)
-	private femalePCDomFucksLatexGooFuta(): void {
+	private femalePCDomFucksLatexGooFuta() {
 		DisplayText().clear();
 		DisplayText("You begin to remove your [armor] under " + Flags.list[FlagEnum.GOO_NAME] + "'s curious eye.  She asks, \"<i>[name], what are you doing?</i>\"");
 		DisplayText("\n\nWith a salacious wiggle of your [hips], you tell her that you're going to fuck her - to ride her shining pole to orgasm after orgasm.  " + Flags.list[FlagEnum.GOO_NAME] + "'s " + gooCock() + " immediately stiffens, hard and proud.  ");
@@ -1427,7 +1427,7 @@
 		else if (player.tallness >= 60) DisplayText("into your neck");
 		else DisplayText("over your head");
 		DisplayText(", trying to pull herself up against you, deeper inside you.");
-		player.displayStretchVagina(Flags.list[FlagEnum.GOO_DICK_LENGTH] * Flags.list[FlagEnum.GOO_DICK_LENGTH] / 6, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, Flags.list[FlagEnum.GOO_DICK_LENGTH] * Flags.list[FlagEnum.GOO_DICK_LENGTH] / 6, true, true, false);
 
 		DisplayText("\n\nYou bounce atop " + Flags.list[FlagEnum.GOO_NAME] + " faster and faster");
 		if (Flags.list[FlagEnum.GOO_DICK_LENGTH] * Flags.list[FlagEnum.GOO_DICK_LENGTH] / 6 <= player.vaginalCapacity()) DisplayText(", your [butt] clapping wetly against her onyx thighs");
@@ -1442,19 +1442,19 @@
 			DisplayText(", you turn around to face her, pressing your [chest] into hers.");
 			if (Flags.list[FlagEnum.GOO_NIPPLE_TYPE] === -1) {
 				DisplayText("  Her nipple-cunts ");
-				if (player.torso.chest.hasFuckableNipples()) DisplayText("kiss yours");
+				if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("kiss yours");
 				else DisplayText("swallow your nipples");
 				DisplayText(".");
 			}
 			else if (Flags.list[FlagEnum.GOO_NIPPLE_TYPE] === 1) {
 				DisplayText("  Her nipple-cocks ");
-				if (!player.torso.chest.hasFuckableNipples()) DisplayText("smear over the tops of your tits");
+				if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("smear over the tops of your tits");
 				else DisplayText("disappear into your nipplecunts");
 				DisplayText(".");
 			}
 			else {
 				DisplayText("  Her nipples ");
-				if (!player.torso.chest.hasFuckableNipples()) DisplayText("rub all over your own");
+				if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("rub all over your own");
 				else DisplayText("dock into your nipple-cunts");
 				DisplayText(".");
 			}
@@ -1469,7 +1469,7 @@
 		DisplayText("\n\nYou clench down on the " + gooCock() + " without warning, immediately setting to massaging it with your velvety interior.  Your pussy seems to know just what to do in order to get what it wants, and " + Flags.list[FlagEnum.GOO_NAME] + " is no match.  She stutters, \"<i>G-g-g-onna... OHGODS!</i>\" and begins to spurt, sputtering streams of onyx goop straight into your womb.  Her lips crush back into place, silencing her whimpers of bliss");
 		if (!player.torso.hips.legs.isTaur()) DisplayText(" along with your own");
 		DisplayText(".  Together, the two of you give in to ecstasy and cum... and cum... and cum.");
-		if (player.torso.cocks.count > 0) DisplayText("  White erupts from your " + CockDescriptor.describeMultiCockShort(player) + " with abandon.  You don't even care that it stains " + Flags.list[FlagEnum.GOO_NAME] + "'s " + gooTits() + ".  It feels so good and she looks so pretty with strands of icing spattering over top of her.");
+		if (player.torso.cocks.count > 0) DisplayText("  White erupts from your " + Desc.Cock.describeMultiCockShort(player) + " with abandon.  You don't even care that it stains " + Flags.list[FlagEnum.GOO_NAME] + "'s " + gooTits() + ".  It feels so good and she looks so pretty with strands of icing spattering over top of her.");
 		if (player.torso.cocks.count > 0 && player.cumQ() >= 750) DisplayText("  Of course, you quickly bury those strands in a wave of alabaster.");
 		DisplayText("\n\n" + Flags.list[FlagEnum.GOO_NAME] + " hugs you tight as she finishes unloading inside you.  Those last few squirts of sable spunk make your cunny feel like a mush of pleasure.  Sighing contentedly, you rise up off of your conquest");
 		if (Flags.list[FlagEnum.GOO_DICK_TYPE] === CockType.DOG) DisplayText(", ignoring the loud 'pop' of her knot slipping free,");
@@ -1492,9 +1492,9 @@
 	}
 
 	//Male Dominant Fuck(F)
-	private malePCDomFucksLatexGoo(): void {
+	private malePCDomFucksLatexGoo() {
 		DisplayText().clear();
-		DisplayText("You open your [armor] to expose your " + CockDescriptor.describeMultiCockShort(player) + " to your latex-based lover.  She eyes it with unabashed affection and licks her lips unthinkingly, already tasting the flavor of semen on her tongue.  " + Flags.list[FlagEnum.GOO_NAME] + " jolts out of her reverie to ask, \"<i>What are you doing");
+		DisplayText("You open your [armor] to expose your " + Desc.Cock.describeMultiCockShort(player) + " to your latex-based lover.  She eyes it with unabashed affection and licks her lips unthinkingly, already tasting the flavor of semen on her tongue.  " + Flags.list[FlagEnum.GOO_NAME] + " jolts out of her reverie to ask, \"<i>What are you doing");
 		if (gooObedience() > 50) DisplayText(", [Master]");
 		DisplayText("?</i>\"");
 		DisplayText("\n\nYou take her chin in your palm and tilt her up to look at you as you explain.  You intend to fuck her nice and hard.  Then, you're going to blow a nice thick load in her stretchy, gooey little pussy until there's ribbons of white dripping out of her slit.  " + Flags.list[FlagEnum.GOO_NAME] + " blushes violet at your proclamation.  Between her knees, a few drops fall unbidden to the ground.  Solid black nipple");
@@ -1525,21 +1525,21 @@
 		else if (player.stats.cor < 66) DisplayText("Smiling knowingly");
 		else DisplayText("Tired of her blather");
 		DisplayText(", you grab her by the head and pull her forward.  She gets the idea and spreads her mouth into a wide 'O', just in time for [oneCock] to pop inside, sliding through the onyx opening with an accompanying groan of delight from your throat.  Your lover's gooey neck allows you to enter it, ");
-		if (player.torso.cocks.biggestCocks[0].area < 80) DisplayText("easily encompassing your erection");
+		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area < 80) DisplayText("easily encompassing your erection");
 		else DisplayText("gleefully stretching into a mold of your erection as it passes into her core");
-		DisplayText(".  Past her mouth, her insides become far less solid.  It feels like a mass of warm goo that deep inside her, and combined with the feel of her slippery tongue caressing the underside of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ", you feel like you're in heaven.");
+		DisplayText(".  Past her mouth, her insides become far less solid.  It feels like a mass of warm goo that deep inside her, and combined with the feel of her slippery tongue caressing the underside of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", you feel like you're in heaven.");
 		if (player.torso.cocks.count > 1) {
 			DisplayText("  It gets even better when she grabs your remaining member");
 			if (player.torso.cocks.count > 2) DisplayText("s");
 			DisplayText(" and starts to pump with sure strokes.");
 		}
-		DisplayText("\n\n" + Flags.list[FlagEnum.GOO_NAME] + "'s vibrant " + Flags.list[FlagEnum.GOO_EYES] + " eyes look up at you as her cheeks hollow to provide suction.  You groan again, this time slowly pulling her head back.  As she withdraws, her slick black spit drips from your dick, though much of it gradually hardens into a reflective sheath for your tool.  You draw her off until only your " + player.cockHead() + " remains inside that suckling pleasure-hole.  Then, you slam her down, fucking her mouth");
-		if (player.torso.cocks.biggestCocks[0].area >= 10 && player.torso.cocks.biggestCocks[0].area < 50) DisplayText(" and throat");
-		else if (player.torso.cocks.biggestCocks[0].area >= 50) DisplayText(", throat, and body");
+		DisplayText("\n\n" + Flags.list[FlagEnum.GOO_NAME] + "'s vibrant " + Flags.list[FlagEnum.GOO_EYES] + " eyes look up at you as her cheeks hollow to provide suction.  You groan again, this time slowly pulling her head back.  As she withdraws, her slick black spit drips from your dick, though much of it gradually hardens into a reflective sheath for your tool.  You draw her off until only your " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " remains inside that suckling pleasure-hole.  Then, you slam her down, fucking her mouth");
+		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area >= 10 && player.torso.cocks.sort(Cock.LargestCockArea)[0].area < 50) DisplayText(" and throat");
+		else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area >= 50) DisplayText(", throat, and body");
 		DisplayText(" with quick strokes.  Faster and faster you bounce her on your loins");
-		if (player.torso.cocks.biggestCocks[0].area >= 80) DisplayText(", amazed that she can take so much so easily");
+		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area >= 80) DisplayText(", amazed that she can take so much so easily");
 		DisplayText(".  Best of all, her eyes never stop looking up at you, imploring you to cum, to release and stuff her face with spunk.");
-		DisplayText("\n\nWith her looking at you like that, fuck... you're cumming!  You pull her lips tight into your abdominal " + player.skinFurScales() + " and release the boiling bliss within you.  Your jizz jumps out of you in thick ropes, as if it was seeking to escape all this time and just now found freedom.  " + Flags.list[FlagEnum.GOO_NAME] + " smiles around your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " as it pumps its virile goo down her throat, and she grabs hold of your [butt] to press herself against you harder.");
+		DisplayText("\n\nWith her looking at you like that, fuck... you're cumming!  You pull her lips tight into your abdominal " + Desc.Skin.skinFurScales(player) + " and release the boiling bliss within you.  Your jizz jumps out of you in thick ropes, as if it was seeking to escape all this time and just now found freedom.  " + Flags.list[FlagEnum.GOO_NAME] + " smiles around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " as it pumps its virile goo down her throat, and she grabs hold of your [butt] to press herself against you harder.");
 		if (player.cumQ() >= 500) DisplayText("  Squirts of spooge run out of her nostrils after a particularly potent blast, but " + Flags.list[FlagEnum.GOO_NAME] + " doesn't mind or even break her gaze.");
 		if (player.cumQ() >= 1000) DisplayText("  Your copious spunk rounds her belly, but most of that liquid weight transfers to her tits, hips, and ass in moments.");
 		if (player.cumQ() >= 4000) DisplayText("  That isn't enough to keep up with your potency.  A moment later, the corners of her mouth begin to ooze alabaster, squirting out with each pulse.  Poor girl.");
@@ -1553,22 +1553,22 @@
 		if (player.torso.balls.quantity > 0) DisplayText("balls");
 		else DisplayText("cock");
 		DisplayText(".  She whines, but wiggles back in your direction, staying locked on her target in spite of the punishment.  An ebony slit, so warm and wet that it feels like it's blowing steam onto your erection, closes the few inches of separating air.");
-		DisplayText("\n\nThe teases have the desired effect on you, and you yank her down on your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  Like her mouth and throat, her cunt quickly goes gooey once you get past her feminine lips.  Inside, she feels like a combination of warm gelatin and vagina, having all the flexibility and yielding nature of the former combined with the exquisitely textured interior of the latter.  The sensuous, smooth surface of " + Flags.list[FlagEnum.GOO_NAME] + "'s ass rubs over your [hips] as her cunt swallows the entirety of your prick.  Tendrils of inescapable excitement worm their way up your spine, fed by your stiff manhood's orgasm-induced sensitivity.  They send you into what can only be described as a sexual frenzy.");
-		DisplayText("\n\nYou grab " + Flags.list[FlagEnum.GOO_NAME] + "'s hair and pull in between strokes, forcing her to arch her back and display her body in a more pleasing manner.  Smack, smack, smack...  Your [hips] clap against her, growing faster with every moment.  Your hapless fuck-partner whines from pain and excitement, gushing black wetness across your [legs] as she cums.  You spank her rounded bottom again, and as the ripples of your vibration massage your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ", you cum again.  Her slick snatch greedily devours the first few spurts your body can offer up.  It even massages your length from root to " + player.cockHead() + " to coax out more.");
+		DisplayText("\n\nThe teases have the desired effect on you, and you yank her down on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  Like her mouth and throat, her cunt quickly goes gooey once you get past her feminine lips.  Inside, she feels like a combination of warm gelatin and vagina, having all the flexibility and yielding nature of the former combined with the exquisitely textured interior of the latter.  The sensuous, smooth surface of " + Flags.list[FlagEnum.GOO_NAME] + "'s ass rubs over your [hips] as her cunt swallows the entirety of your prick.  Tendrils of inescapable excitement worm their way up your spine, fed by your stiff manhood's orgasm-induced sensitivity.  They send you into what can only be described as a sexual frenzy.");
+		DisplayText("\n\nYou grab " + Flags.list[FlagEnum.GOO_NAME] + "'s hair and pull in between strokes, forcing her to arch her back and display her body in a more pleasing manner.  Smack, smack, smack...  Your [hips] clap against her, growing faster with every moment.  Your hapless fuck-partner whines from pain and excitement, gushing black wetness across your [legs] as she cums.  You spank her rounded bottom again, and as the ripples of your vibration massage your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", you cum again.  Her slick snatch greedily devours the first few spurts your body can offer up.  It even massages your length from root to " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " to coax out more.");
 		if (player.cumQ() >= 1000) DisplayText("  This quickly bloats her into a pregnant-looking state, and after her last injection, she has nowhere to metabolize it all.");
 		if (player.cumQ() >= 2000) DisplayText("  You keep going until a torrent of alabaster seed is running out of her cunt around your cock.  Glorious.");
 		if (Flags.list[FlagEnum.GOO_DICK_LENGTH] > 0) DisplayText("  The " + gooCock() + " below noisily fires inky loads into the dirt, where it's quickly absorbed.");
 
-		DisplayText("\n\nStaggering back, you rest against a boulder.  In the process, your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " exits " + Flags.list[FlagEnum.GOO_NAME] + "'s swelteringly sticky slit.  Webs of glittering black lube dangle from your tip to her entrance, mixed with spermy strands of semen.  Transfixed, you watch them break, one by one snapping back to the closest set of genitals.  A bubbly voice cheers, \"<i>That's number two!");
+		DisplayText("\n\nStaggering back, you rest against a boulder.  In the process, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " exits " + Flags.list[FlagEnum.GOO_NAME] + "'s swelteringly sticky slit.  Webs of glittering black lube dangle from your tip to her entrance, mixed with spermy strands of semen.  Transfixed, you watch them break, one by one snapping back to the closest set of genitals.  A bubbly voice cheers, \"<i>That's number two!");
 		if (player.cumQ() >= 1000) DisplayText("  And so messy!  I don't know if I can hold any more!");
 		DisplayText("</i>\"  A hand that appears to be wearing a latex glove smears the juices that hang from " + Flags.list[FlagEnum.GOO_NAME] + "'s mound up and through her crack, coating her asshole with your leftover sperm.");
 		DisplayText("\n\nYou're breathing hard and more than a little exhausted from cumming back to back.  Still, there's a bubbly latex butt just a few feet away, bouncing back and forth hypnotically.  You did say you were going to cream all three holes, didn't you?");
 		DisplayText("\n\n\"<i>Come on, [Master],</i>\" " + Flags.list[FlagEnum.GOO_NAME] + " cheers, \"<i>I'm all ready for your cock... just put it in and I'll take all the cum you've got.</i>\"");
-		DisplayText("\n\nLike hell!  You stagger up from your impromptu brace and grab hold of your sensuous slut once again, this time lining up with her asshole.  You're in charge here, and by gods, you're going to outfuck her!  You spank her bottom on the cheek you've ignored up to now, setting it bouncing.  Before the waves of enticing jiggles can settle, you lurch your [hips] forward and stuff your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " straight into the crinkled latex asshole.  The ebony pucker stretches obscenely around your girth, much tighter than the other two holes you've plumbed today.  Inch after inch of semi-turgid dick-flesh passes into the goo-woman's anus, but not without some difficulty.");
-		DisplayText("\n\nOnce fully inside, her tight sphincter clamps on your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " like a cock-ring, trapping the blood inside so that it gets harder and harder.  Your erection has no trouble returning to full mast with her anal aid, and with freshened lust, you begin to bounce that sable booty on your manhood.  Beyond the tight circle, the familiar, pliant goo you've come to love begins to massage you with liquid pressure.  Waves of force roll all along your length, lapping at it like a dozen tongues, all while you're kept super-hard by her entrance.");
+		DisplayText("\n\nLike hell!  You stagger up from your impromptu brace and grab hold of your sensuous slut once again, this time lining up with her asshole.  You're in charge here, and by gods, you're going to outfuck her!  You spank her bottom on the cheek you've ignored up to now, setting it bouncing.  Before the waves of enticing jiggles can settle, you lurch your [hips] forward and stuff your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " straight into the crinkled latex asshole.  The ebony pucker stretches obscenely around your girth, much tighter than the other two holes you've plumbed today.  Inch after inch of semi-turgid dick-flesh passes into the goo-woman's anus, but not without some difficulty.");
+		DisplayText("\n\nOnce fully inside, her tight sphincter clamps on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " like a cock-ring, trapping the blood inside so that it gets harder and harder.  Your erection has no trouble returning to full mast with her anal aid, and with freshened lust, you begin to bounce that sable booty on your manhood.  Beyond the tight circle, the familiar, pliant goo you've come to love begins to massage you with liquid pressure.  Waves of force roll all along your length, lapping at it like a dozen tongues, all while you're kept super-hard by her entrance.");
 		DisplayText("\n\nAgain and again, you claim your prize's anal star.  Your hips seem to go on autopilot, plumbing that black butthole with rough passion.  Squirts of gooey ink and leftover, smeared spunk dribble out as you fuck her, and you grab hold of her " + gooTits() + ", as if a handhold would help you wrangle the unruly pleasure any better.  " + Flags.list[FlagEnum.GOO_NAME] + " moans, \"<i>Oh, [name]!  Fuck my ass!  Spank me and abuse me, then cum in my ass and tell me how I'm yours!</i>\"");
 		DisplayText("\n\nYou growl and slap her tit for daring to order you around.  It makes her butt squeeze you even harder.  Still, you figure a slut with a little initiative is a good slut, and she showed initiative to beg so creatively.  You reward her by giving her what she wants.  SMACK!  Your hand falls on her backside with a broad blow that you can feel all the way inside her.  She whimpers and drips in answer, so you do it again, this time on the other side.  A bigger rain of drips escapes her this time.  You work the blows into your rhythm - bounce in, bounce out, slap, bounce in, bounce out, slap...  Fuck, she's too tight, and you're too sensitive to hold it in.");
-		DisplayText("\n\nYou cry out, \"<i>Here it comes!</i>\" and hilt yourself inside your latex pet, pinching her nipples hard as you begin to unload inside her.  She trembles beneath you, whining in a high-pitched voice as you whisper, \"<i>My pet...</i>\" into her ear.  While your cock does its best to inseminate the gooey woman, you keep whispering to her, explaining that she is yours, body and soul, to be used and abused.  You even begin to mention kinky ways you can take advantage of her unique form, filling her mind with ideas for future submission as your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " fills the rest of her.");
+		DisplayText("\n\nYou cry out, \"<i>Here it comes!</i>\" and hilt yourself inside your latex pet, pinching her nipples hard as you begin to unload inside her.  She trembles beneath you, whining in a high-pitched voice as you whisper, \"<i>My pet...</i>\" into her ear.  While your cock does its best to inseminate the gooey woman, you keep whispering to her, explaining that she is yours, body and soul, to be used and abused.  You even begin to mention kinky ways you can take advantage of her unique form, filling her mind with ideas for future submission as your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " fills the rest of her.");
 		if (player.cumQ() >= 1000) DisplayText("  Almost immediately, cream drips out around her ass and over your [legs].  She's just too full to take much more - your cum has nowhere to go but out!");
 		if (player.cumQ() >= 2000) {
 			DisplayText("  You cum so much that your spunk forms a nice sized ");
@@ -1580,7 +1580,7 @@
 		if (player.cumQ() >= 1000) DisplayText("of mixed fluids");
 		else DisplayText("of her own leftover sex-juice");
 		DisplayText(".  Every now and again, her butt lifts slightly and jiggles, then lowers.  She's whimpering and twitching, riding the aftershocks of her own orgasm.  You're exhausted, but you stand triumphant.  You fucked your latex slave in all three of her holes and outlasted her to boot.");
-		DisplayText("\n\nAs you get dressed, you realize your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " is totally clean.  It appears glossy, as if shined with spit, but there is no latex residue on it.  Somehow, her asshole must have absorbed her dried girl-cum and saliva back into her.  You didn't expect to get cleaner from anal sex, but it certainly let you end on a high note.  You get dressed with a swagger in your step and head back to the center of camp.");
+		DisplayText("\n\nAs you get dressed, you realize your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " is totally clean.  It appears glossy, as if shined with spit, but there is no latex residue on it.  Somehow, her asshole must have absorbed her dried girl-cum and saliva back into her.  You didn't expect to get cleaner from anal sex, but it certainly let you end on a high note.  You get dressed with a swagger in your step and head back to the center of camp.");
 		DisplayText("\n\nIn your absence, a tired voice sighs, \"<i>That's... three.</i>\"");
 		temp = 15;
 		player.orgasm();
@@ -1599,7 +1599,7 @@
 	//Savin Really Wants to Breastfeed Latexy Because He's a Weird Milk Fetishist Like That
 	//Mmm milk
 	//[Requirements: PC must be lactating, of course, and have C+ cup tits. Also high Happiness because I like lovey dovey stuff, okay?]
-	private feedLatexySomeMilk(): void {
+	private feedLatexySomeMilk() {
 		DisplayText().clear();
 		DisplayText("You cup your hands under your milk-laden breasts and ask " + Flags.list[FlagEnum.GOO_NAME] + " if she's hungry.");
 		//{Not hungry}

@@ -1,6 +1,6 @@
 export class MilkySuccubus extends AbstractSuccubus {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (findStatusAffect(StatusAffects.MilkyUrta) < 0 && randInt(3) === 0) cowCubiMilkSprayAttack();
 		else if (HP < 400) drinkMinoCum();
 		else if (player.stats.HP < 100) eAttack();
@@ -9,7 +9,7 @@ export class MilkySuccubus extends AbstractSuccubus {
 		else eAttack();
 	}
 
-	private cowCubiMilkSprayAttack(): void {
+	private cowCubiMilkSprayAttack() {
 		//Lasts a couple turns like the goblin lust poison?
 		DisplayText("\"<i>How about a taste?</i>\"  The succubus asks, pressing her tits together.  Before you can reply, a veritable jet of milk sprays in your direction!\n");
 		//Miss:
@@ -27,7 +27,7 @@ export class MilkySuccubus extends AbstractSuccubus {
 		combatRoundOver();
 	}
 
-	private drinkMinoCum(): void {
+	private drinkMinoCum() {
 		DisplayText("Smiling wryly and licking her lips, the succubus-cow procures a bottle of her pet's cum with her probing tail.");
 		//Success:
 		if (findStatusAffect(StatusAffects.DrankMinoCum) < 0 || findStatusAffect(StatusAffects.DrankMinoCum2) < 0) {
@@ -44,7 +44,7 @@ export class MilkySuccubus extends AbstractSuccubus {
 		combatRoundOver();
 	}
 
-	private succubusTease(): void {
+	private succubusTease() {
 		if (randInt(4) === 0) DisplayText("Turning around, the succubus begins to bounce her rather round derriere in your direction, the cheeks lewdly clapping together with each change in direction, exposing her dark anal star and juicy snatch, literally gushing forth a stream of lubricants.  Her eyes glow with faint, purple light as she whispers, \"<i>Don't you just want to... slide on in?</i>\"");
 		else if (randInt(3) === 0) DisplayText("The succubus squeezes her spotted, sweat-oiled breasts together, squirting out trickles of fresh, creamy, succubi milk.  Bending down, she laps at her own bounty, taking to meet your eyes, her own glowing violet.  You can feel her next words as much as hear them, reaching into your brain and stirring a familiar heat in your loins.  \"<i>Giving in would mean pleasure unending, my dear vixen.</i>\"");
 		else if (randInt(2) === 0) DisplayText("The succubus turns slightly and slowly bends over, sliding her hands down the sides of her milk laden jugs. \"<i>Mmm, would you help a poor girl relax? These things need some attention,</i>\" she says with a lust filled moan as her hands reach her multitude of nipples.");
@@ -53,16 +53,16 @@ export class MilkySuccubus extends AbstractSuccubus {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.urtaQuest.urtaBeatsUpCowcubi();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.urtaQuest.urtaLosesToCowCubi();
 	}
 
 
-	public teased(lustDelta: number): void {
+	public teased(lustDelta: number) {
 		DisplayText(capitalA + short + " smiles, rubbing her hands across herself as she watches your display.  She does not seem greatly affected by your show - at least in the sense of increasing arousal.  She does seem oddly more... vital, as if she drew strength from the very display you put on.");
 		str += 5;
 		HP += 50;
@@ -91,7 +91,9 @@ export class MilkySuccubus extends AbstractSuccubus {
 this.baseStats.tou = 50;
 this.baseStats.spe = 125;
 this.baseStats.int = 95;
-		initLibSensCor(90, 60, 99);
+		this.baseStats.lib = 90;
+this.baseStats.sens = 60;
+this.baseStats.cor = 99;
 		this.weaponName = "whip";
 		this.weaponVerb = "whipping";
 		this.weaponAttack = 10;

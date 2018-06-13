@@ -26,7 +26,7 @@ As Fenoxo has made his game code open source, this license DOES NOT transfer to 
 For further information and license requests, Dxasmodeus may be contacted through private message at the Futanari Palace. http://www.futanaripalace.com/forum.php. */
 
 export class Worms {
-    public wormEncounter(): void {
+    public wormEncounter() {
         DisplaySprite(76);
         DisplayText().clear();
         if (!player.statusAffects.has(StatusAffectType.MetWorms)) { //First encounter
@@ -48,21 +48,21 @@ export class Worms {
         }
     }
 
-    public wormToggle(): void {
+    public wormToggle() {
         DisplaySprite(76);
         DisplayText().clear();
         DisplayText("While wandering, you come across a crudely illustrated sign.  It depicts an imp in obvious discomfort, covered in white little worms.  It looks as if one of them is even crawling into the imp's penis!\n\nHow do you feel about that?");
         simpleChoices("Aroused", wormsOn, "Grossed Out", wormsOff, "Who Cares?", wormsPartiallyOn, "", null, "", null);
     }
 
-    private wormsOn(): void {
+    private wormsOn() {
         DisplayText().clear();
         DisplayText("You actually think it's kind of a hot idea, and wonder if such creatures actually exist in this land as you make your way back to camp.");
         player.statusAffects.add(StatusAffectType.WormsOn, 0, 0, 0, 0);
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private wormsPartiallyOn(): void {
+    private wormsPartiallyOn() {
         DisplayText().clear();
         DisplayText("You shrug and keep walking, not sure how you feel about the strange sign.");
         player.statusAffects.add(StatusAffectType.WormsOn, 0, 0, 0, 0);
@@ -70,40 +70,40 @@ export class Worms {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private wormsOff(): void {
+    private wormsOff() {
         DisplayText().clear();
         DisplayText("You shudder in revulsion and figure the sign to be the result of someone's perverted fantasy.");
         player.statusAffects.add(StatusAffectType.WormsOff, 0, 0, 0, 0);
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private wormsConfront(): void {
+    private wormsConfront() {
         DisplaySprite(76);
         DisplayText().clear();
         DisplayText("You turn to confront the worms and combat begins!");
         startCombat(new WormMass());
     }
 
-    private wormsDoNothing(): void {
+    private wormsDoNothing() {
         DisplaySprite(76);
         DisplayText().clear();
         DisplayText("You do nothing, allowing the worms to enter combat range!");
         startCombat(new WormMass());
     }
 
-    private wormsRun(): void {
+    private wormsRun() {
         DisplayText().clear();
         if (player.stats.spe > randInt(35)) {
             DisplayText("Your instincts overwhelm you and you immediately turn around and run like hell in the opposite direction. You look behind you as your heart feels as if it is about to burst only to discover that the creature did not follow you. You take a moment to catch your breath and consider yourself fortunate.");
             return { next: Scenes.camp.returnToCampUseOneHour };
         }
         else {
-            DisplayText("You turn to run, but before your " + LowerBodyDescriptor.describeFeet(player) + " can get you away, the worms are upon you!  You turn to face them, lest they launch onto your unprotected back.");
+            DisplayText("You turn to run, but before your " + Desc.Leg.describeFeet(player) + " can get you away, the worms are upon you!  You turn to face them, lest they launch onto your unprotected back.");
             startCombat(new WormMass());
         }
     }
 
-    public infest1(): void {
+    public infest1() {
         DisplaySprite(76);
         DisplayText("Trapped within the mass of worms, you are utterly helpless. The constant moving all over your body provides naught but unwanted stimulation. Your cock, not knowing any better, springs to attention, creating a peak in the mass. The worms immediately recognize what has happened to you. One particularly fat worm finds itself perched on top of your dick's throbbing glans. You feel it prodding about your urethral opening and come to a horrible realization that your precious penis is completely vulnerable to thousands of creatures capable of invading your body!!! Before you can react or curse your fate, the fat worm quickly forces open your urethra and begins to push its way inside your dick!\n\n");
         DisplayText("Crying out in shock, you feel the fat worm push its way, inch by inch, into your urethra. Your nerves light up like a Christmas tree as each individual cell tells you of the creature's presence and movement deeper into your body. The fat beast easily finds its way into your prostate and settles within the organ. As it settles, it begins flailing inside your sex. The sensations shift from shock to grotesque pleasure as your body only senses the stimulation conductive to orgasmic response. Your groin cramps and bloats quickly by the torrent of semen building within you and the invader's presence. Obviously sensitive to your fluids, you feel the worm thrash around some more, causing your body to respond by making more semen. The flopping creature quickly erodes any orgasmic discipline you are capable of and with a great shrill cry, you force lances of cum into the air, launching goo and worms alike in a sick display of forced pleasure. After you empty your body of spunk, the remaining worms become hyperaggressive.\n\n");
@@ -119,11 +119,11 @@ export class Worms {
             player.statusAffects.add(StatusAffectType.Infested, 0, 0, 0, 0);
             player.stats.cor += 0;
         }
-        cleanupAfterCombat();
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     //spontaneous orgasm - chance to avoid being raped by monsters who would care.
-    public infestOrgasm(): void {
+    public infestOrgasm() {
         DisplaySprite(76);
         DisplayText("The ceaseless squirming of your uninvited guests send your body into paroxysms. Collapsing to your knees, you immediately begin pushing gouts of dick milk out of your body. You feel tremendous pressure in your pelvis and in your cock as you realize that you are pushing worms out with each torrent of cum! Stream upon stream of cum breaks free from the prison of your body, carrying some of the worms inside you with it. Once the orgasm passes, you collapse to the ground, totally spent. Before you pass out, you feel the unfortunate presence of the fat worm still in your body.", true);
         player.orgasm();
@@ -141,7 +141,7 @@ export class Worms {
                     }
                     //non-ball-less
                     else {
-                        DisplayText("\n\nYou feel an awkward sensation in your prostate.  You sense the fat worm squirming wildly triggering multiple, sloppy orgasms, leaving you spraying semen everywhere.  After a moment, the orgasms and the worm's twitching stop.  You feel " + num2Text(player.torso.balls) + " separate sensations in your prostate and feel the sensation of pressure pushing on both sides of your body.  The reality hits you.  The fat worm has divided into " + num2Text(player.torso.balls) + " smaller worms!  Each worm has found its way into your vesicles and is pushing down the vas deferens on each side.  You feel each worm push its way into your testicles and they immediately begin to swell to an impressive size.  Your pelvic muscles begin their familiar rhythmic squeezes and you see your sac bob in its tell-tale fashion of an impending orgasm.  Your muscles seize up and your now-massive scrotum tightens up in a vice-like grip around your fat, infested nuts as a huge solid stream of cum rockets from your cock.  You are utterly speechless as you literally shoot cum for five minutes straight!  When the orgasm subsides, you see a small colony of worms in the massive puddle of spunk you made, which quickly creeps off.  You realize that the creature is now a part of you and that you can use this to your advantage in a fight if you learn to control your ejaculations.");
+                        DisplayText("\n\nYou feel an awkward sensation in your prostate.  You sense the fat worm squirming wildly triggering multiple, sloppy orgasms, leaving you spraying semen everywhere.  After a moment, the orgasms and the worm's twitching stop.  You feel " + numToCardinalText(player.torso.balls) + " separate sensations in your prostate and feel the sensation of pressure pushing on both sides of your body.  The reality hits you.  The fat worm has divided into " + numToCardinalText(player.torso.balls) + " smaller worms!  Each worm has found its way into your vesicles and is pushing down the vas deferens on each side.  You feel each worm push its way into your testicles and they immediately begin to swell to an impressive size.  Your pelvic muscles begin their familiar rhythmic squeezes and you see your sac bob in its tell-tale fashion of an impending orgasm.  Your muscles seize up and your now-massive scrotum tightens up in a vice-like grip around your fat, infested nuts as a huge solid stream of cum rockets from your cock.  You are utterly speechless as you literally shoot cum for five minutes straight!  When the orgasm subsides, you see a small colony of worms in the massive puddle of spunk you made, which quickly creeps off.  You realize that the creature is now a part of you and that you can use this to your advantage in a fight if you learn to control your ejaculations.");
                         player.torso.balls.size += 2;
                         player.cumMultiplier++;
                     }
@@ -152,7 +152,7 @@ export class Worms {
 
     }
 
-    public wormAttack(): void {
+    public wormAttack() {
         DisplaySprite(76);
         //Dodged!
         if (player.stats.spe - monster.spe > 0 && int(Math.random() * (((player.stats.spe - monster.spe) / 4) + 80)) > 80) {
@@ -178,7 +178,7 @@ export class Worms {
         return;
     }
 
-    public wormsEntice(): void {
+    public wormsEntice() {
         DisplaySprite(76);
         //FAIL
         if (randInt(2) === 0) {
@@ -189,7 +189,7 @@ export class Worms {
         }
         //SUCCESS
         if (player.stats.lust < 50) {
-            DisplayText("The worm colony stands before you and begins secreting a significant amount of slime. Inexplicably, you find that your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " is already erect and is throbbing. The erection is quite meddlesome and you find yourself distracted by the unwanted arousal.\n");
+            DisplayText("The worm colony stands before you and begins secreting a significant amount of slime. Inexplicably, you find that your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " is already erect and is throbbing. The erection is quite meddlesome and you find yourself distracted by the unwanted arousal.\n");
             dynStats("lus", 10 + player.stats.lib / 20 + player.stats.cor / 20);
         }
         else {
@@ -209,7 +209,7 @@ export class Worms {
         combatRoundOver();
     }
 
-    public playerInfest(): void {
+    public playerInfest() {
         DisplaySprite(76);
         //Keep logic sane if this attack brings victory
         //Gone	menuLoc = 0;
@@ -247,7 +247,7 @@ export class Worms {
             if (monster.lust > 70) {
                 DisplayText("Your load washes over the " + monster.short + " and " + monster.pronoun1 + " stops dead in " + monster.pronoun3 + " tracks as " + monster.pronoun1 + " chokes and sputters to clear the cum from " + monster.pronoun3 + " face and nose to breathe. The " + monster.short + " stumbles, attempting to stand in your fresh cum puddle and quickly busts its ass on the ground. The worms quickly take over and swarm around the " + monster.short + "' s " + monster.cockDescriptShort(0) + ". With wild hunger, the worms easily push into the " + monster.short + "'s urethra and begin venturing into your victim's body. The " + monster.short + " begins to convulse wildly as " + monster.pronoun3 + " body begins to react to the squirming invaders. The " + monster.short + " quickly peaks and cum flies in all directions, along with some worms. You laugh hysterically as the " + monster.short + " must now endure the endless orgasms your new pets provide. You choose to unload one last batch on your fallen foe to ensure a good infestation and walk away to leave the " + monster.short + " in the hell of endless pleasure.\n");
                 monster.lust = 100;
-                cleanupAfterCombat();
+                return { next: Scenes.camp.returnToCampUseOneHour };
                 return;
             }
             else {
@@ -270,7 +270,7 @@ export class Worms {
     }
 
 
-    public nightTimeInfestation(): void {
+    public nightTimeInfestation() {
         DisplayText("\n<b><u>Something odd happens that night...</u></b>\n");
         DisplayText("You're dreaming of the time you were infected with the worms... the way their comforting bulk sat so heavily in your body, constantly keeping you horny and potent, jism and slippery white parasites practically dripping from your cum-slit with every heated moment.  It felt so good to let them in, to let them claim you, and to become the worm-packing carrier you were meant to be.  You can remember how it felt to have one slithering up your urethra even now, the tiny body trailing slime as it squirmed through your shaft towards its goal.");
         DisplayText("\n\nMmmm, the way that little annelid rubbed your insides felt so good, and it only got better from there on.  After you let them get comfortable inside, you were also so horny, and it was so easy to get off.  You could just... think about squirting worms into some unsuspecting demon's vulnerable holes, and your little pets would coax your [balls] to climax.  They made you cum so fast and so hard!  You can still feel the squirming inside you, though it's getting deeper and deeper, just like the first time...");

@@ -8,7 +8,7 @@ export class Minotaur extends Monster {
 	public let hasAxe:boolean;
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (statusAffects.has(StatusAffectType.PhyllaFight)) {
 			statusAffects.remove("PhyllaFight");
 			DisplayText("You defeat a minotaur!  ", true);
@@ -18,13 +18,13 @@ export class Minotaur extends Monster {
 		}
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (statusAffects.has(StatusAffectType.PhyllaFight)) {
 			statusAffects.remove("PhyllaFight");
 			game.desert.antsScene.phyllaPCLostToMino();
 		} else if (pcCameWorms) {
 			DisplayText("\n\nThe minotaur picks you up and forcibly tosses you from his cave, grunting in displeasure.");
-			game.cleanupAfterCombat();
+			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		} else
 			game.mountain.minotaurScene.getRapedByMinotaur();
 	}

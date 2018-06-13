@@ -550,7 +550,7 @@ export class RaceScore {
             mutantCounter++;
         if (character.torso.cocks.count > 0 && character.torso.vaginas.count > 0)
             mutantCounter++;
-        if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0)
+        if (character.torso.chest.find(BreastRow.FuckableNipples))
             mutantCounter++;
         if (character.torso.chest.count > 1)
             mutantCounter++;

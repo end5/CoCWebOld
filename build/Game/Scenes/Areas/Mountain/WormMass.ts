@@ -1,7 +1,7 @@
 ﻿export class WormMass extends Monster {
 
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		//Worms have different AI
 		if (randInt(2) === 0)
 			special1();
@@ -9,7 +9,7 @@
 	}
 
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		DisplayText("Overcome by your " + (hpVictory ? "wounds" : "lust") + ", you sink to your knees as the colony of worms swarms all over your body...\n\n", true);
 		game.infest1();
 	}
@@ -40,7 +40,9 @@
 this.baseStats.tou = 5;
 this.baseStats.spe = 10;
 this.baseStats.int = 1;
-		initLibSensCor(90, 60, 90);
+		this.baseStats.lib = 90;
+this.baseStats.sens = 60;
+this.baseStats.cor = 90;
 		this.weaponName = "worm";
 		this.weaponVerb = "slap";
 		this.armorName = "skin";

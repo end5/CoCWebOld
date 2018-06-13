@@ -97,7 +97,7 @@ export class GroPlus extends Consumable {
                 character.torso.cocks.get(index).thickness += 0.5;
             }
         }
-        if (character.torso.cocks.filter(Cock.HasSheath).length > 0)
+        if (character.torso.cocks.find(Cock.HasSheath))
             DisplayText("sheath.");
         else DisplayText("crotch.");
         character.stats.sens += 2;
@@ -114,7 +114,7 @@ export class GroPlus extends Consumable {
         character.torso.chest.get(randInt(character.torso.chest.count - 1)).nipples.length += (randInt(2) + 3) / 10;
         character.stats.lust += 15;
         // NIPPLECUNTZZZ
-        if (character.torso.chest.filter(BreastRow.NonFuckableNipples).length > 0 && randInt(4) === 0) {
+        if (character.torso.chest.find(BreastRow.NonFuckableNipples) && randInt(4) === 0) {
             let nowFuckable: boolean = false;
             for (const breastRow of character.torso.chest) {
                 if (!breastRow.nipples.fuckable && breastRow.nipples.length >= 2) {

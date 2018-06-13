@@ -1,6 +1,6 @@
 export class Tamani extends Goblin {
 
-    override protected goblinTeaseAttack(): void {
+    override protected goblinTeaseAttack() {
         if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] > 0) {
             tamaniHypnoTease();
             return;
@@ -9,7 +9,7 @@ export class Tamani extends Goblin {
     }
 
     // New Tease option:
-    public tamaniHypnoTease(): void {
+    public tamaniHypnoTease() {
         let selector: number = randInt(3);
         // Choose 1 of 3 variations
         if (selector === 0) DisplayText("Tamani smiles and shifts her leather straps, pulling one into the puffy gash that is her vagina.  She groans out loud, sliding the studded leather band into her outer lips and sawing it along her clit.  Her whole body blushes as she pulls it free, running a fingertip up the now wet strip of leather, \"<i>Mmm, can't you see how much my pussy needs a man inside it?  Be a good husband and fuck Tamani full!  You know you want to.</i>\"\n\n");
@@ -31,7 +31,7 @@ export class Tamani extends Goblin {
                 DisplayText("With effort you manage to wrench your eyes away from the inviting folds of Tamani's vagina.  ");
                 if (player.torso.cocks.count > 1) DisplayText("Each of y");
                 else DisplayText("Y");
-                DisplayText("our " + CockDescriptor.describeMultiCockShort(player));
+                DisplayText("our " + Desc.Cock.describeMultiCockShort(player));
                 if (player.stats.lust > 80) DisplayText(" drips pre-cum");
                 else if (player.stats.lust > 40) DisplayText(" grows harder");
                 else DisplayText(" hardens");
@@ -41,7 +41,7 @@ export class Tamani extends Goblin {
             else {
                 DisplayText("Struggling, you pull your eyes back into your head and away from Tamani's gorgeous slit.  You shudder, feeling ");
                 if (player.totalCocks() > 1) DisplayText("each of ");
-                DisplayText("your " + player.CockDescriptor.describeMultiCockShort(player));
+                DisplayText("your " + player.Desc.Cock.describeMultiCockShort(player));
                 if (player.stats.lust <= 41) DisplayText(" thicken perceptibly");
                 else if (player.stats.lust <= 81) DisplayText(" twitch eagerly");
                 else DisplayText("drip pre-cum");
@@ -55,20 +55,20 @@ export class Tamani extends Goblin {
             if (selector === 0) {
                 DisplayText("You barely manage to step yourself from lunging forward to bury your mouth between your mistress's legs.  Hard and trembling between your legs, ");
                 if (player.torso.cocks.count > 1) DisplayText("each of ");
-                DisplayText("your " + player.CockDescriptor.describeMultiCockShort(player) + " aches with need.  You battle with the compulsion to kneel before your short, stacked mistress and perform your duties as her breeder husband.");
+                DisplayText("your " + player.Desc.Cock.describeMultiCockShort(player) + " aches with need.  You battle with the compulsion to kneel before your short, stacked mistress and perform your duties as her breeder husband.");
             }
             else {
                 DisplayText("You wrench your gaze from the juicy mound before you with great difficulty.  The desire to submit to your wife and fuck her on the spot rages through your body, melting your resistance into liquid lust and pooling it in your groin.  ");
                 if (player.torso.cocks.count > 1) DisplayText("Each of y");
                 else DisplayText("Y");
-                DisplayText("our " + player.CockDescriptor.describeMultiCockShort(player) + " pulses and dribbles pre-cum, aching to do its duty and fire load after load into Tamani's perfect pussy.");
+                DisplayText("our " + player.Desc.Cock.describeMultiCockShort(player) + " pulses and dribbles pre-cum, aching to do its duty and fire load after load into Tamani's perfect pussy.");
             }
         }
         game.dynStats("lus", (randInt(player.stats.lib / 5) + 3 + (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED])));
         combatRoundOver();
     }
 
-    public defeated(hpVictory: boolean): void {
+    public defeated(hpVictory: boolean) {
         if (hpVictory) {
             DisplayText("Tamani is defeated!", true);
         } else {
@@ -76,8 +76,8 @@ export class Tamani extends Goblin {
         }
         if (player.stats.lust >= 33 && player.torso.cocks.count > 0) {
             DisplayText("  You could fuck her, but if that's the case why did you bother fighting her?\n\nWhat do you do to her?");
-            let temp: Function = null;
-            let temp2: Function = null;
+            let temp;
+            let temp2;
             if (player.torso.cocks.count > 0 && player.cockThatFits(analCapacity()) >= 0) temp = game.forest.tamaniScene.tamaniAnalShits;
             // NOT PREGGERS
             if (!game.forest.tamaniScene.pregnancy.isPregnant && player.canOvipositSpider()) {
@@ -85,17 +85,17 @@ export class Tamani extends Goblin {
             }
             game.simpleChoices("Fuck", game.forest.tamaniScene.tamaniSexWon, "Buttfuck", temp, "", null, "Lay Eggs", temp2, "Leave", game.cleanupAfterCombat);
         }
-        else game.cleanupAfterCombat();
+        else game.return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    public won(hpVictory: boolean, pcCameWorms: boolean): void {
+    public won(hpVictory: boolean, pcCameWorms: boolean) {
         if (hpVictory) {
             if (player.torso.cocks.count > 0) {
                 if (randInt(2) === 0) game.forest.tamaniScene.tamaniSexLost();
                 else game.forest.tamaniScene.tamaniSexLetHer();
             } else {
                 DisplayText("Tamani sighs as you begin to lose conscious, \"<i>You dummy, why'd you get rid of the fun parts?</i>\"", true);
-                game.cleanupAfterCombat();
+                game.return { next: Scenes.camp.returnToCampUseOneHour };
             }
         } else {
             if (player.torso.cocks.count > 0) {
@@ -107,7 +107,7 @@ export class Tamani extends Goblin {
             } else {
                 DisplayText("You give into your lusts and masturbate, but Tamani doesn't seem to care.  She kicks and punches you over and over, screaming, \"<i>You dummy, why'd you get rid of the fun parts?</i>\"", true);
                 game.takeDamage(10000);
-                game.cleanupAfterCombat();
+                game.return { next: Scenes.camp.returnToCampUseOneHour };
             }
         }
     }
@@ -135,7 +135,9 @@ export class Tamani extends Goblin {
         this.baseStats.tou = 43;
         this.baseStats.spe = 55;
         this.baseStats.int = 62;
-        initLibSensCor(65, 65, 50);
+        this.baseStats.lib = 65;
+this.baseStats.sens = 65;
+this.baseStats.cor = 50;
         this.weaponName = "fists";
         this.weaponVerb = "tiny punch";
         this.armorName = "leather straps";

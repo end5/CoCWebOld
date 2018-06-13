@@ -42,7 +42,7 @@ Meeting Jack
 
 //Takes place when exploring the mountain.
 export class XmasJackFrost {
-    public meetJackFrostInTheMountains(): void {
+    public meetJackFrostInTheMountains() {
         DisplayText().clear();
         DisplayText("As you explore the mountainous heights, you come across something strange - a great spray of cold, wet, soft, creamy substance.  You realise with a start that it's snow!  You haven't even seen rain since you came to this world.  What's more, looking around shows you other strange drifts of snow; it almost looks like a path of some sort.  Curious, you decide to follow them, see if you can track down what's causing it.");
 
@@ -70,13 +70,13 @@ export class XmasJackFrost {
 
         DisplayText("\n\nWhat do you say?  Do you take the ice giant's deal and get a day off playing in the snow on your camp?");
         //[Yes] [No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", jizzSnowOnMyCampPlease);
         MainScreen.addButton(1, "No", noJizzingInMyCampPlease);
     }
 
     //[=No=]
-    public noJizzingInMyCampPlease(): void {
+    public noJizzingInMyCampPlease() {
         DisplayText().clear();
         DisplayText("You thank the giant for his offer, but you'll have to refuse.  You really can't take even one day off your quest.");
         DisplayText("\n\n\"<i>Pity... well, if you'll excuse me, this mountain ain't snowy enough just yet!</i>\"  He resumes his furious masturbation, spraying another gush of snow on the side of the mountain.");
@@ -87,7 +87,7 @@ export class XmasJackFrost {
     }
 
     //[=Yes=]
-    public jizzSnowOnMyCampPlease(): void {
+    public jizzSnowOnMyCampPlease() {
         DisplayText().clear();
         DisplayText("You look around, and then find a convenient rock to climb.  From here, you can see your camp, and you indicate to the friendly giant where it is.  \"<i>Alright, I'll make sure to paint it white.</i>\"  He chuckles once more.  \"<i>I have a pretty good aim, I'll have you know, and my friend here can pump it far!</i>\"  He pats his enormous dick.  \"<i>Off you go, then.  And merry Winterfest.</i>\"  He smiles turning to point his gigantic prick at your camp and beginning to masturbate furiously.");
 
@@ -98,7 +98,7 @@ export class XmasJackFrost {
     }
 
     //Back in camp
-    public processJackFrostEvent(): void {
+    public processJackFrostEvent() {
         hideUpDown();
         DisplayText().clear();
         //Each follower PC has adds a block, having no followers just plays the no followers block.
@@ -106,7 +106,7 @@ export class XmasJackFrost {
         if (Flags.list[FlagEnum.JACK_FROST_PROGRESS] === 1) {
             DisplayText("As you approach your camp, you can see that Jack Frost's efforts are paying off.  A great, constant flurry of snowflakes is gently drifting down, swaying in the wind as it makes its inevitable descent towards the ground.  A layer of snowflakes is quickly building up, growing wider and deeper as more snow is launched from out of the mountains to rain down on your camp. You can't help but enjoy the cool air as the snowflakes fall down languidly onto the ground.  It's so beautiful you almost forget the rather perverted origin of it all.\n\n");
             Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 2;
-            menu();
+            
             MainScreen.addButton(0, "Next", processJackFrostEvent);
         }
         //No followers
@@ -130,7 +130,7 @@ export class XmasJackFrost {
             DisplayText("\n\nYou ask if he'd like a hand doing that, being as it's been so long since he had a chance to do that?  Rathazul nods.  \"<i>I would love it!  Help me with the base.</i>\"");
 
             DisplayText("\n\nYou begin gathering snow along with the old rat...");
-            menu();
+            
             MainScreen.addButton(0, "Next", processJackFrostEvent);
             Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 3;
             return;
@@ -178,7 +178,7 @@ export class XmasJackFrost {
                 DisplayText("\n\nYou calmly wipe the snow off your face and smile evilly at the monk, asking him if he realizes this means war...");
                 DisplayText("\n\n\"<i>Bring it on,</i>\" Jojo states, already bouncing another snowball in his palm.");
                 DisplayText("\n\nLaughter echoes as the two of you exchange snowballs...");
-                menu();
+                
                 MainScreen.addButton(0, "Next", processJackFrostEvent);
                 Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 5;
             }
@@ -188,7 +188,7 @@ export class XmasJackFrost {
                 DisplayText("\n\nYou casually approach him from behind, stripping off your [armor].  Once behind his heart-shaped ass, you pull on his tail and reach down to grope at his shaft and balls.  Silly slut, you tell him.  This is not how one fucks in the snow... if he doesn't know how to do it right, you'll be happy to demonstrate.");
                 //(How should you demonstrate?)
                 //[Pen Ass] [Ride Cock] [Spank and Finger Ass]
-                menu();
+                
                 if (player.torso.cocks.count > 0) MainScreen.addButton(0, "Pen Ass", penetradeCorruptJojoAss);
                 if (player.torso.vaginas.count > 0) MainScreen.addButton(1, "Ride Cock", rideCorruptJojoCock);
                 MainScreen.addButton(2, "Spank n Finger", spankNFingerCorruptJojoAss);
@@ -214,9 +214,9 @@ export class XmasJackFrost {
 
                 DisplayText("\n\nYou laugh and hug her back, telling Amily to take it easy.  With all the friction the two of you are making, hugging together and nuzzling, you might just end up melting all the snow.  The mouse looks into your eyes. \"<i>Oooh, you little tempter, you,</i>\" she trills, tail looping around your wrist.  \"<i>Maybe I wouldn't mind that...?</i>\" she suggests mischievously.");
                 DisplayText("\n\nYou grin at her then envelop her lips into a kiss... sounds like a plan, you're feeling a bit cold and this would be a nice way to warm you right up...");
-                DisplayText("\n\nIt's not really possible to smirk and kiss at the same time, but your murine lover does her level best to try.  Breaking the kiss with a smile, she tugs you gently towards your tent.  \"<i>Come on then, lover-" + player.mf("boy", "girl") + ", let's go and get warmed up...</i>\" She coos.  Her hands start to remove your clothes, \"<i>So, what do you have in mind, exactly...?</i>\"");
+                DisplayText("\n\nIt's not really possible to smirk and kiss at the same time, but your murine lover does her level best to try.  Breaking the kiss with a smile, she tugs you gently towards your tent.  \"<i>Come on then, lover-" + Desc.Gender.mf(player, "boy", "girl") + ", let's go and get warmed up...</i>\" She coos.  Her hands start to remove your clothes, \"<i>So, what do you have in mind, exactly...?</i>\"");
                 //[Penetrate Her] [Make out]
-                menu();
+                
                 if (player.torso.cocks.count > 0) MainScreen.addButton(0, "Penetrate", penetradePureMouseWaifu);
                 MainScreen.addButton(1, "Ride Cock", makeOutWithPureMouseWaifu);
                 return;
@@ -236,7 +236,7 @@ export class XmasJackFrost {
 
                     //(if PC has a dick)
                     if (player.torso.cocks.count > 0) {
-                        DisplayText("\n\nYou strip off your lower garments, exposing your " + player.CockDescriptor.describeMultiCockShort(player) + " to the hungry eyes of your cumslut.  You tell her you would like her to give you a \"<i>hand</i>\", with the extraction process...");
+                        DisplayText("\n\nYou strip off your lower garments, exposing your " + player.Desc.Cock.describeMultiCockShort(player) + " to the hungry eyes of your cumslut.  You tell her you would like her to give you a \"<i>hand</i>\", with the extraction process...");
                         DisplayText("\n\nAmily bows respectfully.  \"<i>Right away, [master].</i>\"");
                         DisplayText("\n\nShe promptly takes hold of your [cock] with awe-filled respect, her long, dextrous fingers quickly falling into the familiar rhythym of dancing along your cock to fill you with the most wonderous sensations.  Her spaded tail wiggles idly for several moments, then slithers through the air to brush its feather-like tip against the tip and underside of your shaft");
                         if (player.torso.balls.quantity > 0) DisplayText(", even tickling your [balls]");
@@ -256,7 +256,7 @@ export class XmasJackFrost {
                     }
                 }
             }
-            menu();
+            
             MainScreen.addButton(0, "Next", processJackFrostEvent);
             return;
         }
@@ -292,7 +292,7 @@ export class XmasJackFrost {
 
             DisplayText("\n\n\"<i>So you say, but the truth is you know you'll never beat me,</i>\" Ember brags.  Then " + emberScene.emberMF("he", "she") + " lowers her eyelids and gives you a coy look.  \"<i>And now, for the victor, a prize,</i>\" " + emberScene.emberMF("he", "she") + " growls, then swoops in to kiss you passionately.  Several minutes pass before " + emberScene.emberMF("he", "she") + " breaks the kiss, a somewhat goofy smile on " + emberScene.emberMF("his", "her") + " face.  \"<i>I'm going to go and play in the snow some more.  See you, [name].</i>\"  " + emberScene.emberMF("He", "She") + " giggles, then ambles off.");
             DisplayText("\n\nYou wave " + emberScene.emberMF("him", "her") + " away - maybe being beaten isn't so bad.  Your thoughts turn to Ember's passionate kiss...  It certainly is a nice sight, to see " + emberScene.emberMF("him", "her") + " so happy.  Having it snow on your camp was a great idea after all.");
-            menu();
+            
             MainScreen.addButton(0, "Next", processJackFrostEvent);
         }
         //Marble (Written by TDM himself)
@@ -377,7 +377,7 @@ export class XmasJackFrost {
 
                 DisplayText("\n\nYou finish, and silence once again fills the air as you two continue to watch the snow fall.  \"<i>Sweetie?</i>\" Marble suddenly speaks out, \"<i>I want to have kids with you some day.</i>\"  You look at her somewhat surprised, she continues to simply look ahead, continuing, \"<i>I want them to experience those things too, and there is no one else that I'd rather have them with then you.</i>\"  There isn't much else to do but to look back at the falling flakes once more.");
             }
-            menu();
+            
             MainScreen.addButton(0, "Next", processJackFrostEvent);
             return;
         }
@@ -407,7 +407,7 @@ export class XmasJackFrost {
             //(Speed check)
             if (player.stats.spe / 20 + randInt(20) > 11) {
                 DisplayText("\n\nYou're surprised by the sudden lunge, but thankfully your well trained reflexes means you quickly duck under the pouncing salamander and watch as she falls face-first into the snow behind you with an audible \"<i>Oof!</i>\"");
-                DisplayText("\n\nShe laughs as she surfaces amidst a spray of slush, whipping her long hair around.  \"<i>That's the way to do it, lover-" + player.mf("boy", "girl") + "!</i>\" she crows.");
+                DisplayText("\n\nShe laughs as she surfaces amidst a spray of slush, whipping her long hair around.  \"<i>That's the way to do it, lover-" + Desc.Gender.mf(player, "boy", "girl") + "!</i>\" she crows.");
             }
             else {
                 DisplayText("\n\nYou yelp in surprise as the salamander comes crashing down on you, pinning you to the floor and holding your shoulders.");
@@ -418,7 +418,7 @@ export class XmasJackFrost {
             DisplayText("\n\nYou wipe some moisture from your brow, nodding agreement.  Yeah, that was pretty fun... you didn't think wrestling could be this fun, nor this sexy, you point out");
             if (player.gender > 0) {
                 DisplayText(", as evidenced by ");
-                if (player.torso.cocks.count > 0) DisplayText("your erect " + player.CockDescriptor.describeMultiCockShort(player));
+                if (player.torso.cocks.count > 0) DisplayText("your erect " + player.Desc.Cock.describeMultiCockShort(player));
                 if (player.gender === Gender.HERM) DisplayText(" and ");
                 else if (player.torso.vaginas.count > 0) DisplayText("your ");
                 if (player.torso.vaginas.count > 0) DisplayText("dripping [vagina]");
@@ -444,7 +444,7 @@ export class XmasJackFrost {
 
             DisplayText("\n\n\"<i>Oh, were you maybe wanting another turn, lover?</i>\"  Helia insinuates, gently tapping her fingers on your chest.  You make a show of considering her offer, then, with a smile, say that sounds like a reasonable proposal.  You promptly wrap the salamander-girl, into a tight hug, spreading her legs so you can have access to her dripping vagina...");
             Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 10;
-            menu();
+            
             MainScreen.addButton(0, "Next", processJackFrostEvent);
             return;
         }
@@ -488,7 +488,7 @@ export class XmasJackFrost {
             if (isabellaFollowerScene.isabellaAccent()) DisplayText("\n\nIsabella smiles and releases her arm from around your neck to instead stroke your [hair].  \"<i>Da, zat ist good, [name].  I love to empty zese big boobs of mine, but I am loving you more,</i>\" she says this last-part in a stage whisper, clearly intending for you to hear it.  You decide that for now, you'll just busy yourself with the cow-girl's teats, you can return the feelings later...");
             else DisplayText("\n\nIsabella smiles and releases her arm from around your neck to instead stroke your [hair].  \"<i>Yeah, that's good, [name].  I love to empty these big boobs of mine, but I think I love you more,</i>\" she says this last-part in a stage whisper, clearly intending for you to hear it.  You decide that for now, you'll just busy yourself with the cow-girl's teats, you can return the feelings later...");
             Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 11;
-            menu();
+            
             MainScreen.addButton(0, "Next", processJackFrostEvent);
         }
         //Kiha
@@ -508,7 +508,7 @@ export class XmasJackFrost {
             DisplayText("\n\nYou waste no time in leading her away to a snowy clearing nearby.  Once there you look the shivering dragon-girl over, considering your options...");
             //[Fuck her] [Lick Boobs and Finger Pussy]
             Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 12;
-            menu();
+            
             if (player.torso.cocks.count > 0 && player.cockThatFits(67) >= 0) MainScreen.addButton(0, "Fuck Her", kihaXmasFuck);
             MainScreen.addButton(1, "Finger Her", kihaXmasFingering);
         }
@@ -542,27 +542,27 @@ export class XmasJackFrost {
 
     //[=Fuck Her=]
     //PC needs to have a cock.
-    public kihaXmasFuck(): void {
+    public kihaXmasFuck() {
         DisplayText().clear();
         let x: number = player.cockThatFits(67);
         if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
-        DisplayText("Stripping off your [armor], you tell the dragon-girl that a good workout is all she needs to get nice and warm.  She snorts in dismissal, but the way she's looking at you is a pretty good indication she's willing to try it.  \"<i>So, what do you have in mind?</i>\" she blusters.  You stroke your quickly erecting " + player.CockDescriptor.describeMultiCockShort(player) + " and, smirking, ask her if your intentions aren't obvious?");
+        DisplayText("Stripping off your [armor], you tell the dragon-girl that a good workout is all she needs to get nice and warm.  She snorts in dismissal, but the way she's looking at you is a pretty good indication she's willing to try it.  \"<i>So, what do you have in mind?</i>\" she blusters.  You stroke your quickly erecting " + player.Desc.Cock.describeMultiCockShort(player) + " and, smirking, ask her if your intentions aren't obvious?");
         DisplayText("\n\nShe stalks over, tail swaying sensually behind her, and takes you by the shoulders.  Then, with a mischievous grin, she pushes you into the snow.  \"<i>All right, but you're on the bottom - you can have the cold back this time!</i>\" she smirks, straddling your waist.");
-        DisplayText("\n\nYou laugh and tell her you're fine with that, but she better hurry up, the cold is starting to catch up to you.   The mock-dragon blows a fine trickle of smoke from her nose, reaching down to stroke your shaft.  \"<i>Such a pervert, aren't you?  Here I am all freezing and wet, and all you can think about is fucking me, is that it?  You just want to shove this cock into my wet cunny and ride me until you burst, isn't that right?</i>\"  She growls lustfully, her fingers nimbly caressing and stroking your " + CockDescriptor.describeCock(player, x) + " as she speaks.");
+        DisplayText("\n\nYou laugh and tell her you're fine with that, but she better hurry up, the cold is starting to catch up to you.   The mock-dragon blows a fine trickle of smoke from her nose, reaching down to stroke your shaft.  \"<i>Such a pervert, aren't you?  Here I am all freezing and wet, and all you can think about is fucking me, is that it?  You just want to shove this cock into my wet cunny and ride me until you burst, isn't that right?</i>\"  She growls lustfully, her fingers nimbly caressing and stroking your " + Desc.Cock.describeCock(player, x) + " as she speaks.");
         DisplayText("\n\nWith a wry smile you ask her if she's got a problem with that.  You wouldn't be thinking about her wet pussy all the time if she ever bothered to throw some clothes on... so who's the real perv now?  You or her?");
         DisplayText("\n\n\"<i>You are, of course... so, I'll just have to punish you for being such a corrupted, demonic pervert...</i>\"  Kiha declares in a teasing voice.  She lifts herself up and positions herself over your cock, gently grinding her damp netherlips against the head but deliberately refusing to sink any further.  \"<i>How do you like that, cunt-hungry demon?  Do you want Kiha to take it all the way?  Do you?</i>\" she croons in a sweet voice.");
-        DisplayText("\n\nImpatient, and starting to feel the cold snow creeping on your back, you ask her if she intends to get started with it, or if you'll have to go up there and get her yourself.  Your hands are already sliding along her thighs to grasp her hips.  \"<i>Oh, love, if you must</i>\" Kiha declares in mock protest, rolling her eyes before suddenly impaling herself to the hilt on your shaft, an action that makes her scream in shocked delight, fiercely clamping her netherlips down around your cock.  You hiss in pleasure as your " + CockDescriptor.describeCock(player, x) + " is suddenly wrapped in the warm folds of the dragon-girl.");
+        DisplayText("\n\nImpatient, and starting to feel the cold snow creeping on your back, you ask her if she intends to get started with it, or if you'll have to go up there and get her yourself.  Your hands are already sliding along her thighs to grasp her hips.  \"<i>Oh, love, if you must</i>\" Kiha declares in mock protest, rolling her eyes before suddenly impaling herself to the hilt on your shaft, an action that makes her scream in shocked delight, fiercely clamping her netherlips down around your cock.  You hiss in pleasure as your " + Desc.Cock.describeCock(player, x) + " is suddenly wrapped in the warm folds of the dragon-girl.");
         DisplayText("\n\nNot interested in delaying the act any longer, you grab a firm hold of her hips and begin pistoning in and out of her as well as you can in your current position.  Her moist honeypot feels absolutely wonderful on your shaft, and you can already feel yourself forgetting about the snow on your back.  Moaning, the mock-dragon starts to piston herself up and down, leaning on your chest for support as her hips rise and fall with increasing speed, wings half-flared and tail swishing in delight.");
         DisplayText("\n\nYou smile at the dragon-girl standing above you, careful to maintain your rhythm in fucking that wonderful pussy of hers.  Kiha smiles back at you, even as she continues to ride you for all she's worth.  You glide your hands over her sides to grasp her shoulders and pull her closer.  The mock-dragon eagerly allows you to pull her into your embrace, mashing her breasts against your [chest] and kissing you passionately.  You return the lip-lock with equal intensity, feeling the familiar pressure of a oncoming orgasm.");
         DisplayText("\n\n\"<i>I... oh, [name], I'm close!</i>\" Kiha gasps.  You try to reply and tell her so are you, but words fail you.  Instead you moan at her and thrust yourself as far into her as you can, painting her walls white with your seed as you spew rope upon rope towards her ready womb.  The dragoness manages to throw you a lustful smirk.  \"<i>Cumming already, lo-oh oh OH!</i>\"  She screams, arching her back and spewing flames out into the snowy sky above as she cums violently, flooding your crotch with all the lubricants and orgasm-fluids she can produce.");
         DisplayText("\n\nOnce her orgasm has subsided, the dragon-girl comes crashing down on top of you.  You laugh lightly and ask her what was she saying?  \"<i>...I guess that this snow stuff isn't so bad after all,</i>\" she admits, then sneaks a smooch to try and keep you from laughing at her.  You're happy to return the kiss and lay with her for a while longer, basking the heat of your each other, as well as your afterglow...");
-        menu();
+        
         MainScreen.addButton(0, "Next", processJackFrostEvent);
         return;
     }
     //[=Lick Boobs and Finger Pussy=]
     //All sexes!
-    public kihaXmasFingering(): void {
+    public kihaXmasFingering() {
         DisplayText().clear();
         DisplayText("You examine Kiha.  A small snowflake lands on one of her nipples and she yelps with a start at the sudden contact.   \"<i>Hey, I asked you to help warm me up, not to stare at me!</i>\" she complains. ");
         DisplayText("\n\nYou tell her not to worry, you know just the way to warm her all up.  \"<i>Get on with it then,</i>\" she grumbles.  You grab hold of the impatient dragoness's boobs, massaging them gently, and lick the snowflake off her nipple.  Taking it in your mouth to suckle, you nip at her erect nub.  She gasps and moans in equal parts pleasure and shock.  \"<i>W-what?  Oh, that's nice, but, how's that going to help?</i>\"  You unlatch from her breast momentarily to wink at her and tell her to trust you - you know what you're doing.  \"<i>You perv,</i>\" Kiha says, but she's smiling as she does so.");
@@ -572,23 +572,23 @@ export class XmasJackFrost {
         DisplayText("\n\nYou click your tongue, mocking her for giving in to a little pleasure.  Isn't she supposed to be all strong and mighty?  \"<i>I'll never be defeated,</i>\" right?  \"<i>Shush, love,</i>\" she pants unthinkingly.  You laugh at your scaly lover's reaction, patting her butt gently.  Then, you ask her if she's feeling warmer now?  If she isn't, you'll be happy to warm her up some more, even going so far as to send a questing hand to prod her moist opening.");
         DisplayText("\n\n\"<i>Well, I suppose you could get me a little hotter... if you can take the heat, my doofus,</i>\" she croons, snuggling tighter against you...");
         dynStats("lus", 20 + player.stats.sens / 20 + player.stats.lib / 20);
-        menu();
+        
         MainScreen.addButton(0, "Next", processJackFrostEvent);
         return;
     }
 
     //[=Fuck Her=]
     //Needs PC with cock that fits.
-    public penetradePureMouseWaifu(): void {
+    public penetradePureMouseWaifu() {
         DisplayText().clear();
-        DisplayText("Stripping down your [armor] and indicating Amily should do the same... you tell her that you were hoping for some good old-fashioned sex between a horny " + player.mf("man", "herm") + " and " + player.mf("his", "her") + " lovely mousette.  You playfully ask Amily if she has any objections?");
-        DisplayText("\n\n\"<i>Well, it's a little counterproductive to take your clothes off if you want to get warm,</i>\" Amily notes.  Despite her words, she's stripping off without the slightest hesitation.  You reply that just the sight of her getting nude is already making you a little warmer... thrusting your hips so she can see your erect " + player.CockDescriptor.describeMultiCockShort(player) + ".  \"<i>Flattering flirt; you always think with your dick, don't you?</i>\" the mouse laughs.  That's rich; you can see her pussy dripping from here");
+        DisplayText("Stripping down your [armor] and indicating Amily should do the same... you tell her that you were hoping for some good old-fashioned sex between a horny " + Desc.Gender.mf(player, "man", "herm") + " and " + Desc.Gender.mf(player, "his", "her") + " lovely mousette.  You playfully ask Amily if she has any objections?");
+        DisplayText("\n\n\"<i>Well, it's a little counterproductive to take your clothes off if you want to get warm,</i>\" Amily notes.  Despite her words, she's stripping off without the slightest hesitation.  You reply that just the sight of her getting nude is already making you a little warmer... thrusting your hips so she can see your erect " + player.Desc.Cock.describeMultiCockShort(player) + ".  \"<i>Flattering flirt; you always think with your dick, don't you?</i>\" the mouse laughs.  That's rich; you can see her pussy dripping from here");
         if (Flags.list[FlagEnum.AMILY_WANG_LENGTH] > 0) DisplayText(", not to mention her dick's pretty hard, too");
         DisplayText(".");
 
         DisplayText("\n\nSitting down on your bedroll, you open your arms, inviting Amily over.  The mouse promptly approaches");
         if (Flags.list[FlagEnum.AMILY_WANG_LENGTH] > 0) DisplayText(", her own " + amilyScene.amilyCock() + " jutting out in anticipation");
-        DisplayText(", wriggling into your arms and angling her pussy over your " + CockDescriptor.describeCock(player, x) + ".  With the ease of long practice, she slides smoothly down its length, her warm, wet depths greedily inhaling your masculinity.  \"<i>Ah, nothing like a nice hard cock in your cunt to make you feel warmer,</i>\" she coos.");
+        DisplayText(", wriggling into your arms and angling her pussy over your " + Desc.Cock.describeCock(player, x) + ".  With the ease of long practice, she slides smoothly down its length, her warm, wet depths greedily inhaling your masculinity.  \"<i>Ah, nothing like a nice hard cock in your cunt to make you feel warmer,</i>\" she coos.");
 
         DisplayText("\n\nYou simply grin and begin bucking your hips against her, suppressing your moans by kissing her, hugging her tightly against you, holding your bodies flush together.  The mouse hugs you as tightly as she can, smothering you with kisses as her hands roam nimbly across your back, slinking down to squeeze your ass with an obvious hunger to molest you.");
 
@@ -602,15 +602,15 @@ export class XmasJackFrost {
         DisplayText("\n\nYou agree with her and enjoy your closeness a while longer...");
         player.orgasm();
         player.stats.lib += -1;
-        menu();
+        
         MainScreen.addButton(0, "Next", processJackFrostEvent);
     }
 
     //[=Make out=]
     //For any gender.
-    public makeOutWithPureMouseWaifu(): void {
+    public makeOutWithPureMouseWaifu() {
         DisplayText().clear();
-        DisplayText("You strip down your [armor] and suggest Amily should do the same.  \"<i>Well, it's a little counterproductive to take your clothes off if you want to get warm,</i>\" Amily notes.  Despite her words, she's stripping off without the slightest hesitation.  \"<i>So, what's on your mind, lover-" + player.mf("boy", "girl") + "?</i>\" she asks.");
+        DisplayText("You strip down your [armor] and suggest Amily should do the same.  \"<i>Well, it's a little counterproductive to take your clothes off if you want to get warm,</i>\" Amily notes.  Despite her words, she's stripping off without the slightest hesitation.  \"<i>So, what's on your mind, lover-" + Desc.Gender.mf(player, "boy", "girl") + "?</i>\" she asks.");
 
         DisplayText("\n\nYou say that with all that's been going on lately, the two of you just haven't been able catch a break... so today, you'd like to just forget about everything and spend some quality time with her... not by having sex... though you don't mind doing it either, but... you'd just like to sit back and enjoy your pretty mousette, mother of your children, properly.  You ask if she's getting what you're saying?");
 
@@ -632,7 +632,7 @@ export class XmasJackFrost {
 
         DisplayText("\n\nYou chuckle, even though she's the one that's been chatting your ears off this whole time?  \"<i>Yes, even though I'm the one that's been chatting your ears off,</i>\" Amily replies with a smile.  You suggest that perhaps all you need to do to stop talking is finding something to keep your mouths busy.  \"<i>Oh?  What are you suggesting?</i>\" she asks, her tail gently looping around your midriff.  Your reply is to simply draw her into a kiss...");
         dynStats("lus", 30 + player.stats.sens / 10);
-        menu();
+        
         MainScreen.addButton(0, "Next", processJackFrostEvent);
     }
 
@@ -640,7 +640,7 @@ export class XmasJackFrost {
 
     //[=Pen Ass=]
     //PC needs a cock.
-    public penetradeCorruptJojoAss(): void {
+    public penetradeCorruptJojoAss() {
         DisplayText().clear();
         DisplayText("You roughly pull the mouse slut's tail out of the way, getting a clear look at his accommodating ass.  Your broken slut of a murine monk rises to the tips of his toes in anticipation, already moaning in delight at the thought of your ravaging his ass.  You laugh at him, telling him he has come very far ever since the first time you've violated his bum.   \"<i>Yes [master], thank you [master],</i>\" is all Jojo's corrupted brain can think to say.");
         DisplayText("\n\nFeeling like you're just wasting your time, you drop your lower garments and begin stroking yourself into an erection.  With a throaty groan, Jojo wiggles his ass, crudely trying to tempt you to start.  You roughly shove your [cock] as far as it'll go on the former monk's ass, sinking a few inches in without any resistance.  Moaning, pre already dribbling from his cock, the fallen mouse bucks eagerly back into you, trying to shove more of your cock up his ass.");
@@ -658,13 +658,13 @@ export class XmasJackFrost {
         player.stats.lib += -3;
 player.stats.sens += -1;
 player.stats.cor += 1;
-        menu();
+        
         MainScreen.addButton(0, "Next", processJackFrostEvent);
         Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 5;
     }
     //[=Ride Cock=]
     //PC needs vagina
-    public rideCorruptJojoCock(): void {
+    public rideCorruptJojoCock() {
         DisplayText().clear();
         DisplayText("With a flourish, you easily discard your [armor].  Then you grab a hold of the mouse-slut's tail and twist it to the side, forcing the former monk to crash into the ground on his back, shaft half-erect and covered in melting snow, pointing upwards like a perverted pole.  You ask him if he can see anything he would like from his current vantage point.");
         DisplayText("\n\n\"<i>Y-yes [master],</i>\" Jojo meekly declares, unable to take his eyes from your [cunt].  His cock immediately grows to full mast, which you can't help but think is one of his more convenient features since you remade him into this far more enjoyable version of himself.");
@@ -676,7 +676,7 @@ player.stats.cor += 1;
         DisplayText("\n\nNow that's what you like to hear, and you promptly impale yourself on Jojo's handy shaft, brutally forcing it inch by inch inside you until you have forced him to the ground with your efforts.  Moaning with satisfaction at being stuffed, you begin to roughly rise and fall, pistoning back and forth in order to sate your pleasures.");
 
         DisplayText("\n\nJojo goes berserk, babbling incoherently as he grabs your hips and begins roughly slamming himself into your [vagina], trying to dig as deep into you as he can, even as his pre leaking shaft lubricates your tunnel.  You try to exert some control over the ex-monk, but eventually decide it's better to just sit back and enjoy the ride - however, you can't resist taunting Jojo over what a depraved little slut he has become, totally incapable of controlling himself. \"<i>S-Sluuut... I'm... sluuuut,</i>\" he utters incoherently between moans.");
-        player.displayStretchVagina(20, true, true, false);
+        Mod.Vagina.displayStretchVagina(player, 20, true, true, false);
 
         DisplayText("\n\nYou thrust, buck, and heave, enjoying everything there is about mastering this once-pure soul and reducing him to your fuck puppet.  Finally, with an ecstatic howl, you cum, female lubricants gushing onto his burning hot cock");
         if (player.torso.cocks.count > 0) DisplayText(", your own futa-cock spewing its load, which you deliberately spray in his face for amusement");
@@ -689,7 +689,7 @@ player.stats.cor += 1;
         player.stats.lib += -3;
 player.stats.sens += -1;
 player.stats.cor += 1;
-        menu();
+        
         MainScreen.addButton(0, "Next", processJackFrostEvent);
         Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 5;
         //Preggers chance!
@@ -698,7 +698,7 @@ player.stats.cor += 1;
 
     //[=Spank and Finger Ass=]
     //Available to all.
-    public spankNFingerCorruptJojoAss(): void {
+    public spankNFingerCorruptJojoAss() {
         DisplayText().clear();
         DisplayText("Not bothering to undress, you yank the mouse's ropy tail out of the way with brutal force, to gaze at his white, heart-shaped ass.  Jojo stands on the tips of his toes, moaning at the rough treatment that surely follows.  His ass looks so inviting... so deserving of a good hard smack... you ask the former monk-turned-slut how he would like a good beating on his ass.");
         DisplayText("\n\n\"<i>M-[master], please, spank me!  I'm such a naughty boy - spank me hard!</i>\" Jojo cries.  You laugh at your wanton slut.  You've never seen a mouse as perverted as this, begging to be spanked and getting off on the idea... well, the slut certainly deserves it... you're pretty sure he has been masturbating without your permission, and you can't have that.");
@@ -716,7 +716,7 @@ player.stats.cor += 1;
 
         DisplayText("\n\nYou laugh at the mouse-slut's blissed out face of pleasure, feeling like you managed to chip away another part of his broken will.  Before you leave him to pass out on his snowy puddle of mouse-cum you ask him, what is his name?  \"<i>S - Slut...</i>\"  Is the moaning reply.  Satisfied, you decide to leave for the moment.  Maybe you'll get back to him and break him in a little more later...");
         dynStats("lus=", 100, "resisted", true);
-        menu();
+        
         MainScreen.addButton(0, "Next", processJackFrostEvent);
         Flags.list[FlagEnum.JACK_FROST_PROGRESS] = 5;
     }

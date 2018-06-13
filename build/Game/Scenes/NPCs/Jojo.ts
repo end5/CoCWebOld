@@ -1,20 +1,20 @@
 ﻿export class Jojo extends Monster {
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.jojoScene.defeatedJojo(hpVictory);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.jojoScene.loseToJojo();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (game.monk > 1 && randInt(2) === 0)
 			selfCorruption(); //Shouldn't do any self corruption at monk one. Otherwise a 50/50 chance
 		else eAttack();
 	}
 
-	private selfCorruption(): void {
+	private selfCorruption() {
 		switch (game.monk) {
 			case 2:
 				DisplayText("Jojo looks lost in thought for a moment, and fails to attack.  ");

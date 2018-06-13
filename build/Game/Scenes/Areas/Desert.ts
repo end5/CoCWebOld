@@ -12,7 +12,7 @@ export class Desert {
 	public Desert() {
 	}
 	//Explore desert
-	public exploreDesert(): void {
+	public exploreDesert() {
 		player.exploredDesert++;
 		if (player.level >= 4 && player.exploredDesert % 15 === 0 && Flags.list[FlagEnum.DISCOVERED_WITCH_DUNGEON] === 0) {
 			kGAMECLASS.enterBoobsDungeon();
@@ -115,14 +115,14 @@ export class Desert {
 		else choices[select](args[select]);
 	}
 
-	private mirageDesert(): void {
+	private mirageDesert() {
 		DisplayText().clear();
 		DisplayText("While exploring the desert, you see a shimmering tower in the distance.  As you rush towards it, it vanishes completely.  It was a mirage!   You sigh, depressed at wasting your time.", true);
 		player.stats.lust += -15;
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	private walkingDesertStatBoost(): void {
+	private walkingDesertStatBoost() {
 		DisplayText().clear();
 		DisplayText("You walk through the shifting sands for an hour, finding nothing.\n\n", true);
 		//Chance of boost === 50%

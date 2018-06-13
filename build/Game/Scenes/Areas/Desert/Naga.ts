@@ -1,7 +1,7 @@
 ﻿export class Naga extends Monster {
 
 	//2a)  Ability -  Poison Bite - poisons player
-	protected nagaPoisonBiteAttack(): void {
+	protected nagaPoisonBiteAttack() {
 		//(Deals damage over 4-5 turns, invariably reducing 
 		//your speed. It wears off once combat is over.)
 		DisplayText("The naga strikes with the speed of a cobra, sinking her fangs into your flesh!  ");
@@ -39,7 +39,7 @@
 
 	//2b)  Ability - Constrict - entangles player, raises lust 
 	//every turn until you break free
-	protected nagaConstrict(): void {
+	protected nagaConstrict() {
 		DisplayText("The naga draws close and suddenly wraps herself around you, binding you in place! You can't help but feel strangely aroused by the sensation of her scales rubbing against your body. All you can do is struggle as she begins to squeeze tighter!");
 		player.statusAffects.add(StatusAffectType.NagaBind, 0, 0, 0, 0);
 		player.takeDamage(2 + randInt(4));
@@ -48,7 +48,7 @@
 
 	//2c) Abiliy - Tail Whip - minus ??? HP 
 	//(base it on toughness?)
-	protected nagaTailWhip(): void {
+	protected nagaTailWhip() {
 		DisplayText("The naga tenses and twists herself forcefully.  ");
 		//[if evaded]
 		if ((player.findPerk(PerkLib.Evade) && randInt(6) === 0)) {
@@ -71,11 +71,11 @@
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.desert.nagaScene.nagaRapeChoice();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe naga's eyes go wide and she turns to leave, no longer interested in you.");
 			player.orgasm();
@@ -110,7 +110,9 @@
 this.baseStats.tou = 20;
 this.baseStats.spe = 35;
 this.baseStats.int = 42;
-		initLibSensCor(55, 55, 40);
+		this.baseStats.lib = 55;
+this.baseStats.sens = 55;
+this.baseStats.cor = 40;
 		this.weaponName = "fist";
 		this.weaponVerb = "punch";
 		this.weaponAttack = 3;

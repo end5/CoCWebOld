@@ -1,17 +1,17 @@
 export class TamanisDaughters extends Goblin {
-    private midRoundMadness(): void {
+    private midRoundMadness() {
         let selector: number = randInt(4);
         if (selector === 0) {
             DisplayText("A slender hand reaches inside your " + player.inventory.equipment.armor.displayName + " and gives your ");
             if (player.torso.balls.quantity > 0) {
-                if (randInt(2) === 0) DisplayText(player.CockDescriptor.describeMultiCockShort(player));
-                else DisplayText(player.BallsDescriptor.describeBalls(true, true, player));
+                if (randInt(2) === 0) DisplayText(player.Desc.Cock.describeMultiCockShort(player));
+                else DisplayText(player.Desc.Balls.describeBalls(true, true, player));
             }
-            else DisplayText(player.CockDescriptor.describeMultiCockShort(player));
+            else DisplayText(player.Desc.Cock.describeMultiCockShort(player));
             DisplayText(" a gentle squeeze.  You twist away but your breathing gets a little heavier.\n\n");
         }
         else if (selector === 1) {
-            DisplayText("A girl latches onto your " + LegDescriptor.describeLegs(player) + " and begins caressing your body lovingly, humming happily.  You quickly shake her loose but the attention makes you blush a little more.\n\n");
+            DisplayText("A girl latches onto your " + Desc.Leg.describeLegs(player) + " and begins caressing your body lovingly, humming happily.  You quickly shake her loose but the attention makes you blush a little more.\n\n");
         }
         else if (selector === 2) {
             DisplayText("One of your daughters launches onto your back and presses her hard, pierced nipples against your neck.  She whispers in your ear, \"<i>Twist my nipples dad!</i>\"\n\n");
@@ -21,7 +21,7 @@ export class TamanisDaughters extends Goblin {
         game.dynStats("lus", 1 + player.stats.lib / 15 + randInt(player.stats.cor / 30));
     }
 
-    private tamaniShowsUp(): void {
+    private tamaniShowsUp() {
         if (TamainsDaughtersScene.tamaniPresent) {
             if (randInt(4) === 0) goblinDrugAttack(); //Tamani already there - chance of potion
         }
@@ -41,7 +41,7 @@ export class TamanisDaughters extends Goblin {
         }
     }
 
-    override protected performCombatAction(): void {
+    override protected performCombatAction() {
         let select: number = 1;
         //mid-round madness!
         midRoundMadness();
@@ -68,14 +68,14 @@ export class TamanisDaughters extends Goblin {
         combatRoundOver();
     }
 
-    public defeated(hpVictory: boolean): void {
+    public defeated(hpVictory: boolean) {
         game.forest.tamaniDaughtersScene.combatWinAgainstDaughters();
     }
 
-    public won(hpVictory: boolean, pcCameWorms: boolean): void {
+    public won(hpVictory: boolean, pcCameWorms: boolean) {
         if (pcCameWorms) {
             DisplayText("\n\nYour foes seem visibly disgusted and leave, telling you to, \"<i>quit being so fucking gross...</i>\"");
-            game.cleanupAfterCombat();
+            game.return { next: Scenes.camp.returnToCampUseOneHour };
         } else {
             game.forest.tamaniDaughtersScene.loseToDaughters();
         }
@@ -107,7 +107,9 @@ export class TamanisDaughters extends Goblin {
         this.baseStats.tou = 30;
         this.baseStats.spe = 45;
         this.baseStats.int = 50;
-        initLibSensCor(70, 70, 50);
+        this.baseStats.lib = 70;
+this.baseStats.sens = 70;
+this.baseStats.cor = 50;
         this.weaponName = "fists";
         this.weaponVerb = "tiny punch";
         this.armorName = "leather straps";

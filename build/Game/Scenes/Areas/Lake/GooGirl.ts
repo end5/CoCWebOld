@@ -5,9 +5,9 @@ export class GooGirl extends Monster {
 	 */
 
 	//[Goo attacks]
-	//Slap – The slime holds its hands up and they morph into a replica of your " + weaponName + ". Happily, she swings at you, painfully smacking her gooey limbs against your head.  You shake your " + HeadDescriptor.describeHair(player) + ", clearing your head of the dazing slap. (lightly damages hit points)
+	//Slap – The slime holds its hands up and they morph into a replica of your " + weaponName + ". Happily, she swings at you, painfully smacking her gooey limbs against your head.  You shake your " + Desc.Head.describeHair(player) + ", clearing your head of the dazing slap. (lightly damages hit points)
 	//Acid Slap (Only after player's fire attack) – Her body quivering from your flames, the goo-girl delivers a painful slap across your cheek. You gasp when the light stinging becomes a searing burn that seems to get worse as time goes on! (heavily damages hit points and puts Acid Burn on the player)
-	private gooGalAttack(): void {
+	private gooGalAttack() {
 		let damage: number = 0;
 		//return to combat menu when finished
 		return { next: game.playerMenu };
@@ -59,7 +59,7 @@ export class GooGirl extends Monster {
 				DisplayText("delivers a painful slap across your cheek.  You gasp when the light stinging becomes a searing burn that seems to get worse as time goes on!");
 				if (!player.statusAffects.has(StatusAffectType.AcidSlap)) player.statusAffects.add(StatusAffectType.AcidSlap, 0, 0, 0, 0);
 			}
-			else DisplayText(", painfully smacking her gooey limbs against your head.  You shake your " + player.HeadDescriptor.describeHair(player) + ", clearing your head of the dazing slap.");
+			else DisplayText(", painfully smacking her gooey limbs against your head.  You shake your " + player.Desc.Head.describeHair(player) + ", clearing your head of the dazing slap.");
 			DisplayText(" (" + damage + ")");
 		}
 		if (damage > 0) {
@@ -75,14 +75,14 @@ export class GooGirl extends Monster {
 	}
 
 	//Play – 
-	private gooPlay(): void {
+	private gooPlay() {
 		DisplayText("The goo-girl lunges, wrapping her slimy arms around your waist in a happy hug, hot muck quivering excitedly against you. She looks up, empty eyes confused by your lack of enthusiasm and forms her mouth into a petulant pout before letting go.  You shiver in the cold air, regretting the loss of her embrace.");
 		game.dynStats("lus", 3 + randInt(3) + player.stats.sens / 10);
 		combatRoundOver();
 	}
 
 	//Throw – 
-	private gooThrow(): void {
+	private gooThrow() {
 		DisplayText("The girl reaches into her torso, pulls a large clump of goo out, and chucks it at you like a child throwing mud. The slime splatters on your chest and creeps under your " + player.inventory.equipment.armor.displayName + ", tickling your skin like fingers dancing across your body.");
 		let damage: number = 1;
 		player.takeDamage(damage);
@@ -91,13 +91,13 @@ export class GooGirl extends Monster {
 	}
 
 	//Engulf – 
-	private gooEngulph(): void {
+	private gooEngulph() {
 		DisplayText("The goo-girl gleefully throws her entire body at you and, before you can get out of the way, she has engulfed you in her oozing form! Tendrils of " + skin.tone + " slime slide up your nostrils and through your lips, filling your lungs with the girl's muck. You begin suffocating!");
 		if (!player.statusAffects.has(StatusAffectType.GooBind)) player.statusAffects.add(StatusAffectType.GooBind, 0, 0, 0, 0);
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		//1/3 chance of base attack + bonus if in acid mode
 		if ((findPerk(PerkLib.Acid) >= 0 && randInt(3) === 0) || randInt(3) === 0)
 			gooGalAttack();
@@ -106,11 +106,11 @@ export class GooGirl extends Monster {
 		else gooThrow();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.lake.gooGirlScene.beatUpGoo();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe goo-girl seems confused but doesn't mind.");
 			return { next: game.endLustLoss };
@@ -119,7 +119,7 @@ export class GooGirl extends Monster {
 		}
 	}
 
-	public teased(lustDelta: number): void {
+	public teased(lustDelta: number) {
 		if (lust <= 99) {
 			if (lustDelta <= 0) DisplayText("\nThe goo-girl looks confused by your actions, as if she's trying to understand what you're doing.");
 			else if (lustDelta < 13) DisplayText("\nThe curious goo has begun stroking herself openly, trying to understand the meaning of your actions by imitating you.");
@@ -158,7 +158,9 @@ export class GooGirl extends Monster {
 this.baseStats.tou = 25;
 this.baseStats.spe = 20;
 this.baseStats.int = 30;
-		initLibSensCor(50, 40, 10);
+		this.baseStats.lib = 50;
+this.baseStats.sens = 40;
+this.baseStats.cor = 10;
 		this.weaponName = "hands";
 		this.weaponVerb = "slap";
 		this.armorName = "gelatinous skin";

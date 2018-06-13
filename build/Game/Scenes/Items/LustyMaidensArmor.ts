@@ -31,9 +31,9 @@ export function lustyMaidenPaizuri(character: Character, monster: Character): Ne
     DisplayText("  The strong, pulsing cock feels so good inside your mouth, like it belongs there, and you can't help but think that you're doing a good deed by helping " + monster.desc.a + monster.desc.short + " empty every last perverse desire onto your purifying breasts.");
 
     DisplayText("\n\nUp and down, up and down, you slide across the expansive member with unhurried, slow strokes, each time making your [chest] bounce beautifully.  Your [nipples] are so hard");
-    if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0 || character.lactationQ() >= 100) DisplayText(", dripping,");
+    if (character.torso.chest.find(BreastRow.FuckableNipples) || character.lactationQ() >= 100) DisplayText(", dripping,");
     DisplayText(" and sensitive, scraping around the nebulous inner lining of your bikini and occasionally catching on the metal that feels even warmer than normal.  Behind you, your [butt] is bouncing happily to the rhythm your corruption-devouring breasts have set, the thong digging tightly into your [vagina] in the most exquisite way.  You feel so hot and sensual, but still secure in the knowledge that you won't have to worry about such a creature ravaging your ");
-    if (character.torso.vaginas.filter(Vagina.Virgin).length > 0) DisplayText("maidenhead");
+    if (character.torso.vaginas.find(Vagina.Virgin)) DisplayText("maidenhead");
     else DisplayText("sloppy gash");
     DisplayText(".  Still, you're not sure how much hotter you can get before you're cumming all over your g-string, letting your own dark thoughts seep into your magical underwear.");
 
@@ -56,7 +56,7 @@ export function lustyMaidenPaizuri(character: Character, monster: Character): Ne
     character.orgasm();
     character.stats.sens += 2;
 
-    if (character.torso.vaginas.filter(Vagina.Virgin).length > 0)
+    if (character.torso.vaginas.find(Vagina.Virgin))
         character.stats.cor -= 1;
 
     // If minotaur, increase addiction slightly.

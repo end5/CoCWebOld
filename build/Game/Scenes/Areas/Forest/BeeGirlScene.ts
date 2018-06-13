@@ -7,6 +7,7 @@ import { BreastRow } from '../../../Body/BreastRow';
 import { ButtLooseness } from '../../../Body/Butt';
 import { Cock, CockType } from '../../../Body/Cock';
 import { FaceType } from '../../../Body/Face';
+import { Gender } from '../../../Body/GenderIdentity';
 import { LegType } from '../../../Body/Legs';
 import { IncubationTime, Pregnancy, PregnancyType } from '../../../Body/Pregnancy/Pregnancy';
 import { RaceScore } from '../../../Body/RaceScore';
@@ -498,7 +499,7 @@ function beeEncounterClassicSex(character: Character): NextScreenChoices {
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 1) {
                 DisplayText("  You begin pounding away at your " + Desc.Breast.describeAllBreasts(character) + " in an attempt to alleviate the pressure in your inaccessible groin.");
                 // [Fuckable breasts:
-                if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("  Your fingers slip in and out of them, sending femcum flying everywhere. But the effects of the bee's honey appear to prevent you from getting off.");
+                if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("  Your fingers slip in and out of them, sending femcum flying everywhere. But the effects of the bee's honey appear to prevent you from getting off.");
                 // [Other:
                 else DisplayText("  No amount of stimulation seems to get you off though.");
             }
@@ -712,7 +713,7 @@ function beeSexForCocksPart2(character: Character): NextScreenChoices {
     else DisplayText("torrent");
     DisplayText(" of cum from the tip of your " + Desc.Cock.describeCock(character, giantCock) + ".  Since the bee was at the top of her ride up and down your member, she catches your load full in the face.\n\n");
     DisplayText("Your first orgasm does nothing to stop the handmaiden’s relentless pumping of your member, and her honey makes sure you’re ready to go again right away.  In fact, it only encourages her.  Next up, she starts to use her long tongue to lick at your fluids around the tip, and eventually slips it into the slit to taste your pre as it comes out.  At the same time, she continues to pump her body against one side of your shaft while letting her arms play across the other side.  This doesn’t let up for hours as she continues to pump you and bring out orgasm after orgasm.\n\n");
-    DisplayText("Eventually the bee’s energy runs out and she lets go of your towering cock while panting.  <i>“You really are zzzomething, you know that?”</i>  she says while reaching down and extracting the bottle from her honeypot.  She puts a cork in the bottle while you feel your member" + (character.torso.cocks.count > 1 ? "s" : "") + " finally start to " + (character.torso.cocks.count === 1 && giantCock.hasSheath() ? "retract into its sheath" : "go flaccid") + ".  <i>“");
+    DisplayText("Eventually the bee’s energy runs out and she lets go of your towering cock while panting.  <i>“You really are zzzomething, you know that?”</i>  she says while reaching down and extracting the bottle from her honeypot.  She puts a cork in the bottle while you feel your member" + (character.torso.cocks.count > 1 ? "s" : "") + " finally start to " + (character.torso.cocks.count === 1 && giantCock.find(Cock.HasSheath) ? "retract into its sheath" : "go flaccid") + ".  <i>“");
     if (character.torso.cocks.get(0).type === CockType.BEE) {
         DisplayText("You know the deal by now,");
     }
@@ -1587,7 +1588,7 @@ function rapeABeeGirlWithYourVagina(character: Character): NextScreenChoices {
 
         DisplayText("But while she can reach herself, you can't. The puddle of fluid around your rear hooves continues to grow as your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " becomes more desperate for relief and the muscles in your " + Desc.Butt.describeButthole(character.torso.butt) + " start to ache from the strength of their clenching. You mash your " + Desc.Breast.describeChest(character) + " hard, desperate for release, but it's not enough.");
         // [Fuckable nipples:
-        if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("  Not even repeated penetration of your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s seems to bring the relief you need.");
+        if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("  Not even repeated penetration of your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s seems to bring the relief you need.");
         DisplayText("\n\n");
 
         DisplayText("Despite her ability to reach, the bee-girl seems to be having a similar trouble getting herself off. Her hands seem to blur with the speed of her rubbing as her back arcs. She cries out in frustration and begins beating her wings violently, lifting off from the flower.\n\n");
@@ -1600,7 +1601,7 @@ function rapeABeeGirlWithYourVagina(character: Character): NextScreenChoices {
         else DisplayText("Her legs release and she falls back, but you catch her before she hits the ground and are surprised by how light she is.");
         DisplayText("  Her body stiffens as she realizes her situation and with your aid manages to right herself. By now the pressure in your loins is unbearable and you're breathing hard. Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s ache just as badly as your " + Desc.Butt.describeButthole(character.torso.butt));
         // [Fuckable nipples and/or lactating:
-        if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0 || character.lactationQ() >= 20) DisplayText(" and ooze fluids in a constant stream down your front");
+        if (character.torso.chest.find(BreastRow.FuckableNipples) || character.lactationQ() >= 20) DisplayText(" and ooze fluids in a constant stream down your front");
         DisplayText(". The bee-girl obviously understands your situation and almost as soon as she's upright buzzes onto your back.");
 
         DisplayText("The peculiar sensation of her chitin covered appendages climbing along your back is lost on your lust addled mind, but the sudden penetration of your " + Desc.Butt.describeButthole(character.torso.butt) + " is most definitely not. You cry out as the weak contact is more than enough to make you cum, spraying hot femcum beneath you.  Meanwhile, your tongue lolls out of your mouth and you shiver with barely restrained pleasure.\n\n");

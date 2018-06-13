@@ -6,7 +6,7 @@
 export class Izma extends Monster {
 
 	//[Special Attacks]
-	private IzmaSpecials1(): void {
+	private IzmaSpecials1() {
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2) {
 			DisplayText("Izma attempts to close the distance with you, but misses completely because of her blindness.\n");
@@ -37,7 +37,7 @@ export class Izma extends Monster {
 		game.fatigue(20 + randInt(20));
 	}
 
-	private IzmaSpecials2(): void {
+	private IzmaSpecials2() {
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2) {
 			DisplayText("Izma blindly tries to clinch you, but misses completely.\n");
@@ -76,13 +76,13 @@ export class Izma extends Monster {
 		else DisplayText("laugh as her blades scape uselessly at your armor-clad back");
 		DisplayText(" before breaking her embrace and leaping away. (" + damage + ")");
 	}
-	private IzmaSpecials3(): void {
+	private IzmaSpecials3() {
 		DisplayText("Rather than move to attack you, Izma grins at you and grabs her breasts, massaging them as she caresses her long penis with one knee. Her tail thrashes and thumps the sand heavily behind her as she simulates an orgasm, moaning loudly into the air. The whole display leaves you more aroused than before.");
 		//(lust gain)
 		game.dynStats("lus", (20 + player.stats.lib / 5));
 	}
 
-	private IzmaAI(): void {
+	private IzmaAI() {
 		let choice: number = randInt(5);
 		if (choice <= 1) eAttack();
 		if (choice === 2) {
@@ -97,12 +97,12 @@ export class Izma extends Monster {
 		combatRoundOver();
 	}
 
-	public eAttack(): void {
+	public eAttack() {
 		DisplayText("Izma slides up to you, throws a feint, and then launches a rain of jabs at you!\n");
 		super.eAttack();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		let choice: number = randInt(5);
 		if (choice <= 1) eAttack();
 		if (choice === 2) {
@@ -117,14 +117,14 @@ export class Izma extends Monster {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.izmaScene.defeatIzma();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\n\"<i>Gross!</i>\" Izma cries as she backs away, leaving you to recover alone.");
-			game.cleanupAfterCombat();
+			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		} else {
 			game.izmaScene.IzmaWins();
 		}

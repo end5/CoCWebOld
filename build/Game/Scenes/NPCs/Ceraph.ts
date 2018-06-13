@@ -2,7 +2,7 @@
 
     //[IN COMBAT SPECIALS]
     //[SPECIAL 1] – Ubercharge!
-    private ceraphSpecial1(): void {
+    private ceraphSpecial1() {
         game.DisplaySprite(7);
         if (findStatusAffect(StatusAffects.Uber) < 0) {
             if (randInt(2) === 0) {
@@ -33,7 +33,7 @@
                 }
                 //(AUTO-LOSE)
                 else {
-                    DisplayText("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Too busy with your own attack to effectively dodge, you're hit full on by the pink fire.  Incredibly, it doesn't burn.  The fire actually seems to flow inside you, disappearing into your skin.  You stumble, confused for a second, but then it hits you.  Every inch of your body is buzzing with pleasure, practically squirming and convulsing with sexual delight.  You collapse, twitching and heaving, feeling the constant sensation of sexual release running from your head to your " + LowerBodyDescriptor.describeFeet(player) + ".  Too horny and pleasured to resist, you lie down and tremble, occasionally rubbing yourself to enhance the bliss.");
+                    DisplayText("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Too busy with your own attack to effectively dodge, you're hit full on by the pink fire.  Incredibly, it doesn't burn.  The fire actually seems to flow inside you, disappearing into your skin.  You stumble, confused for a second, but then it hits you.  Every inch of your body is buzzing with pleasure, practically squirming and convulsing with sexual delight.  You collapse, twitching and heaving, feeling the constant sensation of sexual release running from your head to your " + Desc.Leg.describeFeet(player) + ".  Too horny and pleasured to resist, you lie down and tremble, occasionally rubbing yourself to enhance the bliss.");
                     game.player.stats.lust += 1500;
                 }
             }
@@ -41,7 +41,7 @@
         combatRoundOver();
     }
     //[SPECIAL] – Whip Binding
-    private ceraphSpecial2(): void {
+    private ceraphSpecial2() {
         if (!player.statusAffects.has(StatusAffectType.Bound)) {
             DisplayText("Ceraph snaps her whip at you, lightning fast.  Unable to avoid the blinding speed of her attack, you find yourself wrapped from head to toe in the strong leather of her whip.  Remarkably, the fire dies out everywhere the whip touches you, leaving you bound but unharmed.");
             //If player has l2 piercing
@@ -54,7 +54,7 @@
         //[SPECIAL WHILE PC RESTRAINED]
         else {
             if (randInt(2) === 0) {
-                DisplayText("Ceraph cuddles up against you, embracing you tenderly.  Her more-than-ample bosom crushes against your flank, and her demonic prick grinds and rubs against your " + player.skinDesc + ", smearing it with her juices.  Her hands slide over your bound form, sneaking underneath your " + player.inventory.equipment.armor.displayName + " to caress you more intimately while you're at her mercy.");
+                DisplayText("Ceraph cuddles up against you, embracing you tenderly.  Her more-than-ample bosom crushes against your flank, and her demonic prick grinds and rubs against your " + player.skin.desc + ", smearing it with her juices.  Her hands slide over your bound form, sneaking underneath your " + player.inventory.equipment.armor.displayName + " to caress you more intimately while you're at her mercy.");
                 game.dynStats("lus", 9 + player.stats.sens / 10);
             }
             //[SPECIAL 2 WHILE PC RESTRAINED]
@@ -71,7 +71,7 @@
     }
 
     //(Struggle)
-    public ceraphBindingStruggle(): void {
+    public ceraphBindingStruggle() {
         DisplayText().clear();
         DisplayText("You wriggle in the tight binding, trying your best to escape.  ");
         if (player.statusAffects.get(StatusAffectType.Bound).value1 - 1 <= 0) {
@@ -101,9 +101,9 @@
     }
 
     //(Wait)
-    public ceraphBoundWait(): void {
+    public ceraphBoundWait() {
         DisplayText().clear();
-        DisplayText("Why bother resisting?  The feeling of the leather wrapped tightly around you, digging into your " + player.skinDesc + ", is intoxicating.");
+        DisplayText("Why bother resisting?  The feeling of the leather wrapped tightly around you, digging into your " + player.skin.desc + ", is intoxicating.");
         if (Flags.list[FlagEnum.PC_FETISH] >= 2) {
             DisplayText("  You squirm inside the bindings as you get more and more turned on, hoping that Ceraph will strip away your armor and force you to parade around as her bound, naked pet.");
             game.player.stats.lust += 5;
@@ -115,7 +115,7 @@
 
 
     //[Double-Attack]
-    private ceraphSpecial3(): void {
+    private ceraphSpecial3() {
         //[Mini-cum] – takes place of double-attack if very horny
         if (lust >= 75) {
             DisplayText("Ceraph spreads her legs and buries three fingers in her sopping twat, her thumb vigorously rubbing against the base of her bumpy prick.  Her other hand wraps around the meaty pole and begins jerking it rapidly.  In one practiced movement she stops jerking long enough to wrap the whip around her nodule-studded demon-cock, using it like a cockring.  The organ swells thanks to the forced blood-flow, and after a few more seconds of intense masturbation, the demoness cums hard.  Her cunny squirts all over her hand, dripping clear feminine drool down her thighs.  Ceraph's masculine endowment pulses and twitches, blasting out two big squirts of jizm before it slows to a trickle.\n");
@@ -229,7 +229,7 @@
         combatRoundOver();
     }
 
-    override protected performCombatAction(): void {
+    override protected performCombatAction() {
         let choice: number = randInt(4);
         if (player.statusAffects.has(StatusAffectType.Bound)) {
             ceraphSpecial2();
@@ -256,11 +256,11 @@
     }
 
 
-    public defeated(hpVictory: boolean): void {
+    public defeated(hpVictory: boolean) {
         game.ceraphScene.winRapeChoices();
     }
 
-    public won(hpVictory: boolean, pcCameWorms: boolean): void {
+    public won(hpVictory: boolean, pcCameWorms: boolean) {
         if (pcCameWorms) {
             DisplayText("\n\nYour foe doesn't seem disgusted enough to leave...");
             return { next: game.endLustLoss };

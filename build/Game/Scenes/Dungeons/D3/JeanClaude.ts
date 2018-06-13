@@ -1,24 +1,24 @@
 export class JeanClaude extends Monster {
-	private doubleAttack(): void {
+	private doubleAttack() {
 		DisplayText("The monstrous basilisk suddenly lunges forward, snarling wordlessly as he swings his cutlass at you twice, the blows of a savage yet expert swordsman.\n\n");
 		statusAffects.set(new StatusAffect("Attacks", 2, 0, 0, 0));
 		eAttack();
 		combatRoundOver();
 	}
 
-	public doAI(): void {
+	public doAI() {
 		doubleAttack();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.d3.jeanClaude.beatDaFuckhugeBasilisk(hpVictory);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.d3.jeanClaude.fuckhugeBasiliskFuckedYouUp(hpVictory);
 	}
 
-	public handleTease(lustDelta: number, successful: boolean): void {
+	public handleTease(lustDelta: number, successful: boolean) {
 		if (!player.statusAffects.has(StatusAffectType.RemovedArmor)) {
 			DisplayText("\n\nJean-Claude stops circling you, looking mildly surprised as you attempt to entice him with your body.");
 
@@ -80,7 +80,9 @@ export class JeanClaude extends Monster {
 this.baseStats.tou = 100;
 this.baseStats.spe = 80;
 this.baseStats.int = 60;
-		initLibSensCor(40, 40, 80);
+		this.baseStats.lib = 40;
+this.baseStats.sens = 40;
+this.baseStats.cor = 80;
 		faceType = FaceType.LIZARD;
 
 		weaponName = "cutlass";

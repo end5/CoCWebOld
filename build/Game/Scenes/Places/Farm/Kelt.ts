@@ -1,6 +1,6 @@
 export class Kelt extends Monster {
 	//Trample - once every five turns
-	private keltTramplesJoo(): void {
+	private keltTramplesJoo() {
 		DisplayText("Before you know what's what, Kelt is galloping toward you, kicking up a cloud of dust in his wake.  He's trying to trample you!  ");
 		//Miss:
 		if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
@@ -26,7 +26,7 @@ export class Kelt extends Monster {
 	}
 
 	//Arrow Attack
-	private keltShootBow(): void {
+	private keltShootBow() {
 		statusAffects.add(StatusAffectType.BowCooldown, 3, 0, 0, 0);
 		DisplayText("Kelt knocks and fires an arrow almost faster than you can track.  He's lost none of his talent with a bow, even after everything you've put him through.  ");
 
@@ -52,7 +52,7 @@ export class Kelt extends Monster {
 	}
 
 	//Aura Arouse
-	private KellyuraAttack(): void {
+	private KellyuraAttack() {
 		let select: number = randInt(3);
 		//(1)
 		if (select === 0) DisplayText("Kelt flashes his cockiest smile and gestures downward.  \"<i>Did you forget why you're here, slut?  Taking me by surprise once doesn't make you any less of a whore.</i>\"");
@@ -70,7 +70,7 @@ export class Kelt extends Monster {
 
 	//Attacks as normal + daydream "attack"
 	//DayDream "Attack"
-	private dayDreamKelly(): void {
+	private dayDreamKelly() {
 		if (randInt(2) === 0) DisplayText("Kelt pauses mid-draw, looking you up and down.  He licks his lips for a few moments before shaking his head to rouse himself from his lusty stupor.  He must miss the taste of your sperm.");
 		else DisplayText("Flaring 'his' nostrils, Kelt inhales deeply, his eyelids fluttering closed as he gives a rather lady-like moan.   His hands roam over his stiff nipples, tweaking them slightly before he recovers.");
 		lust += 5;
@@ -79,7 +79,7 @@ export class Kelt extends Monster {
 
 
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (statusAffects.get(StatusAffectType.BowCooldown).value1 > 0) {
 			statusAffects.get(StatusAffectType.BowCooldown).value1 = -1;
 			if (statusAffects.get(StatusAffectType.BowCooldown).value1 <= 0) statusAffects.remove("BowCooldown");
@@ -94,12 +94,12 @@ export class Kelt extends Monster {
 		else keltTramplesJoo();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (game.Flags.list[FlagEnum.KELT_BREAK_LEVEL] === 1) game.farm.kelly.defeatKellyNDBREAKHIM();
 		else game.farm.kelly.breakingKeltNumeroThree();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nKelt recoils for a moment before assuming a look of superiority...");
 			return { next: game.endLustLoss };
@@ -135,7 +135,9 @@ export class Kelt extends Monster {
 this.baseStats.tou = 70;
 this.baseStats.spe = 40;
 this.baseStats.int = 20;
-		initLibSensCor(40, 25, 55);
+		this.baseStats.lib = 40;
+this.baseStats.sens = 25;
+this.baseStats.cor = 55;
 		this.weaponName = "fist";
 		this.weaponVerb = "punch";
 		this.weaponAttack = 10;

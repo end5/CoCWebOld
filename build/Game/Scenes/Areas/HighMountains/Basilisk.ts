@@ -43,7 +43,7 @@ game.combatRoundOver();
 		private basiliskTailSwipe():void {
 	let damage:number = int((str + 20) - Math.random() * (player.stats.tou + player.armorDef));
 	damage = player.takeDamage(damage);
-	DisplayText("The basilisk suddenly whips its tail at you, swiping your " + LowerBodyDescriptor.describeFeet(player) + " from under you!  You quickly stagger upright, being sure to hold the creature's feet in your vision. (" + damage + ")");
+	DisplayText("The basilisk suddenly whips its tail at you, swiping your " + Desc.Leg.describeFeet(player) + " from under you!  You quickly stagger upright, being sure to hold the creature's feet in your vision. (" + damage + ")");
 	if(damage === 0) DisplayText("  The fall didn't harm you at all.");
 	game.combatRoundOver();
 }
@@ -100,7 +100,9 @@ else eAttack();
 this.baseStats.tou = 70;
 this.baseStats.spe = 35;
 this.baseStats.int = 70;
-	initLibSensCor(50, 35, 60);
+	this.baseStats.lib = 50;
+this.baseStats.sens = 35;
+this.baseStats.cor = 60;
 	this.weaponName = "claws";
 	this.weaponVerb = "claw";
 	this.weaponAttack = 30;

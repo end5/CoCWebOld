@@ -1,14 +1,14 @@
 export class PhoenixPlatoon extends Monster {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.phoenixPlatoonAI();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.phoenixPlatoonLosesToPC();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.phoenixPlatoonMurdersPC();
 	}
 
@@ -40,7 +40,9 @@ export class PhoenixPlatoon extends Monster {
 this.baseStats.tou = 60;
 this.baseStats.spe = 120;
 this.baseStats.int = 40;
-		initLibSensCor(40, 45, 50);
+		this.baseStats.lib = 40;
+this.baseStats.sens = 45;
+this.baseStats.cor = 50;
 		this.weaponName = "spears";
 		this.weaponVerb = "stab";
 		this.weaponAttack = 20;

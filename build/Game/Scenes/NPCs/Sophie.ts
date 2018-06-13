@@ -11,7 +11,7 @@ export class Sophie extends Harpy {
 	//per round of increasing lust by 20.  Repeat kisses add
 	//+20 lust.  Each kiss adds 2 hours to length of status
 	//affect.
-	private sophieKissAttack(): void {
+	private sophieKissAttack() {
 		game.sophieBimbo.sophieSprite();
 		DisplayText("Sophie bobs and weaves as she closes the distance between you in an instant.  ");
 		//Blind dodge change
@@ -44,14 +44,14 @@ export class Sophie extends Harpy {
 
 		//Already affected by it
 		if (player.statusAffects.has(StatusAffectType.Luststick)) {
-			DisplayText("  Blood rushes to " + player.CockDescriptor.describeMultiCockSimpleOne(player) + " as you grow so hard so fast that it hurts.  ");
+			DisplayText("  Blood rushes to " + player.Desc.Cock.describeMultiCockSimpleOne(player) + " as you grow so hard so fast that it hurts.  ");
 			game.sophieScene.luststickApplication(2);
 			game.dynStats("lus", (12 + player.stats.lib / 10));
 			if (player.stats.lust < 70) DisplayText("The drugged lip-gloss is starting to get to you!\n");
 			else if (player.stats.lust < 80) DisplayText("Her curvy thighs look so inviting.  You barely stop yourself before you climb in between them!\n");
-			else if (player.stats.lust < 90) DisplayText("A trickle of pre-cum leaks from " + player.CockDescriptor.describeMultiCockSimpleOne(player) + ".  Sophie coos, \"<i>Why don't you give in and let mommy Sophie drain out all that juicy cum?</i>\"\n");
-			else if (player.stats.lust < 100) DisplayText(player.CockDescriptor.describeMultiCockSimpleOne(player, true) + " twitches and bounces in time with your heartbeat, practically pulling you towards Sophie's gaping, pink-linked snatch.\n");
-			else DisplayText("So horny.  You need to copulate - no, fuck - right NOW.  Your hand touches your " + player.CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " and you swoon, pumping your hips lewdly as you submit.\n");
+			else if (player.stats.lust < 90) DisplayText("A trickle of pre-cum leaks from " + player.Desc.Cock.describeMultiCockSimpleOne(player) + ".  Sophie coos, \"<i>Why don't you give in and let mommy Sophie drain out all that juicy cum?</i>\"\n");
+			else if (player.stats.lust < 100) DisplayText(player.Desc.Cock.describeMultiCockSimpleOne(player, true) + " twitches and bounces in time with your heartbeat, practically pulling you towards Sophie's gaping, pink-linked snatch.\n");
+			else DisplayText("So horny.  You need to copulate - no, fuck - right NOW.  Your hand touches your " + player.Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and you swoon, pumping your hips lewdly as you submit.\n");
 		}
 		else {
 			DisplayText("  Your whole body blushes as your lips tingle with some unnatural sensation.  Her lips were drugged!  Your whole body flushes as arousal begins to course through your veins.  ");
@@ -59,9 +59,9 @@ export class Sophie extends Harpy {
 			game.dynStats("lus", 8 + player.stats.lib / 10);
 			if (player.stats.lust < 70) DisplayText("The drugged lip-gloss is starting to get to you!\n");
 			else if (player.stats.lust < 80) DisplayText("Her curvy thighs look so inviting.  You barely stop yourself before you climb in between them!\n");
-			else if (player.stats.lust < 90) DisplayText("A trickle of pre-cum leaks from " + player.CockDescriptor.describeMultiCockSimpleOne(player) + ".  Sophie coos, \"<i>Why don't you give in and let mommy Sophie drain out all that juicy cum?</i>\"\n");
-			else if (player.stats.lust < 100) DisplayText(player.CockDescriptor.describeMultiCockSimpleOne(player, true) + " twitches and bounces in time with your heartbeat, practically pulling you towards Sophie's gaping, pink-linked snatch.\n");
-			else DisplayText("So horny.  You need to copulate - no, fuck - right NOW.  Your hand touches your " + player.CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " and you swoon, pumping your hips lewdly as you submit.\n");
+			else if (player.stats.lust < 90) DisplayText("A trickle of pre-cum leaks from " + player.Desc.Cock.describeMultiCockSimpleOne(player) + ".  Sophie coos, \"<i>Why don't you give in and let mommy Sophie drain out all that juicy cum?</i>\"\n");
+			else if (player.stats.lust < 100) DisplayText(player.Desc.Cock.describeMultiCockSimpleOne(player, true) + " twitches and bounces in time with your heartbeat, practically pulling you towards Sophie's gaping, pink-linked snatch.\n");
+			else DisplayText("So horny.  You need to copulate - no, fuck - right NOW.  Your hand touches your " + player.Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and you swoon, pumping your hips lewdly as you submit.\n");
 		}
 	}
 
@@ -70,7 +70,7 @@ export class Sophie extends Harpy {
 	//around PC's torso and smothering the PC with breasts 
 	//for a few moments.
 	//Easily dodged with evade or flexibility.
-	private sophieHarpyBoatsPC(): void {
+	private sophieHarpyBoatsPC() {
 		game.sophieBimbo.sophieSprite();
 		DisplayText(capitalA + short + " flaps her wings and launches herself forwards with her talons up.  ");
 		//Blind dodge change
@@ -106,14 +106,14 @@ export class Sophie extends Harpy {
 	}
 
 	//Compulsion (Male Only)
-	private sophieCompulsionAttack(): void {
+	private sophieCompulsionAttack() {
 		game.sophieBimbo.sophieSprite();
 		DisplayText("Sophie spreads her thick thighs and slips four fingers into her slippery sex.  She commands, \"<i>Touch yourself for me.  Be a good pet and masturbate for me.</i>\"  ");
 		//Autosucceeds if player.stats.int < 40
 		//autofails if player.stats.int > 80
 		//Player fails:
 		if (player.stats.int < 40 || (player.stats.int < 80 && randInt(40) > (player.stats.int - 40))) {
-			DisplayText("You moan out loud as your arms move of their own volition.  They reach inside your " + player.inventory.equipment.armor.displayName + " and stroke " + player.CockDescriptor.describeMultiCockSimpleOne(player) + ", caress the tip, and continue to fondle you a few moments.");
+			DisplayText("You moan out loud as your arms move of their own volition.  They reach inside your " + player.inventory.equipment.armor.displayName + " and stroke " + player.Desc.Cock.describeMultiCockSimpleOne(player) + ", caress the tip, and continue to fondle you a few moments.");
 			DisplayText("Even after regaining control of your limbs, you're left far more turned on by the ordeal.");
 			game.dynStats("lus", (15 + player.stats.cor / 20 + player.stats.lib / 20));
 		}
@@ -126,7 +126,7 @@ export class Sophie extends Harpy {
 	//ON FEMALE PCz
 	//Talons (Female Only)
 	//High damage attack easily avoided by evade/flexibility.
-	private talonsSophie(): void {
+	private talonsSophie() {
 		game.sophieBimbo.sophieSprite();
 		DisplayText("Sophie pulls her leg up, cocking her thigh dangerously.  Look out!  ");
 		let damage: number = 0;
@@ -155,7 +155,7 @@ export class Sophie extends Harpy {
 			DisplayText("'s attack.\n");
 			return;
 		}
-		DisplayText("Her leg lashes forwards, lightning-quick, and tears bloody gashes into your " + player.skinDesc + " with her razor-sharp talons! ");
+		DisplayText("Her leg lashes forwards, lightning-quick, and tears bloody gashes into your " + player.skin.desc + " with her razor-sharp talons! ");
 		//Determine damage - str modified by enemy toughness!
 		damage = int((str + weaponAttack) - Math.random() * (player.stats.tou) - player.armorDef);
 		if (damage < 0) damage = 0;
@@ -166,7 +166,7 @@ export class Sophie extends Harpy {
 	}
 	//Batter (Female Only)
 	//Batters PC with wings – 4x attack impossible to dodge.*/
-	private batterAttackSophie(): void {
+	private batterAttackSophie() {
 		game.sophieBimbo.sophieSprite();
 		let damage: number = 0;
 		DisplayText("Sophie comes at you in a flurry of beating wings!  There's no way to dodge the flurry of strikes!\n");
@@ -193,7 +193,7 @@ export class Sophie extends Harpy {
 		DisplayText("Her right wing slams into the other side of your head! (" + damage + ")\n");
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		//Sophie has special AI in harpySophie.as
 		game.sophieBimbo.sophieSprite();
 		let select: number = 1;
@@ -224,19 +224,19 @@ export class Sophie extends Harpy {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (statusAffects.has(StatusAffectType.BimboBrawl))
 			game.sophieFollowerScene.beatUpDebimboSophie();
 		else
 			game.sophieScene.sophieLostCombat();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (statusAffects.has(StatusAffectType.BimboBrawl))
 			game.sophieFollowerScene.debimboSophieBeatsYouUp();
 		else if (pcCameWorms) {
 			DisplayText("\n\nYour foe seems disgusted by the display and leaves you to recover alone...");
-			game.cleanupAfterCombat();
+			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		} else {
 			game.sophieScene.sophieWonCombat();
 		}

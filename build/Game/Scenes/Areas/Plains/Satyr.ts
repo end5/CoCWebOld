@@ -1,6 +1,6 @@
 export class Satyr extends Monster {
 	//Attacks (Z)
-	private satyrAttack(): void {
+	private satyrAttack() {
 		DisplayText("The satyr swings at you with one knuckled fist.  ");
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 1) {
@@ -21,7 +21,7 @@ export class Satyr extends Monster {
 		combatRoundOver();
 	}
 
-	private satyrBate(): void {
+	private satyrBate() {
 		DisplayText("He glares at you, panting while his tongue hangs out and begins to masturbate.  You can nearly see his lewd thoughts reflected in his eyes, as beads of pre form on his massive cock and begin sliding down the erect shaft.");
 		//(small Libido based Lust increase, and increase lust)
 		game.dynStats("lus", (player.stats.lib / 5) + 4);
@@ -29,7 +29,7 @@ export class Satyr extends Monster {
 		combatRoundOver();
 	}
 
-	internal function satyrCharge(): void {
+	internal function satyrCharge() {
 		DisplayText("Lowering his horns, the satyr digs his hooves on the ground and begins snorting; he's obviously up to something.  ");
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 1) {
 			DisplayText(capitalA + short + " completely misses you due to blindness!\n");
@@ -67,7 +67,7 @@ export class Satyr extends Monster {
 		combatRoundOver();
 	}
 
-	private bottleChug(): void {
+	private bottleChug() {
 		DisplayText("He whips a bottle of wine seemingly from nowhere and begins chugging it down, then lets out a bellowing belch towards you.  The smell is so horrible you cover your nose in disgust, yet you feel hot as you inhale some of the fetid scent.");
 		//(damage PC lust very slightly and raise the satyr's lust.)
 		game.dynStats("lus", (player.stats.lib / 5));
@@ -76,7 +76,7 @@ export class Satyr extends Monster {
 	}
 
 	//5:(Only executed at high lust) 
-	private highLustChugRape(): void {
+	private highLustChugRape() {
 		DisplayText("Panting with barely-contained lust, the Satyr charges at you and tries to ram you into the ground.  ");
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 1) {
 			DisplayText(capitalA + short + " completely misses you due to blindness!\n");
@@ -85,7 +85,7 @@ export class Satyr extends Monster {
 			DisplayText("As he charges you, you grab him by the horns and spin around, sending him away.");
 		}
 		else {
-			DisplayText("You fall with a <b>THUD</b> and the Satyr doesn't even bother to undress you before he begins rubbing his massive cock on your body until he comes, soiling your [armor] and " + player.skinFurScales() + " with slimy, hot cum.  As it rubs into your body, you shiver with unwanted arousal.");
+			DisplayText("You fall with a <b>THUD</b> and the Satyr doesn't even bother to undress you before he begins rubbing his massive cock on your body until he comes, soiling your [armor] and " + Desc.Skin.skinFurScales(player) + " with slimy, hot cum.  As it rubs into your body, you shiver with unwanted arousal.");
 			//large-ish sensitivity based lust increase if hit.)(This also relieves him of some of his lust, though not completely.)
 			lust -= 50;
 			game.dynStats("lus", (player.stats.sens / 5 + 20));
@@ -93,7 +93,7 @@ export class Satyr extends Monster {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (lust >= 75 && randInt(2) === 0) highLustChugRape();
 		else if (lust < 75 && randInt(2) === 0) {
 			if (randInt(2) === 0) satyrBate();
@@ -106,12 +106,12 @@ export class Satyr extends Monster {
 		}
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.plains.satyrScene.defeatASatyr();
 	}
 
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe satyr laughs heartily at your eagerness...");
 			return { next: game.endLustLoss };
@@ -147,7 +147,9 @@ export class Satyr extends Monster {
 this.baseStats.tou = 70;
 this.baseStats.spe = 110;
 this.baseStats.int = 70;
-		initLibSensCor(60, 35, 45);
+		this.baseStats.lib = 60;
+this.baseStats.sens = 35;
+this.baseStats.cor = 45;
 		this.weaponName = "fist";
 		this.weaponVerb = "punch";
 		this.armorName = "thick fur";

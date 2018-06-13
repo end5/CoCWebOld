@@ -116,20 +116,20 @@ export class TentacleBeastScene {
             // Success:
             if (randInt(2) === 0) {
                 // GENDERLEZZ
-                if (character.gender === Gender.NONE) DisplayText("You brazenly turn your back on the creature and, glancing over your shoulder, begin bending over and presenting your " + ButtDescriptor.describeButt(character) + " to the beast. It pauses and observes while you bend over further, presenting a full view of both your back door and your " + ButtDescriptor.describeButthole(character.torso.butt) + ". You shift from side to side and observe the beast match your movements. You have obtained its attention to say the least.\n\n");
+                if (character.gender === Gender.NONE) DisplayText("You brazenly turn your back on the creature and, glancing over your shoulder, begin bending over and presenting your " + Desc.Butt.describeButt(character) + " to the beast. It pauses and observes while you bend over further, presenting a full view of both your back door and your " + Desc.Butt.describeButthole(character.torso.butt) + ". You shift from side to side and observe the beast match your movements. You have obtained its attention to say the least.\n\n");
                 // CHICKS
-                else DisplayText("You brazenly turn your back on the creature and, glancing over your shoulder, begin bending over and presenting your " + ButtDescriptor.describeButt(character) + " to the beast. It pauses and observes while you bend over further, presenting a full view of both your back door and your honey hole. You shift from side to side and observe the beast match your movements. You have obtained its attention to say the least.\n\n");
+                else DisplayText("You brazenly turn your back on the creature and, glancing over your shoulder, begin bending over and presenting your " + Desc.Butt.describeButt(character) + " to the beast. It pauses and observes while you bend over further, presenting a full view of both your back door and your honey hole. You shift from side to side and observe the beast match your movements. You have obtained its attention to say the least.\n\n");
                 monster.lust += 10 + randInt(5);
             }
             // Failure
             else {
-                DisplayText("You begin shaking your hips and grabbing your " + BreastDescriptor.describeAllBreasts(character) + " to distract the creature. However, the near-miss from the tentacle it attempted to swat you with convinces you of its desire to beat your ass, rather than fuck it.\n\n");
+                DisplayText("You begin shaking your hips and grabbing your " + Desc.Breast.describeAllBreasts(character) + " to distract the creature. However, the near-miss from the tentacle it attempted to swat you with convinces you of its desire to beat your ass, rather than fuck it.\n\n");
             }
         }
         kGAMECLASS.combatRoundOver();
     }
 
-    public tentacleVictoryRape(character: Character): void {
+    public tentacleVictoryRape(character: Character) {
         DisplayText().clear();
         DisplaySprite(SpriteName.Tentacle_Monster);
         ;
@@ -164,7 +164,7 @@ export class TentacleBeastScene {
             }
         }
         character.orgasm();
-        cleanupAfterCombat();
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     // Spoiler for Bad End-Tentacle Monster:
@@ -174,7 +174,7 @@ export class TentacleBeastScene {
         DisplaySprite(SpriteName.Tentacle_Monster);
         ;
         DisplayText("Having repeatedly been ravaged by the tentacle beast in your travels, you surrender yourself to yet another savage session of forced pleasure. However, the beast lunges forward with its great maw open. Utterly surprised, you do not have time to react before the creature's tentacles seize you and swallow you whole!!!\n\n");
-        DisplayText("The last rays of light fade as the creature closes its beak, trapping you inside. You begin flailing and fighting in sheer panic at the prospect of being eaten alive. As you struggle, countless tentacles wrap around your arms and legs, essentially binding you inside the creature. A thick tentacle forces its way down your mouth and you feel the familiar sensation of salty lust being emptied into your mouth. Your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " instantly becomes erect, triggering a tentacle to encapsulate your member completely. As this occurs, another limb buries itself deep within your ass.\n\n");
+        DisplayText("The last rays of light fade as the creature closes its beak, trapping you inside. You begin flailing and fighting in sheer panic at the prospect of being eaten alive. As you struggle, countless tentacles wrap around your arms and legs, essentially binding you inside the creature. A thick tentacle forces its way down your mouth and you feel the familiar sensation of salty lust being emptied into your mouth. Your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " instantly becomes erect, triggering a tentacle to encapsulate your member completely. As this occurs, another limb buries itself deep within your ass.\n\n");
         DisplayText("The beast then begins to milk your dick as fiercely as it ever has been in your entire life. You feel as if your prick will be ripped from your crotch as you immediately climax, dumping load after load of your semen into the horror. Your ejaculations only make the beast milk you harder, prompting an almost constant orgasmic cycle. After awhile, the shock and pain subside as you become utterly drunk off the sensation of the constant stream of cock milk you are producing.\n\n");
         DisplayText("In your last moments of lucidity, you realize that you are not being eaten or technically harmed at all. The creature has bonded with you as a living producer of food.  As long as you are healthy and cumming, it has all the food it could ever possibly want... so long as your gonads hold out.\n\n");
         DisplayText("You pass out, only to awaken briefly to the constant sensation of semen flowing out of your body.  Were it not for the tentacle force-feeding you, you would weakly moan with pleasure at the feeling of constant orgasm.  You slip in and out of consciousness countless times. When lucid, you can only enjoy the fact you are STILL blowing a load.\n\n");
@@ -183,7 +183,7 @@ export class TentacleBeastScene {
         return { next: this.futaTentacleEpilogue };
     }
 
-    private futaTentacleEpilogue(character: Character): void {
+    private futaTentacleEpilogue(character: Character) {
         DisplayText().clear();
         DisplaySprite(SpriteName.Tentacle_Monster);
         // [Met Giacomo at least once]
@@ -243,7 +243,7 @@ export class TentacleBeastScene {
             DisplayText("It pins you to the ground easily. You immediately feel a sharp, horrible pain at the base of your cock. You look down to see the end of a thorny tendril impaled in your pelvic region. Fiery pain courses through your veins as you feel the creature inject you with some sort of liquid. As the pain sears through you, your monstrous equine member immediately becomes fully erect and pre-cum flows freely from your flare.\n\n");
             DisplayText("You see a large hollow tentacle attempt to descend upon your stiff cock. Much to your surprise and the creature's frustration, it barely opens wide enough to cover the tip of your impressive member. The creature mindlessly continues attempting to entrap your penis. It only succeeds in sending pangs of pleasure down your shaft as the thumping on the end of your cock shoots down to your roots.\n\n");
             DisplayText("Amused as well as aroused, you choose to lull the creature into reticence as it keeps trying to suck your horsecock in. Each wave of pleasure makes your prick bob about");
-            if (character.torso.balls.quantity > 0) DisplayText(", and you feel your " + BallsDescriptor.describeBalls(false, true, character, true) + " rise and drop in unison to the muscular contractions pumping freshly made cum into position for release");
+            if (character.torso.balls.quantity > 0) DisplayText(", and you feel your " + Desc.Balls.describeBalls(false, true, character, true) + " rise and drop in unison to the muscular contractions pumping freshly made cum into position for release");
             DisplayText(".\n\n");
             DisplayText("You bask in the glow of pleasure as the creature still fumbles around your dong, not realizing that you are just too big. An evil thought crosses your mind. Since this thing wants you bad enough, why not oblige it? Not expecting your increased strength due to your equine features, you wrench yourself free of the creature's restraints and summarily grasp the tentacle trying to cover your cock. With a great buck and heave, you force your dick into the tentacle, stretching it immensely. The creature lets out an inhuman howl as it reacts painfully to your newfound zeal.\n\n");
             DisplayText("You begin pumping and thrusting like mad, working yourself to an orgasm. The creature tries to pull away, but finds that it is the one that cannot escape. Feeling your ");
@@ -262,7 +262,7 @@ export class TentacleBeastScene {
             character.stats.cor += 1;
             monster.stats.HP = 0;
             if (character.stats.HP === 0) character.stats.HP++;
-            if (Game.inCombat) cleanupAfterCombat();
+            if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
             else return { next: Scenes.camp.returnToCampUseOneHour };
             return;
         }
@@ -286,28 +286,28 @@ export class TentacleBeastScene {
         else if (character.torso.hips.legs.isTaur()) {
             DisplayText("Tentacles wrap around your legs before you can stop them.  They continue to coil up your legs, spreading an uncomfortable warmth through your equine half.  Another tentacle wraps around your torso, spreading that same warmth and fuzzing your mind.  You grab one you can reach and attempt to tear it off of you, but two thinner, translucent feelers immobilize your arms, pulling them up behind your head.\n\n");
             character.slimeFeed();
-            DisplayText("They test your body, slipping about over your form.  A small tentacle finds its way into your mouth, coiling about your tongue and down your throat.  It's careful not to make you choke, seemingly as curious about your innards as it is about your shell.  You're given little time to think though, as a surge of fluid is deposited into your stomach, making your desire to cum grow even more.  The sharp spines coiled about you act similarly, spreading warmth about them wherever they touch your " + SkinDescriptor.skin(character) + ".\n\n");
+            DisplayText("They test your body, slipping about over your form.  A small tentacle finds its way into your mouth, coiling about your tongue and down your throat.  It's careful not to make you choke, seemingly as curious about your innards as it is about your shell.  You're given little time to think though, as a surge of fluid is deposited into your stomach, making your desire to cum grow even more.  The sharp spines coiled about you act similarly, spreading warmth about them wherever they touch your " + Desc.Skin.skin(character) + ".\n\n");
             // has at least 1 cock, engulfable:
             if (character.torso.cocks.count > 0) {
                 if (character.cockArea(character.torso.cocks.sort(Cock.SmallestCockArea)[0]) <= 50) {
-                    DisplayText("More aphrodisiac-toxin pours into you, causing " + CockDescriptor.describeMultiCockSimpleOne(character) + " to expand.  ");
-                    if (character.torso.cocks.count > 1) DisplayText("  The creature seems surprised at first to discover such a large brace of cocks, testing their texture and wrapping around each individually.  Your " + CockDescriptor.describeMultiCockShort(character) + " responds by wriggling about and tempting the beast to continue its exploration, but the gesture is futile and they're abandoned, though not for long.");
+                    DisplayText("More aphrodisiac-toxin pours into you, causing " + Desc.Cock.describeMultiCockSimpleOne(character) + " to expand.  ");
+                    if (character.torso.cocks.count > 1) DisplayText("  The creature seems surprised at first to discover such a large brace of cocks, testing their texture and wrapping around each individually.  Your " + Desc.Cock.describeMultiCockShort(character) + " responds by wriggling about and tempting the beast to continue its exploration, but the gesture is futile and they're abandoned, though not for long.");
                     DisplayText("\n\n");
 
-                    DisplayText("A peculiar sensation rolls over it as an unseen tentacle engulfs you, rippling and milking your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ".  Your body naturally tries to drive into it but the tentacle isn't strong enough to provide resistance.  Your wild humping causes it to bump up and down against your underbelly, a surprisingly pleasurable feeling.  The tentacle pays no heed, continuing to ripple and constrict around you;  a suckling noise accompanies the sensation of your pre-cum being suctioned out.\n\n");
+                    DisplayText("A peculiar sensation rolls over it as an unseen tentacle engulfs you, rippling and milking your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  Your body naturally tries to drive into it but the tentacle isn't strong enough to provide resistance.  Your wild humping causes it to bump up and down against your underbelly, a surprisingly pleasurable feeling.  The tentacle pays no heed, continuing to ripple and constrict around you;  a suckling noise accompanies the sensation of your pre-cum being suctioned out.\n\n");
 
                 }
                 // has cock, not engulfable:
                 else {
-                    DisplayText("More aphrodisiac-toxin pours into you, causing " + CockDescriptor.describeMultiCockSimpleOne(character) + " to expand. Something bumps up against the tip but can't seem to fit around your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ".  It continues trying for a while, sending pangs of pleasure down the length.  The tentacle eventually gives up and latches onto the tip, positioned right at the opening to your urethra.  It sucks up your pre-cum as it drips from you, accompanied by a loud suckling noise.");
+                    DisplayText("More aphrodisiac-toxin pours into you, causing " + Desc.Cock.describeMultiCockSimpleOne(character) + " to expand. Something bumps up against the tip but can't seem to fit around your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  It continues trying for a while, sending pangs of pleasure down the length.  The tentacle eventually gives up and latches onto the tip, positioned right at the opening to your urethra.  It sucks up your pre-cum as it drips from you, accompanied by a loud suckling noise.");
                     // [With testicles:
-                    if (character.torso.balls.quantity > 0) DisplayText("The sucking reaches all the way to your " + BallsDescriptor.describeBalls(true, true, character) + ", a spectacularly strange sensation that nevertheless feels wonderful.");
+                    if (character.torso.balls.quantity > 0) DisplayText("The sucking reaches all the way to your " + Desc.Balls.describeBalls(true, true, character) + ", a spectacularly strange sensation that nevertheless feels wonderful.");
                     DisplayText("\n\n");
                 }
             }
             // has vagina:
             if (character.torso.vaginas.count > 0) {
-                DisplayText("A squirming tentacle forces its way inside your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ", undulating and squirming as it works its way deeper and deeper.  Your body responds by pumping out more fluid, making the passage of the monstrous thing easier.");
+                DisplayText("A squirming tentacle forces its way inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", undulating and squirming as it works its way deeper and deeper.  Your body responds by pumping out more fluid, making the passage of the monstrous thing easier.");
                 character.displayStretchVagina(32, true, true, false);
                 if (character.torso.cocks.count > 0) {
                     if (character.cockArea(character.torso.cocks.sort(Cock.SmallestCockArea)[0]) <= 50) DisplayText("  Your humping appears to not affect the creatures continuing efforts, despite the force of your body.");
@@ -316,7 +316,7 @@ export class TentacleBeastScene {
             }
             // Breasts > Manly, non-lactating:
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1 && character.lactationQ() <= 0) {
-                DisplayText("Roving tentacles latch onto your " + BreastDescriptor.describeAllBreasts(character) + "; tiny spikes jabbing into each " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " and injecting some sort of hot fluid.");
+                DisplayText("Roving tentacles latch onto your " + Desc.Breast.describeAllBreasts(character) + "; tiny spikes jabbing into each " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " and injecting some sort of hot fluid.");
                 if (character.torso.chest.count * 2 === 2) DisplayText("  The anus-like tips affix to them.");
                 else DisplayText("  The anus-like tips attach to one pair as more appear in order to take the others.");
                 DisplayText("  You feel a gush of liquid leave your body as the translucent lengths of the tentacles turn stark white.  The fluid they inject has caused you to lactate!  They suckle at you incessantly and before long your nipples ache from overuse and your breasts have run completely dry.\n\n");
@@ -324,20 +324,20 @@ export class TentacleBeastScene {
             }
             // Anus === gaping:
             if (character.torso.butt.looseness >= 4) {
-                DisplayText("Your " + ButtDescriptor.describeButthole(character.torso.butt) + " makes an inviting target for the squirming mass and it's quick to capitalize.  A particularly bulbous appendage slides deep inside, roiling about in a way that not even your well-trained hole has been treated to.");
+                DisplayText("Your " + Desc.Butt.describeButthole(character.torso.butt) + " makes an inviting target for the squirming mass and it's quick to capitalize.  A particularly bulbous appendage slides deep inside, roiling about in a way that not even your well-trained hole has been treated to.");
                 if (character.torso.cocks.count > 0) DisplayText("  A series of undulating lumps pass over your prostate, pushing out a splash of pre-cum.");
                 DisplayText("  You moan into the tentacle in your mouth appreciatevely at the beast's spectacular skill.\n\n");
             }
             // Breasts > Manly, lactating, not enough to overfill:
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1 && character.lactationQ() > 0 && character.lactationQ() < 1000) {
-                DisplayText("Roving tentacles latch onto your " + BreastDescriptor.describeAllBreasts(character) + ", tiny spikes jabbing into your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s and injecting some sort of hot fluid.  The pressure inside grows nearly unbearable as you feel your milk production increase.  To your relief, an anus-like tip attaches to each nipple.  They suckle at you incessantly and before long your nipples ache from overuse and your breasts have run completely dry.\n\n");
+                DisplayText("Roving tentacles latch onto your " + Desc.Breast.describeAllBreasts(character) + ", tiny spikes jabbing into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s and injecting some sort of hot fluid.  The pressure inside grows nearly unbearable as you feel your milk production increase.  To your relief, an anus-like tip attaches to each nipple.  They suckle at you incessantly and before long your nipples ache from overuse and your breasts have run completely dry.\n\n");
                 Mod.Breast.boostLactation(character, 1);
             }
             // Breasts > Manly, lactating, enough to overfill:
             else if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1 && character.lactationQ() >= 1000) {
-                DisplayText("Roving tentacles latch onto your " + BreastDescriptor.describeAllBreasts(character) + ", tiny spikes jabbing into your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " and injecting some sort of hot fluid.  The pressure inside grows nearly unbearable as you feel your milk production increase.  To your relief, an anus-like tip attaches to each nipple.  They suckle at you incessantly and before long your nipples ache from overuse, but your breasts are still prepared to provide more milk!  The suction decreases as the beast before you becomes overfilled and eventually is forced to give up.\n\n");
+                DisplayText("Roving tentacles latch onto your " + Desc.Breast.describeAllBreasts(character) + ", tiny spikes jabbing into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " and injecting some sort of hot fluid.  The pressure inside grows nearly unbearable as you feel your milk production increase.  To your relief, an anus-like tip attaches to each nipple.  They suckle at you incessantly and before long your nipples ache from overuse, but your breasts are still prepared to provide more milk!  The suction decreases as the beast before you becomes overfilled and eventually is forced to give up.\n\n");
                 if (character.torso.cocks.count > 0) {
-                    DisplayText("Your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " explodes inside the creature, ");
+                    DisplayText("Your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " explodes inside the creature, ");
                     if (character.cumQ() <= 500) DisplayText("pushing the creature to the edge of its fluid-containing abilities.");
                     else DisplayText("quickly overfilling the tentacle attached to it; it explodes off of you, freeing your spunk to spray from both you and the retreating beast.  ");
                 }
@@ -348,25 +348,25 @@ export class TentacleBeastScene {
                 Mod.Breast.boostLactation(character, .5);
                 monster.stats.HP = 0;
                 if (character.stats.HP === 0) character.stats.HP++;
-                if (Game.inCombat) cleanupAfterCombat();
+                if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
                 else return { next: Scenes.camp.returnToCampUseOneHour };
                 return;
             }
             // has cock:
             if (character.torso.cocks.count > 0) {
                 character.cumMultiplier += .5;
-                DisplayText("The creature's desires are soon fulfilled as your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " starts to swell.  ");
+                DisplayText("The creature's desires are soon fulfilled as your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " starts to swell.  ");
                 // [has testicles:
-                if (character.torso.balls.quantity > 0) DisplayText("Your " + BallsDescriptor.describeBalls(true, true, character) + " tighten up against you in preparation for their inevitable release, ready to spray their boiling load into the beast.  ");
+                if (character.torso.balls.quantity > 0) DisplayText("Your " + Desc.Balls.describeBalls(true, true, character) + " tighten up against you in preparation for their inevitable release, ready to spray their boiling load into the beast.  ");
                 DisplayText("You rear up as a surge of euphoria races through you; your equine strength manages to overpower the tentacles holding your forelegs down for the briefest of moments needed to release your spunk into the suction of the tentacle, and you feel it get whisked out and down toward the writhing mass.\n\n");
             }
             // has vagina:
             if (character.torso.vaginas.count > 0) {
-                DisplayText("Your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " ripples about the coiled intruder as you climax; fem-cum drips down the tentacle and fills the area with your musky scent.  You rear up as a surge of euphoria races through you, managing to overpower the tentacles holding your forelegs down for the briefest of moments.  But even with your forelegs free, the tentacle in your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " remains, rippling with waves of seed that spray inside you in massive, hot globules.  The sticky substance flooding your love canal pushes you over the edge and you orgasm again, spraying more as you cry out in pleasure.\n\n");
+                DisplayText("Your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " ripples about the coiled intruder as you climax; fem-cum drips down the tentacle and fills the area with your musky scent.  You rear up as a surge of euphoria races through you, managing to overpower the tentacles holding your forelegs down for the briefest of moments.  But even with your forelegs free, the tentacle in your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " remains, rippling with waves of seed that spray inside you in massive, hot globules.  The sticky substance flooding your love canal pushes you over the edge and you orgasm again, spraying more as you cry out in pleasure.\n\n");
             }
             // has cock, normal cum amount, anus < gaping:
             if (character.torso.cocks.count > 0 && character.cumQ() < 1500 && character.torso.butt.looseness < 4) {
-                DisplayText("Just as you think it's over, another tentacle rams into your " + ButtDescriptor.describeButthole(character.torso.butt) + " and begins roughly massaging your prostate as it swells massively, causing another surge of cum to leave you, and another, and another.");
+                DisplayText("Just as you think it's over, another tentacle rams into your " + Desc.Butt.describeButthole(character.torso.butt) + " and begins roughly massaging your prostate as it swells massively, causing another surge of cum to leave you, and another, and another.");
                 character.displayStretchButt(40, true, true, false);
                 DisplayText("  It continues to violate your ass until you black out from exhaustion, the number of loads you've released no longer countable.");
                 // end (loss)
@@ -376,13 +376,13 @@ export class TentacleBeastScene {
                 character.stats.lib += 2;
                 character.stats.sens += 1;
                 character.stats.cor += .5;
-                if (Game.inCombat) cleanupAfterCombat();
+                if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
                 else return { next: Scenes.camp.returnToCampUseTwoHours };
                 return;
             }
             // has cock, normal cum amount, anus === gaping:
             if (character.torso.cocks.count > 0 && character.cumQ() < 1500 && character.torso.butt.looseness >= 0) {
-                DisplayText("Just as you think it's over, the tentacle inside your " + ButtDescriptor.describeButthole(character.torso.butt) + " begins to swell massively, causing another surge of cum to leave you, and another, and another.  It continues to violate your ass until you black out from exhaustion, the number of loads you've released no longer countable.");
+                DisplayText("Just as you think it's over, the tentacle inside your " + Desc.Butt.describeButthole(character.torso.butt) + " begins to swell massively, causing another surge of cum to leave you, and another, and another.  It continues to violate your ass until you black out from exhaustion, the number of loads you've released no longer countable.");
                 // end (loss)
                 character.orgasm();
                 character.stats.tou += 1;
@@ -390,13 +390,13 @@ export class TentacleBeastScene {
                 character.stats.lib += 2;
                 character.stats.sens += 1;
                 character.stats.cor += .5;
-                if (Game.inCombat) cleanupAfterCombat();
+                if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
                 else return { next: Scenes.camp.returnToCampUseTwoHours };
                 return;
             }
             // { has vagina, anus < gaping:
             if (character.torso.vaginas.count > 0) {
-                DisplayText("Just as you think it's over, a tentacle rams into your " + ButtDescriptor.describeButthole(character.torso.butt) + " and begins to swell massively, causing another surge of girlcum to leave you, and another, and another.");
+                DisplayText("Just as you think it's over, a tentacle rams into your " + Desc.Butt.describeButthole(character.torso.butt) + " and begins to swell massively, causing another surge of girlcum to leave you, and another, and another.");
                 character.displayStretchButt(40, true, true, false);
                 DisplayText("  It continues to violate your ass until you black out from exhaustion, the number of times you've orgasmed no longer countable.");
                 // end (loss)
@@ -406,25 +406,25 @@ export class TentacleBeastScene {
                 character.stats.lib += 2;
                 character.stats.sens += 1;
                 character.stats.cor += .5;
-                if (Game.inCombat) cleanupAfterCombat();
+                if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
                 else return { next: Scenes.camp.returnToCampUseTwoHours };
                 return;
             }
             // { has cock, huge cum amount:
             if (character.torso.cocks.count > 0) {
                 DisplayText("You continue to pump more and more baby batter into the monster until, much to your surprise, it overwhelms the beast and comes surging back out to coat your ");
-                if (character.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeSack(character) + " and ");
+                if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeSack(character) + " and ");
                 DisplayText("hind legs.  When the creature tries to pull away you step forward awkwardly, forelegs still raised, and continue spraying your copious amount of seed directly into the main mass.  It writhes about beneath you, incapable of doing anything as its soggy, heavily-laden tentacles are now no match for your strength.\n\n");
 
                 DisplayText("Eventually you");
-                if (character.torso.balls.quantity > 0) DisplayText("r " + BallsDescriptor.describeBalls(true, true, character));
+                if (character.torso.balls.quantity > 0) DisplayText("r " + Desc.Balls.describeBalls(true, true, character));
                 DisplayText(" empty and you turn around to leave, giving the spunk covered mass a swift kick as a reminder of your superiority.");
                 // end (victory)
                 character.orgasm();
                 dynStats("tou", .5, "spe", -.5, "int", -.5, "lib", 1, "sen", 1, "cor", 1);
                 monster.stats.HP = 0;
                 if (character.stats.HP === 0) character.stats.HP++;
-                if (Game.inCombat) cleanupAfterCombat();
+                if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
                 else return { next: Scenes.camp.returnToCampUseOneHour };
                 return;
             }
@@ -435,7 +435,7 @@ export class TentacleBeastScene {
             character.stats.lib += 2;
             character.stats.sens += 1;
             character.stats.cor += .5;
-            if (Game.inCombat) cleanupAfterCombat();
+            if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
             else return { next: Scenes.camp.returnToCampUseTwoHours };
             return;
         }
@@ -447,7 +447,7 @@ export class TentacleBeastScene {
             DisplayText("You feel light-headed as the drug spreads through your body quickly.  Your ");
             // Just dicks
             if (character.gender === Gender.MALE) {
-                DisplayText(CockDescriptor.describeMultiCockShort(character));
+                DisplayText(Desc.Cock.describeMultiCockShort(character));
                 if (character.torso.cocks.count > 1) DisplayText(" begin ");
                 else DisplayText(" begins ");
             }
@@ -455,45 +455,45 @@ export class TentacleBeastScene {
             else {
                 // AND dick(s)
                 if (character.torso.cocks.count > 0) {
-                    DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " and " + CockDescriptor.describeMultiCockShort(character));
+                    DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and " + Desc.Cock.describeMultiCockShort(character));
                     DisplayText(" begin ");
                 }
                 // Nope just pussy
                 else {
-                    DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)));
+                    DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
                     DisplayText(" begins ");
                 }
             }
             DisplayText("to throb urgently.  You are scarcely aware of the creature's approach; the strong tentacles lay you back gently, almost tenderly as your drug-clouded mind attempts to count their number.  It's impossible for an accurate count with them moving so quickly, but you can see there are two kinds.  The thicker, stronger tentacles are covered in dome-like protrusions of varying sizes and each ends with a very anus-like pucker.  The smaller tentacles are smooth and translucent, letting some light pass through them.  They also end in a tight, anus-like orifice.\n\n");
-            DisplayText("You shudder as your " + BreastDescriptor.describeAllBreasts(character) + " are quickly encircled and molested by the smaller tentacles.  Your swollen mammaries ache as the tentacles attach their orifices to your oozing nipples.  The tentacles begin a distinct milking pattern, alternating which nipple is milked first; you moan in delight and watch as your milk travels through the tentacle shaft and down to the shambling beast's body.\n\n");
+            DisplayText("You shudder as your " + Desc.Breast.describeAllBreasts(character) + " are quickly encircled and molested by the smaller tentacles.  Your swollen mammaries ache as the tentacles attach their orifices to your oozing nipples.  The tentacles begin a distinct milking pattern, alternating which nipple is milked first; you moan in delight and watch as your milk travels through the tentacle shaft and down to the shambling beast's body.\n\n");
             // (Optional Paragraphs)
             if (character.gender === Gender.FEMALE) {
                 // [Female/Virgin-Tight Cunt]
-                if (character.vaginalCapacity() < 30) DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles.  You squeal in pain and pleasure as you feel every bumpy inch pound into you, your cunt being stretched to unbelievable proportions.  The tentacle quickly bottoms out in your shallow hole, pressing urgently against your cervix as it begins to rhythmically pound your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".\n");
+                if (character.vaginalCapacity() < 30) DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles.  You squeal in pain and pleasure as you feel every bumpy inch pound into you, your cunt being stretched to unbelievable proportions.  The tentacle quickly bottoms out in your shallow hole, pressing urgently against your cervix as it begins to rhythmically pound your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ".\n");
                 // [Female/Loose-Moist Cunt]
-                else DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles.  You moan like a whore as the beast's knobbly cock slides into with ease, every bump sending shivers through your spine as it finally bottoms out deep in your cunt, pressing into your cervix urgently.  The monster begins to pound heartily at your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ", filling the air with lewd squishing sounds.\n");
+                else DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles.  You moan like a whore as the beast's knobbly cock slides into with ease, every bump sending shivers through your spine as it finally bottoms out deep in your cunt, pressing into your cervix urgently.  The monster begins to pound heartily at your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", filling the air with lewd squishing sounds.\n");
                 if (character.displayStretchVagina(20, true)) DisplayText("\n");
                 DisplayText("\n");
             }// HERMS
             if (character.gender === Gender.HERM) {
                 // [Herm/Virgin-Tight Cunt]
-                if (character.vaginalCapacity() < 30) DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles.  You wail in excitement and pain, but before you can even digest the invasion, another tentacle impales itself on your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ".  The anus-like opening gapes to envelope you, slowly devouring your member.  The double assault drives your body wild, and you begin pumping back against the invader and thrusting your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " deeper into its tight fuck hole.\n\n");
+                if (character.vaginalCapacity() < 30) DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles.  You wail in excitement and pain, but before you can even digest the invasion, another tentacle impales itself on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  The anus-like opening gapes to envelope you, slowly devouring your member.  The double assault drives your body wild, and you begin pumping back against the invader and thrusting your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " deeper into its tight fuck hole.\n\n");
                 // [Herm/Loose-Wet Cunt]
-                else DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles but before you can even digest the invasion another tentacle impales itself on your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ", the anus like opening gaping to envelope you.  The double assault drives your body wild, and you begin pumping back against the invader and thrusting your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " deeper into its tight fuck hole.\n\n");
+                else DisplayText("The beast senses your excitement and with beguiling speed swiftly impales your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " with one of its massive, knobbly tentacles but before you can even digest the invasion another tentacle impales itself on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", the anus like opening gaping to envelope you.  The double assault drives your body wild, and you begin pumping back against the invader and thrusting your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " deeper into its tight fuck hole.\n\n");
                 if (character.displayStretchVagina(20, true)) DisplayText("\n");
                 DisplayText("\n");
             }
-            DisplayText("You slowly become aware that the beast has slowed its assault on your genitals and soon stops altogether, withdrawing entirely.  The beast lets out an audible gurgle and you smile as you feel the tentacles re-double their assault on your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s.  The beast slowly lifts you off the ground with its strong tentacles, suspending you about three feet off the ground before flipping you over.  You hang suspended in the air, your " + BreastDescriptor.describeAllBreasts(character) + " dangling lewdly under you.  Suddenly you feel the desire to \"<i>moo</i>\" as the attack on your aching " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s continues.  The tentacles continue their assault for what seems like hours, but then you gradually sense the tentacles beginning to slow.  Another gurgling sound confirms your suspicions - the beast wants your milk, but it's obvious you have far too much to offer!  You grin wickedly when the beast's tentacles begin to sag, quickly reaching up to fondle and massage your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + ".  The stimulation causes even more milk to gush down the tentacles length.  After a few moments of the increased assault the beast groans and releases you, the tentacles popping off your nipples audibly, spraying your milk about as they release you.\n\n");
+            DisplayText("You slowly become aware that the beast has slowed its assault on your genitals and soon stops altogether, withdrawing entirely.  The beast lets out an audible gurgle and you smile as you feel the tentacles re-double their assault on your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s.  The beast slowly lifts you off the ground with its strong tentacles, suspending you about three feet off the ground before flipping you over.  You hang suspended in the air, your " + Desc.Breast.describeAllBreasts(character) + " dangling lewdly under you.  Suddenly you feel the desire to \"<i>moo</i>\" as the attack on your aching " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s continues.  The tentacles continue their assault for what seems like hours, but then you gradually sense the tentacles beginning to slow.  Another gurgling sound confirms your suspicions - the beast wants your milk, but it's obvious you have far too much to offer!  You grin wickedly when the beast's tentacles begin to sag, quickly reaching up to fondle and massage your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + ".  The stimulation causes even more milk to gush down the tentacles length.  After a few moments of the increased assault the beast groans and releases you, the tentacles popping off your nipples audibly, spraying your milk about as they release you.\n\n");
             // [Female/Herm]
-            if (character.gender >= 2) DisplayText("Your " + BreastDescriptor.describeAllBreasts(character) + " ache, but you can tell immediately they are not depleted.  More milk dribbles as the tentacles try to retreat, and you grin, hardly satisfied with the beast's attack.  You reach between your thighs, seizing the nearest knobbly tentacle.  The beast is so sated it offers no resistance as you begin to pound your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " with the living dildo.  The idea of turning the tables on the raping beast spurs you on to new heights and you cum quickly around the knobbly shaft, your cunt spasming and milking the bumpy tentacle hard.  As you finish with the tentacle the beast gives a final gurgle and retreats into the forest.");
+            if (character.gender >= 2) DisplayText("Your " + Desc.Breast.describeAllBreasts(character) + " ache, but you can tell immediately they are not depleted.  More milk dribbles as the tentacles try to retreat, and you grin, hardly satisfied with the beast's attack.  You reach between your thighs, seizing the nearest knobbly tentacle.  The beast is so sated it offers no resistance as you begin to pound your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " with the living dildo.  The idea of turning the tables on the raping beast spurs you on to new heights and you cum quickly around the knobbly shaft, your cunt spasming and milking the bumpy tentacle hard.  As you finish with the tentacle the beast gives a final gurgle and retreats into the forest.");
             // [Male]
-            else DisplayText("You feel your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s dribbling milk as the tentacles attempt their retreat.  You realize the beast has nowhere near drained you and you grin eagerly as your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " throbs mightily.  You reach back and seize the nearest knobby tentacle, the beast offering no resistance as you shove your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " into the tight, puckered orifice.  You moan in delight, grunting happily as you fuck the tight hole wildly.  The thought of turning the tables on the raping beast drives you closer to the edge; soon you bury all of your cock into the tight fuck tool and unload your massive torrent of cum into the tentacle.  Your hot cum gushes into the beast and you can feel the tentacle throb and squirm in protest as you fill the beast even more.  After your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " slips free the beast lets out a final gurgle of defeat and slithers away into the forest.");
+            else DisplayText("You feel your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s dribbling milk as the tentacles attempt their retreat.  You realize the beast has nowhere near drained you and you grin eagerly as your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " throbs mightily.  You reach back and seize the nearest knobby tentacle, the beast offering no resistance as you shove your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " into the tight, puckered orifice.  You moan in delight, grunting happily as you fuck the tight hole wildly.  The thought of turning the tables on the raping beast drives you closer to the edge; soon you bury all of your cock into the tight fuck tool and unload your massive torrent of cum into the tentacle.  Your hot cum gushes into the beast and you can feel the tentacle throb and squirm in protest as you fill the beast even more.  After your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " slips free the beast lets out a final gurgle of defeat and slithers away into the forest.");
             character.orgasm();
             dynStats("tou", .5, "spe", -.5, "int", -.5, "lib", 1, "sen", 1, "cor", 1);
             Mod.Breast.boostLactation(character, .5);
             monster.stats.HP = 0;
             if (character.stats.HP === 0) character.stats.HP++;
-            if (Game.inCombat) cleanupAfterCombat();
+            if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
             else return { next: Scenes.camp.returnToCampUseOneHour };
             return;
         }
@@ -501,13 +501,13 @@ export class TentacleBeastScene {
             dynStats("str", -1, "int", -1, "lib", 5, "sen", 2, "lus", 25, "cor", 1);
             if (character.stats.cor < 75) DisplayText("It grabs you before you can get away!\n\nWhile you attempt to resist the abomination, its raw muscle mass is too much. ");
             DisplayText("It pins you to the ground easily. You immediately feel a sharp, horrible pain ");
-            if (character.torso.cocks.count > 1) DisplayText("at the base of your " + CockDescriptor.describeMultiCockShort(character) + ".");
+            if (character.torso.cocks.count > 1) DisplayText("at the base of your " + Desc.Cock.describeMultiCockShort(character) + ".");
             DisplayText("  You look down to see the end of a thorny tendril impaled in your pelvic region. Fiery pain courses through your veins as you feel the creature inject you with some sort of liquid. As the pain sears through you, ");
             if (character.torso.cocks.count === 1) DisplayText("your member immediately becomes fully erect and pre-cum leaks liberally from your tip.");
             else DisplayText("your members immediately become fully erect, pre-cum drizzling from the tips.");
             DisplayText("\n\nRealizing what is about to happen, you try to struggle. The beast responds by slamming you to the ground a few times, stunning you.  ");
             if (character.torso.cocks.count === 1) DisplayText("In your daze you see a monstrous, hollow tentacle poised over your furious cock. You scream in shock and protest, but your cries fall upon deaf ears. The tentacle descends upon your penis, now begging for release, and clamps down upon your pubic mound, fully encapsulating your member.");
-            else DisplayText("In your daze you see " + character.torso.cocks.count + " monstrous, hollow tentacles poised over your furious cocks.  You scream in shock and protest, but your cries fall upon deaf ears.  The tentacles descend upon your " + CockDescriptor.describeMultiCockShort(character) + ", all begging for release, and clamps down upon your pubic mound, fully encapsulating your dicks.");
+            else DisplayText("In your daze you see " + character.torso.cocks.count + " monstrous, hollow tentacles poised over your furious cocks.  You scream in shock and protest, but your cries fall upon deaf ears.  The tentacles descend upon your " + Desc.Cock.describeMultiCockShort(character) + ", all begging for release, and clamps down upon your pubic mound, fully encapsulating your dicks.");
         }
         if (character.gender === Gender.FEMALE) {
             character.slimeFeed();
@@ -528,9 +528,9 @@ export class TentacleBeastScene {
             if (character.stats.cor < 75) DisplayText("While you attempt to resist the abomination, its raw muscle mass is too much. ");
             DisplayText("It pins you to the ground easily. You immediately feel a sharp, horrible pain at the base of your ");
             if (character.torso.cocks.count > 1) DisplayText("cocks");
-            else DisplayText(CockDescriptor.describeCock(character, character.torso.cocks.get(0)));
+            else DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)));
             DisplayText(".  You look down to see the end of a thorny tendril impaled in your pelvic region. Fiery pain courses through your veins as you feel the creature inject you with some sort of liquid. As the pain sears through you, your ");
-            if (character.torso.cocks.count > 1) DisplayText(CockDescriptor.describeMultiCockShort(character) + " immediately become fully erect and leak pre-cum liberally from their tips.  ");
+            if (character.torso.cocks.count > 1) DisplayText(Desc.Cock.describeMultiCockShort(character) + " immediately become fully erect and leak pre-cum liberally from their tips.  ");
             else DisplayText("member immediately becomes fully erect and pre-cum leaks liberally from your tip.  ");
             DisplayText("  " + Num2Text((character.torso.chest.countNipples())) + " thorny tentacles pierce your nipples, and you feel as if someone shot acid into your tits, which immediately begin to swell.");
             character.growTits(1, character.torso.chest.count, false, 2);
@@ -538,14 +538,14 @@ export class TentacleBeastScene {
             if (character.torso.cocks.count > 1) DisplayText("furious cocks.  ");
             else DisplayText("furious cock.  ");
             DisplayText("You scream in shock and protest, but your cries fall upon deaf ears. The tentacle descends upon your ");
-            if (character.torso.cocks.count > 1) DisplayText(CockDescriptor.describeMultiCockShort(character) + ", now begging for release, and clamps down around your pubic mound, fully encapsulating your members.  ");
-            else DisplayText(CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ", now begging for release, and clamps down upon your pubic mound, fully encapsulating your member.");
+            if (character.torso.cocks.count > 1) DisplayText(Desc.Cock.describeMultiCockShort(character) + ", now begging for release, and clamps down around your pubic mound, fully encapsulating your members.  ");
+            else DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", now begging for release, and clamps down upon your pubic mound, fully encapsulating your member.");
         }
         // Call page 2!
         return { next: tentacleRapeContinuation };
     }
 
-    private tentacleRapeContinuation(character: Character): void {
+    private tentacleRapeContinuation(character: Character) {
         character.orgasm();
         character.stats.tou += 1;
         character.stats.int += -.5;
@@ -558,26 +558,26 @@ export class TentacleBeastScene {
         if (character.gender === Gender.MALE) {
             DisplayText("You next feel the wretched sensation of another tentacle pushing its way past your anus and into your rectum. You cry more out of frustration and anger than pain as the foreign body settles a few inches inside your body. With a furious, coordinated rhythm, the monstrosity begins swelling the tentacle in your ass and ");
             if (character.torso.cocks.count === 1)
-                DisplayText("using a sucking-stroking motion on your helpless " + CockDescriptor.describeMultiCockShort(character) + ". The swelling of the ass tentacle pressures your prostate in a paradoxically pleasurable and painful manner. You realize, much to your terror, that this beast is MILKING you of your semen!");
+                DisplayText("using a sucking-stroking motion on your helpless " + Desc.Cock.describeMultiCockShort(character) + ". The swelling of the ass tentacle pressures your prostate in a paradoxically pleasurable and painful manner. You realize, much to your terror, that this beast is MILKING you of your semen!");
             else
-                DisplayText("using a sucking-stroking motion on your " + CockDescriptor.describeMultiCockShort(character) + ".  The swelling of the ass tentacle pressures your prostate in a paradoxical pleasurable and painful manner.  You realize, much to your terror, that this beast is MILKING you of your semen!");
+                DisplayText("using a sucking-stroking motion on your " + Desc.Cock.describeMultiCockShort(character) + ".  The swelling of the ass tentacle pressures your prostate in a paradoxical pleasurable and painful manner.  You realize, much to your terror, that this beast is MILKING you of your semen!");
             character.displayStretchButt(50, true);
             DisplayText("\n\nHelpless and overwhelmed by the pleasure of such rough and primal stimulation, all you can do is give the creature what it wants; your hot cum. Your body only responds to the sensations from your ");
             if (character.torso.cocks.count === 1)
-                DisplayText(CockDescriptor.describeMultiCockShort(character) + " and ass and in a very short time, your phallus explodes, launching stream upon stream of hot, thick cum into the horror. Your hips and pelvis buck violently with each thrust as the creature masterfully strokes your " + CockDescriptor.describeMultiCockShort(character) + "  and milks your prostate of your fluids. You cry with each orgasm, prompting the thing to milk you harder. After an eternity of successive ejaculations, the creature withdraws its unholy arms and leaves you in a bruised, lacerated, overfucked heap on the ground, discarded like a person throws away a corn cob after a meal.");
+                DisplayText(Desc.Cock.describeMultiCockShort(character) + " and ass and in a very short time, your phallus explodes, launching stream upon stream of hot, thick cum into the horror. Your hips and pelvis buck violently with each thrust as the creature masterfully strokes your " + Desc.Cock.describeMultiCockShort(character) + "  and milks your prostate of your fluids. You cry with each orgasm, prompting the thing to milk you harder. After an eternity of successive ejaculations, the creature withdraws its unholy arms and leaves you in a bruised, lacerated, overfucked heap on the ground, discarded like a person throws away a corn cob after a meal.");
             else
-                DisplayText(CockDescriptor.describeMultiCockShort(character) + " and ass and in a very short time, your dicks explode, launching stream upon stream upon stream of hot, thick cum into the horror.  Your hips and pelvis buck violently with each thrust as the creature masterfully strokes your " + CockDescriptor.describeMultiCockShort(character) + " and milks your prostate of your fluids.  You cry with each orgasm, prompting the thing to milk you harder. After an eternity of successive ejaculations, the creature withdraws its unholy arms and leaves you in a bruised, lacerated, overfucked heap on the ground, discarded like a person throws away a corn cob after a meal.");
+                DisplayText(Desc.Cock.describeMultiCockShort(character) + " and ass and in a very short time, your dicks explode, launching stream upon stream upon stream of hot, thick cum into the horror.  Your hips and pelvis buck violently with each thrust as the creature masterfully strokes your " + Desc.Cock.describeMultiCockShort(character) + " and milks your prostate of your fluids.  You cry with each orgasm, prompting the thing to milk you harder. After an eternity of successive ejaculations, the creature withdraws its unholy arms and leaves you in a bruised, lacerated, overfucked heap on the ground, discarded like a person throws away a corn cob after a meal.");
         }
         else if (character.gender === Gender.FEMALE) {
             DisplayText("The beast rears up to reveal a beak-like maw. It opens its massive jaws to reveal ");
             if (character.torso.vaginas.count === 1)
                 DisplayText("a tongue shaped like a large cock while its tongue, like any tentacle, immediately seeks out your defenseless pussy. It prods itself mockingly around your labia as you attempt to contract to keep it from violating you and depriving you of what dignity you have left. The creature flexes its appendage and easily forces its way into your vagina");
             else
-                DisplayText(character.torso.vaginas.count + " tongues shaped like large cocks while its tongues, like any other tentacles, seeks out your defenseless pussies.  It prods itself mockingly around your labias as you attempt to contract to keep them from violating you and depriving you of what dignity you have left.  The creature flexes its appendages and easily forces its way into your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + "s");
+                DisplayText(character.torso.vaginas.count + " tongues shaped like large cocks while its tongues, like any other tentacles, seeks out your defenseless pussies.  It prods itself mockingly around your labias as you attempt to contract to keep them from violating you and depriving you of what dignity you have left.  The creature flexes its appendages and easily forces its way into your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + "s");
             if (character.torso.vaginas.count > 1)
                 DisplayText("s");
             DisplayText(". As you cry out in shock, another dick-shaped appendage forces its way into your throat. The beast takes care to prevent you from choking on its limb.");
-            DisplayText("\n\nIn a coordination that can only signify higher intelligence, the monster fucks your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)));
+            DisplayText("\n\nIn a coordination that can only signify higher intelligence, the monster fucks your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
             if (character.torso.vaginas.count > 1)
                 DisplayText("s");
             DisplayText(" and mouth and begins milking your swollen breasts and sucks your throbbing ");
@@ -586,7 +586,7 @@ export class TentacleBeastScene {
             else
                 DisplayText("clit. ");
             character.displayStretchVagina(character.vaginalCapacity() * .76, true);
-            DisplayText(" Your body betrays your resistance as pleasure hammers you from crotch to head. After some time, you begin bucking your hips in tandem to the creature's thrusts, drunk with pleasure. As you peak for your orgasm, you feel the creature bottom out inside your womb. Oceans of hot cum flood your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)));
+            DisplayText(" Your body betrays your resistance as pleasure hammers you from crotch to head. After some time, you begin bucking your hips in tandem to the creature's thrusts, drunk with pleasure. As you peak for your orgasm, you feel the creature bottom out inside your womb. Oceans of hot cum flood your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
             if (character.torso.vaginas.count > 1)
                 DisplayText("s");
             DisplayText(" and your mouth. You are being inseminated by the abomination, but you do not care. The fucking is too good. The hot, musky fluids pour into your mouth. The taste crushes your last bit of resistance and you NEED MORE, not just to swallow, but to devour with your womb. You manage to free one hand, only to grasp the tentacle in your mouth to coax more semen inside you. You feel your stomach distend from the amount of cum you greedily swallow. The beast floods you with more cum than you can handle and proceeds to soak you from head to toe in its fluids as it runs from your overwhelmed orifices.");
@@ -598,19 +598,19 @@ export class TentacleBeastScene {
         }
         else if (character.gender === Gender.HERM) {
             if (character.torso.cocks.count === 1) {
-                DisplayText("A sharp tug tells you that the creature has sealed itself upon your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ". You see " + character.torso.chest.count * 2 + " smaller tentacles latch onto your erect nipples. You feel milk begin to leak out as the creature makes a perfect seal around your areola. A thick, phallic tentacle probes underneath your trapped " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " until it finds your vaginal opening. You cry out as the member punches past your opening and bottoms out in your womb. The tentacle swells up until it completely fills your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".  ");
+                DisplayText("A sharp tug tells you that the creature has sealed itself upon your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ". You see " + character.torso.chest.count * 2 + " smaller tentacles latch onto your erect nipples. You feel milk begin to leak out as the creature makes a perfect seal around your areola. A thick, phallic tentacle probes underneath your trapped " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " until it finds your vaginal opening. You cry out as the member punches past your opening and bottoms out in your womb. The tentacle swells up until it completely fills your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ".  ");
                 character.displayStretchVagina(character.vaginalCapacity() * .76, true, false, true);
-                DisplayText("With freakish coordination, the beast sucks your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " and tits while hammering away at your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ". The overwhelming pleasure courses through your body and triggers an immediate orgasm, sending gouts of cum into the tentacle sealed around your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ". The sensation of your fluids entering the creature prompts it to suck your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " harder as well as hammer your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " faster, leading to a chain of orgasms.\n\n");
+                DisplayText("With freakish coordination, the beast sucks your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " and tits while hammering away at your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ". The overwhelming pleasure courses through your body and triggers an immediate orgasm, sending gouts of cum into the tentacle sealed around your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ". The sensation of your fluids entering the creature prompts it to suck your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " harder as well as hammer your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " faster, leading to a chain of orgasms.\n\n");
                 DisplayText("Drunk with pleasure, you revel in the sensation of cumming into the creature while it breast feeds from you. All you can do is drown in the experience of being milked from top to bottom. The creature begins piledriving your box faster and you feel like the creature is going to impale you with its phallic tentacle.\n\n");
-                DisplayText("The creature's milking tentacles stop moving and you feel the dick-tentacle press sharply against your womb. You feel the thunderous force of hot fluid lance into your body as the creature cums repeatedly inside you, triggering yet another orgasm. The creature cums in surges and shoots repeatedly inside you. Within moments, excess cum spews out of your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " as it cannot hold anymore, but the creature keeps cumming.\n\n");
+                DisplayText("The creature's milking tentacles stop moving and you feel the dick-tentacle press sharply against your womb. You feel the thunderous force of hot fluid lance into your body as the creature cums repeatedly inside you, triggering yet another orgasm. The creature cums in surges and shoots repeatedly inside you. Within moments, excess cum spews out of your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as it cannot hold anymore, but the creature keeps cumming.\n\n");
                 DisplayText("After a while the creature withdraws its tentacles from you. It poises the tentacle-cock over your face and lets out one last load, covering your face in hot, thick sperm. You reflexively open your mouth and allow loads of the salty juice down your throat. Once spent, the creature shambles off, leaving you well milked and cum-soaked.");
             }
             else {
-                DisplayText("A sharp tug tells you that the creature has sealed itself upon your " + CockDescriptor.describeMultiCockShort(character) + ". You see " + character.torso.chest.count * 2 + " smaller tentacles latch onto your erect nipples. You feel milk begin to leak out as the creature makes a perfect seal around your areola. A thick, phallic tentacle probes underneath your trapped cocks until it finds your vaginal opening. You cry out as the member punches past your opening and bottoms out in your womb. The tentacle swells up until it completely fills your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".");
+                DisplayText("A sharp tug tells you that the creature has sealed itself upon your " + Desc.Cock.describeMultiCockShort(character) + ". You see " + character.torso.chest.count * 2 + " smaller tentacles latch onto your erect nipples. You feel milk begin to leak out as the creature makes a perfect seal around your areola. A thick, phallic tentacle probes underneath your trapped cocks until it finds your vaginal opening. You cry out as the member punches past your opening and bottoms out in your womb. The tentacle swells up until it completely fills your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ".");
                 character.displayStretchVagina(character.vaginalCapacity() * .76, true, true, false);
-                DisplayText("  With freakish coordination, the beast sucks your " + CockDescriptor.describeMultiCockShort(character) + " and tits while hammering away at your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ". The overwhelming pleasure courses through your body and triggers an immediate orgasm, sending gouts of cum into the tentacles sealed around your pricks. The sensation of your fluids entering the creature prompts it to suck your throbbing cocks harder as well as hammer your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " faster, leading to a chain of orgasms.\n\n");
+                DisplayText("  With freakish coordination, the beast sucks your " + Desc.Cock.describeMultiCockShort(character) + " and tits while hammering away at your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ". The overwhelming pleasure courses through your body and triggers an immediate orgasm, sending gouts of cum into the tentacles sealed around your pricks. The sensation of your fluids entering the creature prompts it to suck your throbbing cocks harder as well as hammer your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " faster, leading to a chain of orgasms.\n\n");
                 DisplayText("Drunk with pleasure, you revel in the sensation of cumming into the creature while it breast feeds from you. All you can do is drown in the experience of being milked from top to bottom. The creature begins piledriving your box faster and you feel like the creature is going to impale you with its phallic tentacle.\n\n");
-                DisplayText("The creature's milking tentacles stop moving and you feel the dick-tentacle press sharply against your womb. You feel the thunderous force of hot fluid lance into your body as the creature cums repeatedly inside you, triggering yet another orgasm. The creature cums in surges and shoots repeatedly inside you. Within moments, excess cum spews out of your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " as it cannot hold anymore, but the creature keeps cumming.\n\n");
+                DisplayText("The creature's milking tentacles stop moving and you feel the dick-tentacle press sharply against your womb. You feel the thunderous force of hot fluid lance into your body as the creature cums repeatedly inside you, triggering yet another orgasm. The creature cums in surges and shoots repeatedly inside you. Within moments, excess cum spews out of your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as it cannot hold anymore, but the creature keeps cumming.\n\n");
                 DisplayText("After a while the creature withdraws its tentacles from you. It poises the tentacle-cock over your face and lets out one last load, covering your face in hot, thick sperm. You reflexively open your mouth and allow loads of the salty juice down your throat. Once spent, the creature shambles off, leaving you well milked and cum-soaked.");
             }
             character.slimeFeed();
@@ -618,11 +618,11 @@ export class TentacleBeastScene {
             Mod.Breast.boostLactation(character, .3);
         }
         if (Game.inCombat)
-            cleanupAfterCombat();
+            return { next: Scenes.camp.returnToCampUseOneHour };
         else return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private tentacleRapeContinuationForFemales(character: Character): void {
+    private tentacleRapeContinuationForFemales(character: Character) {
         DisplayText().clear();
         DisplaySprite(SpriteName.Tentacle_Monster);
         ;
@@ -630,7 +630,7 @@ export class TentacleBeastScene {
             DisplayText("Satisfied, the creature drops you smartly, withdraws its limbs from you, and lumbers away.  Covered completely in cum, you see that your clitoris has swollen up to ");
             // Big clit girls get huge clits
             if ((character.perks.has(PerkType.BigClit) && character.torso.clit.length > 2) || character.torso.clit.length > 3)
-                DisplayText("almost " + Utils.numToCardinalText(Math.floor(character.torso.clit.length * 1.75)) + " inches in length. ");
+                DisplayText("almost " + numToCardinalText(Math.floor(character.torso.clit.length * 1.75)) + " inches in length. ");
             // normal girls get big clits
             else
                 DisplayText("almost four inches in length.  Bruised and sore, you pass into unconsciousness ");
@@ -664,12 +664,12 @@ export class TentacleBeastScene {
         if (character.torso.vaginas.get(0).looseness === VaginaLooseness.TIGHT) character.torso.vaginas.get(0).looseness = VaginaLooseness.NORMAL;
         character.slimeFeed();
         if (Game.inCombat)
-            cleanupAfterCombat();
+            return { next: Scenes.camp.returnToCampUseOneHour };
         else return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     // Centaur v. Tentacle Monster: (display if pc is unsexed centaur)
-    private centaurGenderlessRetardation(character: Character): void {
+    private centaurGenderlessRetardation(character: Character) {
         DisplayText().clear();
         DisplaySprite(SpriteName.Tentacle_Monster);
         ;
@@ -678,7 +678,7 @@ export class TentacleBeastScene {
             DisplayText("Tentacles wrap around your legs before you can make a move to stop them, binding you tightly and coiling upwards.  One slides slowly along your underside, making you shiver in ");
             if (character.stats.cor < 50 && character.stats.lust < 70) DisplayText("dread");
             else DisplayText("anticipation");
-            DisplayText(", but stops when it reaches your haunches.  Another starts testing the same area, briefly touching your " + ButtDescriptor.describeButthole(character.torso.butt) + " but clearly not finding what it's looking for.\n\n");
+            DisplayText(", but stops when it reaches your haunches.  Another starts testing the same area, briefly touching your " + Desc.Butt.describeButthole(character.torso.butt) + " but clearly not finding what it's looking for.\n\n");
 
             DisplayText("\"<i>WHAT THE FUCK IS WRONG WITH YOUR BODY?!</i>\" yells out an unnervingly human voice.\n\n");
 
@@ -690,7 +690,7 @@ export class TentacleBeastScene {
 
             DisplayText("\"<i>Oh, you think this shit is FUNNY, don't you?</i>\"  The voice has switched to a mocking tone.  \"<i>I know, let's wander into the forest and fuck with the hungry creatures who want some nice, nutritious cum!  Let's make them work for my amusement!  It'll be fucking HILARIOUS!</i>\"\n\n");
 
-            DisplayText("A tentacle smacks your " + ButtDescriptor.describeButt(character) + " hard, and the voice returns to normal.\n\n");
+            DisplayText("A tentacle smacks your " + Desc.Butt.describeButt(character) + " hard, and the voice returns to normal.\n\n");
 
             DisplayText("\"<i>I just caught a motherfucking HORSE, just to find out you haven't got anything for me to eat!  Do you have any idea how fucking hard it is to catch a horse!?</i>\"\n\n");
 
@@ -709,11 +709,11 @@ export class TentacleBeastScene {
             DisplayText("Tentacles wrap around your legs before you can make a move to stop them, binding you tightly and coiling upwards.  One slides slowly along your underside, making you shiver in ");
             if (character.stats.cor < 50 && character.stats.lust < 70) DisplayText("dread");
             else DisplayText("anticipation");
-            DisplayText(", slipping forward to probe between your haunches.  It arrives at and discovers your " + BallsDescriptor.describeSack(character) + " with some little ceremony, stroking and fondling it.\n\n");
+            DisplayText(", slipping forward to probe between your haunches.  It arrives at and discovers your " + Desc.Balls.describeSack(character) + " with some little ceremony, stroking and fondling it.\n\n");
 
             DisplayText("\"<i>Now THIS is what I'm talking about!</i>\" the creature's eerie voice sings out.  \"<i>Daddy needs his medicine!</i>\"\n\n");
 
-            DisplayText("The tentacle, now joined by a second, hunts around your " + BallsDescriptor.describeBalls(true, true, character) + ", seeking any organs that might serve as a release valve for their contents.  You stare at it as it searches, quite certain you know what's coming next.\n\n");
+            DisplayText("The tentacle, now joined by a second, hunts around your " + Desc.Balls.describeBalls(true, true, character) + ", seeking any organs that might serve as a release valve for their contents.  You stare at it as it searches, quite certain you know what's coming next.\n\n");
 
             DisplayText("\"<i>No, no, no. Where the FUCK is it?</i>\" the creature mumbles, frustration spiking the pitch of its voice.\n\n");
 
@@ -727,21 +727,21 @@ export class TentacleBeastScene {
 
             DisplayText("\"<i>SECOND of all,</i>\" it continues, \"<i>it occurs to me that, in your misguided zeal, you've forgotten that you, a: have BALLS, and b: have NO WAY to close your legs!  WHICH BRINGS ME TO C: TENTACLE TO THE GROIN!</i>\"\n\n");
 
-            DisplayText("Your eyes bulge out as one of the feelers which had been still during your argument pulls away from your " + BallsDescriptor.describeSack(character) + " and then returns with a sharp slap; as your vision pinks over under the wave of nausea, the creature releases your legs and you collapse into what can only be assumed is a centaur fetal position.\n\n");
+            DisplayText("Your eyes bulge out as one of the feelers which had been still during your argument pulls away from your " + Desc.Balls.describeSack(character) + " and then returns with a sharp slap; as your vision pinks over under the wave of nausea, the creature releases your legs and you collapse into what can only be assumed is a centaur fetal position.\n\n");
 
             DisplayText("\"<i>Q.E.D., MOTHERFUCKER!</i>\" it shouts, gesticulating in the air wildly with its tentacles as it turns and clumps back into the dense brush.");
         }
         character.takeDamage(5);
-        if (Game.inCombat) cleanupAfterCombat();
+        if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
         else return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     // Naga v. Tentacle Monster:
-    private genderlessHilarityForNagaKenDolls(character: Character): void {
+    private genderlessHilarityForNagaKenDolls(character: Character) {
         DisplayText().clear();
         DisplaySprite(SpriteName.Tentacle_Monster);
         ;
-        DisplayText("Out of nowhere tentacles bind your arms and tail, holding you firm in a matter of seconds.  You struggle to free yourself but can do nothing against the strength of the beast holding you in your current state.  More of the appendages start teasing around your body, as if looking for something.  A handful test the entrance to your " + ButtDescriptor.describeButthole(character.torso.butt) + " but evidently that's not what they're after.\n\n"; )
+        DisplayText("Out of nowhere tentacles bind your arms and tail, holding you firm in a matter of seconds.  You struggle to free yourself but can do nothing against the strength of the beast holding you in your current state.  More of the appendages start teasing around your body, as if looking for something.  A handful test the entrance to your " + Desc.Butt.describeButthole(character.torso.butt) + " but evidently that's not what they're after.\n\n"; )
 
         DisplayText("An oddly human voice comes from the undergrowth, catching you off-guard.  \"<i>Look, I'm really sorry about this, but I'm really not all that familiar with, uh, whatever it is you are.  Where do you keep the naughty bits?</i>\"\n\n");
 
@@ -753,12 +753,12 @@ export class TentacleBeastScene {
 
         DisplayText("\"<i>Fucking tourists.</i>\"  It slams its tentacles down in a brutal blow, knocking you out.");
         character.takeDamage(15);
-        if (Game.inCombat) cleanupAfterCombat();
+        if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
         else return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     // Goo v. Tentacle Monster:
-    private tentacularGenderGooTimes(character: Character): void {
+    private tentacularGenderGooTimes(character: Character) {
         DisplayText().clear();
         DisplaySprite(SpriteName.Tentacle_Monster);
         ;
@@ -783,7 +783,7 @@ export class TentacleBeastScene {
         DisplayText("\"<i>FUCK!</i>\" comes the voice again.  \"<i>You're sour apple!  I fucking HATE sour apple!</i>\"\n\n");
 
         DisplayText("It slams its tentacles down in a brutal blow, knocking you out.");
-        if (Game.inCombat) cleanupAfterCombat();
+        if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
         else return { next: Scenes.camp.returnToCampUseOneHour };
     }
 }

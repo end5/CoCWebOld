@@ -1,15 +1,15 @@
 export class GooArmor extends GooGirl {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.gooArmorAI();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (statusAffects.has(StatusAffectType.Spar)) game.valeria.pcWinsValeriaSpar();
 		else game.beatUpGooArmor();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe armored goo sighs while you exhaust yourself...");
 			return { next: game.endLustLoss };

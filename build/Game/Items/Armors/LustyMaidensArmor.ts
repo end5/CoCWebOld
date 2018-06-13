@@ -14,7 +14,7 @@ export class LustyMaidensArmor extends Armor {
     }
 
     public get defense(): number {
-        // if (User.char.torso.vaginas.filter(Vagina.Virgin).length > 0)
+        // if (User.char.torso.vaginas.find(Vagina.Virgin))
         //     return 9 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS];
         return 6; // + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS];
     }
@@ -48,7 +48,7 @@ export class LustyMaidensArmor extends Armor {
         }
         DisplayText("your [vagina] is prominently displaying your camel-toe for all to see.");
         DisplayText("\n\nYou don't give it a second thought, sliding the white thong snugly into place.  Snug warmth slides right up against your mound, the perfectly formed crease slipping right into your labia, where it belongs, ");
-        if (character.torso.vaginas.filter(Vagina.Virgin).length > 0) {
+        if (character.torso.vaginas.find(Vagina.Virgin)) {
             DisplayText("a tight seal over your chastity, displaying your womanly status while guarding your maidenhead at the same time.  A smug, smile tugs at the corners of your mouth - who would take your virginity when they can tit-fuck your tits or fuck your butt?");
             if (character.stats.cor < 33)
                 DisplayText("  Wait, that isn't right...");
@@ -70,7 +70,7 @@ export class LustyMaidensArmor extends Armor {
 
         while (character.perks.has(PerkType.SluttySeduction))
             character.perks.remove(PerkType.SluttySeduction);
-        if (character.torso.vaginas.filter(Vagina.NotVirgin).length > 0) {
+        if (character.torso.vaginas.find(Vagina.NotVirgin)) {
             character.perks.add(PerkType.SluttySeduction, 10); // + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0);
         }
         else {

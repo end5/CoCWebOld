@@ -1,6 +1,6 @@
 export class MinotaurLord extends Monster {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (HP < 300 && statusAffects.get(StatusAffectType.MinoMilk).value1 < 4) minotaurDrankMalk();
 		else if (randInt(4) === 0 && player.weaponName != "fists") minotaurDisarm();
 		else if (findStatusAffect(StatusAffects.Timer) < 0) minotaurLordEntangle();
@@ -11,7 +11,7 @@ export class MinotaurLord extends Monster {
 		}
 	}
 
-	private minotaurDrankMalk(): void {
+	private minotaurDrankMalk() {
 		DisplayText("The minotaur lord snorts audibly and turns to look at his mistress.  \"<i>What is it, Fido, boy?  You thirsty?</i>\"  The hulking minotaur nods.");
 		//Success:*
 		if (statusAffects.get(StatusAffectType.MinoMilk).value1 < 3) {
@@ -32,7 +32,7 @@ export class MinotaurLord extends Monster {
 		kGAMECLASS.combatRoundOver();
 	}
 
-	private minotaurDisarm(): void {
+	private minotaurDisarm() {
 		DisplayText("The giant of a minotaur raises his chain threateningly into the air, clearly intent on striking you down.  With your trained reflexes, you quickly move to block his blow with your halberd.  You recoil as the chain impacts your halberd with a loud clang, wrapping around it.  You smile triumphantly at the minotaur, only to glance at his smirk.  With a strong pull, he rips the halberd off your hands and into a corner of the room. Shit!");
 		DisplayText("\n\nThe succubus laughs maniacally.  \"<i>Good boy, Fido!  Take that fox slut's toys away so she'll be easier to play with!</i>\"  The minotaur puffs his chest, proud of himself for pleasing his mistress.");
 		player.setWeapon(WeaponLib.FISTS);
@@ -40,7 +40,7 @@ export class MinotaurLord extends Monster {
 		kGAMECLASS.combatRoundOver();
 	}
 
-	private minotaurLordEntangle(): void {
+	private minotaurLordEntangle() {
 		DisplayText("The minotaur lord lashes out with his chain, swinging in a wide arc!\n");
 		statusAffects.set(new StatusAffect("Timer", 2 + randInt(4))), 0, 0, 0);
 		//{dodge/whatever}
@@ -56,7 +56,7 @@ export class MinotaurLord extends Monster {
 		combatRoundOver();
 	}
 
-	private minotaurCumPress(): void {
+	private minotaurCumPress() {
 		DisplayText("The minotaur lord tugs on the end of the chain, pulling you toward him, making you spin round and round so many times that you're dazed and dizzy.  You can feel the links coming free of your fur, and the closer you get, the more freedom of movement you have.  Yet, the dizziness makes it hard to do anything other than stumble.  You splat into something wet, sticky, and spongy.  You gasp, breathing a heavy gasp of minotaur musk that makes your head spin in a whole different way.  You pry yourself away from the sweaty, sperm-soaked nuts you landed on and look up, admiring the towering horse-cock with its three-rings of pre-puce along its length.  A droplet of pre-cum as fat as your head smacks into your face, staggering you back and dulling your senses with narcotic lust.");
 		kGAMECLASS.dynStats("lus", 22 + player.stats.lib / 8 + player.stats.sens / 8);
 		DisplayText("You tumble to your knees a few feet away, compulsively licking it up.  Once it's gone, ");
@@ -70,7 +70,7 @@ export class MinotaurLord extends Monster {
 		combatRoundOver();
 	}
 
-	private minotaurPrecumTease(): void {
+	private minotaurPrecumTease() {
 		DisplayText("The minotaur smiles at you and lifts his loincloth, flicking it at you.  Thick ropes of pre-cum fly through the air in a swarm,");
 		if (randInt(2) === 0) {
 			DisplayText(" slapping into your face before you can react!  You wipe the slick snot-like stuff out of your eyes and nose, ");
@@ -89,16 +89,16 @@ export class MinotaurLord extends Monster {
 		kGAMECLASS.combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.DisplayText().clear();
 		DisplayText("The minotaur lord is defeated!  ");
 		DisplayText("  You could use him for a quick fuck to sate your lusts before continuing on.  Do you?");
-		game.menu();
+		game.
 		game.addButton(0, "Fuck", game.urtaQuest.winRapeAMinoLordAsUrta);
 		game.addButton(4, "Leave", game.urtaQuest.beatMinoLordOnToSuccubi);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (hpVictory) game.urtaQuest.urtaLosesToMinotaurRoughVersion();
 		else game.urtaQuest.urtaSubmitsToMinotaurBadEnd();
 	}
@@ -132,7 +132,9 @@ export class MinotaurLord extends Monster {
 this.baseStats.tou = 90;
 this.baseStats.spe = 30;
 this.baseStats.int = 30;
-		initLibSensCor(70, 25, 85);
+		this.baseStats.lib = 70;
+this.baseStats.sens = 25;
+this.baseStats.cor = 85;
 		this.weaponName = "chain";
 		this.weaponVerb = "chain-whip";
 		this.weaponAttack = 50;

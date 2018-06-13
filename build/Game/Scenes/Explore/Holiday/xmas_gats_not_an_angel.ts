@@ -8,16 +8,16 @@ Entry for the 2012 CoC Contest, \"<i>A Very Milky XMas</i>\".
 Starring Gatters Bee, Shamble Sworth and a caribou named Kirbu.
 */
 export class XmasAngel {
-    public gatsSpectacularRouter(): void {
+    public gatsSpectacularRouter() {
         if (Flags.list[FlagEnum.GATS_ANGEL_QUEST_BEGAN] === 0) christmasEncounterAngelJunk();
         else if (player.hasKeyItem("North Star Key") < 0) findTheWindUpKey();
         else giveThatBitchAKeyYo();
     }
 
 
-    public christmasEncounterAngelJunk(): void {
+    public christmasEncounterAngelJunk() {
         DisplayText().clear();
-        menu();
+        
         //[Not Christmas]
         //[Explore > High Mountains]
         if (!isHolidays()) {
@@ -37,7 +37,7 @@ export class XmasAngel {
         }
     }
 
-    public dontExploreGatsChristmasTale(): void {
+    public dontExploreGatsChristmasTale() {
         DisplayText().clear();
         //i. No
         DisplayText("In a place like the high mountains, there's no warning to be found if you happen to be confronted by danger.  Deciding not to take your chances, you continue to walk down the path you came, leaving the peaks to head straight back to camp.");
@@ -48,14 +48,14 @@ export class XmasAngel {
     }
 
     //ii. Yes
-    public encounterQuoteUnquoteAngel(): void {
+    public encounterQuoteUnquoteAngel() {
         DisplayText().clear();
         if (!isHolidays()) {
             DisplayText("You haven't found anything as of yet, so you figure you might as well keep going.  Following the quiet tune from above, you trace the spiralling side of the snow-capped behemoth, eventually reaching a small cliff hanging beneath the mountain's peak.  Upon the cliff, a small lake encompasses the area.  Though it remains frozen, a single soldier lies inside, hugged by an icy grave.");
             DisplayText("\n\nThe source of the song you had heard appears to be coming from a small, elderly woman huddling over the lake.  She holds a small fishing rod piercing through the icy shell of the water, though by the looks of it there aren't even any fish to be found.  Trotting over, you manage to catch her attention.  The old lady pats the soft, snowy ground beneath her, offering a seat by her side.");
             DisplayText("\n\n\"<i>I have a tale to tell, traveller,</i>\" she coughs.  \"<i>Sit by me, will you?</i>\"");
             DisplayText("\n\nWith nothing else to do, you figure you might as well hear it out.  Stories may not bring warmth to your body, but your heart might find it comforting during this unnatural winter.  Nodding, you sit down next to the elderly woman, to which she offers you some rock candy.  You decline, mentioning that you had brought your own");
-            if (silly()) DisplayText(" (you didn't.)");
+            if (User.settings.silly()) DisplayText(" (you didn't.)");
             else DisplayText(".");
             DisplayText("  She beams a toothless grin, popping one into her mouth and blowing out a stream of candy-scented smoke.  Suddenly, you're glad you didn't take any.");
             DisplayText("\n\n\"<i>Once upon a time, upon this very mountain, two lovers had ran to escape the corruption of the world.  A single spirit, more beautiful than any mortal woman, and a man she had created from tin.  Her brave soldier.</i>\"");
@@ -76,7 +76,7 @@ export class XmasAngel {
             DisplayText("\n\nYou don't have time to hide, and considering your location you'd be surprised to find effective camouflage in the giant fuck-white background you're currently situated in.  Instead, you wait out the woman's awakening, the divine giant stretching out and appearing taller than the world itself.  She yawns awkwardly, blinking her emerald eyes before focusing them upon you.  With a sense of finality to her morning routine, her unseen wings flap once against the winter winds, blowing you back into the cliffside.  Holy Marae, you're going to be swallowed alive.");
             DisplayText("\n\n\"<i>Lost child, who might you be?</i>\"");
             DisplayText("\n\nYou back up against the rocky wall, mostly to get out of the heap of snow building up around the peak.  The giantess seems kind, forgiving");
-            if (silly()) DisplayText(", without a penis");
+            if (User.settings.silly()) DisplayText(", without a penis");
             DisplayText(" - a loving aura surrounds the feminine creature and you can't help but feel as if she's here without ill intent.  Stating your name, you question her purpose at the high mountains.");
             DisplayText("\n\n\"<i>[name], is it?  That's quite pretty.  I don't meet many people with names, and I'll be sure to remember yours.</i>\"");
             DisplayText("\n\nYou cock an eyebrow, though she doesn't take notice.  Instead, the snow-dusted titaness turns her gaze towards the empty soldier, before a look of pain embraces her visage.  Turning your neck, you ask her about her relationship towards the mechanical man.  She smiles, though it's plain to see how distant it has become.");
@@ -98,7 +98,7 @@ export class XmasAngel {
     }
 
     //5. Solution
-    public findTheWindUpKey(): void {
+    public findTheWindUpKey() {
         DisplayText().clear();
         DisplayText("Upon reaching the base of the mountain, you set off on your quest for the grief-stricken giantess.  A sunken grotto hidden around the mountain's base, you recall.  In all your treks over this bump in the land, you've never noticed anything even vaguely resembling the little shelter she described.  However, \"sunken\" gives you a vital hint to help begin your quest in the right direction.  You remember a steep valley, flooded and forgotten in its tiny alcove amidst the towering earth.  It takes little time at all until you've worked your way around to the unremarkable crater, pushing your way past the dense growth and through the humid mist surrounding it.");
         DisplayText("\n\nIn a surprisingly bold move, you strip free of your [armor], not wishing to waste thoughts worrying about wet or ruined articles of clothing.  The majority of your time in this land is spent in the nude as it is, so a skinny dip isn't so out of the ordinary.  A simple dive into the unusually clear waters marks the next branch of your search.  Sunlight sparkles as it draws rays through the crystal-clean pond, highlighting the darker recess underneath an outcropping of jagged rock.  You surface for another gasp of air before embarking on the next leg of your journey.");
@@ -118,14 +118,14 @@ export class XmasAngel {
 
     //ii. Bringing the Key Back
     //Activates upon returning to the High Mountains after the previous scene, before X amount of hours or X amount of time past Dec 25th (presumably)
-    public giveThatBitchAKeyYo(): void {
+    public giveThatBitchAKeyYo() {
         DisplayText().clear();
         //if in time!
         if (Flags.list[FlagEnum.GATS_ANGEL_TIME_TO_FIND_KEY] < 150) {
             DisplayText("All throughout your perilous climb, you cannot help but ogle at the brilliant little crystal key.  You have a suspicion as to how this innocent little key will help the crying colossus on the peak, but you are not completely sure this is the artifact she required.  But you have a hunch that it is.");
             DisplayText("\n\nYour trek halts to a standstill as you return to the side of the vast giantess.  Her sadness and longing appears to have overwhelmed her to a degree, putting her to sleep beside the still-inanimate soldier beside her.  You cast another glance at your brilliant relic, hooking a finger through it as you lift it before your face.  Transfixed by the swirling dance of red and green, you begin to weigh the options before you.  The spirit would surely request the key from you so that she may return her love to his former self, you believe.  However, perhaps you deserve a greater reward from this little deed.  You hold all the important cards in this deal after all.  You thoughtlessly swirl the windup key around on your finger, pondering your next move.");
             DisplayText("\n\nYou could try to fuck around with the spirit or her soldier, but doing either would be a huge dick move...");
-            menu();
+            
             //[Give the Key] [Fuck the Soldier] [Fuck the Angel] 
             MainScreen.addButton(0, "Give The Key", goodEndForChristmasMiracleICant);
             MainScreen.addButton(1, "FuckSoldier", theWorstEndingEverDotJPG);
@@ -155,7 +155,7 @@ export class XmasAngel {
     }
 
     //6. Corrupt End #1
-    public theWorstEndingEverDotJPG(): void {
+    public theWorstEndingEverDotJPG() {
         DisplayText().clear();
         //Requirements: Choosing [Fuck the Soldier] at the prompt
         DisplayText("Still listlessly spinning the windup key around your pointer finger, you gaze back down at the pile of armor buried in the snow.  A strange amount of curiosity surrounds this peculiar set of protection, only mounting the longer you stare at it.  It isn't like you owe anything to the slumbering titan.  Just what could she see in something a mere fraction her size?  Maybe this is some sort of dominating fantasy of hers; you've been around the block enough times to know that not everything is at it appears.  There's no telling just what she has in store for her little creation.  You may actually get to be a hero!");
@@ -209,7 +209,7 @@ export class XmasAngel {
 
     //7. Corrupt End #2
     //Requirements: Choosing [Fuck the Angel] at the prompt
-    public fuckTheAngelBadEnd(): void {
+    public fuckTheAngelBadEnd() {
         DisplayText().clear();
         DisplayText("The spirit lies comfortably upon the pillowy white ground, laying in wait for the moment she awakes to her mechanical lover.  Unfortunately, you're the one with the key.  The one with the fate of two lovers twirling around your finger.  They're both quite still, frozen upon your decision.  Well!  No need to wait any longer - there's fun to be had this winter, and the sight of that divine giantess is getting you antsy.");
         DisplayText("\n\nRunning towards the mocha-colored titan, you disturb the side of the mountain peak, causing lumps of snow to fall upon her head.  It's one way to wake her up for sure, as she slowly removes her head from the cliff's edge.");
@@ -224,15 +224,15 @@ export class XmasAngel {
         if (player.torso.cocks.count > 0) DisplayText("\n\nTaking out your junk");
         else DisplayText("\n\nCaressing your cunt");
         DisplayText(", you wander your way towards the giant's mouth-muscle, climbing on top of her warm, pink bed. There's gotta be some kinda magic involved - her mint saliva sends tingles through your body, while dragging your ");
-        if (player.torso.cocks.count > 0) DisplayText(player.CockDescriptor.describeMultiCockShort(player));
-        else DisplayText(            VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+        if (player.torso.cocks.count > 0) DisplayText(player.Desc.Cock.describeMultiCockShort(player));
+        else DisplayText(            Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
         DisplayText(" against each bump and curve is beginning to get you hard.  She winces at the taste of your crotch against her tongue, though she's obviously never given oral to something with a heartbeat before.  Well, there's a first time for everything.");
         DisplayText("\n\nHer mouth is already lubricated with what appears to be chocolatey saliva, a sweet syrup coating your genitals with a cool, arousing fluid.  It's not hard to guess that her tongue might be incredibly sensitive, and every hump against it seems to be getting the giantess unconsciously excitable.  Her eyes begin to flutter and a groan escapes her lips, while you hug against each wave of her warm breath.  The hypersensitivity of her mouth-muscle begins to take control of her movements, the grinding of your ");
         if (player.torso.cocks.count > 0) {
             DisplayText("member");
             if (player.torso.cocks.count > 1) DisplayText("s");
         }
-        else DisplayText(            VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+        else DisplayText(            Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
         DisplayText(" along the softness of her maw causing her to twitch and drool uncomfortably.  You're beginning to fuck along her slowly, chuckling at every wince and moan she makes from the taste of your genitals.");
 
         DisplayText("\n\nOne of the giantess' hands moves slowly towards the top of her head - what could she possibly be planning, you wonder.  Your query is answered almost instantly as the tips of her fingers start to caress the lengths of her striped horns, and her unused hand drifts slowly beneath to pet the increasingly wet problem below.  It didn't take her long to forget that pathetic bin of a man!  If anything, the taste of your ");
@@ -240,7 +240,7 @@ export class XmasAngel {
         else DisplayText("pussy");
         DisplayText(" seems to have awakened something inside of her.  Each breath of the jiggling giant intensifies, while her heaving breasts press up against the hard mountainside.  You thrust between the curves of her tongue, lapping at her chestnut saliva and caressing each bump and groove.  Her soft, candy-coated lips slowly descend every so often in an attempt to kiss you, to which you respond with slow licks of those luscious love-pillows.  Your titanic lover jerks slightly - she's dipped a finger inside of her slick honeypot, flowing freely to wherever her arousal will take her.  Taking to the tongue-fucking charade quite easily, you wonder if she's allowed her mechanical mate to blow one off on her blushing bronze face before.");
         DisplayText("\n\nDespite the increasing ecstasy wrought on by your talkbox-twiddling escapade, you snap back from your delirium to take notice of your lover's aroused antics.  The giantess pushes back and forth against another nearby mountain while furiously fingering her tight cunt.  Upon further inspection, a large curiously-shaped rock appears to be lubed up and ramming her from behind, pounding into her ample ass by her command.  Unable to resist any longer, she's taken to pleasuring herself from every angle, entrusting you to take command on her tongue.");
-        DisplayText("\n\nThe grooves of her syrup-coated organ hum against your body, the chocolate-covered taste buds massaging your figure as you grind along them.  The vibrations drooling along your " + player.skinFurScales() + " appear to be coming from the snow-dusted girl herself, a result of her constant moaning from the good plowing she's receiving from behind.  Her fingers dance between her, now focusing on squeezing her cushiony tits together to rub her nipples against the hardness of the cliff's edge, while bending down further to fit more of the lubed-up loverock taking her from below.  In some form of ambrosia-induced harmony, you've allowed yourself to become a part of this incredibly orchestrated scene of scented fucking.");
+        DisplayText("\n\nThe grooves of her syrup-coated organ hum against your body, the chocolate-covered taste buds massaging your figure as you grind along them.  The vibrations drooling along your " + Desc.Skin.skinFurScales(player) + " appear to be coming from the snow-dusted girl herself, a result of her constant moaning from the good plowing she's receiving from behind.  Her fingers dance between her, now focusing on squeezing her cushiony tits together to rub her nipples against the hardness of the cliff's edge, while bending down further to fit more of the lubed-up loverock taking her from below.  In some form of ambrosia-induced harmony, you've allowed yourself to become a part of this incredibly orchestrated scene of scented fucking.");
         DisplayText("\n\nThe giantess' butt-drilling escalates with her hand ravaging the tight confines of her dripping pussy, attempting to cry words but unwilling to close her mouth on you.  It's amazing, this chance to drag your ");
         if (player.torso.cocks.count > 0) DisplayText("dick");
         else DisplayText("vagina");
@@ -251,17 +251,17 @@ export class XmasAngel {
         else DisplayText("feminine juices");
         DisplayText(" all along her starving tongue, your eyes lifting up as you stretch to force as much as you can upon her.  A slick, stubby tendril fits between your [butt], while more of her taste buds rub against you in your squirting ecstasy.  Your ");
         if (player.torso.cocks.count > 0) {
-            DisplayText(player.CockDescriptor.describeMultiCockShort(player));
+            DisplayText(player.Desc.Cock.describeMultiCockShort(player));
             if (player.torso.cocks.count === 1) DisplayText("throbs");
             else DisplayText("throb");
         }
-        else DisplayText(            VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " throbs");
+        else DisplayText(            Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " throbs");
         DisplayText(", painting the giantess while she pants and moans, legs almost buckling from her own joy along with the taste of your mess inside of her.  She struggles to remove the makeshift dildo from her ass, resting her cheek against the size of the mountain let your concoction drool out.  Slipping out, you take the opportunity to grind up against her ruby lips, before cumming on her face.  She lets out a weathered smile, before her giant eyes focus once more on the mechanical soldier.");
         //[Next]
-        menu();
+        
         MainScreen.addButton(0, "Next", fuckTheAngelBadEndPartII);
     }
-    public fuckTheAngelBadEndPartII(): void {
+    public fuckTheAngelBadEndPartII() {
         DisplayText().clear();
         DisplayText("It shakes, and - wait, it's shaking?  You walk towards him, still naked from your recent session with his lover.  It appears to be vibrating with a sense of... sadness, you'd guess.  You look inside, but nothing can be found.  Was it really dead, or just unable to move?  It soons stops though, and both you and the giantess stare at the cold figure of the soldier.");
         DisplayText("\n\nOf course, you kick it over, while it thumps into the snow.  Whatever it was doing before, it's certainly gone now.  You turn back to your new lover, and - oh no.");
@@ -279,7 +279,7 @@ export class XmasAngel {
     }
 
     //8. Good End
-    public goodEndForChristmasMiracleICant(): void {
+    public goodEndForChristmasMiracleICant() {
         DisplayText().clear();
         //Requirements: Choosing [Give the Key] at the prompt
         //completely fucking tender let's get moe
@@ -307,30 +307,30 @@ export class XmasAngel {
         DisplayText("\n\nShe meant to go on, but North interrupts her.  \"<i>Wait,</i>\" he demands.  The giantess's train of thought is brought to a halt as she waits for her creation to proceed.  \"<i>You did this for me,</i>\" he begins, pulling himself to his feet.  \"<i>I don't have to know why, though I'm sad you had to.  I love you.</i>\"");
         DisplayText("\n\nThose three words, mentioned so suddenly, pierce the woman's heart as surely as any arrow, and hot tears finally track down her cheeks - not the bitter tears she barely choked back earlier, however.  She weeps now with one of the most profound expressions of pure joy you've ever experienced.");
         //{turn the page}
-        menu();
+        
         MainScreen.addButton(0, "Next", goodEndForChristmasMiracleICantII);
     }
 
-    public goodEndForChristmasMiracleICantII(): void {
+    public goodEndForChristmasMiracleICantII() {
         DisplayText().clear();
         DisplayText("North throws his arms out wide, armor hardly protesting to the sudden movement.  The action gives the giantess pause for a moment, but she swiftly understands the motivation and raises her hand to the beckoning knight.  She crooks her little finger toward North, and he throws himself around it, expressing his feelings in a tight and passionate hug.  The giantess gazes down at her little knight with a loving smile, and they hold the pose for a remarkably long time.");
         DisplayText("\n\nThe seemingly divine titan worryingly crooks her eye over to you, and in an attempt to shoosh you away, she nods her head towards the mountain's exit, implying that they're going to spend some time to themselves. Of course, there's a chance you can probably stick around for some weird-ass action. Would you prefer to stay behind, or do you excuse them temporarily?");
-        menu();
+        
         MainScreen.addButton(0, "Stay", stayForPretendNTRGoodWinjobSex);
         MainScreen.addButton(4, "Leave", goodEndLeaveBeforeSexings);
     }
 
     //If Leave
-    public goodEndLeaveBeforeSexings(): void {
+    public goodEndLeaveBeforeSexings() {
         DisplayText().clear();
         DisplayText("You get the message, feeling that letting them do their own thing might be for the best.  With a hasty pardon, you promptly turn around and walk a good twenty yards down the mountainside, idly playing in the snow while the two reunited lovebirds do their thing.");
         DisplayText("\n\nYou hear the sound of a gentle humming in the distance, and you figure that the two lovers might be quite done with their 'honeymoon'.");
         //[Go to Conclusion]
-        menu();
+        
         MainScreen.addButton(0, "Next", conclusionOfGiantessGoodEnd);
     }
     //If Stay
-    public stayForPretendNTRGoodWinjobSex(): void {
+    public stayForPretendNTRGoodWinjobSex() {
         DisplayText().clear();
         DisplayText("You prefer to stay here, but the frosty giant has already gone back to her mechanical man, so you hold your explanation and continue to observe.");
         DisplayText("\n\nFinally, she draws away, North reluctantly releasing his hold on her pinky.  The giant woman unexpectedly groans, running her arms from her chest to what you could only assume to be her waist - you can't exactly see from your current perch, and as you wish to remain as impartial a bystander that you can in this situation, you don't bother inching to the edge of the cliff.");
@@ -362,12 +362,12 @@ export class XmasAngel {
             player.orgasm();
         }
         //[Next]
-        menu();
+        
         MainScreen.addButton(0, "Next", conclusionOfGiantessGoodEnd);
     }
 
     //[Conclusion]
-    public conclusionOfGiantessGoodEnd(): void {
+    public conclusionOfGiantessGoodEnd() {
         DisplayText().clear();
         DisplayText("The air is crisp, and the light powdering of snow floats through the air as if playing an invisible melody.  The warm couple are together.  Lifting her head, the giantess beams at you with a refreshing sense of spirit.");
         DisplayText("\n\n\"<i>I can't believe anything that has happened to me today... it's all thanks to you.  Thank you for bringing North back to me, and thank you for relighting a fire that had gone out so, so long ago.</i>\"");

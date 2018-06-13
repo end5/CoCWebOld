@@ -4,7 +4,7 @@
  */
 class FarmCorruption {
 
-    public whitneySprite(): void {
+    public whitneySprite() {
         farm.whitneySprite();
     }
 
@@ -271,7 +271,7 @@ class FarmCorruption {
         return modValue;
     }
 
-    public collectTheGoodies(): void {
+    public collectTheGoodies() {
         DisplayText().clear();
 
         // Get gems
@@ -280,7 +280,7 @@ class FarmCorruption {
 
             if (farmValue() < 25) DisplayText(" You frown; it seems like a feeble amount for such a large operation. Perhaps you could talk to Whitney about that.\n\n");
 
-            player.stats.gems += Flags.list[FlagEnum.FARM_CORRUPTION_GEMS_WAITING];
+            player.inventory.gems += Flags.list[FlagEnum.FARM_CORRUPTION_GEMS_WAITING];
             Flags.list[FlagEnum.FARM_CORRUPTION_GEMS_WAITING] = 0;
             Flags.list[FlagEnum.FARM_CORRUPTION_DAYS_SINCE_LAST_PAYOUT] = 0;
             kGAMECLASS.showStats();
@@ -290,7 +290,7 @@ class FarmCorruption {
             DisplayText("Your ‘farmers’ have been busy under the watchful eye of their assigned task mistress. A small bundle of goods have been stashed with the gems just awaiting your arrival.\n\n");
         }
 
-        menu();
+        
 
         if (Flags.list[FlagEnum.FARM_SUCCUMILK_STORED] > 0) {
             DisplayText("<b>" + Flags.list[FlagEnum.FARM_SUCCUMILK_STORED] + "x ");
@@ -334,7 +334,7 @@ class FarmCorruption {
         return null;
     }
 
-    private takeItems(flag: number): void {
+    private takeItems(flag: number) {
         let item: SimpleConsumable = getItemObj(flag);
 
         if (flag === FlagEnum.FARM_EGG_STORED) Flags.list[FlagEnum.FARM_EGG_COUNTDOWN] = 7;
@@ -342,7 +342,7 @@ class FarmCorruption {
         inventory.takeItem(item, afterTakeItems);
     }
 
-    private afterTakeItems(): void {
+    private afterTakeItems() {
         if (collectionAvailable())
             collectTheGoodies();
         else rootScene();
@@ -460,7 +460,7 @@ class FarmCorruption {
         return false;
     }
 
-    protected takeoverPromptKelly(): void {
+    protected takeoverPromptKelly() {
         DisplayText("You stand at the top of a small rise overlooking the farm. From here you can just about pick out a beige-furred figure in the pepper field, hard at work. You shake your head almost in disbelief at the pastoral tableau. You remember when you found the farm when you were taking your first faltering steps in this land, with barely anything but the clothes you stood up in. You remember the relief you felt when you found this place, a pocket of peace in this disturbed land, how grateful you were to its owner to grub in the dirt with her and work for a pittance.");
 
         DisplayText("\n\nNow you feel nothing but contempt. How <b>dare</b> that bitch kick you off her land as if you were some common vagrant, simply because you took your rightful revenge on the centaur cunt she allowed to hang around and do as he pleased? Would she have stepped in if he had done to you what you have done to him? You think not, no, not Whitney, she’d have quite happily sat on the hill and read her book whilst her pet asshole raped the hell out of you.");
@@ -476,7 +476,7 @@ class FarmCorruption {
         DisplayText("?");
     }
 
-    protected takeoverPromptMarbleRape(): void {
+    protected takeoverPromptMarbleRape() {
         DisplayText("You stand at the top of a small rise overlooking the farm. From here you can just about pick out a beige-furred figure in the pepper field, hard at work. You shake your head almost in disbelief at the pastoral tableau. You remember when you found the farm when you were taking your first faltering steps in this land, with barely anything but the clothes you stood up in. You remember the relief you felt when you found this place, a pocket of peace in this disturbed land, how grateful you were to its owner to grub in the dirt with her and work for a pittance.");
 
         DisplayText("\n\nNow you feel nothing but contempt. How <b>dare</b> that bitch kick you off her land, as if you were some common vagrant, simply because you took what was rightfully yours from the cow bitch. Would Whitney have stepped in if Marble had done to you what you did to her? You think not, no, not Whitney, she’d have quite happily sat on the hill and read her book whilst the cow bitch did what she felt like to you, probably forcing her damn milk down your throat. But once it affects her, well skies above, we can’t be doing with that can we?");
@@ -492,7 +492,7 @@ class FarmCorruption {
         DisplayText("?");
     }
 
-    protected takeoverPromptGeneric(): void {
+    protected takeoverPromptGeneric() {
         DisplayText("You stand at the top of a small rise overlooking the farm. From here you can just about pick out a beige-furred figure in the pepper field, hard at work. You shake your head almost in disbelief at the pastoral tableau. You remember when you found the farm when you were taking your first faltering steps in this land, with barely anything but the clothes you stood up in.");
 
         DisplayText("\n\nYou remember the relief you felt when you found this place, a pocket of peace in this disturbed land, how grateful you were to its owner to grub in the dirt with her and work for a pittance.");
@@ -500,7 +500,7 @@ class FarmCorruption {
         DisplayText("\n\nNow you feel nothing but contempt. Who chooses to live their life out here in staid idleness? What kind of sexless nothing nods her head at passing champions and then goes back to her book, not giving a flying fuck about anyone or anything as long as it doesn’t directly affect them? Does she have any idea how lucky she is, how merciful you are that you let her live her useless life in peace, with you just over the hill with a pile of sex slaves gathering? What you would give, what you would do to make her eyes open wide in dismay, to make her see a [man] she ignored passing through her yard with bigger ideas, coming back to completely destroy her.");
     }
 
-    protected takeoverPromptMerge(firstTime: boolean = false): void {
+    protected takeoverPromptMerge(firstTime: boolean = false) {
         Flags.list[FlagEnum.FARM_CORRUPT_PROMPT_DISPLAY] = 1;
 
         if (firstTime) {
@@ -511,13 +511,13 @@ class FarmCorruption {
             DisplayText("Again, you find yourself standing on the bluff overlooking the farm, and you feel yourself filled with unholy rage at the woman below who stands against you and your plans for this piece of property. Do you put your plan into motion now or later?");
         }
 
-        menu();
+        
         MainScreen.addButton(0, "Now", takeoverPromptNow);
         MainScreen.addButton(1, "Later", takeoverPromptLater);
         MainScreen.addButton(2, "Never", takeoverPromptNever);
     }
 
-    public takeoverPromptNow(): void {
+    public takeoverPromptNow() {
         DisplayText().clear();
 
         DisplayText("You stride down to the farm and leap over a gate. You move casually, swaggering towards the pepper field with no obvious intent. When Whitney spots you and slowly stands up from her weeding, you raise your hand in friendly greeting");
@@ -597,7 +597,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    protected takeoverPromptLater(): void {
+    protected takeoverPromptLater() {
         DisplayText().clear();
 
         DisplayText("You stare for a moment longer, then turn and head back to camp. You will show mercy she does not deserve... for now.");
@@ -605,7 +605,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    protected takeoverPromptNever(): void {
+    protected takeoverPromptNever() {
         DisplayText().clear();
         Flags.list[FlagEnum.FARM_CORRUPTION_DISABLED] = 1;
 
@@ -616,7 +616,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    public rootScene(): void {
+    public rootScene() {
         DisplayText().clear();
         DisplaySprite(62);
 
@@ -645,8 +645,8 @@ class FarmCorruption {
         }
         else {
             DisplayText("You stand on your rise and take in your slave farm. ");
-            if (silly()) {
-                DisplayText(player.mf("You feel an irresistible hankering for a cigar.", "You feel an irresistible hankering for a cigarette holder."));
+            if (User.settings.silly()) {
+                DisplayText(Desc.Gender.mf(player, "You feel an irresistible hankering for a cigar.", "You feel an irresistible hankering for a cigarette holder."));
             }
             if (Flags.list[FlagEnum.FARM_UPGRADES_REFINERY] === 1) DisplayText(" A large machine, bulky and rotund with a conical top, has been built into the milking barn. Fat pipes crawl up onto the roof from it like metal ivy, and white smoke billows busily out of its whistle chimney.");
             if (Flags.list[FlagEnum.FARM_UPGRADES_CONTRACEPTIVE] === 1) DisplayText(" Next to the pepper patch another crop has been planted, a field of verdant green shrubs. Their thin stems bob idly in the breeze.");
@@ -718,8 +718,8 @@ class FarmCorruption {
         farmMenu();
     }
 
-    public farmMenu(): void {
-        menu();
+    public farmMenu() {
+        
 
         if (Flags.list[FlagEnum.WHITNEY_DISABLED_FOR_DAY] != 1) {
             if (!whitneyCorrupt()) MainScreen.addButton(0, "Whitney", dogeNotCorruptYet);
@@ -736,7 +736,7 @@ class FarmCorruption {
 
         if (player.hasKeyItem("Breast Milker - Installed At Whitney's Farm") >= 0) {
             if (player.statusAffects.has(StatusAffectType.Milked)) {
-                DisplayText("\n\n<b>Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s are currently too sore to be milked.  You'll have to wait a while.</b>");
+                DisplayText("\n\n<b>Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s are currently too sore to be milked.  You'll have to wait a while.</b>");
             }
 
             MainScreen.addButton(3, "Get Milked", farm.getMilked);
@@ -755,8 +755,8 @@ class FarmCorruption {
         MainScreen.addButton(9, "Leave", Scenes.camp.returnToCampUseOneHour);
     }
 
-    private corruptingTheFarmExplore(): void {
-        menu();
+    private corruptingTheFarmExplore() {
+        
 
         MainScreen.addButton(0, "Explore", farm.exploreFarm);
         MainScreen.addButton(1, "Work", farm.workFarm);
@@ -775,7 +775,7 @@ class FarmCorruption {
         return false;
     }
 
-    private keltAChangeInManagement(): void {
+    private keltAChangeInManagement() {
         DisplayText().clear();
 
         DisplayText("“<i>Hear there’s been a change in management,</i>” says Kelt, clopping to a halt in front of you. You confirm that that is the case. The big centaur looks at you thoughtfully. There’s something different in his dark eyes and rugged scowl than his usual wearied contempt. Grudging admiration?");
@@ -814,8 +814,8 @@ class FarmCorruption {
         return false;
     }
 
-    private slavesAtFarmMenu(): void {
-        menu();
+    private slavesAtFarmMenu() {
+        
 
         if (Flags.list[FlagEnum.FOLLOWER_AT_FARM_AMILY] === 1) MainScreen.addButton(0, "Amily", kGAMECLASS.amilyScene.amilyFollowerEncounter);
 
@@ -845,8 +845,8 @@ class FarmCorruption {
         return false;
     }
 
-    private followersAtFarmMenu(): void {
-        menu();
+    private followersAtFarmMenu() {
+        
 
         if (Flags.list[FlagEnum.FOLLOWER_AT_FARM_SOPHIE] === 1 && !kGAMECLASS.sophieBimbo.bimboSophie()) MainScreen.addButton(0, "Sophie", kGAMECLASS.sophieFollowerScene.followerSophieMainScreen);
 
@@ -867,8 +867,8 @@ class FarmCorruption {
         return false;
     }
 
-    private loversAtFarmMenu(): void {
-        menu();
+    private loversAtFarmMenu() {
+        
 
         if (Flags.list[FlagEnum.FOLLOWER_AT_FARM_IZMA] === 1) MainScreen.addButton(0, "Izma", kGAMECLASS.izmaScene.izmaFollowerMenu);
         if (Flags.list[FlagEnum.FOLLOWER_AT_FARM_IZMA] === 2) MainScreen.addButton(0, "Izmael", kGAMECLASS.gameOver);
@@ -878,7 +878,7 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", farmMenu);
     }
 
-    private dogeNotCorruptYet(): void {
+    private dogeNotCorruptYet() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1002,7 +1002,7 @@ class FarmCorruption {
 
                 DisplayText("\n\n“<i>...[Master],</i>” she says, quietly. You smile triumphantly. It’s time to move onto the final stage of your high-stakes business merger, however such is your control over the dog morph now you could make her change for you, if you so wished.");
 
-                menu();
+                
                 MainScreen.addButton(0, "Change Her", deFurDoge);
                 MainScreen.addButton(1, "Don't Change", dontDeFurDoge);
 
@@ -1011,7 +1011,7 @@ class FarmCorruption {
         }
     }
 
-    private dogeNotCorruptLeaveFirstTime(): void {
+    private dogeNotCorruptLeaveFirstTime() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1025,7 +1025,7 @@ class FarmCorruption {
         return { next: rootScene };
     }
 
-    private dogeNotCorruptLeave6190(): void {
+    private dogeNotCorruptLeave6190() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1039,8 +1039,8 @@ class FarmCorruption {
         return { next: rootScene };
     }
 
-    private dogeNotCorruptYetMenu(): void {
-        menu();
+    private dogeNotCorruptYetMenu() {
+        
 
         MainScreen.addButton(0, "Appearance", whitneyAppearanceNotCorrupt);
         MainScreen.addButton(1, "Prosperity", prosperityGoNotCorrupt);
@@ -1062,17 +1062,17 @@ class FarmCorruption {
         return false;
     }
 
-    private whitneyAppearanceNotCorrupt(): void {
+    private whitneyAppearanceNotCorrupt() {
         DisplayText().clear();
         whitneySprite();
 
         DisplayText("Whitney is a 5’8” dog morph, dressed in a modest cotton blouse and faded long skirt, which has a hole cut in it to allow her short, perky tail to poke through. Her muzzle is suggestive of a golden retriever but really she could be any breed. Her fur is sandy, dusking to black at her extremities. Her ears are floppy, her eyes are a dark brown which matches her shoulder-length hair. She is beyond the flush of youth, however it is obvious from looking at her that she has never known childbirth; though hardened from many years of farm work her frame is relatively slim, her hips and ass widened only with muscle, her small breasts pert against her unprepossessing work-clothes. She has one anus, nestled between her tight buttcheeks where it belongs.");
 
-        menu();
+        
         dogeNotCorruptYetMenu();
     }
 
-    private whitneyAppearanceCorrupt(): void {
+    private whitneyAppearanceCorrupt() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1096,11 +1096,11 @@ class FarmCorruption {
         else DisplayText("Her skin is a sandy color, and she wears black nail varnish");
         DisplayText(". Her ears are floppy, her eyes are a dark brown which matches her shoulder-length hair, flecked now with deep, red desire. Whilst she is beyond the softness of youth, it is obvious from looking at her that she has never known childbirth; though hardened from many years of farm work her frame is relatively slim, her small breasts pert against her unprepossessing work-clothes. She has one anus, between her tight asscheeks where it belongs.");
 
-        menu();
+        
         dogeCorruptedMissionComplete(false);
     }
 
-    private prosperityGoNotCorrupt(): void {
+    private prosperityGoNotCorrupt() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1129,8 +1129,8 @@ class FarmCorruption {
         dogeNotCorruptYetMenu();
     }
 
-    private investmentMenu(): void {
-        menu();
+    private investmentMenu() {
+        
         if (player.hasKeyItem("Breast Milker - Installed At Whitney's Farm") < 0 && Flags.list[FlagEnum.QUEUE_BREASTMILKER_UPGRADE] === 0) MainScreen.addButton(0, "Breast Milker", investmentBreastMilker);
         if (player.hasKeyItem("Cock Milker - Installed At Whitney's Farm") < 0 && Flags.list[FlagEnum.QUEUE_COCKMILKER_UPGRADE] === 0) MainScreen.addButton(1, "Cock Milker", investmentCockMilker);
         if (Flags.list[FlagEnum.FARM_UPGRADES_REFINERY] === 0 && Flags.list[FlagEnum.QUEUE_REFINERY_UPGRADE] === 0) MainScreen.addButton(2, "Refinery", investmentRefinery);
@@ -1141,7 +1141,7 @@ class FarmCorruption {
         else MainScreen.addButton(9, "Back", dogeCorruptedMissionComplete);
     }
 
-    private investmentBreastMilker(): void {
+    private investmentBreastMilker() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1157,17 +1157,17 @@ class FarmCorruption {
         }
 
         //[Do it][No]
-        menu();
-        if (player.stats.gems >= 1000) MainScreen.addButton(0, "Do it", doBreastMilkerInvestment);
+        
+        if (player.inventory.gems >= 1000) MainScreen.addButton(0, "Do it", doBreastMilkerInvestment);
         else MainScreen.addButton(0, "Do it", turnDownInvestment, true);
         MainScreen.addButton(1, "No", turnDownInvestment);
     }
 
-    private doBreastMilkerInvestment(): void {
+    private doBreastMilkerInvestment() {
         DisplayText().clear();
         whitneySprite();
 
-        player.stats.gems -= 1000;
+        player.inventory.gems -= 1000;
         showStats();
 
         DisplayText("You silently hand over a hefty bag of gems. Whitney stows it away.");
@@ -1179,7 +1179,7 @@ class FarmCorruption {
         return { next: rootScene };
     }
 
-    private investmentCockMilker(): void {
+    private investmentCockMilker() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1194,17 +1194,17 @@ class FarmCorruption {
             DisplayText("\n\n“<i>I have a few spare milkin’ parts knockin’ around, but most everything will have to be specially ordered if you want that, [master],</i>” she says. “<i>If you can pony up 1,000 gems, I can get what you need brought in, built, and installed.</i>”");
         }
 
-        menu();
-        if (player.stats.gems >= 1000) MainScreen.addButton(0, "Do it", doCockMilkerInvestment);
+        
+        if (player.inventory.gems >= 1000) MainScreen.addButton(0, "Do it", doCockMilkerInvestment);
         else MainScreen.addButton(0, "Do it", turnDownInvestment, true)
         MainScreen.addButton(1, "No", turnDownInvestment);
     }
 
-    private doCockMilkerInvestment(): void {
+    private doCockMilkerInvestment() {
         DisplayText().clear();
         whitneySprite();
 
-        player.stats.gems -= 1000;
+        player.inventory.gems -= 1000;
         showStats();
 
         if (!whitneyCorrupt()) {
@@ -1223,7 +1223,7 @@ class FarmCorruption {
         return { next: rootScene };
     }
 
-    private investmentRefinery(): void {
+    private investmentRefinery() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1238,17 +1238,17 @@ class FarmCorruption {
             DisplayText("\n\n“<i>A refinery, [master]? What a delicious thought.</i>” The dog girl closes her eyes and drifts off into an erotic reverie. You wait patiently until she finally opens her eyes with a sigh and comes back to you. “<i>I guess it wouldn’t be too hard to throw up a still of sorts and adapt it from there. It’ll cost money though, ‘ticularly if you want it to be used by anyone for anything. If you give me 1,500 gems, I ‘kin see what I ‘kin do.</i>”");
         }
 
-        menu();
-        if (player.stats.gems >= 1500) MainScreen.addButton(0, "Do it", doRefineryInvestment);
+        
+        if (player.inventory.gems >= 1500) MainScreen.addButton(0, "Do it", doRefineryInvestment);
         else MainScreen.addButton(0, "Do it", turnDownInvestment, true);
         MainScreen.addButton(1, "No", turnDownInvestment);
     }
 
-    private doRefineryInvestment(): void {
+    private doRefineryInvestment() {
         DisplayText().clear();
         whitneySprite();
 
-        player.stats.gems -= 1500;
+        player.inventory.gems -= 1500;
         showStats();
 
         DisplayText("You silently hand over a hefty bag of gems. Whitney stows it away.");
@@ -1260,7 +1260,7 @@ class FarmCorruption {
         return { next: rootScene };
     }
 
-    private investmentContraceptive(): void {
+    private investmentContraceptive() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1275,8 +1275,8 @@ class FarmCorruption {
             DisplayText("\n\n“<i>The stuff that some of the sharks use, y’mean? Sure. You find it growing in clumps in loamy patches in the forest and along the lake. Most nobody in those parts uses it o’course, owing to them all being locked in a baby arms race with each other.</i>” You say you’d like her to set some land aside and grow it. “<i>If you want, [master]. I need seed though, and plenty of compost- only grows in very moist soil as I said. 750 gems can probably make it happen.</i>”");
         }
 
-        menu();
-        if (player.stats.gems >= 750) {
+        
+        if (player.inventory.gems >= 750) {
             MainScreen.addButton(0, "Do it", doContraceptiveInvestment);
         }
         else {
@@ -1285,11 +1285,11 @@ class FarmCorruption {
         MainScreen.addButton(1, "No", turnDownInvestment);
     }
 
-    private doContraceptiveInvestment(): void {
+    private doContraceptiveInvestment() {
         DisplayText().clear();
         whitneySprite();
 
-        player.stats.gems -= 750;
+        player.inventory.gems -= 750;
         showStats();
 
         if (!whitneyCorrupt()) {
@@ -1308,7 +1308,7 @@ class FarmCorruption {
         return { next: rootScene };
     }
 
-    private investmentMilktank(): void {
+    private investmentMilktank() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1341,13 +1341,13 @@ class FarmCorruption {
             }
         }
 
-        menu();
-        if (player.stats.gems >= 400) MainScreen.addButton(0, "Do it", doMilktankInvestment);
+        
+        if (player.inventory.gems >= 400) MainScreen.addButton(0, "Do it", doMilktankInvestment);
         else MainScreen.addButton(0, "Do it", turnDownInvestment, true);
         MainScreen.addButton(1, "No", turnDownInvestment);
     }
 
-    private doMilktankInvestment(): void {
+    private doMilktankInvestment() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1356,12 +1356,12 @@ class FarmCorruption {
 
         // In each case Bath girl reverts to her boobed state and is at farm
         Flags.list[FlagEnum.QUEUE_MILKTANK_UPGRADE] = 1;
-        player.stats.gems -= 400;
+        player.inventory.gems -= 400;
 
         return { next: rootScene };
     }
 
-    private turnDownInvestment(money: boolean = false): void {
+    private turnDownInvestment(money: boolean = false) {
         DisplayText().clear();
         whitneySprite();
 
@@ -1381,7 +1381,7 @@ class FarmCorruption {
         investmentMenu();
     }
 
-    private deFurDoge(): void {
+    private deFurDoge() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1400,7 +1400,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private dontDeFurDoge(): void {
+    private dontDeFurDoge() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1434,12 +1434,12 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Very much so,</i>” you reply as you continue to consider her. It occurs to you that you have caused both dominant and submissive tendencies to bubble to the surface of her psyche during her transformation; although you are now indisputably the overall master of her and her farm, in her vulnerable state now it would only take a few words and actions to make her act one way or the other towards you sexually.");
 
         ///[Make Sub][Make Dom]
-        menu();
+        
         MainScreen.addButton(0, "Make Sub", makeDogeSubby);
         MainScreen.addButton(1, "Make Dom", makeDogeDommy);
     }
 
-    private makeDogeSubby(): void {
+    private makeDogeSubby() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1470,7 +1470,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private makeDogeDommy(): void {
+    private makeDogeDommy() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1498,7 +1498,7 @@ class FarmCorruption {
 
         DisplayText("\n\n“<i>Yes,</i>” she pants, the light shining from the gem reflected back at you as hard lust, as she begins to buck her hips frantically against your hand. “<i>Gods, yes I would. I would be strong for [master]... I would become [his] taskmaster, train his cattle to the very best of my abilities... just so I could learn how to take... </i>very<i>... good care of [master]!</i>” She punctuates each growled word with thrusts against your fingers, her cunt spasming deliriously around them, and your whole hand is soaked in a sudden gush of fluid. You slowly withdraw both your hands and wait for her eyes to refocus on you. The fire there is undiminished.");
 
-        DisplayText("\n\n“<i>Good,</i>” you say quietly. “<i>Because the most hardworking of " + player.mf("masters", "mistresses") + " need some R and R from time to time. A bit of private alone time, with a very trusted slave. A slave who would know not to betray the confidence placed in them, because of all the examples surrounding her of how far she could fall if she did. You following me?</i>”");
+        DisplayText("\n\n“<i>Good,</i>” you say quietly. “<i>Because the most hardworking of " + Desc.Gender.mf(player, "masters", "mistresses") + " need some R and R from time to time. A bit of private alone time, with a very trusted slave. A slave who would know not to betray the confidence placed in them, because of all the examples surrounding her of how far she could fall if she did. You following me?</i>”");
 
         DisplayText("\n\n“<i>You’ve broken something open in me I never knew existed,</i>” says Whitney fervently between ragged, sighing breaths. “<i>And then given me a life which I will goddang love every minute of. I want to use it to love you and touch you and fuck you and make you cry out in ways you never knew existed with it. It’s all I want, [master], let me show you just how much you can trust me!</i>” She is possessed by a nervous energy, her fingers twitching, as if she’s repressing an urge to grab you only with immense difficulty. You smile at her softly.");
 
@@ -1512,7 +1512,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private dogeCorruptedMissionComplete(output: boolean = true): void {
+    private dogeCorruptedMissionComplete(output: boolean = true) {
         if (Flags.list[FlagEnum.QUEUE_BRANDING_AVAILABLE_TALK] === 1 && output) {
             brandingAvailableTalk();
             return;
@@ -1540,7 +1540,7 @@ class FarmCorruption {
             DisplayText("\n\n“<i>[Master]?</i>”");
         }
 
-        menu();
+        
         MainScreen.addButton(0, "Appearance", whitneyAppearanceCorrupt);
         if (availableInvestments()) MainScreen.addButton(1, "Investment", investmentMenu);
         if (Flags.list[FlagEnum.FARM_CORRUPTION_BRANDING_MENU_UNLOCKED] === 1 || Flags.list[FlagEnum.QUEUE_BRANDING_UPGRADE] < 1) MainScreen.addButton(2, "Branding", brandingMenu);
@@ -1550,11 +1550,11 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", rootScene);
     }
 
-    private whitneySubPleasure(): void {
+    private whitneySubPleasure() {
         DisplayText().clear();
         whitneySprite();
 
-        let doFunctor: Function = null;
+        let doFunctor;
         let functorOnNext: boolean = false;
 
         if (Flags.list[FlagEnum.WHITNEY_ORAL_TRAINING] === 0) {
@@ -1626,7 +1626,7 @@ class FarmCorruption {
         }
     }
 
-    private firstOralTraining(): void {
+    private firstOralTraining() {
         DisplayText("You grin down at your newly acquired slave. It’s certainly a fitting position for a literal bitch, and whether she’s adopted it knowingly or not she’s got the stance down perfectly - the yearning eyes, the slowly wagging tail, back and neck straight. A tempting image of a biscuit balanced on a nose surfaces in your mind... but it is swiftly banished by more pressing thoughts, carnal impulses sinking down to your groin at the sight of your kneeling dog girl. She watches avidly as you slowly peel off your [armor], exposing");
         if (player.torso.cocks.count > 0) DisplayText(" [eachCock]");
         if (player.torso.cocks.count > 0 && player.torso.vaginas.count > 0) DisplayText(" and");
@@ -1645,7 +1645,7 @@ class FarmCorruption {
         DisplayText("\n\n“<i>I, I will try, [master],</i>” she says. You reach down and hold her around the jaw-line.");
 
         DisplayText("\n\n“<i>No,</i>” you say firmly.");
-        if (silly()) DisplayText(" “<i>Do. Or do not. There is no try.</i>”");
+        if (User.settings.silly()) DisplayText(" “<i>Do. Or do not. There is no try.</i>”");
         else DisplayText(" “<i>You will.</i>”");
         DisplayText(" Determination lines the dog woman’s mouth.");
 
@@ -1654,7 +1654,7 @@ class FarmCorruption {
         DisplayText("\n\n“<i>First,</i>” you say, settling yourself down, “<i>Put one hand in your knickers. Find that nice, wet pussy of yours.</i>” You watch her, a smile twitching the corners of your mouth as, blushing furiously, she shifts around in front of you. “<i>You know how to do that, right? All those lonely nights on the farm... good. Nice and easy. Eyes down.</i>” You say the last part adamantly, opening your [hips] wider as you do. Whitney swallows a bit as she strokes at her tiny button whilst staring at your " + ((player.torso.cocks.count > 0) ? "[eachCock]" : "[vagina]") + ", already " + ((player.torso.cocks.count > 0) ? "semi-turgid" : "moist") + " from the display put on by your fresh, nervous slave. “<i>Good,</i>” you murmur. “<i>Now... reach forward, and begin to lick.</i>”");
     }
 
-    private firstCockOralTraining(): void {
+    private firstCockOralTraining() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1667,7 +1667,7 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Stop!</i>” you cry out again harshly. Surprised brown eyes look up at you and the mouth around your cock freezes. “<i>Slaves do not get off before their owners,</i>” you say pressingly. “<i>Only if you do well enough to make me cum may you have the same privilege. Now... keep sucking and fingering. Try to do it at the same time. Nice and slow.</i>” You let her get back in the rhythm again, pleasuring the end of your [cock biggest] as you sensually sink more and more of your length into her mouth. Pleasingly, at your explicit instruction she does manage to move both her mouth and the hand buried in her pussy at the same time, and your prick reverberates deliciously to the occasional muffled moan. ");
 
         //Big Cock
-        if (player.biggestCockLength() > 12) {
+        if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length > 12) {
             DisplayText("\n\nThe desire to holster as much of your dick into your slut as you can eventually becomes too great and you begin to push, gently but insistently, into her throat. You know what to expect and patiently withdraw when she coughs and chokes - but then press back in when she’s recovered. After a few times she manages to get a hold on her gag reflex and you sigh as your [cockHead biggest] sinks into the delicious tightness of her throat.");
         }
 
@@ -1692,7 +1692,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private cockOralTrainingStageOne(): void {
+    private cockOralTrainingStageOne() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1702,7 +1702,7 @@ class FarmCorruption {
         if (player.torso.vaginas.count > 0 || player.torso.cocks.count > 1) DisplayText(" You know that it’s going to be important for her to work on more than one thing at once, so you are as hard as you can be to make sure that she gets this right, going as far as to cock-slap her when she gets so into flicking her button that she forgets you again. You don’t like doing this because a scolded dog girl is heartbreaking to look at, but needs must.");
 
         DisplayText("\n\nShe’s got the basics though; it’s imprinted on her well that she should not get herself off before she finishes with you, and she sighs and moans as she edges herself whilst moving her soft mouth up and down your bulging length. There’s a nice bit of rubbing give and take too which despite the need to tell her what to do slowly but surely builds your ardor into a blazing heat. You forgo words, take her head and begin to thrust into her milking redness hard.");
-        if (player.biggestCockLength() > 12) DisplayText(" She still struggles a bit with her gag reflex but it only takes her a few tries to swallow your thick prick, allowing you to pump into the delightful tightness of her throat without issue.");
+        if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length > 12) DisplayText(" She still struggles a bit with her gag reflex but it only takes her a few tries to swallow your thick prick, allowing you to pump into the delightful tightness of her throat without issue.");
 
         DisplayText("\n\nYou straighten your back and close your eyes beatifically as you surge to your high, your [cock biggest] tensing deep in Whitney’s mouth and then unloading, spurting line after line of jizz down her throat.");
 
@@ -1727,7 +1727,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private firstCockOralTrainingStageTwo(): void {
+    private firstCockOralTrainingStageTwo() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1761,7 +1761,7 @@ class FarmCorruption {
 
             DisplayText("\n\nOnce again, there are difficulties. You have got your dog girl doing three intense things at once, and she performs the balancing act shakily, usually forgetting either to continue frigging you or herself with her mouth full of cock. You keep an eye on her and whisper instruction and encouragement when she flags, although it becomes increasingly difficult as the heat inundating both your male and female genitals grows. ");
 
-            DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to move her hands fast and erratically, skittering across your urgently bulging button and making you pump into her wet, milking warmth all the more frenetically.");
+            DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to move her hands fast and erratically, skittering across your urgently bulging button and making you pump into her wet, milking warmth all the more frenetically.");
 
             DisplayText("\n\n“<i>Cum, bitch.</i>” you grit as you surge to your own high. Whitney’s muffled moans are what you hear as your cock-slit dilates and pumps jizz down her throat; you crow with delight as your [vagina] quivers and then clenches in orgasm in ecstatic sympathy with your male sex, " + ((player.torso.vaginas.get(0).wetness <= 2) ? "wetting your slave’s hand" : "absolutely soaking your slave’s arm") + " with femjizz as it does. She shudders around you and her eyes roll as she finds her own high rooting in her pussy; you are extremely gratified to note that, despite being on a plane of submissive pleasure far away, she still manages to swallow every drop of cum you eject");
             if (player.cumQ() >= 1500) DisplayText(" which is no mean feat, given it feels like you’ve fucked what feels like a gallon of it down her gullet. Once you’re almost done, as ever you spurt the last few creamy ropes across her face and clothes");
@@ -1785,7 +1785,7 @@ class FarmCorruption {
 
             DisplayText("\n\nOnce again, there are difficulties. You have got your dog girl doing three intense things at once, and she performs the balancing act shakily, usually forgetting either to continue frigging you or herself with her mouth full of cock. You keep an eye on her and whisper instruction and encouragement when she flags, although it becomes increasingly difficult as the heat inundating both your male and female genitals grows. ");
 
-            DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to move her hands faster and more erratically, skittering across your urgently bulging button and making you pump into her wet, milking warmth all the more frenetically.");
+            DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to move her hands faster and more erratically, skittering across your urgently bulging button and making you pump into her wet, milking warmth all the more frenetically.");
 
             DisplayText("\n\n“<i>Cum, bitch,</i>” you grit as you surge to your own high. Whitney’s muffled moans are what you hear as your cock-slit dilates and pumps jizz down her throat; you crow with delight as your [vagina] quivers and then clenches in orgasm in ecstatic sympathy with your male sex, " + ((player.torso.vaginas.get(0).wetness <= 2) ? "wetting your slave’s hand" : "absolutely soaking your slave’s arm") + " with femjizz as it does. She shudders around you and her eyes roll as she finds her own high rooting in her pussy; you are extremely gratified to note that, despite being on a plane of submissive pleasure far away, she still manages to swallow every drop of cum you eject");
             if (player.cumQ() >= 1500) DisplayText(" which is no mean feat, given it feels like you’ve fucked what feels like a gallon of it down her gullet. Once you’re almost done, as ever you spurt the last few creamy ropes across her face and clothes");
@@ -1808,7 +1808,7 @@ class FarmCorruption {
 
                 DisplayText("\n\nYou keep an eye on her and whisper instruction and encouragement when she flags, although it becomes increasingly difficult as the heat inundating your genitals grows; her finger occasionally presses against the pad of your [asshole], a delightfully slight but hard sensation which serves to deepen the soft pleasure of the mouth your cock is sunk in by contrast.");
 
-                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to push slightly into your ass, making you pump into her wet, milking warmth all the more frenetically.");
+                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to push slightly into your ass, making you pump into her wet, milking warmth all the more frenetically.");
 
                 DisplayText("\n\n“<i>Cum, bitch,</i>” you grit as you surge to your own high. Whitney’s muffled moans are what you hear as your cock-slit dilates and pumps jizz down her throat; she shudders around you and her eye rolls as she finds her own high rooting around in her pussy. You are extremely gratified to note that, despite being on a plane of submissive pleasure far above you, she still manages to swallow every drop of cum you eject");
                 if (player.cumQ() >= 1500) DisplayText(" which is no mean feat, given it feels like you’ve fucked what feels like a gallon of it down her gullet. Once you’re almost done, as ever you spurt the last few creamy ropes across her face and clothes");
@@ -1824,7 +1824,7 @@ class FarmCorruption {
 
                 DisplayText("\n\nOnce again, there are difficulties. You have got your dog girl doing three intense things at once, and she performs the balancing act shakily, usually forgetting either to continue rubbing either you or herself whilst her mouth is full of cock. You keep an eye on her and whisper instruction and encouragement when she flags, although it becomes increasingly difficult as the heat inundating your obscene male genitals grows. ");
 
-                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". Her breath wheezes through her nose as she lets you use her mouth, struggling to keep both sets of her teasing fingers moving; you coo as your own hard movements force her to move the hand on your [cock biggest2] fast and erratically, wringing your urgently bulging prick tightly and making you pump into her wet, milking warmth all the more frenetically.");
+                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". Her breath wheezes through her nose as she lets you use her mouth, struggling to keep both sets of her teasing fingers moving; you coo as your own hard movements force her to move the hand on your [cock biggest2] fast and erratically, wringing your urgently bulging prick tightly and making you pump into her wet, milking warmth all the more frenetically.");
             }
 
             DisplayText("\n\n“<i>Cum, bitch,</i>” you grit as you surge to your own high. Whitney’s muffled moans are what you hear as your cock-slit dilates and pumps jizz down her throat; she shudders around you and her eye rolls as she finds her own high rooting around in her pussy. You are extremely gratified to note that, despite being on a plane of submissive pleasure far above you, she still manages to swallow every drop of cum you eject");
@@ -1844,7 +1844,7 @@ class FarmCorruption {
 
                 DisplayText("\n\nOnce again, there are difficulties. You have got your dog girl doing three intense things at once, and she performs the balancing act shakily, usually forgetting either to continue rubbing either you or herself whilst her mouth is full of cock. You keep an eye on her and whisper instruction and encouragement when she flags, although it becomes increasingly difficult as the heat inundating your obscene male sex grows. ");
 
-                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". Her breath wheezes through her nose as she lets you use her mouth, struggling to keep both both sets of her teasing fingers moving; you coo as your own hard movements force her to move the hand on your [cock biggest2] faster and more erratic, wringing your urgently bulging prick tightly and making you pump into her wet, milking warmth all the more frenetically.");
+                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". Her breath wheezes through her nose as she lets you use her mouth, struggling to keep both both sets of her teasing fingers moving; you coo as your own hard movements force her to move the hand on your [cock biggest2] faster and more erratic, wringing your urgently bulging prick tightly and making you pump into her wet, milking warmth all the more frenetically.");
             }
             //monocock
             if (player.torso.cocks.count === 1) {
@@ -1852,7 +1852,7 @@ class FarmCorruption {
 
                 DisplayText("\n\nYou keep an eye on her and whisper instruction and encouragement when she flags, although it becomes increasingly difficult as the heat inundating your genitals grows; her finger occasionally presses against the pad of your [asshole], a delightfully slight but hard sensation which serves to deepen the soft pleasure your mouth is sunk in by contrast. ");
 
-                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to push slightly into your ass, making you pump into her wet, milking warmth all the more frenetically.");
+                DisplayText("\n\nEventually you cannot hold your lust back. You grab her by the head and begin to thrust deep into her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". Her breath hisses through her nose as she lets you use her mouth, struggling to keep her fingers schlicking away; you coo as your own hard movements force her to push slightly into your ass, making you pump into her wet, milking warmth all the more frenetically.");
 
                 DisplayText("\n\n“<i>Cum, bitch,</i>” you grit as you surge to your own high. Whitney’s muffled moans are what you hear as your cock-slit dilates and pumps jizz down her throat; she shudders around you and her eye rolls as she finds her own high rooting around in her pussy. You are extremely gratified to note that, despite being on a plane of submissive pleasure far above you, she still manages to swallow every drop of cum you eject");
                 if (player.cumQ() >= 1500) DisplayText(" which is no mean feat, given it feels like you’ve fucked what feels like a gallon of it down her gullet. Once you’re almost done, as ever you spurt the last few creamy ropes across her face and clothes");
@@ -1874,7 +1874,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private cockOralTrainingStageTwo(): void {
+    private cockOralTrainingStageTwo() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1931,7 +1931,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private firstCockOralTrainingStageThree(): void {
+    private firstCockOralTrainingStageThree() {
         DisplayText().clear();
         whitneySprite();
 
@@ -1975,7 +1975,7 @@ class FarmCorruption {
 
             DisplayText("\n\nYou don’t even need to look at her to know your plan is working perfectly. Muffled grunts, slurps and moans fill the air below you, Whitney’s mind now linking sexual release so deeply to gratifying you that she drips and throbs to being on her knees having her mouth and hands packed with your cock without any help whatsoever.");
 
-            DisplayText("\n\nThe sight and sound of her inundates your senses with the same drowning intensity of the pleasure enveloping your maleness and you pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her" + ((player.biggestCockLength() < 8) ? " mouth" : " throat") + ". She moans deeply as you begin to use her like this, and even when you’re face fucking her she does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.biggestCockLength() < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards. ");
+            DisplayText("\n\nThe sight and sound of her inundates your senses with the same drowning intensity of the pleasure enveloping your maleness and you pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her" + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? " mouth" : " throat") + ". She moans deeply as you begin to use her like this, and even when you’re face fucking her she does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards. ");
 
             DisplayText("\n\nYou can’t find the words as you fly into your golden, ecstatic high; you throw your head back as you bury as much of your cock into her as you can, sweat standing out on your brow as you bark wordlessly with each bucket of jizz you fountain down her throat. There’s a series of shrill, strangled squeals below you, her body shakes around you and you know without needing to see Whitney is cumming too, purely from the slavering joy of swallowing every last drop of the thick seed thrust into her by her master. ");
 
@@ -2040,8 +2040,8 @@ class FarmCorruption {
 
             DisplayText("\n\nYou don’t even need to look at her to know your plan is working perfectly. Muffled grunts, slurps and moans fill the air below you, Whitney’s mind now linking sexual release so deeply to debasing herself and gratifying you that she drips and throbs to being on her knees and having her mouth and hands packed with your cock, buried in your cunt, without any help whatsoever.");
 
-            DisplayText("\n\nThe sight and sound of her inundates your senses with the same drowning intensity of the pleasure enveloping your extensive sex and you pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". She moans deeply as you begin to use her like this, and even when you’re face fucking her she does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of ");
-            if (player.biggestCockLength() < 8) DisplayText("the back of her mouth");
+            DisplayText("\n\nThe sight and sound of her inundates your senses with the same drowning intensity of the pleasure enveloping your extensive sex and you pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". She moans deeply as you begin to use her like this, and even when you’re face fucking her she does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of ");
+            if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) DisplayText("the back of her mouth");
             else DisplayText("her gullet");
             DisplayText(" as you spear decisively inwards.");
 
@@ -2066,7 +2066,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private cockOralTrainingStageThree(): void {
+    private cockOralTrainingStageThree() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2106,11 +2106,11 @@ class FarmCorruption {
 
             DisplayText("\n\nYou keep a close eye on your slave bobbing away below you, but there really is no need to. She knows exactly what she’s doing now, every movement of her hands and mouth guided with exact precision to send lavish sensation and dense heat pulsing through your groin. Doing this to you is possibly giving her even more pleasure than what you’re getting. She moans and gasps as she sinks her mouth down your cock, almost as if it were a second vagina you were penetrating, mired in the corrupted tangle of submissive impulses you have planted deep within her. You grin as you admire your petite slave worshiping your body. That would be a thing wouldn’t it, changing her mouth into a nice, wet pussy? Well, you can’t manage that but... you groan as she sends her tongue sliding right down to your base whilst she sucks almost your whole length tight and close... you think she does deserve a mark of recognition, for all her hard learning.");
 
-            DisplayText("\n\nYou grab hold of those thoughts, filling them with a black power as the drowning intensity of the pleasure inundating your maleness increases and you begin to pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suck of her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ". With some effort you stay afloat and consider the dog woman as she whimpers in delight to you hammering into her juicy mouth");
+            DisplayText("\n\nYou grab hold of those thoughts, filling them with a black power as the drowning intensity of the pleasure inundating your maleness increases and you begin to pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suck of her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ". With some effort you stay afloat and consider the dog woman as she whimpers in delight to you hammering into her juicy mouth");
             if (player.torso.balls.quantity > 0) DisplayText(", your saliva-glossed [balls] beating against her chin");
             DisplayText(". If there is one deficiency to her right now it is her fairly thin, pale lips. No cocksucking champion has lips like that - they need to be big, bee-stung, constantly wet with the movements of a needy tongue. Luscious whore pillows worthy of having your cock slide between them. You push these succulent, evil thoughts deep into your groin, deep into the heat building inexorably there. ");
 
-            DisplayText("\n\nEven when you’re face fucking her Whitney does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.biggestCockLength() < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards. You can’t find the words as you fly into your golden, ecstatic high; you throw your head back as you bury as much of your cock into her as you can, sweat standing out on your brow as you bark wordlessly with each bucket of jizz you fountain down her throat. ");
+            DisplayText("\n\nEven when you’re face fucking her Whitney does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards. You can’t find the words as you fly into your golden, ecstatic high; you throw your head back as you bury as much of your cock into her as you can, sweat standing out on your brow as you bark wordlessly with each bucket of jizz you fountain down her throat. ");
 
             DisplayText("\n\nThere’s a series of shrill, strangled squeals below you, her body shakes around you and you know without needing to see Whitney is cumming too, purely from the slavering joy of swallowing every last drop of the thick seed thrust into her by her master. ");
             if (player.torso.cocks.count > 1) {
@@ -2171,14 +2171,14 @@ class FarmCorruption {
             DisplayText("\n\nYou keep a close eye on your slave bobbing away below you, but there really is no need to. She knows exactly what she’s doing now, every movement of her hands and mouth guided with exact precision to send lavish sensation and dense heat pulsing through your groin. Doing this to you is possibly giving her even more pleasure than what you’re getting out of it. She moans and gasps as she sinks her mouth down your cock, almost as if it were a second vagina you were penetrating, mired in the corrupted tangle of submissive impulses you have planted deep within her. You grin as you admire your petite cock slave worshiping your body. That would be a thing wouldn’t it, changing her mouth into a nice, wet pussy? Well, you can’t manage that but... you groan as she sends her tongue sliding right down to your base whilst she sucks almost your whole length tight and close... you think she does deserve a mark of recognition, for all her hard learning.");
 
             DisplayText("\n\nYou grab hold of those thoughts, filling them with a black power as the drowning intensity of the pleasure inundating your sex increases and you begin to pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suck of her ");
-            if (player.biggestCockLength() < 8) DisplayText("mouth");
+            if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) DisplayText("mouth");
             else DisplayText("throat");
             DisplayText(". With some effort you stay afloat and consider the dog woman as she whimpers in delight to you hammering into her juicy mouth");
             if (player.torso.balls.quantity > 0) DisplayText(", your saliva-glossed [balls] beating against her chin");
             DisplayText(". If there is one deficiency to her right now it is her fairly thin, pale lips. No cocksucking champion has lips like that - they need to be big, bee-stung, constantly wet with the movements of a needy tongue. Luscious whore pillows worthy of having your cock slide between them. You push these succulent, evil thoughts deep into your groin, deep into the heat building inexorably there. ");
 
             DisplayText("\n\nEven when you’re face fucking her Whitney does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of ");
-            if (player.biggestCockLength() < 8) DisplayText("the back of her mouth");
+            if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) DisplayText("the back of her mouth");
             else DisplayText("her gullet");
             DisplayText(" as you spear decisively inwards. You can’t find the words as you fly into your golden, ecstatic high; you throw your head back as you bury as much of your cock into her as you can, sweat standing out on your brow as you bark and howl with each bucket of jizz you fountain down her throat. ");
 
@@ -2212,7 +2212,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private cockOralTrainingMaxed(): void {
+    private cockOralTrainingMaxed() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2240,7 +2240,7 @@ class FarmCorruption {
             else if (player.torso.cocks.count >= 3) DisplayText(" switching her attention first to one cock and then the other");
             if (player.torso.cocks.count > 1) DisplayText(" so that each of your fiercely erect pricks has time to enjoy the tight, sucking embrace of her mouth.");
 
-            DisplayText("\n\nPushing her all the way down to the base of your [cock biggest] so that the heavy breath through her nose warms your crotch and holding her there for a time, you enjoy the glorious closeness of the back of her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat"));
+            DisplayText("\n\nPushing her all the way down to the base of your [cock biggest] so that the heavy breath through her nose warms your crotch and holding her there for a time, you enjoy the glorious closeness of the back of her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat"));
             if (player.torso.balls.quantity > 0) DisplayText(" and her tongue once again sliding across your [balls], ");
             DisplayText("before wrapping your hand through her silky hair and lifting her carefully but firmly all the way up, above your gleaming cock, at a height where she is just able to reach it with her tongue, telling her to cup her peachy breasts as you do. You enjoy the soft lapping at your beading head and the frustrated moans filling your ears at leisure, reveling in the sight of her, attempting to reconcile the memory of the calm, independent dog woman you once knew with the whimpering bitch dangling from your fist and creaming herself from worshiping your cock now.");
 
@@ -2248,9 +2248,9 @@ class FarmCorruption {
             if (player.torso.cocks.count > 1) DisplayText(", her hands wrapping back around your other cock");
             if (player.torso.cocks.count > 2) DisplayText("s");
             if (player.torso.cocks.count > 1) DisplayText(" as if they never left them");
-            DisplayText(" pulling and kneading you now with real need. The drowning intensity of the pleasure inundating your maleness increases and you begin to pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ".");
+            DisplayText(" pulling and kneading you now with real need. The drowning intensity of the pleasure inundating your maleness increases and you begin to pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ".");
 
-            DisplayText("\n\nAs always when you’re face fucking her Whitney does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.biggestCockLength() < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards, her lush cock pillows providing... not resistance but a wonderful squeezing lushness moving up and down your urgently bulging length.");
+            DisplayText("\n\nAs always when you’re face fucking her Whitney does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards, her lush cock pillows providing... not resistance but a wonderful squeezing lushness moving up and down your urgently bulging length.");
 
             DisplayText("\n\nYou can’t find the words as you fly into your golden, ecstatic high; you throw your head back as you bury as much of your cock into her as you can, sweat standing out on your brow as you bark wordlessly to each bucket of jizz you fountain down her throat. There’s a series of shrill, strangled squeals below you, her body shakes around you and you know without needing to see Whitney is cumming too, purely from the slavering joy of swallowing every last drop of the thick seed thrust into her by her master.");
             if (player.torso.cocks.count > 1) {
@@ -2304,15 +2304,15 @@ class FarmCorruption {
             if (player.torso.cocks.count >= 3) DisplayText(", switching her first to one cock then another");
             if (player.torso.cocks.count > 1) DisplayText(" so that each of your fiercely erect pricks has time to enjoy the tight, sucking embrace of her mouth.");
 
-            DisplayText("\n\nPushing her all the way down to the base of your [cock biggest] so that the heavy breath through her nose warms your crotch and holding her there for a time, you enjoy the glorious closeness of the back of her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat"));
+            DisplayText("\n\nPushing her all the way down to the base of your [cock biggest] so that the heavy breath through her nose warms your crotch and holding her there for a time, you enjoy the glorious closeness of the back of her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat"));
             if (player.torso.balls.quantity > 0) DisplayText(", and her tongue once again sliding across your [balls]");
             DisplayText(" before wrapping your hand through her silky hair and lifting her carefully but firmly all the way up, above your [cock biggest] at a height where she is just able to reach it with her tongue, telling her to cup her peachy breasts as you do. You enjoy the soft lapping at your beading head and the frustrated moans filling your ears at leisure, reveling in the sight of her, attempting to reconcile the memory of the calm, independent dog woman you once knew with the whimpering bitch dangling from your fist and creaming herself from worshiping your cock now.");
 
             DisplayText("\n\nYou let her go and she immediately impales herself back onto your length, sliding her fingers back into your slickened twat");
             if (player.torso.cocks.count > 1) DisplayText(" and her other hand wrapping back around your [cock biggest2]");
-            DisplayText(" as if they never left them, pulling, kneading and curling into you now with real need. The drowning intensity of the pleasure inundating your sex increases and you begin to pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her " + ((player.biggestCockLength() < 8) ? "mouth" : "throat") + ".");
+            DisplayText(" as if they never left them, pulling, kneading and curling into you now with real need. The drowning intensity of the pleasure inundating your sex increases and you begin to pump upwards to an irresistible high, grasping her head and beginning to thrust deep into the tight suction of her " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "mouth" : "throat") + ".");
 
-            DisplayText("\n\nEven when you’re face fucking her Whitney does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.biggestCockLength() < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards. Her lush cock pillows provide no resistance but a wonderful squeezing lushness running up and down your urgently bulging length. You can’t find the words as you fly into your golden, ecstatic high; you throw your head back as you bury as much of your cock into her as you can, sweat standing out on your brow as you bark wordlessly with each bucket of jizz you fountain down her throat. ");
+            DisplayText("\n\nEven when you’re face fucking her Whitney does exactly the right things, hollowing her cheeks as you pull outwards to suck deliciously at your receding shaft then softening her mouth completely to give you the best access possible to the beautiful, tight warmth of " + ((player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 8) ? "the back of her mouth" : "her gullet") + " as you spear decisively inwards. Her lush cock pillows provide no resistance but a wonderful squeezing lushness running up and down your urgently bulging length. You can’t find the words as you fly into your golden, ecstatic high; you throw your head back as you bury as much of your cock into her as you can, sweat standing out on your brow as you bark wordlessly with each bucket of jizz you fountain down her throat. ");
 
             DisplayText("\n\nThere’s a series of shrill, strangled squeals below you, her body shakes around you and you know without needing to see Whitney is cumming too, purely from the slavering joy of swallowing every last drop of the thick seed thrust into her by her [master]. Her fingers slip and slide around your [vagina] before bending in and pressing at your sweet spot; it quivers and contracts in shared orgasm, ");
             if (player.torso.vaginas.get(0).wetness > 2) DisplayText("soaking her arm as it gutters your juices, ");
@@ -2334,7 +2334,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private firstVaginaOralTraining(): void {
+    private firstVaginaOralTraining() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2369,7 +2369,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vaginaOralTrainingStageOne(): void {
+    private vaginaOralTrainingStageOne() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2398,7 +2398,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private firstVaginaOralTrainingStageTwo(): void {
+    private firstVaginaOralTrainingStageTwo() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2418,10 +2418,10 @@ class FarmCorruption {
         DisplayText(" from the arousal you already feel. “<i>A good slut knows her mistress’s breasts need to be attended to, her nipples and skin shining with a slave’s worship for all the world to see, before she’s deserving of drinking from her pussy. Let’s see how you do.</i>” ");
 
         DisplayText("\n\nAfter a slight pause Whitney rises up, puts her arms around your waist, and bends into one of your [nipples]. You sigh as you feel her flat tongue slide across your softness and then over your");
-        if (player.torso.chest.hasFuckableNipples()) DisplayText(" obscene folds");
+        if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" obscene folds");
         else DisplayText(" sensitive points");
         DisplayText(", kneading them gently and bathing them in saliva. Given her initial awkwardness at cunnilingus it’s remarkable how good she is at this. “<i>Lick every inch... that’s good. Suckle on them a bit... very good!</i>” You gasp a bit as she envelopes one of your nipples and");
-        if (player.torso.chest.hasFuckableNipples()) DisplayText(" sends her tongue questing into its sensitive inside.");
+        if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" sends her tongue questing into its sensitive inside.");
         else DisplayText("bites it ever so gently.");
         if (player.lactationQ() > 0) {
             DisplayText(" The gentle kneading is easily enough to make your fecund teats dribble milk into her mouth, and after being slightly startled by it Whitney evidently enjoys the taste of it, because she begins to pull at your plump breast for more. You allow her another mouthful before gently pulling her away.");
@@ -2463,7 +2463,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vaginaOralTrainingStageTwo(): void {
+    private vaginaOralTrainingStageTwo() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2472,7 +2472,7 @@ class FarmCorruption {
         DisplayText("\n\nShe begins as you already bid her, hugging your waist as she laps at your [chest], eyes closed as she silently sends her warm, wet tongue rolling and questing across your softness, varnishing every inch of them with saliva before taking each of your [nipples] into her mouth to bathe them in close, sucking attention. It’s a process which is beautifully sensuous");
         if (player.lactationQ() > 0) DisplayText(" and it quickly makes the liquid warmth in your breasts rise to a point, beading milk freely from your teats. Whitney laps and sucks it down eagerly, but gratifyingly she remembers your order and stops reluctantly after only taking a single pull");
         DisplayText(", leaving your nipples");
-        if (!player.torso.chest.hasFuckableNipples()) DisplayText(" rock-hard and");
+        if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" rock-hard and");
         DisplayText(" shining and your [vagina] beading eagerly.");
 
         DisplayText("\n\nShe sinks down onto her knees then, sliding her hot little fingers between your thighs whilst she continues to work herself into a lather, finding your [vagina] and slowly beginning to play with it, beckoning at your [clit] with one soft digit whilst another sinks deep into your tunnel, softly sliding in and around your female sex until it is puffy and wet with her careful, teasing movements.");
@@ -2500,19 +2500,19 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private firstVaginaOralTrainingStageThree(): void {
+    private firstVaginaOralTrainingStageThree() {
         DisplayText().clear();
         whitneySprite();
 
         DisplayText("You smile at Whitney as you take off your... you stop, frowning down at her. Did she whimper just then? She’s completely still, staring up at you intently with her big, deep, brown eyes. Without saying a word and pretending to be interested in the sky above, you continue to disrobe, doing it slowly, placing every piece of your [armor] down on the ground with careful deliberation. There is no mistaking it this time - as you spread your [hips] and expose your [vagina] Whitney moans deep in her throat, squirming uncomfortably in her kneeling position as her gaze bores deep into your crotch. You smile softly, sit yourself down, open your [legs], and wait.");
 
         DisplayText("\n\nOnce you have settled yourself down the dog woman immediately sends her hand burying into her underwear, her heavy breath catching in her throat as she stares at you. It only takes a few seconds of urgent jerking before she spasms forward, her tongue out and eager to begin. She radiates heat as she pushes into your abdomen, pressing her mouth into your [chest]. Eyes closed, she silently sends her warm, flannel-like tongue rolling and questing across your softness, varnishing every inch of them with saliva, catching your skin gently here and there in her teeth, making the blood rise to the surface just so you can enjoy her licking all the more;");
-        if (!player.torso.chest.hasFuckableNipples()) DisplayText(" she takes each of your [nipples] into her mouth to bathe them in close, sucking attention");
+        if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" she takes each of your [nipples] into her mouth to bathe them in close, sucking attention");
         else DisplayText(" she sends her tongue lapping into each of your cunt nipples, curling at their sensitive pink until they are wet with need");
         DisplayText(". It’s a process which is beautifully sensuous, made all the more gratifying by the soft, lustful moans she makes as she polishes your softness.");
         if (player.lactationQ() > 0) DisplayText(" It quickly makes the liquid warmth in your breasts rise to a point, beading milk freely from your teats. Whitney laps and sucks it down eagerly, but gratifyingly she remembers your order and stops reluctantly after only taking a single pull.");
         DisplayText(" She sinks downwards leaving your nipples");
-        if (!player.torso.chest.hasFuckableNipples()) DisplayText(" rock-hard and");
+        if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" rock-hard and");
         DisplayText(" shining, your [vagina] beading eagerly.");
 
         DisplayText("\n\nShe slides her hot little fingers between your thighs whilst she continues to work herself into a lather, finding your [vagina] and slowly beginning to play with it, beckoning at your [clit] with one soft digit whilst another sinks deep into your tunnel, softly sliding in and around your pink until it is puffy and wet with her careful, teasing movements. When you give a groan of approval to her treatment of your sex she bends in and sinks her tongue into your wet, sucking warmness. You sigh as she gets to work, lapping at your entrance, searching and curling into your vagina whilst her firm digits continue to diddle both herself and you. ");
@@ -2550,7 +2550,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vaginaOralTrainingStageThree(): void {
+    private vaginaOralTrainingStageThree() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2575,12 +2575,12 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Very well,</i>” you say coolly. “<i>But next time you will say it clearer. Begin.</i>”");
 
         DisplayText("\n\nShe radiates heat as she pushes into your abdomen, pressing her mouth into your [chest]. Eyes closed, she silently sends her warm, flannel-like tongue rolling and questing across your softness, varnishing every inch of them with saliva, catching your skin gently here and there in her teeth, making the blood rise to the surface just so you can enjoy her licking all the more;");
-        if (!player.torso.chest.hasFuckableNipples()) DisplayText(" she takes each of your [nipples] into her mouth to bathe them in close, sucking attention");
+        if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" she takes each of your [nipples] into her mouth to bathe them in close, sucking attention");
         else DisplayText(" she sends her tongue lapping into each of your cunt nipples, curling at their sensitive pink until they are wet with need");
         DisplayText(". It’s a process which is beautifully sensuous.");
         if (player.lactationQ() > 0) DisplayText(" It quickly makes the liquid warmth in your breasts rise to a point, beading milk freely from your teats. Whitney laps and sucks it down eagerly, whimpering as she withdraws after taking a single pull. You smile softly, knowing that the small, teasing taste of your sweetness only serves to make her thirstier.");
         DisplayText(" She sinks downwards leaving your nipples");
-        if (player.torso.chest.hasFuckableNipples()) DisplayText(" rock-hard and");
+        if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" rock-hard and");
         DisplayText(" shining, your [vagina] beading eagerly.");
 
         DisplayText("\n\nYou rise above her softly and sinuously, looking over your shoulder at her with an aloof smirk as you display your [butt] to her.");
@@ -2618,7 +2618,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vaginaOralTrainingMaxed(): void {
+    private vaginaOralTrainingMaxed() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2629,12 +2629,12 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Very well,</i>” you say benevolently, opening your [hips]. “<i>I suppose you do deserve it for being such a hardworking task-slut.</i>”");
 
         DisplayText("\n\nShe radiates heat as she pushes into your abdomen, pressing her mouth into your [chest]. Eyes closed, she silently pushes her plump lips into your softness before she sends her warm, flannel-like tongue rolling and questing across your skin, varnishing every inch of them with clinging saliva, catching your skin gently here and there in her teeth, making the blood rise to the surface just so you can enjoy her licking all the more;");
-        if (!player.torso.chest.hasFuckableNipples()) DisplayText(" she envelopes each of your [nipples] with her lips, kissing them with their sumptuous sponginess before bathing them in close, sucking attention");
+        if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" she envelopes each of your [nipples] with her lips, kissing them with their sumptuous sponginess before bathing them in close, sucking attention");
         else DisplayText(" she pushes her lips against your cunt nipples before sending her tongue gently into each of them, curling at their sensitive pink until they are oozing wetness in delight");
         DisplayText(". It’s a process which is beautifully sensuous, made all the better by the soft, lustful moans she makes as she polishes your bust.");
         if (player.lactationQ() > 0) DisplayText(" It quickly makes the liquid warmth in your breasts rise to a point, beading milk freely from your teats. Whitney laps and sucks it down eagerly, whimpering as she withdraws after taking a single pull. You smile softly, knowing that that small, teasing taste of your heavy sweetness only serves to make her thirstier.");
         DisplayText(" Having left your [chest] gleaming with warm, oily saliva and your nipples");
-        if (!player.torso.chest.hasFuckableNipples()) DisplayText(" rock-hard and");
+        if (!player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" rock-hard and");
         DisplayText(" shining, she sinks down to the next stage.");
 
         DisplayText("\n\nYou don’t have to turn as you rise; she slides around herself, her fingers trail longingly down your waist and over your [hips] as she kneels behind you and pushes her hot tongue into the cleavage of your [butt], sliding downwards to tongue at your [asshole].  She first licks your valley quite clean of salt and musk, bathing your rose in lapping attention until it feels sensuously moist and soft, before smoothing her lips and tongue carefully across your ");
@@ -2678,7 +2678,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private whitneyDomPleasure(): void {
+    private whitneyDomPleasure() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2699,7 +2699,7 @@ class FarmCorruption {
         return { next: scenes[randInt(scenes.length)] };
     }
 
-    private firstWhitneyDomPleasure(): void {
+    private firstWhitneyDomPleasure() {
         DisplayText("You are slightly apprehensive about this, but you’ve gone to the trouble of crafting Whitney into a fairly unique slave, and it seems churlish not to test just how deep the dominating streak you’ve brought out in her goes. You tell her you could do with a bit of relaxation.");
 
         DisplayText("\n\n“<i>Of course, [master]. Relaxation,</i>” murmurs Whitney. She drops a heavy tonal wink over her last two words as she entwines her arm around yours. “<i>Perhaps you’d like to come inside my house? Been making one or two, mmm, adjustments I’d like you to see.</i>” She may be quite petite but it strikes you how strong a lifetime of physical labor has made her; it feels like a small, hot bundle of rope wrapped around your arm which is leading you up the board steps and through the door of Whitney’s farmhouse.");
@@ -2715,7 +2715,7 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Undress,</i>” she directs curtly, and you do so meekly whilst watching her do the same. She rips off her plain work clothes quickly as if she were irritated by them, not driven by any need to put on a show for you, simply overwhelmingly eager to begin. You suddenly feel both very warm and slightly shaky.");
     }
 
-    private repeatWhitneyDomPleasure(): void {
+    private repeatWhitneyDomPleasure() {
         DisplayText("You say you could do with some relaxation.");
 
         DisplayText("\n\n“<i>So soon after the last time?</i>” a delighted Whitney whispers as she wraps her arm around yours tightly. “<i>Guess I’m not relaxing you hard enough.</i>” Again she leads you into her house, again she leads her into her chamber, again she locks the door securely before pushing you feverishly onto her bed, leather straps and buckles shifting beneath you as she begins to strip.");
@@ -2724,7 +2724,7 @@ class FarmCorruption {
     }
 
     // TODO : Split this up
-    private whitneyDomBondageOral(): void {
+    private whitneyDomBondageOral() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2837,7 +2837,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private whitneyDomStraponDoggy(): void {
+    private whitneyDomStraponDoggy() {
         DisplayText().clear();
         whitneySprite();
 
@@ -2894,10 +2894,10 @@ class FarmCorruption {
             DisplayText(" eagerly swallowing it up until her hard hips are pressed against your [butt].");
 
             if (player.torso.vaginas.count > 0) {
-                player.displayStretchVagina(36, true, true, false);
+                Mod.Vagina.displayStretchVagina(player, 36, true, true, false);
             }
             else {
-                player.displayStretchButt(36, true, true, false);
+                Mod.Butt.displayStretchButt(player, 36, true, true, false);
             }
 
             DisplayText("\n\n“<i>You’re no stranger to cock, are you [boy]?</i>” she breathes. You jerk in shock as the paddle lands with a sharp report on your ass cheek. “<i>When you aren’t strutting around here, I bet you ");
@@ -2914,10 +2914,10 @@ class FarmCorruption {
             DisplayText(", pushing the other end of the dildo into her. An even louder moan is forced out of your throat by the intensity of your tunnel being packed full of cock, albeit an imitation.");
 
             if (player.torso.vaginas.count > 0) {
-                player.displayStretchVagina(36, true, true, false);
+                Mod.Vagina.displayStretchVagina(player, 36, true, true, false);
             }
             else {
-                player.displayStretchButt(36, true, true, false);
+                Mod.Butt.displayStretchButt(player, 36, true, true, false);
             }
 
             DisplayText("\n\n“<i>S’it,</i>” Whitney breathes exultantly, as her hard hips finally press against your [butt], the whole thing buried in you. “<i>Cry for me, [boy]! This is something you need, isn’t it? Something to think about when you’re lordin’ it over your ");
@@ -2951,7 +2951,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    public whitneyDomRide(): void {
+    public whitneyDomRide() {
         DisplayText().clear();
         whitneySprite();
 
@@ -3080,7 +3080,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private brandingMenu(): void {
+    private brandingMenu() {
         DisplayText().clear();
         whitneySprite();
 
@@ -3089,8 +3089,8 @@ class FarmCorruption {
 
             DisplayText("\n\n“<i>I don’t brand my herd, [master],</i>” she says in a low voice, as you smooth your hand upwards and slip your fingers underneath her skirt. “<i>’s a very cruel practice and without any other farms round there’s no need for it anyway.</i>” But surely she must know of ways to mark cattle, you go on. Ways to make it immediately clear who owns them. You put not-so-subtle emphases on certain words as you touch her sopping vagina, slipping two fingers in easily. “<i>Mayhap... mayhap I do, [master],</i>” the dog woman groans, her breath coming in gulps and hisses as your digits move in her warm wetness. “<i>Somethin’, somethin’ from my granddaddy’s day. If you give me 500 gems and some time, I could... go and make a few things happen...</i>”");
 
-            menu();
-            if (player.stats.gems >= 500) MainScreen.addButton(0, "Do it", getBrandingStuff);
+            
+            if (player.inventory.gems >= 500) MainScreen.addButton(0, "Do it", getBrandingStuff);
             else MainScreen.addButton(0, "Do it", dontGetBrandingStuff);
             MainScreen.addButton(1, "No", dontGetBrandingStuff);
         }
@@ -3099,11 +3099,11 @@ class FarmCorruption {
 
             DisplayText("Your thoughts turn to the ingenious magic of your tattooing gear, stashed away in the barn. Grinning, you consider who you will summon to brand.");
 
-            if (player.stats.gems < 50) DisplayText("\n\n<b>You don't have enough gems to afford a new brand for any of your slaves.</b>");
+            if (player.inventory.gems < 50) DisplayText("\n\n<b>You don't have enough gems to afford a new brand for any of your slaves.</b>");
 
-            menu();
+            
 
-            if (player.stats.gems >= 50) {
+            if (player.inventory.gems >= 50) {
                 if (hasFreeTattooSlot("whitney")) MainScreen.addButton(0, "Whitney", brandWhitney);
                 if (Flags.list[FlagEnum.FOLLOWER_AT_FARM_AMILY] === 1 && hasFreeTattooSlot("amily")) MainScreen.addButton(1, "Amily", brandAmily);
                 if (Flags.list[FlagEnum.FOLLOWER_AT_FARM_JOJO] === 1 && hasFreeTattooSlot("jojo")) MainScreen.addButton(2, "Jojo", brandJojo);
@@ -3279,19 +3279,19 @@ class FarmCorruption {
         return count;
     }
 
-    private brandWhitney(): void {
+    private brandWhitney() {
         DisplayText().clear();
         whitneySprite();
 
         DisplayText("Whitney knows exactly what it means when you head off to the barn where she stashed your “branding” equipment; the dog girl is already eagerly stripped down by the time you’ve returned. You hold the pots of ink and consider where, and what, to put on her.");
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         brandSlotSelect();
     }
 
-    public brandAmily(): void {
+    public brandAmily() {
         DisplayText().clear();
 
         DisplayText("You retrieve the pots of ink and paper from the barn and, smiling, tell your pet mouse you’re going to give her a treat.");
@@ -3302,24 +3302,24 @@ class FarmCorruption {
         else DisplayText(" body");
         DisplayText(", [master]? That’s my favorite type of treat.</i>” You consider where, and what, to put on her.");
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         amilyBrandSlotSelect();
     }
 
-    private brandJojo(): void {
+    private brandJojo() {
         DisplayText().clear();
 
         DisplayText("You retrieve the pots of ink and paper from the barn and, smiling brightly, tell your pet mouse you’re going to give him a special treat. Jojo knows all too well the nature of your treats. He closes his eyes and waits for the worst as you consider where and what to put on him.");
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         jojoBrandSlotSelect();
     }
 
-    private brandBimboSophie(): void {
+    private brandBimboSophie() {
         DisplayText().clear();
 
         DisplayText("You retrieve the pots of ink and paper from the barn and, smiling, tell your pet harpy you’re going to give her a treat.");
@@ -3335,13 +3335,13 @@ class FarmCorruption {
             DisplayText("\n\nShaking your head, you consider where and what you’re going to put on her.");
         }
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         bimboSophieSlotSelect();
     }
 
-    private brandVapula(): void {
+    private brandVapula() {
         DisplayText("You retrieve the pots of ink and paper from the barn and, smiling, tell your succubus you’re going to give her a treat.");
 
         DisplayText("\n\n“<i>What’s that supposed to be, [name]?</i>” she says, peering at your tools. “<i>Tattooing gear? Wow, that’s crude. You know Lethice has artists whose pens make you feel whatever is drawn on you, so...</i>” You say you don’t give a stuff what Lethice has, you’re here now and you going to tattoo exactly what you like on her.");
@@ -3350,54 +3350,54 @@ class FarmCorruption {
 
         DisplayText("\n\nYou consider where and what you’re going to put on her.");
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         vapulaSlotSelect();
     }
 
-    private brandKelly(): void {
+    private brandKelly() {
         DisplayText("You retrieve the pots of ink and paper from the barn and smilingly tell your centaur cumslut you’re going to give her a treat.");
 
         DisplayText("\n\n“<i>Ok,</i>” she says meekly, her wide, green eyes on the objects in your hand. “<i>It won’t hurt, will it?</i>” Like you fucking her in the ass, you tell her soothingly, any initial pain will be more than worth the eventual satisfaction. As she blushes rosily, you consider where and what you’re going to put on her.");
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         kellySlotSelect();
     }
 
-    private brandSmallMilky(): void {
+    private brandSmallMilky() {
         DisplayText("You retrieve the pots of ink and paper from the barn and, smiling kindly, tell your ex Sand Witch slave you’re going to give her a treat. ");
 
         DisplayText("\n\n[bathgirlName] looks at your tattooing paraphernalia apprehensively.");
 
         DisplayText("\n\n“<i>Skin pictures? O-ok, I guess.</i>” She breaks her brittle display of casualness with a laugh. “<i>I’ve always quite liked butterflies - You don’t see them out in the desert much. If you’re going to draw something - maybe you could...?</i>”");
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         smallMilkySlotSelect();
     }
 
-    private brandBigMilky(): void {
+    private brandBigMilky() {
         DisplayText("You retrieve the pots of ink and paper from the barn and, smiling kindly, tell your ex Sand Witch slave you’re going to give her a treat. ");
 
         DisplayText("\n\n[bathgirlName] blinks up at you, and then frowns hard as she considers this.");
 
         DisplayText("\n\n“<i>Bath time?</i>” she eventually replies.");
 
-        player.stats.gems -= 50;
+        player.inventory.gems -= 50;
         showStats();
 
         bigMilkySlotSelect();
     }
 
-    private getBrandingStuff(): void {
+    private getBrandingStuff() {
         DisplayText().clear();
         whitneySprite();
 
-        player.stats.gems -= 500;
+        player.inventory.gems -= 500;
         showStats();
 
         DisplayText("You stroke at her tiny, bulging button relentlessly until she releases a wordless bark of ecstasy, soaking your hand with a gratifyingly large gush of femcum. As she pants into your chest you wipe one hand clean on her clothes and press the money into her " + ((whitneyDefurred()) ? "hands" : "paws") + " with the other.");
@@ -3409,7 +3409,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private dontGetBrandingStuff(): void {
+    private dontGetBrandingStuff() {
         DisplayText().clear();
         whitneySprite();
 
@@ -3422,7 +3422,7 @@ class FarmCorruption {
         dogeCorruptedMissionComplete();
     }
 
-    private brandingAvailableTalk(): void {
+    private brandingAvailableTalk() {
         DisplayText().clear();
         whitneySprite();
 
@@ -3439,12 +3439,12 @@ class FarmCorruption {
 
         Flags.list[FlagEnum.QUEUE_BRANDING_AVAILABLE_TALK] = 0;
 
-        menu();
+        
         MainScreen.addButton(0, "Yes", testBranding);
         MainScreen.addButton(1, "No", dontTestBranding);
     }
 
-    private testBranding(): void {
+    private testBranding() {
         DisplayText().clear();
         whitneySprite();
 
@@ -3463,77 +3463,77 @@ class FarmCorruption {
         "lower back",
         "butt"];
 
-    public brandSlotSelect(): void {
-        menu();
+    public brandSlotSelect() {
+        
         if (Flags.list[FlagEnum.WHITNEY_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", brandSelect, 0)
         if (Flags.list[FlagEnum.WHITNEY_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", brandSelect, 1);
         if (Flags.list[FlagEnum.WHITNEY_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", brandSelect, 2);
         if (Flags.list[FlagEnum.WHITNEY_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", brandSelect, 3);
     }
 
-    public amilyBrandSlotSelect(): void {
-        menu();
+    public amilyBrandSlotSelect() {
+        
         if (Flags.list[FlagEnum.AMILY_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", amilyBrandSelect, 0)
         if (Flags.list[FlagEnum.AMILY_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", amilyBrandSelect, 1);
         if (Flags.list[FlagEnum.AMILY_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", amilyBrandSelect, 2);
         if (Flags.list[FlagEnum.AMILY_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", amilyBrandSelect, 3);
     }
 
-    public jojoBrandSlotSelect(): void {
-        menu();
+    public jojoBrandSlotSelect() {
+        
         if (Flags.list[FlagEnum.JOJO_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", jojoBrandSelect, 0)
         if (Flags.list[FlagEnum.JOJO_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", jojoBrandSelect, 1);
         if (Flags.list[FlagEnum.JOJO_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", jojoBrandSelect, 2);
         if (Flags.list[FlagEnum.JOJO_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", jojoBrandSelect, 3);
     }
 
-    public bimboSophieSlotSelect(): void {
-        menu();
+    public bimboSophieSlotSelect() {
+        
         if (Flags.list[FlagEnum.SOPHIE_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", bimboSophieBrandSelect, 0)
         if (Flags.list[FlagEnum.SOPHIE_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", bimboSophieBrandSelect, 1);
         if (Flags.list[FlagEnum.SOPHIE_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", bimboSophieBrandSelect, 2);
         if (Flags.list[FlagEnum.SOPHIE_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", bimboSophieBrandSelect, 3);
     }
 
-    public vapulaSlotSelect(): void {
-        menu();
+    public vapulaSlotSelect() {
+        
         if (Flags.list[FlagEnum.VAPULA_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", vapulaBrandSelect, 0)
         if (Flags.list[FlagEnum.VAPULA_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", vapulaBrandSelect, 1);
         if (Flags.list[FlagEnum.VAPULA_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", vapulaBrandSelect, 2);
         if (Flags.list[FlagEnum.VAPULA_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", vapulaBrandSelect, 3);
     }
 
-    public kellySlotSelect(): void {
-        menu();
+    public kellySlotSelect() {
+        
         if (Flags.list[FlagEnum.KELLY_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", kellyBrandSelect, 0)
         if (Flags.list[FlagEnum.KELLY_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", kellyBrandSelect, 1);
         if (Flags.list[FlagEnum.KELLY_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", kellyBrandSelect, 2);
         if (Flags.list[FlagEnum.KELLY_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", kellyBrandSelect, 3);
     }
 
-    public smallMilkySlotSelect(): void {
-        menu();
+    public smallMilkySlotSelect() {
+        
         if (Flags.list[FlagEnum.MILKY_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", smallMilkyBrandSelect, 0)
         if (Flags.list[FlagEnum.MILKY_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", smallMilkyBrandSelect, 1);
         if (Flags.list[FlagEnum.MILKY_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", smallMilkyBrandSelect, 2);
         if (Flags.list[FlagEnum.MILKY_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", smallMilkyBrandSelect, 3);
     }
 
-    public bigMilkySlotSelect(): void {
-        menu();
+    public bigMilkySlotSelect() {
+        
         if (Flags.list[FlagEnum.MILKY_TATTOO_COLLARBONE] === 0) MainScreen.addButton(0, "Collarbone", bigMilkyBrandSelect, 0)
         if (Flags.list[FlagEnum.MILKY_TATTOO_SHOULDERS] === 0) MainScreen.addButton(1, "Shoulders", bigMilkyBrandSelect, 1);
         if (Flags.list[FlagEnum.MILKY_TATTOO_LOWERBACK] === 0) MainScreen.addButton(2, "Lower Back", bigMilkyBrandSelect, 2);
         if (Flags.list[FlagEnum.MILKY_TATTOO_BUTT] === 0) MainScreen.addButton(3, "Butt", bigMilkyBrandSelect, 3);
     }
 
-    public brandSelect(slot: number): void {
+    public brandSelect(slot: number) {
         DisplayText().clear();
         whitneySprite();
 
         DisplayText("What will you draw on her " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", tribalTattoo, slot);
         MainScreen.addButton(1, "Heart", heartTattoo, slot);
         MainScreen.addButton(2, "Property Of", propertyTattoo, slot);
@@ -3544,12 +3544,12 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", brandSlotSelect);
     }
 
-    public amilyBrandSelect(slot: number): void {
+    public amilyBrandSelect(slot: number) {
         DisplayText().clear();
 
         DisplayText("What will you draw on her " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", amilyTribalTattoo, slot);
         MainScreen.addButton(1, "Heart", amilyHeartTattoo, slot);
         MainScreen.addButton(2, "Property Of", amilyPropertyTattoo, slot);
@@ -3560,12 +3560,12 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", amilyBrandSlotSelect);
     }
 
-    public jojoBrandSelect(slot: number): void {
+    public jojoBrandSelect(slot: number) {
         DisplayText().clear();
 
         DisplayText("What will you draw on his " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", jojoTribalTattoo, slot);
         MainScreen.addButton(1, "Heart", jojoHeartTattoo, slot);
         MainScreen.addButton(2, "Property Of", jojoPropertyTattoo, slot);
@@ -3576,12 +3576,12 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", jojoBrandSlotSelect);
     }
 
-    public bimboSophieBrandSelect(slot: number): void {
+    public bimboSophieBrandSelect(slot: number) {
         DisplayText().clear();
 
         DisplayText("What will you draw on her " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", bimboSophieTribalTattoo, slot);
         MainScreen.addButton(1, "Heart", bimboSophieHeartTattoo, slot);
         MainScreen.addButton(2, "Swallow", bimboSophieSwallowTattoo, slot);
@@ -3593,12 +3593,12 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", bimboSophieSlotSelect);
     }
 
-    public vapulaBrandSelect(slot: number): void {
+    public vapulaBrandSelect(slot: number) {
         DisplayText().clear();
 
         DisplayText("What will you draw on her " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", vapulaTribalTattoo, slot);
         MainScreen.addButton(1, "Heart", vapulaHeartTattoo, slot);
         MainScreen.addButton(2, "Property Of", vapulaPropertyOfTattoo, slot);
@@ -3609,28 +3609,28 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", vapulaSlotSelect);
     }
 
-    public kellyBrandSelect(slot: number): void {
+    public kellyBrandSelect(slot: number) {
         DisplayText().clear();
 
         DisplayText("What will you draw on her " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", kellyTribalTattoo, slot);
         MainScreen.addButton(1, "Heart", kellyHeartTattoo, slot);
         MainScreen.addButton(2, "Property Of", kellyPropertyOfTattoo, slot);
         MainScreen.addButton(3, "No.1 Filly", kellyNo1FillyTattoo, slot);
-        if (silly()) MainScreen.addButton(4, "Dick Won", kellyDickWonTattoo, slot);
+        if (User.settings.silly()) MainScreen.addButton(4, "Dick Won", kellyDickWonTattoo, slot);
         if (slot === 1) MainScreen.addButton(5, "Horseshoe", kellyHorseshoeTattoo, slot);
 
         MainScreen.addButton(9, "Back", kellySlotSelect);
     }
 
-    public smallMilkyBrandSelect(slot: number): void {
+    public smallMilkyBrandSelect(slot: number) {
         DisplayText().clear();
 
         DisplayText("What will you draw on her " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", smallMilkyTribalTattoo, slot);
         MainScreen.addButton(1, "Heart", smallMilkyHeartTattoo, slot);
         MainScreen.addButton(2, "Butteryfly", smallMilkyButterflyTattoo, slot);
@@ -3642,12 +3642,12 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", smallMilkySlotSelect);
     }
 
-    public bigMilkyBrandSelect(slot: number): void {
+    public bigMilkyBrandSelect(slot: number) {
         DisplayText().clear();
 
         DisplayText("What will you draw on her " + slotNames[slot] + "?");
 
-        menu();
+        
         MainScreen.addButton(0, "Tribal", bigMilkyTribalTattoo, slot);
         MainScreen.addButton(1, "Heart", bigMilkyHeartTattoo, slot);
         MainScreen.addButton(2, "Property Of", bigMilkyPropertyOfTattoo, slot);
@@ -3658,37 +3658,37 @@ class FarmCorruption {
         MainScreen.addButton(9, "Back", bigMilkySlotSelect);
     }
 
-    private collarboneIntro(): void {
+    private collarboneIntro() {
         DisplayText("You command her to kneel in front of you and be still. Your lithe, naked dog girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper.");
     }
 
-    private amilyCollarboneIntro(): void {
+    private amilyCollarboneIntro() {
         DisplayText("You command her to kneel in front of you and be still. The succubus mouse does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
     }
 
-    private jojoCollarboneIntro(): void {
+    private jojoCollarboneIntro() {
         DisplayText("You command him to kneel in front of you and be still. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on him, and then seal it on with the paper. ");
 
         DisplayText("\n\n“<i>Th-thanks, [master],</i>” he says, when he looks down and sees what you’ve permanently inscribed on his chest. You tussle his adorable ears and tell him he’s quite welcome.");
     }
 
-    private bimboSophieCollarboneIntro(): void {
+    private bimboSophieCollarboneIntro() {
         DisplayText("You command her to kneel in front of you and be still. It’s difficult to get her to stay still, but she goes into a trance-like state when you finally lay your ink-soaked finger on her, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink.");
     }
 
-    private vapulaCollarboneIntro(): void {
+    private vapulaCollarboneIntro() {
         DisplayText("You command her to kneel in front of you and be still. The succubus does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
     }
 
-    private kellyCollarboneIntro(): void {
+    private kellyCollarboneIntro() {
         DisplayText("You command her to kneel in front of you and be still. The centaur does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
     }
 
-    private smallMilkyCollarboneIntro(): void {
+    private smallMilkyCollarboneIntro() {
         DisplayText("You command her to take her clothes off, kneel in front of you and be still. The dusky girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her and then seal it on with the paper.");
     }
 
-    private bigMilkyCollarboneIntro(): void {
+    private bigMilkyCollarboneIntro() {
         DisplayText("\n\nIt’s difficult getting at this area of [bathgirlName]’s anatomy, but you manage to crane yourself around her vast tits and get to work. Dipping your finger into the ink, you carefully draw your design on her skin and then seal it on with the paper. The former sand witch slave gazes down at what you’ve drawn mistily, trailing her fingers over it.");
 
         DisplayText("\n\n“<i>Bath time?</i>”");
@@ -3696,25 +3696,25 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
     }
 
-    private shouldersIntro(): void {
+    private shouldersIntro() {
         DisplayText("You command her to kneel facing away from you and be still. Your lithe, naked dog girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. “<i>What did you draw, [master]?</i>” she says eagerly.");
 
         DisplayText("\n\nLaughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw no, come on, tell me what it is! It’s a rude word, isn’t it? [Master], it better not be somethin’ the slaves are gonna laugh at.</i>”");
     }
 
-    private jojoShouldersIntro(): void {
+    private jojoShouldersIntro() {
         DisplayText("You command him to kneel facing away from you and be still. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on him, and then seal it on with the paper. ");
 
         DisplayText("\n\n“<i>Th-thanks, [master],</i>” he says. He pauses. “<i>I don’t suppose I could know what it-?</i>” You tussle his adorable ears and tell him of course not.");
     }
 
-    private amilyShouldersIntro(): void {
+    private amilyShouldersIntro() {
         DisplayText("You command her to kneel facing away from you and be still. Your succubus mouse does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her and then seal it on with the paper. ");
 
         DisplayText("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw [master], you know they’ll just lie and say it’s something like ‘breeding bitch’. C’mon, please tell me!</i>”");
     }
 
-    private bimboSophieShouldersIntro(): void {
+    private bimboSophieShouldersIntro() {
         DisplayText("You command her to kneel facing away from you and be still. It’s difficult to get her to stay still, but she goes into a trance-like state when you finally lay your ink-soaked finger between her blonde wings, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink.");
 
         DisplayText("\n\n“<i>What did you put on?</i>” she says excitedly, turning around. “<i>Can I see?</i>” She turns around again. Her feathery brow furrows as she touches between her shoulder blades. She turns around again...");
@@ -3722,23 +3722,23 @@ class FarmCorruption {
         DisplayText("\n\nYou leave her to it.");
     }
 
-    private vapulaShouldersIntro(): void {
+    private vapulaShouldersIntro() {
         DisplayText("You command her to kneel facing away from you and be still. Your succubus does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
 
         DisplayText("\n\n“<i>Let’s have a look then,</i>” she sighs, sparks flying off her fingers as she magically forms a mirror trained on her back in her hands. “<i>Ah. Very nice, [name]. I look forward to the next time you mutilate my perfect body with your incredibly crude ideas and instruments.</i>” You intimate that next time you’ll simply draw a giant cock on her face, which does get a laugh from her.");
     }
 
-    private kellyShouldersIntro(): void {
+    private kellyShouldersIntro() {
         DisplayText("You command her to kneel facing away from you and be still. The centaur does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her shoulder blades, and then seal it on with the paper. ");
 
         DisplayText("\n\n“<i>What did you draw, [master]?</i>” she asks tentatively when you’re done. Trying to keep a straight face, you say a giant spunky horse cock. “<i>That’s funny, [master]. Ha ha. Y-you didn’t really do that, did you?</i>”");
     }
 
-    private smallMilkyShouldersIntro(): void {
+    private smallMilkyShouldersIntro() {
         DisplayText("You command her to kneel facing away from you and be still. The dusky girl does so, keeping her back straight and still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
     }
 
-    private bigMilkyShouldersIntro(): void {
+    private bigMilkyShouldersIntro() {
         DisplayText("You set yourself down behind [bathgirlName] before dipping your finger into the ink, carefully draw your design on her, and then seal it on with the paper. She barely seems to notice.");
 
         DisplayText("\n\n“<i>Bath time?</i>”");
@@ -3746,25 +3746,25 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
     }
 
-    private lowerbackIntro(): void {
+    private lowerbackIntro() {
         DisplayText("You command her to set herself down on your [legs], as if she were about to receive a spanking. Your lithe, naked dog girl does so, her laughter at her own compromising permission turning to a sharp coo as you dip your finger into the ink and carefully draw your design on her, before sealing it on with the paper. “<i>What did you draw, [master]?</i>” she says eagerly.");
 
         DisplayText("\n\nLaughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw no, come on, tell me what it is! It’s a rude word, isn’t it? [Master], it better not be somethin’ the slaves are gonna laugh at...</i>”");
     }
 
-    private jojoLowerbackIntro(): void {
+    private jojoLowerbackIntro() {
         DisplayText("You command him to set himself face down across your [legs], as if he were about to receive a spanking. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on him and then seal it on with the paper. ");
 
         DisplayText("\n\n“<i>Th-thanks, [master],</i>” he says. He pauses. “<i>I don’t suppose I could know what it-?</i>” You tussle his adorable ears and tell him of course not.");
     }
 
-    private amilyLowerBackIntro(): void {
+    private amilyLowerBackIntro() {
         DisplayText("You command her to set herself face down across your [legs], as if she were about to receive a spanking. Your succubus mouse does so, her giggles at her own compromising position turning to a sharp coo as you dip your finger into the ink and carefully draw your design on her, before sealing it on with the paper. ");
 
         DisplayText("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw [master], you know they’ll just lie and say it’s something like ‘breeding bitch’. C’mon, please tell me!</i>”");
     }
 
-    private bimboSophieLowerBackIntro(): void {
+    private bimboSophieLowerBackIntro() {
         DisplayText("You command her to set herself face down across your [legs], as if she were about to receive a spanking. It’s difficult to get her to stay still, cooing and shaking with giggles at her compromising position. She finally falls into a trance-like state when you lay your ink-soaked finger on her, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink.");
 
         DisplayText("\n\n“<i>What did you put on?</i>” she says excitedly, turning around. “<i>Can I see?</i>” She turns around again. Her feathery brow furrows as she touches her lower back. She turns around again...");
@@ -3772,7 +3772,7 @@ class FarmCorruption {
         DisplayText("\n\nYou leave her to it.");
     }
 
-    private vapulaLowerBackIntro(): void {
+    private vapulaLowerBackIntro() {
         DisplayText("You command her to set herself face down across your [legs], as if she were about to receive a spanking. Your succubus does so, her put-upon sigh turning to a sharp coo as you dip your finger into the ink and carefully draw your design on her, before sealing it on with the paper. ");
 
         DisplayText("\n\n“<i>Let’s have a look then,</i>” she says, sparks flying off her fingers as she magically forms a mirror trained on her back in her hands. “<i>Ah. Very nice, [name]. I look forward to the next time you mutilate my perfect body with your incredibly crude ideas and instruments.</i>”");
@@ -3780,17 +3780,17 @@ class FarmCorruption {
         DisplayText("\n\nYou intimate that next time you’ll simply draw a giant cock on her face, which does get a laugh from her.");
     }
 
-    private kellyLowerBackIntro(): void {
+    private kellyLowerBackIntro() {
         DisplayText("You command her to stand perfectly still.  She can’t quite stop clopping her hooves fretfully as you dip your finger into the ink and carefully draw your design on her human lower back before sealing it on with the paper. ");
 
         DisplayText("\n\n“<i>What did you draw, [master]?</i>” she asks tentatively when you’re done. Trying to keep a straight face, you say a giant spunky horse cock. “<i>That’s funny, [master]. Ha ha. Y-you didn’t really do that, did you?</i>”");
     }
 
-    private smallMilkyLowerBackIntro(): void {
+    private smallMilkyLowerBackIntro() {
         DisplayText("You command her to set herself down across your [legs]. The dusky girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper.");
     }
 
-    private bigMilkyLowerBackIntro(): void {
+    private bigMilkyLowerBackIntro() {
         DisplayText("You set yourself down behind [bathgirlName] before dipping your finger into the ink, carefully draw your design on her, and then seal it on with the paper. She barely seems to notice.");
 
         DisplayText("\n\n“<i>Bath time?</i>”");
@@ -3798,25 +3798,25 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
     }
 
-    private buttIntro(): void {
+    private buttIntro() {
         DisplayText("You command her to set herself down on your [legs], as if she were about to receive a spanking. Your lithe, naked dog girl does so, her laughter at her own compromising permission turning to a sharp coo as you dip your finger into the ink and carefully draw your design on the softest part of her anatomy, before sealing it on with the paper.");
 
         DisplayText("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw no, come on, tell me what it is! It’s a rude word, isn’t it? [Master], it better not be somethin’ the slaves are gonna laugh at. Ooh!</i>” You give her new tattoo a playful slap.");
     }
 
-    private amilyButtIntro(): void {
+    private amilyButtIntro() {
         DisplayText("You command her to set herself face down across your [legs], as if she were about to receive a spanking. Your succubus mouse does so, her laughter at her own compromising position turning to a sharp coo as you dip your finger into the ink and carefully draw your design on the softest part of her anatomy, before sealing it on with the paper. ");
 
         DisplayText("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw [master], you know they’ll just lie and say it’s something like ‘breeding bitch’. C’mon, please tell me! Ooh!</i>” That tattoo is going to be pretty irresistible, you think, as you admire your red handprint over it.");
     }
 
-    private jojoButtIntro(): void {
+    private jojoButtIntro() {
         DisplayText("You command him to set himself face down across your [legs], as if he were about to receive a spanking. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design onto the softest part of his body and then seal it on with the paper. ");
 
         DisplayText("\n\n“<i>Th-thanks, [master],</i>” he says. He pauses. “<i>I don’t suppose I could know what it-?</i>” You give his new tattoo a playful slap and tell him of course not.");
     }
 
-    private bimboSophieButtIntro(): void {
+    private bimboSophieButtIntro() {
         DisplayText("You command her to set herself face down across your [legs], as if she were about to receive a spanking. It’s difficult to get her to stay still, cooing and shaking with giggles at her compromising position. She finally falls into a trance-like state when you lay your ink-soaked finger on her, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink. You’ve certainly given yourself a vast if decidedly wobbly canvas to work on.");
 
         DisplayText("\n\n“<i>What did you put on?</i>” she says excitedly, turning around. “<i>Can I see?</i>” She turns around again. Her feathery brow furrows as she touches her butt. She turns around again...");
@@ -3824,7 +3824,7 @@ class FarmCorruption {
         DisplayText("\n\nYou leave her to it.");
     }
 
-    private vapulaButtIntro(): void {
+    private vapulaButtIntro() {
         DisplayText("You command her to set herself down across your [legs], as if she were about to receive a spanking. Your succubus does so, her put-upon sigh turning to a sharp coo as you dip your finger into the ink and carefully draw your design on the softest part of her anatomy, before sealing it on with the paper. ");
 
         DisplayText("\n\n“<i>Let’s have a look then,</i>” she says, sparks flying off her fingers as she magically forms a mirror trained on her ass in her hands. “<i>Ah. Very nice, [name]. I look forward to the next time you mutilate my perfect body with your incredibly crude ideas and instruments.</i>”");
@@ -3832,7 +3832,7 @@ class FarmCorruption {
         DisplayText("\n\nYou intimate that next time you’ll simply draw a giant cock on her face, which does get a laugh from her.");
     }
 
-    private kellyButtIntro(): void {
+    private kellyButtIntro() {
         DisplayText("You command her to stand perfectly still.  She can’t quite stop clopping her hooves fretfully as you dip your finger into the ink and carefully draw your design on her smooth, brawny horse ass before sealing it on with the paper. ");
 
         DisplayText("\n\n“<i>What did you draw, [master]?</i>” she asks tentatively when you’re done. Trying to keep a straight face, you say the word “spank” on one cheek, “me” on the other. “<i>That’s funny, [master]. Ha ha. Y-you didn’t really do that, did you? Ow!</i>” ");
@@ -3840,11 +3840,11 @@ class FarmCorruption {
         DisplayText("\n\nThinking about it now, as you draw your reddened hand away from what is now tattooed on her irresistibly broad, chestnut behind, that was an opportunity lost. ");
     }
 
-    private smallMilkyButtIntro(): void {
+    private smallMilkyButtIntro() {
         DisplayText("You command her to set herself down across your [legs]. The dusky girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her fine, round ass, and then seal it on with the paper.");
     }
 
-    private bigMilkyButtIntro(): void {
+    private bigMilkyButtIntro() {
         DisplayText("You set yourself down behind [bathgirlName] before dipping your finger into the ink, carefully draw your design on her fine, round ass, and then seal it on with the paper. She barely seems to notice.");
 
         DisplayText("\n\n“<i>Bath time?</i>”");
@@ -3852,7 +3852,7 @@ class FarmCorruption {
         DisplayText("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
     }
 
-    private tattooMerge(): void {
+    private tattooMerge() {
         DisplayText("\n\nAfter you’re done horsing around, Whitney redresses, unable to stop her hand drifting to the new, indelible inscription on her body as she does.");
 
         DisplayText("\n\n“<i>I’m glad you like what I’ve gotten you, [master],</i>” she says. “<i>I’ll put it in the barn so if you ever get the urge to, um, mark more cattle, it’s there. Just be warned [master], magic ink ain’t cheap - each mark’ll cost a good 50 gems.</i>”");
@@ -3862,7 +3862,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private tribalTattoo(slot: number): void {
+    private tribalTattoo(slot: number) {
         DisplayText().clear();
         whitneySprite();
 
@@ -3893,7 +3893,7 @@ class FarmCorruption {
         tattooMerge();
     }
 
-    private amilyTribalTattoo(slot: number): void {
+    private amilyTribalTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A tribal tattoo, all snaking, erotic lines, across her ";
@@ -3923,7 +3923,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private jojoTribalTattoo(slot: number): void {
+    private jojoTribalTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A tribal tattoo, all snaking, erotic lines, across his ";
@@ -3952,7 +3952,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bimboSophieTribalTattoo(slot: number): void {
+    private bimboSophieTribalTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A tribal tattoo, all snaking, erotic lines, across her ";
@@ -3984,7 +3984,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vapulaTribalTattoo(slot: number): void {
+    private vapulaTribalTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A tribal tattoo, all snaking, erotic lines, across her ";
@@ -4014,7 +4014,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private kellyTribalTattoo(slot: number): void {
+    private kellyTribalTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A tribal tattoo, all snaking, erotic lines, across her ";
@@ -4044,7 +4044,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private smallMilkyTribalTattoo(slot: number): void {
+    private smallMilkyTribalTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A tribal tattoo, all snaking, erotic lines, across her ";
@@ -4083,7 +4083,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bigMilkyTribalTattoo(slot: number): void {
+    private bigMilkyTribalTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A tribal tattoo, all snaking, erotic lines, across her ";
@@ -4112,7 +4112,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bigMilkyHeartTattoo(slot: number): void {
+    private bigMilkyHeartTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A plump, red love heart tattoo on her ";
@@ -4141,7 +4141,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bigMilkyPropertyOfTattoo(slot: number): void {
+    private bigMilkyPropertyOfTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Property of [Name]” tattooed across her ";
@@ -4170,7 +4170,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bigMilkyBathToyTattoo(slot: number): void {
+    private bigMilkyBathToyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Bath Toy” tattooed across her ";
@@ -4199,7 +4199,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bigMilkyMegaMilkTattoo(slot: number): void {
+    private bigMilkyMegaMilkTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Mega Milk” tattooed across her collarbone.";
@@ -4210,7 +4210,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bigMilkyCockCozyTattoo(slot: number): void {
+    private bigMilkyCockCozyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Cock Cozy” tattooed across her collarbone.";
@@ -4221,7 +4221,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private heartTattoo(slot: number): void {
+    private heartTattoo(slot: number) {
         DisplayText().clear();
         whitneySprite();
 
@@ -4252,7 +4252,7 @@ class FarmCorruption {
         tattooMerge();
     }
 
-    private amilyHeartTattoo(slot: number): void {
+    private amilyHeartTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A plump, red love heart tattoo on her ";
@@ -4282,7 +4282,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private jojoHeartTattoo(slot: number): void {
+    private jojoHeartTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A plump, red love heart tattoo on his ";
@@ -4311,7 +4311,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bimboSophieHeartTattoo(slot: number): void {
+    private bimboSophieHeartTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A plump, red love heart tattoo on her ";
@@ -4343,7 +4343,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vapulaHeartTattoo(slot: number): void {
+    private vapulaHeartTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A plump, red love heart tattoo on her ";
@@ -4373,7 +4373,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private kellyHeartTattoo(slot: number): void {
+    private kellyHeartTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A plump, red love heart tattoo on her ";
@@ -4403,7 +4403,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private smallMilkyHeartTattoo(slot: number): void {
+    private smallMilkyHeartTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A plump, red love heart tattoo on her ";
@@ -4442,7 +4442,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private smallMilkyPropertyOfTattoo(slot: number): void {
+    private smallMilkyPropertyOfTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Property of [Name]” tattooed across her ";
@@ -4481,7 +4481,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private smallMilkyBathToyTattoo(slot: number): void {
+    private smallMilkyBathToyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Bath Toy” tattooed across her ";
@@ -4520,7 +4520,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private smallMilkyMegaMilkTattoo(slot: number): void {
+    private smallMilkyMegaMilkTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Mega Milk” tattooed across her collarbone.";
@@ -4532,7 +4532,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private smallMilkyCockCozyTattoo(): void {
+    private smallMilkyCockCozyTattoo() {
         DisplayText().clear();
 
         let tText: string = "“Cock Cozy” tattooed across her collarbone.";
@@ -4565,7 +4565,7 @@ class FarmCorruption {
         return count;
     }
 
-    private smallMilkyButterflyTattoo(slot: number): void {
+    private smallMilkyButterflyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A butterfly, its four leaf-like wings in flight, tattooed across her ";
@@ -4642,7 +4642,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private kellyHorseshoeTattoo(slot: number): void {
+    private kellyHorseshoeTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A horseshoe imprinted firmly on each shoulder.";
@@ -4653,7 +4653,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private kellyPropertyOfTattoo(slot: number): void {
+    private kellyPropertyOfTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Property of [Name]” tattooed across her ";
@@ -4683,7 +4683,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private kellyNo1FillyTattoo(slot: number): void {
+    private kellyNo1FillyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“#1 Filly” tattooed across her ";
@@ -4713,7 +4713,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private kellyDickWonTattoo(slot: number): void {
+    private kellyDickWonTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“I Fought the Dick And the Dick Won” tattooed in fine text across her ";
@@ -4743,7 +4743,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private propertyTattoo(slot: number): void {
+    private propertyTattoo(slot: number) {
         DisplayText().clear();
         whitneySprite();
 
@@ -4774,7 +4774,7 @@ class FarmCorruption {
         tattooMerge();
     }
 
-    private amilyPropertyTattoo(slot: number): void {
+    private amilyPropertyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Property of [Name]” tattooed across her ";
@@ -4804,7 +4804,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private jojoPropertyTattoo(slot: number): void {
+    private jojoPropertyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Property of [Name]” tattooed across his ";
@@ -4833,7 +4833,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private jojoSissySlutTattoo(slot: number): void {
+    private jojoSissySlutTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Sissy Slut” tattooed across his ";
@@ -4862,7 +4862,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bimboSophiePropertyOfTattoo(slot: number): void {
+    private bimboSophiePropertyOfTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Property of [Name]” tattooed across her ";
@@ -4894,7 +4894,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vapulaPropertyOfTattoo(slot: number): void {
+    private vapulaPropertyOfTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Property of [Name]” tattooed across her ";
@@ -4924,7 +4924,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vapulaCumAddictTattoo(slot: number): void {
+    private vapulaCumAddictTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Cum Addict” tattooed across her ";
@@ -4954,7 +4954,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vapulaButtslutTattoo(slot: number): void {
+    private vapulaButtslutTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Buttslut” tattooed in a red love heart across her lower back.";
@@ -4965,7 +4965,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private vapulaDildoPolisherTattoo(slot: number): void {
+    private vapulaDildoPolisherTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Dildo Polisher” tattooed across her ";
@@ -4995,7 +4995,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bimboSophieSwallowTattoo(slot: number): void {
+    private bimboSophieSwallowTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "A swallow with its tapering wings in flight across her ";
@@ -5027,7 +5027,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bimboSophieBreedingBitchTattoo(slot: number): void {
+    private bimboSophieBreedingBitchTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Breeding Bitch” tattooed across her ";
@@ -5059,7 +5059,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bimboSophieCockGoesHereTattoo(slot: number): void {
+    private bimboSophieCockGoesHereTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Cock Goes Here” tattooed across her lower back.";
@@ -5070,7 +5070,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private bimboSophieWideLoadTattoo(slot: number): void {
+    private bimboSophieWideLoadTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Wide” tattooed across one butt cheek and “Load” tattooed on the other.";
@@ -5081,7 +5081,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private no1Tattoo(slot: number): void {
+    private no1Tattoo(slot: number) {
         DisplayText().clear();
         whitneySprite();
 
@@ -5112,7 +5112,7 @@ class FarmCorruption {
         tattooMerge();
     }
 
-    private amilyBreedingBitchTattoo(slot: number): void {
+    private amilyBreedingBitchTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Breeding Bitch” tattooed across her ";
@@ -5142,7 +5142,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private champCocksuckerTattoo(slot: number): void {
+    private champCocksuckerTattoo(slot: number) {
         DisplayText().clear();
         whitneySprite();
 
@@ -5173,7 +5173,7 @@ class FarmCorruption {
         tattooMerge();
     }
 
-    private amilyCockGoesHereTattoo(slot: number): void {
+    private amilyCockGoesHereTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Cock Goes Here” tattooed across her ";
@@ -5203,7 +5203,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private jojoCockGoesHereTattoo(slot: number): void {
+    private jojoCockGoesHereTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Cock Goes Here” tattooed across his ";
@@ -5232,7 +5232,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private amilyMommysGirlTattoo(slot: number): void {
+    private amilyMommysGirlTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Mommy’s Girl” tattooed across her ";
@@ -5262,7 +5262,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private jojoMommysBoyTattoo(slot: number): void {
+    private jojoMommysBoyTattoo(slot: number) {
         DisplayText().clear();
 
         let tText: string = "“Mommy’s Boy” tattooed across his ";
@@ -5291,7 +5291,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private champPussylickerTattoo(slot: number): void {
+    private champPussylickerTattoo(slot: number) {
         DisplayText().clear();
         whitneySprite();
 
@@ -5322,7 +5322,7 @@ class FarmCorruption {
         tattooMerge();
     }
 
-    private dontTestBranding(): void {
+    private dontTestBranding() {
         DisplayText().clear();
         whitneySprite();
 
@@ -5517,8 +5517,8 @@ class FarmCorruption {
         return false;
     }
 
-    private orgyRoomRouter(): void {
-        let doFunctor: Function = null;
+    private orgyRoomRouter() {
+        let doFunctor;
 
         if (Flags.list[FlagEnum.FARM_UPGRADES_ORGYROOM] === 0 && Flags.list[FlagEnum.QUEUE_ORGYROOM_UPGRADE] === 0 && !whitneyDom()) {
             doFunctor = wantOrgyRoom;
@@ -5536,13 +5536,13 @@ class FarmCorruption {
         if (doFunctor != null) MainScreen.addButton(4, "Massage", doFunctor);
     }
 
-    private wantOrgyRoom(): void {
+    private wantOrgyRoom() {
         DisplayText().clear();
         whitneySprite();
 
         DisplayText("“<i>[Master],</i>” says Whitney haltingly, after she’s knelt in front of you. “<i>May I make a suggestion?</i>” You shrug nonchalantly. “<i>Well... it’s just you often roll in here looking quite worn out, like. From fightin’ demons and dragons and such, whatever it is you do out there in the wastelands. It must be real important, cause you’re often banged up. To mention nothing of you needing to take care of... your chattel...</i>” she closes her eyes and sighs deeply. ");
 
-        DisplayText("\n\nYou move your [legs] restlessly when the silence drags out a bit. “<i>Well, understand I ‘kin only talk as a farmer. But if I got a prime " + player.mf("stud", "mare") + " who is constantly exerting themselves - a lot of the time it’s them who’s doing it not me, they’re just so big and, and dominant they don’t want to stop throwing themselves around even for a moment - they get stress injuries. Which just get worse the more they try and pretend they don’t exist. Now I ain’t saying you got something like that, but when I see you come here, all forceful and fretful, and then leave in such a rush - it breaks my heart a little. Cos’ I could help you, at least a bit. Don’t look after livestock your whole life without learning some about muscle groups and medicine. I could help you not be the [guy] who suddenly keels over in the middle of a fight screamin’ their hamstring’s gone.</i>”");
+        DisplayText("\n\nYou move your [legs] restlessly when the silence drags out a bit. “<i>Well, understand I ‘kin only talk as a farmer. But if I got a prime " + Desc.Gender.mf(player, "stud", "mare") + " who is constantly exerting themselves - a lot of the time it’s them who’s doing it not me, they’re just so big and, and dominant they don’t want to stop throwing themselves around even for a moment - they get stress injuries. Which just get worse the more they try and pretend they don’t exist. Now I ain’t saying you got something like that, but when I see you come here, all forceful and fretful, and then leave in such a rush - it breaks my heart a little. Cos’ I could help you, at least a bit. Don’t look after livestock your whole life without learning some about muscle groups and medicine. I could help you not be the [guy] who suddenly keels over in the middle of a fight screamin’ their hamstring’s gone.</i>”");
 
         DisplayText("\n\nYou look at her shrewdly. She doesn’t move her hands from her knees during all of this, hasn’t tried to touch you at all, demonstrated what she might be capable of. You ask what she’s really suggesting here.");
 
@@ -5550,12 +5550,12 @@ class FarmCorruption {
 
         DisplayText("\n\n“<i>2,200 gems?!</i>”");
 
-        DisplayText("\n\n“<i>...I could convert my front room into a relaxation room for you,</i>” the dog woman goes on doggedly. “<i>It would have everything I need to properly take care of you. Like a hot tub. And I would pack it with all the sorts of things...</i>“ she sighs dreamily again “<i>all the sorts of things a big, strong " + player.mf("lord", "lady") + " of the land might want. For when [he] is taking care of [his] servants. Like lots of ‘em. At the same time.</i>”");
+        DisplayText("\n\n“<i>...I could convert my front room into a relaxation room for you,</i>” the dog woman goes on doggedly. “<i>It would have everything I need to properly take care of you. Like a hot tub. And I would pack it with all the sorts of things...</i>“ she sighs dreamily again “<i>all the sorts of things a big, strong " + Desc.Gender.mf(player, "lord", "lady") + " of the land might want. For when [he] is taking care of [his] servants. Like lots of ‘em. At the same time.</i>”");
 
-        menu();
+        
 
         let noT: string = "No";
-        if (player.stats.gems >= 2200) {
+        if (player.inventory.gems >= 2200) {
             MainScreen.addButton(0, "Yes", getOrgyRoom);
         }
         else {
@@ -5565,7 +5565,7 @@ class FarmCorruption {
         MainScreen.addButton(1, noT, noOrgyRoomPlz);
     }
 
-    private getOrgyRoom(): void {
+    private getOrgyRoom() {
         DisplayText().clear();
         whitneySprite();
 
@@ -5573,7 +5573,7 @@ class FarmCorruption {
 
         DisplayText("\n\n“<i>You won’t regret this [master], I promise!</i>”");
 
-        player.stats.gems -= 2200;
+        player.inventory.gems -= 2200;
         showStats();
 
         Flags.list[FlagEnum.QUEUE_ORGYROOM_UPGRADE] = 1;
@@ -5581,7 +5581,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private noOrgyRoomPlz(): void {
+    private noOrgyRoomPlz() {
         DisplayText().clear();
         whitneySprite();
 
@@ -5594,7 +5594,7 @@ class FarmCorruption {
         // Orgy Room added to Investments menu
     }
 
-    private orgyRoomTalk(): void {
+    private orgyRoomTalk() {
         DisplayText().clear();
         whitneySprite();
 
@@ -5631,7 +5631,7 @@ class FarmCorruption {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private orgyRoomSubMassage(): void {
+    private orgyRoomSubMassage() {
         DisplayText().clear();
         whitneySprite();
 
@@ -5720,7 +5720,7 @@ class FarmCorruption {
         if (player.stats.lust >= 33) DisplayText(" The hot tub bubbles quietly behind her and it is not just oil which is making your skin glow. This would be the moment to pursue a happy ending if you so wished.");
         else DisplayText(" You play with the idea of ‘rewarding’ her but... damn. She’s actually managed to relax you <i>too</i> much. You thank her regally, redress, and head out the door, enjoying the lightness of step and self-control which thrums through you.");
 
-        menu();
+        
         if (player.stats.lust >= 33 && (player.torso.cocks.count > 0 && player.cockThatFits(whitneyVagCapacity() * 1.33) != -1 || player.torso.vaginas.count > 0)) {
             MainScreen.addButton(0, "Happy Ending", orgyRoomSubMassageHappyEnding);
             MainScreen.addButton(1, "Leave", Scenes.camp.returnToCampUseOneHour);
@@ -5730,7 +5730,7 @@ class FarmCorruption {
         }
     }
 
-    private orgyRoomSubMassageHappyEnding(): void {
+    private orgyRoomSubMassageHappyEnding() {
         DisplayText().clear();
         whitneySprite();
 
@@ -5755,17 +5755,17 @@ class FarmCorruption {
         }
 
         //[Male][Female]/[Next]
-        menu();
+        
         if (player.cockThatFits(whitneyVagCapacity() * 1.33) != -1) MainScreen.addButton(0, "Male", subHappyEndingMale);
         if (player.torso.vaginas.count > 0) MainScreen.addButton(1, "Female", subHappyEndingFemale);
     }
 
-    private subHappyEndingMale(): void {
+    private subHappyEndingMale() {
         DisplayText().clear();
         let cockThatFits: number = player.cockThatFits(whitneyVagCapacity() * 1.33) + 1;
         let hasBiggerCock: boolean = false;
 
-        if (player.cockArea(cockThatFits - 1) != player.torso.cocks.biggestCocks[0].area) hasBiggerCock = true;
+        if (player.cockArea(cockThatFits - 1) != player.torso.cocks.sort(Cock.LargestCockArea)[0].area) hasBiggerCock = true;
 
         DisplayText("You drift across and envelope her in your body, your [chest] pushing into the soft suppleness of her small breasts. Feeling your urge but not overcome by it in your relaxed state you instead take time to enjoy the give and take of your slave’s body, her flat stomach planing over yours, the feeling of her hard nipples against your chest, her long, " + ((whitneyDefurred()) ? "smooth" : "downy") + " legs tangling with yours in the slow motion of the water.  Her breath catches in her chest, panting and trembling there as you push your hand between her thighs, sinking your fingers into her tight, welcoming hole. ");
 
@@ -5807,7 +5807,7 @@ class FarmCorruption {
 
     }
 
-    private subHappyEndingFemale(): void {
+    private subHappyEndingFemale() {
         DisplayText().clear();
         whitneySprite();
 
@@ -5847,7 +5847,7 @@ class FarmCorruption {
         happyEndingMerge();
     }
 
-    private happyEndingMerge(): void {
+    private happyEndingMerge() {
         DisplayText("\n\nOnce you have thrashed the last of it out you disentangle yourself and sink off down to one side, gasping for air, your heart thudding. It certainly pays not to get too vigorous too fast in the sweltering heat of this thing - as it is sweat beads your forehead and your vision swims for a few seconds as you stare up at the ceiling, waiting for the pulse beating in your brow to calm. In a beatific haze you listen to Whitney’s own breathing return to normal, feel her slide her arms back around your frame beneath the foam.");
 
         DisplayText("\n\n“<i>Are you fully relaxed now?</i>” she asks, in a low, teasing voice. “<i>Or am I going to have to massage you all over again?</i>” ");

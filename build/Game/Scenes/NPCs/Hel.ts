@@ -1,7 +1,7 @@
 
 export class Hel extends Monster {
 
-	private helAttack(): void {
+	private helAttack() {
 		let damage: number;
 		//return to combat menu when finished
 		return { next: game.playerMenu };
@@ -53,7 +53,7 @@ export class Hel extends Monster {
 
 	//Attack 2 – Tail Slap (Hit)
 	//low dodge chance, lower damage
-	private helAttack2(): void {
+	private helAttack2() {
 		let damage: number;
 		//return to combat menu when finished
 		return { next: game.playerMenu };
@@ -105,7 +105,7 @@ export class Hel extends Monster {
 		combatRoundOver();
 	}
 
-	private helCleavage(): void {
+	private helCleavage() {
 		//FAIL
 		if ((player.perks.has(PerkType.Flexibility) && randInt(100) < 6) || (player.perks.has(PerkType.Evade) && randInt(100) < 10) || (player.stats.spe - spe > 0 && int(Math.random() * (((player.stats.spe - spe) / 4) + 80)) > 80)) {
 			DisplayText("To your surprise, the salamander suddenly pulls up her top, letting her hefty breasts hang free in the air; her small, bright pink nipples quickly harden from either arousal or temperature.  Before you can take your eyes off her impressive rack, she jumps at you.  One of her scaled arms reaches around your waist, and the other toward your head, but you roll away from her grip and push her bodily away.  She staggers a moment, but then quickly yanks the jangling bikini top back down with a glare.\n");
@@ -123,7 +123,7 @@ export class Hel extends Monster {
 		}
 		combatRoundOver();
 	}
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		trace("Hel Perform Combat Action Called");
 		let select: number = randInt(3);
 		trace("Selected: " + select);
@@ -140,12 +140,12 @@ export class Hel extends Monster {
 		}
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (statusAffects.has(StatusAffectType.Sparring)) game.helFollower.PCBeatsUpSalamanderSparring();
 		else game.helScene.beatUpHel();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nHelia waits it out in stoic silence...");
 			return { next: game.endLustLoss };

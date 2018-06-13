@@ -5,7 +5,7 @@
     // 242- baking happaned?  1 = yes, -1 = snuck out, -2 = seen her escorted out
     //, 3 =stayed, 4 = epilogue'ed
     //[Bakery One Off – Madeleine's Creation]
-    internal function procMaddieOneIntro(): void {
+    internal function procMaddieOneIntro() {
         DisplayText().clear();
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00240] === 0) {
             DisplayText("You enter the bakery, savoring the sweet smells of sugar and baked goods.  A burly, hairy figure steps up beside you and places a strong hand on your shoulder.   The gravelly voice of the stranger says, \"<i>You ain't from around here.  Come.  I need your help.  Show you something.</i>\"  You turn to look, and are quite surprised when you see the horned visage of a minotaur ");
@@ -22,7 +22,7 @@
         MainScreen.doYesNo(followMinotaurIntoBackroom, telAdre.bakeryScene.bakeryuuuuuu);
     }
     //[Follow] 
-    private followMinotaurIntoBackroom(): void {
+    private followMinotaurIntoBackroom() {
         DisplayText().clear();
         //	(Not yet explained) 
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00241] === 0) {
@@ -47,7 +47,7 @@
     }
 
     //[Not Yet/No]
-    public nopeAintGotNoneODemSpeculIngredimathings(): void {
+    public nopeAintGotNoneODemSpeculIngredimathings() {
         DisplayText().clear();
         DisplayText("The chef sighs and slams a fist into the counter hard enough to dent the metal and throw the bowls full of dough inches into the air.  A number of empty éclairs bounce and roll everywhere.  The minotaur looks back at you and snorts, \"<i>Best you go.  Don't come without ingredients.</i>\"\n\n");
 
@@ -58,7 +58,7 @@
         return { next: telAdre.bakeryScene.bakeryuuuuuu };
     }
     //[Yes – baking]
-    public handOverIngredientsItBeBakingTimeYo(): void {
+    public handOverIngredientsItBeBakingTimeYo() {
         DisplayText().clear();
         player.inventory.items.consumeItem(consumables.BEEHONY);
         player.inventory.items.consumeItem(consumables.L_DRAFT);
@@ -78,7 +78,7 @@
     }
 
     //[Sneak Out]
-    private sneakAwayFromMaddie(): void {
+    private sneakAwayFromMaddie() {
         DisplayText().clear();
         DisplayText("You get out before he can find you again.  Whatever he's making is nothing you ever want to taste.");
         //(No more mino chef)
@@ -86,7 +86,7 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[Wait/Next]
-    private waitForSlutCake(): void {
+    private waitForSlutCake() {
         DisplaySprite(39);
         DisplayText().clear();
         DisplayText("You walk back into the bakery proper, feeling more than a little ");
@@ -111,7 +111,7 @@
         MainScreen.simpleChoices(["Run Away", "TryToTalk", "", "", ""], [runAwayFromMaddiiiieee, talkToMaddie, null, null, null]);
     }
     //[RUN DAFUQ AWAY]
-    private runAwayFromMaddiiiieee(): void {
+    private runAwayFromMaddiiiieee() {
         DisplaySprite(39);
         DisplayText().clear();
         DisplayText("You turn tail to run, evacuating the room before that culinary catastrophe can have her way with you.  A high-pitched whine chases you away as the cupcake-girl cries, \"<i>Nooooo... come back!  I'm making so much filling for you!</i>\"  Her words lend you even greater speed, and you vacate the city in record time.\n\n");
@@ -119,7 +119,7 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[Followup to run away]
-    public runAwayMaddieFollowup(): void {
+    public runAwayMaddieFollowup() {
         DisplaySprite(39);
         DisplayText().clear();
         Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -2;
@@ -128,10 +128,10 @@
     }
 
     //[TRY TO TALK]
-    private talkToMaddie(): void {
+    private talkToMaddie() {
         DisplaySprite(39);
         DisplayText("", true);
-        DisplayText("You try to speak as calmly as you can in the face of a giant, jiggling sex-pastry, but she ignores your demands to 'wait', 'listen', or 'stop'.  Sponge-cake-soft fists envelop your arms, lifting you from the ground to pin you against some flour sacks.   The cherries covering the cupcake-girl's whipped-cream bra drop off, pushed away by two candy-pink nipples the size of water bottles.  As one, they discharge thick splorts of thick, gooey icing to splatter over the length of your exposed arms.  It hardens nigh-instantaneously in the comparatively cool air, and you're helpless to do anything but squirm as she applies the same treatment to your " + LegDescriptor.describeLegs(player) + ", immobilizing you completely.\n\n");
+        DisplayText("You try to speak as calmly as you can in the face of a giant, jiggling sex-pastry, but she ignores your demands to 'wait', 'listen', or 'stop'.  Sponge-cake-soft fists envelop your arms, lifting you from the ground to pin you against some flour sacks.   The cherries covering the cupcake-girl's whipped-cream bra drop off, pushed away by two candy-pink nipples the size of water bottles.  As one, they discharge thick splorts of thick, gooey icing to splatter over the length of your exposed arms.  It hardens nigh-instantaneously in the comparatively cool air, and you're helpless to do anything but squirm as she applies the same treatment to your " + Desc.Leg.describeLegs(player) + ", immobilizing you completely.\n\n");
         DisplayText("The cock-crazed confection looks down at you and nods, a satisfied smile spreading over glistening, pale blue lips.  She breathlessly exclaims, \"<i>My creat- cr... Dad ");
         if (player.torso.cocks.count > 0) DisplayText("is like, all out of icing mix!  So I'm going to borrow a few cups from you, 'kay?");
         else DisplayText("gave me so much icing mix, and you like, would look soooo much better with some vanil- van... yummy frosting!");
@@ -141,7 +141,7 @@
         if (player.torso.cocks.count > 0) {
             let x: number = player.cockThatFits(60);
             if (x < 0) x = 0;
-            DisplayText("\"<i>Dad said my name is Madeleine, but that's no fun.  Just call me Maddie.  You've got lots of icing like Dad, right?  I-I... need more icing.  It's in my recipe,</i>\" says Maddie.  The baked broad strips your " + player.inventory.equipment.armor.displayName + " to expose your " + CockDescriptor.describeMultiCockShort(player) + ".  Cooing with excitement, she examines your ");
+            DisplayText("\"<i>Dad said my name is Madeleine, but that's no fun.  Just call me Maddie.  You've got lots of icing like Dad, right?  I-I... need more icing.  It's in my recipe,</i>\" says Maddie.  The baked broad strips your " + player.inventory.equipment.armor.displayName + " to expose your " + Desc.Cock.describeMultiCockShort(player) + ".  Cooing with excitement, she examines your ");
             if (player.stats.lust >= 75) DisplayText("rock-hard");
             else DisplayText("hardening");
             DisplayText(" shaft");
@@ -153,21 +153,21 @@
             if (player.stats.cor < 33) DisplayText("You muster as much authority as you can in such a compromising position and explain to Maddie that what comes out of there is NOT icing.");
             else if (player.stats.cor < 66) DisplayText("You offhandedly mention that you don't actually make icing.");
             else DisplayText("You smirk and mention that what you squirt isn't quite icing.");
-            DisplayText("  \"<i>Liar!  If that wasn't icing, then why would Daddy have put his in all those eclairs and me?</i>\" retorts the busty cupcake, continuing on to say, \"<i>I know, I can suck it out!</i>\"  She purses her jelly-like lips and plunges forward, slurping all " + num2Text(Math.floor(player.torso.cocks.get(x).length)) + " inches into her oven-warmed esophagus.  Your protests are cut off by the tightness squeezing around your " + CockDescriptor.describeCock(player, x) + ".  It milks you in rippling motions, buttery-slick and pulsing hungrily.\n\n");
+            DisplayText("  \"<i>Liar!  If that wasn't icing, then why would Daddy have put his in all those eclairs and me?</i>\" retorts the busty cupcake, continuing on to say, \"<i>I know, I can suck it out!</i>\"  She purses her jelly-like lips and plunges forward, slurping all " + numToCardinalText(Math.floor(player.torso.cocks.get(x).length)) + " inches into her oven-warmed esophagus.  Your protests are cut off by the tightness squeezing around your " + Desc.Cock.describeCock(player, x) + ".  It milks you in rippling motions, buttery-slick and pulsing hungrily.\n\n");
 
             DisplayText("A half-melted tongue ");
-            if (!player.torso.cocks.hasSheath()) DisplayText("encircles the base");
+            if (!player.torso.cocks.find(Cock.HasSheath)) DisplayText("encircles the base");
             else DisplayText("pokes and prods into your sheath");
-            DisplayText(", leaving a syrupy residue trailing over your " + CockDescriptor.describeCock(player, x) + ".  You groan, sagging into the sugary suspension.  The strength is completely gone from your limbs, stolen by the pastry's prick-devouring maw.  Her shining eyes look up to gloat once she realizes how completely you've submitted to her ministrations, and in no time, her cake-soft hands catch and squeeze your " + CockDescriptor.describeCock(player, x) + " into the gargantuan swell of her spongy breasts.  A smile crosses your face as you get pleasured by the motherly mounds and the familiar, sweet smell that Maddie exudes.\n\n");
+            DisplayText(", leaving a syrupy residue trailing over your " + Desc.Cock.describeCock(player, x) + ".  You groan, sagging into the sugary suspension.  The strength is completely gone from your limbs, stolen by the pastry's prick-devouring maw.  Her shining eyes look up to gloat once she realizes how completely you've submitted to her ministrations, and in no time, her cake-soft hands catch and squeeze your " + Desc.Cock.describeCock(player, x) + " into the gargantuan swell of her spongy breasts.  A smile crosses your face as you get pleasured by the motherly mounds and the familiar, sweet smell that Maddie exudes.\n\n");
 
-            DisplayText("Suction starts, hollowing the cupcake-girl's plush cheeks into a concave, cock-slurping form.  The constant squeezing of your " + CockDescriptor.describeCock(player, x) + " combines with the sucking to make you swell larger inside Maddie's gullet while she kisses your groin.  The confection's oral charms show no signs of stopping as she noisily slurps away at her treat, and her pillowy breasts are so spongy-soft and calming that you're happy to let her sample your 'icing' if it means you can feel like this.  Your " + LowerBodyDescriptor.describeHips(player) + " push back into the baby blue lips, pumping and thrusting as your instinct to fuck and breed takes over, working your " + CockDescriptor.describeCock(player, x) + " in and out of the pastry's puckered mouth.\n\n");
+            DisplayText("Suction starts, hollowing the cupcake-girl's plush cheeks into a concave, cock-slurping form.  The constant squeezing of your " + Desc.Cock.describeCock(player, x) + " combines with the sucking to make you swell larger inside Maddie's gullet while she kisses your groin.  The confection's oral charms show no signs of stopping as she noisily slurps away at her treat, and her pillowy breasts are so spongy-soft and calming that you're happy to let her sample your 'icing' if it means you can feel like this.  Your " + Desc.Hip.describeHips(player) + " push back into the baby blue lips, pumping and thrusting as your instinct to fuck and breed takes over, working your " + Desc.Cock.describeCock(player, x) + " in and out of the pastry's puckered mouth.\n\n");
 
-            DisplayText("Maddie pushes further forward, her bosom crushing you against the wall to hold your hips immobile while she sucks harder and harder.  Your cock balloons from the suction, thickening inside her neck and beginning to twitch from the irresistible fellative pleasure. An orgasm grows in your " + BallsDescriptor.describeBalls(true, true, player));
+            DisplayText("Maddie pushes further forward, her bosom crushing you against the wall to hold your hips immobile while she sucks harder and harder.  Your cock balloons from the suction, thickening inside her neck and beginning to twitch from the irresistible fellative pleasure. An orgasm grows in your " + Desc.Balls.describeBalls(true, true, player));
             if (player.torso.balls.quantity > 0) DisplayText(", the cum-heavy spheres bouncing in your twitching sack as they get ready to explode");
             DisplayText(".  Maddie squeezes her puckered cock-suckers tight around the turgid shaft while she whips her melty tongue in circles around it.  Your climax hits like a hammer-blow to the temple, knocking the thoughts from your head while you pump rope after rope of 'icing' down the cupcake's dick-gripping neck-hole.  The suction relaxes as you fill the ravenous pastry with your seed and let your head limply sink deeper against the cushion of her sponge-cake-soft breast.\n\n");
 
             DisplayText("Maddie milks you for what seems like ages");
-            if (player.torso.cocks.count === 1) DisplayText(", your " + CockDescriptor.describeCock(player, x) + " emptying every drop of jizz into the baked cum-tank.");
+            if (player.torso.cocks.count === 1) DisplayText(", your " + Desc.Cock.describeCock(player, x) + " emptying every drop of jizz into the baked cum-tank.");
             else {
                 DisplayText(" while her skin absorbs the generous donation of your other member");
                 if (player.torso.cocks.count > 2) DisplayText("s");
@@ -180,9 +180,9 @@
             }
             DisplayText(".  Satisfied, your body goes limp and sags against the wall while your face leans on the cupcake-girl's departing breast.\n\n");
 
-            DisplayText("The cream-filled creation leans back and squirts some more icing onto the straps holding you, but instead of reinforcing the bonds, it eats through the hardened confection to release you into her waiting bosom.  She catches you in the pillowy chest-embrace, stroking your hair while she says in a sing-song voice, \"<i>Thanks for all the icing " + player.mf("mister", "miss") + "!  I think I have enough for now.  I think I'll go like, check on my Dad and stuff.  Maybe he wants to add some icing to the recipe?</i>\"\n\n");
+            DisplayText("The cream-filled creation leans back and squirts some more icing onto the straps holding you, but instead of reinforcing the bonds, it eats through the hardened confection to release you into her waiting bosom.  She catches you in the pillowy chest-embrace, stroking your hair while she says in a sing-song voice, \"<i>Thanks for all the icing " + Desc.Gender.mf(player, "mister", "miss") + "!  I think I have enough for now.  I think I'll go like, check on my Dad and stuff.  Maybe he wants to add some icing to the recipe?</i>\"\n\n");
 
-            DisplayText("Oven-warmed tiles kiss your exposed " + ButtDescriptor.describeButt(player) + " as you're gently placed on the floor next to your discarded equipment.  Exhausted and satiated as you are, your eyes drift closed, lulling you into slumber.\n\n");
+            DisplayText("Oven-warmed tiles kiss your exposed " + Desc.Butt.describeButt(player) + " as you're gently placed on the floor next to your discarded equipment.  Exhausted and satiated as you are, your eyes drift closed, lulling you into slumber.\n\n");
 
             DisplayText("<b>Later...</b>\n");
             DisplayText("You're woken by a furry hand squeezing your shoulder and violently shaking you around.  With such rough treatment, you snap to full alertness in no time.  The minotaur chef is smiling down at you, the expression looking quite strange on his bestial muzzle as he says, \"<i>Sorry.  Experiment backfired.  Glad you gave her what she needed.  Much calmer now.  Will make great assistant.</i>\"\n\n");
@@ -196,7 +196,7 @@
 
             DisplayText("It's delicious – creamy, gooey, and sugary-sweet while at the same time as fluid as mother's milk. You swallow the first mouthful reflexively before you remember you were trying to avoid this exact fate.  The thick icing coats your esophagus with the cupcake's warm secretion. It radiates gentle, oven-like heat throughout you, clouding your mind and dulling your vision with its hazy warmth.  You relax against your saccharine bonds nervelessly and begin to drink of your own volition.\n\n");
 
-            DisplayText("\"<i>Shhh, shhh... that's a good " + player.mf("boy", "girl") + ".  Isn't my icing the absolute best?</i>\" she verbally gushes, just like the nipple between your teeth.  \"<i>Drink up");
+            DisplayText("\"<i>Shhh, shhh... that's a good " + Desc.Gender.mf(player, "boy", "girl") + ".  Isn't my icing the absolute best?</i>\" she verbally gushes, just like the nipple between your teeth.  \"<i>Drink up");
             if (player.thickness < 60) DisplayText(", you're looking awful thin");
             else if (player.tone >= 70) DisplayText(", you look like you're carved from stone.  A little softness would do you good");
             else DisplayText(", you look like you'd better eat to keep up your gorgeous figure");
@@ -227,7 +227,7 @@
     }
 
     //[Next visit to the bakery...]
-    internal function bakeryEpilogue(): void {
+    internal function bakeryEpilogue() {
         DisplayText().clear();
         DisplayText("As soon as you enter the bakery, one of the waitresses pulls you aside.  She positively beams as she hands you a note and says, \"<i>One of our chefs wanted me to give you this.  I didn't even know he could write!  I mean, where does a minotaur learn to handle a pen?</i>\"  You smirk, waving her away before you open up the minotaur's note.\n\n");
         DisplayText("\"<i>Thanks.  Figured out what went wrong with Maddie's help.  Made masterpiece.  Buy giant cupcake sometime.  Delicious!  Promise it's safe and non-addictive.  Expensive though.  Ingredients rare.\n\n");

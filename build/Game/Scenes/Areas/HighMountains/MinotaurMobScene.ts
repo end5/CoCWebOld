@@ -40,7 +40,7 @@
 	}
 	//End of Interface Implementation
 
-	public meetMinotaurSons(): void {
+	public meetMinotaurSons() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		player.stats.lust += 10;
@@ -103,10 +103,10 @@
 			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] < 20) {
 				//[Non Addicted Repeat] 
 				if (!player.minotaurAddicted()) {
-					DisplayText("It doesn't take long for your exploration into the mountains to bring you face-to-face with your minotaur offspring once again.  There're " + num2Text(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + " of them here, arranged around you in a loose semicircle.  You can smell their familiar and arousing odor in the air; while it brings a tingle to your nethers, you're determined to resist it.  ");
+					DisplayText("It doesn't take long for your exploration into the mountains to bring you face-to-face with your minotaur offspring once again.  There're " + numToCardinalText(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + " of them here, arranged around you in a loose semicircle.  You can smell their familiar and arousing odor in the air; while it brings a tingle to your nethers, you're determined to resist it.  ");
 					if (player.torso.vaginas.get(0).wetness <= 2) DisplayText("A trickle of wetness runs down your " + LegDescriptor.describeLeg(player) + " almost immediately.");
-					else if (player.torso.vaginas.get(0).wetness <= 4) DisplayText("A steady flow of your juices soaks your " + LegDescriptor.describeLegs(player) + " almost immediately, just from the scent invading your nostrils.");
-					else DisplayText("A flood of wetness soaks your " + player.inventory.equipment.armor.displayName + " and " + LegDescriptor.describeLegs(player) + " with feminine drool almost immediately as your body reflects the obscene lust coursing through your veins.");
+					else if (player.torso.vaginas.get(0).wetness <= 4) DisplayText("A steady flow of your juices soaks your " + Desc.Leg.describeLegs(player) + " almost immediately, just from the scent invading your nostrils.");
+					else DisplayText("A flood of wetness soaks your " + player.inventory.equipment.armor.displayName + " and " + Desc.Leg.describeLegs(player) + " with feminine drool almost immediately as your body reflects the obscene lust coursing through your veins.");
 					DisplayText("\n\n");
 					DisplayText("This could be a bit difficult.\n\nThe largest folds his arms across his broad, well-defined chest and smirks before grunting, \"<i>");
 					if (player.pregnancyIncubation > 0 && player.pregnancyIncubation <= 216 && player.pregnancyType === PregnancyType.MINOTAUR) DisplayText("Pregnant with another brother for us, and already you come back for more?");
@@ -124,10 +124,10 @@
 				}
 				//[Addicted Repeat] 
 				else {
-					DisplayText("It doesn't take too long for your exploration into the mountains to bring you face-to-face with your minotaur offspring once again.  There're " + num2Text(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + " of them here, arranged around you in a loose semicircle.  You can smell their familiar, arousing odor drifting around you, and though you want to be strong, there's nothing you want more than to bury your face beneath those loincloths and start slurping your reward for having such wonderful children.  ");
+					DisplayText("It doesn't take too long for your exploration into the mountains to bring you face-to-face with your minotaur offspring once again.  There're " + numToCardinalText(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + " of them here, arranged around you in a loose semicircle.  You can smell their familiar, arousing odor drifting around you, and though you want to be strong, there's nothing you want more than to bury your face beneath those loincloths and start slurping your reward for having such wonderful children.  ");
 					if (player.torso.vaginas.get(0).wetness <= 2) DisplayText("A trickle of wetness runs down your " + LegDescriptor.describeLeg(player) + " almost immediately.");
-					else if (player.torso.vaginas.get(0).wetness <= 4) DisplayText("A steady flow of your juices soaks your " + LegDescriptor.describeLegs(player) + " almost immediately, just from the scent invading your nostrils.");
-					else DisplayText("A flood of wetness soaks your " + player.inventory.equipment.armor.displayName + " and " + LegDescriptor.describeLegs(player) + " with feminine drool almost immediately as your body reflects the obscene lust coursing through your veins.");
+					else if (player.torso.vaginas.get(0).wetness <= 4) DisplayText("A steady flow of your juices soaks your " + Desc.Leg.describeLegs(player) + " almost immediately, just from the scent invading your nostrils.");
+					else DisplayText("A flood of wetness soaks your " + player.inventory.equipment.armor.displayName + " and " + Desc.Leg.describeLegs(player) + " with feminine drool almost immediately as your body reflects the obscene lust coursing through your veins.");
 					DisplayText("  You absentmindedly tweak your nipple and lick your lips in anticipation.\n\n");
 
 					DisplayText("The largest folds his arms across his broad, well-defined chest and smirks before grunting, \"<i>");
@@ -163,7 +163,7 @@
 					else DisplayText("Come back to see some real studs after letting a weakling knock you up?");
 					DisplayText("</i>\"  Your cheeks color from the lewd suggestions, his words bringing up the pleasurable memories of the numerous, cunt-filling minotaur-breedings you've been subjected to.\n\n");
 
-					DisplayText("\"<i>You meathead, mom's not here for that.  She's probably here to get packed with jizz and cum until she feels like her brains are gonna ooze out her ears,</i>\" taunts a second familiar voice. \"<i>Mom knows how good sex with a minotaur really is, and we'll spit-roast her, won't we boys?</i>\"  It's the second largest of your sons, and he isn't alone – there's a whole tribe of minotaurs here. You count at least " + num2Text(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + ", arranged around you in an impenetrable circle of muscle and fur. There's no way you'll escape, not without creating a gap first.\n\n");
+					DisplayText("\"<i>You meathead, mom's not here for that.  She's probably here to get packed with jizz and cum until she feels like her brains are gonna ooze out her ears,</i>\" taunts a second familiar voice. \"<i>Mom knows how good sex with a minotaur really is, and we'll spit-roast her, won't we boys?</i>\"  It's the second largest of your sons, and he isn't alone – there's a whole tribe of minotaurs here. You count at least " + numToCardinalText(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + ", arranged around you in an impenetrable circle of muscle and fur. There's no way you'll escape, not without creating a gap first.\n\n");
 
 					DisplayText("Gods, you're getting wet.  ");
 					if (player.torso.vaginas.get(0).wetness >= 5) DisplayText("You can feel your juices running unimpeded from under your " + player.inventory.equipment.armor.displayName + "; a veritable flood of need, fed by your body's primal response to the pheromones in the air.");
@@ -186,7 +186,7 @@
 					else DisplayText("Come back to see some real studs after letting a weakling knock you up?  Don't fret, we'll make you forget all about it.");
 					DisplayText("</i>\"  Your cheeks color from the lewd suggestions, his words bringing up the pleasurable memories of drug-fueled sexual orgies with beasts just like these.\n\n");
 
-					DisplayText("\"<i>You meathead, quit wasting mom's time.  She'd rather be fucking than listening to you prattle on,</i>\" a second, familiar voice taunts.  \"<i>Now come on, she's got plenty of holes needing filled.  Look at her eyes – we'll need to pack her full if we're going to satisfy her.</i>\"  It's the second largest of your sons, and he isn't alone – there's a whole tribe of minotaurs here.  You count at least " + num2Text(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + ", arranged around you in an impenetrable circle of muscle and fur. There's no way you'll escape, not without creating a gap first.\n\n");
+					DisplayText("\"<i>You meathead, quit wasting mom's time.  She'd rather be fucking than listening to you prattle on,</i>\" a second, familiar voice taunts.  \"<i>Now come on, she's got plenty of holes needing filled.  Look at her eyes – we'll need to pack her full if we're going to satisfy her.</i>\"  It's the second largest of your sons, and he isn't alone – there's a whole tribe of minotaurs here.  You count at least " + numToCardinalText(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326]) + ", arranged around you in an impenetrable circle of muscle and fur. There's no way you'll escape, not without creating a gap first.\n\n");
 
 					DisplayText("Gods, you're getting wet.  ");
 					if (player.torso.vaginas.get(0).wetness >= 5) DisplayText("You can feel your juices running unimpeded from under your " + player.inventory.equipment.armor.displayName + "; a veritable flood of need, fed by your body's primal response to the pheromones in the air.");
@@ -208,7 +208,7 @@
 	}
 
 	//[Negotiate] (fucking Morton's fork, just add this to the end of the non-addict intro ~ but thou must!)
-	private negotiate(): void {
+	private negotiate() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		DisplayText("You calm down and warn them that you're no pushover, and you will defend yourself if necessary.  Your outburst shocks them, and they even seem a bit worried by your confidence and poise.\n\n");
@@ -225,7 +225,7 @@
 	}
 
 	//[Run] 
-	private runFromMinotaurs(): void {
+	private runFromMinotaurs() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		DisplayText("You turn tail and try to run, ");
@@ -245,37 +245,37 @@
 		}
 	}
 	//[Fight]
-	private fightOTaurs(): void {
+	private fightOTaurs() {
 		startCombat(new MinotaurMob());
 		DisplaySprite(94);
 		playerMenu();
 	}
 
 	//[Submit]
-	private submitToMinotaurMob(): void {
+	private submitToMinotaurMob() {
 		player.stats.lust = 100;
 		player.stats.lust += 1;
 		minotaurDeFeet();
 		DisplaySprite(94);
 	}
 
-	internal function minotaurDeFeet(): void {
+	internal function minotaurDeFeet() {
 		DisplayText().clear();
 		if (player.torso.vaginas.count <= 0) {
 			DisplayText("As you slump down in defeat, your horny beast-children take note of your missing femininity.  They growl in displeasure and depart, but not before kicking you unconsciousness.  \"<i>Bitch.</i>\"");
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 			return;
 		}
 		//(HP)
-		if (player.stats.HP < 1) DisplayText("You've been completely defeated.  Bruised and battered, your overtaxed body is barely able to move, and you slump down on the ground.  The minotaurs stomp closer, smiling in anticipation of what's to come.  Mouth agape, you stare while they discard their tiny, pre-cum soaked loincloths and reveal the massive, distinctive cocks that make their breed so famous.  One of the rags lands squarely on your face, by chance or cruel intent, and you gasp in surprise.  Like a lightning bolt shooting down your spine, arousal slams into you with thunderous force, rocking you back as you shake the sticky cloth from your face.  All thoughts of resistance are completely washed away by the tide of your aching need, and you spread your " + LegDescriptor.describeLegs(player) + " to make yourself an easier target.   Lent strength by the arousal coursing through your veins, you tear off your " + player.inventory.equipment.armor.displayName + " and wait anxiously for whatever the beast-men have planned.\n\n");
+		if (player.stats.HP < 1) DisplayText("You've been completely defeated.  Bruised and battered, your overtaxed body is barely able to move, and you slump down on the ground.  The minotaurs stomp closer, smiling in anticipation of what's to come.  Mouth agape, you stare while they discard their tiny, pre-cum soaked loincloths and reveal the massive, distinctive cocks that make their breed so famous.  One of the rags lands squarely on your face, by chance or cruel intent, and you gasp in surprise.  Like a lightning bolt shooting down your spine, arousal slams into you with thunderous force, rocking you back as you shake the sticky cloth from your face.  All thoughts of resistance are completely washed away by the tide of your aching need, and you spread your " + Desc.Leg.describeLegs(player) + " to make yourself an easier target.   Lent strength by the arousal coursing through your veins, you tear off your " + player.inventory.equipment.armor.displayName + " and wait anxiously for whatever the beast-men have planned.\n\n");
 		//(Lust) 
 		else {
 			DisplayText("You're too turned on to fight, too aroused to think, and trembling too much to stand upright.  Slumping in the dirt, you pull away your " + player.inventory.equipment.armor.displayName + " and toss it aside; it would just get in the way.  Ass in the air, you wiggle it back and forth enticingly as your need ");
 			if (player.torso.vaginas.get(0).wetness <= 2) DisplayText("begins to drip from your ");
 			else if (player.torso.vaginas.get(0).wetness <= 4) DisplayText("leaks from your ");
 			else DisplayText("rolls out in a wave from your ");
-			DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".");
-			if (player.torso.cocks.count > 0) DisplayText("  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " hardens and dangles above the ground, leaking in sympathy with your hungry quim.  Of course it will likely be ignored - rutting minotaurs have little use for someone else's dick.");
+			DisplayText(Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".");
+			if (player.torso.cocks.count > 0) DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " hardens and dangles above the ground, leaking in sympathy with your hungry quim.  Of course it will likely be ignored - rutting minotaurs have little use for someone else's dick.");
 			DisplayText("The beast-men remove their terribly-tended loincloths and discard them, though one smears his over your face before he tosses it aside, the musky aroma sending your body into overdrive.\n\n");
 		}
 		if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] >= 25 && player.minotaurNeed()) minotaurGangBadEnd();
@@ -288,7 +288,7 @@
 
 
 	//[Loss – Non-Addict Gangbang] 
-	private nonAddictMinotaurGangBang(): void {
+	private nonAddictMinotaurGangBang() {
 		DisplaySprite(94);
 		DisplayText("The minotaurs step closer, their hooves kicking up small clouds of dust as they approach your prone body.  You lift your head, nose twitching, and breathe their scent deeply while casting a coy look at the closest of the mob.  He smiles and squeezes his fingers around your jaw, pulling your mouth into a pouty 'o'.  His other hand holds the heavy mass of his stiff maleness - a turgid, flared shaft over two feet long with three prominent ridges along its length.  You shiver and lick your lips unconsciously, tasting the sweet smell of his pre in the air as it inches closer.\n\n");
 
@@ -298,7 +298,7 @@
 			else DisplayText("tailhole");
 			DisplayText(".  ");
 		}
-		else if (player.torso.hips.legs.isNaga()) DisplayText("A sudden, forceful yank stretches out your tail, and a larger member presses between your " + ButtDescriptor.describeButt(player) + " to prod at your clutching asshole.  ");
+		else if (player.torso.hips.legs.isNaga()) DisplayText("A sudden, forceful yank stretches out your tail, and a larger member presses between your " + Desc.Butt.describeButt(player) + " to prod at your clutching asshole.  ");
 		else if (player.torso.hips.legs.isGoo()) {
 			DisplayText("A sudden, forceful push rolls you to your side, and you feel shaggy fur rubbing through your gooey folds while a larger member is pressed against your clutching ");
 			if (player.torso.tailType === TailType.NONE) DisplayText("asshole");
@@ -314,13 +314,13 @@
 		DisplayText("The cruel, flared tip of the horse-like cock batters at the unyielding entrance for a moment, slowly stretching your rectal orifice wider and wider with each painful push.  Gasping in pain, you cry out in anguish before transitioning into a low moan.  The dripping member before you plunges into your open orifice, pre-cum lubricating its passage as the flare is pushed to the back of your throat.  Ordinarily your body might try to reject such an intrusion, but all you feel is a numb sort of acceptance as you relax your throat to let the pre-cum roll into your belly.");
 		DisplayText("\n\n");
 
-		DisplayText("The pressure on your " + ButtDescriptor.describeButthole(character.torso.butt) + " suddenly subsides, not because the minotaur is pulling back, but because part of the flare suddenly slipped through the ring of your tightly-stretched hole.  You swoon and try to relax, fighting with your sphincter's natural reaction to squeeze shut against the intruder.  A pleased rumble echoes behind you, and the minotaur penetrating your " + ButtDescriptor.describeButthole(character.torso.butt) + " pushes hard.  His flare slips inside with an audible, gut-stretching 'pop'.  ");
-		player.displayStretchButt(60, true, true, false);
+		DisplayText("The pressure on your " + Desc.Butt.describeButthole(character.torso.butt) + " suddenly subsides, not because the minotaur is pulling back, but because part of the flare suddenly slipped through the ring of your tightly-stretched hole.  You swoon and try to relax, fighting with your sphincter's natural reaction to squeeze shut against the intruder.  A pleased rumble echoes behind you, and the minotaur penetrating your " + Desc.Butt.describeButthole(character.torso.butt) + " pushes hard.  His flare slips inside with an audible, gut-stretching 'pop'.  ");
+		Mod.Butt.displayStretchButt(player, 60, true, true, false);
 		if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] >= 10) DisplayText("The assembled beasts snicker at the noise, stroking themselves slowly while awaiting a chance at your hungry holes.");
 		else DisplayText("The minitaur giggles at the noise, stroking himself and mewling while he waits permission to join.");
 		DisplayText("  You can do naught but gurgle as the dual minotaur dicks each push deeper and completely, utterly spit-roasting you on their incestuous hardnesses.\n\n");
 
-		DisplayText("Inch by inch, the double dicks penetrate further, bulging your neck and gut around the growing flares.  You can actually feel their leaky, drug-like pre-cum burbling out to fill your belly and slip into your intestines.  It gives you a nice, pain-numbing high that makes it easy to handle the plus-sized members currently lifting you from the ground. Their hands move to grab at your midriff, helping to steady your aerial form between them.  As you're leveled at waist height, the last few inches of the throbbing, drug-leaking cocks push inside your holes.  Their two sweaty ballsacks clap against your " + ButtDescriptor.describeButt(player) + " and chin simultaneously.\n\n");
+		DisplayText("Inch by inch, the double dicks penetrate further, bulging your neck and gut around the growing flares.  You can actually feel their leaky, drug-like pre-cum burbling out to fill your belly and slip into your intestines.  It gives you a nice, pain-numbing high that makes it easy to handle the plus-sized members currently lifting you from the ground. Their hands move to grab at your midriff, helping to steady your aerial form between them.  As you're leveled at waist height, the last few inches of the throbbing, drug-leaking cocks push inside your holes.  Their two sweaty ballsacks clap against your " + Desc.Butt.describeButt(player) + " and chin simultaneously.\n\n");
 
 		DisplayText("Your bovine masters begin to saw their throbbing members back and forth with long, orifice-scraping strokes.  It should be painful, but it only stirs the coals of your aphrodisiac-fueled fire. Your pussy ");
 		if (player.torso.vaginas.get(0).wetness >= 5) DisplayText("gushes everywhere with each thrust, puddling your lubricants on the ground");
@@ -337,7 +337,7 @@
 		if (player.stats.cor >= 66) DisplayText(".  You couldn't be happier about it");
 		DisplayText(".   The bulges of cum squeezing past your thrashing, excited tongue slowly grow smaller and smaller as the spoogey goodness is inexorably emptied from the poor, pumped-up testes on your chin.  They give a tiny shudder and stop, and the minotaur pulls back at last, slowly softening to ease his passage from your abused throat hole.\n\n");
 
-		DisplayText("Once free, the beast wipes the mess from the tip of his fat cock on your lips. He pushes you back towards the one violating your " + ButtDescriptor.describeButthole(character.torso.butt) + ", allowing him to support you.  You groan at the rough treatment while licking at the delicious glaze on your lips.  The potent sperm in your throat and stomach have already shut down any thoughts more complex than 'find cum' and 'fuck'.  The minitaur approaches hesitantly, placing his pre-cum-slicked hardness in your hand to stroke while he whimpers, \"<i>Please big bro, can I fuck her cunt?</i>\"\n\n");
+		DisplayText("Once free, the beast wipes the mess from the tip of his fat cock on your lips. He pushes you back towards the one violating your " + Desc.Butt.describeButthole(character.torso.butt) + ", allowing him to support you.  You groan at the rough treatment while licking at the delicious glaze on your lips.  The potent sperm in your throat and stomach have already shut down any thoughts more complex than 'find cum' and 'fuck'.  The minitaur approaches hesitantly, placing his pre-cum-slicked hardness in your hand to stroke while he whimpers, \"<i>Please big bro, can I fuck her cunt?</i>\"\n\n");
 
 		DisplayText("\"<i>Not today, runt.</i>\" snorts the minotaur behind you.  He lifts you up in his sweat-slicked arms and spins you about, placing your so-far-unspoiled womanhood atop his flaring, ready-to-explode cock-tip.  He smirks and presses your face into ");
 		if (player.tallness <= 70) DisplayText("his chest");
@@ -345,20 +345,20 @@
 		DisplayText(" as he laughs, \"<i>You can have Mom's backdoor.  I went ahead and opened it for you.</i>\"  A crestfallen look spreads over the minitaur's face, but it doesn't stop him for walking up behind you to line his smaller shaft up with your gaping, sloppy asshole.\n\n");
 
 		DisplayText("The rock-solid mass of muscle holding you aloft softens, and your body weight drags you down.  Your juicy twat and abused anus throb, impaled on your own offspring's penises.  ");
-		player.displayStretchVagina(60, true, false, true);
+		Mod.Vagina.displayStretchVagina(player, 60, true, false, true);
 		DisplayText("They part your flesh with ease, sheathing themselves deeply in your body and rubbing against each other through the narrow divide inside you.  Your asshole tingles, actually finding more pleasure from the act than your suddenly-stretched vagina thanks to the more comfortable pole residing in its depths.  They go deeper and deeper, until the stud supporting you is pushing on your distended cervix while his sheath bunches up against your outer lips.\n\n");
 
 		DisplayText("\"<i>Fuck, Mom, your pussy is great!  ");
 		if (player.pregnancyIncubation === 0 || player.pregnancyIncubation > 216) DisplayText("I hope you don't mind me making another brother.");
 		else if (player.pregnancyType === PregnancyType.MINOTAUR) DisplayText("I hope you don't mind me saying hi to my little brother.");
 		else DisplayText("I hope you come back after you pop out this vermin so we can give you a real baby!");
-		DisplayText("I can feel it coming, are you ready, Ma?</i>\" asks the beast-man.  You nod enthusiastically, rocking back and forth while the minitaur clutches your " + ButtDescriptor.describeButt(player) + " and fucks your stationary form.\n\n");
+		DisplayText("I can feel it coming, are you ready, Ma?</i>\" asks the beast-man.  You nod enthusiastically, rocking back and forth while the minitaur clutches your " + Desc.Butt.describeButt(player) + " and fucks your stationary form.\n\n");
 
 		DisplayText("A huge, bloated mass stretches past your pussy lips, forcing out a squirt of girlcum and feminine lube.  ");
-		player.displayStretchVagina(60, true, false, true);
+		Mod.Vagina.displayStretchVagina(player, 60, true, false, true);
 		DisplayText("The head flares wide as it squirts into your womb; warmth blooms from the uterine cum-deposit, turning your muscles slack, and setting off an orgasm of your own.  Your pussy ripples and squeezes at the invader, matched in its orgasmic contractions by your cock-stuffed asshole.  The minitaur behind you whines and hilts himself as hard as his relatively lithe body will allow, slapping his balls into his brother's slowly emptying cum-sacks.");
 		if (player.torso.cocks.count > 0) {
-			DisplayText("  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " explodes against the minotaur's belly, weakly spurting ");
+			DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " explodes against the minotaur's belly, weakly spurting ");
 			if (player.cumQ() < 25) DisplayText("a few spots of cum into his sweat-matted fur.");
 			else if (player.cumQ() < 50) DisplayText("a steady trickle of cum into his fur.");
 			else if (player.cumQ() < 100) DisplayText("a steady stream of cum into his matted fur.");
@@ -391,7 +391,7 @@
 		player.stats.cor += 1;
 		player.slimeFeed();
 		player.minoCumAddiction(20);
-		if (Game.inCombat) cleanupAfterCombat();
+		if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
 		else {
 			DisplayText("\n\n");
 			inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), Scenes.camp.returnToCampUseEightHours);
@@ -399,9 +399,9 @@
 	}
 
 	//*[Loss - Very Pregnant, Lots of BJs] 
-	private loseToMinoMobVeryPregnant(): void {
+	private loseToMinoMobVeryPregnant() {
 		DisplaySprite(94);
-		DisplayText("The largest stud grunts, \"<i>Heh.  Mom's body looks like it's about to pop.</i>\"  His brother pushes him aside and rubs his furred hand across the taut " + SkinDescriptor.skin(character) + " of your belly as he says, \"<i>");
+		DisplayText("The largest stud grunts, \"<i>Heh.  Mom's body looks like it's about to pop.</i>\"  His brother pushes him aside and rubs his furred hand across the taut " + Desc.Skin.skin(character) + " of your belly as he says, \"<i>");
 		if (player.pregnancyType != PregnancyType.MINOTAUR) DisplayText("She doesn't know how to keep her hungry twat closed.  You can see the vermin squirming in her belly.  Disgusting.");
 		else DisplayText("I can feel our little brother.  It won't be long now.");
 		DisplayText("  Since your womb is full you'll have to take care of us with your other holes.  ...Don't look at me like that Mom - it's not my fault you're such a slut.</i>\"\n\n");
@@ -415,14 +415,14 @@
 		DisplayText("One of them smears his flare across your forehead to leave a trail of musky goo behind.  It clearly marks you as his, even if he ");
 		if (player.pregnancyType != PregnancyType.MINOTAUR) DisplayText("isn't");
 		else DisplayText("may not be");
-		DisplayText(" the father of the child in your womb.  You shiver at the smell, the heavenly fluid drying on your " + player.skinFurScales() + " while that slippery tip is moved down to your lips.  Opening your jaw wider, you let the musky prick pop into your mouth.  It tastes like salty sweat, skin, and the heavenly taste of pre-cum all mixed together. The cock pushes deeper, all three rings of prepuce bumping through your lips while the head begins to burrow into your esophagus.  Thankfully the constantly-dripping pre-cum it spouts shuts down your gag reflex, and your only worry becomes wondering just how long you'll have to hold your breath.\n\n");
+		DisplayText(" the father of the child in your womb.  You shiver at the smell, the heavenly fluid drying on your " + Desc.Skin.skinFurScales(player) + " while that slippery tip is moved down to your lips.  Opening your jaw wider, you let the musky prick pop into your mouth.  It tastes like salty sweat, skin, and the heavenly taste of pre-cum all mixed together. The cock pushes deeper, all three rings of prepuce bumping through your lips while the head begins to burrow into your esophagus.  Thankfully the constantly-dripping pre-cum it spouts shuts down your gag reflex, and your only worry becomes wondering just how long you'll have to hold your breath.\n\n");
 
-		DisplayText("Fuzz-covered balls brush your chin, their slowly-churning mass resting heavily on your " + HeadDescriptor.describeFace(player) + ".  You hesitantly lick them, lapping up the sweat from their fur.  The pungent pheromones tickle at your nose, even as you're kept from breathing by the cock obstructing your tightly-stretched throat.  All this fellatio has made your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " so sopping wet that you hear it squish and slosh with every twitch and movement of your " + LegDescriptor.describeLegs(player) + ".  It hungers for penetration, but pregnant and swollen as your womb is, you know your sons won't touch it.");
-		if (player.torso.cocks.count > 0) DisplayText("  The pre-cum leaking from your " + CockDescriptor.describeMultiCockShort(player) + " reminds you of your poor, ignored maleness, but you'll have to settle for servicing your sons' delectable organs.\n\n");
+		DisplayText("Fuzz-covered balls brush your chin, their slowly-churning mass resting heavily on your " + Desc.Face.describeFace(player) + ".  You hesitantly lick them, lapping up the sweat from their fur.  The pungent pheromones tickle at your nose, even as you're kept from breathing by the cock obstructing your tightly-stretched throat.  All this fellatio has made your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " so sopping wet that you hear it squish and slosh with every twitch and movement of your " + Desc.Leg.describeLegs(player) + ".  It hungers for penetration, but pregnant and swollen as your womb is, you know your sons won't touch it.");
+		if (player.torso.cocks.count > 0) DisplayText("  The pre-cum leaking from your " + Desc.Cock.describeMultiCockShort(player) + " reminds you of your poor, ignored maleness, but you'll have to settle for servicing your sons' delectable organs.\n\n");
 
-		DisplayText("Pain radiates through your " + ButtDescriptor.describeButt(player) + " as a strong impact rocks your body.  You'd glance back, but the penis in your mouth holds your head stationary while it begins to slide in and out of your throat.  Another cheek-reddening slap hits your ass, and this time you definitely feel the large, furred shape of a minotaur's hand as the source of your discomfort.  The cock in your mouth draws back, not far enough to empty your mouth, yet far enough for you to breathe in sweet, sweet air through your nose. It plunges back in, just in time for another butt-reddening smack to push you the last few inches back towards those sweaty balls.\n\n");
+		DisplayText("Pain radiates through your " + Desc.Butt.describeButt(player) + " as a strong impact rocks your body.  You'd glance back, but the penis in your mouth holds your head stationary while it begins to slide in and out of your throat.  Another cheek-reddening slap hits your ass, and this time you definitely feel the large, furred shape of a minotaur's hand as the source of your discomfort.  The cock in your mouth draws back, not far enough to empty your mouth, yet far enough for you to breathe in sweet, sweet air through your nose. It plunges back in, just in time for another butt-reddening smack to push you the last few inches back towards those sweaty balls.\n\n");
 
-		DisplayText("You look up and oogle the " + num2Text((Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] - 1)) + " dicks hovering just inches away from you.  Even the minitaur is there, his smaller dick dripping the sweet cream of his need at the sight of his slutty, utterly debased mother.  It turns you on so much, even more than the cream in your belly.  You reach out and grab two of the dicks to stroke, lubricating fingers with hot, wet pre-cum.");
+		DisplayText("You look up and oogle the " + numToCardinalText((Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] - 1)) + " dicks hovering just inches away from you.  Even the minitaur is there, his smaller dick dripping the sweet cream of his need at the sight of his slutty, utterly debased mother.  It turns you on so much, even more than the cream in your belly.  You reach out and grab two of the dicks to stroke, lubricating fingers with hot, wet pre-cum.");
 		if (player.torso.hips.legs.isNaga() || player.torso.tailType === TailType.DEMONIC || player.torso.tailType === TailType.COW || player.torso.tailType === TailType.SHARK || player.torso.tailType === TailType.LIZARD || player.torso.tailType === TailType.KANGAROO) DisplayText("  Even your tail reaches up to curl around a third, stroking the thick meat.");
 		DisplayText("\n\n");
 
@@ -434,7 +434,7 @@
 
 		DisplayText("The domineering second-in-line smirks down as he slaps your cheek with his turgid wang.  \"<i>Come on, stop sucking up the leftover spooge and get the fresh stuff.</i>\"\n\n");
 
-		DisplayText("You finish swallowing your mouthful and sigh happily, panting like a puppy at the thought of getting a second helping.  Even your " + LegDescriptor.describeLegs(player) + " are wet with your leaking lubricants.  With the intoxication burning through your inhibitions, you plunge forward and engulf the next cock in your hungry mouth, tonguing the dribbling cum-slit in your effort to get more.  You cross your eyes to watch the pillar of dick-flesh as it slides into your maw, eventually disappearing entirely.  The flare, bumps, and difficulty of deep-throating such a sizable shaft barely register by this point, and you can only imagine how you must look - slurping and fellating like a whore while the leftovers from a massive facial hang in strings from your soaked face.\n\n");
+		DisplayText("You finish swallowing your mouthful and sigh happily, panting like a puppy at the thought of getting a second helping.  Even your " + Desc.Leg.describeLegs(player) + " are wet with your leaking lubricants.  With the intoxication burning through your inhibitions, you plunge forward and engulf the next cock in your hungry mouth, tonguing the dribbling cum-slit in your effort to get more.  You cross your eyes to watch the pillar of dick-flesh as it slides into your maw, eventually disappearing entirely.  The flare, bumps, and difficulty of deep-throating such a sizable shaft barely register by this point, and you can only imagine how you must look - slurping and fellating like a whore while the leftovers from a massive facial hang in strings from your soaked face.\n\n");
 
 		DisplayText("\"<i>Gods and Demons Mom, you're such a slut.  Look at you, knocked up and pregnant, nipples ready to spew milk, and you're covered in one of your sons' cum while you suck off the next.  You greedy fuck-slut.  ");
 		if (player.pregnancyType === PregnancyType.MINOTAUR) DisplayText("That baby is probably mine too.  You let your son father his brother.");
@@ -447,7 +447,7 @@
 		DisplayText(" and pulls you back, your tongue dragging over the underside of his shaft.  Then, with an abrupt shift, he plunges back in.  Once he bottoms out, he once more reverses direction - never stopping, never slowing.  He face-fucks you hard and fast while your ass is repeatedly smacked.");
 		DisplayText("\n\n");
 
-		DisplayText("The frantic face-humping comes to a final, explosive end with an eruption of stringy seed falling into your already-full belly.  This beast-man withdraws coolly.  He pulls out quickly enough that the bulk of his cum is added to your frosted face and " + HeadDescriptor.describeHair(player) + ".  Much of it falls down to soak your " + Desc.Breast.describeChest(character) + " and huge, pregnant belly.  You look more like a creme-covered doughnut than a person at this point, and you nearly climax from the mental picture of your huge, pregnant form lying in a puddle of minotaur goo while the beast-men use your face as a cum-receptacle.\n\n");
+		DisplayText("The frantic face-humping comes to a final, explosive end with an eruption of stringy seed falling into your already-full belly.  This beast-man withdraws coolly.  He pulls out quickly enough that the bulk of his cum is added to your frosted face and " + Desc.Head.describeHair(player) + ".  Much of it falls down to soak your " + Desc.Breast.describeChest(character) + " and huge, pregnant belly.  You look more like a creme-covered doughnut than a person at this point, and you nearly climax from the mental picture of your huge, pregnant form lying in a puddle of minotaur goo while the beast-men use your face as a cum-receptacle.\n\n");
 
 		DisplayText("\"<i>You've got a nice tight throat, Mom... for a whore,</i>\" says the minotaur as he steps back.  You beam in happiness from the tone of praise in his voice, too high to register the insult for what it really is.  A moment later you forget even that, as the next dick is pressed between your lips.  ");
 		//(short) 
@@ -490,14 +490,14 @@
 		player.stats.cor += 1;
 		player.slimeFeed();
 		player.minoCumAddiction(15);
-		if (Game.inCombat) cleanupAfterCombat();
+		if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
 		else return { next: Scenes.camp.returnToCampUseEightHours };
 	}
 
 	//*[Loss Anal And BJ Spearing, Somewhat Preg?] (feels almost the same as the standard loss, added a demi-scene for nipcunts) (otherwise, edited)
 	//SEMI PREG
 	//> 120 && <= 216
-	private analSpearSemiPregMinotaurGangbang(): void {
+	private analSpearSemiPregMinotaurGangbang() {
 		DisplaySprite(94);
 		DisplayText("\"<i>Hey, check this out, Mom's a little pregnant,</i>\" quips your second-born son, letting his muscular digits play across the growing bulge on your belly.\n\n");
 
@@ -518,17 +518,17 @@
 
 		DisplayText("That wonderful, salty-sweet, ooey-gooey taste hits your tongue, promising your taste-buds a trip into heaven and sending your tongue to a wagging, licking frenzy.  The drugged-up pre-spooge slops around your mouth, relaxing your throat to let more and more of that bestial prick violate your throat.  Three bumps of prepuce bounce through your lips as inches more slide down your gullet, and a perverse, confused part of your mind hopes that whatever you birth is enjoying the coming high as much as you.  Looking forward, you get to see the beast-man's taut, fur-covered musculature coming closer until your nose is nuzzling the thick fuzz.  Heavy, grapefruit sized-orbs press against your chin, and you realize that bloated horse-cock is completely inside you, pulsing happily while the heavy balls churn and bounce against you.\n\n");
 
-		DisplayText("\"<i>Fuck ma, how do you keep your throat so tight and still swallow dick like a pro?</i>\" queries the voice of your current oral fixation, while his heavy fingers slide through your " + HeadDescriptor.describeHair(player) + ".  You're too busy licking the heavenly shaft, feeling the urethra bulge with each dollop of aphrodisiac it releases into your hungry stomach.  The stud's fingers twist your hair, just barely painfully, drawing you out of your drug-seeking daze long enough to make a gurgling noise of assent.  Smirking, the minotaur hollers, \"<i>Come on, somebody take her ass already.  ");
+		DisplayText("\"<i>Fuck ma, how do you keep your throat so tight and still swallow dick like a pro?</i>\" queries the voice of your current oral fixation, while his heavy fingers slide through your " + Desc.Head.describeHair(player) + ".  You're too busy licking the heavenly shaft, feeling the urethra bulge with each dollop of aphrodisiac it releases into your hungry stomach.  The stud's fingers twist your hair, just barely painfully, drawing you out of your drug-seeking daze long enough to make a gurgling noise of assent.  Smirking, the minotaur hollers, \"<i>Come on, somebody take her ass already.  ");
 		if (!player.minotaurAddicted()) DisplayText("We've got to get mom so high on us that she'll float back to her camp and come crawling back to us tomorrow.");
 		else DisplayText("We've gotta get mom her fix.");
 		DisplayText("  Then, we can try and hunt a succubus to make into our blowjob bitch.");
 		DisplayText("</i>\"\n\n");
 
-		DisplayText("\"<i>Sure thing bro,</i>\" answers the deep-voiced giant from behind you.  Two massive hands squeeze around your " + LowerBodyDescriptor.describeHips(player) + " raise your ");
+		DisplayText("\"<i>Sure thing bro,</i>\" answers the deep-voiced giant from behind you.  Two massive hands squeeze around your " + Desc.Hip.describeHips(player) + " raise your ");
 		if (player.torso.hips.legs.isTaur()) DisplayText("haunches");
-		else DisplayText(ButtDescriptor.describeButt(player));
-		DisplayText(" skyward, your back bowing from the sudden strain.  A wide, drippy tip butts up against your back-door, and though you had heard them talk about fucking your ass through your lusty daze, nothing could prepare you for the feeling of a hot, male member pushing at your pucker.  You relax your " + LegDescriptor.describeLegs(player) + " and feel your " + ButtDescriptor.describeButthole(character.torso.butt) + " loosen, slowly dilating to let the beast's slippery pre-cum inside your rectum.  Yet, even in the face of your complete submission, he holds back, letting you hang there in the air, panting around a cock and aching for greater levels of penetration.");
-		player.displayStretchButt(60, true, true, false);
+		else DisplayText(Desc.Butt.describeButt(player));
+		DisplayText(" skyward, your back bowing from the sudden strain.  A wide, drippy tip butts up against your back-door, and though you had heard them talk about fucking your ass through your lusty daze, nothing could prepare you for the feeling of a hot, male member pushing at your pucker.  You relax your " + Desc.Leg.describeLegs(player) + " and feel your " + Desc.Butt.describeButthole(character.torso.butt) + " loosen, slowly dilating to let the beast's slippery pre-cum inside your rectum.  Yet, even in the face of your complete submission, he holds back, letting you hang there in the air, panting around a cock and aching for greater levels of penetration.");
+		Mod.Butt.displayStretchButt(player, 60, true, true, false);
 		DisplayText("\n\n");
 
 		DisplayText("A voice like an avalanche laughs uproariously, \"<i>Look at her squirm!  Okay Mom, hold your horses.</i>\"\n\n");
@@ -539,9 +539,9 @@
 
 		DisplayText("The snarling growl from behind you seems to shake your very frame.  \"<i>Shut up, bitch.  I'm fucking you after her.</i>\"\n\n");
 
-		DisplayText("Humming on your son's cock, you let the taunts wash over you, barely registering as you suck off your progeny.  The blissful, half-drugged heaven you've been riding in shudders and vanishes with a burst of explosive pain from your " + ButtDescriptor.describeButthole(character.torso.butt) + ", the orifice feeling like it's been ripped in two by a massive intrusion.  You howl and moan between the double, dick-shaped skewers now impaling your pregnant form, slowly getting used to the feeling of being utterly anally filled.\n\n");
+		DisplayText("Humming on your son's cock, you let the taunts wash over you, barely registering as you suck off your progeny.  The blissful, half-drugged heaven you've been riding in shudders and vanishes with a burst of explosive pain from your " + Desc.Butt.describeButthole(character.torso.butt) + ", the orifice feeling like it's been ripped in two by a massive intrusion.  You howl and moan between the double, dick-shaped skewers now impaling your pregnant form, slowly getting used to the feeling of being utterly anally filled.\n\n");
 
-		DisplayText("As you adapt to the situation, you find yourself starting to enjoy yourself, and you return your tongue to slathering a fat cock with spit.  You're being held aloft by two huge, strong beast-men and completely stuffed from both ends, with pre-cum pooling into your digestive tract from both ends.  You should be terrified.  You should be mad.  You should be worried about what they're going to do to you.  Instead, you're wondering just how long it will be until you can get them cum inside you and empty their large, swollen balls.  The thought of being taken in such a way drives you wild with desires, making your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " ");
+		DisplayText("As you adapt to the situation, you find yourself starting to enjoy yourself, and you return your tongue to slathering a fat cock with spit.  You're being held aloft by two huge, strong beast-men and completely stuffed from both ends, with pre-cum pooling into your digestive tract from both ends.  You should be terrified.  You should be mad.  You should be worried about what they're going to do to you.  Instead, you're wondering just how long it will be until you can get them cum inside you and empty their large, swollen balls.  The thought of being taken in such a way drives you wild with desires, making your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " ");
 		if (player.torso.vaginas.get(0).wetness >= 5) DisplayText("squirt");
 		else if (player.torso.vaginas.get(0).wetness >= 4) DisplayText("slime");
 		else if (player.torso.vaginas.get(0).wetness >= 3) DisplayText("leak");
@@ -550,10 +550,10 @@
 		DisplayText(" girl-juice everywhere.\n\n");
 
 		//(nipcunts) 
-		if (player.torso.chest.hasFuckableNipples()) {
-			DisplayText("Probing hands grasp your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s, exploring their surface.  Thin, feminine fingers slip inside your nippleholes, and a whispered exclaimation reaches your ears from somewhere below your brutally fucked form.\n\n");
+		if (player.torso.chest.find(BreastRow.FuckableNipples)) {
+			DisplayText("Probing hands grasp your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s, exploring their surface.  Thin, feminine fingers slip inside your nippleholes, and a whispered exclaimation reaches your ears from somewhere below your brutally fucked form.\n\n");
 			DisplayText("\"<i>Oh, wow...</i>\" says the voice of the minitaur.  \"<i>I w-wonder if I could use this...</i>\"\n\n");
-			DisplayText("Sparing a glance downward, you see your smallest minotaur son looking furtively around for his brothers, a sheepishly guilty grin on his face as he touches his throbbing member with the hand not shoved halfway into your nipple.  He kneels down and points his cock upward, trying to guide it into your nipplecunt despite the violent heaving of your body as the two monstrous bull-men above rock you back and forth.  In one brief lull, he seizes his chance and jams his little flare into your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + ", almost immediately falling back onto his hands as the double-team gathers speed again and his cockhead is swirled and tweaked in your pendulating chest.\n\n");
+			DisplayText("Sparing a glance downward, you see your smallest minotaur son looking furtively around for his brothers, a sheepishly guilty grin on his face as he touches his throbbing member with the hand not shoved halfway into your nipple.  He kneels down and points his cock upward, trying to guide it into your nipplecunt despite the violent heaving of your body as the two monstrous bull-men above rock you back and forth.  In one brief lull, he seizes his chance and jams his little flare into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", almost immediately falling back onto his hands as the double-team gathers speed again and his cockhead is swirled and tweaked in your pendulating chest.\n\n");
 
 			DisplayText("\"<i>O-ohh,</i>\" he moans, louder than before.  \"<i>Amazing, mom... you're... just a-mazing.</i>\"\n\n");
 
@@ -564,29 +564,29 @@
 		}
 		//(Lactation, no nipcunts)
 		else if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) {
-			DisplayText("Wet lips clasp around a " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " and gently suck at it, drawing a small trickle of milk from your leaky tit.  ");
+			DisplayText("Wet lips clasp around a " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " and gently suck at it, drawing a small trickle of milk from your leaky tit.  ");
 			if (character.torso.chest.count * 2 === 2) DisplayText("Your ");
 			else DisplayText("An");
 			DisplayText("other lonely breast is grabbed by a softer, more feminine hand, and it's then that you realize you're being suckled by the runt of the litter, your minitaur son.  He caresses your milk-filled globes while he drinks from them, draining each as his big brothers start sawing their hips back and forth.  They use you like one of the strange two-person saws the lumberjacks back home had for cutting trees, and you love it.  The hungry, miniature minotaur drains one tit and moves onto the other, suckling intensely yet tenderly, cautious of hurting you even though his bigger kin seem intent on destroying their chosen orifices.\n\n");
 		}
 		//(No Lactate, no nipcunts) 
 		else {
-			DisplayText("Wet lips clasp around a " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " and gently suck at it, making it hard and puffy inside the warm, questing mouth.  ");
+			DisplayText("Wet lips clasp around a " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " and gently suck at it, making it hard and puffy inside the warm, questing mouth.  ");
 			if (character.torso.chest.count * 2 === 2) DisplayText("Your ");
 			else DisplayText("An");
-			DisplayText("other lonely breast is grabbed by a softer, more feminine hand, and it's then that you realize your nipples are being pleasured by the runt of your litter, the minitaur.  He caresses your " + Desc.Breast.describeChest(character) + " lovingly, running his fingers over your " + player.skinFurScales() + ".  Meanwhile, his big brothers start to saw their hips back and forth, rocking back and forth like a pair of lumberjacks back home, trying to cut down a tree with the two person-blades. The smallest son sucks and licks tenderly, not wanting to hurt you, even though his bigger kin seem intent on destroying two of your body's orifices.\n\n");
+			DisplayText("other lonely breast is grabbed by a softer, more feminine hand, and it's then that you realize your nipples are being pleasured by the runt of your litter, the minitaur.  He caresses your " + Desc.Breast.describeChest(character) + " lovingly, running his fingers over your " + Desc.Skin.skinFurScales(player) + ".  Meanwhile, his big brothers start to saw their hips back and forth, rocking back and forth like a pair of lumberjacks back home, trying to cut down a tree with the two person-blades. The smallest son sucks and licks tenderly, not wanting to hurt you, even though his bigger kin seem intent on destroying two of your body's orifices.\n\n");
 		}
 		DisplayText("You're bounced to and fro, utterly and completely fucked");
 		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 3 && player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) DisplayText(", your pregnant, milky tits swaying underneath you while they're suckled");
 		else DisplayText(", your hard, aching nipples sucked and licked as they sway beneath you");
-		DisplayText(".  More and more potent pre-cum is dribbling inside of you, and you start to feel like you're going numb.  From your head to your " + LowerBodyDescriptor.describeFeet(player) + ", you're awash in sensations of all kinds, yet denied the womanly fuck you so desire.  Your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " is clenching and juicing, the folds aching to be touched, licked and penetrated, yet you know there's no such release coming.  Confused, you try to wrap your dimming intellect around the situation, and you realize that even though you're being used like a sex-toy, you're getting special treatment due to your pregnancy.  You feel like some domestic breeding animal, restrained and unable to properly fuck, forced to gain enjoyment from every available source.  \"<i>Here it comes; swallow it all, you pregnant sow!</i>\" exclaims the bull in your mouth.  His cock thickens, seeming to double in size to your confused, oxygen-starved consciousness.  The flare stretches your esophagus painfully wide, and the whole trembling column pulses, dumping a thick glob of beast-jizz directly into your belly.  That tiny burst is nothing compared to the torrent that follows, filling your stomach with the drug-laced, aphrodisiac seed.  You get so horny from the spunky load that your pussy seems to drip and squirt and equal amount of lady-spunk from its sloppy folds");
+		DisplayText(".  More and more potent pre-cum is dribbling inside of you, and you start to feel like you're going numb.  From your head to your " + Desc.Leg.describeFeet(player) + ", you're awash in sensations of all kinds, yet denied the womanly fuck you so desire.  Your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " is clenching and juicing, the folds aching to be touched, licked and penetrated, yet you know there's no such release coming.  Confused, you try to wrap your dimming intellect around the situation, and you realize that even though you're being used like a sex-toy, you're getting special treatment due to your pregnancy.  You feel like some domestic breeding animal, restrained and unable to properly fuck, forced to gain enjoyment from every available source.  \"<i>Here it comes; swallow it all, you pregnant sow!</i>\" exclaims the bull in your mouth.  His cock thickens, seeming to double in size to your confused, oxygen-starved consciousness.  The flare stretches your esophagus painfully wide, and the whole trembling column pulses, dumping a thick glob of beast-jizz directly into your belly.  That tiny burst is nothing compared to the torrent that follows, filling your stomach with the drug-laced, aphrodisiac seed.  You get so horny from the spunky load that your pussy seems to drip and squirt and equal amount of lady-spunk from its sloppy folds");
 		if (player.torso.vaginas.get(0).wetness <= 3) DisplayText(", even though you're not usually that wet");
 		DisplayText(".  It feels so good that you start to shake and spasm, cumming and clenching from the spunky injection.\n\n");
 
-		DisplayText("With your " + ButtDescriptor.describeButthole(character.torso.butt) + " locking it down, the other, even bigger dick gives in and releases.  It's owner bellows and grunts like a beast, slamming his fur-girded hips against your " + ButtDescriptor.describeButt(player) + " with body-shaking force.  Your burble and gurgle in delight, not minding the semen back-filling your throat and boiling through your nose.  Gushing, your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " orgasms even without being touched.  Two fuzzy nut-sacks slowly deflate against your body, and by the time they've finished you look even more pregnant than before.  Your mind shuts down and you giggle dopily around the thick cock in your throat, dreaming your brain's too filled up with cum to work at anything besides being fucked.\n\n");
+		DisplayText("With your " + Desc.Butt.describeButthole(character.torso.butt) + " locking it down, the other, even bigger dick gives in and releases.  It's owner bellows and grunts like a beast, slamming his fur-girded hips against your " + Desc.Butt.describeButt(player) + " with body-shaking force.  Your burble and gurgle in delight, not minding the semen back-filling your throat and boiling through your nose.  Gushing, your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " orgasms even without being touched.  Two fuzzy nut-sacks slowly deflate against your body, and by the time they've finished you look even more pregnant than before.  Your mind shuts down and you giggle dopily around the thick cock in your throat, dreaming your brain's too filled up with cum to work at anything besides being fucked.\n\n");
 
 		DisplayText("Both poles slide out of you");
-		if (!player.torso.chest.hasFuckableNipples() && player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) DisplayText(", and the minitaur's lips disentangle from your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)));
+		if (!player.torso.chest.find(BreastRow.FuckableNipples) && player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) DisplayText(", and the minitaur's lips disentangle from your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)));
 		DisplayText(".  Hands gently lower you to the ground");
 		if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] >= 5) DisplayText(", but you're positioned with your ass in the air.  A voice calls out, \"<i>Okay, Mom's pretty out of it.  One at a time and don't damage her, okay?</i>\"\n\nGiggling dreamily, you're fucked repeatedly, spunk squirting from your anus with every thrust.  You pass out like that, feeling quite satisfied.");
 		else DisplayText(".  They step back and admire their handiwork while you float through your narcotic-infused haze.");
@@ -598,13 +598,13 @@
 		player.stats.cor += 1;
 		player.slimeFeed();
 		player.minoCumAddiction(15);
-		if (Game.inCombat) cleanupAfterCombat();
+		if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
 		else return { next: Scenes.camp.returnToCampUseEightHours };
 	}
 
 
 	//*[Victory - Generic Text] 
-	internal function victoryMinotaurGang(): void {
+	internal function victoryMinotaurGang() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		//(HP) 
@@ -617,11 +617,11 @@
 		player.stats.lust += 1;
 		DisplayText("Your body is burning up, buzzing with growing lust from the obscenity going on a few feet away from you.  What do you do?");
 		//	[win options]
-		let getSuck: Function = null;
+		let getSuck;
 		if (player.torso.cocks.count > 0) getSuck = createCallBackFunction(forceMinitaurToGiveOral, 1);
-		let nipFuck: Function = null;
-		if (player.torso.chest.hasFuckableNipples()) nipFuck = victoryBJNippleFuckMinotaurGang;
-		let titFuck: Function = null;
+		let nipFuck;
+		if (player.torso.chest.find(BreastRow.FuckableNipples)) nipFuck = victoryBJNippleFuckMinotaurGang;
+		let titFuck;
 		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 6) titFuck = victoryMinotaurGangTitFuck;
 		choices("Gangbang", victoryAllThePenetrationsMinotaurGangBang,
 			"Tit-Fuck", titFuck, "Nipple-Fuck", nipFuck,
@@ -629,7 +629,7 @@
 			"Get Sucked", getSuck, "Discipline", disciplineEldestMinotaurSon, "", null, "", null, "", null, "Leave", cleanupAfterCombat);
 	}
 	//*[Victory Tit-Fuck] (for only the fattest of fat bitch titties) 
-	private victoryMinotaurGangTitFuck(): void {
+	private victoryMinotaurGangTitFuck() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		DisplayText("\"<i>Oh, boys,</i>\" you coo while you advance, hips swaying in a sinuous display of sexuality.  \"<i>I should have taught you some manners.</i>\"  You reach down and give the closest disobedient stud a tight squeeze between two of his rings of prepuce.  He grunts in pain while you watch the head become flared by the suddenly displaced blood.  You tease, \"<i>Now, I think it's time for some punishment.  Don't you think you deserve to be punished?</i>\"\n\n");
@@ -644,9 +644,9 @@
 		else if (player.torso.hips.legs.isGoo()) DisplayText("into your gooey undercarriage");
 		else if (player.torso.hips.legs.isNaga()) DisplayText("into the coils of your tail");
 		else DisplayText("INTO YOUR ERROR: UNCLASSIFIED LOWER BODY");
-		DisplayText(" and open up your " + player.inventory.equipment.armor.displayName + " to expose your " + BreastDescriptor.describeAllBreasts(player) + " to the horny studs.  They approach hesitantly, at first fearing a cruel punishment.  You begin to bounce the pillowy masses up and down hypnotically, and they quickly forget their caution.  The bulls close in,  cocks streaming pre-cum down their heavy, many-ridged lengths.  You sniff at the slick shafts before licking your lips hungrily.  This is going to be fun.\n\n");
+		DisplayText(" and open up your " + player.inventory.equipment.armor.displayName + " to expose your " + Desc.Breast.describeAllBreasts(player) + " to the horny studs.  They approach hesitantly, at first fearing a cruel punishment.  You begin to bounce the pillowy masses up and down hypnotically, and they quickly forget their caution.  The bulls close in,  cocks streaming pre-cum down their heavy, many-ridged lengths.  You sniff at the slick shafts before licking your lips hungrily.  This is going to be fun.\n\n");
 
-		DisplayText("The first two 'boys' to get within arm's reach of you find themselves on the receiving ends of twin handjobs.  As they stamp their hooves in pleasure, they slowly get closer and closer, guided by your skilled, loving fingertips.  You coo in pleasure at sight of their leaky cocks, pulling them closer until they touch your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s and smear your chest with their needy pre-spunk.\n\n");
+		DisplayText("The first two 'boys' to get within arm's reach of you find themselves on the receiving ends of twin handjobs.  As they stamp their hooves in pleasure, they slowly get closer and closer, guided by your skilled, loving fingertips.  You coo in pleasure at sight of their leaky cocks, pulling them closer until they touch your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s and smear your chest with their needy pre-spunk.\n\n");
 
 		DisplayText("\"<i>Oh yes, you boys are so naughty.  Are you ready to be punished, my lusty, monstrous sons?</i>\" you moan.  They nod solemnly, worried about what you plan to do with their dicks, but too absorbed in the spectacle of your heaving chest to flee.  You smirk and drag the twin cocks over the jiggly, mountainous mounds atop your chest towards your canyon-like cleavage.  The two pulsating cocks meet moments before disappearing into that cocooning, motherly divide, and you can feel them pulse with every hammering heartbeat against your chest.\n\n");
 
@@ -654,11 +654,11 @@
 
 		DisplayText("They patiently hold still, knowing you've defeated them and truly could punish them if you wanted to.  You reward their obedience with a slow, circling lick around the closest cock's tip.  It spurts a heavy wad of thick pre on your tongue, and instead of devouring the heavenly fluid, you spit it back onto the glistening shafts. The mixture adds to the lubricant already dripping from the underswells of your chest. Their balls move and shift within their sacks, and you can see the swollen orbs roiling around as they prepare to disgorge.  These guys get so pent up without being able to masturbate; it must be hell for them.\n\n");
 
-		DisplayText("You press your hands into the sides of your " + Desc.Breast.describeBreastSize(character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating) + " to mash the flesh tightly about the two lucky penises.  The minotaurs moo in delight, immediately slicking your " + player.skinFurScales() + " with another huge wave of pre-cum, and before they can adjust to the tightness of your chest, you begin to drag your weighty love-cushions up... and finally down.  You stroke their completely-enveloped cocks languidly, enjoying the complete control and dominance it's giving you over your herd.  Trembling mightily, they fight their bodies to be still for you.  Such good boys.\n\n");
+		DisplayText("You press your hands into the sides of your " + Desc.Breast.describeBreastSize(character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating) + " to mash the flesh tightly about the two lucky penises.  The minotaurs moo in delight, immediately slicking your " + Desc.Skin.skinFurScales(player) + " with another huge wave of pre-cum, and before they can adjust to the tightness of your chest, you begin to drag your weighty love-cushions up... and finally down.  You stroke their completely-enveloped cocks languidly, enjoying the complete control and dominance it's giving you over your herd.  Trembling mightily, they fight their bodies to be still for you.  Such good boys.\n\n");
 
 		DisplayText("You reward the patient studs by increasing the tempo.  Up and down go the cock-swallowing tits, squelching noisily from constantly-dripping pre-cum that's raining onto the ground.  The trapped pricks pulse and bounce against each other while the perfect prison around them caresses and strokes their whole length at once.  They puff up slightly, thickening and pressing back at your tits, and you realize they're about to blow.\n\n");
 
-		DisplayText("Leaning forward to wrap your lips around one distended flare, you manage to give it a single lick before it erupts with cheek-puffing force.  You gulp down as much as you can, but then the next wave is stretching the cock between your tits and blasting against your dripping palate.  Cum squirts, backfills, and floods out your nose while you try to choke down the load, running back into your cleavage.  A few more mouth-flooding spurts push you completely off the cock, and you give up to swallow what you've got while it paints your " + HeadDescriptor.describeHair(player) + " and " + HeadDescriptor.describeFace(player) + " completely white.\n\n");
+		DisplayText("Leaning forward to wrap your lips around one distended flare, you manage to give it a single lick before it erupts with cheek-puffing force.  You gulp down as much as you can, but then the next wave is stretching the cock between your tits and blasting against your dripping palate.  Cum squirts, backfills, and floods out your nose while you try to choke down the load, running back into your cleavage.  A few more mouth-flooding spurts push you completely off the cock, and you give up to swallow what you've got while it paints your " + Desc.Head.describeHair(player) + " and " + Desc.Face.describeFace(player) + " completely white.\n\n");
 
 		DisplayText("There isn't even time to recover.  Before the first stud finishes soaking you, the second explodes into your neck.  Runnels of goo wash down the curvature of your mammaries, soaking you down to the abdomen in a creamy, seemingly endless cataract of spooge.  From time to time you lean down and lap at the fountaining spunk, eyes crossed from your slowly dimming mental capacity.  Nevertheless, you manage to keep your hands busy bouncing your tits up and down to prolong the cum-fountains. It isn't until the soft members are pulled from your motherly embrace that you realize they finished cumming moments ago.\n\n");
 
@@ -684,13 +684,13 @@
 
 			DisplayText("You nod dumbly and fall onto your side, giggling nonsensically at the bottle full of cum. How silly!  There's still so many dicks to drain, but you've forgotten how to stand up!  Big strong hands help you up and put another dick in your tits.  Yum!  The cock fucks them hard and fast until you get to have another mouthful of creamy semen.  You black out after that, though you're sure your tits and throat got stuffed and fucked at least once by each of the beast-men.  Even the minitaur got a second turn with your tits.\n\n");
 
-			DisplayText("You awaken in camp, still a little woozy and naked as the day you were born.  Your " + player.inventory.equipment.armor.displayName + " lies a few feet away.  Judging by how dizzy you are, it hasn't been long since your mountain tryst.  You wash the dried cum from your " + player.skinFurScales() + " and gear before you get dressed.  Wow... that was nice.");
+			DisplayText("You awaken in camp, still a little woozy and naked as the day you were born.  Your " + player.inventory.equipment.armor.displayName + " lies a few feet away.  Judging by how dizzy you are, it hasn't been long since your mountain tryst.  You wash the dried cum from your " + Desc.Skin.skinFurScales(player) + " and gear before you get dressed.  Wow... that was nice.");
 		}
 		//(SMALL) 
 		else {
 			DisplayText("There's only ");
 			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] === 3) DisplayText("one minotaur");
-			else DisplayText(num2Text(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] - 2) + " minotaurs");
+			else DisplayText(numToCardinalText(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] - 2) + " minotaurs");
 			DisplayText(" left for you to milk.  You remember you were punishing them, and with your drug-dulled mind, you're determined to finish it.  The fact that the act you're about to engage in is the farthest thing possible from punishment does not disturb your serene concentration in the slightest.  ");
 			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] === 3) DisplayText("You grab the minitaur's cock and drag the shy beast-man over your cum-slicked tits, wasting no time in burying the shaft in mommy's mammaries, where it belongs.");
 			else {
@@ -734,7 +734,7 @@
 		player.stats.cor += .5;
 		player.slimeFeed();
 		player.minoCumAddiction(15);
-		if (Game.inCombat) cleanupAfterCombat();
+		if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
 		else {
 			DisplayText("\n\n");
 			inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), Scenes.camp.returnToCampUseOneHour);
@@ -742,7 +742,7 @@
 	}
 
 	//*[Victory - Double/Triple penetration] 
-	private victoryAllThePenetrationsMinotaurGangBang(): void {
+	private victoryAllThePenetrationsMinotaurGangBang() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		DisplayText("Deciding you wanted the same thing as your sons, you strip out of your " + player.inventory.equipment.armor.displayName + " and instruct the horny, defeated minotaurs to shed what's left of their loincloths.  They obey");
@@ -751,41 +751,41 @@
 		DisplayText("  You saunter over to the closest cock and admire the twitching hardness of it, caressing the somewhat equine shaft with gentle touches as you position yourself squarely above it.\n\n");
 
 		DisplayText("It prods at your vulva as you sink down, smearing your outer lips with fragrant minotaur 'honey'.  The flared tip barely gains any traction at the gateway to your love canal.  You reach down and pull yourself wide, opening up as much as possible for your offspring's wonderful cock.  ");
-		if (player.vaginalCapacity() >= 60) DisplayText("It slips into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " with ease, nestling into your accommodating opening as if it were a second home.");
-		else if (player.vaginalCapacity() >= 40) DisplayText("It slips into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " ever so slowly, gradually widening your quim until it's able to handle its size.");
-		else DisplayText("It stretches your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " with painful force as it penetrates you, forcibly widening your quim until it's able to nestle its sheath against your vulva.");
+		if (player.vaginalCapacity() >= 60) DisplayText("It slips into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " with ease, nestling into your accommodating opening as if it were a second home.");
+		else if (player.vaginalCapacity() >= 40) DisplayText("It slips into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " ever so slowly, gradually widening your quim until it's able to handle its size.");
+		else DisplayText("It stretches your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " with painful force as it penetrates you, forcibly widening your quim until it's able to nestle its sheath against your vulva.");
 		DisplayText("  It pulsates wetly inside you with each beat of the minotaur's hammering heart.");
 		//(CUNT CHECK, REGISTER 4! And hymens are out of stock again!)
-		player.displayStretchVagina(60, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, 60, true, true, false);
 		DisplayText("\n\n");
 
 		DisplayText("You arch your back and wiggle your exposed rump in the air as you ask, \"<i>Now which of my sons wants to show Mommy how much they love her?</i>\"\n\n");
 
-		DisplayText("Within seconds a crowd has formed behind you.  Numerous hands squeeze and caress your " + ButtDescriptor.describeButt(player) + ", a few even daring to press at the tight ring of your " + ButtDescriptor.describeButthole(character.torso.butt) + ".  They jostle around a bit as they fight over the honor of penetrating your back door, but a winner is selected before you bore of the spectacle.  He grabs your " + ButtDescriptor.describeButt(player) + " in both hands to aid in his efforts to align his cock with your pucker, squeezing softly.\n\n");
+		DisplayText("Within seconds a crowd has formed behind you.  Numerous hands squeeze and caress your " + Desc.Butt.describeButt(player) + ", a few even daring to press at the tight ring of your " + Desc.Butt.describeButthole(character.torso.butt) + ".  They jostle around a bit as they fight over the honor of penetrating your back door, but a winner is selected before you bore of the spectacle.  He grabs your " + Desc.Butt.describeButt(player) + " in both hands to aid in his efforts to align his cock with your pucker, squeezing softly.\n\n");
 
 		DisplayText("The beast-man finally hits your anus with his tip and pushes forward.  ");
-		if (player.analCapacity() < 40) DisplayText("Your " + ButtDescriptor.describeButthole(character.torso.butt) + " is so tight that he's forced to push and release over and over.  The painful penetration drags on and on as he widens your hole to accept his monstrous cock.");
-		else if (player.analCapacity() < 60) DisplayText("Your " + ButtDescriptor.describeButthole(character.torso.butt) + " slowly widens to accept the cock that's being deposited into its depths.  You find yourself somewhat grateful that you've been stretched enough to prevent this from being painful.");
-		else DisplayText("Your " + ButtDescriptor.describeButthole(character.torso.butt) + " devours the cock easily.  The only thing even close to a tight fit is the feeling of your pucker being stretched at his very base.");
+		if (player.analCapacity() < 40) DisplayText("Your " + Desc.Butt.describeButthole(character.torso.butt) + " is so tight that he's forced to push and release over and over.  The painful penetration drags on and on as he widens your hole to accept his monstrous cock.");
+		else if (player.analCapacity() < 60) DisplayText("Your " + Desc.Butt.describeButthole(character.torso.butt) + " slowly widens to accept the cock that's being deposited into its depths.  You find yourself somewhat grateful that you've been stretched enough to prevent this from being painful.");
+		else DisplayText("Your " + Desc.Butt.describeButthole(character.torso.butt) + " devours the cock easily.  The only thing even close to a tight fit is the feeling of your pucker being stretched at his very base.");
 		DisplayText("  Balls gently come to rest against your taint.  You relish the feeling of being so exquisitely stuffed, those thick, ribbed shafts rubbing against each other through your holes, but something's missing.");
-		player.displayStretchButt(60, true, true, false);
+		Mod.Butt.displayStretchButt(player, 60, true, true, false);
 		DisplayText("\n\n");
 
-		DisplayText("While beginning to rock your hips, you ask, \"<i>Would any of you boys like to help Momma with her other hole?</i>\"  A dribbling dick appears before your face as if by magic.  You lick your lips as the smell of his pre-cum slowly overpowers your conscious thought and look up at the marvelous cock's owner as you open wide.  He plunges forward, sliding along your tongue as if it's a red carpet laid out for his use.  The dick buries itself into your throat, the leaking pre obliterating your gag reflex along the way. You put your hand on his belly to indicate he should remain still, and he reluctantly agrees, for now.  Deliberately, you rock your " + LowerBodyDescriptor.describeHips(player) + " up and down, fucking your sons' twin penises while the action works your throat up and down the dick in your mouth.");
-		if (player.torso.chest.hasFuckableNipples() && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] >= 4) DisplayText("  There's still more you could be doing.");
+		DisplayText("While beginning to rock your hips, you ask, \"<i>Would any of you boys like to help Momma with her other hole?</i>\"  A dribbling dick appears before your face as if by magic.  You lick your lips as the smell of his pre-cum slowly overpowers your conscious thought and look up at the marvelous cock's owner as you open wide.  He plunges forward, sliding along your tongue as if it's a red carpet laid out for his use.  The dick buries itself into your throat, the leaking pre obliterating your gag reflex along the way. You put your hand on his belly to indicate he should remain still, and he reluctantly agrees, for now.  Deliberately, you rock your " + Desc.Hip.describeHips(player) + " up and down, fucking your sons' twin penises while the action works your throat up and down the dick in your mouth.");
+		if (player.torso.chest.find(BreastRow.FuckableNipples) && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] >= 4) DisplayText("  There's still more you could be doing.");
 		DisplayText("\n\n");
 
 		//(Nipplefuck PG:)
-		if (player.torso.chest.hasFuckableNipples() && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) {
+		if (player.torso.chest.find(BreastRow.FuckableNipples) && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) {
 			if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) DisplayText("Milky lube");
 			else DisplayText("Lubricant");
-			DisplayText(" drips from your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s in sympathy with your packed pussy.  A wicked idea coalesces inside your lusty psyche as you ask, \"<i>Did you boys know about my OTHER pussies?  Why don't you try my breasts?</i>\"  ");
+			DisplayText(" drips from your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s in sympathy with your packed pussy.  A wicked idea coalesces inside your lusty psyche as you ask, \"<i>Did you boys know about my OTHER pussies?  Why don't you try my breasts?</i>\"  ");
 			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] === 4) DisplayText("One stud assembles next to ");
 			else if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] >= 5 && character.torso.chest.count * 2 === 2) DisplayText("Two studs assemble around ");
 			else {
 				let dicks: number = character.torso.chest.count * 2;
 				if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] - 3 < dicks) dicks = Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] - 3;
-				DisplayText(num2Text(dicks) + " studs assemble around ");
+				DisplayText(numToCardinalText(dicks) + " studs assemble around ");
 			}
 			DisplayText("you, watching your tits sway with the motion of your body.  ");
 			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] === 4) DisplayText("He excitedly fingers");
@@ -795,7 +795,7 @@
 			else DisplayText("They lick their fingers clean, and a moment later, cocks are spearing your nipples, disappearing deep into the tingling passages concealed within your chest.\n\n");
 		}
 		//Dicks)
-		if (player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeMultiCockSimpleOne(player, true) + " hangs limply on one of your boys' bellies, dribbling weakly at your need, but there's not any way for it to get involved in the crowd of orgiastic bodies.\n\n");
+		if (player.torso.cocks.count > 0) DisplayText(Desc.Cock.describeMultiCockSimpleOne(player, true) + " hangs limply on one of your boys' bellies, dribbling weakly at your need, but there's not any way for it to get involved in the crowd of orgiastic bodies.\n\n");
 
 		DisplayText("That's more like it - now that you're completely impaled in every way, the real fun can start!  You increase the speed of your body's movements, reveling in the absolute dominance and control you hold over your drug-dispensing offspring.  They leak and dribble as you fuck them hard and fast, occasionally reaching out to slap or spank one of them when they start to move.  You ride them like a set of living dildos, squelching noisily from every hole as you leak lube, spit, and pre-cum in equal measure. It's so hot and nasty");
 		if (player.stats.cor < 33) DisplayText(" that you cringe a little when you realize you're having an incestuous orgy, but the rising tide of minotaur-drug in your bloodstream washes the errant thought away.");
@@ -803,17 +803,17 @@
 		DisplayText("\n\n");
 
 		DisplayText("You hum in pleasure around the mass of meat in your mouth as the complete penetration of your body pushes you past your endurance and into the realm of bliss.  The hum rises in pitch and volume, turning into a squealing moan of pleasure.  Your body shakes, your pussy clenches, ");
-		if (player.torso.chest.hasFuckableNipples() && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) DisplayText("your nipples squirt, ");
+		if (player.torso.chest.find(BreastRow.FuckableNipples) && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) DisplayText("your nipples squirt, ");
 		DisplayText("and your ass squeezes down on the minotaur penis inside it all at once.  Overwhelmed by their slutty mother's thrashing form and constricting holes, ");
 		DisplayText("your sons grab you and take control, fucking you wildly.  You bounce around like a child's toy, utterly at the mercy of your muscular offspring.\n\n");
 
-		DisplayText("The one in your ass gets off first, basting your colon in his juices.  Narcotic spooge slops from your " + ButtDescriptor.describeButthole(character.torso.butt) + " as he overfills the poor rectal opening, but you get more than enough inside you to make you woozy and light-headed - as if your orgasm hadn't already.  Spunk erupts in your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " with equal fervor, packing itself into your womb with ");
+		DisplayText("The one in your ass gets off first, basting your colon in his juices.  Narcotic spooge slops from your " + Desc.Butt.describeButthole(character.torso.butt) + " as he overfills the poor rectal opening, but you get more than enough inside you to make you woozy and light-headed - as if your orgasm hadn't already.  Spunk erupts in your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " with equal fervor, packing itself into your womb with ");
 		DisplayText("incredible force.  You can feel the four balls behind you shrinking as their cargo empties into your pussy and ass, stuffing your hind-end.\n\n");
 
-		DisplayText("Flaring wide inside your throat, the minotaur cock in your mouth begins to cum as well, egged on by your shaking, orgasmic motions and the sight of your " + ButtDescriptor.describeButt(player) + " being so thoroughly stuffed.  Heavy globs of cum blast directly into your stomach, one after another, until you're completely packed. ");
-		if (player.torso.chest.hasFuckableNipples() && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) {
-			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) DisplayText("Meanwhile, your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s get a similar feeling from the studs arranged around them");
-			else DisplayText("Meanwhile, your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " gets a similar feeling from the stud pumping away at it");
+		DisplayText("Flaring wide inside your throat, the minotaur cock in your mouth begins to cum as well, egged on by your shaking, orgasmic motions and the sight of your " + Desc.Butt.describeButt(player) + " being so thoroughly stuffed.  Heavy globs of cum blast directly into your stomach, one after another, until you're completely packed. ");
+		if (player.torso.chest.find(BreastRow.FuckableNipples) && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) {
+			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 4) DisplayText("Meanwhile, your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s get a similar feeling from the studs arranged around them");
+			else DisplayText("Meanwhile, your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " gets a similar feeling from the stud pumping away at it");
 			DisplayText(", bloating your breasts up a whole bra-size from the cum injection.  ");
 		}
 		DisplayText("All of them pull out at once, leaving you to rub your distended belly and moan.  The ");
@@ -836,16 +836,16 @@
 		player.slimeFeed();
 		player.minoCumAddiction(20);
 		if (Game.inCombat)
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//*[Victory - Make minitaur oral (M/F/H)] 
-	private forceMinitaurToGiveOral(choice: number = 0): void {
+	private forceMinitaurToGiveOral(choice: number = 0) {
 		DisplayText().clear();
 		DisplaySprite(94);
-		DisplayText("You hastily remove the lower portions of your " + player.inventory.equipment.armor.displayName + " to expose your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
-		if (player.torso.cocks.count > 0) DisplayText(" and " + CockDescriptor.describeMultiCockShort(player));
+		DisplayText("You hastily remove the lower portions of your " + player.inventory.equipment.armor.displayName + " to expose your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
+		if (player.torso.cocks.count > 0) DisplayText(" and " + Desc.Cock.describeMultiCockShort(player));
 		DisplayText(" to the air.  The defeated ");
 		if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] < 20) DisplayText("mob");
 		else DisplayText("tribe");
@@ -866,9 +866,9 @@
 			//ELSE
 			else {
 				if (player.torso.balls.quantity > 0) DisplayText("lift your balls and ");
-				DisplayText("spread your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " wide with your fingers, exposing the glistening pinkness of your womanhood.");
+				DisplayText("spread your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " wide with your fingers, exposing the glistening pinkness of your womanhood.");
 			}
-			DisplayText("  Your " + VaginaDescriptor.describeClit(player) + " slowly peeks out from its hood");
+			DisplayText("  Your " + Desc.Vagina.describeClit(player) + " slowly peeks out from its hood");
 			if (player.torso.clit.length >= 8) DisplayText(", until the huge size of it is revealed.");
 			else if (player.torso.clit.length >= 3) DisplayText(", until the cock-like length of your feminine organ is revealed.");
 			else if (player.torso.clit.length >= 1) DisplayText(", until the large, womanly organ is revealed.");
@@ -880,11 +880,11 @@
 			else DisplayText("looking up at you longingly as he leans in towards your entrance.");
 			DisplayText("  He opens his mouth and hesitantly extends his tongue towards your womanhood.  It's clear he doesn't have much experience providing oral to the fairer sex.  Since you don't have much intention of staying in the mountains long, you grab him by his short little horns and pull him against your gash.\n\n");
 
-			DisplayText("Extending outward defensively, the minitaur's tongue slides into your vaginal opening with ease.  It's very, very long and extraordinarily wet.  His hot breath washes over your " + VaginaDescriptor.describeClit(player) + ", fogging the surrounding air as you press his bovine nose against your folds.  The difference in temperature between the coolness of his moist nose and the heat of his breath and tongue drives you wild.  The feminine beast-man adapts to his task with enthusiasm, hungrily lapping and sucking at your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+			DisplayText("Extending outward defensively, the minitaur's tongue slides into your vaginal opening with ease.  It's very, very long and extraordinarily wet.  His hot breath washes over your " + Desc.Vagina.describeClit(player) + ", fogging the surrounding air as you press his bovine nose against your folds.  The difference in temperature between the coolness of his moist nose and the heat of his breath and tongue drives you wild.  The feminine beast-man adapts to his task with enthusiasm, hungrily lapping and sucking at your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 			if (player.torso.clit.length < 3) DisplayText(", even sucking your clit into his mouth and running his tongue along its length.");
 			else DisplayText(", even stroking your clit in his hand in time with his licks.");
 
-			DisplayText("You begin to undulate your " + LowerBodyDescriptor.describeHips(player) + " into the minitaur's bestial muzzle, grinding and groaning in joy at the forced cunnilingus.  ");
+			DisplayText("You begin to undulate your " + Desc.Hip.describeHips(player) + " into the minitaur's bestial muzzle, grinding and groaning in joy at the forced cunnilingus.  ");
 			if (player.torso.clit.length >= 6) DisplayText("He jacks your huge clit like a cock, and the incredible stimulation is too much for you to take.");
 			else DisplayText("He sucks and licks your pussy and clit simultaneously, displaying hidden talent with his bovine tongue.  It's just too much for you to take!");
 			DisplayText("  You cum - hard, into the cow-boy's muzzle.  He laps at your juices enthusiastically - a natural born cunt-licker.");
@@ -894,14 +894,14 @@
 			else if (player.torso.vaginas.get(0).wetness >= 2) DisplayText("  Some of the fluids escape his mouth to run down his shaggy chin.");
 			else DisplayText("  All of your moistness is collected on his tongue and sucked into his mouth.");
 			DisplayText("  Your quivering cunt tries to milk the poor boy's tongue like a cock, actually pulling him harder against your fem-cum-slicked nether-lips while you climax.");
-			if (player.torso.cocks.count > 0) DisplayText("  Salty cum dribbles down his back from your spurting " + CockDescriptor.describeMultiCockShort(player) + ", the male part of you orgasming along in a perverse symphony with your girl-parts.\n\n");
+			if (player.torso.cocks.count > 0) DisplayText("  Salty cum dribbles down his back from your spurting " + Desc.Cock.describeMultiCockShort(player) + ", the male part of you orgasming along in a perverse symphony with your girl-parts.\n\n");
 		}
 		//(PENISCOCKSUCKERFUCK) 
 		else {
 			DisplayText("start sucking Mommy's hard cock.</i>\"  To emphasize your point, you ");
-			if (player.torso.hips.legs.isTaur()) DisplayText("flex your " + CockDescriptor.describeMultiCockShort(player) + " to slap against your belly.");
-			else DisplayText("stroke your " + CockDescriptor.describeMultiCockShort(player) + " with one hand.");
-			DisplayText("  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " ");
+			if (player.torso.hips.legs.isTaur()) DisplayText("flex your " + Desc.Cock.describeMultiCockShort(player) + " to slap against your belly.");
+			else DisplayText("stroke your " + Desc.Cock.describeMultiCockShort(player) + " with one hand.");
+			DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " ");
 			if (player.stats.lust < 50) DisplayText("grows hard");
 			else DisplayText("gets even harder");
 			DisplayText(" before his eyes, and the minotaur licks his lips reflexively, clearly enjoying the thought of fellating you.\n\n");
@@ -909,18 +909,18 @@
 			DisplayText("The girly 'monster' crawls forward, ");
 			if (player.torso.hips.legs.isTaur()) DisplayText("disappearing under your hind-legs as he attends to his newly commanded duty.");
 			else DisplayText("looking up at you longingly as he leans in towards " + Desc.Cock.describeMultiCockSimpleEach(character) + ".");
-			DisplayText("  His big brown eyes meet yours as he opens his muzzle and lets the full length of his tongue flop free.  It's roughly a foot and a half long fully extended, and " + CockDescriptor.describeMultiCockSimpleOne(player) + " twitches as you imagine what it must feel like.  Thankfully, he does not keep you waiting long.\n\n");
+			DisplayText("  His big brown eyes meet yours as he opens his muzzle and lets the full length of his tongue flop free.  It's roughly a foot and a half long fully extended, and " + Desc.Cock.describeMultiCockSimpleOne(player) + " twitches as you imagine what it must feel like.  Thankfully, he does not keep you waiting long.\n\n");
 
 			DisplayText("The serpent-like tongue snakes ");
-			if (player.torso.balls.quantity > 0) DisplayText("around your " + BallsDescriptor.describeSack(player) + " before curling ");
-			DisplayText("around the base of your " + CockDescriptor.describeMultiCockShort(player) + ".  It circles up ");
+			if (player.torso.balls.quantity > 0) DisplayText("around your " + Desc.Balls.describeSack(player) + " before curling ");
+			DisplayText("around the base of your " + Desc.Cock.describeMultiCockShort(player) + ".  It circles up ");
 			if (player.torso.cocks.count > 1) DisplayText("a");
 			else DisplayText("the");
-			DisplayText(" shaft before stopping at the frenulum.  The wet heat of his tongue seems to seep into your dick-flesh until you feels as if you could melt, but the minitaur is just getting started.  He opens wide and takes your " + player.cockHead() + " into his mouth; it rubs sensually over the remainder of flat tongue still inside, and he sucks expertly at it until you're drooling pre-cum on his tongue.  He shivers at that, but it doesn't make him ");
+			DisplayText(" shaft before stopping at the frenulum.  The wet heat of his tongue seems to seep into your dick-flesh until you feels as if you could melt, but the minitaur is just getting started.  He opens wide and takes your " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " into his mouth; it rubs sensually over the remainder of flat tongue still inside, and he sucks expertly at it until you're drooling pre-cum on his tongue.  He shivers at that, but it doesn't make him ");
 			if (!player.torso.hips.legs.isTaur()) DisplayText("break eye-contact or ");
 			DisplayText("slow down in the slightest.\n\n");
 
-			if (player.torso.vaginas.count > 0) DisplayText("Humming happily, the minitaur slips a digit inside your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", and while you didn't ask for it, the added stimulation only heightens your need.  ");
+			if (player.torso.vaginas.count > 0) DisplayText("Humming happily, the minitaur slips a digit inside your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", and while you didn't ask for it, the added stimulation only heightens your need.  ");
 			DisplayText("His circling, wiggling tongue slides up and down your length as he sucks on the tip, giving you a wondrous tongue-fuck");
 			if (player.torso.cocks.count > 1) {
 				DisplayText(" while he strokes ");
@@ -943,7 +943,7 @@
 
 			if (player.torso.vaginas.count > 0) {
 				if (player.torso.vaginas.get(0).wetness >= 5) DisplayText("  Your cunny squirts onto his chest throughout the ordeal.");
-				else if (player.torso.vaginas.get(0).wetness >= 3) DisplayText("  Your cunny drips everywhere, making a mess of your " + LegDescriptor.describeLegs(player) + ".");
+				else if (player.torso.vaginas.get(0).wetness >= 3) DisplayText("  Your cunny drips everywhere, making a mess of your " + Desc.Leg.describeLegs(player) + ".");
 			}
 			DisplayText("  The minitaur actually looks kind of cute with spooge puddled on his nose.\n\n");
 		}
@@ -952,12 +952,12 @@
 		player.orgasm();
 		player.stats.sens += -1;
 		if (Game.inCombat)
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//*[Victory- BJ + Nipplefucking] (boring, samey, not actually punishment again, could have been shoving very long nipples into urethras) (edited)
-	private victoryBJNippleFuckMinotaurGang(): void {
+	private victoryBJNippleFuckMinotaurGang() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		DisplayText("You pull down the top portion of your " + player.inventory.equipment.armor.displayName + " and shake your " + Desc.Breast.describeChest(character) + " back and forth.  \"<i>Would two of you strapping young lads like to play with your Mom's nipples?</i>\" you tease.  The minotaurs stir from their defeated poses with lust burning in their eyes as they rise and advance.  Giggling, you circle your areolae with your fingertip and moan lewdly, teasing the poor beasts until you tire of the stimulation and work a fingertip into ");
@@ -977,7 +977,7 @@
 		DisplayText("You smile and ");
 		if (player.tallness >= 72) DisplayText("drop down");
 		else DisplayText("shift position");
-		DisplayText(" to get your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s at a better angle, popping your fingers free of their slimy depths.  \"<i>Well, go on then,</i>\" you say with an expectant tone.  \"<i>Fuck them.</i>\"  The minotaurs do not disappoint.  Each of them takes one of your " + Desc.Breast.describeBreastSize(character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating) + " in their hands and presses their fat, flat tips against the slightly-gaped openings.  With ever-increasing pressure, they push their flares harder against the unyielding nipple-pussies, until at last they stretch the poor tit-cunts wide and dilate the inside of your mammaries.\n\n");
+		DisplayText(" to get your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s at a better angle, popping your fingers free of their slimy depths.  \"<i>Well, go on then,</i>\" you say with an expectant tone.  \"<i>Fuck them.</i>\"  The minotaurs do not disappoint.  Each of them takes one of your " + Desc.Breast.describeBreastSize(character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating) + " in their hands and presses their fat, flat tips against the slightly-gaped openings.  With ever-increasing pressure, they push their flares harder against the unyielding nipple-pussies, until at last they stretch the poor tit-cunts wide and dilate the inside of your mammaries.\n\n");
 
 		DisplayText("The sensation of those hot minotaur pricks stuffing your nipples as wide as a well-fucked pussy is heavenly.  You rock in place from the sloppy, pre-spurting penetration, watching ");
 		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating <= 2) DisplayText("a few inches");
@@ -990,12 +990,12 @@
 
 		DisplayText("You moan like a slut and caress your sons' gargantuan testes, loving every moment of it.  To your surprise, the two happily rutting minotaurs are parted by a third shaggy form.  The minitaur emerges from between them");
 		if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] >= 7) DisplayText(", chased by jeers from the remainder of your brood");
-		DisplayText(".  He shyly scratches at his head as he daintily lifts his loincloth, stiffing up until his erection is bobbing before your " + HeadDescriptor.describeFace(player) + ".  \"<i>Mom, could you... lick it please?  It hurts.</i>\"  You smirk and open wide, giving him a perfect view of your slowly-undulating tongue and glistening lips.\n\n");
+		DisplayText(".  He shyly scratches at his head as he daintily lifts his loincloth, stiffing up until his erection is bobbing before your " + Desc.Face.describeFace(player) + ".  \"<i>Mom, could you... lick it please?  It hurts.</i>\"  You smirk and open wide, giving him a perfect view of your slowly-undulating tongue and glistening lips.\n\n");
 
 		DisplayText("Your girlish minitaur son dives right in to your inviting maw.  His cock slides through your lips, over your tongue, and into the recesses of your throat with ease, leaving a trail of tingling pre-cum coating everything in its wake.  Even though the sudden appearance of your smallest child has forced your bigger offspring to shift, all it's done is pulled your shaking, violated breasts out to the sides in a lewd display of breast penetration.  The three pound away at you violently, humping to their own rhythms and making it impossible to focus on anything but the violent penetration.");
 		if (player.torso.cocks.count > 0) {
-			DisplayText("  " + CockDescriptor.describeMultiCockSimpleOne(player, true));
-			if (player.torso.vaginas.count > 0) DisplayText(" and " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " drool");
+			DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player, true));
+			if (player.torso.vaginas.count > 0) DisplayText(" and " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " drool");
 			else DisplayText(" drools");
 			DisplayText(" lamely inside your clothing, nearly forgotten in the sensory overload coming from your upper body.");
 		}
@@ -1014,7 +1014,7 @@
 		DisplayText("You stand up straight and stretch, cum pouring from your nipples.  The assembled minotaurs ");
 		if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] < 5) DisplayText("relax and fan themselves while giving you lusty looks");
 		else DisplayText("stare gloomily at the lucky three before turning to regard your form again with unrepentant lust");
-		DisplayText(".  You re-dress sensually, giving them as much of a show as you dare, not even bothering to wipe the cum-coating from your " + player.skinFurScales() + " before you finish slipping into your " + player.inventory.equipment.armor.displayName + " and depart.");
+		DisplayText(".  You re-dress sensually, giving them as much of a show as you dare, not even bothering to wipe the cum-coating from your " + Desc.Skin.skinFurScales(player) + " before you finish slipping into your " + player.inventory.equipment.armor.displayName + " and depart.");
 		player.orgasm();
 		player.stats.spe += -.5;
 		player.stats.int += -.5;
@@ -1023,18 +1023,18 @@
 		player.minoCumAddiction(10);
 		player.slimeFeed();
 		if (Game.inCombat)
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//Bad End Scene: 
 	//*Summary: Req's a ton of sons and the PC be addickted to minotaur spooge, also to have seen the random scene with a minotaur fucking a cowgirl in the mountains at least _ times. :3
-	private minotaurGangBadEnd(): void {
+	private minotaurGangBadEnd() {
 		DisplayText().clear();
 		DisplaySprite(94);
-		DisplayText("Slumping down to your knees, you look up at the crowd surrounding you.  There're dozens of horny, bestial figures, all of their bovine faces twisted into leering smiles at your state.   You can smell the thick musk in the air, hanging so heavily that it seems to fog your view.  Sniffing in great lungfuls of it, you slump back and let your " + LegDescriptor.describeLegs(player) + " spread out of their own accord, utterly revealing the folds of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " to the horny beast-men.  They cluster around you, their loincloths disappearing in a hurry in their rush to fuck their incestuous mother.  Images of all the other times you've been in a similar situation run through your head, the thoughts blurring together into a vision of one long, drug-fueled fuck.\n\n");
+		DisplayText("Slumping down to your knees, you look up at the crowd surrounding you.  There're dozens of horny, bestial figures, all of their bovine faces twisted into leering smiles at your state.   You can smell the thick musk in the air, hanging so heavily that it seems to fog your view.  Sniffing in great lungfuls of it, you slump back and let your " + Desc.Leg.describeLegs(player) + " spread out of their own accord, utterly revealing the folds of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " to the horny beast-men.  They cluster around you, their loincloths disappearing in a hurry in their rush to fuck their incestuous mother.  Images of all the other times you've been in a similar situation run through your head, the thoughts blurring together into a vision of one long, drug-fueled fuck.\n\n");
 
-		DisplayText("Giggling, you realize a scene much like that is about to happen to you all over again.  A dribble of fem-slime leaks out from your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " into the dry mountain dirt, showing your boys just how excited you are to be on the receiving end of their dripping horse-cocks.  \"<i>Come to Momma,</i>\" you coo, already slipping into a haze of musky cum-lust.\n\n");
+		DisplayText("Giggling, you realize a scene much like that is about to happen to you all over again.  A dribble of fem-slime leaks out from your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " into the dry mountain dirt, showing your boys just how excited you are to be on the receiving end of their dripping horse-cocks.  \"<i>Come to Momma,</i>\" you coo, already slipping into a haze of musky cum-lust.\n\n");
 
 		DisplayText("The answer is a chorus of booming laughs loud enough to make your ears ring.   Sweat-slicked muscles wrap around your slack, delirious form and heft you onto a strong shoulder.  A gentle voice as deep as the rumble of a rockslide says, \"<i>Come on, there's no sense in you staying away from us anymore.</i>\"  They're taking you away to who knows where, probably a village hidden deep in the mountains.  Idly, you wonder if there's even more of the sexy... strong... handsome bulls there to violate you.  Maybe they've got even bigger cocks than their brothers!  You sink so deeply into your fantasies at that point that the only outward hint of your consciousness is the occasional whimper and accompanying squirt of slime down the brute's back.\n\n");
 
@@ -1046,31 +1046,31 @@
 
 		DisplayText("You giggle.  Lazing around all day and getting to suck the cum from dozens of minotaurs all the time?  This is heaven.  Sure, you were supposed to be out there fighting the demons, but you kept letting the big, hairy beasts force themselves on you over and over, until you weren't even sure why you were resisting.  Now?  There's a dick with a drizzle of pre-cum leaking from the tip, just asking for you to slurp the cum out of it.  You'll stay anywhere if it means you get to suck it down and feel it exploding in your soaked nethers.\n\n");
 
-		DisplayText("Nodding, you give the poor boy a lick, gripping his swollen shaft in your hand as you reach down to undo your " + player.inventory.equipment.armor.displayName + ".  You jump when the only thing your fingers bump into is your own " + player.skinFurScales() + ".  It seems that during the journey here all your gear was removed from your body.  You're as naked as any of the other sluts in here!  At least your nudity will make it even easier for you to get the poor guy off.  Clothing yourself seems a wasted effort at this point.\n\n");
+		DisplayText("Nodding, you give the poor boy a lick, gripping his swollen shaft in your hand as you reach down to undo your " + player.inventory.equipment.armor.displayName + ".  You jump when the only thing your fingers bump into is your own " + Desc.Skin.skinFurScales(player) + ".  It seems that during the journey here all your gear was removed from your body.  You're as naked as any of the other sluts in here!  At least your nudity will make it even easier for you to get the poor guy off.  Clothing yourself seems a wasted effort at this point.\n\n");
 
 		DisplayText("Cupping the heavy, shuddering ball-sack in your hand, you stroke the small minotaur's trembling shaft, setting off shivers of pleasure each time your fingers rub over the sensitive skin of his dick's three medial ridges.  Teasingly, you circle your tongue around his flare a few times, catching the fresh drops of pre that roll from his urethral opening to funnel back into your mouth.  He gasps, clearly loving your touches and wanting to blow, but unable from a few licks and a handjob alone.  Sensing his need, you ram the flat, wide-spread tip of his dick through your lips and suck hard, fully engorging his flare while your spit soaks into his bestial skin.\n\n");
 
 		DisplayText("You give the tiny beast-man's heavy balls a loving squeeze and jerk back, letting the swollen dick pop out of your oral prison and hang there, wet with saliva.  Shaking with a need of your own, you rise and bend ");
 		if (!player.torso.hips.legs.isNaga()) DisplayText("over");
 		else DisplayText("back, snake-like");
-		DisplayText(" to present your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + "'s needy opening to the smallest of your sons.  It's all the invitation he needs.  The rigid tool between his thighs shoots forward, lodging the animalistic head in your well-lubricated opening and giving your sloppy lips a burst of exquisite pleasure.  Sliding forward, the magnificent minotaur tool buries itself in your sopping cunt as if it was meant to be there, its passage made easy by spit, potent mino-spunk, and your own liquid need.\n\n");
+		DisplayText(" to present your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + "'s needy opening to the smallest of your sons.  It's all the invitation he needs.  The rigid tool between his thighs shoots forward, lodging the animalistic head in your well-lubricated opening and giving your sloppy lips a burst of exquisite pleasure.  Sliding forward, the magnificent minotaur tool buries itself in your sopping cunt as if it was meant to be there, its passage made easy by spit, potent mino-spunk, and your own liquid need.\n\n");
 
 		DisplayText("The minitaur looks down at you with a thankful expression on his monstrous muzzle.  The image is only broken by the lusty way he lets his tongue hang from his mouth as he mounts you, a few drops of saliva falling as he forgets himself in the passion of taking you.  A tiny rivulet of his constant, dripping pre-seed escapes from around his girth as he pushes in, finally butting his tip at your cervix, the slack skin of his sheath seeming to caress your labia and clitoris.  You squeal in happiness, feeling warmth spread outward from your pussy as more of his essence dribbles inside of you.\n\n");
 
-		DisplayText("Already experiencing a pleasant buzz and tingle, you grab his hips and throw yourself against him, bouncing the both of you in the pillowy room, grunts and moans of passion teasing the other girls as you're fucked with wild abandon by one they crave.  Your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " is like a furnace of lust, the fires of need inside only growing hotter with every stroke of wonderful minotaur-cock.  Panting, the smallest of your beast-men does his best to fuck you, and though his member is nowhere near as large as his brother's swollen shafts, the thick, pent-up drugs he's dripping into your uterus are keeping you so close the edge.\n\n");
+		DisplayText("Already experiencing a pleasant buzz and tingle, you grab his hips and throw yourself against him, bouncing the both of you in the pillowy room, grunts and moans of passion teasing the other girls as you're fucked with wild abandon by one they crave.  Your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " is like a furnace of lust, the fires of need inside only growing hotter with every stroke of wonderful minotaur-cock.  Panting, the smallest of your beast-men does his best to fuck you, and though his member is nowhere near as large as his brother's swollen shafts, the thick, pent-up drugs he's dripping into your uterus are keeping you so close the edge.\n\n");
 
 		DisplayText("You feel like you're floating, cushioned in a bed of clouds with every nerve firing off nothing but pleasure and happiness.  There's a wet, slap-slap-slap nagging at you, but you close your eyes and forget it, letting your fingers play across your " + Desc.Breast.describeChest(character) + " to ");
-		if (player.torso.chest.hasFuckableNipples()) DisplayText("slide inside your nipple-cunts and finger your chest pussies in a small approximation of what's happening below.");
+		if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("slide inside your nipple-cunts and finger your chest pussies in a small approximation of what's happening below.");
 		else if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) DisplayText("tug and pull at your drippy nipples, releasing thick flows of creamy milk.");
 		else DisplayText("tug at your achy nipples.");
-		DisplayText("  Moaning like a whore, you gasp and pant under your bovine lover, lost to the world and nearly screaming in delight each time your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " contracts around its invader.  Your eyes roll back and you howl, finally obtaining the climax you've desired.  The knowledge that it's your son's rough fucking that's getting you off only makes the orgasm stronger.  Realizing you'll never leave this place, you accept your fate and let your body tell you what to do, and for now, what it wants to do is keep cumming.\n\n");
+		DisplayText("  Moaning like a whore, you gasp and pant under your bovine lover, lost to the world and nearly screaming in delight each time your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " contracts around its invader.  Your eyes roll back and you howl, finally obtaining the climax you've desired.  The knowledge that it's your son's rough fucking that's getting you off only makes the orgasm stronger.  Realizing you'll never leave this place, you accept your fate and let your body tell you what to do, and for now, what it wants to do is keep cumming.\n\n");
 
 		DisplayText("The rhythmic contractions around his rod set off the minitaur.  His heavy balls bounce against your body as they churn and jiggle, pumping an obscene amount of cum through the thick cock lodged in your twat.  You can feel his flare straining at your cervix, the urethra pumping a torrent of spooge ");
 		if (player.pregnancyIncubation === 0) DisplayText("inside your empty womb");
 		else DisplayText("against the plugged entrance of your pregnant womb");
-		DisplayText(", releasing so much that a squirt of it escapes to run down your " + LegDescriptor.describeLeg(player) + ".  That was just the first spurt!  The second burst of semen fills every nook and cranny of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", your entrance turning to a frothy mess of white goo and slippery lady-spunk.  The pent-up pecker keeps flexing in orgasm, firing jet after jet of narcotic cream into your semen-spurting box, the pillows under you quickly soaking up the excess, addictive jizz.\n\n");
+		DisplayText(", releasing so much that a squirt of it escapes to run down your " + LegDescriptor.describeLeg(player) + ".  That was just the first spurt!  The second burst of semen fills every nook and cranny of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", your entrance turning to a frothy mess of white goo and slippery lady-spunk.  The pent-up pecker keeps flexing in orgasm, firing jet after jet of narcotic cream into your semen-spurting box, the pillows under you quickly soaking up the excess, addictive jizz.\n\n");
 
-		DisplayText("Your son sighs and slumps down, his cock slowly slipping from your abused vulva, escaping with a wet 'pop'.  A river of white rolls out of your body to further stain the room's furnishings.  You shudder from the sensation as a it triggers a series of tiny, miniature climaxes.  While you're lost to the pleasure, the minitaur departs with noticeably less bulge in his loincloth.  At the same time, the other girls crowd around you, scooping up what they can save of your boy's liquid love and shoveling it into their greedy, whorish maws.  The cow-girl industriously sets to work, using her massive tongue on your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " to scoop out every drop she can get.  You cum on her face, splattering her with spooge and your feminine moisture.  She smiles and kisses your still-sensitive clit, throwing you into a black-out inducing orgasm.");
+		DisplayText("Your son sighs and slumps down, his cock slowly slipping from your abused vulva, escaping with a wet 'pop'.  A river of white rolls out of your body to further stain the room's furnishings.  You shudder from the sensation as a it triggers a series of tiny, miniature climaxes.  While you're lost to the pleasure, the minitaur departs with noticeably less bulge in his loincloth.  At the same time, the other girls crowd around you, scooping up what they can save of your boy's liquid love and shoveling it into their greedy, whorish maws.  The cow-girl industriously sets to work, using her massive tongue on your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " to scoop out every drop she can get.  You cum on her face, splattering her with spooge and your feminine moisture.  She smiles and kisses your still-sensitive clit, throwing you into a black-out inducing orgasm.");
 		player.orgasm();
 		player.stats.int += -10;
 		player.stats.lib += 10;
@@ -1079,7 +1079,7 @@
 	}
 
 	//[Next]
-	private minotaurGangBadEnd2(): void {
+	private minotaurGangBadEnd2() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		DisplayText("<b>Some time later...\n</b>");
@@ -1088,13 +1088,13 @@
 
 		DisplayText("Today, they're leading all of you out into the center of town.  You can see a dozen stocks, one for each of you, with one left over.  Shrugging, you let yourself be lead up to them.  They haven't fucked any of you since you woke this morning, so you're sure whatever this ordeal is about, it's going to result in each of you getting to take a few loads in one of your holes.  If you're lucky, you'll get stuffed in all of them.\n\n");
 
-		DisplayText("Once you're stopped, you place your head and arms through the holes.  They've been lined with padded leather, much to your delight.  You give your " + ButtDescriptor.describeButt(player) + " a seductive wiggle, but all it earns you is a rough smack.  Moaning in mixture of disappointment and delight, you turn your head to watch the other girls take their place.  At the end of the line, the minitaur is blushing shamefully and allowing himself to be slotted into place.  The poor boy.  You try to tend to him whenever you can sneak a chance, but the others are always so rough on him.  With all the new members in the tribe, the current harem simply hasn't been big enough to satisfy them all.  It seems that for now, he's stuck being one of the girls.\n\n");
+		DisplayText("Once you're stopped, you place your head and arms through the holes.  They've been lined with padded leather, much to your delight.  You give your " + Desc.Butt.describeButt(player) + " a seductive wiggle, but all it earns you is a rough smack.  Moaning in mixture of disappointment and delight, you turn your head to watch the other girls take their place.  At the end of the line, the minitaur is blushing shamefully and allowing himself to be slotted into place.  The poor boy.  You try to tend to him whenever you can sneak a chance, but the others are always so rough on him.  With all the new members in the tribe, the current harem simply hasn't been big enough to satisfy them all.  It seems that for now, he's stuck being one of the girls.\n\n");
 
 		DisplayText("A hush settles over the crowd as they stand their, ogling the plump, juicy rumps of their loyal harem.  Those on the other side are tenting their loinclothes, eyeing the parted, drooling lips of their bitches.  A familiar, deep voice booms, \"<i>Fuck.</i>\"  Your eldest never was much for talking.\n\n");
 
 		DisplayText("As usual, the biggest, most potent members of the tribe are crowding around you, jockeying for the first go at one of your holes.  You try to say, \"<i>Be gentle boys, I'll take care of all of you.</i>\"  A cock silences you after the second syllable and turns your articulate speech into a slutty hum of satisfaction.  You lap the sweat from the underside of the shaft and relax your throat to let it enter deeper.  The cock twitches from your mouth's tightness, and you suck down hard, happy to pull a dollop of cream into your throat.  Musky fur tickles at your nose, and you realize you're already deepthroating his entire cock.  You can feel it stretching your throat, dilating your oral passage wider than it was ever meant to be.  It fills you in the most fantastic way, but at the same time, another of your orifices aches for something... anything... to push inside it.\n\n");
 
-		DisplayText("There's bickering behind you for a moment, accompanied by the sounds of fists striking flesh.  Thankfully, it dies down after a moment, the sounds of violence fading and swiftly being drowned out by the wet slurps of pussies devouring thick rods.  Your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " joins the chorus of liquid slurps with a messy squelch of its own.  Rivulets of pussy-juice slick down your " + LegDescriptor.describeLegs(player) + " and turn the dirt to mud below you.  With every pregnancy, your honey-pot has only gotten wetter.  ");
+		DisplayText("There's bickering behind you for a moment, accompanied by the sounds of fists striking flesh.  Thankfully, it dies down after a moment, the sounds of violence fading and swiftly being drowned out by the wet slurps of pussies devouring thick rods.  Your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " joins the chorus of liquid slurps with a messy squelch of its own.  Rivulets of pussy-juice slick down your " + Desc.Leg.describeLegs(player) + " and turn the dirt to mud below you.  With every pregnancy, your honey-pot has only gotten wetter.  ");
 		if (player.torso.vaginas.get(0).wetness >= 5) DisplayText("Sure, you were a squirter before, but now, you'll squirt a half-dozen times even before you orgasm.");
 		else DisplayText("Sure, you could get plenty wet before, but now, you'll be squirting and drizzling before you even orgasm.");
 		DisplayText("  The quim-soaked cock pulls out long enough to leave you wanting, then slides back home, setting a nice, fast pace for your fuck.\n\n");
@@ -1103,7 +1103,7 @@
 
 		DisplayText("Chemicals wick into your bloodstream, starting a chain reaction that makes your sopping, stuffed cunt squirt around its owner's cock and your head grow dizzy.  The swollen shaft in your mouth softens and withdraws, giving you the chance to scream, \"<i>Fuck, yes, fuck me boys!  Fuck Momma hard!</i>\"\n\n");
 
-		DisplayText("You're cut back off by an even bigger member just as the cunt-ravaging horse-cock stuffing your box explodes.  There's an immediate and familiar rush of euphoria, arousal, and fuzzy-headedness sweeping through you, making you giggle into the lip-stretching dick now gaping your mouth.  Your womb floods, your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " squirts, and your " + LegDescriptor.describeLegs(player) + " flop about lamely, as your body tries to cope with the onslaught of narcotic, orgasmic pleasure.  Pregnancy seems certain from that single stud's deposit.\n\n");
+		DisplayText("You're cut back off by an even bigger member just as the cunt-ravaging horse-cock stuffing your box explodes.  There's an immediate and familiar rush of euphoria, arousal, and fuzzy-headedness sweeping through you, making you giggle into the lip-stretching dick now gaping your mouth.  Your womb floods, your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " squirts, and your " + Desc.Leg.describeLegs(player) + " flop about lamely, as your body tries to cope with the onslaught of narcotic, orgasmic pleasure.  Pregnancy seems certain from that single stud's deposit.\n\n");
 
 		DisplayText("He's pulled back and replaced, and you wonder which of your boys is getting sloppy seconds.  Who cares, as long as you get to feel him cum in you until you go dizzy!");
 		player.orgasm();
@@ -1114,7 +1114,7 @@
 
 
 	//[Discipline Eldest]
-	private disciplineEldestMinotaurSon(): void {
+	private disciplineEldestMinotaurSon() {
 		DisplayText().clear();
 		DisplaySprite(94);
 		DisplayText("Your wayward sons thought that they could get the drop on you.  Their macho machismo blinded them to the fact that they were nowhere in your league.  You sigh as you realize they will probably try to coax you into fucking them next time.  What is a mother to do?  As you loom over their battered bodies, they look up to you with eyes full of longing and engorged, twitching dicks.  You return their gaze by cracking your knuckles, causing your brutish progeny to cringe in fear.  Scrambling to their hooves, they all begin to make a hasty retreat.  The largest of your minotaur sons trips over his own hooves in a desperate attempt to flee from his mother.  When he tries to get back up, you put your weight on him, holding him down.  He turns his head back, trembling at the sight of you standing on his tail.\n\n");
@@ -1129,17 +1129,17 @@
 
 		DisplayText("Dissatisfied with your son's response, you promptly smack the taste out of his mouth, reminding him who has the real power.  The force of the smack causes him to simper like the minitaur he no doubt abuses routinely.  Sometimes a mother has to give her son some tough love.\n\n");
 
-		DisplayText("After the slap, you quickly remove the lower portion of your " + player.inventory.equipment.armor.displayName + ", your son's wandering eyes meets your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  He's clearly pleased with what he sees; his equine-like cock twitches with approval and anticipation.  You certainly are not mother of the year; your womanhood glistens with sexual excitement.  Leaning down, you grab his chin with your right and force him to look you in the eyes.\n\n");
+		DisplayText("After the slap, you quickly remove the lower portion of your " + player.inventory.equipment.armor.displayName + ", your son's wandering eyes meets your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  He's clearly pleased with what he sees; his equine-like cock twitches with approval and anticipation.  You certainly are not mother of the year; your womanhood glistens with sexual excitement.  Leaning down, you grab his chin with your right and force him to look you in the eyes.\n\n");
 
 		DisplayText("\"<i>Your dick isn't getting any of mommy's pussy,</i>\" you coo to him, causing him to sink into despair.\n\n");
 
 		DisplayText("\"<i>I-I just wanted to show you how much I love you,</i>\" he said with a hint of honesty in his voice.\n\n");
 
-		DisplayText("\"<i>And wreck my pussy while you're at it?</i>\" you point out, remembering one of the comments said during battle.  Before he has the chance to come up with some half-baked excuse, you grab the bull by the horns and thrust his head forward, silencing him with your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  \"<i>If you want to show mommy how much you love her, then fuck my cunt with your tongue,</i>\" you demand.\n\n");
+		DisplayText("\"<i>And wreck my pussy while you're at it?</i>\" you point out, remembering one of the comments said during battle.  Before he has the chance to come up with some half-baked excuse, you grab the bull by the horns and thrust his head forward, silencing him with your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  \"<i>If you want to show mommy how much you love her, then fuck my cunt with your tongue,</i>\" you demand.\n\n");
 
-		DisplayText("The burly beast is clearly unaccustomed to pleasuring another.  His eyes glance back up to you in confusion, unsure of what he's supposed to do.  For a few moments, his snout is just pressed against your skin.  When you give him a disapproving gaze, he begins to lick you with fervor.  Your son has absolutely no finesse at all.  His broad tongue sloppily slurps all over your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  In between his vehement slurps, his cold snout unintentionally caresses you.  The cold sensation of his snout is quickly overwhelmed by the warmth of his breath and tongue.  Your body trembles from the unexpected pleasure your amateurish son provides.\n\n");
+		DisplayText("The burly beast is clearly unaccustomed to pleasuring another.  His eyes glance back up to you in confusion, unsure of what he's supposed to do.  For a few moments, his snout is just pressed against your skin.  When you give him a disapproving gaze, he begins to lick you with fervor.  Your son has absolutely no finesse at all.  His broad tongue sloppily slurps all over your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  In between his vehement slurps, his cold snout unintentionally caresses you.  The cold sensation of his snout is quickly overwhelmed by the warmth of his breath and tongue.  Your body trembles from the unexpected pleasure your amateurish son provides.\n\n");
 
-		DisplayText("Everything else is a foggy haze to your son.  You can see he has given himself up to pleasure you and nothing more.  His eyes are glazed over with lust, losing himself with each lick.  When you glance between your thighs, you can see his balls have swelled up to the size of beach balls!  His aching member throbs as pre-cum oozes from his exposed urethra. If you wanted, you could plunge your cunt down and relieve him, but that would defeat the purpose of the punishment.  Despite the cluelessness of his foreplay, his tongue against your shining lips feels fucking good!  With a smile, you caress your son, encouraging him to continue.  A sudden increase in his slurping is all that it takes for you to reach your peak.  Your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " spasms, drenching his mouth in your girl cum.  With increased zeal, he laps up as much of your sweet juices as he can.  Your running girl-cum eventually drips down to his aching member.  A cruel, cruel torture, your son whimpers as he's denied release.\n\n");
+		DisplayText("Everything else is a foggy haze to your son.  You can see he has given himself up to pleasure you and nothing more.  His eyes are glazed over with lust, losing himself with each lick.  When you glance between your thighs, you can see his balls have swelled up to the size of beach balls!  His aching member throbs as pre-cum oozes from his exposed urethra. If you wanted, you could plunge your cunt down and relieve him, but that would defeat the purpose of the punishment.  Despite the cluelessness of his foreplay, his tongue against your shining lips feels fucking good!  With a smile, you caress your son, encouraging him to continue.  A sudden increase in his slurping is all that it takes for you to reach your peak.  Your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " spasms, drenching his mouth in your girl cum.  With increased zeal, he laps up as much of your sweet juices as he can.  Your running girl-cum eventually drips down to his aching member.  A cruel, cruel torture, your son whimpers as he's denied release.\n\n");
 
 		DisplayText("Finished with your son, you push him on his back.  You have had enough of him, for now... If he dares to ambush you again, then you will be more than happy to discipline him again.  After getting dressed, you proceed to walk away.  Your last image of your son is the image of him futilely masturbating, but his cock is too thick and too numb for him to truly get off.  Profoundly amused, you leave the mountains and return to camp.");
 		player.orgasm();

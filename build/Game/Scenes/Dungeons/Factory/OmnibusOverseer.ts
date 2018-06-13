@@ -1,10 +1,10 @@
 export class OmnibusOverseer extends Monster {
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.omnibusVictoryEvent();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foe doesn't seem to care...");
 			return { next: game.endLustLoss };
@@ -13,7 +13,7 @@ export class OmnibusOverseer extends Monster {
 		}
 	}
 
-	private lustAura(): void {
+	private lustAura() {
 		DisplayText("The demoness blinks her eyes closed and knits her eyebrows in concentration.  The red orbs open wide and she smiles, licking her lips.   The air around her grows warmer, and muskier, as if her presence has saturated it with lust.");
 		if (statusAffects.has(StatusAffectType.LustAura)) {
 			DisplayText("  Your eyes cross with unexpected feelings as the taste of desire in the air worms its way into you.  The intense aura quickly subsides, but it's already done its job.");
@@ -25,7 +25,7 @@ export class OmnibusOverseer extends Monster {
 		game.combatRoundOver();
 	}
 
-	private milkAttack(): void {
+	private milkAttack() {
 		if (randInt(2) === 0)
 			DisplayText("The demoness grips her sizable breasts and squeezes, spraying milk at you.\n");
 		else DisplayText("Your foe curls up to pinch her nipples, tugging hard and squirting milk towards you.\n");
@@ -40,7 +40,7 @@ export class OmnibusOverseer extends Monster {
 			else {
 				DisplayText("The milk splashes into your " + player.inventory.equipment.armor.displayName + ", soaking you effectively.  ");
 				if (player.torso.cocks.count > 0) {
-					DisplayText("Your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " gets hard as the milk lubricates and stimulates it.  ");
+					DisplayText("Your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " gets hard as the milk lubricates and stimulates it.  ");
 					game.player.stats.lust += 5;
 				}
 				if (player.torso.vaginas.count > 0) {
@@ -49,7 +49,7 @@ export class OmnibusOverseer extends Monster {
 				}
 			}
 			game.dynStats("lus", 7 + player.stats.sens / 20);
-			if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 1) DisplayText("Milk dribbles from your " + BreastDescriptor.describeAllBreasts(player) + " in sympathy.");
+			if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 1) DisplayText("Milk dribbles from your " + Desc.Breast.describeAllBreasts(player) + " in sympathy.");
 		}
 		game.combatRoundOver();
 	}
@@ -80,7 +80,9 @@ export class OmnibusOverseer extends Monster {
 this.baseStats.tou = 45;
 this.baseStats.spe = 45;
 this.baseStats.int = 85;
-		initLibSensCor(80, 70, 80);
+		this.baseStats.lib = 80;
+this.baseStats.sens = 70;
+this.baseStats.cor = 80;
 		this.weaponName = "claws";
 		this.weaponVerb = "claw";
 		this.weaponAttack = 10;

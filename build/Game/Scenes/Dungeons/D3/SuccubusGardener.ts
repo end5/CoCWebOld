@@ -28,7 +28,9 @@ export class SuccubusGardener extends Monster {
 this.baseStats.tou = 60;
 this.baseStats.spe = 85;
 this.baseStats.int = 100;
-		initLibSensCor(85, 60, 100);
+		this.baseStats.lib = 85;
+this.baseStats.sens = 60;
+this.baseStats.cor = 100;
 
 		this.bonusHP = 600;
 
@@ -44,22 +46,22 @@ this.baseStats.int = 100;
 		statusAffects.add(StatusAffectType.TentagrappleCooldown, 10, 0, 0, 0);
 	}
 
-	private cleanupEffects(): void {
+	private cleanupEffects() {
 		if (player.findStatusAffect(StatusAffects.Tentagrappled)) player.statusAffects.remove("Tentagrappled");
 		if (player.findStatusAffect(StatusAffects.ShowerDotEffect)) player.statusAffects.remove("ShowerDotEffect");
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		cleanupEffects();
 		game.d3.succubusGardener.fuckUpTheGardener(hpVictory);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		cleanupEffects();
 		game.d3.succubusGardener.surrenderToTheGardener(hpVictory);
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		// The succubus gardener is a multistage fight. She starts off all but immune to lust damage. She has enough HP not to be one-shot and a heal move that takes priority over any stun. Once she is reduced to 60% HP, she either drinks from her tentacles or is force-fed by them (if stunned). This fully heals her but makes her 15% more vulnerable to lust.
 
 		// Also, the more turned on she gets, the more aggressive she gets.
@@ -108,7 +110,7 @@ this.baseStats.int = 100;
 		}
 	}
 
-	private vineHeal(): void {
+	private vineHeal() {
 		if (findStatusAffect(StatusAffects.VineHealUsed) < 0) {
 			statusAffects.add(StatusAffectType.VineHealUsed, 0, 0, 0, 0);
 		}
@@ -148,7 +150,7 @@ this.baseStats.int = 100;
 		this.lustVuln += 0.3;
 	}
 
-	private tentagrapple(): void {
+	private tentagrapple() {
 		statusAffects.add(StatusAffectType.TentagrappleCooldown, 10, 0, 0, 0);
 
 		//Used once every ten rounds
@@ -165,7 +167,7 @@ this.baseStats.int = 100;
 		}
 	}
 
-	public grappleStruggle(): void {
+	public grappleStruggle() {
 		DisplayText().clear();
 
 		let numRounds: number = player.statusAffects.get(StatusAffectType.Tentagrappled).value1;
@@ -195,13 +197,13 @@ this.baseStats.int = 100;
 		}
 	}
 
-	public grappleWait(): void {
+	public grappleWait() {
 		DisplayText().clear();
 
 		squeeze();
 	}
 
-	private squeeze(): void {
+	private squeeze() {
 		if (randInt(2) === 0) {
 			DisplayText("The vines encircling you squeeze you tighter, twisting and sliding across your [skinFurScales] as they press more tightly around you. It gets hard to breathe, but at the same time, some of them are inside your [armor], gliding across your most sensitive places with oiled ease that's made all the more arousing by the force behind it.");
 		}
@@ -215,7 +217,7 @@ this.baseStats.int = 100;
 		combatRoundOver();
 	}
 
-	private sicem(): void {
+	private sicem() {
 		DisplayText("Jiggling oh so pleasantly, the gardener twirls and points in your direction. <i>“Sic 'em, pets!”</i> There is no time for a retort, only a wave of unrelenting greenery lashing in your direction!");
 		//Ten very low damage attacks.
 		// Geddynote- opted to convert to a lust-inducing attack, because LITERALLY EVERYTHING ELSE she does is lust-based.
@@ -239,7 +241,7 @@ this.baseStats.int = 100;
 		}
 	}
 
-	private corruptiveShower(): void {
+	private corruptiveShower() {
 		DisplayText("The succubus lifts her hands up in the air, saying, <i>“Why not taste a sampling of the pleasures I offer?”</i> Above her, a canopy of corrupt, snarled greenery forms, oozing unmistakable sexual fluids - both male and female. Splatters of jism and pussy juice fall like curtains of corruptive rain, their scent lacing the air with their heady musk.");
 
 		if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
@@ -278,7 +280,7 @@ this.baseStats.int = 100;
 		}
 			else if (player.stats.lust < 80)
 		{
-			DisplayText("You whimper as the insidious plant-sperm works on your vulnerable " + player.skinDesc + ", building pernicious desires in tiny, insistent increments. It's getting harder to focus... harder not to think about how good all those tentacles would feel in you and on you, caressing your most intimate places.\n\n");
+			DisplayText("You whimper as the insidious plant-sperm works on your vulnerable " + player.skin.desc + ", building pernicious desires in tiny, insistent increments. It's getting harder to focus... harder not to think about how good all those tentacles would feel in you and on you, caressing your most intimate places.\n\n");
 		}
 			else if (player.stats.lust < 90)
 		{

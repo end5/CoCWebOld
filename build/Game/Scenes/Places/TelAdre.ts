@@ -26,10 +26,10 @@ class TelAdre {
 
     // const YVONNE_FUCK_COUNTER: number = 437;
 
-    public discoverTelAdre(): void {
+    public discoverTelAdre() {
         DisplayText().clear();
         if (!player.statusAffects.has(StatusAffectType.TelAdre)) {
-            DisplayText("The merciless desert sands grind uncomfortably under your " + LowerBodyDescriptor.describeFeet(player) + " as you walk the dunes, searching the trackless sands to uncover their mysteries.  All of a sudden, you can see the outline of a small city in the distance, ringed in sandstone walls.  Strangely it wasn't there a few moments before.  It's probably just a mirage brought on by the heat.  Then again, you don't have any specific direction you're heading, what could it hurt to go that way?");
+            DisplayText("The merciless desert sands grind uncomfortably under your " + Desc.Leg.describeFeet(player) + " as you walk the dunes, searching the trackless sands to uncover their mysteries.  All of a sudden, you can see the outline of a small city in the distance, ringed in sandstone walls.  Strangely it wasn't there a few moments before.  It's probably just a mirage brought on by the heat.  Then again, you don't have any specific direction you're heading, what could it hurt to go that way?");
             DisplayText("\n\nDo you investigate the city in the distance?");
         }
         else {
@@ -39,7 +39,7 @@ class TelAdre {
     }
 
     // player chose to approach the city in the distance
-    private encounterTelAdre(): void {
+    private encounterTelAdre() {
         DisplayText().clear();
         if (!player.statusAffects.has(StatusAffectType.TelAdre)) {
             DisplayText("You slog through the shifting sands for a long time, not really seeming to get that close.  Just when you're about to give up, you crest a large dune and come upon the walls of the city you saw before.  It's definitely NOT a mirage.  There are sandstone walls at least fifty feet tall ringing the entire settlement, and the only entrance you can see is a huge gate with thick wooden doors.  The entrance appears to be guarded by a female gray fox who's more busy sipping on something from a bottle than watching the desert.\n\n");
@@ -47,7 +47,7 @@ class TelAdre {
             DisplayText("\"<i>Hold it!</i>\" barks the fox, her dark gray fur bristling in suspicion at your sudden appearance, \"<i>What's your business in the city of Tel'Adre?</i>\"\n\n");
             DisplayText("You shrug and explain that you know nothing about this town, and just found it while exploring the desert.  The girl stares at you skeptically for a moment and then blows a shrill whistle.  She orders, \"<i>No sudden moves.</i>\"\n\n");
             DisplayText("Deciding you've nothing to lose by complying, you stand there, awaiting whatever reinforcements this cute vulpine-girl has summoned.  Within the minute, a relatively large-chested centauress emerges from a smaller door cut into the gate, holding a massive bow with an arrow already nocked.\n\n");
-            DisplayText("\"<i>What's the problem, Urta?  A demon make it through the barrier?</i>\" asks the imposing horse-woman.\n\nUrta the fox shakes her head, replying, \"<i>I don't think so, Edryn.  " + player.mf("He's", "She's") + " something else.  We should use the crystal and see if " + player.mf("he", "she") + "'s fit to be allowed entry to Tel'Adre.</i>\"\n\n");
+            DisplayText("\"<i>What's the problem, Urta?  A demon make it through the barrier?</i>\" asks the imposing horse-woman.\n\nUrta the fox shakes her head, replying, \"<i>I don't think so, Edryn.  " + Desc.Gender.mf(player, "He's", "She's") + " something else.  We should use the crystal and see if " + Desc.Gender.mf(player, "he", "she") + "'s fit to be allowed entry to Tel'Adre.</i>\"\n\n");
             DisplayText("You watch the big centaur cautiously as she pulls out a pendant, and approaches you.  \"<i>Hold still,</i>\" she says, \"<i>this will do you no harm.</i>\"\n\n");
             DisplayText("She places one hand on your shoulder and holds the crystal in the other.  Her eyes close, but her brow knits as she focuses on something.  ");
             telAdreCrystal();
@@ -59,7 +59,7 @@ class TelAdre {
     }
 
     // Alignment crystal goooooo
-    private telAdreCrystal(): void {
+    private telAdreCrystal() {
         if (!player.statusAffects.has(StatusAffectType.TelAdre)) player.statusAffects.add(StatusAffectType.TelAdre, 0, 0, 0, 0);
         //-70+ corruption, or possessed by exgartuan
         if (player.statusAffects.has(StatusAffectType.Exgartuan) || player.stats.cor >= 70) {
@@ -85,7 +85,7 @@ class TelAdre {
         return { next: telAdreTour };
     }
 
-    private telAdreTour(): void {
+    private telAdreTour() {
         player.changeStatusValue(StatusAffects.TelAdre, 1, 1);
         DisplayText().clear();
         kGAMECLASS.urta.urtaSprite();
@@ -100,7 +100,7 @@ class TelAdre {
         return { next: telAdreMenu };
     }
 
-    public telAdreMenu(): void {
+    public telAdreMenu() {
         if (Flags.list[FlagEnum.VALENTINES_EVENT_YEAR] < date.fullYear && player.torso.balls.quantity > 0 && player.torso.cocks.count > 0 && Flags.list[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] >= 4 && Flags.list[FlagEnum.TIMES_MET_SCYLLA_IN_ADDICTION_GROUP] > 0 && isValentine()) {
             kGAMECLASS.crazyVDayShenanigansByVenithil();
             return;
@@ -116,7 +116,7 @@ class TelAdre {
         switch (Flags.list[FlagEnum.KATHERINE_UNLOCKED]) {
             case -1:
             case 0: // Still potentially recruitable
-                if (Flags.list[FlagEnum.KATHERINE_RANDOM_RECRUITMENT_DISABLED] === 0 && player.stats.gems > 34 && randInt(25) === 0) {
+                if (Flags.list[FlagEnum.KATHERINE_RANDOM_RECRUITMENT_DISABLED] === 0 && player.inventory.gems > 34 && randInt(25) === 0) {
                     if (Flags.list[FlagEnum.KATHERINE_UNLOCKED] === 0)
                         katherine.ambushByVagrantKittyKats()
                     else katherine.repeatAmbushKatherineRecruitMent();
@@ -165,7 +165,7 @@ class TelAdre {
         telAdreMenuShow();
     }
 
-    public telAdreMenuShow(): void { // Just displays the normal Tel'Adre menu options, no special events, no description. Useful if a special event has already played
+    public telAdreMenuShow() { // Just displays the normal Tel'Adre menu options, no special events, no description. Useful if a special event has already played
         let homes: boolean = false;
         if (Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER] === -2 && kGAMECLASS.raphael.RaphaelLikes())
             homes = true;
@@ -175,7 +175,7 @@ class TelAdre {
             homes = true;
         else if (Flags.list[FlagEnum.ARIAN_PARK] >= 4 && !kGAMECLASS.arianScene.arianFollower())
             homes = true;
-        menu();
+        
         MainScreen.addButton(0, "Shops", armorShops);
         MainScreen.addButton(1, "Bakery", bakeryScene.bakeryuuuuuu);
         MainScreen.addButton(2, "Bar", enterBarTelAdre);
@@ -188,8 +188,8 @@ class TelAdre {
         MainScreen.addButton(9, "Leave", Scenes.camp.returnToCampUseOneHour);
     }
 
-    private armorShops(): void {
-        menu();
+    private armorShops() {
+        
         MainScreen.addButton(0, "Blacksmith", armorShop);
         MainScreen.addButton(1, "Piercing", piercingStudio);
         MainScreen.addButton(2, "Tailor", tailorShoppe);
@@ -201,10 +201,10 @@ class TelAdre {
         MainScreen.addButton(4, "Back", telAdreMenu);
     }
 
-    public houses(): void {
+    public houses() {
         DisplayText().clear();
         DisplayText("Whose home will you visit?");
-        let orphanage: Function = null;
+        let orphanage;
         if (Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER] === -2) {
             if (kGAMECLASS.raphael.RaphaelLikes()) {
                 orphanage = kGAMECLASS.raphael.orphanageIntro;
@@ -213,7 +213,7 @@ class TelAdre {
                 DisplayText("\n\nYou remember Raphael's offer about the Orphanage, but you might want to see about shaping yourself more to his tastes first.  He is a picky fox, after all, and you doubt he would take well to seeing you in your current state.");
             }
         }
-        menu();
+        
         if (Flags.list[FlagEnum.ARIAN_PARK] >= 4 && !kGAMECLASS.arianScene.arianFollower()) MainScreen.addButton(0, "Arian's", kGAMECLASS.arianScene.visitAriansHouse);
         MainScreen.addButton(1, "Orphanage", orphanage);
         if (kGAMECLASS.urtaPregs.urtaKids() > 0 && player.hasKeyItem("Spare Key to Urta's House") >= 0)
@@ -222,13 +222,13 @@ class TelAdre {
         MainScreen.addButton(9, "Back", telAdreMenu);
     }
 
-    private piercingStudio(): void {
+    private piercingStudio() {
         DisplaySprite(63);
-        let about: Function = null;
+        let about;
         if (!player.statusAffects.has(StatusAffectType.Yara)) about = aboutYara;
         DisplayText().clear();
         DisplayText("The interior of the piercing studio is earthy, leaving the stone floors and walls uncovered, though the windows are covered with woven blankets, sewn from multicolored threads.  There are a number of cushy chairs facing a wall of mirrors, along with a shelf covered in needles, piercings, and strong alcohols.  A brunette prowls about the place, tidying it up during a lull in business.  You dully notice that unlike everyone else in this town, she's mostly human.  Perhaps she came through a portal as well?  She approaches you, and you see a cat tail waving behind her, and a pair of fuzzy feline ears, both covered in piercings, perched atop her head.  Clearly she's been here long enough to pick up some of the local flavor.\n\n");
-        DisplayText("She introduces herself, \"<i>Hello there " + player.mf("sir", "cutie") + ", my name is Yara.  Would you like to get a piercing?</i>\"");
+        DisplayText("She introduces herself, \"<i>Hello there " + Desc.Gender.mf(player, "sir", "cutie") + ", my name is Yara.  Would you like to get a piercing?</i>\"");
         if (!Flags.list[FlagEnum.LOW_STANDARDS_FOR_ALL])
             MainScreen.simpleChoices(["Pierce", "Remove", "About Her", "", "Leave"], [pierceMenu, piercingRemove, about, null, telAdreMenu]);
         else {
@@ -246,7 +246,7 @@ class TelAdre {
                 "Leave", telAdreMenu);
         }
     }
-    private aboutYara(): void {
+    private aboutYara() {
         DisplaySprite(63);
         player.statusAffects.set(new StatusAffect("Yara", 0, 0, 0, 0));
         DisplayText().clear();
@@ -259,42 +259,42 @@ class TelAdre {
         player.stats.cor += -1;
         return { next: piercingStudio };
     }
-    private pierceMenu(): void {
+    private pierceMenu() {
         DisplaySprite(63);
         hideUpDown();
-        let clit: Function = null;
+        let clit;
         if (player.torso.vaginas.count > 0) {
             if (player.torso.vaginas.get(0).clitPierced === 0)
                 clit = clitPierce;
         }
-        let dick: Function = null;
+        let dick;
         if (player.torso.cocks.count > 0) {
             if (player.torso.cocks.get(0).pierced === 0)
                 dick = dickPierce;
         }
-        let ears: Function = null;
+        let ears;
         if (player.earsPierced === 0)
             ears = earPierce;
-        let eyebrow: Function = null;
+        let eyebrow;
         if (player.eyebrowPierced === 0)
             eyebrow = eyebrowPierce;
-        let lip: Function = null;
+        let lip;
         if (player.lipPierced === 0)
             lip = lipPierce;
-        let nipples: Function = null;
+        let nipples;
         if (player.nipplesPierced === 0)
             nipples = nipplePierce;
-        let nose: Function = null;
+        let nose;
         if (player.nosePierced === 0)
             nose = nosePierce;
-        let tongue: Function = null;
+        let tongue;
         if (player.tonguePierced === 0)
             tongue = tonguePierce;
-        let vulva: Function = null;
+        let vulva;
         if (player.torso.vaginas.count > 0) {
             if (player.torso.vaginas.get(0).labiaPierced === 0) vulva = vulvaPierce;
         }
-        DisplayText("Yara asks, \"<i>Ok then, what would you like pierced " + player.mf("sir", "cutie") + "?  Just keep in mind my piercings are special - they're permanent and CAN'T be removed.</i>\"", true);
+        DisplayText("Yara asks, \"<i>Ok then, what would you like pierced " + Desc.Gender.mf(player, "sir", "cutie") + "?  Just keep in mind my piercings are special - they're permanent and CAN'T be removed.</i>\"", true);
         if (clit != null || dick != null || ears != null || eyebrow != null || lip != null || nipples != null || nose != null || tongue != null || vulva != null)
             choices("Clit", clit, "Dick", dick, "Ears", ears, "Eyebrow", eyebrow, "Lip", lip, "Nipples", nipples, "Nose", nose, "Tongue", tongue, "Labia", vulva, "Back", piercingStudio);
         else {
@@ -303,7 +303,7 @@ class TelAdre {
         }
     }
 
-    private dickPierce(): void {
+    private dickPierce() {
         DisplaySprite(63);
         if (player.torso.cocks.count > 0) DisplayText("\"<i>Ok, this is gonna hurt a LOT, but I've heard good things about it.  What kind of piercing do you want done?</i>\" Yara asks.", true);
         else {
@@ -315,7 +315,7 @@ class TelAdre {
         piercingLoc = 1;
     }
 
-    private clitPierce(): void {
+    private clitPierce() {
         DisplaySprite(63);
         if (player.torso.vaginas.count > 0) DisplayText("\"<i>Ohhh, that's going to be suckably cute!</i>\" exclaims Yara, blushing more than a little. \"<i>What kind of piercing would you like?</i>", true);
         else {
@@ -327,48 +327,48 @@ class TelAdre {
         MainScreen.simpleChoices(["Stud", "Ring", "", "Back", "Nevermind"], [chooseStud, chooseRing, null, pierceMenu, piercingStudio]);
     }
 
-    private earPierce(): void {
+    private earPierce() {
         DisplaySprite(63);
         piercingLoc = 2;
         DisplayText("\"<i>Okay, just let me get my supplies and we can get started.  What kind of jewelry do you want in them?</i>\" asks Yara.", true);
         MainScreen.simpleChoices(["Stud", "Ring", "Hoop", "Back", "Nevermind"], [chooseStud, chooseRing, chooseHoop, pierceMenu, piercingStudio]);
     }
 
-    private eyebrowPierce(): void {
+    private eyebrowPierce() {
         DisplaySprite(63);
         piercingLoc = 3;
         DisplayText("\"<i>Ah, that's a good look!  What do you want there?</i>\" asks Yara.", true);
         MainScreen.simpleChoices(["Stud", "Ring", "", "Back", "Nevermind"], [chooseStud, chooseRing, null, pierceMenu, piercingStudio]);
     }
 
-    private lipPierce(): void {
+    private lipPierce() {
         DisplaySprite(63);
         piercingLoc = 4;
         DisplayText("\"<i>Oh my, that'll be HAWT!  What kind of jewelry do you want there?</i>\" asks Yara.", true);
         MainScreen.simpleChoices(["Stud", "Ring", "", "Back", "Nevermind"], [chooseStud, chooseRing, null, pierceMenu, piercingStudio]);
     }
 
-    private nipplePierce(): void {
+    private nipplePierce() {
         DisplaySprite(63);
         piercingLoc = 5;
         DisplayText("\"<i>Yeah, sure I can do those!  What kind of jewelry do you want there?  I'm partial to nipple-chains myself,</i>\" admits Yara, blushing bright red.", true);
         MainScreen.simpleChoices(["Studs", "Rings", "Chain", "Back", "Nevermind"], [chooseStud, chooseRing, chooseChain, pierceMenu, piercingStudio]);
     }
 
-    private nosePierce(): void {
+    private nosePierce() {
         DisplaySprite(63);
         piercingLoc = 6;
         DisplayText("Yara wrinkles her nose in distaste, \"<i>Really?  Well ok, what do you want there?</i>\"", true);
         MainScreen.simpleChoices(["Stud", "Ring", "", "Back", "Nevermind"], [chooseStud, chooseRing, null, pierceMenu, piercingStudio]);
     }
 
-    private tonguePierce(): void {
+    private tonguePierce() {
         DisplaySprite(63);
         piercingLoc = 7;
         DisplayText("Yara happily purrs, \"<i>Oh my, I bet that'll be fun!  I'm afraid I can only put a stud there though, ok?</i>\"", true);
         MainScreen.simpleChoices(["Ok", "", "", "Back", "Nevermind"], [chooseStud, null, null, pierceMenu, piercingStudio]);
     }
-    private vulvaPierce(): void {
+    private vulvaPierce() {
         DisplaySprite(63);
         piercingLoc = 8;
         if (player.torso.vaginas.count > 0) DisplayText("Yara explains, \"<i>This is gonna hurt a lot, but I think you'll love how it feels after.  I know I do!  Now what kind of jewelry do you want down-town?</i>\"", true);
@@ -379,89 +379,89 @@ class TelAdre {
         }
         MainScreen.simpleChoices(["Stud", "Ring", "", "Back", "Nevermind"], [chooseStud, chooseRing, null, pierceMenu, piercingStudio]);
     }
-    private chooseStud(): void {
+    private chooseStud() {
         piercingType = 1;
         chooseMaterials();
     }
-    private chooseRing(): void {
+    private chooseRing() {
         piercingType = 2;
         chooseMaterials();
     }
-    private chooseLadder(): void {
+    private chooseLadder() {
         piercingType = 3;
         chooseMaterials();
     }
-    private chooseHoop(): void {
+    private chooseHoop() {
         piercingType = 4;
         chooseMaterials();
     }
-    private chooseChain(): void {
+    private chooseChain() {
         piercingType = 5;
         chooseMaterials();
     }
 
-    private chooseMaterials(): void {
+    private chooseMaterials() {
         DisplaySprite(63);
         DisplayText("Yara gathers up her materials and says, \"<i>Ok, now what type of material do you want it made from?  Don't worry about price, none of these are that rare, so the piercing will only be 100 gems.  Though I do have some rarer materials; you'll need 1,000 gems to spend if you want to check them out.</i>\"", true);
-        if (player.stats.gems < 100) {
+        if (player.inventory.gems < 100) {
             DisplayText("\n\nYou realize you don't have enough gems to get a piercing.");
             return { next: piercingStudio };
             return;
         }
-        let rare: Function = null;
-        if (player.stats.gems >= 1000) rare = chooseAdvancedMaterials;
+        let rare;
+        if (player.inventory.gems >= 1000) rare = chooseAdvancedMaterials;
         choices("Amethyst", chooseAmethyst, "Diamond", chooseDiamond, "Gold", chooseGold, "Emerald", chooseEmerald, "Jade", chooseJade, "Onyx", chooseOnyx, "Ruby", chooseRuby, "Steel", chooseSteel, "Rare Menu", rare, "Nevermind", piercingStudio);
     }
-    private chooseAmethyst(): void {
+    private chooseAmethyst() {
         piercingMat = 1;
         areYouSure();
     }
-    private chooseDiamond(): void {
+    private chooseDiamond() {
         piercingMat = 2;
         areYouSure();
     }
-    private chooseGold(): void {
+    private chooseGold() {
         piercingMat = 3;
         areYouSure();
     }
-    private chooseEmerald(): void {
+    private chooseEmerald() {
         piercingMat = 4;
         areYouSure();
     }
-    private chooseJade(): void {
+    private chooseJade() {
         piercingMat = 5;
         areYouSure();
     }
-    private chooseOnyx(): void {
+    private chooseOnyx() {
         piercingMat = 6;
         areYouSure();
     }
-    private chooseRuby(): void {
+    private chooseRuby() {
         piercingMat = 7;
         areYouSure();
     }
-    private chooseSteel(): void {
+    private chooseSteel() {
         piercingMat = 8;
         areYouSure();
     }
-    private chooseLethite(): void {
+    private chooseLethite() {
         piercingMat = 9;
         areYouSure();
     }
-    private chooseFertite(): void {
+    private chooseFertite() {
         piercingMat = 10;
         areYouSure();
     }
-    private chooseFurrite(): void {
+    private chooseFurrite() {
         piercingMat = 11;
         areYouSure();
     }
-    private chooseCrimstone(): void {
+    private chooseCrimstone() {
         piercingMat = 12;
         areYouSure();
     }
 
-    private areYouSure(): void {
+    private areYouSure() {
         DisplaySprite(63);
         DisplayText("Yara says, \"<i>Ok, last chance to back out, are you sure you want to go ahead with this?  Remember, once I put it in, it's permanent.</i>\"", true);
         MainScreen.doYesNo(normalPierceAssemble, piercingStudio);
@@ -470,7 +470,7 @@ class TelAdre {
     // 10. Fertite (Fertility Booster)
     // 11. Furrite (Attracts Furries)
     // 12. Crimstone - + min lust
-    private chooseAdvancedMaterials(): void {
+    private chooseAdvancedMaterials() {
         DisplaySprite(63);
         DisplayText("Yara goes back into the back and comes out with a gilded tray full of exotic materials.  She hands you a brochure and asks, \"<i>Ok, now what am I going to be working with?</i>\"", true);
         DisplayText("\n\nThere's a number of materials listed here:");
@@ -482,7 +482,7 @@ class TelAdre {
         MainScreen.simpleChoices(["Lethite", "Fertite", "Furrite", "Crimstone", "Back"], [chooseLethite, chooseFertite, chooseFurrite, chooseCrimstone, chooseMaterials]);
     }
 
-    private normalPierceAssemble(): void {
+    private normalPierceAssemble() {
         DisplaySprite(63);
         DisplayText("Yara makes you comfortable and has you look away while she uses her piercing tools.  It hurts, but she's skilled and before you know it, your piercing is done!", true);
         // 1. Amethyst (+1 int, +1 lib)
@@ -501,8 +501,8 @@ class TelAdre {
         // let piercingMat:number = 0;
         let shortP: string = "";
         let longP: string = "";
-        player.stats.gems -= 100;
-        if (piercingMat > 8) player.stats.gems -= 900;
+        player.inventory.gems -= 100;
+        if (piercingMat > 8) player.inventory.gems -= 900;
         statScreenRefresh();
         // set up material description
         switch (piercingMat) {
@@ -756,30 +756,30 @@ class TelAdre {
         return { next: piercingStudio };
     }
 
-    private piercingRemove(): void {
+    private piercingRemove() {
         DisplaySprite(63);
         hideUpDown();
-        let clit: Function = null;
+        let clit;
         if (player.torso.vaginas.count > 0) {
             if (player.torso.vaginas.get(0).clitPierced > 0) clit = removeClitPierce;
         }
-        let dick: Function = null;
+        let dick;
         if (player.torso.cocks.count > 0) {
             if (player.torso.cocks.get(0).pierced > 0) dick = removeCockPierce;
         }
-        let ears: Function = null;
+        let ears;
         if (player.earsPierced > 0) ears = removeEarsPierce;
-        let eyebrow: Function = null;
+        let eyebrow;
         if (player.eyebrowPierced > 0) eyebrow = removeEyebrowPierce;
-        let lip: Function = null;
+        let lip;
         if (player.lipPierced > 0) lip = removeLipPierce;
-        let nipples: Function = null;
+        let nipples;
         if (player.nipplesPierced > 0) nipples = removeNipplesPierce;
-        let nose: Function = null;
+        let nose;
         if (player.nosePierced > 0) nose = removeNosePierce;
-        let tongue: Function = null;
+        let tongue;
         if (player.tonguePierced > 0) tongue = removeTonguePierce;
-        let vulva: Function = null;
+        let vulva;
         if (player.torso.vaginas.count > 0) {
             if (player.torso.vaginas.get(0).labiaPierced > 0) vulva = removeVulvaPierce;
         }
@@ -789,7 +789,7 @@ class TelAdre {
             return;
         }
         DisplayText("\"<i>Really?</i>\" asks Yara, \"<i>I told you those piercings are permanent!  Well, I suppose they CAN be removed, but you're gonna hurt like hell afterwards.  If you really want me to, I can remove something, but it'll cost you 100 gems for the painkillers and labor.</i>\"", true);
-        if (player.stats.gems < 100) {
+        if (player.inventory.gems < 100) {
             DisplayText("\n\n<b>You do not have enough gems.</b>");
             return { next: piercingStudio };
             return;
@@ -802,115 +802,115 @@ class TelAdre {
         choices("Clit", clit, "Dick", dick, "Ears", ears, "Eyebrow", eyebrow, "Lip", lip, "Nipples", nipples, "Nose", nose, "Tongue", tongue, "Labia", vulva, "Back", piercingStudio);
     }
 
-    private removeClitPierce(): void {
+    private removeClitPierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.torso.vaginas.get(0).clitPierced = 0;
         player.torso.vaginas.get(0).clitPShort = "";
         player.torso.vaginas.get(0).clitPLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeCockPierce(): void {
+    private removeCockPierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.torso.cocks.get(0).pierced = 0;
         player.torso.cocks.get(0).pShortDesc = "";
         player.torso.cocks.get(0).pLongDesc = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeEarsPierce(): void {
+    private removeEarsPierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.earsPierced = 0;
         player.earsPShort = "";
         player.earsPLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeEyebrowPierce(): void {
+    private removeEyebrowPierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.eyebrowPierced = 0;
         player.eyebrowPShort = "";
         player.eyebrowPLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeLipPierce(): void {
+    private removeLipPierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.lipPierced = 0;
         player.lipPShort = "";
         player.lipPLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeNipplesPierce(): void {
+    private removeNipplesPierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.nipplesPierced = 0;
         player.nipplesPShort = "";
         player.nipplesPLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeNosePierce(): void {
+    private removeNosePierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.nosePierced = 0;
         player.nosePShort = "";
         player.nosePLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeTonguePierce(): void {
+    private removeTonguePierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.tonguePierced = 0;
         player.tonguePShort = "";
         player.tonguePLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    private removeVulvaPierce(): void {
+    private removeVulvaPierce() {
         DisplaySprite(63);
         DisplayText("Yara gives you something to drink and you swiftly black out.  You awake about an hour later, sore and weak, though thankfully not bleeding.", true);
         player.torso.vaginas.get(0).labiaPierced = 0;
         player.torso.vaginas.get(0).labiaPShort = "";
         player.torso.vaginas.get(0).labiaPLong = "";
         player.stats.tou += -5;
-        player.stats.gems -= 100;
+        player.inventory.gems -= 100;
         statScreenRefresh();
         return { next: piercingStudio };
     }
 
-    public oswaldPawn(): void {
+    public oswaldPawn() {
         DisplaySprite(47);
         DisplayText().clear();
         if (!player.statusAffects.has(StatusAffectType.Oswald)) {
@@ -923,17 +923,17 @@ class TelAdre {
             player.statusAffects.set(new StatusAffect("Oswald", 0, 0, 0, 0)); )
         }
         else {
-            DisplayText("You see Oswald fiddling with a top hat as you approach his stand again.  He looks up and smiles, padding up to you and rubbing his furry hands together.  He asks, \"<i>Have any merchandise for me " + player.mf("sir", "dear") + "?</i>\"\n\n");
+            DisplayText("You see Oswald fiddling with a top hat as you approach his stand again.  He looks up and smiles, padding up to you and rubbing his furry hands together.  He asks, \"<i>Have any merchandise for me " + Desc.Gender.mf(player, "sir", "dear") + "?</i>\"\n\n");
             DisplayText("(You can sell an item here, but Oswald will not let you buy them back, so be sure of your sales.)");
         }
         if (player.hasKeyItem("Carrot") < 0 && Flags.list[FlagEnum.NIEVE_STAGE] === 3) {
             DisplayText("\n\nIn passing, you mention that you're looking for a carrot.\n\nOswald's tophat tips precariously as his ears perk up, and he gladly announces, \"<i>I happen to have come across one recently - something of a rarity in these dark times, you see.  I could let it go for 500 gems, if you're interested.</i>\"");
-            if (player.stats.gems < 500) {
+            if (player.inventory.gems < 500) {
                 DisplayText("\n\n<b>You can't afford that!</b>");
                 oswaldPawnMenu(); // eventParser(1065);
             }
             else {
-                menu();
+                
                 MainScreen.addButton(0, "Sell", oswaldPawnMenu);
                 MainScreen.addButton(1, "BuyCarrot", buyCarrotFromOswald);
             }
@@ -941,20 +941,20 @@ class TelAdre {
         else oswaldPawnMenu(); // eventParser(1065);
     }
 
-    private buyCarrotFromOswald(): void {
-        player.stats.gems -= 500;
+    private buyCarrotFromOswald() {
+        player.inventory.gems -= 500;
         statScreenRefresh();
         player.createKeyItem("Carrot", 0, 0, 0, 0);
         DisplayText().clear();
         DisplayText("Gems change hands in a flash, and you're now the proud owner of a bright orange carrot!\n\n(<b>Acquired Key Item: Carrot</b>)");
-        menu();
+        
         MainScreen.addButton(0, "Next", oswaldPawn);
     }
 
-    private oswaldPawnMenu(): void { // Moved here from Inventory.as
+    private oswaldPawnMenu() { // Moved here from Inventory.as
         DisplaySprite(47);
         DisplayText("\n\n<b><u>Oswald's Estimates</u></b>");
-        menu();
+        
         let totalItems: number = 0;
         for (let slot: number = 0; slot < 5; slot++) {
             if (player.itemSlots[slot].quantity > 0 && player.itemSlots[slot].itype.value >= 1) {
@@ -974,20 +974,20 @@ class TelAdre {
         MainScreen.addButton(9, "Back", telAdreMenu);
     }
 
-    private oswaldPawnSell(slot: number): void { // Moved here from Inventory.as
+    private oswaldPawnSell(slot: number) { // Moved here from Inventory.as
         DisplaySprite(47);
         const itemValue: number = int(player.itemSlots[slot].itype.value / 2);
         DisplayText().clear();
         if (itemValue === 0)
             DisplayText("You hand over " + player.itemSlots[slot].itype.longName + " to Oswald.  He shrugs and says, “<i>Well ok, it isn't worth anything, but I'll take it.</i>”");
-        else DisplayText("You hand over " + player.itemSlots[slot].itype.longName + " to Oswald.  He nervously pulls out " + num2Text(itemValue) + " gems and drops them into your waiting hand.");
+        else DisplayText("You hand over " + player.itemSlots[slot].itype.longName + " to Oswald.  He nervously pulls out " + numToCardinalText(itemValue) + " gems and drops them into your waiting hand.");
         player.itemSlots[slot].removeOneItem();
-        player.stats.gems += itemValue;
+        player.inventory.gems += itemValue;
         statScreenRefresh();
         return { next: oswaldPawn };
     }
 
-    private oswaldPawnSellAll(): void {
+    private oswaldPawnSellAll() {
         DisplaySprite(47);
         let itemValue: number = 0;
         DisplayText().clear();
@@ -997,8 +997,8 @@ class TelAdre {
                 player.itemSlots[slot].quantity = 0;
             }
         }
-        DisplayText("You lay out all the items you're carrying on the counter in front of Oswald.  He examines them all and nods.  Nervously, he pulls out " + num2Text(itemValue) + " gems and drops them into your waiting hand.");
-        player.stats.gems += itemValue;
+        DisplayText("You lay out all the items you're carrying on the counter in front of Oswald.  He examines them all and nods.  Nervously, he pulls out " + numToCardinalText(itemValue) + " gems and drops them into your waiting hand.");
+        player.inventory.gems += itemValue;
         statScreenRefresh();
         return { next: oswaldPawn };
     }
@@ -1009,12 +1009,12 @@ class TelAdre {
         button++;
         return button;
     }
-    private enterBarTelAdre(): void {
+    private enterBarTelAdre() {
         if (isThanksgiving()) kGAMECLASS.pigSlutRoastingGreet();
         else barTelAdre();
     }
 
-    public barTelAdre(): void {
+    public barTelAdre() {
         // Dominka & Edryn both persist their sprites if you back out of doing anything with them -- I
         // I guess this is good a place as any to catch-all the sprite, because I don't think theres ever a case you get a sprite from just entering the bar?
         DisplaySprite(-1);
@@ -1034,7 +1034,7 @@ class TelAdre {
         // Thanks to this function and edryn.edrynHeliaThreesomePossible() the bar menu will always display the same possible options until the game time advances.
         // So it's safe to return to this menu, Helia or Urta can't suddenly disappear or appear just from leaving and re-entering the bar.
 
-        menu();
+        
         // AMILY!
         if (Flags.list[FlagEnum.AMILY_VISITING_URTA] === 1) {
             button = anotherButton(button, "Ask4Amily", kGAMECLASS.followerInteractions.askAboutAmily);
@@ -1373,7 +1373,7 @@ class TelAdre {
     }
     */
 
-    public tailorShoppe(): void {
+    public tailorShoppe() {
         DisplayText().clear();
         DisplaySprite(61);
         DisplayText("The inside of the tailor's shop is far cleaner than anything else you've seen in the city.  The walls are painted muted gray, and the floor is carpeted with a sprawling, royal blue rug.  After glancing around, you realize WHY the walls and floor are so muted – the quiet backdrop makes the merchandise look even more amazing.  There are racks and racks of clothing, but much of it is plain comfortable clothing, and not worth spending much time investigating.  A high-pitched voice pipes up, \"<i>Can I help you?</i>\"\n\n");
@@ -1403,17 +1403,17 @@ class TelAdre {
             "Leave", telAdreMenu);
     }
 
-    private buyClothes(itype: ItemType): void {
+    private buyClothes(itype: ItemType) {
         DisplayText().clear();
         DisplaySprite(61);
         DisplayText("Victoria nods and pulls a measuring tape off her shoulder.  She moves around you with practiced ease, taking measurements from every conceivable angle.  Thanks to her small stature, it's quite easy for her to take your inseam measurement, though Vicky manages to ");
-        if (player.torso.cocks.biggestCocks[0].area > 30 || player.torso.cocks.count > 1) DisplayText("fondle your bulging package");
+        if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area > 30 || player.torso.cocks.count > 1) DisplayText("fondle your bulging package");
         else if (player.torso.vaginas.count > 0) DisplayText("rub against your outer lips");
         else DisplayText("slip a finger along your crotch");
         DisplayText(" more than a few times.  You could swear you catch her licking her lips when she stands up, but she quickly turns away, saying, \"<i>I've got one in the back that should fit perfectly!  Be right with you!</i>\"\n\n");
         DisplayText("She disappears in the back for a few moments, then returns with " + itype.longName + " that looks as if it were tailor-made for you.\n\n");
         DisplayText("\"<i>" + itype.value + " gems and it can be yours,</i>\" she says.  ");
-        if (player.stats.gems < itype.value) {
+        if (player.inventory.gems < itype.value) {
             DisplayText("You count out your gems and realize it's beyond your price range.");
             // Goto shop main menu
             return { next: tailorShoppe };
@@ -1425,24 +1425,24 @@ class TelAdre {
         else MainScreen.doYesNo(curry(debitClothes, itype), tailorShoppe);
     }
 
-    private debitClothes(itype: ItemType): void {
+    private debitClothes(itype: ItemType) {
         DisplaySprite(61);
-        player.stats.gems -= itype.value;
+        player.inventory.gems -= itype.value;
         statScreenRefresh();
         inventory.takeItem(itype, tailorShoppe);
     }
 
-    public armorShop(): void {
+    public armorShop() {
         DisplayText().clear();
         DisplaySprite(64);
         DisplayText("The interior of the armory is blisteringly hot, filled with intense heat from the massive forge dominating the far side of the shop.  The bellows are blowing hard as a tall german-shepherd woman works the forge.  Incredibly, she's wearing nothing aside from a ragged leather apron.  It bulges from the front, barely containing her obscene proportions as it protects them from the heat of her forge.  She pulls a piece of metal from the forge and strikes it a few times with a hammer bigger than your head, then tosses it in a bucket filled with water, steam boiling out of it from the hot metal.  At last, the sweating forgemistress notices you and turns around, her breasts jiggling wildly.\n\n", true);
         // DisplayText("\"<i>Vat can Yvonne make for you?  Ze platemail?  Or someting a bit lighter?</i>\" she asks you.");
         DisplayText("\"<i>What can I make for you?  Platemail?  Or something that breathes a little easier?</i>\" Yvonne asks, fanning herself.");
 
-        let egg: Function = null;
+        let egg;
         if (player.hasKeyItem("Dragon Eggshell") >= 0) {
             DisplayText("\n\nThough the pieces on display have their arguable attractions, none of them really interest you.  Yvonne taps her foot impatiently.  \"<i>Well, I could make you something to order... if you have any decent materials, cutie.  200 gems.</i>\"");
-            if (player.stats.gems < 200) {
+            if (player.inventory.gems < 200) {
                 DisplayText("\n\nYou can't afford that!");
             }
             else egg = kGAMECLASS.emberScene.getSomeStuff;
@@ -1456,7 +1456,7 @@ class TelAdre {
             "", null, "Eggshell", egg, "Flirt", yvonneFlirt, "Leave", telAdreMenu);
     }
 
-    public weaponShop(): void {
+    public weaponShop() {
         DisplayText().clear();
         DisplaySprite(80);
         DisplayText("The high pitched ring of a steel hammer slamming into hot metal assaults your ears as you walk up to the stand.  Sparks are flying with every blow the stand's owner strikes on his current work.  The metal is glowing red hot, and the hammer falls with the relentless, practiced precision of an experienced blacksmith's guiding hand.  Thick gray and white fur ruffles as the blacksmith stands up, revealing the details of his form to you.  He's one of the dog-people that inhabits this city, though his fur and ears remind you of a dog one of your friends had growing up called a husky.  The blacksmith is anything but husky.  He's fairly short, but lean and whip-cord tough.  His right arm is far more thickly muscled than his left thanks to his trade, and he walks with a self-assured gait that can only come with age and experience.\n\n");
@@ -1473,11 +1473,11 @@ class TelAdre {
             weapons.S_GAUNT.shortName, createCallBackFunction(weaponBuy, weapons.S_GAUNT),
             "", null, "Leave", telAdreMenu);
     }
-    private weaponBuy(itype: ItemType): void {
+    private weaponBuy(itype: ItemType) {
         DisplayText().clear();
         DisplaySprite(80);
         DisplayText("The gruff metal-working husky gives you a slight nod and slams the weapon down on the edge of his stand.  He grunts, \"<i>That'll be " + itype.value + " gems.</i>\"");
-        if (player.stats.gems < itype.value) {
+        if (player.inventory.gems < itype.value) {
             DisplayText("\n\nYou count out your gems and realize it's beyond your price range.");
             // Goto shop main menu
             return { next: weaponShop };
@@ -1487,18 +1487,18 @@ class TelAdre {
         // Go to debit/update function or back to shop window
         MainScreen.doYesNo(curry(debitWeapon, itype), weaponShop);
     }
-    private debitWeapon(itype: ItemType): void {
+    private debitWeapon(itype: ItemType) {
         DisplaySprite(80);
-        player.stats.gems -= itype.value;
+        player.inventory.gems -= itype.value;
         statScreenRefresh();
         inventory.takeItem(itype, weaponShop);
     }
-    private armorBuy(itype: ItemType): void {
+    private armorBuy(itype: ItemType) {
         DisplaySprite(64);
         DisplayText().clear();
         DisplayText("Yvonne gives you a serious look, then nods.  She pulls the armor off a rack and makes a few adjustments, banging away with her massive hammer to ensure a perfect fit.  The entire time, she's oblivious to the movements of her massive breasts, accidentally exposing her impressive nipples multiple times.\n\n");
         DisplayText("She finishes and turns to you, smiling broadly, \"<i>Now, that will be " + itype.value + " gems, unless you want to change your mind?</i>\"");
-        if (player.stats.gems < itype.value) {
+        if (player.inventory.gems < itype.value) {
             DisplayText("\n\nYou count out your gems and realize it's beyond your price range.");
             // Goto shop main menu
             return { next: armorShop };
@@ -1509,15 +1509,15 @@ class TelAdre {
         MainScreen.doYesNo(curry(debitArmor, itype), armorShop);
     }
 
-    private debitArmor(itype: ItemType): void {
+    private debitArmor(itype: ItemType) {
         DisplaySprite(64);
         DisplayText().clear();
-        player.stats.gems -= itype.value;
+        player.inventory.gems -= itype.value;
         statScreenRefresh();
         inventory.takeItem(itype, armorShop);
     }
 
-    private urtaIsABadass(): void {
+    private urtaIsABadass() {
         Flags.list[FlagEnum.PC_SEEN_URTA_BADASS_FIGHT] = 1;
         DisplayText().clear();
         DisplayText("There's a commotion in the streets of Tel'Adre.  A dense crowd of onlookers has formed around the center of the street, massed together so tightly that you're unable to see much, aside from the backs the other onlookers' heads.  The sound of blows impacting on flesh can be heard over the crowd's murmuring, alerting you of the fight at the gathering's core.");
@@ -1525,7 +1525,7 @@ class TelAdre {
     }
 
     // [Invetigate]
-    private watchUrtaBeABadass(): void {
+    private watchUrtaBeABadass() {
         DisplayText().clear();
         kGAMECLASS.urta.urtaSprite();
         DisplayText("You shoulder past the bulky centaurs, ignore the rough fur of the nearby wolves and hounds as it brushes against you, and press your way through to the center of the crowd.  Eventually the throng parts, revealing the embattled combatants.  A snarling wolf, nearly eight feet tall, towers over Urta.  The comparatively diminutive fox-woman is girded in light leather armor and dripping with sweat.  The larger wolf-man is staggering about, and his dark brown fur is matted with blood.\n\n");
@@ -1545,7 +1545,7 @@ class TelAdre {
         return { next: telAdreMenu };
     }
 
-    public gymDesc(): void {
+    public gymDesc() {
         // PREGGO ALERT!
         if (Flags.list[FlagEnum.PC_IS_A_GOOD_COTTON_DAD] + Flags.list[FlagEnum.PC_IS_A_DEADBEAT_COTTON_DAD] === 0 && cotton.pregnancy.isPregnant) {
             cotton.cottonPregnantAlert();
@@ -1566,7 +1566,7 @@ class TelAdre {
         if (Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0) DisplayText("10 gems an hour to use the facilities here, or 500 for a life-time membership.</i>\"  She has her hands on her hips, and it looks you'll have to pay ten gems to actually get to use any of this stuff.");
         else DisplayText("Oh, welcome back " + player.short + ".  Have a nice workout!</i>\"");
 
-        if (player.stats.gems < 10 && Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0) {
+        if (player.inventory.gems < 10 && Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0) {
             DisplayText("\n\n<b>You reach into your pockets for the fee and come up empty.  It looks like you don't have enough money to use the equipment or meet anyone.  Damn!</b>");
             // (back to tel'adre streets)
             return { next: telAdreMenu };
@@ -1580,18 +1580,18 @@ class TelAdre {
         gymMenu();
     }
 
-    private gymMenu(): void {
+    private gymMenu() {
 
-        let membership: Function = null;
-        let cotton2: Function = null;
+        let membership;
+        let cotton2;
         let cottonB: string = "Horsegirl";
-        let hyena: Function = null;
+        let hyena;
         let hyenaB: string = "Hyena";
-        let ifris2: Function = null;
+        let ifris2;
         let ifrisB: string = "Girl";
         const lottie2: Function = lottie.lottieAppearance(false);
         let lottieB: string = "Pig-Lady";
-        let loppe2: Function = null;
+        let loppe2;
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00281] > 0)
             lottieB = "Lottie";
         if (ifris.ifrisIntro())
@@ -1603,7 +1603,7 @@ class TelAdre {
             if (Flags.list[FlagEnum.MET_HECKEL] > 0)
                 hyenaB = "Heckel";
         }
-        if (Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0 && player.stats.gems >= 500)
+        if (Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0 && player.inventory.gems >= 500)
             membership = buyGymLifeTimeMembership;
         if (Flags.list[FlagEnum.PC_IS_A_DEADBEAT_COTTON_DAD] === 0) {
             if (cotton.cottonsIntro())
@@ -1626,7 +1626,7 @@ class TelAdre {
             "Leave", telAdreMenu);
     }
 
-    private buyGymLifeTimeMembership(): void {
+    private buyGymLifeTimeMembership() {
         DisplayText().clear();
         // [Buy LifeTime Membership]
         DisplayText("You fish into your pouches and pull out 500 gems, dumping them into the centaur's hands.  Her eyes widen as she turns and trots towards a counter in the back.  She leans over as she counts, giving you a generous view down her low-cut top at the cleavage she barely bothers to conceal.");
@@ -1635,13 +1635,13 @@ class TelAdre {
             dynStats("lus", (10 + player.stats.lib / 10));
         }
         Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] = 1;
-        player.stats.gems -= 500;
+        player.inventory.gems -= 500;
         statScreenRefresh();
         // [Bring up gym menu]
         gymMenu();
     }
 
-    private weightLifting(): void {
+    private weightLifting() {
         DisplayText().clear();
         // Too tired?  Fuck off.
         if (player.fatigue > 75) {
@@ -1652,7 +1652,7 @@ class TelAdre {
         }
         // Deduct gems if not a full member.
         if (Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0) {
-            player.stats.gems -= 10;
+            player.inventory.gems -= 10;
             statScreenRefresh();
         }
         // [Lift Weights] +25 fatigue!
@@ -1679,7 +1679,7 @@ class TelAdre {
         DisplayText(player.modTone(85, 5 + randInt(5)));
         DisplayText("\n\nDo you want to hit the showers before you head back to camp?");
         if (Flags.list[FlagEnum.BROOKE_MET] === 1) {
-            menu();
+            
             MainScreen.addButton(0, "\"Showers\"", sexMachine.exploreShowers);
             MainScreen.addButton(1, "Showers", brooke.repeatChooseShower);
             MainScreen.addButton(4, "Leave", Scenes.camp.returnToCampUseOneHour);
@@ -1687,7 +1687,7 @@ class TelAdre {
         else MainScreen.doYesNo(sexMachine.exploreShowers, Scenes.camp.returnToCampUseOneHour);
     }
 
-    private goJogging(): void {
+    private goJogging() {
         DisplayText().clear();
         // Too tired?  Fuck off.
         if (player.fatigue > 70) {
@@ -1698,7 +1698,7 @@ class TelAdre {
         }
         // Deduct gems if not a full member.
         if (Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0) {
-            player.stats.gems -= 10;
+            player.inventory.gems -= 10;
             statScreenRefresh();
         }
         // [Jogging] +30 fatigue!
@@ -1710,7 +1710,7 @@ class TelAdre {
         // (<40 tou)
         else if (player.stats.tou < 40) DisplayText("but your performance isn't that great.  You nearly stop jogging a few times but manage to push through until you're completely exhausted.");
         // (<60 tou)
-        else if (player.stats.tou < 60) DisplayText("and you do quite well.  You jog around for nearly an hour, working up a healthy lather of sweat.  Even your " + LegDescriptor.describeLegs(player) + " tingle and burn with exhaustion.");
+        else if (player.stats.tou < 60) DisplayText("and you do quite well.  You jog around for nearly an hour, working up a healthy lather of sweat.  Even your " + Desc.Leg.describeLegs(player) + " tingle and burn with exhaustion.");
         // (<80 tou)
         else if (player.stats.tou < 80) DisplayText("and it doesn't faze you in the slightest.  You run lap after lap at a decent clip, working yourself until you're soaked with sweat and fairly tired.");
         // (<90 tou)
@@ -1723,38 +1723,38 @@ class TelAdre {
 
         // If butt is over 15 guaranteed reduction
         if (player.torso.butt.rating >= 15) {
-            DisplayText("\n\nAll that running must have done some good, because your " + ButtDescriptor.describeButt(player) + " feels a little less bouncy.");
+            DisplayText("\n\nAll that running must have done some good, because your " + Desc.Butt.describeButt(player) + " feels a little less bouncy.");
             player.torso.butt.rating--;
         }
         else {
             if (player.torso.butt.rating >= 10 && randInt(3) === 0) {
-                DisplayText("\n\nThe jogging really helped trim up your " + ButtDescriptor.describeButt(player) + ".");
+                DisplayText("\n\nThe jogging really helped trim up your " + Desc.Butt.describeButt(player) + ".");
                 player.torso.butt.rating--;
             }
             else if (player.torso.butt.rating >= 5 && randInt(3) === 0) {
-                DisplayText("\n\nYour " + ButtDescriptor.describeButt(player) + " seems to have gotten a little bit more compact from the work out.");
+                DisplayText("\n\nYour " + Desc.Butt.describeButt(player) + " seems to have gotten a little bit more compact from the work out.");
                 player.torso.butt.rating--;
             }
             else if (player.torso.butt.rating > 1 && randInt(4) === 0) {
-                DisplayText("\n\nYour " + ButtDescriptor.describeButt(player) + " seems to have gotten a little bit more compact from the work out.");
+                DisplayText("\n\nYour " + Desc.Butt.describeButt(player) + " seems to have gotten a little bit more compact from the work out.");
                 player.torso.butt.rating--;
             }
         }// If hips is over 15 guaranteed reduction
         if (player.torso.hipRating >= 15) {
-            DisplayText("\n\nIt feels like your " + LowerBodyDescriptor.describeHips(player) + " have shed some pounds and narrowed.");
+            DisplayText("\n\nIt feels like your " + Desc.Hip.describeHips(player) + " have shed some pounds and narrowed.");
             player.torso.hipRating--;
         }
         else {
             if (player.torso.hipRating >= 10 && randInt(3) === 0) {
-                DisplayText("\n\nIt feels like your " + LowerBodyDescriptor.describeHips(player) + " have shed some pounds and narrowed.");
+                DisplayText("\n\nIt feels like your " + Desc.Hip.describeHips(player) + " have shed some pounds and narrowed.");
                 player.torso.hipRating--;
             }
             else if (player.torso.hipRating >= 5 && randInt(3) === 0) {
-                DisplayText("\n\nIt feels like your " + LowerBodyDescriptor.describeHips(player) + " have shed some pounds and narrowed.");
+                DisplayText("\n\nIt feels like your " + Desc.Hip.describeHips(player) + " have shed some pounds and narrowed.");
                 player.torso.hipRating--;
             }
             else if (player.torso.hipRating > 1 && randInt(4) === 0) {
-                DisplayText("\n\nIt feels like your " + LowerBodyDescriptor.describeHips(player) + " have shed some pounds and narrowed.");
+                DisplayText("\n\nIt feels like your " + Desc.Hip.describeHips(player) + " have shed some pounds and narrowed.");
                 player.torso.hipRating--;
             }
         }
@@ -1765,7 +1765,7 @@ class TelAdre {
         DisplayText(player.modTone(100, 2 + randInt(4)));
         DisplayText("\n\nDo you want to hit the showers before you head back to camp?");
         if (Flags.list[FlagEnum.BROOKE_MET] === 1) {
-            menu();
+            
             MainScreen.addButton(0, "\"Showers\"", sexMachine.exploreShowers);
             MainScreen.addButton(1, "Showers", brooke.repeatChooseShower);
             MainScreen.addButton(4, "Leave", Scenes.camp.returnToCampUseOneHour);
@@ -1773,7 +1773,7 @@ class TelAdre {
         else MainScreen.doYesNo(sexMachine.exploreShowers, Scenes.camp.returnToCampUseOneHour);
     }
 
-    private yaraSex(girl: boolean = true): void {
+    private yaraSex(girl: boolean = true) {
         DisplaySprite(63);
         DisplayText().clear();
         DisplayText("Yara makes you comfortable and has you look away while she uses her piercing tools.  It hurts, but she's skilled. Before you know it, your piercing is done!  You move to rise, retaining a bit of modesty");
@@ -1787,7 +1787,7 @@ class TelAdre {
         else simpleChoices("Turn down", piercingStudio, "Oh yeah!", createCallBackFunction(letsDoYaraSex, false), "", null, "", null, "", null);
     }
 
-    private letsDoYaraSex(girl: boolean = true): void {
+    private letsDoYaraSex(girl: boolean = true) {
         DisplaySprite(63);
         DisplayText().clear();
         let x: number = player.cockThatFits(36);
@@ -1813,7 +1813,7 @@ class TelAdre {
         DisplayText(", neatly silencing you with the lust-filled fires simmering in her eyes.  \"<i>Call it quality testing,</i>\" she purrs.  Her free hand runs up and down your inner thigh, the ticklish teasing nearly making your head spin.  Licking her lips in anticipation, Yara wiggles out of her clothes and clambers onto the chair, kneeling on the armrests.  Due to her awkward posture, you find your gaze drifting to her wide-spread legs.  Nestled there, twinkling with a radiant luster, is a golden ring, looped through her already-throbbing clit.  A blush darkens her cheeks as she notices your stare, but she seems almost empowered by it.\n\n");
 
         DisplayText("Yara's free hand slides down her belly - past the stud in her navel - down to her box.  Using two fingers, she spreads her lips apart, giving you a great view of both her glistening button-piercing and the fleshy recesses past it.  She bites her bottom lip gently");
-        if (!girl && player.torso.cocks.count > 0) DisplayText(" as your " + CockDescriptor.describeCock(player, x) + " rises to attention, her eyes fixed upon the stiffened tool.  You resist the urge to grab her thin-yet-girlish hips and power into her right then and there, curious enough to allow her teasing.");
+        if (!girl && player.torso.cocks.count > 0) DisplayText(" as your " + Desc.Cock.describeCock(player, x) + " rises to attention, her eyes fixed upon the stiffened tool.  You resist the urge to grab her thin-yet-girlish hips and power into her right then and there, curious enough to allow her teasing.");
         else DisplayText(" as a growing puddle of love stains the cushioned chair.  It takes most of your power to not drag her down and force her face into your box.");
         DisplayText("\n\n");
 
@@ -1823,14 +1823,14 @@ class TelAdre {
         DisplayText(" and smooching your belly.  Even with her racially characteristic flexibility, however, she's not able to get any lower from that angle.  \"<i>Hold this, dear,</i>\" she says somewhat snarkily, pivoting around and resting her ass against your " + Desc.Breast.describeChest(character) + ".  In this new posture, Yara can easily have her way with your junk, and by the way her wagging tail keeps bopping you in the face you can tell she's excited.\n\n");
 
         DisplayText("Not content with simple penetration, it seems, the cat girl gets to work.");
-        if (player.torso.balls.quantity > 0) DisplayText("  Her dexterous fingertips brush against your " + BallsDescriptor.describeBalls(true, true, player) + ", light and fluttery strokes that send shivers coursing through you.  The near-lack of contact is at least as titillating as the less-subtle Marethians you've come across.");
+        if (player.torso.balls.quantity > 0) DisplayText("  Her dexterous fingertips brush against your " + Desc.Balls.describeBalls(true, true, player) + ", light and fluttery strokes that send shivers coursing through you.  The near-lack of contact is at least as titillating as the less-subtle Marethians you've come across.");
         DisplayText("  She scoots forward a bit, dragging her soaking cunt down your chest in an effort to reach your crotch.\n\n");
 
         // male
         if (!girl && player.torso.cocks.count > 0) {
-            DisplayText("Yara's pursed lips touch down upon your cockhead, her head tilting from side to side as she vexingly and repeatedly kisses your " + CockDescriptor.describeCock(player, x) + ".  However, she abruptly pauses, glancing sidelong at you expectantly.  When you don't immediately respond, she huffs a sigh - onto your dick - and raises her hips level with your nose.  After momentarily getting lost in the bouncing of her tight-yet-jiggly cheeks, you get the message, leaning forward and giving her puffy sex a long and lingering lick.  You're rewarded with a low-pitched and very satisfied groan.  Though you go in for another taste, the shining ring looped through her joy-buzzer attracts your oral attention like a magnet.  Gently as a newborn kitten, your teeth close down on the clit-embedded trinket.  Yara goes absolutely stiff as you begin to softly tug the piercing around, neatly paralyzed by the sensitivity.  Indistinguishable mewling tumbles from her mouth as she attempts to attune herself to your yanking antics.  Her lithe frame spasms in ecstasy, forcing you to release your grip on her, lest something unfortunate happen to her undercarriage.\n\n");
+            DisplayText("Yara's pursed lips touch down upon your cockhead, her head tilting from side to side as she vexingly and repeatedly kisses your " + Desc.Cock.describeCock(player, x) + ".  However, she abruptly pauses, glancing sidelong at you expectantly.  When you don't immediately respond, she huffs a sigh - onto your dick - and raises her hips level with your nose.  After momentarily getting lost in the bouncing of her tight-yet-jiggly cheeks, you get the message, leaning forward and giving her puffy sex a long and lingering lick.  You're rewarded with a low-pitched and very satisfied groan.  Though you go in for another taste, the shining ring looped through her joy-buzzer attracts your oral attention like a magnet.  Gently as a newborn kitten, your teeth close down on the clit-embedded trinket.  Yara goes absolutely stiff as you begin to softly tug the piercing around, neatly paralyzed by the sensitivity.  Indistinguishable mewling tumbles from her mouth as she attempts to attune herself to your yanking antics.  Her lithe frame spasms in ecstasy, forcing you to release your grip on her, lest something unfortunate happen to her undercarriage.\n\n");
 
-            DisplayText("As soon as you release her from the mind-numbing grasp, she whips her hips forward - spattering your " + player.inventory.equipment.armor.displayName + " with her downpour of girlcum in the process - and leaning back, hastily lining herself up with your " + CockDescriptor.describeCock(player, x) + ".  Only hesitating for a second to leak a bit of lubricant onto your eager shaft, she plummets downwards, not stopping until her ass slams against your pelvis.\n\n");
+            DisplayText("As soon as you release her from the mind-numbing grasp, she whips her hips forward - spattering your " + player.inventory.equipment.armor.displayName + " with her downpour of girlcum in the process - and leaning back, hastily lining herself up with your " + Desc.Cock.describeCock(player, x) + ".  Only hesitating for a second to leak a bit of lubricant onto your eager shaft, she plummets downwards, not stopping until her ass slams against your pelvis.\n\n");
 
             DisplayText("Yara takes total control, her death-grip on the armrests giving her full coital maneuverability.  Despite the easy entry, you can't believe how well her sopping-wet folds squeeze against you.  For a long while the only sounds heard are the slapping of her cheeks and the studded-up cat girl's halting pants of pleasure.  \"<i>I wanna say... your new piercing... works like a charm,</i>\" she mutters between throaty groans.\n\n");
 
@@ -1855,12 +1855,12 @@ class TelAdre {
         else {
             DisplayText("A duo of errant forefingers run along the perimeter of your feminine fortress, your signal to prepare for a siege.  Yara reaches down off the side of your seat, pushing on a lever that sends the back of the chair down to about a 30º angle.  She grasps for the armrests of the chair next, promptly lifting her body up and going into what looks like a forward somersault.  Before you can complement the feat, her legs fly up either side of your head.   The only things to have made contact were her nimble feet, gently stroking their way up from your belly, past your chest, off of your shoulders and soaring beyond the back of the chair.  The feline acrobat calls for you to lay your hands open at the sides of the chair, an order you fulfill with due haste.  She wastes no time in seizing your upper arms, causing her body to slide forward off of you.  You return the favor by clasping onto her as well in the same manner, stopping her descent.\n\n");
 
-            DisplayText("Trying to parse out the scene at play here is a fool's errand.  Yara must have done this before as your two sprawled out bodies have stopped in just the right fashion to make both of your fleshy orifices in plain view of one another's faces.  Air escapes your pursed lips as the \"<i>quality testing</i>\" commences on your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", your kitty comrade going in tongue first towards your silken fringes.  ");
+            DisplayText("Trying to parse out the scene at play here is a fool's errand.  Yara must have done this before as your two sprawled out bodies have stopped in just the right fashion to make both of your fleshy orifices in plain view of one another's faces.  Air escapes your pursed lips as the \"<i>quality testing</i>\" commences on your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", your kitty comrade going in tongue first towards your silken fringes.  ");
             if (player.torso.vaginas.get(0).wetness >= 3) DisplayText("She may as well be licking a melting popsicle with how wet your snatch is.");
             else DisplayText("Your relatively dry perimeter makes for an easy target.");
             DisplayText("  Not to be outdone, your ambitious tongue moves in as if it has everything to prove, mirroring your partner's efforts. Both of your lapping endeavors are periodically interrupted by moaning or slight gasps, your grasps on one another only growing more tense.\n\n");
 
-            DisplayText("Yara looks up - down in her case - at your " + VaginaDescriptor.describeClit(player) + ", your feminine fragrance riling her up as if it were catnip. Your work on her box is interrupted as your pleasure buzzer gets the oral shebang of a lifetime, eliciting a knowing laugh from deep within your teammate's throat.  Yara's lucky you redouble your clamp on her arms rather than sending the poor woman sliding to the ground as your body writhes in satisfaction.  But this is war, and you'll be damned if you're weak enough to go straight for the crown jewel as she has. No, you go to town, redefining what it means to eat out a pussy.  Your laborious toil is rewarded as the kitten's assault on your button eases up.  Her hold begins to waver, however, forcing you to yank your prey towards you.  The movement pierces through her contentment, her armlock strengthening as the air fills with the sound of a duo of muffled moans.\n\n");
+            DisplayText("Yara looks up - down in her case - at your " + Desc.Vagina.describeClit(player) + ", your feminine fragrance riling her up as if it were catnip. Your work on her box is interrupted as your pleasure buzzer gets the oral shebang of a lifetime, eliciting a knowing laugh from deep within your teammate's throat.  Yara's lucky you redouble your clamp on her arms rather than sending the poor woman sliding to the ground as your body writhes in satisfaction.  But this is war, and you'll be damned if you're weak enough to go straight for the crown jewel as she has. No, you go to town, redefining what it means to eat out a pussy.  Your laborious toil is rewarded as the kitten's assault on your button eases up.  Her hold begins to waver, however, forcing you to yank your prey towards you.  The movement pierces through her contentment, her armlock strengthening as the air fills with the sound of a duo of muffled moans.\n\n");
 
             DisplayText("Judging by the contortionist's wobbly embrace, you decide it's the perfect time to go in for the kill.  Yara stands no chance as you pounce for her pierced clit, your tongue lodging itself between the loop and her love-button.  It takes all of her willpower to maintain the offensive on your nub nexus while standing firm in her grasp on your arms.  Your oral tugging and teasing proves to be the victor, however, marked by the femspunk making its way right onto your face.  The cocktail combined with the orgasmic-enhanced last ditch effort by Yara on your nether regions triggers your own satisfying outburst.  The chain reaction ends in both your couplings faltering, sending the feline sliding headfirst for the floor.\n\n");
 
@@ -1871,7 +1871,7 @@ class TelAdre {
     }
 
     // [Flirt]
-    private yvonneFlirt(): void {
+    private yvonneFlirt() {
         DisplaySprite(64);
         DisplayText().clear();
         DisplayText("You step closer, glancing from her bulging, barely contained tits to her pouting lips and expressive, violet eyes.  A shock of sweat-matted auburn hair obscures part of her face, but the tall, buxom blacksmith nervously brushes it aside as she watches.  Once you're close enough to touch, you quietly and sincerely proclaim, \"<i>You're the most beautiful piece of craftsmanship in this entire store.</i>\"");
@@ -1905,14 +1905,14 @@ class TelAdre {
         MainScreen.simpleChoices(["Fuck Her", "Nevermind", "", "", ""], [fuckYvonneInZeBlacksmith, backOutOfYvonneFuck, null, null, null]);
     }
     // [Nevermind]
-    private backOutOfYvonneFuck(): void {
+    private backOutOfYvonneFuck() {
         DisplaySprite(64);
         DisplayText().clear();
         DisplayText("You politely decline, not wanting to interrupt her work.  Yvonne sighs and begins to pump the bellows, muttering, \"<i>Then you'd better be buying something!</i>\"");
         return { next: armorShop };
     }
     // [Fuck]
-    private fuckYvonneInZeBlacksmith(): void {
+    private fuckYvonneInZeBlacksmith() {
         DisplaySprite(64);
         DisplayText().clear();
         // X = cock that fits!
@@ -1923,10 +1923,10 @@ class TelAdre {
         DisplayText("You walk over to the door and find a sign hanging in front of the window.  The side facing indoors has 'out' on it.  There's also a 'closed' sign hanging to the side of the doorframe.  You take the simple wood plaque in hand and flip it over - can't have anybody walking in on your sexual hijinks, can you?");
         DisplayText("\n\nA fuzzy, calloused hand grabs you by the scuff of the neck, lifts you off the ground and pushes you against the wall, slamming you into it forcefully enough that some weapons hanging nearby rattle dangerously.  A hot puff of breath hits your cheek, Yvonne's wet, canine nose bumping against your ear as she pants in your face.  She closes, and you feel her bare, sweat-soaked breasts sliding up and down your back, holding you up as firmly as her iron grip.  Yvonne's long, smooth tongue licks you from collarbone to chin, lapping up the sweat that's already starting to bead, the heat of the simmering forge-fires and your companion's well-warmed, powerful frame long since getting to you.");
         DisplayText("\n\nA distinctly feminine scent wafts up to your nostrils, intermingled with the blacksmith's own pungent body-odor, strong enough to make your head swim.  Yvonne's free hand begins removing your [armor], the blacksmith's confident motions suggesting she's had plenty of experience at this.  The aroma of the super-stacked bitch's estrus increases to the point where it nearly overpowers her salty sweat-smell, her nipples pressing hard into your back.  [EachCock] grows hard from the forceful attention, pinned between the wall and your belly.  Finished with your gear, Yvonne nips your neck and says, \"<i>Nice package, ");
-        if (player.cockArea(x) < 20) DisplayText("runt");
-        else if (player.cockArea(x) < 40) DisplayText(player.mf("boy", "girl"));
-        else if (player.cockArea(x) < 60) DisplayText("big " + player.mf("boy", "girl"));
-        else DisplayText(player.mf("stud", "breeder"));
+        if (x.area < 20) DisplayText("runt");
+        else if (x.area < 40) DisplayText(Desc.Gender.mf(player, "boy", "girl"));
+        else if (x.area < 60) DisplayText("big " + Desc.Gender.mf(player, "boy", "girl"));
+        else DisplayText(Desc.Gender.mf(player, "stud", "breeder"));
         DisplayText(".</i>\"");
         DisplayText("\n\nThe forge-mistress abruptly releases you and steps away, the supporting cushion of her breasts no longer there to help balance you.  After a moment of confused stumbling, you catch yourself and turn around, curious as to just what the buxom bitch is doing.");
         DisplayText("\n\nYvonne is on the ground on all fours.  Her tail is sticking nearly straight up, waving back and forth excitedly as she presents her curvy rump to you.  Surprisingly, her ass is much less muscular than her upper body, with a pair of pillowy buttcheeks that nearly conceal her soaked cunny from view.  You aren't sure if it's lubricant from her arousal, or sweat from working the forge all day, but Yvonne's thighs are absolutely drenched with moisture; a veritable slip n' slide of wetness that beckons you to bury your bone in the canine's feminine entrance.  She glances back over her shoulder, a submissive glint in her eyes as she begs, \"<i>Come on, be my alpha.  This bitch needs a hot, wet fuck.  Do it!</i>\"  What an odd dichotomy - one moment she's throwing you around, the next, begging to be mounted.  For all her power, it seems Yvonne still wants to be taken as a meek bitch.");
@@ -1950,14 +1950,14 @@ class TelAdre {
 
     // *Typical buy text goes here. Options are now Yes/No/Flirt*
     // [Flirt]
-    private flirtWithVictoria(itype: ItemType): void {
+    private flirtWithVictoria(itype: ItemType) {
         DisplayText().clear();
         let x: number = player.cockThatFits(70);
         if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
         DisplayText("You take the clothes from her and give them a look over.  Setting them on the counter, you tell her that they're quite nice, but if she's interested you might have something that could fit her quite nicely as well in the back.");
 
         if (x < 0) {
-            DisplayText("\n\nVictoria smirks and answers, \"<i>I measured your inseam, and what you're packing in there won't fit anywhere in a girl like me.  Maybe some other time, " + player.mf("studmuffin", "sweet thing") + ".  Did you actually want to buy something?</i>\"\n\nDo you still want to buy something?");
+            DisplayText("\n\nVictoria smirks and answers, \"<i>I measured your inseam, and what you're packing in there won't fit anywhere in a girl like me.  Maybe some other time, " + Desc.Gender.mf(player, "studmuffin", "sweet thing") + ".  Did you actually want to buy something?</i>\"\n\nDo you still want to buy something?");
             MainScreen.doYesNo(curry(debitClothes, itype), tailorShoppe);
             return;
         }
@@ -1970,7 +1970,7 @@ class TelAdre {
             DisplayText("your chest.");
         else
             DisplayText("your face.");
-        DisplayText("  <i>\"Now then,  let's see what you've got!\"</i>  With practiced ease she works the bottom of your [armor] off, revealing [eachCock].  <i>\"Well, well. Looks like I was right about you from the start,\"</i> she says, licking her lips again.  <i>\"Just a taste first, I think...\"</i> Sticking her tongue out once more, she gives your rapidly stiffening dick a long, slow lick from the base up to the tip.  She closes her mouth just around your " + CockDescriptor.describeCock(player, x) + ", giving it a few rapid licks before pulling off with a pop.");
+        DisplayText("  <i>\"Now then,  let's see what you've got!\"</i>  With practiced ease she works the bottom of your [armor] off, revealing [eachCock].  <i>\"Well, well. Looks like I was right about you from the start,\"</i> she says, licking her lips again.  <i>\"Just a taste first, I think...\"</i> Sticking her tongue out once more, she gives your rapidly stiffening dick a long, slow lick from the base up to the tip.  She closes her mouth just around your " + Desc.Cock.describeCock(player, x) + ", giving it a few rapid licks before pulling off with a pop.");
 
         DisplayText("\n\n<i>\"Oh yes,  I think you'll do rather nicely.  In fact, I think I'm going to give you a special treat.\"</i>  Smirking up at you, the busty dog-girl unbuttons her top just beneath her ample chest.  Before you can puzzle out what it is she's doing, she takes your [cock] and stuffs it into the hole and up through her cleavage");
         if (player.torso.cocks.get(x).length >= 5)
@@ -1982,7 +1982,7 @@ class TelAdre {
 
         DisplayText("\n\nShe begins to slowly move her disproportionately massive chest up and down your cock, ");
         if (player.torso.cocks.get(x).length > 5)
-            DisplayText("making sure to give the " + player.cockHead(x) + " a quick suck every time it breaches her mounds.");
+            DisplayText("making sure to give the " + Desc.Cock.describeCockHead(x) + " a quick suck every time it breaches her mounds.");
         else
             DisplayText("pressing her mouth down into her ample cleavage so as to give your hidden tip a quick lick every time it draws near.");
 
@@ -1990,14 +1990,14 @@ class TelAdre {
 
         DisplayText("\n\nVicky continues her marshmallowy assault for what feels like hours, slowing down every time you give even the slightest indication that you're about to cum.  <i>\"You might hate me for this now, love, but trust me.  It'll feel so much better once you finally do cum.\"</i>  She may be right, but it's agony to get so close to orgasm only to back away, and then draw close once more.  She's practically driving you crazy with lust with her tantalizingly slow tit-fuck.  As you feel your cum nearly boiling away in your [balls], only to have her back away once again, something inside of you snaps.");
 
-        DisplayText("\n\nYou wrench your dick free of the confines of her pillowy mounds, and grab her around her plush middle.  She gives a surprised yelp as you nearly throw her against the counter and lift her butt up into the air.  <i>\"Ooooh, someone's excited!\"</i>  she nearly cheers, looking over her shoulder and wagging her plush rear up at you as her tail swishes back and forth, showing that she's nearly as consumed with lust as you are.  Flipping her long skirt up over her back, you violently pull her panties aside before you force your " + CockDescriptor.describeCock(player, x) + " deep within her gushing folds.");
+        DisplayText("\n\nYou wrench your dick free of the confines of her pillowy mounds, and grab her around her plush middle.  She gives a surprised yelp as you nearly throw her against the counter and lift her butt up into the air.  <i>\"Ooooh, someone's excited!\"</i>  she nearly cheers, looking over her shoulder and wagging her plush rear up at you as her tail swishes back and forth, showing that she's nearly as consumed with lust as you are.  Flipping her long skirt up over her back, you violently pull her panties aside before you force your " + Desc.Cock.describeCock(player, x) + " deep within her gushing folds.");
 
         DisplayText("\n\nShe squeals in surprise and pleasure as she's penetrated, thrusting her ample hips back at you as you begin to pound into her.  Her ass jiggles violently with every thrust, sending ripples through her creamy flesh.  You grip her around her soft middle as you slam against her hips, barely noticing every squeak she makes as her thick thighs are pounded into the side of the counter.  <i>\"Ah!  Oh, Marae, that feels incredible!\"</i>  she nearly screams as her monocle finally loses its grip on her face and goes flying, thankfully landing safely on a pile of scrap cloth.  If you were more sound of mind, you'd probably have dreaded the cost of repairing the broken eyepiece.");
 
         DisplayText("\n\nSomehow, miraculously, you're able to hold back long enough to work your hands up her soft body and grip onto her enormous tits, mashing them in your hands as you find her rock-hard nipples.  She seems to be enjoying the rough treatment - quite a bit in fact - as the moment you give her hard nubs a quick tweak you feel her already rather tight pussy clamp down on your cock HARD.  It becomes nearly impossible to move as she cums explosively, screaming incoherently as she sprays your lower body with her liquid pleasure.");
 
         DisplayText("\n\nThe sudden resistance is all it takes to finally bring you over the edge, as with a loud roar of your own, you bury yourself deep inside of her still tightly clutching cunt and release.  [if (cumNormal = true) It would seem that what she said earlier was correct.  Your pent-up need surges up through your dick, firing your fertile seed straight into her unprotected womb.  She lets out a submissive whimper as your spurting dick triggers aftershocks within her exhausted body.  At last, her body relaxes, freeing your softening dick.][if (cumMedium = true) Thick, sticky, ropes of your cream fire deep within her grasping pussy, attempting to extinguish the fire you lit within her with your frantic rutting.  She whimpers beneath you as your ejaculation sends another wave of pleasure through her body, which clamps down even harder onto you than before.  Thankfully, it's not long before she releases you once again, going limp on the counter and breathing raggedly.][if (cumHigh = true) Your urethra distends as it funnels your thick, potent seed into the tightly gripping walls of Victoria's pussy.  She clenches down as the white torrent sends her into yet another orgasm, shuddering beneath you as her already thick stomach begins to distend with its load.  Her pussy continues to milk your dick of its load even as she rides the high of her last orgasm, her body desperate to draw out more of your thick cream.  Finally she releases you, your softening dick forced back out with a thick stream of your jizz, which begins to pool out onto the floor.][if (cumVeryHigh = true) You feel your dick swell as it nearly explodes within her, pouring thick streams of your seed deep into her fertile womb.  She lets out another loud squeal as her body clenches down into yet another orgasm, gripping your dick tighter than you ever thought possible as it tries to milk you for all you have.  Her plush stomach visibly distends with its contents as you dump your load within her, lifting her small body up from the surface of the counter somewhat.  Thankfully, her body soon relaxes, releasing your softening prick, which is followed by a thick, white fountain of jizz that soaks your legs and pools out onto the floor.]");
-        if (silly()) DisplayText("[if (cumExtreme = true) You groan loudly as your cock pours gallon after gallon of jizz deep into her spasming pussy.  She screams as another powerful orgasm wracks her body, triggered by the enormous amount of jizz you're shooting into her.  Her belly audibly sloshes with each of her movements as it continues to expand from the enormous amount of fluid you're pumping into her.  She attempts to clutch down on you as tightly as she can, trying to retain your enormous load; but the moment she releases even a little bit, she shoots forward from the enormous pressure of jizz within her, flopping down face-first onto some clothes on the other side of the counter.  Your thick cream continues to shoot up from between her limp legs, almost like a fountain, before gravity pulls it back down and it splatters all over the interior of the store.]");
+        if (User.settings.silly()) DisplayText("[if (cumExtreme = true) You groan loudly as your cock pours gallon after gallon of jizz deep into her spasming pussy.  She screams as another powerful orgasm wracks her body, triggered by the enormous amount of jizz you're shooting into her.  Her belly audibly sloshes with each of her movements as it continues to expand from the enormous amount of fluid you're pumping into her.  She attempts to clutch down on you as tightly as she can, trying to retain your enormous load; but the moment she releases even a little bit, she shoots forward from the enormous pressure of jizz within her, flopping down face-first onto some clothes on the other side of the counter.  Your thick cream continues to shoot up from between her limp legs, almost like a fountain, before gravity pulls it back down and it splatters all over the interior of the store.]");
         else DisplayText("[if (cumExtreme = true) You groan loudly as your cock pours gallon after gallon of jizz deep into her spasming pussy.  She screams as another powerful orgasm wracks her body, triggered by the enormous amount of jizz you're shooting into her.  Her belly audibly sloshes with each of her movements as it continues to expand from the enormous amount of fluid you're pumping into her.  Thick streams of your seed shoot out all around your dick as she continues to squeeze down on you, trying to keep as much of it inside her massively pregnant-looking belly as possible before she finally releases, squirting your dick back out of her with a pop, followed by a veritable geyser of white. Your entire lower body is painted white as it gushes out, soaking into your clothes and covering the floor as she visibly deflates.]");
 
         DisplayText("\n\nFinally, your strength gives out and you fall backwards onto the floor, exhausted.  A few seconds later, Vicky slips backward off of the counter and lands on top of you.  Like you, she's completely unable to move, however unlike you it's more because she is completely insensate.  Her eyes have rolled back into her head and her tongue hangs out as she occasionally mutters something incoherent.");

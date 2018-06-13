@@ -3,7 +3,7 @@ export class Isabella extends Monster {
 	//IZZY AI:
 
 	//Isabella Combat texttttttsss
-	public isabellaAttack(): void {
+	public isabellaAttack() {
 		//[Standard attack]
 		DisplayText("Isabella snorts and lowers a shield a moment before she begins to charge towards you. Her hooves tear huge divots out of the ground as she closes the distance with surprising speed!  ");
 
@@ -41,7 +41,7 @@ export class Isabella extends Monster {
 		combatRoundOver();
 	}
 
-	public isabellaStun(): void {
+	public isabellaStun() {
 		//[Stunning Impact]
 		DisplayText("Isabella spins her shield back at you in a potent, steel-assisted backhand.  ");
 
@@ -85,7 +85,7 @@ export class Isabella extends Monster {
 		combatRoundOver();
 	}
 
-	public isabellaThroatPunch(): void {
+	public isabellaThroatPunch() {
 		DisplayText("Isabella punches out from behind her shield in a punch aimed right at your throat!  ");
 
 		//Blind dodge change
@@ -127,7 +127,7 @@ export class Isabella extends Monster {
 	}
 
 	//[Milk Self-Heal]
-	public drankMalkYaCunt(): void {
+	public drankMalkYaCunt() {
 		DisplayText("Isabella pulls one of her breasts out of her low-cut shirt and begins to suckle at one of the many-tipped nipples. Her cheeks fill and hollow a few times while you watch with spellbound intensity.  She finishes and tucks the weighty orb away, blushing furiously.  The quick drink seems to have reinvigorated her, and watching it has definitely aroused you.");
 		HP += 100;
 		lust += 5;
@@ -135,7 +135,7 @@ export class Isabella extends Monster {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		//-If below 70% HP, 50% chance of milk drinking
 		if (HPRatio() < .7 && randInt(3) === 0) drankMalkYaCunt();
 		//if PC has spells and isn't silenced, 1/3 chance of silence.
@@ -149,14 +149,14 @@ export class Isabella extends Monster {
 		else isabellaAttack();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.isabellaScene.defeatIsabella();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\n\"<i>Ick,</i>\" Isabella tuts as she turns to leave...");
-			game.cleanupAfterCombat();
+			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		} else {
 			game.isabellaScene.isabellaDefeats();
 		}

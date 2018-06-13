@@ -18,12 +18,12 @@
 
     //Scylla- cum addicted demon-tainted nun
 
-    private scyllaSprite(): void {
+    private scyllaSprite() {
         if (flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 3) DisplaySprite(82);
         else DisplaySprite(51);
     }
 
-    public scyllaBarSelectAction(): void {
+    public scyllaBarSelectAction() {
         //This allows Scylla's activity at the bar to be determined before any description of what Kath and Urta be doing.
         //Required because Scylla's behaviour in the bar is partly random, so you can't just check flags to see what she's up to.
         if (model.time.totalTime === scyllaLastActionSelectionTime) return; //Only choose action once per visit to the bar
@@ -82,10 +82,10 @@
     }
 
     //The rain is pouring by the time you get to The Wet Bitch and the bar's roaring hearth is a welcome sight for your cold, shivering form.  You order some hot soup and look around at the other patrons. The miserable weather seems to have driven most of the regulars away, but
-    public talkToScylla(): void {
+    public talkToScylla() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-first-meeting"));
+        DisplayImage(images.showImage("scylla-first-meeting"));
         DisplayText("You approach the busty stranger as her dark, curly black hair falls over her eyes.  She seems to be staring at the cup of coffee she's clutching. As she pours pale cream into it, her tongue absently licks the generous bulge of her scarlet, O-shaped lips. She notices the motion and shakes her head harshly, slamming the cream down too hard and shattering the ceramic. Milky white fluid splatters across her face and she utters a gasp that you think is only half surprise. Was it your imagination, or did that sound a little orgasmic? It might be a good idea to introduce yourself and help her clean up the mess.\n\n");
 
         // New modified intro
@@ -106,7 +106,7 @@
             DisplayText("You step up to the woman and introduce yourself while you notice the white and black hat she wears is covering tiny bulges in her skull.  Brushing her jet hair from her eyes, she follows your glance and blushes a deep purple hue. Pulling the cowl back, she reveals the twin nub-like horns that mark demonic taint. Apologizing for the scene she caused with the cup, she introduces herself as Scylla. Though reluctant to discuss them, eventually your charisma wins her over and she speaks in a voice so soft you have to lean in to hear her.\n\n");
         }
         else {
-            DisplayText("Approaching the nun once more, you’re pleasantly surprised that you have her full attention. The " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " bulging under your clothes may have something to do with her sudden attentiveness. Prying her gaze up to eye level, she offers a weak smile and a soft apology. She introduces herself as Scylla and offers you a seat. She seems troubled and before long you have the shy giantess of a woman laying her troubles out for you.\n\n");
+            DisplayText("Approaching the nun once more, you’re pleasantly surprised that you have her full attention. The " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " bulging under your clothes may have something to do with her sudden attentiveness. Prying her gaze up to eye level, she offers a weak smile and a soft apology. She introduces herself as Scylla and offers you a seat. She seems troubled and before long you have the shy giantess of a woman laying her troubles out for you.\n\n");
         }
 
         //PC DID BLOW FACTORY UP
@@ -123,17 +123,17 @@
         MainScreen.doYesNo(helpScylla, dontHelpScylla);
     }
 
-    private helpScylla(): void {
+    private helpScylla() {
         scyllaSprite();
         flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA]++;
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-first-help"));
+        DisplayImage(images.showImage("scylla-first-help"));
         DisplayText("You explain that you've run into this sort of thing before and ask her to follow you upstairs to a room. Shyly, she accompanies you and sits down on the bed next to you. In the light, you get a better look at her. She's nearly 7 feet tall, though terribly thin from her demonic starvation. Her breasts have not lost any weight, however, and the D-cups push against her dress with every breath. She shakes her curly black hair from the hood and it spills down her back in surprisingly long locks- it's at least four feet and forms a billowing curtain around her shoulders, hips, and waist. She looks innocently at you, patiently waiting for your diagnosis. The hopeful trust in her eyes almost makes you blush as you explain that the demons have given her a powerful addiction. Considering the nature of her tormenters, she is almost certainly addicted to cum.\n\n");
 
         DisplayText("Scylla squeaks in shock and crosses her legs tightly. \"<i>I can't...! I've never had... you know...</i>\" she mouths the word \"<i>sex,</i>\" not daring to say it aloud. You assure her that it need not come to that. If she drank some, you explain, it would ease the thirst pains and preserve her chastity. She shakes her head, as if to drive the thought away, but you notice that her eyes are now locked onto your bulge and her fingers are curling her hair in self-doubt. Just once, you say. Nobody has to know. You can practically feel the heat of her breath. You stroke her hair to put her at ease and promise that she can go at her own pace.\n\n");
 
-        DisplayText("Reluctantly, Scylla accepts your idea and slides off the bed to kneel before you. With unsteady fingers, she pulls off your " + player.inventory.equipment.armor.displayName + " and her eyes widen at the sight of your hardening length. She looks up one last time, as if uttering a silent prayer, then guides her head over your tip. Parting her succulent lips, she plants the faintest of kisses on the head of your " + CockDescriptor.describeCock(player, x) + ". Embarrassedly inexperienced, she kisses up and down your dick, slowly at first, then slightly more confidently. Even though it is just her puckered lips, you feel warm moisture and an electric tingle at every contact. A small drop of pre rises to the tip of your head. Scylla shivers so intensely that her hair falls in front of her eyes again. Without parting it, she leans in and places the very tip of her tongue at the base of your tip and laps up the tiny drop of cum.\n\n");
+        DisplayText("Reluctantly, Scylla accepts your idea and slides off the bed to kneel before you. With unsteady fingers, she pulls off your " + player.inventory.equipment.armor.displayName + " and her eyes widen at the sight of your hardening length. She looks up one last time, as if uttering a silent prayer, then guides her head over your tip. Parting her succulent lips, she plants the faintest of kisses on the head of your " + Desc.Cock.describeCock(player, x) + ". Embarrassedly inexperienced, she kisses up and down your dick, slowly at first, then slightly more confidently. Even though it is just her puckered lips, you feel warm moisture and an electric tingle at every contact. A small drop of pre rises to the tip of your head. Scylla shivers so intensely that her hair falls in front of her eyes again. Without parting it, she leans in and places the very tip of her tongue at the base of your tip and laps up the tiny drop of cum.\n\n");
 
         DisplayText("Scylla's whole body tenses and her fingers dig into your legs like they're trying to dig trenches in the earth. She pants and soft whimpers rise from her shrouded face. She plants her head helplessly in your lap and you realize she came from a single drop of your jizz. She pulls the hair from her eyes, and you see that her pupils have contracted into an addict's pin-pricks. The blue of her irises rage with an inner fire and her already puffy lips look positively swollen. A stream of drool leaks from her mouth and wets her blood-red lips as she bends over you again. The thirst seems to have unseated her inhibitions because this time she slides her lips around the crown of your dick and her tongue whirls around it. As she pushes inches into the furnace of her mouth, you marvel at how tight her lips have become. It is almost as if the bulging hole was sealing around your member. With tightness you've rarely felt in pussies, she slides up and down your shaft, drool lubricating better than any oil.\n\n");
         DisplayText("She swallows more inches and you can feel the tip of your penis against the back of her throat. If she had a gag-reflex, the demon-draught must've eliminated it because you can feel the flexing ripples of her throat engulf your head. Scylla makes a moan that can only be called a yummy noise");
@@ -142,7 +142,7 @@
 
         DisplayText("You have no time to contemplate further as you feel your orgasm burst, cum rushing through your length and down her sweet, virginal throat. Scylla gives a muffled gasp as the first spurt of your cum reaches her belly, and her eyes roll back into her head as a mind-blowing orgasm tears through her. Only barely aware of what's happening, you notice that her swallowing has intensified and now her head is accelerating along your shaft until, at last, her lower lip presses against your " + (player.torso.balls.quantity > 0 ? "throbbing balls" : "taut abdomen") + ". She swallows load after thick load like one who's found an oasis in the desert. She wraps her arms around your ass and pushes you back onto the bed, her head twisting this way and that, milking you of your precious seed.\n\n");
 
-        DisplayText("Your spurts slow down and you pant at how much you came when Scylla's eyes lock with yours. You can tell in that instant that she's still thirsty. The tiny, nub-like horns on her skull pulse and with a startling crack of bones, grow backwards, curving around her ears. The sudden surge of demonic taint " + (player.torso.balls.quantity > 0 ? "is immediately apparent as your balls expand as if filling with helium. You are obliged to slide off the bed a bit as they droop down and rest against the ground, as large as barrels. Scylla's lips inflate with a whorish sucking noise and now block your sight of every part of her face but the desperate, hungry blue eyes. Her tongue must've grown in her mouth, because you can feel it wrapping around your dick like a coiling serpent, pulling tighter and tighter before loosening in a milking motion. Your overstuffed balls immediately respond. A bulge of cum as large as a baseball works its way past her suckling lips and down her long, distended neck. The sensation of the cum spraying out of your " + player.cockHead() + " causes your toes to curl and makes you clench your fist so hard that blood leaks between your fingers." : "seems to flow into you with a hellish warmth. The subtle changes of her hungering magic worms its way into your prostate and the swelling sensation obliges you to slide to the edge of the bed, a shuddering need for release wrapping iron bands around your lungs. Scylla's lips inflate with a whorish sucking noise and now block your sight of every part of her face but the desperate, hungry blue eyes. Her tongue must've grown in her mouth, because you can feel it wrapping around your dick like a coiling serpent, pulling tighter and tighter before loosening in a milking motion. Your entranced body immediately responds. A bulge of cum as large as a baseball works its way past her suckling lips and down her long, distended neck. The sensation of the cum spraying out of your " + player.cockHead() + " causes your toes to curl and makes you clench your fist so hard that blood leaks between your fingers.") + "\n\n");
+        DisplayText("Your spurts slow down and you pant at how much you came when Scylla's eyes lock with yours. You can tell in that instant that she's still thirsty. The tiny, nub-like horns on her skull pulse and with a startling crack of bones, grow backwards, curving around her ears. The sudden surge of demonic taint " + (player.torso.balls.quantity > 0 ? "is immediately apparent as your balls expand as if filling with helium. You are obliged to slide off the bed a bit as they droop down and rest against the ground, as large as barrels. Scylla's lips inflate with a whorish sucking noise and now block your sight of every part of her face but the desperate, hungry blue eyes. Her tongue must've grown in her mouth, because you can feel it wrapping around your dick like a coiling serpent, pulling tighter and tighter before loosening in a milking motion. Your overstuffed balls immediately respond. A bulge of cum as large as a baseball works its way past her suckling lips and down her long, distended neck. The sensation of the cum spraying out of your " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " causes your toes to curl and makes you clench your fist so hard that blood leaks between your fingers." : "seems to flow into you with a hellish warmth. The subtle changes of her hungering magic worms its way into your prostate and the swelling sensation obliges you to slide to the edge of the bed, a shuddering need for release wrapping iron bands around your lungs. Scylla's lips inflate with a whorish sucking noise and now block your sight of every part of her face but the desperate, hungry blue eyes. Her tongue must've grown in her mouth, because you can feel it wrapping around your dick like a coiling serpent, pulling tighter and tighter before loosening in a milking motion. Your entranced body immediately responds. A bulge of cum as large as a baseball works its way past her suckling lips and down her long, distended neck. The sensation of the cum spraying out of your " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " causes your toes to curl and makes you clench your fist so hard that blood leaks between your fingers.") + "\n\n");
 
         DisplayText("Scylla's milking pulls glob after glob of cum from your " + (player.torso.balls.quantity > 0 ? "monstrous nuts" : "gushing loins") + " until you realize that those have been mere \"drops\" of pre-cum. Your eyes go wide as Scylla meets your gaze with a desperate lust. Her hands, still wrapped around your ass, part the cheeks and her long, thin middle finger slides so easily inside you that it might've been greased. You can feel a slight pressure as it strokes you gently before pressing on your prostate. Like a release button had been pressed, your ");
         if (player.torso.balls.quantity > 0) DisplayText("balls quiver ");
@@ -158,7 +158,7 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private dontHelpScylla(): void {
+    private dontHelpScylla() {
         scyllaSprite();
         flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA]--;
         DisplayText().clear();
@@ -170,12 +170,12 @@
 
 
     //Scylla's Horns-
-    public scyllaRoundII(): void {
+    public scyllaRoundII() {
         scyllaSprite();
         flags[FlagEnum.FED_SCYLLA_TODAY] = 1;
         flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA]++;
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-two"));
+        DisplayImage(images.showImage("scylla-help-round-two"));
         DisplayText("The Wet Bitch is particularly busy today and you're obliged to sit at the bar after shouldering your way through the crowd. Before you can even place an order, the bartender slides you a note. Curious, you unfold the crisp, white parchment. The note is written in such a light hand that you have to strain to read it in the dim bar. The flowing, graceful message reads: \"<i>Dear " + player.short + ", I am sorry to impose upon you once more, but if you don't mind, could you maybe help me one more time? I am in one of the rooms upstairs, could you come up and see me?  In your debt, Scylla.</i>\"\n\n");
 
         DisplayText("Dropping some gems on the counter, you grab a bottle of sweet wine and head to Scylla's room. You knock and step inside, closing the door behind you. Scylla is sitting on the bed, her hands nervously folded in her lap. She's still trying to wear a nun's habit, but her inflated body has made it more a satin glove than a shapeless robe. Her jet hair is tousled around her face in thick curls and tumbles around her ample breasts, which have grown to double-Ds since the last time you saw her. The bulging belly you gave her has vanished, however, and now her waist is so narrow and sunken that you can see her ribs under her dress. Her hourglass figure looks like it's about to snap in the middle.\n\n");
@@ -190,22 +190,22 @@
         return { next: scyllaRoundIIPartII };
     }
 
-    private scyllaRoundIIPartII(): void {
+    private scyllaRoundIIPartII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-two-part-two"));
+        DisplayImage(images.showImage("scylla-help-round-two-part-two"));
         DisplayText("You stroke her hair, letting your fingertips linger over the curling bone around her ears. Though firm as iron, the horns are warm and soft, almost like fingers. Absently caressing her cheeks, you gently press her head down, toward your groin and she gratefully sighs as she smells the musk of your body. Pulling away the cloth around your legs, she rubs her forehead affectionately against your stiffening cock. Scylla tries unsuccessfully to slurp back the torrent of drool that leaks past her locked lips when she almost reverently " + (player.torso.balls.quantity > 0 ? "cups your balls with both palms" : "strokes your crest with her fingertips") + ". Her expression is somewhere between hunger and lust, like one stranded at sea who finally meets another living soul.\n\n");
 
         DisplayText("With trembling hands, Scylla lifts your shaft to her thirsty lips and runs the point of her tongue in quick swirls around its head. Then, in a fluid motion, she dives forward, your dick sliding through the hot, lubricated ring and into her mouth. She closes her eyes with an orgasmic moan and shivers as your penis hits the back of her throat and she begins to feed your long inches down her pussy-tight neck. Wrapping a hand lightly over her windpipe, you can feel your dick stuffing her clenching esophagus. You tilt her chin up and groan as the inferno heat of the nun's body washes over your cock. You squeeze her throat and you can feel your fingers clenching your dick through the cock-sheath of her pale skin. Scylla's heartbeat races at the pressure, every frenzied pulse contracting her muscles even as your blood pumps faster to fully inflate your organ.\n\n");
 
         DisplayText("Through her cavernous waist, you can see the head of your penis pass her ribs and fill her belly, its distinctive bulge pushing under the skin below her shaking breasts. The added tension of your throat fucking is too much for her skin-tight robe and it splits right down the middle, velvet tatters falling around her pale arms. Scylla's sweat-glistening breasts quiver in the open air, vibrating at your thrusts. Her sweet, pink nipples are innies you note, almost like half-dollar sized mouths, as plump as her suckling lips. Scylla rubs her drool into their slick bulk, her fingers sinking into the ripples of flesh as she slides her fingertips inside the small mouths to tease her hidden nipples. With a lifting motion, she presses her tits hard against her throat, and strokes her overstuffed windpipe. In a moment, you understand the massaging motions she's making- she's tit-fucking the dick inside her neck. With firm, rolling motions, your already clenched cock is milked by the satin vice of Scylla's breast as she cranes her head into the ample cleavage.\n\n");
 
-        if (player.torso.cocks.filter(Cock.HasKnot).length > 0) DisplayText("Unable to hold on, your knot balloons inside of her mouth, the pulsing flesh pinning her tongue and locking her head onto your dick.  ");
+        if (player.torso.cocks.find(Cock.HasKnot)) DisplayText("Unable to hold on, your knot balloons inside of her mouth, the pulsing flesh pinning her tongue and locking her head onto your dick.  ");
         else if (player.torso.cocks.get(0).type === CockType.HORSE) DisplayText("You hiss in anticipation as the head of your horse-cock flares inside of her stomach, its girth almost double your dick's.  ");
         DisplayText((player.torso.balls.quantity > 0 ? "Your balls churn and you" : "You") + " can feel your orgasm building as your muscles clench and your fingers spasm. Scylla grinds her tits against the cock in her throat as tightly as if she were choking herself and her body trembles in wet anticipation. But...\n\n");
 
         DisplayText("... something's wrong. Still on the verge of cumming, you find yourself unable to. With shaking hands, you pull Scylla's bloated lips apart and remember the gag her horns made around her mouth. You realize that while it was easy entry to the back of her throat earlier, now that your dick is swollen to bursting, the horns are acting as a cock-ring, keeping you from cumming.  ");
-        if (player.torso.cocks.filter(Cock.HasKnot).length > 0) DisplayText("Frustrated, you try to pull back, but your bloated knot is far too large for her tight mouth, keeping the two of you hooked together.  ");
+        if (player.torso.cocks.find(Cock.HasKnot)) DisplayText("Frustrated, you try to pull back, but your bloated knot is far too large for her tight mouth, keeping the two of you hooked together.  ");
         else DisplayText("Trying to pull the ring off, you find that your swollen head is too full to pull back through her esophagus and out of her stomach.  ");
         DisplayText("Without a release, the two of you are sealed, face to groin.\n\n");
 
@@ -213,10 +213,10 @@
         return { next: scyllaRoundIIPartIII };
     }
 
-    private scyllaRoundIIPartIII(): void {
+    private scyllaRoundIIPartIII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-two-part-three"));
+        DisplayImage(images.showImage("scylla-help-round-two-part-three"));
         if (player.torso.balls.quantity > 0) {
             DisplayText("The famished nun whimpers and starts rapidly swallowing, as if to milk your cream by suction alone. The pressure behind your dick keeps growing and your balls bloat with their unspent seed. Scylla seizes your ass with her soft hands and her pinkie slips inside of you, stroking your prostate in hopeful encouragement. You actually shout in pain as your testicles go into overdrive, skin growing tight as they expand under their load, swelling by the minute. You find your feet, trying to coax some of the blood from your cock, but the ring has sealed you at the peak of your tremendous mass. You back away from the bed and Scylla is pulled along, crawling on hands and knees. Her throbbing lips have puffed up so large that they cover her nose and chin, hot flesh and drool caressing your balls with every movement. You step toward the table where you placed your wine and pull the cork out with shivering hands. You throw back the bottle and take a deep swallow which you almost immediately spit back out. The sight of you drinking set off something in Scylla's famished stomach and now the muscled walls quiver and rumble around the head of your cock, demanding the hot flow of your cum with a force that knocks your feet out from under you. The nun's head is dragged forward as you fall and she lands atop you, her wet breasts pressed against your watermelon-sized balls. You seize up as your body tries desperately to cum again and your testicles lurch under the pressure, gallons pouring atop gallons.\n\n");
 
@@ -242,10 +242,10 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    public scyllaRoundThreeCUM(): void {
+    public scyllaRoundThreeCUM() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-two-jizz"));
+        DisplayImage(images.showImage("scylla-help-round-two-jizz"));
         flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA]++;
         //Standard
         if (player.hasKeyItem("Opal Ring") < 0 || flags[FlagEnum.FED_SCYLLA_TODAY] === 1) {
@@ -272,7 +272,7 @@
     }
 
     //[Her Belly]-
-    private scyllaIIIBellyChat(): void {
+    private scyllaIIIBellyChat() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("Off-handedly, you ask how her thirst has been. She seemed to be, ahem, retaining a lot of fluid when you last left her, but now...\n\n");
@@ -288,7 +288,7 @@
     }
 
     //[Her Breathing] –
-    private scyllaIIIHOWZUBREETH(): void {
+    private scyllaIIIHOWZUBREETH() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("This has been bothering you for a while. You spend a minute trying to carefully phrase your question before giving up and just diving in. How, you ask, was she able to keep breathing last time you fed her? Nobody can hold their breath for that long. Scylla fidgets and curls her hair with a finger as she stutters \"<i>Um, well...</i>\" As the nun does her best to politely handle the question, your gaze drops to her dangerously stuffed neckline. Beads of glistening sweat have formed at the crest of her diving cleavage and her fidgeting has bunched up her robe. Under the velour black cloth, her puffy areolas are straining to pop out. Her sunken nipples are hidden in tiny ravines of pink flesh.\n\n");
@@ -299,7 +299,7 @@
 
         DisplayText("She squeaks in pleasure at the shallow penetration and tries to push your hand away so gently that she might actually be stroking it. \"<i>I'm sorry,</i>\" she apologizes, \"<i>they're weird now, right?</i>\" The tight, puckered button lips on her breast, however, have no such protests as they suck on your thumb, a pale white fluid drooling around it. Maybe that's the reason she's always thirsty now- she's only been feeding one mouth when she ought to be drinking for three.\n\n");
 
-        DisplayText("You push the nun on her back and savor her embarrassed squirming before you strip and let loose your " + CockDescriptor.describeMultiCockShort(player) + ", letting the stiffening length");
+        DisplayText("You push the nun on her back and savor her embarrassed squirming before you strip and let loose your " + Desc.Cock.describeMultiCockShort(player) + ", letting the stiffening length");
         if (player.torso.cocks.count > 1) DisplayText("s");
         DisplayText(" slap down on her belly. You climb onto the bed and straddle her chest, sliding ");
         if (player.torso.cocks.count > 1) DisplayText("a ");
@@ -321,10 +321,10 @@
         DisplayText("You collapse atop her, head pillowed between Scylla's now mammoth tits. A wicked impulse strikes you, and you pull yourself up by your elbows. You rub your cheek against her swollen tit and hover just over her nipple. Smiling, you run the tip of your tongue in a tightening spiral around it, tasting the creamy flesh and sending shivers up her spine. You let your tongue linger at her lips and press your own against them, kissing gently, the suction of your mouth trying to pull her clenched nipple open. \"<i>Oh!</i>\" she gasps, and wraps her arms around your head, pulling you into a tight embrace, her tit lips kissing you back, passionately. They're sweet in your mouth, like marshmallows or candy, and you run your tongue between her lips, parting them once more. Fluid flows out of her over-full breast and into your mouth. You roll it around on your tongue, trying to place the taste. It's slightly salty, but not at all bitter, like you expected. Instead, it's gained some of the sweetness of her lips, more like cream than the milk and cum that made it. You lock your lips around hers and suckle, pulling a mouthful out, which you drink with a shuddering satisfaction.");
         return { next: scyllaLevelIIIRoundIIIFIGHT };
     }
-    private scyllaLevelIIIRoundIIIFIGHT(): void {
+    private scyllaLevelIIIRoundIIIFIGHT() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-three"));
+        DisplayImage(images.showImage("scylla-help-round-three"));
         //[one dick]-
         if (player.torso.cocks.count === 1) {
             DisplayText("The richness of Scylla's milk seems to have reinvigorated you- a rush of blood sweeps your exhaustion away and your dick grows hard at the sight of her panting, supple body. Deciding to finish what you began, you straddle her once more and slide your dick between her tits. Their inflation has turned the tight but shallow cradle of her cleavage into a rippling embrace of almost liquid flesh. You sink your fingers into her alabaster skin and they vanish in her tits, swallowed from sight. She lets out a tittering laugh, still oblivious to anything beyond the sensation of your cock and hands upon her chest. Rubbing your palms along her boobs, you can feel the liquid sloshing within, hot and sweet. You squeeze them together as hard as you can and you are rewarded with a pulsing clench on your dick. You begin to rock back and forth, massaging her bloated tit flesh with your throbbing hardness. As you squeeze, her lips part slightly, allowing her cream to ooze down her cleavage and between your fingers, warm and pale white, giving her skin a glossy shine, like oil. Your thrusting works the cream all over her tits and before long, you're sliding in and out easily, the slick friction rocking her udder-like boobs hard enough that her whole body bobs back and forth, like a human cock-sheath.\n\n");
@@ -368,7 +368,7 @@
         return { next: scyllaIIIFinisher };
     }
 
-    private scyllaIIIFinisher(): void {
+    private scyllaIIIFinisher() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("When you finally rouse from your slumber, you understand why all the guys downstairs in the Wet Bitch looked like they'd been sucked dry. Your body is sore and you feel like you haven't had anything to drink in months. Scylla is next to you, plump and happy. She's managed to replace her irredeemably stained robe with a new, larger one, but it too is on the verge of tearing. Though her digestion seems to have handled most of your cum, her breasts have kept some of their weight, each as large as a basketball. Her belly has the slightest paunch, but apparently this is enough to sate her thirst because she gives you an affectionate pat on the shoulder and a smile so bright that the candles in the room seem dim.\n\n");
@@ -377,10 +377,10 @@
         return { next: Scenes.camp.returnToCampUseFourHours };
     }
 
-    public scyllaRoundIVGo(): void {
+    public scyllaRoundIVGo() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-four"));
+        DisplayImage(images.showImage("scylla-help-round-four"));
         flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA]++;
         DisplayText("The tavern has a decent crowd, the air thick with laughter and ribald conversation. Scylla is speaking with a few strangers, politely nodding when you spot her. You wave to her on your way in and she waves back, excusing herself from the conversation and making her way over to you. She explains that she has a few things to take care of, but she'd be glad to have your company later.  Scylla ducks out the door and you shrug, deciding to kill some time. You order a drink and begin to walk away from the bar when you feel a sharp sting on the back of your neck. You slap the welt and angrily look for the insect that stung you, but the dull roar of the patrons' lusty conversations hides the culprit's escape. You grumble and rub the pinched muscle in your shoulder as you grab your drink and settle by the fire.\n\n");
 
@@ -389,26 +389,26 @@
         DisplayText("When consciousness finally returns, you find yourself in a small stone room with no lights or windows. You aren't tied up, but you feel incredibly vulnerable. Your body feels strange, and you check yourself with a quick pat down. Everything seems to be in place, but the lingering effects of the poison are making it difficult to think clearly. You take stock of your situation: You're in a strange place, in the dark, all alone, and you can still feel the poison coursing through your veins. Your cheeks flush and you do the only thing you can think of: you cry out for help.");
         return { next: scyllaRoundIVPtII };
     }
-    private scyllaRoundIVPtII(): void {
+    private scyllaRoundIVPtII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-four-pt-two"));
+        DisplayImage(images.showImage("scylla-help-round-four-pt-two"));
         DisplayText("Your call is answered by a scraping and shuffling at one of your walls, and for a moment, you fear you've alerted your captor. Then, a line of light forms against the stone and gradually widens into a doorway. Your relief at the illumination takes the breath from you. A face, framed by the light like a halo, appears in the doorway. \"<i>Is that you, " + player.short + "?  Are you all right?</i>\" Your savior is a tall, busty nun with raven-black hair and pale, soft skin. Scylla looks as relieved to see you as you are to see her, tears misting in her eyes. \"<i>Oh dear, let's get you out of this wretched place,</i>\" she fusses, bustling in and scooping you to her breast. \"<i>I'm so glad you are all right!</i>\" The nun's warm embrace is a welcome change from the cold stone, and you let yourself relax in her arms as she lifts you off the ground and carries you out.\n\n");
 
         DisplayText("You glance warily between the towering mountains behind you and the dark forest ahead. You wonder just how long you've been out, and how far they smuggled you. A thought tries to cross your muddled brain and you only catch snippets of what your rescuer is saying. \"<i>--so worried when they said you'd just vanished from the tavern! I searched the city without luck,</i>\" she explains as you look up at her sweet, caring expression. Her strides are long, and you bounce against her gargantuan bust with each step. You are still trying to figure out what's off about your body... Something about size? \"<i>It was by divine providence that I found you in time,</i>\" the nun carries on, closing her eyes for a quick prayer of thanks. \"<i>Whatever wicked creature snatched you never thought that I would search the mountain's foothills, and find the cave he'd stashed you in.</i>\" Her quiet, reserved public demeanor quite forgotten in her righteous joy, she gives you a kiss on your forehead. \"<i>But the gods protect children.</i>\"\n\n");
 
-        DisplayText("The last of your haze is burned away by her statement, and you take a careful look at yourself. You haven't changed physically, except in scale. Scylla isn't a lumbering giant – you've just shrunk down to a child's size, no more than three feet tall. The nun hushes your panicked squirming with a gentle shoosh and a pat on the head. \"<i>There there... You've been afflicted by a profane venom, but Scylla will make it all better.</i>\" She dips her head and lifts you up, threading your small " + LegDescriptor.describeLegs(player) + " around her shoulders, letting you ride piggy-back as she walks to a small temple on the edge of the forest. You rest your tiny fingers in the thick, curly hair that spills all around you and smile, despite yourself, when she takes extra big steps to make you bounce on her shoulders.\n\n");
+        DisplayText("The last of your haze is burned away by her statement, and you take a careful look at yourself. You haven't changed physically, except in scale. Scylla isn't a lumbering giant – you've just shrunk down to a child's size, no more than three feet tall. The nun hushes your panicked squirming with a gentle shoosh and a pat on the head. \"<i>There there... You've been afflicted by a profane venom, but Scylla will make it all better.</i>\" She dips her head and lifts you up, threading your small " + Desc.Leg.describeLegs(player) + " around her shoulders, letting you ride piggy-back as she walks to a small temple on the edge of the forest. You rest your tiny fingers in the thick, curly hair that spills all around you and smile, despite yourself, when she takes extra big steps to make you bounce on her shoulders.\n\n");
 
-        DisplayText("You reach her humble quarters, and Scylla sets you down on her plain-looking cot, leaving your " + LegDescriptor.describeLegs(player) + " to swing in the air over the side. \"<i>I have never seen this poison's effects in person,</i>\" she begins, taking a seat on a simple stool opposite you, \"<i>but I have read accounts of it. Demon Lords brew it to topple heroes without risking noble combat. Its vile magic saps your size and your strength. If left untreated, victims regress until they have no hope of overcoming their attackers. I shudder to think what happens if it gets that far.</i>\" Her eyes glaze, perhaps remembering the demonic factory that you shut down. Then she shakes her head and just like that, her concern is swept away – replaced by a smile like the first thaw of spring. \"<i>But we won't let that happen,</i>\" she soothes you, resting a large yet soft hand on your " + LegDescriptor.describeLeg(player) + ".  You look down at the nun's lingering arm and follow it up to her sizable chest. Her breathing is a little too shallow, and you meet her eyes only to see the beginnings of thirst reaching its hooks into her mind. \"<i>We just need to get that poison out of you...</i>\" she whispers, leaning down, her full, red lips glistening.");
+        DisplayText("You reach her humble quarters, and Scylla sets you down on her plain-looking cot, leaving your " + Desc.Leg.describeLegs(player) + " to swing in the air over the side. \"<i>I have never seen this poison's effects in person,</i>\" she begins, taking a seat on a simple stool opposite you, \"<i>but I have read accounts of it. Demon Lords brew it to topple heroes without risking noble combat. Its vile magic saps your size and your strength. If left untreated, victims regress until they have no hope of overcoming their attackers. I shudder to think what happens if it gets that far.</i>\" Her eyes glaze, perhaps remembering the demonic factory that you shut down. Then she shakes her head and just like that, her concern is swept away – replaced by a smile like the first thaw of spring. \"<i>But we won't let that happen,</i>\" she soothes you, resting a large yet soft hand on your " + LegDescriptor.describeLeg(player) + ".  You look down at the nun's lingering arm and follow it up to her sizable chest. Her breathing is a little too shallow, and you meet her eyes only to see the beginnings of thirst reaching its hooks into her mind. \"<i>We just need to get that poison out of you...</i>\" she whispers, leaning down, her full, red lips glistening.");
         player.stats.lust += 5;
         //[Next]
         return { next: scyllaRoundIVPtIII };
     }
-    private scyllaRoundIVPtIII(): void {
+    private scyllaRoundIVPtIII() {
         scyllaSprite();
         hideUpDown();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-four-pt-three"));
+        DisplayImage(images.showImage("scylla-help-round-four-pt-three"));
         DisplayText("Your contact is broken as the distinctive odor of brimstone fills the air. Scylla draws back in shock, and you are painfully aware of just how weak you've become. A fountain of flames erupts from the floor and a figure of darkness steps out. You almost sigh in relief when you see it's only an imp, even if he is a rather large one. Actually, at four feet and covered in muscle and matted red fur, he looks completely capable of dragging your tiny body back to your lightless cell. You shake off your doubts and set your jaw. Standing on the bed, you defiantly face him.\n\n");
 
         DisplayText("\"<i>Weak-minded Champion,</i>\" he taunts with a voice like oil on water, \"<i>you are already beaten. My agent inside your wretched city caught you at the height of your power.  What hope do you have now? Submit to your new lord and I promise you will grow to enjoy your treatment in time.</i>\"\n\n");
@@ -425,7 +425,7 @@
         MainScreen.simpleChoices(["Watch", "Kiss Her", "", "", ""], [scyllaRoundIVPtIVWATCH, scyllaPtIVKissPtI, null, null, null]);
     }
 
-    private scyllaRoundIVPtIVWATCH(): void {
+    private scyllaRoundIVPtIVWATCH() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("Scylla lowers herself to her knees and hovers over the unconscious imp, a shadow falling over her eyes and her lids drooping. Her plump lips curl slowly at their edges, and she murmurs something under her breath that sounds like a prayer you used to say as a child before having a meal. When she finishes, the nun unfolds her hands and lays them upon the hulking imp, gliding her fingers up his thighs and over his hips. With a dismissive tug, she pulls his fur loincloth aside to expose his flaccid member. Even soft, it's nearly 8 inches long, and covered in small, hooking protrusions to make sure it can't be removed from a victim while hard. Scylla wraps her hands around the shaft and strokes along its length, one finger at a time, tightening her grip just as she reaches the head. Under her eager, if inexperienced, strokes, the collapsed demon stiffens, his body submitting to her insistent caress.\n\n");
@@ -438,7 +438,7 @@
         //[Next]
         return { next: scyllaWatchSecondPartPoorImp };
     }
-    private scyllaWatchSecondPartPoorImp(): void {
+    private scyllaWatchSecondPartPoorImp() {
         scyllaSprite();
         hideUpDown();
         player.stats.lust += 10;
@@ -454,7 +454,7 @@
         //[Next]
         return { next: scyllaWatchThirdPartOhShitSon };
     }
-    private scyllaWatchThirdPartOhShitSon(): void {
+    private scyllaWatchThirdPartOhShitSon() {
         scyllaSprite();
         hideUpDown();
         player.stats.lib += 1;
@@ -474,7 +474,7 @@
     }
 
     //[Kiss]
-    private scyllaPtIVKissPtI(): void {
+    private scyllaPtIVKissPtI() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You step up to the kneeling nun, grab her shoulders with small hands, and lean in for a deep kiss. Her large lips are soft on yours and taste pleasant on the tip of your tongue. She seems startled at first, but sighs after a moment as her mind-erasing thirst is driven back by your passionate embrace. The horns sprouting from her skull recede and disappear into her hair once more. She returns your kiss with genuine gratefulness, one hand cupping the back of your head, the other wrapped around your waist.  Her lips are warm against yours, their heat spreading through your shortened frame. When you break the kiss for air, Scylla's eyes glitter with affection, and her mouth turns up in cute amusement. \"<i>Even when I'm trying to protect you, you come to my rescue,</i>\" she softly chides.\n\n");
@@ -486,19 +486,19 @@
         return { next: scyllaPtIVKissPtII };
     }
 
-    private scyllaPtIVKissPtII(): void {
+    private scyllaPtIVKissPtII() {
         scyllaSprite();
         hideUpDown();
         player.orgasm();
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         DisplayText().clear();
-        DisplayText("When you break your second kiss, tummy full of Scylla's cream, you find yourself entrapped by her mammoth chest. The stimulation of your nursing seems to have caused her tits to overcompensate, inflating with milk far in excess to what your small stomach could drain. You are literally encased between her breasts, the pliant but firm flesh engulfing everything from your shoulders down in her snug cleavage. You shift uncomfortably for a moment, until you realize not all of your body has shrunk. You shift, no longer able to resist your erection's pressure, and shed your " + player.inventory.equipment.armor.displayName + ". With your shrunken body's child-like dimensions, " + CockDescriptor.describeMultiCockSimpleOne(player) + " is virtually as thick as your torso. The weight would knock you flat on your back if Scylla's tits weren't wrapped around you in their tight embrace.  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " strains just under her nose, pulsing at the tightness around you.\n\n");
+        DisplayText("When you break your second kiss, tummy full of Scylla's cream, you find yourself entrapped by her mammoth chest. The stimulation of your nursing seems to have caused her tits to overcompensate, inflating with milk far in excess to what your small stomach could drain. You are literally encased between her breasts, the pliant but firm flesh engulfing everything from your shoulders down in her snug cleavage. You shift uncomfortably for a moment, until you realize not all of your body has shrunk. You shift, no longer able to resist your erection's pressure, and shed your " + player.inventory.equipment.armor.displayName + ". With your shrunken body's child-like dimensions, " + Desc.Cock.describeMultiCockSimpleOne(player) + " is virtually as thick as your torso. The weight would knock you flat on your back if Scylla's tits weren't wrapped around you in their tight embrace.  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " strains just under her nose, pulsing at the tightness around you.\n\n");
 
-        DisplayText("Scylla strokes " + CockDescriptor.describeMultiCockSimpleOne(player) + " with her palms and cheeks, reveling in the heat of your panting chest between her tits. \"<i>We still have to get that nasty poison out of your precious body, little one. Don't worry; let Scylla kiss it all better.</i>\" She purses her lips and plants kisses from shaft to head, pausing at your crown. Blushing, she lowers her mouth to the shaft again and pokes out her tongue.\n\n");
+        DisplayText("Scylla strokes " + Desc.Cock.describeMultiCockSimpleOne(player) + " with her palms and cheeks, reveling in the heat of your panting chest between her tits. \"<i>We still have to get that nasty poison out of your precious body, little one. Don't worry; let Scylla kiss it all better.</i>\" She purses her lips and plants kisses from shaft to head, pausing at your crown. Blushing, she lowers her mouth to the shaft again and pokes out her tongue.\n\n");
 
-        DisplayText("Scylla's tongue is as crimson as her lips and moist with the hungry drool in her mouth. She strokes your " + CockDescriptor.describeCock(player, x) + " with her delicately pointed tip, tracing the swell of your cock-head bashfully. She smiles as she opens her mouth broadly and stretches her tongue out further. You've felt it curl around your " + CockDescriptor.describeCock(player, x) + " before, but having not seen it until now, you never appreciated how long it must be to fit all the way around. At its base, the nun's tongue is three inches wide and a serpentine eight inches long. She giggles in delight at the look of shock on your adolescent face. Scylla dips her tongue into her cleavage and draws it up along your " + CockDescriptor.describeMultiCockShort(player) + ", moving in long, slow motions, soft, wet muscle curling around you and drinking in the flavor of your sex. She presses her arms on either side of her love-pillows as she laps at your " + CockDescriptor.describeCock(player, x) + ", and her tits squeeze " + CockDescriptor.describeMultiCockSimpleOne(player) + " with liquid tightness. Her tongue wraps around your cock, spiraling up and around, corkscrewing your head as the pressure from her mountainous breasts redoubles and squishes the breath from your chest.\n\n");
+        DisplayText("Scylla's tongue is as crimson as her lips and moist with the hungry drool in her mouth. She strokes your " + Desc.Cock.describeCock(player, x) + " with her delicately pointed tip, tracing the swell of your cock-head bashfully. She smiles as she opens her mouth broadly and stretches her tongue out further. You've felt it curl around your " + Desc.Cock.describeCock(player, x) + " before, but having not seen it until now, you never appreciated how long it must be to fit all the way around. At its base, the nun's tongue is three inches wide and a serpentine eight inches long. She giggles in delight at the look of shock on your adolescent face. Scylla dips her tongue into her cleavage and draws it up along your " + Desc.Cock.describeMultiCockShort(player) + ", moving in long, slow motions, soft, wet muscle curling around you and drinking in the flavor of your sex. She presses her arms on either side of her love-pillows as she laps at your " + Desc.Cock.describeCock(player, x) + ", and her tits squeeze " + Desc.Cock.describeMultiCockSimpleOne(player) + " with liquid tightness. Her tongue wraps around your cock, spiraling up and around, corkscrewing your head as the pressure from her mountainous breasts redoubles and squishes the breath from your chest.\n\n");
 
-        DisplayText("You begin to feel light headed from the blood trapped in " + CockDescriptor.describeMultiCockSimpleOne(player) + " just as she finally releases the squeezing embrace. " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " can take no more; your orgasm robs your muscles of control, your whole body shivers against Scylla's chest.  She hungrily coaxes your cum upward with her coiled tongue, and places a dainty kiss on your tip just as it bursts from you. She drinks load after load, yummy noises gurgling from her throat while her tongue laps up the leaking sperm that runs in thick rivulets from her mouth.\n\n");
+        DisplayText("You begin to feel light headed from the blood trapped in " + Desc.Cock.describeMultiCockSimpleOne(player) + " just as she finally releases the squeezing embrace. " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " can take no more; your orgasm robs your muscles of control, your whole body shivers against Scylla's chest.  She hungrily coaxes your cum upward with her coiled tongue, and places a dainty kiss on your tip just as it bursts from you. She drinks load after load, yummy noises gurgling from her throat while her tongue laps up the leaking sperm that runs in thick rivulets from her mouth.\n\n");
         //[2+ dicks only] -
         if (player.torso.cocks.count > 1) {
             if (player.torso.cocks.count === 2) DisplayText("Your other cock doesn't have the nun's eager mouth tending to it, but the pressure of her colossal tit fucking coaxes it to cum all the same. Jizz fountains in hot streams of white lust that splatter across the nun's blissful face and into her coal-dark hair. Gobs of it roll across her engorged tits, soaking you in the press of her cleavage as it rolls inward and leaks goopy tendrils that paint her alabaster skin whiter still. She runs her hands over the cum, gathering it between her fingers and massaging it into her flesh, every sensation drunk from the feeling of your sticky orgasm on her body.\n\n");
@@ -507,7 +507,7 @@
         //[Next]
         return { next: scyllaPtIVKissPtIII };
     }
-    private scyllaPtIVKissPtIII(): void {
+    private scyllaPtIVKissPtIII() {
         scyllaSprite();
         hideUpDown();
         player.orgasm();
@@ -515,21 +515,21 @@
         player.stats.sens += 1;
         DisplayText().clear();
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
-        DisplayText("Scrambling up and out of your titty cocoon, you pull your tiny body onto the top of her jiggling mounds. Scylla laughs at the feeling of having you crawl over her body, and watches your progress with amusement as she lazily slurps down your slowing loads. With an expression of ecstatic agony, you buck your hips in an attempt to fuck the nun's face without any leverage. The cum on her body makes your perch slippery, however, and you begin to slide backward before she catches you with sure hands and draws you closer. Each time you thrust, she pulls you a little closer, a few more inches of your " + CockDescriptor.describeCock(player, x) + " jamming into her mouth. In your state, your strength is nothing next to hers, but she plays along, making surprised gasps and moans as you \"ram\" yourself deeper. When you get close enough for your short arms to reach her head, you grab onto her palm-sized horn nubs. She gives you complete control of her head as you jerk her back and forth, lips, mouth, and throat sliding along your length.\n\n");
+        DisplayText("Scrambling up and out of your titty cocoon, you pull your tiny body onto the top of her jiggling mounds. Scylla laughs at the feeling of having you crawl over her body, and watches your progress with amusement as she lazily slurps down your slowing loads. With an expression of ecstatic agony, you buck your hips in an attempt to fuck the nun's face without any leverage. The cum on her body makes your perch slippery, however, and you begin to slide backward before she catches you with sure hands and draws you closer. Each time you thrust, she pulls you a little closer, a few more inches of your " + Desc.Cock.describeCock(player, x) + " jamming into her mouth. In your state, your strength is nothing next to hers, but she plays along, making surprised gasps and moans as you \"ram\" yourself deeper. When you get close enough for your short arms to reach her head, you grab onto her palm-sized horn nubs. She gives you complete control of her head as you jerk her back and forth, lips, mouth, and throat sliding along your length.\n\n");
 
         if (player.torso.balls.quantity > 0) {
-            DisplayText("Scylla's long, winding tongue seeks out your " + BallsDescriptor.describeSack(player) + " and licks it ravenously, rolling each testicle around to reignite your flagging orgasm. She looks up and meets your eyes. Drinking in your adolescent expression of helpless pleasure, she blushes a vivid pink, shivering in her own orgasm. She can't stop herself from letting her tongue travel up your taint to your " + ButtDescriptor.describeButthole(character.torso.butt) + ". You gasp in juvenile surprise as she digs her fingers into her nipple lips, masturbating furiously at your cute expression. Without preamble, she thrusts her tongue into your ass and presses against your immature prostate, making you squeak in another helpless orgasm. You pull weakly at her horns and she complies hungrily, swallowing the rest of your " + CockDescriptor.describeCock(player, x) + " in one gulp just in time for your renewed balls to flood her throat with your seed. You tremble uncontrollably, eyes clamped shut, sitting atop Scylla's tits with her head buried in your crotch.  Her arms curl around your back, hugging you as she drinks deeply. As the nun's thirst drains you, a cold sensation works its way through your ball sack and down your cock. When it finally bursts into her stomach, you gasp as blazing warmth fills you.\n\n");
-            DisplayText("Your " + BallsDescriptor.describeBalls(true, true, player) + " pump out the last of your cum, and Scylla gulps it happily before she puts her hands under each of your arms and pulls you up, " + CockDescriptor.describeMultiCockSimpleOne(player) + " flopping sloppily against her face. She's smiling with puffed-out cheeks when she sets you down gently on the bed and strokes your young face with her fingertips. She winks at you and stoops down to the unconscious imp. She pins his mouth open with her forefinger and thumb, and she purses her bloated lips into a narrow opening. A thick stream of your cum slowly drips down toward the imp Lord's waiting gullet.  In the cum you can see thin streaks of a greenish fluid which you realize must be the venom he'd injected you with!  Indeed, you begin to feel pinpricks along your fingertips and toes as your strength ebbs back into your limbs. As you gradually start to regain your size, the agonizingly long stream of cum from Scylla's mouth reaches the imp's own. He begins to choke as it touches his throat, and Scylla swiftly lunges forward to plant a kiss on the demon, holding his mouth open with hers. The nun's cheeks empty, and the imp swallows in reflex at the flood filling his throat. Scylla breaks the kiss with a loud, wet, \"<i>Muah!</i>\" and grins mischievously at you. The imp coughs and gags, but the cum-coated poison swiftly courses through his system and he shrinks on the spot. He diminishes from four feet down to one, his aura of infernal power broken as his strength is siphoned away. Scylla picks him up like a doll and thrusts him into her cleavage for safe-keeping.  His struggles are so pathetic that they barely make her love-pillows jiggle at all.");
+            DisplayText("Scylla's long, winding tongue seeks out your " + Desc.Balls.describeSack(player) + " and licks it ravenously, rolling each testicle around to reignite your flagging orgasm. She looks up and meets your eyes. Drinking in your adolescent expression of helpless pleasure, she blushes a vivid pink, shivering in her own orgasm. She can't stop herself from letting her tongue travel up your taint to your " + Desc.Butt.describeButthole(character.torso.butt) + ". You gasp in juvenile surprise as she digs her fingers into her nipple lips, masturbating furiously at your cute expression. Without preamble, she thrusts her tongue into your ass and presses against your immature prostate, making you squeak in another helpless orgasm. You pull weakly at her horns and she complies hungrily, swallowing the rest of your " + Desc.Cock.describeCock(player, x) + " in one gulp just in time for your renewed balls to flood her throat with your seed. You tremble uncontrollably, eyes clamped shut, sitting atop Scylla's tits with her head buried in your crotch.  Her arms curl around your back, hugging you as she drinks deeply. As the nun's thirst drains you, a cold sensation works its way through your ball sack and down your cock. When it finally bursts into her stomach, you gasp as blazing warmth fills you.\n\n");
+            DisplayText("Your " + Desc.Balls.describeBalls(true, true, player) + " pump out the last of your cum, and Scylla gulps it happily before she puts her hands under each of your arms and pulls you up, " + Desc.Cock.describeMultiCockSimpleOne(player) + " flopping sloppily against her face. She's smiling with puffed-out cheeks when she sets you down gently on the bed and strokes your young face with her fingertips. She winks at you and stoops down to the unconscious imp. She pins his mouth open with her forefinger and thumb, and she purses her bloated lips into a narrow opening. A thick stream of your cum slowly drips down toward the imp Lord's waiting gullet.  In the cum you can see thin streaks of a greenish fluid which you realize must be the venom he'd injected you with!  Indeed, you begin to feel pinpricks along your fingertips and toes as your strength ebbs back into your limbs. As you gradually start to regain your size, the agonizingly long stream of cum from Scylla's mouth reaches the imp's own. He begins to choke as it touches his throat, and Scylla swiftly lunges forward to plant a kiss on the demon, holding his mouth open with hers. The nun's cheeks empty, and the imp swallows in reflex at the flood filling his throat. Scylla breaks the kiss with a loud, wet, \"<i>Muah!</i>\" and grins mischievously at you. The imp coughs and gags, but the cum-coated poison swiftly courses through his system and he shrinks on the spot. He diminishes from four feet down to one, his aura of infernal power broken as his strength is siphoned away. Scylla picks him up like a doll and thrusts him into her cleavage for safe-keeping.  His struggles are so pathetic that they barely make her love-pillows jiggle at all.");
         }
         else {
-            DisplayText("Scylla's long, winding tongue seeks out the base of your shaft and licks it ravenously, pumping your rod to reignite your flagging orgasm. She looks up and meets your eyes. Drinking in your adolescent expression of helpless pleasure, she blushes a vivid pink, shivering in her own orgasm. She can't stop herself from letting her tongue travel up your taint to your " + ButtDescriptor.describeButthole(character.torso.butt) + ". You gasp in juvenile surprise as she digs her fingers into her nipple lips, masturbating furiously at your cute expression. Without preamble, she thrusts her tongue into your ass and presses against your immature prostate, making you squeak in another helpless orgasm. You pull weakly at her horns and she complies hungrily, swallowing the rest of your " + CockDescriptor.describeCock(player, x) + " in one gulp just in time for you to flood her throat with your seed. You tremble uncontrollably, eyes clamped shut, sitting atop Scylla's tits with her head buried in your crotch.  Her arms curl around your back, hugging you as she drinks deeply. As the nun's thirst drains you, a cold sensation works its way through your cock. When it finally bursts into her stomach, you gasp as blazing warmth fills you.\n\n");
-            DisplayText("Your loins pump out the last of your cum, and Scylla gulps it happily before she puts her hands under each of your arms and pulls you up, " + CockDescriptor.describeMultiCockSimpleOne(player) + " flopping sloppily against her face. She's smiling with puffed-out cheeks when she sets you down gently on the bed and strokes your young face with her fingertips. She winks at you and stoops down to the unconscious imp. She pins his mouth open with her forefinger and thumb, and she purses her bloated lips into a narrow opening. A thick stream of your cum slowly drips down toward the imp Lord's waiting gullet.  In the cum you can see thin streaks of a greenish fluid which you realize must be the venom he'd injected you with!  Indeed, you begin to feel pinpricks along your fingertips and toes as your strength ebbs back into your limbs. As you gradually start to regain your size, the agonizingly long stream of cum from Scylla's mouth reaches the imp's own. He begins to choke as it touches his throat, and Scylla swiftly lunges forward to plant a kiss on the demon, holding his mouth open with hers. The nun's cheeks empty, and the imp swallows in reflex at the flood filling his throat. Scylla breaks the kiss with a loud, wet, \"<i>Muah!</i>\" and grins mischievously at you. The imp coughs and gags, but the cum-coated poison swiftly courses through his system and he shrinks on the spot. He diminishes from four feet down to one, his aura of infernal power broken as his strength is siphoned away. Scylla picks him up like a doll and thrusts him into her cleavage for safe-keeping.  His struggles are so pathetic that they barely make her love-pillows jiggle at all.");
+            DisplayText("Scylla's long, winding tongue seeks out the base of your shaft and licks it ravenously, pumping your rod to reignite your flagging orgasm. She looks up and meets your eyes. Drinking in your adolescent expression of helpless pleasure, she blushes a vivid pink, shivering in her own orgasm. She can't stop herself from letting her tongue travel up your taint to your " + Desc.Butt.describeButthole(character.torso.butt) + ". You gasp in juvenile surprise as she digs her fingers into her nipple lips, masturbating furiously at your cute expression. Without preamble, she thrusts her tongue into your ass and presses against your immature prostate, making you squeak in another helpless orgasm. You pull weakly at her horns and she complies hungrily, swallowing the rest of your " + Desc.Cock.describeCock(player, x) + " in one gulp just in time for you to flood her throat with your seed. You tremble uncontrollably, eyes clamped shut, sitting atop Scylla's tits with her head buried in your crotch.  Her arms curl around your back, hugging you as she drinks deeply. As the nun's thirst drains you, a cold sensation works its way through your cock. When it finally bursts into her stomach, you gasp as blazing warmth fills you.\n\n");
+            DisplayText("Your loins pump out the last of your cum, and Scylla gulps it happily before she puts her hands under each of your arms and pulls you up, " + Desc.Cock.describeMultiCockSimpleOne(player) + " flopping sloppily against her face. She's smiling with puffed-out cheeks when she sets you down gently on the bed and strokes your young face with her fingertips. She winks at you and stoops down to the unconscious imp. She pins his mouth open with her forefinger and thumb, and she purses her bloated lips into a narrow opening. A thick stream of your cum slowly drips down toward the imp Lord's waiting gullet.  In the cum you can see thin streaks of a greenish fluid which you realize must be the venom he'd injected you with!  Indeed, you begin to feel pinpricks along your fingertips and toes as your strength ebbs back into your limbs. As you gradually start to regain your size, the agonizingly long stream of cum from Scylla's mouth reaches the imp's own. He begins to choke as it touches his throat, and Scylla swiftly lunges forward to plant a kiss on the demon, holding his mouth open with hers. The nun's cheeks empty, and the imp swallows in reflex at the flood filling his throat. Scylla breaks the kiss with a loud, wet, \"<i>Muah!</i>\" and grins mischievously at you. The imp coughs and gags, but the cum-coated poison swiftly courses through his system and he shrinks on the spot. He diminishes from four feet down to one, his aura of infernal power broken as his strength is siphoned away. Scylla picks him up like a doll and thrusts him into her cleavage for safe-keeping.  His struggles are so pathetic that they barely make her love-pillows jiggle at all.");
         }
         //Epilogue
         return { next: scyllaPtIVEpilogue };
     }
 
-    private scyllaPtIVEpilogue(): void {
+    private scyllaPtIVEpilogue() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You thank Scylla for everything and prepare to head back to Tel'Adre. The Wet Bitch has a long-delayed second drink with your name on it. As you're leaving, Scylla pats the imp Lord's head, still sticking out of her vice-like cleavage. \"<i>I think I will keep you around,</i>\" she muses, \"<i>To give you a chance to atone for your wicked ways. We'll have to keep you from scaring people, though. Maybe stick you in a fluffy teddy bear?</i>\" You shake your head and leave the imp Lord to the nun's tender mercies.");
@@ -538,7 +538,7 @@
 
 
     //Scylla- Addicts Anonymous (repeatable)
-    public scyllaAdictsAnonV(): void {
+    public scyllaAdictsAnonV() {
         scyllaSprite();
         return { next: Scenes.camp.returnToCampUseOneHour };
         if (flags[FlagEnum.TIMES_MET_SCYLLA_IN_ADDICTION_GROUP] === 0) scyllaPtVFirstTime();
@@ -547,11 +547,11 @@
         if (flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] < 5) flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] = 5;
     }
     //[Nun]
-    private scyllaPtVFirstTime(): void {
+    private scyllaPtVFirstTime() {
         scyllaSprite();
         //(First time)
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-firt-time"));
+        DisplayImage(images.showImage("scylla-help-round-five-firt-time"));
         DisplayText("You spot Scylla across the common room of the Wet Bitch, but she seems preoccupied. The nun is fetching a tray of assorted drinks and shots from the bar, which strikes you as strange since you haven't seen her order anything here that wasn't drowned in milk and cream. You slink back into the crowd and keep a curious eye on her. After marshalling the drinks, she hefts the tray and very carefully takes it upstairs.  She bumps one of the doors open with her plump butt and walks inside, before giving the door another rump bump to close it.  You quickly creep forward and hook a finger into the frame, keeping the door open an inch.\n\n");
 
         DisplayText("Peering through the crack, you see the nun place the drinks on a modest table and take a seat, folding her hands neatly under her gargantuan chest with a prim, little smile. Joining her around the table are two other women, of considerably smaller stature. One, a goblin girl, slouches in her chair with one leg hung over an armrest, propping her head on her palm as she picks at her teeth with a small wooden stick. Her expression is one of intense boredom and she regards her hostess with a contemptuous glance before she grabs a mug of ale and chugs it. She's dressed modestly for a goblin, in oiled leather plates that conceal most of her green skin. She has no helm, however, to cover her bright red, braided hair or her tiny, pug nose. There's no sign of the usual assortment of potions and drugs most goblins seem to carry.\n\n");
@@ -571,10 +571,10 @@
         return { next: scyllaPtVFirstTimeII };
     }
     //[Next]
-    private scyllaPtVFirstTimeII(): void {
+    private scyllaPtVFirstTimeII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-firt-time-pt-two"));
+        DisplayImage(images.showImage("scylla-help-round-five-firt-time-pt-two"));
         DisplayText("\"<i>Thank you ever so much, Abby,</i>\" the nun says happily, ignoring the insult. \"<i>Now, to begin the healing.</i>\" She takes a deep breath that sends her chest heaving. \"<i>I... am an addict.</i>\" The confession makes Abby roll her eyes and sends Pastie into shivers, but she presses on. \"<i>Since my escape from a demon lair, I have had a powerful thirst that even prayers have not slaked. It has changed my body and made me treat my friends in very disrespectful ways.</i>\" She blushes as she tries to describe her actions and her voice drops so low that she looks like she's trying to whisper to her own shadow.\n\n");
 
         DisplayText("\"<i>I guess I'll go next,</i>\" Pastie sighs once it's clear Scylla is going to need a moment to gather herself. She leans back and lies flat on the table, wings splayed at her sides. \"<i>I'm an addict, I guess. Human goo... sex stuff... make me kinda funny. It wasn't too bad in the beginning, but somewhere along the line, randomly stumbling upon visitors turned into hunting for 'em. I'd wake up, whole days lost, shivering from withdraw and all I could think of was finding my next hit. At first, it was just ladies, but eventually I degraded myself with herms and then even guys, with their icky man-parts! Anything for one more fix.</i>\" She closes her eyes, remembering some past humiliation and groans.\n\n");
@@ -588,7 +588,7 @@
         MainScreen.simpleChoices(["Share", "Advantage", "", "", "Leave"], [scyllaPtVShare, scyllaPtVTakeAdvantage, null, null, scyllaPtVLeave]);
     }
     //[Nun]	(Repeat)
-    private scyllaPtVRepeat(): void {
+    private scyllaPtVRepeat() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("Scylla's at the bar, filling up another large tray of drinks. Judging by how many she's got, you assume she's giving the addiction counseling meeting another shot. The nun is murmuring to herself, possibly rehearsing a sermon or maybe just working up the strength to be the pillar the other girls need. She heads upstairs and you ponder what to do as you watch her go. Will you join them?\n\n");
@@ -596,7 +596,7 @@
         MainScreen.simpleChoices(["Share", "Advantage", "", "", "Leave"], [scyllaPtVShare, scyllaPtVTakeAdvantage, null, null, scyllaPtVLeave]);
     }
     //[Leave]	(First time and Repeat)
-    private scyllaPtVLeave(): void {
+    private scyllaPtVLeave() {
         scyllaSprite();
         flags[FlagEnum.TIMES_MET_SCYLLA_IN_ADDICTION_GROUP]++;
         DisplayText().clear();
@@ -609,7 +609,7 @@
     }
 
     //[Take Advantage]	(First time and Repeat)
-    private scyllaPtVTakeAdvantage(): void {
+    private scyllaPtVTakeAdvantage() {
         scyllaSprite();
         if (player.statusAffects.has(StatusAffectType.Exgartuan) && player.statusAffects.get(StatusAffectType.Exgartuan).value2 === 0) {
             flags[FlagEnum.TIMES_MET_SCYLLA_IN_ADDICTION_GROUP]++;
@@ -626,7 +626,7 @@
         flags[FlagEnum.TIMES_MET_SCYLLA_IN_ADDICTION_GROUP]++;
         flags[FlagEnum.TIMES_SCYLLA_ADDICT_GROUP_EXPLOITED]++;
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-take-advantage"));
+        DisplayImage(images.showImage("scylla-help-round-five-take-advantage"));
         //[Corruption up]
         player.stats.cor += 1;
         if (player.stats.cor < 30) player.stats.cor += 2;
@@ -634,24 +634,24 @@
 
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
 
-        DisplayText("You decide this is too good to pass up, so you step away and duck into an empty room. You whip out your " + CockDescriptor.describeCock(player, x) + " and begin masturbating, careful to stop before you cum. You take a dollop of pre from the tip and dab it behind your ears, to make sure the musky scent will be obvious. Then, you slip back into your clothes and adjust your package to make the bulge unmistakable. Suitably prepared, you go to the ladies' door and knock crisply.\n\n");
+        DisplayText("You decide this is too good to pass up, so you step away and duck into an empty room. You whip out your " + Desc.Cock.describeCock(player, x) + " and begin masturbating, careful to stop before you cum. You take a dollop of pre from the tip and dab it behind your ears, to make sure the musky scent will be obvious. Then, you slip back into your clothes and adjust your package to make the bulge unmistakable. Suitably prepared, you go to the ladies' door and knock crisply.\n\n");
 
         if (player.torso.balls.quantity > 0) {
-            DisplayText("Scylla opens the door curiously and smiles when she sees you. \"<i>Oh, " + player.short + ", what a pleasant surprise! I'm sorry, but do you mind waiting a bit? I'd love to talk with you, but I'm in the middle of a... the middle of...</i>\" she trails off, the smell of your pre-cum floating into her nostrils and starting to shut off the nun's higher brain functions. Her eyes drop to your crotch and her stomach rumbles loudly as she stares at the outline of your " + CockDescriptor.describeCock(player, x) + "  and " + BallsDescriptor.describeBalls(true, true, player) + ". You grin and gently push her backwards, stepping into the room. Scylla follows after like a lost puppy, licking her lips without realizing it. \"<i>This... um, this is " + player.short + ", a friend of, uh, mine,</i>\" she explains, stumbling through the introduction. Abylon regards you distrustfully but she bites her lips and rubs her legs together through her armor when your musk hits her. Pastie is too drunk to notice the sudden pressure in the room.\n\n");
-            DisplayText("No sense in playing coy when you're the drug in a room full of addicts. You brazenly whip out your " + CockDescriptor.describeCock(player, x) + " and spread your arms. \"<i>Ladies,</i>\" you grin, in invitation. The nun shakes her head, trying to clear her mind and failing, giggling involuntarily. The goblin trembles, her fists balled into pale knuckles, but then she slumps, defeated.  \"<i>Can't fight nature,</i>\" she grumbles, weakly. \"<i>Like mother, like daughter.</i>\" Pastie hiccups, trying to figure out what's happening.\n\n");
-            DisplayText("Scylla reaches out for your shaft and wraps long, thin fingers around it, almost worshipfully. This provokes an indignant cry from Abby, who crosses the distance between you faster than you would've believed. \"<i>Hands off, ya big bitch. That's my baby-batter.</i>\" She grabs your " + BallsDescriptor.describeBalls(true, true, player) + " possessively, a little harder than you'd like. \"<i>You'll just waste it in yer fat mouth anyway. Dumb humans don't even know where ta take a cream pie- it's amazin' ya ever get knocked up!</i>\"\n\n");
+            DisplayText("Scylla opens the door curiously and smiles when she sees you. \"<i>Oh, " + player.short + ", what a pleasant surprise! I'm sorry, but do you mind waiting a bit? I'd love to talk with you, but I'm in the middle of a... the middle of...</i>\" she trails off, the smell of your pre-cum floating into her nostrils and starting to shut off the nun's higher brain functions. Her eyes drop to your crotch and her stomach rumbles loudly as she stares at the outline of your " + Desc.Cock.describeCock(player, x) + "  and " + Desc.Balls.describeBalls(true, true, player) + ". You grin and gently push her backwards, stepping into the room. Scylla follows after like a lost puppy, licking her lips without realizing it. \"<i>This... um, this is " + player.short + ", a friend of, uh, mine,</i>\" she explains, stumbling through the introduction. Abylon regards you distrustfully but she bites her lips and rubs her legs together through her armor when your musk hits her. Pastie is too drunk to notice the sudden pressure in the room.\n\n");
+            DisplayText("No sense in playing coy when you're the drug in a room full of addicts. You brazenly whip out your " + Desc.Cock.describeCock(player, x) + " and spread your arms. \"<i>Ladies,</i>\" you grin, in invitation. The nun shakes her head, trying to clear her mind and failing, giggling involuntarily. The goblin trembles, her fists balled into pale knuckles, but then she slumps, defeated.  \"<i>Can't fight nature,</i>\" she grumbles, weakly. \"<i>Like mother, like daughter.</i>\" Pastie hiccups, trying to figure out what's happening.\n\n");
+            DisplayText("Scylla reaches out for your shaft and wraps long, thin fingers around it, almost worshipfully. This provokes an indignant cry from Abby, who crosses the distance between you faster than you would've believed. \"<i>Hands off, ya big bitch. That's my baby-batter.</i>\" She grabs your " + Desc.Balls.describeBalls(true, true, player) + " possessively, a little harder than you'd like. \"<i>You'll just waste it in yer fat mouth anyway. Dumb humans don't even know where ta take a cream pie- it's amazin' ya ever get knocked up!</i>\"\n\n");
             DisplayText("\"<i>You don't understand, I need this,</i>\" the nun pleads, her hands tightening on your cock, nails starting to dig in as she jerks you, groin-first closer to her. \"<i>You can have some after, I promise, but I need it in my mouth. I'm just... so... hungry.</i>\" Under her robes, her nipples bulge, lip-shaped against the black velvet.\n\n");
             DisplayText("\"<i>Like fuck yer goin' first,</i>\" Abby shoots back, her grip on your balls so painful now that you hiss through your teeth. The goblin grabs a beer bottle and smashes it on the table, brandishing it at Scylla. \"<i>Go ahead, cunt, put those bimbo cock-sucking lips on my baby-daddy's dick. See what happens.</i>\" The jagged glass is perilously close to your shaft, and you don't dare to move while the two have a tug of war with your junk. Maybe this wasn't the best idea you've ever had.\n\n");
-            DisplayText("Pastie finally figures out what's going on through her stupor and flies between the three of you, settling atop your " + CockDescriptor.describeCock(player, x) + ", tiny stiletto heels digging into soft flesh like pins. \"<i>Don't fight, you two, this thing's gross,</i>\" she argues. Pouting, she stomps her foot down and the heel punches into your cockhead, drawing a scream from you that only makes Scylla and Abby tug all the harder.\n\n");
+            DisplayText("Pastie finally figures out what's going on through her stupor and flies between the three of you, settling atop your " + Desc.Cock.describeCock(player, x) + ", tiny stiletto heels digging into soft flesh like pins. \"<i>Don't fight, you two, this thing's gross,</i>\" she argues. Pouting, she stomps her foot down and the heel punches into your cockhead, drawing a scream from you that only makes Scylla and Abby tug all the harder.\n\n");
             DisplayText("\"<i>Abylon, please,</i>\" Scylla starts, but the use of her given name infuriates the goblin girl, and she hurls the broken bottle at the nun, who ducks. It shatters on the wall, sending glass shards flying, several of them cutting your cock and giving you a half-dozen scrapes. The goblin releases your scrotum and dives at the nun, snarling. They roll in a tangled cat fight, leather and cloth shredding under addiction-fueled claws. You swat Pastie from your dick and run out of the room, gingerly tending to your tormented groin.\n\n");
         }
         else {
-            DisplayText("Scylla opens the door curiously and smiles when she sees you. \"<i>Oh, " + player.short + ", what a pleasant surprise! I'm sorry, but do you mind waiting a bit? I'd love to talk with you, but I'm in the middle of a... the middle of...</i>\" she trails off, the smell of your pre-cum floating into her nostrils and starting to shut off the nun's higher brain functions. Her eyes drop to your crotch and her stomach rumbles loudly as she stares at the outline of your " + CockDescriptor.describeCock(player, x) + ". You grin and gently push her backwards, stepping into the room. Scylla follows after like a lost puppy, licking her lips without realizing it. \"<i>This... um, this is " + player.short + ", a friend of, uh, mine,</i>\" she explains, stumbling through the introduction. Abylon regards you distrustfully but she bites her lips and rubs her legs together through her armor when your musk hits her. Pastie is too drunk to notice the sudden pressure in the room.\n\n");
-            DisplayText("No sense in playing coy when you're the drug in a room full of addicts. You brazenly whip out your " + CockDescriptor.describeCock(player, x) + " and spread your arms. \"<i>Ladies,</i>\" you grin, in invitation. The nun shakes her head, trying to clear her mind and failing, giggling involuntarily. The goblin trembles, her fists balled into pale knuckles, but then she slumps, defeated.  \"<i>Can't fight nature,</i>\" she grumbles, weakly. \"<i>Like mother, like daughter.</i>\" Pastie hiccups, trying to figure out what's happening.\n\n");
-            DisplayText("Scylla reaches out for your shaft almost worshipfully with her long, thin fingers. This provokes an indignant cry from Abby, who crosses the distance between you faster than you would've believed. \"<i>Hands off, ya big bitch. That's my baby-batter.</i>\" She grabs your " + CockDescriptor.describeCock(player, x) + " possessively, a little harder than you'd like. \"<i>You'll just waste it in yer fat mouth anyway. Dumb humans don't even know where ta take a cream pie- it's amazin' ya ever get knocked up!</i>\"\n\n");
+            DisplayText("Scylla opens the door curiously and smiles when she sees you. \"<i>Oh, " + player.short + ", what a pleasant surprise! I'm sorry, but do you mind waiting a bit? I'd love to talk with you, but I'm in the middle of a... the middle of...</i>\" she trails off, the smell of your pre-cum floating into her nostrils and starting to shut off the nun's higher brain functions. Her eyes drop to your crotch and her stomach rumbles loudly as she stares at the outline of your " + Desc.Cock.describeCock(player, x) + ". You grin and gently push her backwards, stepping into the room. Scylla follows after like a lost puppy, licking her lips without realizing it. \"<i>This... um, this is " + player.short + ", a friend of, uh, mine,</i>\" she explains, stumbling through the introduction. Abylon regards you distrustfully but she bites her lips and rubs her legs together through her armor when your musk hits her. Pastie is too drunk to notice the sudden pressure in the room.\n\n");
+            DisplayText("No sense in playing coy when you're the drug in a room full of addicts. You brazenly whip out your " + Desc.Cock.describeCock(player, x) + " and spread your arms. \"<i>Ladies,</i>\" you grin, in invitation. The nun shakes her head, trying to clear her mind and failing, giggling involuntarily. The goblin trembles, her fists balled into pale knuckles, but then she slumps, defeated.  \"<i>Can't fight nature,</i>\" she grumbles, weakly. \"<i>Like mother, like daughter.</i>\" Pastie hiccups, trying to figure out what's happening.\n\n");
+            DisplayText("Scylla reaches out for your shaft almost worshipfully with her long, thin fingers. This provokes an indignant cry from Abby, who crosses the distance between you faster than you would've believed. \"<i>Hands off, ya big bitch. That's my baby-batter.</i>\" She grabs your " + Desc.Cock.describeCock(player, x) + " possessively, a little harder than you'd like. \"<i>You'll just waste it in yer fat mouth anyway. Dumb humans don't even know where ta take a cream pie- it's amazin' ya ever get knocked up!</i>\"\n\n");
             DisplayText("\"<i>You don't understand, I need this,</i>\" the nun pleads, her hands tightening on your cock, nails starting to dig in as she jerks you, groin-first closer to her. \"<i>You can have some after, I promise, but I need it in my mouth. I'm just... so... hungry.</i>\" Under her robes, her nipples bulge, lip-shaped against the black velvet.\n\n");
             DisplayText("\"<i>Like fuck yer goin' first,</i>\" Abby shoots back, her grip on your base so painful now that you hiss through your teeth. The goblin grabs a beer bottle and smashes it on the table, brandishing it at Scylla. \"<i>Go ahead, cunt, put those bimbo cock-sucking lips on my baby-daddy's dick. See what happens.</i>\" The jagged glass is perilously close to your shaft, and you don't dare to move while the two have a tug of war with your junk. Maybe this wasn't the best idea you've ever had.\n\n");
-            DisplayText("Pastie finally figures out what's going on through her stupor and flies between the three of you, settling atop your " + CockDescriptor.describeCock(player, x) + ", tiny stiletto heels digging into soft flesh like pins. \"<i>Don't fight, you two, this thing's gross,</i>\" she argues. Pouting, she stomps her foot down and the heel punches into your cockhead, drawing a scream from you that only makes Scylla and Abby tug all the harder.\n\n");
+            DisplayText("Pastie finally figures out what's going on through her stupor and flies between the three of you, settling atop your " + Desc.Cock.describeCock(player, x) + ", tiny stiletto heels digging into soft flesh like pins. \"<i>Don't fight, you two, this thing's gross,</i>\" she argues. Pouting, she stomps her foot down and the heel punches into your cockhead, drawing a scream from you that only makes Scylla and Abby tug all the harder.\n\n");
             DisplayText("\"<i>Abylon, please,</i>\" Scylla starts, but the use of her given name infuriates the goblin girl, and she hurls the broken bottle at the nun, who ducks. It shatters on the wall, sending glass shards flying, several of them cutting your cock and giving you a half-dozen scrapes. The goblin releases your member and dives at the nun, snarling. They roll in a tangled cat fight, leather and cloth shredding under addiction-fueled claws. You swat Pastie from your dick and run out of the room, gingerly tending to your tormented groin.\n\n");
         }
         player.takeDamage(1);
@@ -661,10 +661,10 @@
 
 
     //[Take Advantage] (With Exgartuan)
-    private scyllaVTakeAdvantageWithExgartuan(): void {
+    private scyllaVTakeAdvantageWithExgartuan() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-one"));
+        DisplayImage(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-one"));
         DisplayText("You put your hand on the doorknob, ready to give the ladies what they so dearly desire when an all-too familiar voice echoes in your head. \"<i>Well, it's about damn time you're finally taking a little initiative. I'm even going to help you out on this one! You and me, bud, the perfect team!</i>\" You groan and begin to step away, rather than indulge the obnoxious demon, but the girls inside have apparently heard his voice because the door opens up and three curious faces fill the doorway. Scylla is pleased to see you, but seems confused, looking around for the source of the other voice. You step inside and close the door behind you, mentally instructing Exgartuan to just stay out of this, but the demon in your body makes no response. Scylla introduces you to her companions and suggests the four of you take a seat to explain the purpose of this meeting.\n\n");
         //[Player has fewer than three dicks:
         if (player.torso.cocks.count < 3) {
@@ -680,10 +680,10 @@
         //[Next]
         return { next: scyllaVTakeAdvantageWithExgartuan2 };
     }
-    private scyllaVTakeAdvantageWithExgartuan2(): void {
+    private scyllaVTakeAdvantageWithExgartuan2() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-two"));
+        DisplayImage(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-two"));
         DisplayText("Abby makes the first move, walking up to your crotch and lifting her arms up to seize one of your shafts, her tiny green hands dwarfed by your girth. She pulls it down and begins walking away, running her hands over your pulsing member, keeping it at head-level until she reaches the tip, several paces away. \"<i>Let's get this over with,</i>\" she complains, her voice catching in her throat when her mouth begins to water. She swallows and loosens the straps holding the oiled leather bands around her waist, slipping out of the bottom half of her protective armor. Without bothering to remove the top half, she spreads her knees, revealing a fiery red tuft of hair above her slit and the puffy, neglected lips of her pussy, already swollen in anticipation. She turns around and bends over, presenting her ass to you, still clinging to the reluctant act as she tries to guide one of your profanely-engorged poles into her emerald box. Her lack of experience makes it a difficult task, however, and she bats your cockhead against her jiggling ass and against her stout thighs. You decide to help the poor girl out and when you feel yourself braced against a hole, you give a little thrust, your cockhead surrounded by clenching tightness. Abby gasps and pants for breath. \"<i>That's not the one I wanted!</i>\" Exgartuan whines.  \"<i>I don't mean to be an ass, butt this place is a hole!</i>\"\n\n");
 
         DisplayText("Scylla succumbs next, the large nun moving toward your nest of unclaimed cocks almost reverently, licking her lips, fingernails massaging the bulges her nipples make under her robe. \"<i>Yeah, virgin time,</i>\" your demon whispers into your mind, its voice greasy as you feel her body's radiant heat pouring against your trembling shafts. Her eyelids droop heavily over languid, sapphire eyes and she pulls the habit from her head, letting long coils of ebony hair spill all around her. With trembling fingers, she strokes the curving swell of your dick all the way down to your sheath, fingertips lingering at the base, thumbs stroking the pulsing veins that line your cock's surface. She gives you the smallest of ruby smiles before wordlessly drawing your head into her mouth, lapping wetness drooling down your cockhead and lubricating your length. Her bimbo-thick lips wrap around your massive member and suck with a need that surprises even your inner infernal. \"<i>The fuck? This cunt got a pussy under her nose? Did a blind imp play 'Pin the Organ on the Nun'? She hiding nipples between her legs or something?</i>\"\n\n");
@@ -696,10 +696,10 @@
         dynStats("lus=", 100);
         return { next: scyllaVTakeAdvantageWithExgartuan3 };
     }
-    private scyllaVTakeAdvantageWithExgartuan3(): void {
+    private scyllaVTakeAdvantageWithExgartuan3() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-three"));
+        DisplayImage(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-three"));
         if (player.torso.balls.quantity > 0) {
             DisplayText("You try to slow your breathing, to hold back the dark abyss of your groin's insistent crescendo, but Exgartuan's voice breaks your concentration. \"<i>I'm damn proud of you,</i>\" he congratulates, fierce pride in his voice. \"<i>Better find something to hold on to- this is going to be a rough one.</i>\" You can feel the pressure in your abdomen surge and you know the demon's not just bragging. Abby has wriggled her plump, apple-bottomed ass far enough down your cock that it feels like it's snaked clear through her large intestine. Scylla's a little further down and while you can't see much below your dick, you have to think her jaw must've unhinged to let her swallow this much. Thankfully, both girls are within arm's reach. Abby's hands are pulling her cheeks apart to feed your shaft into her distended bowls, and you grab her wrists, jerking her arms behind her. Scylla's horns have wrapped entirely around her ears and you seize the warm bone like a handlebar. You shiver, half in ecstasy and half in fear. The fairy girl finally scrambles up your cockhead and plants herself at the crest of your third dick in triumph. She straddles your urethra like a saddle, her tight fairy cunt dripping excitedly. \"<i>I'm queen of th' world!</i>\" she hoots, drunkenly. \"<i>I own this dick! It's my bitch!</i>\"\n\n");
             DisplayText("The fairy's grinding ride of your over-teased cock is just too much to hold out any longer. A liquid gurgle rumbles from your testicles and the base of your shafts bloat outward, as your load is funneled down three passages. You bite your tongue and your mouth fills with blood, your legs uselessly trembling. You reflexively pull back on your handholds, dragging two of the girls into even deeper penetration. Abby cries out, mad with pain and pleasure, but Scylla just coos, her throat vibrating as her mouth runs over with the drool of anticipation. The impaled girls' tightness slows the cum rushing into them, but no such pressure stops the geyser underneath Pastie. Her victorious straddle changes to shocked, desperate clutching as her saddle erupts between her legs, blasting cum into her ass and pussy, filling the fairy like a diamond-colored condom in a second and bloating her well beyond capacity in the next second, her whole body stuffed with your spunk in the blink of an eye. Your orgasm crumples the last vestige of your restraint and you release your clenching muscles restraining your ejaculate. Cum blasts up all around Pastie and for a moment, you think the tiny girl has been blown right off of your dick, but when your cum recedes for the next load, you see the fairy has merely been completely drenched in your alabaster spunk, head to toe, little more than a writhing glop of jizz clinging for dear life to your dilating cockmouth.\n\n");
@@ -718,10 +718,10 @@
         //[Next]
         return { next: scyllaVTakeAdvantageWithExgartuan4 };
     }
-    private scyllaVTakeAdvantageWithExgartuan4(): void {
+    private scyllaVTakeAdvantageWithExgartuan4() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-four"));
+        DisplayImage(images.showImage("scylla-help-round-five-take-advantage-with-exgartuan-four"));
         DisplayText("Mercifully, your mind switches off after a half hour of inflating the girls, leaving your body to finish its pelvis-crushing imperative. You're not sure how much time has passed when your brain gets fuck-started back on by Exgartuan's teeth-scraping voice. \"<i>I said wake up!</i>\" he shouts, rousing you from your ecstatic waking-sleep.");
         //[fewer than three dicks:
         if (player.torso.cocks.count < 3) DisplayText("  The demon has withdrawn from the girls, reforming your cocks into their pre-orgy state, slimy cum-slick fluids notwithstanding.");
@@ -733,10 +733,10 @@
     }
 
     //[Share]	(First time)
-    private scyllaPtVShare(): void {
+    private scyllaPtVShare() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-share"));
+        DisplayImage(images.showImage("scylla-help-round-five-share"));
         //FIRST TIEM
         if (flags[FlagEnum.SCYLLA_TIMES_SHARED_IN_ADDICT_GROUP] === 0) {
             DisplayText("With a blush of embarrassment, you push the door open and step inside. \"<i>I'm " + player.short + " and I'm an addict,</i>\" you admit, keeping your eyes cast down.\n\n");
@@ -755,30 +755,30 @@
         flags[FlagEnum.TIMES_MET_SCYLLA_IN_ADDICTION_GROUP]++;
         DisplayText("What addiction would you like to discuss?");
         //Set choices
-        let milk: Function = null;
+        let milk;
         if ((player.perks.has(PerkType.MarblesMilk) || player.statusAffects.get("$1").value3 > 0) && !player.perks.has(PerkType.MarbleResistant))
             milk = scyllaPtVMilk;
-        let cum: Function = null;
+        let cum;
         if (flags[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] >= 50 || player.perks.has(PerkType.MinotaurCumAddict)) cum = scyllaPtVCum;
-        let sex: Function = null;
-        if (player.stats.lib >= 85 || player.minLust() >= 20) sex = scyllaPtVSex;
-        let tentacles: Function = null;
+        let sex;
+        if (player.stats.lib >= 85 || player.stats.minLust() >= 20) sex = scyllaPtVSex;
+        let tentacles;
         if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) >= 2)).length tentacles = shareTentaclesWithScylla;
         //CHOOSE HERE
         MainScreen.simpleChoices(["Cum", "Milk", "Sex", "Tentacles", "None"], [cum, milk, sex, tentacles, scyllaPtVNoDiscussion]);
     }
-    private scyllaPtVNoDiscussion(): void {
+    private scyllaPtVNoDiscussion() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You fail to come up with a suitable explanation for your presence and politely excuse yourself.  AWKWARD!");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[Marble's Milk]	(First time and Repeat)
-    private scyllaPtVMilk(): void {
+    private scyllaPtVMilk() {
         scyllaSprite();
         flags[FlagEnum.SCYLLA_MILK_THERAPY_TIMES]++;
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-with-milk-one"));
+        DisplayImage(images.showImage("scylla-help-round-five-with-milk-one"));
         DisplayText("You tell the girls about Whitney's farm and how you help out when you can. You relate how you met Marble and the relationship that blossomed. Eventually, you get to the topic of her milk. Your mouth begins to water and you can almost see those big, beautiful udders as you describe your first taste- the warm flavor spraying on your mouth as you stroked her nipple with your tongue, her skin earthy and moist with matronly excitement. You talk about the feel of her arms cradling your head as you nursed one teat, then the other, drinking in her sighs of relief as much as the nectar of her body.\n\n");
 
         DisplayText("Your audience is engrossed by your descriptions. Scylla is absently rolling her pouting lower lip between her thumb and forefinger, squeezing it thicker. Abby has her arms crossed self-consciously over her small chest, and is sitting bolt upright in her chair, her legs clenched together. You're a little surprised to see Pastie openly fingering herself through her gossamer dress with one hand while she leans against her shot glass, drinking between moans. You almost hate to ruin the mood, but you move on to the withdrawal. You describe the creeping weakness that drains the strength from your arms and the speed from your legs; how the world seems duller, noises louder, colors grayer. Your head hurts and your body aches, even to the point of physical sickness. Life just doesn't seem worth living. Marble means a lot to you, but sometimes you worry you're just using her for your next fix - and that thought scares you.\n\n");
@@ -790,10 +790,10 @@
         //[Next]
         return { next: scyllaPtVMilkII };
     }
-    private scyllaPtVMilkII(): void {
+    private scyllaPtVMilkII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-with-milk-two"));
+        DisplayImage(images.showImage("scylla-help-round-five-with-milk-two"));
         DisplayText("You reach a hand up to touch the nun's collar bone, wrapping your fingers around her robe's black and white collar, before savagely yanking down. The material tears in your grasp, and her sloshing tits bounce out gratefully, alabaster skin livid against her coal-dark tatters and bouncing, jet curls. Scylla gasps in surprise and tries to wrap her arms around the heaving swell of her pillows, crushing them against her chest, flesh spilling over and between her fingers. She stumbles back a few steps before tripping and landing on her generous rump, knees clenched in front of her and feet splayed at her thighs.\n\n");
 
         DisplayText("Abylon spits her beer, laughing. \"<i>Try a bra next time, ya fat dummy!</i>\" She scrambles onto the table so she can point and laugh better, knocking Pastie to the floor. The fairy collects herself and freezes, her eyes going wide at the nun's bare chest, wobbling with its creamy, liquid promise. She starts hyperventilating, her tongue circling her mouth. Scylla shakes her head, ebony tresses spilling across her ivory breasts. \"<i>No, it doesn't have to control you,</i>\" she tries, \"<i>You're stronger...</i>\" She trails off as you plant yourself in front of her and bend down to bring your face level with hers.\n\n");
@@ -807,10 +807,10 @@
         //[Next]
         return { next: scyllaPtVMilkIII };
     }
-    private scyllaPtVMilkIII(): void {
+    private scyllaPtVMilkIII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-with-milk-three"));
+        DisplayImage(images.showImage("scylla-help-round-five-with-milk-three"));
         DisplayText("Scylla clenches her eyes shut and groans, her melons churning with the promise of lactation. She crushes your head into her right breast and strokes her left teat with a pinkie and thumb, holding the mouth open, gaping wide like a slut begging for cock. \"<i>It's... it's all right Pastie...</i>\" she whispers in ecstasy from your suckling. Milk begins to ooze from her left tit, spilling from the begging mouth and staining the wet spot between her legs a snowy cream color.\n\n");
 
         DisplayText("The fairy darts into the air and plunges head-long toward the stream. Though just a pencil-thin rivulet of the nun's milk drips down, it's like a shower for the fairy. She fills her cheeks and gulps loudly, running her hands through her flowing, violet hair, washing it in the cum-like thickness of Scylla's milk. She hiccups giddily and flutters up to the source of the stream, pulling her upper torso over the nun's bulging nipple lips and lapping at the flowing milk with giggling head bobs.\n\n");
@@ -826,11 +826,11 @@
         //[Next]
         return { next: scyllaPtVMilkIV };
     }
-    private scyllaPtVMilkIV(): void {
+    private scyllaPtVMilkIV() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-with-milk-four"));
-        DisplayText("Your own stomach feels full and you pause in your sucking to glance down. Scylla's orgasm-fueled lactation must've been greater than you realized, your milk-lust slowly clearing from your head.  Your belly jiggles with every movement, spilling nearly a foot past your " + LowerBodyDescriptor.describeHips(player) + ", impossibly distended with the nun's rich cream. Despite the gallons stretching you like a nine-month pregnancy, you still feel empty - Scylla's milk just isn't the same as Marble's. You settle back on your " + ButtDescriptor.describeButt(player) + " and massage the liquid weight of your abdomen, watching Scylla's orgasm die down as her gushing tits slow to a drizzle.\n\n");
+        DisplayImage(images.showImage("scylla-help-round-five-with-milk-four"));
+        DisplayText("Your own stomach feels full and you pause in your sucking to glance down. Scylla's orgasm-fueled lactation must've been greater than you realized, your milk-lust slowly clearing from your head.  Your belly jiggles with every movement, spilling nearly a foot past your " + Desc.Hip.describeHips(player) + ", impossibly distended with the nun's rich cream. Despite the gallons stretching you like a nine-month pregnancy, you still feel empty - Scylla's milk just isn't the same as Marble's. You settle back on your " + Desc.Butt.describeButt(player) + " and massage the liquid weight of your abdomen, watching Scylla's orgasm die down as her gushing tits slow to a drizzle.\n\n");
 
         DisplayText("Suddenly, you remember Pastie and turn back to Scylla's glistening chest. The lips on her left breast let out a slow sucking noise, and you see the fairy's legs starting to disappearing into the milky mouth. Unfortunately, the nun is too lost in her overstimulation to notice what her tit is doing. You seize Pastie's tiny foot between two fingers just before it vanishes inside Scylla's nipple and tug against the suction, careful not to hurt the little drunk. There is a bit of resistance as the mouth tries to swallow the girl whole, but the fairy finally pops out and hacks white cream from her lungs, gasping for air in grateful gulps. The thin, waif-like fairy now more closely resembles a pear- her belly, hips, and ass are bloated and she sloshes around in your hand like a pale water balloon. Her violet hair is stuck in soggy clumps to her inflated tits which, themselves, leak with milk. She rolls helplessly in your hand, trying to sort out which way is up. \"<i>I'z neber drinkin' again,</i>\" she vows, in a slurred voice, high as well as drunk.\n\n");
 
@@ -838,8 +838,8 @@
         //[Next]
         return { next: scyllaPtVMilkV };
     }
-    private scyllaPtVMilkV(): void {
-        DisplayText(images.showImage("scylla-help-round-five-with-milk-five"));
+    private scyllaPtVMilkV() {
+        DisplayImage(images.showImage("scylla-help-round-five-with-milk-five"));
         scyllaSprite();
         DisplayText().clear();
         DisplayText("Embarrassed at your outburst and the subsequent consequences, you apologize as you try to fit your " + player.inventory.equipment.armor.displayName + " on over your liquid-fat gut. It's not until you're out of the Wet Bitch and away from the curious eyes of its patrons that you realize the meeting actually went quite well. Abylon has a new, sensitive spot to play with, to help avoid following in her mother's footsteps. Pastie's over-indulgence may've been the shock she needed to stop chasing human fluids. Scylla's nursing made her forget about her cum-thirst for once. And while you're still addicted to Marble's milk, at least now you know that it's more than just a chemical dependency. Even filled to the tonsils, you missed the emotional connection to the cowgirl.\n\n");
@@ -851,10 +851,10 @@
     }
 
     //[Share- Minotaur cum]	(First time and Repeat)
-    private scyllaPtVCum(): void {
+    private scyllaPtVCum() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-jizz-pt-one"));
+        DisplayImage(images.showImage("scylla-help-round-five-jizz-pt-one"));
         flags[FlagEnum.SCYLLA_CUM_THERAPY_TIMES]++;
         DisplayText("You take a moment to collect your thoughts before beginning. You're not exactly sure when it was that you first heard of minotaurs, but you remember in crystal-clear detail the first time you smelled one. Every rippling muscle on their monstrous body reeking of their musk, you found it impossible not to get light-headed each time you tangled with one. Even worse, they knew exactly how their stench affected their prey and those horrible beasts used it against you in the worst ways. Every time you see them, your resistance crumbles, your mind turns off, and there's nothing but your pounding heart and the promise of their release. The helplessness and the weakness that drains you is all the worse for how... relieved... you feel when at last their hot, thick cum whitewashes your body, inside and out. Every drop of the tingling heat wraps iron bands around your lungs and electrifies your muscles into jelly. Even afterwards, the odor lingers like a collar around your neck, marking you as their property, humiliating and exciting you all at once.\n\n");
 
@@ -866,63 +866,63 @@
         //[Next]
         return { next: scyllaPtVCumII };
     }
-    private scyllaPtVCumII(): void {
+    private scyllaPtVCumII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-jizz-pt-two"));
+        DisplayImage(images.showImage("scylla-help-round-five-jizz-pt-two"));
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         DisplayText("\"<i>I'll prove it,</i>\" Abby says, hopping down from her chair. \"<i>We'll roleplay. You be the minotaur,</i>\" she points at you, \"<i>an I'll be the Champion. Come on, stand up, ya schlub. Good, now put your fingers on the sides of yer head like horns.</i>\" You numbly follow her directions, unsure if you should be insulted or not. \"<i>Great. Gimme a dumb cow-snort. Yer a minotaur and all ya do is fight and fuck all day. Ya don't know any better.</i>\" You snort, a little embarrassed. \"<i>Here I come, walkin' through the mountains, tryin' ta rescue virgins an fight demons, when bam - you jump out!</i>\" She pantomimes surprise. \"<i>I reach for my weapon but yer too fast, so ya knock me down and grab me.</i>\" Abylon spins in place as if struck, and collapses face-down, her plump rear sticking up and wiggling back and forth invitingly. \"<i>Come on, doofus, ya gotta grab me.</i>\" You bend down and seize the goblin by her shoulders, hoisting her up into the air in front of you, her scarlet braid flapping in your face. \"<i>Oh no, woe is me, whatever am I ta do?</i>\" she theatrically asks the girls she's facing.\n\n");
 
-        DisplayText("While she's hanging in the air, she kicks off her boots and bends a foot back - against your groin. With surprisingly dexterous toes, she strokes the bulge of your shaft. You harden under her caress and let out a moan. She elbows you in the ribs and looks back over her shoulder, annoyed. \"<i>Yer a minotaur, remember? Ya gotta snort an grunt an stuff.</i>\" You roar and shake her up and down, making her clench her foot around your swelling cock through your clothes. \"<i>B-b-better,</i>\" she admits as you jostle her like a ragdoll. Like stubby fingers, her toes work around your " + player.inventory.equipment.armor.displayName + " and manage to free your " + CockDescriptor.describeCock(player, x) + ", which springs up, invigorated by her bouncing ass and wobbling against it with every shake. She squirms free of her oiled leather pants and squeezes her emerald thighs against the monster growing between the two of you. \"<i>D-d-don't take all day, d-d-dummy - what do minotaurs d-d-do next?</i>\" she giggles in excitement.\n\n");
+        DisplayText("While she's hanging in the air, she kicks off her boots and bends a foot back - against your groin. With surprisingly dexterous toes, she strokes the bulge of your shaft. You harden under her caress and let out a moan. She elbows you in the ribs and looks back over her shoulder, annoyed. \"<i>Yer a minotaur, remember? Ya gotta snort an grunt an stuff.</i>\" You roar and shake her up and down, making her clench her foot around your swelling cock through your clothes. \"<i>B-b-better,</i>\" she admits as you jostle her like a ragdoll. Like stubby fingers, her toes work around your " + player.inventory.equipment.armor.displayName + " and manage to free your " + Desc.Cock.describeCock(player, x) + ", which springs up, invigorated by her bouncing ass and wobbling against it with every shake. She squirms free of her oiled leather pants and squeezes her emerald thighs against the monster growing between the two of you. \"<i>D-d-don't take all day, d-d-dummy - what do minotaurs d-d-do next?</i>\" she giggles in excitement.\n\n");
 
-        DisplayText("You lift the goblin girl over your head and line your cockhead up with her moist, leaking cunt, grunting in appreciation for the heat pouring out of her box. \"<i>Oh noooo, the Champion is gonna get raped by a dumb beast!</i>\" Abby wails, gleefully. You lower her onto your " + CockDescriptor.describeCock(player, x) + ", her tight, green folds parting gradually before you. She sighs in exasperation and kicks backward, painfully catching your head in the left temple. \"<i>We ain't makin' love, ya dope, I don't need ta be romanced. Ya gotta breed and I got a warm hole. Be a minotaur!</i>\"\n\n");
+        DisplayText("You lift the goblin girl over your head and line your cockhead up with her moist, leaking cunt, grunting in appreciation for the heat pouring out of her box. \"<i>Oh noooo, the Champion is gonna get raped by a dumb beast!</i>\" Abby wails, gleefully. You lower her onto your " + Desc.Cock.describeCock(player, x) + ", her tight, green folds parting gradually before you. She sighs in exasperation and kicks backward, painfully catching your head in the left temple. \"<i>We ain't makin' love, ya dope, I don't need ta be romanced. Ya gotta breed and I got a warm hole. Be a minotaur!</i>\"\n\n");
         //[Next]
         player.stats.lust += 20;
         return { next: scyllaPtVCumIII };
     }
-    private scyllaPtVCumIII(): void {
+    private scyllaPtVCumIII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-jizz-pt-three"));
+        DisplayImage(images.showImage("scylla-help-round-five-jizz-pt-three"));
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
-        DisplayText("Before Abby can give you another kick, you slide your hands down to her hips and jerk downwards as you thrust up with all your might. The goblin bites her tongue in surprise as your cock plows past her labia and splits her cunny wide. Her lithe body distends wildly, abdomen and stomach bloating well past her hips as you impale the girl on your mast. Her legs spasm, toes curling as you fill her cunt to the cervix and, with a brutal snort, you ram past, into her womb. The bulge of your " + CockDescriptor.describeCock(player, x) + " inside her body pushes upward under her armor's breastplate, and with another cruel thrust, you split it open.  Oiled leather hangs in tatters from her shoulders, revealing that your cock's outline is visible from her cunt all the way up the front of her body to its tip, nestled between her perky tits. Her womb throbs around your head, sucking at it with every heartbeat while her body clenches your shaft with every tremble from her flailing legs.\n\n");
+        DisplayText("Before Abby can give you another kick, you slide your hands down to her hips and jerk downwards as you thrust up with all your might. The goblin bites her tongue in surprise as your cock plows past her labia and splits her cunny wide. Her lithe body distends wildly, abdomen and stomach bloating well past her hips as you impale the girl on your mast. Her legs spasm, toes curling as you fill her cunt to the cervix and, with a brutal snort, you ram past, into her womb. The bulge of your " + Desc.Cock.describeCock(player, x) + " inside her body pushes upward under her armor's breastplate, and with another cruel thrust, you split it open.  Oiled leather hangs in tatters from her shoulders, revealing that your cock's outline is visible from her cunt all the way up the front of her body to its tip, nestled between her perky tits. Her womb throbs around your head, sucking at it with every heartbeat while her body clenches your shaft with every tremble from her flailing legs.\n\n");
 
-        if (player.torso.balls.quantity > 0) DisplayText("Abylon lets out a ragged, delicious shudder and looks back at you.  Over her shoulder, a wicked smile shows off every blood-lined tooth. \"<i>Tha Champion's got tha minotaur right where she wants 'em,</i>\" she gloats in her nasal tone. \"<i>He can't fuck you, if ya fuck 'em first!</i>\" She pulls a knee up and drives her foot down, into your " + BallsDescriptor.describeSack(player) + ", heel-first. Your world explodes into shards of light and pain, the green cocksleeve forgotten to the mind-shattering, gut-wrenching agony that shoots through your body. Your legs give out and you fall backwards, landing on your back, stunned. Abby uses this opportunity to spin in place, still penetrated like a duck on a spit.  She wraps her legs around your " + LowerBodyDescriptor.describeHips(player) + " and " + ButtDescriptor.describeButt(player) + ". Leaning in, she licks the blood from her teeth. \"<i>Gotta keep the minotaur from softenin'. Gotta claim the Champion's prize.</i>\"\n\n");
-        else DisplayText("Abylon lets out a ragged, delicious shudder and looks back at you.  Over her shoulder, a wicked smile shows off every blood-lined tooth. \"<i>Tha Champion's got tha minotaur right where she wants 'em,</i>\" she gloats in her nasal tone. \"<i>He can't fuck you, if ya fuck 'em first!</i>\" She pulls a knee up and drives her foot down, into your groin, heel-first. Your world explodes into shards of light and pain, the green cocksleeve forgotten to the mind-shattering, gut-wrenching agony that shoots through your body. Your legs give out and you fall backwards, landing on your back, stunned. Abby uses this opportunity to spin in place, still penetrated like a duck on a spit.  She wraps her legs around your " + LowerBodyDescriptor.describeHips(player) + " and " + ButtDescriptor.describeButt(player) + ". Leaning in, she licks the blood from her teeth. \"<i>Gotta keep the minotaur from softenin'. Gotta claim the Champion's prize.</i>\"\n\n");
+        if (player.torso.balls.quantity > 0) DisplayText("Abylon lets out a ragged, delicious shudder and looks back at you.  Over her shoulder, a wicked smile shows off every blood-lined tooth. \"<i>Tha Champion's got tha minotaur right where she wants 'em,</i>\" she gloats in her nasal tone. \"<i>He can't fuck you, if ya fuck 'em first!</i>\" She pulls a knee up and drives her foot down, into your " + Desc.Balls.describeSack(player) + ", heel-first. Your world explodes into shards of light and pain, the green cocksleeve forgotten to the mind-shattering, gut-wrenching agony that shoots through your body. Your legs give out and you fall backwards, landing on your back, stunned. Abby uses this opportunity to spin in place, still penetrated like a duck on a spit.  She wraps her legs around your " + Desc.Hip.describeHips(player) + " and " + Desc.Butt.describeButt(player) + ". Leaning in, she licks the blood from her teeth. \"<i>Gotta keep the minotaur from softenin'. Gotta claim the Champion's prize.</i>\"\n\n");
+        else DisplayText("Abylon lets out a ragged, delicious shudder and looks back at you.  Over her shoulder, a wicked smile shows off every blood-lined tooth. \"<i>Tha Champion's got tha minotaur right where she wants 'em,</i>\" she gloats in her nasal tone. \"<i>He can't fuck you, if ya fuck 'em first!</i>\" She pulls a knee up and drives her foot down, into your groin, heel-first. Your world explodes into shards of light and pain, the green cocksleeve forgotten to the mind-shattering, gut-wrenching agony that shoots through your body. Your legs give out and you fall backwards, landing on your back, stunned. Abby uses this opportunity to spin in place, still penetrated like a duck on a spit.  She wraps her legs around your " + Desc.Hip.describeHips(player) + " and " + Desc.Butt.describeButt(player) + ". Leaning in, she licks the blood from her teeth. \"<i>Gotta keep the minotaur from softenin'. Gotta claim the Champion's prize.</i>\"\n\n");
 
-        DisplayText("Abby runs her sharp nails up your waist and over your chest, points digging into your flesh hard enough to take away the worst pain in your abdomen. She reaches your neck, and her tiny hands curl around your windpipe and begin to squeeze. You try to call the crazy bitch off, but all you manage is a choked wheeze as her grip tightens. Even though you know Scylla won't let Abylon kill you, with your oxygen cut off, your body starts to panic. Your heart races, pumping blood into your erection, filling the goblin with a renewed and redoubled shaft that threatens to split her tiny hips. The bulge jutting out of the front of her body pulses through her skin and you can see bulbs of pre-cum travelling up your shaft, toward her torturously distended womb, driven nearly up to her neck. As the strength seeps out of your muscles, adrenaline starts pumping, and you buck wildly, " + HeadDescriptor.describeHair(player) + " flying around your face as you try to shake the emerald cockslave as savagely as an unbroken stallion. Despite the pounding and thrashing, Abby manages to hold on, grinding her hips and screaming in wild abandon as her body sucks every inch of your " + CockDescriptor.describeCock(player, x) + ".\n\n");
+        DisplayText("Abby runs her sharp nails up your waist and over your chest, points digging into your flesh hard enough to take away the worst pain in your abdomen. She reaches your neck, and her tiny hands curl around your windpipe and begin to squeeze. You try to call the crazy bitch off, but all you manage is a choked wheeze as her grip tightens. Even though you know Scylla won't let Abylon kill you, with your oxygen cut off, your body starts to panic. Your heart races, pumping blood into your erection, filling the goblin with a renewed and redoubled shaft that threatens to split her tiny hips. The bulge jutting out of the front of her body pulses through her skin and you can see bulbs of pre-cum travelling up your shaft, toward her torturously distended womb, driven nearly up to her neck. As the strength seeps out of your muscles, adrenaline starts pumping, and you buck wildly, " + Desc.Head.describeHair(player) + " flying around your face as you try to shake the emerald cockslave as savagely as an unbroken stallion. Despite the pounding and thrashing, Abby manages to hold on, grinding her hips and screaming in wild abandon as her body sucks every inch of your " + Desc.Cock.describeCock(player, x) + ".\n\n");
         return { next: scyllaPtVCumIV };
     }
 
-    private scyllaPtVCumIV(): void {
+    private scyllaPtVCumIV() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-jizz-pt-four"));
+        DisplayImage(images.showImage("scylla-help-round-five-jizz-pt-four"));
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         //[2 DICKS]
         if (player.torso.cocks.count >= 2) {
-            if (player.torso.balls.quantity > 0) DisplayText("Scylla is unable to keep herself away any longer, and she falls to her hands and knees, crawling toward the two of you. The nun kisses your " + BallsDescriptor.describeBalls(true, true, player) + ", the wet electricity of her swollen lips drawing away some of your pain. She licks along your " + CockDescriptor.describeCock(player, 1) + " as it bounces wildly against Abby's ass. It's far too hard to work its way up there now that your " + CockDescriptor.describeCock(player, x) + " is fully plugged into the goblin, so Scylla perches her mouth over its head and whorls her tongue around the swell, the tip of her tongue playfully penetrating a few inches of your urethra. The pressure is just another sensation on your overtaxed body, so you hardly notice when she threads more and more of her snaking organ down your cock until her lips press against your head in a tight O. Your " + CockDescriptor.describeCock(player, 1) + " feels strange from the tongue-fucking, like a warm, moist pressure that slides down your shaft and into your gut. Pre-cum bubbles up, trying to clear the blockage, but she merely coils her tongue into a U-shape and slurps it up through your cock like a straw. She opens her jaw and pushes your cock into her cunt-tight mouth, sliding her tongue even deeper into your dick, sucking up the increasingly frantic globs from your " + BallsDescriptor.describeBalls(true, true, player) + " as your climax builds.\n\n");
-            else DisplayText("Scylla is unable to keep herself away any longer, and she falls to her hands and knees, crawling toward the two of you. The nun kisses your flesh, the wet electricity of her swollen lips drawing away some of your pain. She licks along your " + CockDescriptor.describeCock(player, 1) + " as it bounces wildly against Abby's ass. It's far too hard to work its way up there now that your " + CockDescriptor.describeCock(player, x) + " is fully plugged into the goblin, so Scylla perches her mouth over its head and whorls her tongue around the swell, the tip of her tongue playfully penetrating a few inches of your urethra. The pressure is just another sensation on your overtaxed body, so you hardly notice when she threads more and more of her snaking organ down your cock until her lips press against your head in a tight O. Your " + CockDescriptor.describeCock(player, 1) + " feels strange from the tongue-fucking, like a warm, moist pressure that slides down your shaft and into your gut. Pre-cum bubbles up, trying to clear the blockage, but she merely coils her tongue into a U-shape and slurps it up through your cock like a straw. She opens her jaw and pushes your cock into her cunt-tight mouth, sliding her tongue even deeper into your dick, sucking up the increasingly frantic globs from your prostate as your climax builds.\n\n");
+            if (player.torso.balls.quantity > 0) DisplayText("Scylla is unable to keep herself away any longer, and she falls to her hands and knees, crawling toward the two of you. The nun kisses your " + Desc.Balls.describeBalls(true, true, player) + ", the wet electricity of her swollen lips drawing away some of your pain. She licks along your " + Desc.Cock.describeCock(player, 1) + " as it bounces wildly against Abby's ass. It's far too hard to work its way up there now that your " + Desc.Cock.describeCock(player, x) + " is fully plugged into the goblin, so Scylla perches her mouth over its head and whorls her tongue around the swell, the tip of her tongue playfully penetrating a few inches of your urethra. The pressure is just another sensation on your overtaxed body, so you hardly notice when she threads more and more of her snaking organ down your cock until her lips press against your head in a tight O. Your " + Desc.Cock.describeCock(player, 1) + " feels strange from the tongue-fucking, like a warm, moist pressure that slides down your shaft and into your gut. Pre-cum bubbles up, trying to clear the blockage, but she merely coils her tongue into a U-shape and slurps it up through your cock like a straw. She opens her jaw and pushes your cock into her cunt-tight mouth, sliding her tongue even deeper into your dick, sucking up the increasingly frantic globs from your " + Desc.Balls.describeBalls(true, true, player) + " as your climax builds.\n\n");
+            else DisplayText("Scylla is unable to keep herself away any longer, and she falls to her hands and knees, crawling toward the two of you. The nun kisses your flesh, the wet electricity of her swollen lips drawing away some of your pain. She licks along your " + Desc.Cock.describeCock(player, 1) + " as it bounces wildly against Abby's ass. It's far too hard to work its way up there now that your " + Desc.Cock.describeCock(player, x) + " is fully plugged into the goblin, so Scylla perches her mouth over its head and whorls her tongue around the swell, the tip of her tongue playfully penetrating a few inches of your urethra. The pressure is just another sensation on your overtaxed body, so you hardly notice when she threads more and more of her snaking organ down your cock until her lips press against your head in a tight O. Your " + Desc.Cock.describeCock(player, 1) + " feels strange from the tongue-fucking, like a warm, moist pressure that slides down your shaft and into your gut. Pre-cum bubbles up, trying to clear the blockage, but she merely coils her tongue into a U-shape and slurps it up through your cock like a straw. She opens her jaw and pushes your cock into her cunt-tight mouth, sliding her tongue even deeper into your dick, sucking up the increasingly frantic globs from your prostate as your climax builds.\n\n");
         }
 
-        if (player.torso.balls.quantity > 0) DisplayText("Just as darkness creeps at the edges of your vision, your balls quiver in orgasm, renewed fire shooting through your body. When cum finally erupts from you, it feels like snowballs bursting through a bonfire. Feeling your " + CockDescriptor.describeCock(player, x) + " spasm within her, Abby finally releases her grip on your throat and you suck down air like you've never breathed before. She babbles in anticipation, feeling the cum wave's progress as it's pumped into her, up the front of her tight, green body. When it finally bursts from your cockhead, she screams bloody murder.  Her whole body vibrates in orgasm as she beats her fists against your shoulders, rocking up and down to milk every drop from your tortured testicles.  The combination of the orgasm denial from her nut-shot, the strangulation, and the subsequent bronco ride has made your orgasm the strongest you've felt in a while, and you almost can see yourself as a minotaur when your cock fire hoses the goblin's cunt, like it can't get your seed out fast enough.\n\n");
-        else DisplayText("Just as darkness creeps at the edges of your vision, your hips quiver in orgasm, renewed fire shooting through your body. When cum finally erupts from you, it feels like snowballs bursting through a bonfire. Feeling your " + CockDescriptor.describeCock(player, x) + " spasm within her, Abby finally releases her grip on your throat and you suck down air like you've never breathed before. She babbles in anticipation, feeling the cum wave's progress as it's pumped into her, up the front of her tight, green body. When it finally bursts from your cockhead, she screams bloody murder.  Her whole body vibrates in orgasm as she beats her fists against your shoulders, rocking up and down to milk every drop from your tortured flesh.  The combination of the orgasm denial from her nut-shot, the strangulation, and the subsequent bronco ride has made your orgasm the strongest you've felt in a while, and you almost can see yourself as a minotaur when your cock fire hoses the goblin's cunt, like it can't get your seed out fast enough.\n\n");
+        if (player.torso.balls.quantity > 0) DisplayText("Just as darkness creeps at the edges of your vision, your balls quiver in orgasm, renewed fire shooting through your body. When cum finally erupts from you, it feels like snowballs bursting through a bonfire. Feeling your " + Desc.Cock.describeCock(player, x) + " spasm within her, Abby finally releases her grip on your throat and you suck down air like you've never breathed before. She babbles in anticipation, feeling the cum wave's progress as it's pumped into her, up the front of her tight, green body. When it finally bursts from your cockhead, she screams bloody murder.  Her whole body vibrates in orgasm as she beats her fists against your shoulders, rocking up and down to milk every drop from your tortured testicles.  The combination of the orgasm denial from her nut-shot, the strangulation, and the subsequent bronco ride has made your orgasm the strongest you've felt in a while, and you almost can see yourself as a minotaur when your cock fire hoses the goblin's cunt, like it can't get your seed out fast enough.\n\n");
+        else DisplayText("Just as darkness creeps at the edges of your vision, your hips quiver in orgasm, renewed fire shooting through your body. When cum finally erupts from you, it feels like snowballs bursting through a bonfire. Feeling your " + Desc.Cock.describeCock(player, x) + " spasm within her, Abby finally releases her grip on your throat and you suck down air like you've never breathed before. She babbles in anticipation, feeling the cum wave's progress as it's pumped into her, up the front of her tight, green body. When it finally bursts from your cockhead, she screams bloody murder.  Her whole body vibrates in orgasm as she beats her fists against your shoulders, rocking up and down to milk every drop from your tortured flesh.  The combination of the orgasm denial from her nut-shot, the strangulation, and the subsequent bronco ride has made your orgasm the strongest you've felt in a while, and you almost can see yourself as a minotaur when your cock fire hoses the goblin's cunt, like it can't get your seed out fast enough.\n\n");
         //[2 DICKS ]
         if (player.torso.cocks.count >= 2) {
-            if (player.torso.balls.quantity > 0) DisplayText("Your " + CockDescriptor.describeCock(player, 1) + " fires off just as Scylla's serpentine tongue reaches the root of your cock and its tip pokes into your " + BallsDescriptor.describeBalls(true, true, player) + ". With her tongue fucking your urethra and her throat fucking your shaft, you feel her squeeze you from inside and out. Cum rushes up the nun's straw-like tongue and her windpipe convulses with each swallow, tasting its searing heat all the way up and savoring its creamy texture all the way down. She milks you up and down as the goblin's ass thrashes inches above her. After a minute of drinking straight from your " + BallsDescriptor.describeBalls(true, true, player) + ", she slowly withdraws, letting the cum push her tongue back into her mouth.  The blasting force of your orgasm lifts her throat from your cock until it slips free of her pulsing lips and sprays an ivory jet into her face, the force knocking her habit off her head and plastering her curly hair into a long, gooey mess. Her horns curl into the semblance of a blissful, bone halo above her head.\n\n");
-            else DisplayText("Your " + CockDescriptor.describeCock(player, 1) + " fires off just as Scylla's serpentine tongue reaches the root of your cock. With her tongue fucking your urethra and her throat fucking your shaft, you feel her squeeze you from inside and out. Cum rushes up the nun's straw-like tongue and her windpipe convulses with each swallow, tasting its searing heat all the way up and savoring its creamy texture all the way down. She milks you up and down as the goblin's ass thrashes inches above her. After a minute of drinking straight from your loins, she slowly withdraws, letting the cum push her tongue back into her mouth.  The blasting force of your orgasm lifts her throat from your cock until it slips free of her pulsing lips and sprays an ivory jet into her face, the force knocking her habit off her head and plastering her curly hair into a long, gooey mess. Her horns curl into the semblance of a blissful, bone halo above her head.\n\n");
+            if (player.torso.balls.quantity > 0) DisplayText("Your " + Desc.Cock.describeCock(player, 1) + " fires off just as Scylla's serpentine tongue reaches the root of your cock and its tip pokes into your " + Desc.Balls.describeBalls(true, true, player) + ". With her tongue fucking your urethra and her throat fucking your shaft, you feel her squeeze you from inside and out. Cum rushes up the nun's straw-like tongue and her windpipe convulses with each swallow, tasting its searing heat all the way up and savoring its creamy texture all the way down. She milks you up and down as the goblin's ass thrashes inches above her. After a minute of drinking straight from your " + Desc.Balls.describeBalls(true, true, player) + ", she slowly withdraws, letting the cum push her tongue back into her mouth.  The blasting force of your orgasm lifts her throat from your cock until it slips free of her pulsing lips and sprays an ivory jet into her face, the force knocking her habit off her head and plastering her curly hair into a long, gooey mess. Her horns curl into the semblance of a blissful, bone halo above her head.\n\n");
+            else DisplayText("Your " + Desc.Cock.describeCock(player, 1) + " fires off just as Scylla's serpentine tongue reaches the root of your cock. With her tongue fucking your urethra and her throat fucking your shaft, you feel her squeeze you from inside and out. Cum rushes up the nun's straw-like tongue and her windpipe convulses with each swallow, tasting its searing heat all the way up and savoring its creamy texture all the way down. She milks you up and down as the goblin's ass thrashes inches above her. After a minute of drinking straight from your loins, she slowly withdraws, letting the cum push her tongue back into her mouth.  The blasting force of your orgasm lifts her throat from your cock until it slips free of her pulsing lips and sprays an ivory jet into her face, the force knocking her habit off her head and plastering her curly hair into a long, gooey mess. Her horns curl into the semblance of a blissful, bone halo above her head.\n\n");
         }
-        DisplayText("Abylon's leg lock keeps her rooted on your shaft for a brief while, but the pressure of your too-plentiful cum inside her too-small body breaks even her mighty hold and the goblin is launched off of your " + CockDescriptor.describeCock(player, x) + ". She tumbles through the air before landing in a roll, her tongue waggling from her mouth at the rocket ride you gave her. Her eyes roll in her head and she giggles aimlessly. You feel utterly spent - exhaustion and pain return in full force, and you lay on your back, trying to catch your breath. Scylla digs her fingers into her nipple mouths, masturbating the sensitive flesh through the velvet fabric of her black robe, wet stains spilling down her chest and between her legs. She crawls toward your face, gives you an affectionate kiss on the forehead, and moves to Abby's side.\n\n");
+        DisplayText("Abylon's leg lock keeps her rooted on your shaft for a brief while, but the pressure of your too-plentiful cum inside her too-small body breaks even her mighty hold and the goblin is launched off of your " + Desc.Cock.describeCock(player, x) + ". She tumbles through the air before landing in a roll, her tongue waggling from her mouth at the rocket ride you gave her. Her eyes roll in her head and she giggles aimlessly. You feel utterly spent - exhaustion and pain return in full force, and you lay on your back, trying to catch your breath. Scylla digs her fingers into her nipple mouths, masturbating the sensitive flesh through the velvet fabric of her black robe, wet stains spilling down her chest and between her legs. She crawls toward your face, gives you an affectionate kiss on the forehead, and moves to Abby's side.\n\n");
 
         DisplayText("\"<i>You've defeated the terrible minotaur and rescued the virgin. Please, let me reward you,</i>\" the nun murmurs as she lowers herself down, between Abby's twitching legs. The nun sticks out her tongue, and the long, prehensile organ glides through the air, toward the goblin's pulsing, overflowing cunt. Its tip traces the curves of her vulva, lapping up your seed as it spills out and wrapping around the goblin's small, pert clit. Scylla licks downward and her tongue penetrates Abby's box, making the other girl squeal. The nun presses her puffy, whorish lips against the green lips that had been riding you so hard, and she seals the two with a long, wet kiss, her writhing tongue exploring the goblin's fuck-stretched depths as her lips and throat greedily suck your cum from the other girl's distended womb.\n\n");
         player.orgasm();
         //[Next]
         return { next: scyllaPtVCumV };
     }
-    private scyllaPtVCumV(): void {
+    private scyllaPtVCumV() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-jizz-pt-five"));
+        DisplayImage(images.showImage("scylla-help-round-five-jizz-pt-five"));
         //[Sensitivity down ]
         if (player.stats.sens > 10) player.stats.sens += -1;
         DisplayText("Abby weakly protests the theft, but Scylla's eyes are closed, lost in the cum-filled world between the goblin's defenseless legs. Pastie flutters overhead and laughs, drunkenly slurring something about 'just desserts,' but you can't concentrate on anything right now. Sleep sounds like such a good idea that you happily pass out. When you wake, you find the girls have gone, though Scylla cleaned up the room and left you a note and several drinks. She apologizes for any pain that Abby may have caused you, but thanks you for your help in the demonstration. Your body still hurts a bit, but all in all, not a bad session. Abby's right - the minotaurs can't rape you if you use them first. Their cum may be addicting, but you're the Champion: you take what you want.\n\n");
@@ -930,10 +930,10 @@
     }
 
     //[Sex Addiction]	(minimum lust at least 20 or current libido at 85)(First time and Repeat)
-    private scyllaPtVSex(): void {
+    private scyllaPtVSex() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-sex-pt-one"));
+        DisplayImage(images.showImage("scylla-help-round-five-sex-pt-one"));
         flags[FlagEnum.SCYLLA_SEX_THERAPY_TIMES]++;
         player.stats.lust += 10;
         DisplayText("You're a little uncomfortable talking about this in front of the nun, but you push through the embarrassment and admit that you like sex. Abylon snorts, rolling her eyes. You clarify that you really, really, REALLY like sex. Ever since you lost your virginity, you just haven't been able to get enough. Imps, hell hounds, naga - if it's got a pulse, you'll jump it. Sometimes, you'll even let yourself be beaten in battle - just to let them have their way with you, with bestial dicks stuffing your every orifice and monstrous cunts milking your seed. But it's not just beasts. All the people who've been so kind to you, all you can do is think about fucking them silly. The heat, the sweat, the cum; despite the importance of your mission, it's too much to resist. You worry that maybe it's warping how you see the world. Will you be able to return home without trying to suck and fuck your way through all the people you knew and loved? Are you even capable of real love anymore?\n\n");
@@ -951,37 +951,37 @@
         return { next: scyllaPtVSexII };
     }
 
-    private scyllaPtVSexII(): void {
+    private scyllaPtVSexII() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-sex-pt-two"));
+        DisplayImage(images.showImage("scylla-help-round-five-sex-pt-two"));
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         DisplayText("Scylla gasps in alarm. \"<i>Pastie, please stop! This isn't what I meant at all! Oh, " + player.short + ", will you please do something?</i>\" You rise, and walk up to the goblin just as Pastie lands atop a dark, emerald nipple.  She straddles the stiffness between her legs like a thick, stubby cock. She grins up at you through her haze and hiccups again, squeezing Abby's nipple between her thighs and sliding up and down on it, stroking her wet vagina against the sensitive flesh. The goblin moans through her gag and reaches a hand up to stop you as you move to pluck the fairy from her body. She looks up at you and you can see the desperate need in her eyes. Abby, you realize, has your problem - she's addicted to sex. She could've swatted Pastie away at any time, but the moment the fairy touched her skin, it was all she could do to not wet herself in anticipation. She grabs your hand, almost gently, and pulls your fingers to her other breast, shivering as you stroke her hot skin.\n\n");
 
         DisplayText("\"<i>Oh, oh, no, this isn't... I mean... it's not,</i>\" Scylla stutters, wringing her hands. You cup Abby's breast, easily fitting the small girl's teat in your palm, and stroke the dark areola, teasingly close to her nipple but never quite touching it. Meanwhile, Pastie has thoroughly soaked her taut perch and slides forward slightly, letting the nipple's tip press against her pin-prick clit. She starts bouncing up and down, using her wings to add momentum as Abby's breasts jiggle in time to the fairy's bucking. The goblin girl hisses through her hair-gag and rubs her thighs together like she's trying to start a fire, girl cum leaking from her armor's gaps, re-oiling the plates with sticky, clear fluid. Using her wings to keep her aloft, Pastie turns 90 degrees downward and braces herself sideways against the goblin's boob, tiny high-heel-clad feet digging into the soft flesh around the areola to squeeze the nipple out further. Then, with a squeal of glee, the fairy flaps and impales herself on Abby's nipple, the whole jade nub vanishing inside her tiny snatch. You press your thumbnail against her other nipple and apply enough pressure to push it inward, sinking inside her tit up to your first knuckle.\n\n");
 
-        DisplayText("Abby screams into her gag in orgasm, far more sensitive to being used than you would've expected. She flexes her knees outward, hips bucking for friction against her armor. Her hands make a dive for your crotch and pulls out your " + CockDescriptor.describeMultiCockShort(player) + ". She leans forward to your groin and grabs your shaft by the root, whipping it back and forth to smack herself in the face, gasping in pleasure at the degradation as she strokes it to life with masterful technique. With each meaty thwack against her pudgy cheeks and pug nose, it grows harder until she can't fit her small hands around it anymore, and she is forced to use both hands to encircle your " + CockDescriptor.describeCock(player, x) + ". You grab the little goblin from her chair and peel off the rest of her armor, throwing the sopping wet leather to the floor and begin to line her twitching cunt up with your shaft when you happen to glance at Scylla, still sitting and watching you succumb to your addiction with sad worry on her face.");
+        DisplayText("Abby screams into her gag in orgasm, far more sensitive to being used than you would've expected. She flexes her knees outward, hips bucking for friction against her armor. Her hands make a dive for your crotch and pulls out your " + Desc.Cock.describeMultiCockShort(player) + ". She leans forward to your groin and grabs your shaft by the root, whipping it back and forth to smack herself in the face, gasping in pleasure at the degradation as she strokes it to life with masterful technique. With each meaty thwack against her pudgy cheeks and pug nose, it grows harder until she can't fit her small hands around it anymore, and she is forced to use both hands to encircle your " + Desc.Cock.describeCock(player, x) + ". You grab the little goblin from her chair and peel off the rest of her armor, throwing the sopping wet leather to the floor and begin to line her twitching cunt up with your shaft when you happen to glance at Scylla, still sitting and watching you succumb to your addiction with sad worry on her face.");
         player.stats.lust += 20;
         //[Next]
         return { next: scyllaPtVSexIII };
     }
 
-    private scyllaPtVSexIII(): void {
+    private scyllaPtVSexIII() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-sex-pt-three"));
+        DisplayImage(images.showImage("scylla-help-round-five-sex-pt-three"));
         scyllaSprite();
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         DisplayText("You take a deep breath, shake your head, and set the goblin's feet back on the floor. She moans in desperate disappointment until you bring your hand back and give her a slap across her plump butt. She shrieks through her stuffed mouth and her legs nearly give out. The goblin girl is forced to grab onto the edge of the table for support. She bends down, presenting her rump to you once more. You spit on your palm and smack her again, green ass flushing at the crack your hand makes. Her eyes roll up in her head while she clenches and unclenches her hams uncontrollably. Pastie, meanwhile, feels the vibrations of your spanking, gurgling as the jiggling goblin nipple jills her tiny clit into a clenching orgasm. She loses control of her wings and starts to fall down, but her crushing cunt latches her onto Abby's tit, and she's left hanging, legs up, like a moaning, crystal nipple piercing.\n\n");
 
         if (player.torso.balls.quantity > 0) {
-            DisplayText("You wind up for one more, big strike when you see that Scylla's standing by your side, smiling. \"<i>Thank you,</i>\" she whispers, giving you a warm kiss on the cheek. Then, she sinks to her knees and presses her head against your " + BallsDescriptor.describeBalls(true, true, player) + ", lips and tongue slurping one testicle into her mouth, then the other. Your hand wobbles at the stimulation before you master yourself and take a wide stance to let the nun work between your legs. You stretch up, bringing your hand far above your head, then twist your " + LowerBodyDescriptor.describeHips(player) + " and bring the full force of your strength to bear on Abylon's tender ass. The crack sounds like thunder and it knocks her knees out from under her. The goblin girl shrieks in ecstasy so loudly, her gag is flung out of her mouth. The impact is hard enough to shake Pastie loose, and the fairy tumbles to the ground, leaking a trail of shimmering fairy juice all the way down. Abby's legs quivery uselessly, and she cums in pulsing squirts, clear fluid arcing several feet into the air, splattering against Scylla's habit and across your balls, only to be slurped up by the attentive nun.\n\n");
-            DisplayText("Abylon spasms, face-down on the floor, for several moments longer before finally coming to. She pants heavily as she picks herself up and shoots you a wicked smile. \"<i>I guess tha virgin was right, for once. Ya don't need sex for a good time.</i>\" She glances down at the squirming fairy and stoops to pick her up.  Abby takes her saliva-soaked braid and coils it around Pastie's small frame, binding her in the red tresses. The fairy struggles, starting to come to her senses. The goblin grabs your " + CockDescriptor.describeCock(player, x) + ", nearly on the verge of orgasm from Scylla's sweet mouth, and pulls it down to her level. \"<i>That don't mean I gotta turn tha other cheek, though,</i>\" she laughs. With a swift motion, she takes the bound fairy and jams her little head into your pulsing urethra.\n\n");
-            DisplayText("The startling action is enough to make you lose control. Scylla's sucking mouth swallows your entire " + BallsDescriptor.describeSack(player) + ", your testicles churning in her mouth. Teased by the nun's winding, looping tongue, bulges of jizz work their way up your spasming shaft to where Abby has trapped Pastie. The first dollop rolls against her head, and the fairy does her best to drink it down, her belly bloating a bit. Then, they start to come faster. The third load inflates her belly, and the sixth balloons her large enough to loosen the loops of Abby's hair keeping her tied up. She squirms out of the hair restraints and puts her arms at the head of your cock, trying to pull free before your next spurt. She's not fast enough, and your biggest load blasts her head right out of your dick with a splashing pop, sending the fairy careening head over foot through the air and onto the table, knocking bottles aside with the force of the cum geyser.\n\n");
+            DisplayText("You wind up for one more, big strike when you see that Scylla's standing by your side, smiling. \"<i>Thank you,</i>\" she whispers, giving you a warm kiss on the cheek. Then, she sinks to her knees and presses her head against your " + Desc.Balls.describeBalls(true, true, player) + ", lips and tongue slurping one testicle into her mouth, then the other. Your hand wobbles at the stimulation before you master yourself and take a wide stance to let the nun work between your legs. You stretch up, bringing your hand far above your head, then twist your " + Desc.Hip.describeHips(player) + " and bring the full force of your strength to bear on Abylon's tender ass. The crack sounds like thunder and it knocks her knees out from under her. The goblin girl shrieks in ecstasy so loudly, her gag is flung out of her mouth. The impact is hard enough to shake Pastie loose, and the fairy tumbles to the ground, leaking a trail of shimmering fairy juice all the way down. Abby's legs quivery uselessly, and she cums in pulsing squirts, clear fluid arcing several feet into the air, splattering against Scylla's habit and across your balls, only to be slurped up by the attentive nun.\n\n");
+            DisplayText("Abylon spasms, face-down on the floor, for several moments longer before finally coming to. She pants heavily as she picks herself up and shoots you a wicked smile. \"<i>I guess tha virgin was right, for once. Ya don't need sex for a good time.</i>\" She glances down at the squirming fairy and stoops to pick her up.  Abby takes her saliva-soaked braid and coils it around Pastie's small frame, binding her in the red tresses. The fairy struggles, starting to come to her senses. The goblin grabs your " + Desc.Cock.describeCock(player, x) + ", nearly on the verge of orgasm from Scylla's sweet mouth, and pulls it down to her level. \"<i>That don't mean I gotta turn tha other cheek, though,</i>\" she laughs. With a swift motion, she takes the bound fairy and jams her little head into your pulsing urethra.\n\n");
+            DisplayText("The startling action is enough to make you lose control. Scylla's sucking mouth swallows your entire " + Desc.Balls.describeSack(player) + ", your testicles churning in her mouth. Teased by the nun's winding, looping tongue, bulges of jizz work their way up your spasming shaft to where Abby has trapped Pastie. The first dollop rolls against her head, and the fairy does her best to drink it down, her belly bloating a bit. Then, they start to come faster. The third load inflates her belly, and the sixth balloons her large enough to loosen the loops of Abby's hair keeping her tied up. She squirms out of the hair restraints and puts her arms at the head of your cock, trying to pull free before your next spurt. She's not fast enough, and your biggest load blasts her head right out of your dick with a splashing pop, sending the fairy careening head over foot through the air and onto the table, knocking bottles aside with the force of the cum geyser.\n\n");
             DisplayText("Scylla releases your testicles from her mouth and rises to nurse the last few loads out of you, suckling serenely, satisfied at the restraint you and Abby showed. The goblin merely laughs her ass off at Pastie's plastered form, writhing on the table, soaked inside and out, sloppy like a used condom. Abyon slaps the nun on the back and chuckles, \"<i>Gotta give it to ya, fatty, ya know a good time.</i>\" Scylla fills her cheeks with your final load and spins around, grabbing the goblin's shoulders and pressing a deep kiss onto her, bulbous lips sealing around the lower half of the green girl's face. Abby tries to speak and Scylla empties her cheeks, snowballing your cum and her saliva into the unsuspecting goblin's mouth. Surprised, she swallows reflexively and almost chokes on the volume of gooey cum that pours down her throat. The nun ends the kiss with a wet \"<i>muah!</i>\" and smiles.\n\n");
         }
         else {
-            DisplayText("You wind up for one more, big strike when you see that Scylla's standing by your side, smiling. \"<i>Thank you,</i>\" she whispers, giving you a warm kiss on the cheek. Then, she sinks to her knees and presses her yielding lips against your shaft, wetly kissing the veins of your length. Your hand wobbles at the stimulation before you master yourself and take a wide stance to let the nun work between your legs. You stretch up, bringing your hand far above your head, then twist your " + LowerBodyDescriptor.describeHips(player) + " and bring the full force of your strength to bear on Abylon's tender ass. The crack sounds like thunder and it knocks her knees out from under her. The goblin girl shrieks in ecstasy so loudly, her gag is flung out of her mouth. The impact is hard enough to shake Pastie loose, and the fairy tumbles to the ground, leaking a trail of shimmering fairy juice all the way down. Abby's legs quivery uselessly, and she cums in pulsing squirts, clear fluid arcing several feet into the air, splattering against Scylla's habit and face, only to be slurped up by the attentive nun.\n\n");
-            DisplayText("Abylon spasms, face-down on the floor, for several moments longer before finally coming to. She pants heavily as she picks herself up and shoots you a wicked smile. \"<i>I guess tha virgin was right, for once. Ya don't need sex for a good time.</i>\" She glances down at the squirming fairy and stoops to pick her up.  Abby takes her saliva-soaked braid and coils it around Pastie's small frame, binding her in the red tresses. The fairy struggles, starting to come to her senses. The goblin grabs your " + CockDescriptor.describeCock(player, x) + ", nearly on the verge of orgasm from Scylla's sweet mouth, and pulls it down to her level. \"<i>That don't mean I gotta turn tha other cheek, though,</i>\" she laughs. With a swift motion, she takes the bound fairy and jams her little head into your pulsing urethra.\n\n");
+            DisplayText("You wind up for one more, big strike when you see that Scylla's standing by your side, smiling. \"<i>Thank you,</i>\" she whispers, giving you a warm kiss on the cheek. Then, she sinks to her knees and presses her yielding lips against your shaft, wetly kissing the veins of your length. Your hand wobbles at the stimulation before you master yourself and take a wide stance to let the nun work between your legs. You stretch up, bringing your hand far above your head, then twist your " + Desc.Hip.describeHips(player) + " and bring the full force of your strength to bear on Abylon's tender ass. The crack sounds like thunder and it knocks her knees out from under her. The goblin girl shrieks in ecstasy so loudly, her gag is flung out of her mouth. The impact is hard enough to shake Pastie loose, and the fairy tumbles to the ground, leaking a trail of shimmering fairy juice all the way down. Abby's legs quivery uselessly, and she cums in pulsing squirts, clear fluid arcing several feet into the air, splattering against Scylla's habit and face, only to be slurped up by the attentive nun.\n\n");
+            DisplayText("Abylon spasms, face-down on the floor, for several moments longer before finally coming to. She pants heavily as she picks herself up and shoots you a wicked smile. \"<i>I guess tha virgin was right, for once. Ya don't need sex for a good time.</i>\" She glances down at the squirming fairy and stoops to pick her up.  Abby takes her saliva-soaked braid and coils it around Pastie's small frame, binding her in the red tresses. The fairy struggles, starting to come to her senses. The goblin grabs your " + Desc.Cock.describeCock(player, x) + ", nearly on the verge of orgasm from Scylla's sweet mouth, and pulls it down to her level. \"<i>That don't mean I gotta turn tha other cheek, though,</i>\" she laughs. With a swift motion, she takes the bound fairy and jams her little head into your pulsing urethra.\n\n");
             DisplayText("The startling action is enough to make you lose control. Scylla's sucking mouth presses voracious kisses across your tender groin, your prostate churning in response to the moist stimulation. Teased by the nun's winding, looping tongue, bulges of jizz work their way up your spasming shaft to where Abby has trapped Pastie. The first dollop rolls against her head, and the fairy does her best to drink it down, her belly bloating a bit. Then, they start to come faster. The third load inflates her belly, and the sixth balloons her large enough to loosen the loops of Abby's hair keeping her tied up. She squirms out of the hair restraints and puts her arms at the head of your cock, trying to pull free before your next spurt. She's not fast enough, and your biggest load blasts her head right out of your dick with a splashing pop, sending the fairy careening head over foot through the air and onto the table, knocking bottles aside with the force of the cum geyser.\n\n");
             DisplayText("Scylla releases the vacuum-like suction of her scarlet-lacquored lips and rises to nurse the last few loads out of you, suckling serenely, satisfied at the restraint you and Abby showed. The goblin merely laughs her ass off at Pastie's plastered form, writhing on the table, soaked inside and out, sloppy like a used condom. Abyon slaps the nun on the back and chuckles, \"<i>Gotta give it to ya, fatty, ya know a good time.</i>\" Scylla fills her cheeks with your final load and spins around, grabbing the goblin's shoulders and pressing a deep kiss onto her, bulbous lips sealing around the lower half of the green girl's face. Abby tries to speak and Scylla empties her cheeks, snowballing your cum and her saliva into the unsuspecting goblin's mouth. Surprised, she swallows reflexively and almost chokes on the volume of gooey cum that pours down her throat. The nun ends the kiss with a wet \"<i>muah!</i>\" and smiles.\n\n");
         }
@@ -990,10 +990,10 @@
         //[Next]
         return { next: scyllaPtVSexIV };
     }
-    private scyllaPtVSexIV(): void {
+    private scyllaPtVSexIV() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-sex-pt-four"));
+        DisplayImage(images.showImage("scylla-help-round-five-sex-pt-four"));
         DisplayText("When the four of you are ready to leave, Scylla gives you a big hug and thanks you for coming. Pastie, barely able to keep her overinflated form aloft, gives you a drunk kiss on the nose before slowly flying away. Even Abby gives you a friendly smack on the ass, rubbing her own tender rump gingerly. While your travels have guaranteed you'll always - and frequently - need a release, you don't think you're as much a slave to it as you used to be.");
         //[Libido Down]
         player.stats.lib += -1;
@@ -1002,9 +1002,9 @@
 
 
     //[Take Advantage] (at least 3 dicks)
-    private addictionAdvantageMultiDickGreatTimeParty(): void {
+    private addictionAdvantageMultiDickGreatTimeParty() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-multi-cock-one"));
+        DisplayImage(images.showImage("scylla-help-round-five-multi-cock-one"));
         scyllaSprite();
         //[First time]
         if (flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00144] === 0) {
@@ -1013,7 +1013,7 @@
 
             DisplayText("No sense in playing coy when you're the drug in a room full of addicts. You use both hands to pull out your fleshy sheath of monstrous organs, letting them hang in the open air, twitching under the surveillance of three sets of horny eyes. \"<i>I brought enough for the whole class,</i>\" you grin, by way of invitation. The nun shakes her head, trying to clear her mind and failing, giggling involuntarily. The goblin trembles, her fists balled into pale knuckles.  \"<i>Can't fight nature,</i>\" she sneers, through clenched teeth. \"<i>Like mother, like daughter.</i>\" Pastie hiccups, trying to figure out what's happening.\n\n");
 
-            DisplayText("Scylla sinks to her knees and reaches out for your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ", wrapping long, thin fingers around it, almost worshipfully. Abby, meanwhile, crosses the distance between you faster than you would've believed. \"<i>If this is how it's gotta be, might as well do it right, ya dummies!</i>\" she announces in her nasally tone, producing several vials from a small pouch. \"<i>Normally use these at weapons, but we might as well get wasted on 'em.</i>\" She waves Pastie over and the three girls line up in front of your tools, the fairy looking confused, the nun panting, and the complaining goblin a little too helpful for how much she protests.\n\n");
+            DisplayText("Scylla sinks to her knees and reaches out for your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", wrapping long, thin fingers around it, almost worshipfully. Abby, meanwhile, crosses the distance between you faster than you would've believed. \"<i>If this is how it's gotta be, might as well do it right, ya dummies!</i>\" she announces in her nasally tone, producing several vials from a small pouch. \"<i>Normally use these at weapons, but we might as well get wasted on 'em.</i>\" She waves Pastie over and the three girls line up in front of your tools, the fairy looking confused, the nun panting, and the complaining goblin a little too helpful for how much she protests.\n\n");
             //[Next]
             return { next: addictionScyllaTakeAdvantageDicksII };
         }
@@ -1026,15 +1026,15 @@
     }
 
     //[Every Time]
-    private addictionScyllaTakeAdvantageDicksII(): void {
+    private addictionScyllaTakeAdvantageDicksII() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-multi-cock-two"));
+        DisplayImage(images.showImage("scylla-help-round-five-multi-cock-two"));
         scyllaSprite();
-        DisplayText("\"<i>Age before beauty,</i>\" Abby snorts, elbowing Scylla's jiggling tit as she uncorks a white vial. The smell reveals its contents immediately- there's no mistaking the potent pheromone cocktail of minotaur cum. Scylla blinks, trying to clear her head long enough to scold the emerald-skinned girl for bringing that here, but Abby shooshes her with a dismissive wave. She takes the vial in one hand and your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " in the other. Carefully, she empties a third of the goo in a neat line from tip to root, her soft green hands stroking firmly as she does so that your erection keeps the slime more or less horizontal.  Moving to your " + CockDescriptor.describeCock(player, 1) + ", she repeats the process, emptying the last of the vial on your " + CockDescriptor.describeCock(player, 2) + " before tossing the bottle behind her. \"<i>Well?</i>\" she asks her companions, \"<i>gonna stare all day or we gonna do this?</i>\"\n\n");
+        DisplayText("\"<i>Age before beauty,</i>\" Abby snorts, elbowing Scylla's jiggling tit as she uncorks a white vial. The smell reveals its contents immediately- there's no mistaking the potent pheromone cocktail of minotaur cum. Scylla blinks, trying to clear her head long enough to scold the emerald-skinned girl for bringing that here, but Abby shooshes her with a dismissive wave. She takes the vial in one hand and your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " in the other. Carefully, she empties a third of the goo in a neat line from tip to root, her soft green hands stroking firmly as she does so that your erection keeps the slime more or less horizontal.  Moving to your " + Desc.Cock.describeCock(player, 1) + ", she repeats the process, emptying the last of the vial on your " + Desc.Cock.describeCock(player, 2) + " before tossing the bottle behind her. \"<i>Well?</i>\" she asks her companions, \"<i>gonna stare all day or we gonna do this?</i>\"\n\n");
 
-        DisplayText("Placing one finger over her left nostril, Abylon lowers her head to your " + CockDescriptor.describeCock(player, 1) + " and runs her pug nose along the line of cum she's placed on your dick, snorting it as she does so. The girl's body shudders violently when she finishes, and she rubs her nostril rapidly with the back of her hand as the addictive jizz shoots through her sinuses, straight to her brain. She blinks wildly and lets out a great sneeze, a thin rope of spunk spraying from her nose to your abdomen. Pastie, meanwhile, is using your " + CockDescriptor.describeCock(player, 2) + " as a sticky slide. She flutters up high, dive-bombs your tip with a belly flop, and slips along the slippery flesh with a gleeful \"<i>Weeee!</i>\" When she bumps into your groin at the end of her slide, she's got a face-full of minotaur cum coating her head like a snowy mask. She giggles so hard that she snorts and rubs the goo from her eyes, her lithe body squirming atop your base. Scylla shakes her head, still fighting the inevitable orgy, but her lips part all the same, whorish flesh disobeying her mind's fading control. Her tongue snakes out between her plump pucker and laps at the alabaster trail, long muscle wrapping around your cockhead. The serpentine organ squeezes your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " as it slides up and down the shaft, coiling around the gooey line of seed, careful not to let any escape her famished maw. The tongue-job is nearly enough to give her a meal of your own, but you hold back, eager to see what else the girls do.\n\n");
+        DisplayText("Placing one finger over her left nostril, Abylon lowers her head to your " + Desc.Cock.describeCock(player, 1) + " and runs her pug nose along the line of cum she's placed on your dick, snorting it as she does so. The girl's body shudders violently when she finishes, and she rubs her nostril rapidly with the back of her hand as the addictive jizz shoots through her sinuses, straight to her brain. She blinks wildly and lets out a great sneeze, a thin rope of spunk spraying from her nose to your abdomen. Pastie, meanwhile, is using your " + Desc.Cock.describeCock(player, 2) + " as a sticky slide. She flutters up high, dive-bombs your tip with a belly flop, and slips along the slippery flesh with a gleeful \"<i>Weeee!</i>\" When she bumps into your groin at the end of her slide, she's got a face-full of minotaur cum coating her head like a snowy mask. She giggles so hard that she snorts and rubs the goo from her eyes, her lithe body squirming atop your base. Scylla shakes her head, still fighting the inevitable orgy, but her lips part all the same, whorish flesh disobeying her mind's fading control. Her tongue snakes out between her plump pucker and laps at the alabaster trail, long muscle wrapping around your cockhead. The serpentine organ squeezes your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " as it slides up and down the shaft, coiling around the gooey line of seed, careful not to let any escape her famished maw. The tongue-job is nearly enough to give her a meal of your own, but you hold back, eager to see what else the girls do.\n\n");
 
-        DisplayText("Snotty cum-rope still dangling from her face, Abby grabs the next bottle and twists off the cork to the viscous green fluid eagerly. \"<i>I don't even like this junk, but mommy dearest always said never leave home without some, so whatever. Bottom's up!</i>\" She takes a swig of the gurgling liquor and practically gasps when she pauses for breath. Whatever change is taking place in her body, it seems to be a doozy. She loses her balance and drops down onto her rump, the bottle falling out of her grasp as she clutches her small chest with both hands, sweat beading on her lush green skin and rolling across her tight, leather armor. Pastie sees the fallen bottle and tumbles off of your " + CockDescriptor.describeCock(player, 2) + ", eagerly zipping  for the booze before the precious ale is wasted. The little lush zooms into the bottle with such force that she knocks it upright and tumbles inside with an audible 'bonk' of fairy head on glass. She laughs in her tittering voice, oblivious to the injury, and begins drinking what's left of the goblin ale, practically swimming in the verdant liquor. \"<i>Guess Fatty doesn't get any,</i>\" Abby mumbles, but the nun doesn't seem to mind, her tongue licking your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " to a glistening sheen before moving to your " + CockDescriptor.describeCock(player, 2) + " to clean up Pasty's cum-slide mess.\n\n");
+        DisplayText("Snotty cum-rope still dangling from her face, Abby grabs the next bottle and twists off the cork to the viscous green fluid eagerly. \"<i>I don't even like this junk, but mommy dearest always said never leave home without some, so whatever. Bottom's up!</i>\" She takes a swig of the gurgling liquor and practically gasps when she pauses for breath. Whatever change is taking place in her body, it seems to be a doozy. She loses her balance and drops down onto her rump, the bottle falling out of her grasp as she clutches her small chest with both hands, sweat beading on her lush green skin and rolling across her tight, leather armor. Pastie sees the fallen bottle and tumbles off of your " + Desc.Cock.describeCock(player, 2) + ", eagerly zipping  for the booze before the precious ale is wasted. The little lush zooms into the bottle with such force that she knocks it upright and tumbles inside with an audible 'bonk' of fairy head on glass. She laughs in her tittering voice, oblivious to the injury, and begins drinking what's left of the goblin ale, practically swimming in the verdant liquor. \"<i>Guess Fatty doesn't get any,</i>\" Abby mumbles, but the nun doesn't seem to mind, her tongue licking your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to a glistening sheen before moving to your " + Desc.Cock.describeCock(player, 2) + " to clean up Pasty's cum-slide mess.\n\n");
 
         DisplayText("The goblin girl looks at the spunk-lust on Scylla's face and the drunken revelry the fairy is getting up to in the bottle and sighs. She grabs the third bottle and holds it to the light. She's marked this one with a big, black label with a red exclamation mark in the middle. Judging by the delicate way she holds it, she seems almost afraid of the contents. \"<i>All right, mom, let's see what it's like ta be a numbskull...</i>\" she mutters, popping the cork off with a thumb and clenching her eyes as she drinks it in one gulp. Before your eyes, the goblin undergoes a startling transformation. Her small breasts swell larger and larger until they burst out of her leather armor, spilling green flesh across her chest. Her hips and butt wage a similar battle against her leather skirt, bursting the iron studs holding it together, bare skin jiggling in the warm air. Her lips bloat and plump up until they're tiny clones of Scylla's cock-sucking pucker, wobbling when she shakes her head. Her eyelids droop heavily and a blissful smile spreads across her face, annoyance and protests evaporating to the airheaded pleasure of the bimbo liqueur's seething influence. She giggles absently. \"<i>Tee hee, I feel funny. Good funny.</i>\" She notices your still-straining cocks and licks her lips. \"<i>Gosh, those for me? Tha's, like, SO NICE of ya, guy!</i>\" Glancing at Scylla's milking tongue, she puts her hand to her mouth and gasps. \"<i>Wow, you're, like, SOOOO pretty, Scy! Wanna race? First one ta get some cum wins!</i>\" She giggles and makes kissy-lips at the nun.\n\n");
         //[Next]
@@ -1042,30 +1042,30 @@
         return { next: addictionScyllaTakeAdvantageDicksIII };
     }
 
-    private addictionScyllaTakeAdvantageDicksIII(): void {
+    private addictionScyllaTakeAdvantageDicksIII() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-multi-cock-three"));
+        DisplayImage(images.showImage("scylla-help-round-five-multi-cock-three"));
         scyllaSprite();
         DisplayText("Scylla's completely checked out by now, so the very mention of cum is enough to bring a woozy smile to her face. Her empty blue eyes waver, trying to focus on your body and she lowers her lips to your prick, all too happy to accept Abby's challenge. The two girls slide your shafts into their wet-lipped mouths and you have to bite your lip to keep from bursting right there. Scylla's mouth has the practiced expertise of her addiction-driven thirst, but Abylon's fresh, whorish mouth is by far tighter than you were prepared for. What she lacks in practice, she makes up for with enthusiasm, swallowing your long inches without a moment's hesitation. You place a hand on the backs of each girl's heads and pump them along your shafts in alternating strokes, drool slopping across your members as a heady foam of pre-cum bubbles in their throats.\n\n");
 
         if (player.torso.balls.quantity > 0) {
-            DisplayText("Your " + BallsDescriptor.describeBalls(true, true, player) + " quiver with the building load and the bubble-brained goblin girl notices the swelling pulses tightening in her throat. She pops her head off your " + CockDescriptor.describeCock(player, 1) + " and turns to her competitor with a grin. \"<i>I'm winnnn-ing!</i>\" she taunts, just in time to see Scylla's cheeks bloat with the first load of your orgasm, " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " erupting in her lewd mouth, her obscene tongue suckling with a vacuum-like pressure. Abby drops her jaw in disappointment and whines \"<i>Aw, why isn't mine working?</i>\" as she swings back to your " + CockDescriptor.describeCock(player, 1) + " just in time for your urethra to dilate. A blast of jizz catches her directly in her unsuspecting face, hot streams lancing into her pug nose's large nostrils hard enough to spill back out of her still-open mouth. You grab her dumb-founded head and jam her onto your shaft in time to pump another load into her slut-shifted body before tossing her back on her ass, discarding the loser of the contest.\n\n");
-            DisplayText("Scylla casts her nun's habit aside as your churning cum causes her tiny demonic nubs to grow into large, curving horns. Pulling the front of her dress down, she bears her huge breasts, the mouth nipples hungrily opening as she scoops the mountainous tit-flesh in both arms and brings her mammary mouths level with your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " and " + CockDescriptor.describeCock(player, 1) + ". You push into her chest just as your orgasm begins to flag and Scylla's perverse body rekindles your climax as the thirsty mouths seal around your shafts, drinking your seed gratefully, swelling with the meal of spunk you're feeding them. Grabbing the lips of Scylla's tit-mouths you squeeze tight enough to make the pink skin bright red and she gasps as you attempt to sate her endless cum thirst. She shakes her head back and forth rapidly, hair wildly thrashing in the air, her breasts growing heavier under the orgasmic glee of her overstimulation. Milk begins to leak and squirt at each wet thrust you give her chest and the nun's back arches in rapture as she babbles incoherently, putty in your hands. Your balls churn one final time and you bottom out in the nun's body to spray a long, toe-curling gush of creamy lather into her profane mammaries before pulling out and letting her fall backward, mindlessly climaxing, while milk and cum spurt out of her clit-sensitive lipples with each heartbeat.\n\n");
+            DisplayText("Your " + Desc.Balls.describeBalls(true, true, player) + " quiver with the building load and the bubble-brained goblin girl notices the swelling pulses tightening in her throat. She pops her head off your " + Desc.Cock.describeCock(player, 1) + " and turns to her competitor with a grin. \"<i>I'm winnnn-ing!</i>\" she taunts, just in time to see Scylla's cheeks bloat with the first load of your orgasm, " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " erupting in her lewd mouth, her obscene tongue suckling with a vacuum-like pressure. Abby drops her jaw in disappointment and whines \"<i>Aw, why isn't mine working?</i>\" as she swings back to your " + Desc.Cock.describeCock(player, 1) + " just in time for your urethra to dilate. A blast of jizz catches her directly in her unsuspecting face, hot streams lancing into her pug nose's large nostrils hard enough to spill back out of her still-open mouth. You grab her dumb-founded head and jam her onto your shaft in time to pump another load into her slut-shifted body before tossing her back on her ass, discarding the loser of the contest.\n\n");
+            DisplayText("Scylla casts her nun's habit aside as your churning cum causes her tiny demonic nubs to grow into large, curving horns. Pulling the front of her dress down, she bears her huge breasts, the mouth nipples hungrily opening as she scoops the mountainous tit-flesh in both arms and brings her mammary mouths level with your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and " + Desc.Cock.describeCock(player, 1) + ". You push into her chest just as your orgasm begins to flag and Scylla's perverse body rekindles your climax as the thirsty mouths seal around your shafts, drinking your seed gratefully, swelling with the meal of spunk you're feeding them. Grabbing the lips of Scylla's tit-mouths you squeeze tight enough to make the pink skin bright red and she gasps as you attempt to sate her endless cum thirst. She shakes her head back and forth rapidly, hair wildly thrashing in the air, her breasts growing heavier under the orgasmic glee of her overstimulation. Milk begins to leak and squirt at each wet thrust you give her chest and the nun's back arches in rapture as she babbles incoherently, putty in your hands. Your balls churn one final time and you bottom out in the nun's body to spray a long, toe-curling gush of creamy lather into her profane mammaries before pulling out and letting her fall backward, mindlessly climaxing, while milk and cum spurt out of her clit-sensitive lipples with each heartbeat.\n\n");
         }
         else {
-            DisplayText("Your hips quiver with the building load and the bubble-brained goblin girl notices the swelling pulses tightening in her throat. She pops her head off your " + CockDescriptor.describeCock(player, 1) + " and turns to her competitor with a grin. \"<i>I'm winnnn-ing!</i>\" she taunts, just in time to see Scylla's cheeks bloat with the first load of your orgasm, " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " erupting in her lewd mouth, her obscene tongue suckling with a vacuum-like pressure. Abby drops her jaw in disappointment and whines \"<i>Aw, why isn't mine working?</i>\" as she swings back to your " + CockDescriptor.describeCock(player, 1) + " just in time for your urethra to dilate. A blast of jizz catches her directly in her unsuspecting face, hot streams lancing into her pug nose's large nostrils hard enough to spill back out of her still-open mouth. You grab her dumb-founded head and jam her onto your shaft in time to pump another load into her slut-shifted body before tossing her back on her ass, discarding the loser of the contest.\n\n");
-            DisplayText("Scylla casts her nun's habit aside as your churning cum causes her tiny demonic nubs to grow into large, curving horns. Pulling the front of her dress down, she bears her huge breasts, the mouth nipples hungrily opening as she scoops the mountainous tit-flesh in both arms and brings her mammary mouths level with your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " and " + CockDescriptor.describeCock(player, 1) + ". You push into her chest just as your orgasm begins to flag and Scylla's perverse body rekindles your climax as the thirsty mouths seal around your shafts, drinking your seed gratefully, swelling with the meal of spunk you're feeding them. Grabbing the lips of Scylla's tit-mouths you squeeze tight enough to make the pink skin bright red and she gasps as you attempt to sate her endless cum thirst. She shakes her head back and forth rapidly, hair wildly thrashing in the air, her breasts growing heavier under the orgasmic glee of her overstimulation. Milk begins to leak and squirt at each wet thrust you give her chest and the nun's back arches in rapture as she babbles incoherently, putty in your hands. Your prostate churns one final time and you bottom out in the nun's body to spray a long, toe-curling gush of creamy lather into her profane mammaries before pulling out and letting her fall backward, mindlessly climaxing, while milk and cum spurt out of her clit-sensitive lipples with each heartbeat.\n\n");
+            DisplayText("Your hips quiver with the building load and the bubble-brained goblin girl notices the swelling pulses tightening in her throat. She pops her head off your " + Desc.Cock.describeCock(player, 1) + " and turns to her competitor with a grin. \"<i>I'm winnnn-ing!</i>\" she taunts, just in time to see Scylla's cheeks bloat with the first load of your orgasm, " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " erupting in her lewd mouth, her obscene tongue suckling with a vacuum-like pressure. Abby drops her jaw in disappointment and whines \"<i>Aw, why isn't mine working?</i>\" as she swings back to your " + Desc.Cock.describeCock(player, 1) + " just in time for your urethra to dilate. A blast of jizz catches her directly in her unsuspecting face, hot streams lancing into her pug nose's large nostrils hard enough to spill back out of her still-open mouth. You grab her dumb-founded head and jam her onto your shaft in time to pump another load into her slut-shifted body before tossing her back on her ass, discarding the loser of the contest.\n\n");
+            DisplayText("Scylla casts her nun's habit aside as your churning cum causes her tiny demonic nubs to grow into large, curving horns. Pulling the front of her dress down, she bears her huge breasts, the mouth nipples hungrily opening as she scoops the mountainous tit-flesh in both arms and brings her mammary mouths level with your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and " + Desc.Cock.describeCock(player, 1) + ". You push into her chest just as your orgasm begins to flag and Scylla's perverse body rekindles your climax as the thirsty mouths seal around your shafts, drinking your seed gratefully, swelling with the meal of spunk you're feeding them. Grabbing the lips of Scylla's tit-mouths you squeeze tight enough to make the pink skin bright red and she gasps as you attempt to sate her endless cum thirst. She shakes her head back and forth rapidly, hair wildly thrashing in the air, her breasts growing heavier under the orgasmic glee of her overstimulation. Milk begins to leak and squirt at each wet thrust you give her chest and the nun's back arches in rapture as she babbles incoherently, putty in your hands. Your prostate churns one final time and you bottom out in the nun's body to spray a long, toe-curling gush of creamy lather into her profane mammaries before pulling out and letting her fall backward, mindlessly climaxing, while milk and cum spurt out of her clit-sensitive lipples with each heartbeat.\n\n");
         }
-        DisplayText("Your " + CockDescriptor.describeCock(player, 2) + " pulses, unsatisfied, and you stoop to grab the inebriated, encapsulated fairy from the ground. You try to shake her loose, but the drunk seems to have finished off half a bottle of goblin ale and her belly is overburdened with the liquid weight. Her lower torso slides out of the neck of the glass, but her bloated belly gets stuck in the neck, pinning the girl in place. Shrugging, you position the trapped girl over your cockhead and push at the tiny slit between her delicate legs. To your considerable surprise, she slides open, fairy pussy stretching like elastic around the tip of your " + CockDescriptor.describeCock(player, 2) + ". Apparently her overdose of Goblin Ale has made her considerably deeper and wider than her fey frame would suggest. The fairy is yelling something, but the glass drowns out her voice, so you go ahead and push deeper, delighting in the feel of Pastie's pussy sucking down inch after inch of your cock. Her body distorts wildly until she's little more than a flesh-colored condom from the neck down. She's just too tight to hold on long, however, and your " + CockDescriptor.describeCock(player, 2) + " erupts inside her, seed overflowing even the renewed elastic capacity of her womb. The pressure pops the girl back into the bottle and you jam your cockhead into the neck of the glass as your spunk splatters over the trapped, semen-stuffed girl. Before long, your shuddering orgasm has begun to fill the bottle and Pastie floats to the narrow top, buoyed by her liquid-fat body. When your ejaculate slows to a trickle, you let the bottle drop, the sperm-bubble of a fairy utterly blitzed and swimming helplessly inside the sea of spunk.\n\n");
+        DisplayText("Your " + Desc.Cock.describeCock(player, 2) + " pulses, unsatisfied, and you stoop to grab the inebriated, encapsulated fairy from the ground. You try to shake her loose, but the drunk seems to have finished off half a bottle of goblin ale and her belly is overburdened with the liquid weight. Her lower torso slides out of the neck of the glass, but her bloated belly gets stuck in the neck, pinning the girl in place. Shrugging, you position the trapped girl over your cockhead and push at the tiny slit between her delicate legs. To your considerable surprise, she slides open, fairy pussy stretching like elastic around the tip of your " + Desc.Cock.describeCock(player, 2) + ". Apparently her overdose of Goblin Ale has made her considerably deeper and wider than her fey frame would suggest. The fairy is yelling something, but the glass drowns out her voice, so you go ahead and push deeper, delighting in the feel of Pastie's pussy sucking down inch after inch of your cock. Her body distorts wildly until she's little more than a flesh-colored condom from the neck down. She's just too tight to hold on long, however, and your " + Desc.Cock.describeCock(player, 2) + " erupts inside her, seed overflowing even the renewed elastic capacity of her womb. The pressure pops the girl back into the bottle and you jam your cockhead into the neck of the glass as your spunk splatters over the trapped, semen-stuffed girl. Before long, your shuddering orgasm has begun to fill the bottle and Pastie floats to the narrow top, buoyed by her liquid-fat body. When your ejaculate slows to a trickle, you let the bottle drop, the sperm-bubble of a fairy utterly blitzed and swimming helplessly inside the sea of spunk.\n\n");
         //[Next]
         player.orgasm();
         return { next: addictionScyllaTakeAdvantageDicksBonusAndEpilogue };
     }
 
-    private addictionScyllaTakeAdvantageDicksBonusAndEpilogue(): void {
+    private addictionScyllaTakeAdvantageDicksBonusAndEpilogue() {
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-help-round-five-multi-cock-four"));
+        DisplayImage(images.showImage("scylla-help-round-five-multi-cock-four"));
 
         //Array of all possible scenes
         let blah: Array = new Array(0);
@@ -1078,7 +1078,7 @@
 
         //[If the player has 4 dicks]
         if (select === 4) {
-            DisplayText("Abby picks herself off the ground, giggling woozily and fingering her newly inflated lips. \"<i>That was fun! But don'tcha wanna knock me up? Gimme lots of little babies like my mommy?</i>\" She squeezes her bimbo-enlarged tits and flutters her eyelashes longingly. You command her to turn around and she gladly complies, wiggling her chubby, emerald butt. You can feel the heat pouring off of her wet sex from several feet away and it's enough to bring your other dicks back to hardness. The goblin girl's cocktail of drugs seems to have put her in an intense heat, like a mare in rutting season. Your " + CockDescriptor.describeCock(player, 3) + " stiffens painfully and you grab Abylon's fattened hips roughly, jerking her onto your shaft, the green curtains of her labia slurping your length with the moist sound of the excited girl's fluids squirting from her body. \"<i>If I'm gonna be like mom, I gotta get all I can!</i>\" she giggles, bending between her legs and grabbing at your crotch. She pulls your " + CockDescriptor.describeCock(player, 2) + " and slides it inside her pussy, then reaches with both hands for your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " and " + CockDescriptor.describeCock(player, 1) + ", pressing them together and aiming for her anus.\n\n");
+            DisplayText("Abby picks herself off the ground, giggling woozily and fingering her newly inflated lips. \"<i>That was fun! But don'tcha wanna knock me up? Gimme lots of little babies like my mommy?</i>\" She squeezes her bimbo-enlarged tits and flutters her eyelashes longingly. You command her to turn around and she gladly complies, wiggling her chubby, emerald butt. You can feel the heat pouring off of her wet sex from several feet away and it's enough to bring your other dicks back to hardness. The goblin girl's cocktail of drugs seems to have put her in an intense heat, like a mare in rutting season. Your " + Desc.Cock.describeCock(player, 3) + " stiffens painfully and you grab Abylon's fattened hips roughly, jerking her onto your shaft, the green curtains of her labia slurping your length with the moist sound of the excited girl's fluids squirting from her body. \"<i>If I'm gonna be like mom, I gotta get all I can!</i>\" she giggles, bending between her legs and grabbing at your crotch. She pulls your " + Desc.Cock.describeCock(player, 2) + " and slides it inside her pussy, then reaches with both hands for your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and " + Desc.Cock.describeCock(player, 1) + ", pressing them together and aiming for her anus.\n\n");
 
             DisplayText("With a goofy tittering, she takes a bouncing leap backward,  your cocks worming into her lubricated asshole and forcing you to catch the buttslut to keep her on your poles. With four dicks filling the goblin, Abby's belly balloons outward, her hips stretching tightly to accommodate the doubled double-penetration. Your lengths rub against each other perversely as you lift the goblin up and down, working more of your considerable girth into her jam-packed body. \"<i>Wee! Bouncy, bouncy, bouncy!</i>\" Her mounds jiggle with the motion and she plays with them happily, oblivious to the boner bouquet you've made of her nethers. The bimbo-breasted girl gleefully rides you all the way down to your base, her body impaled on your quartet of cocks until it seems like they're about to come out of her throat. You smack Abby's plump rear and she shrieks in joy, wiggling her legs uselessly, stroking the cock bulges that push out between her breasts. She tightens even further at the slap, so you give her another, with similar results. You keep spanking the whorish girl and she keeps tightening around you until the pressure is almost unbearable, despite her potion-inflated uterus. Grabbing hold of the girl's shoulders, you grunt as your four cocks unload, cum inflating the goblin in the blink of an eye. The fluid floods her innards and, with a body-shaking laugh, you release your grip, the fire hoses of your crotch launching the green fucktoy off your crotch, twin jets of jizz flooding from her body as she lifts into the air and bangs her head on the ceiling, tumbling to the ground in a thumping roll. Abylon shakes her head, dazed by the rocket-fuck and claps her hands together. \"<i>Again! Again! I wanna go again!</i>\"\n\n");
         }
@@ -1093,7 +1093,7 @@
         if (select === 6) {
             DisplayText("Satisfied with the moist girls strewn around the room, you turn to leave and find a hand gently grabbing your leg. Scylla has crawled across the floor and looks up at you with blank, azure eyes and an empty smile. \"<i>Please, let me heal you,</i>\" she whispers, rising to her knees and stroking your demonic prick with trembling fingers. \"<i>C-c-corruption must be cleansed. Please, let my body take the curse from you. I want... need to...</i>\" She trails off as she places a shuddering kiss on your cockhead, the purplish penis jumping to life at the touch of the nun's crimson, dick-sucking lips. With a stumbling, half-remembered prayer, the bliss-blasted girl slides your length into her mouth, the throat parting like a well-trained pussy as you push into her jizz-devouring body.\n\n");
 
-            if (player.torso.balls.quantity > 0) DisplayText("An unfamiliar tingling starts at the base of your shaft and rushes to your tip in another second, sending cold chills through your frame. You can feel the bulbous protrusions of your infernal fuck-pole rippling inside Scylla's esophagus as she clenches down, muscles like a fist tightening on your prick. It almost feels like she's squeezing your flesh to its twitching core, milking your creamy center. The bumpy protrusions deforming the nun's neck flatten and deflate before your eyes and a spine-twisting rapture erupts from the tip of your cock. It's all you can do to grip the girl's curling horns to brace yourself from falling over. A sensation of teeth-clenching pleasure erupts from your " + BallsDescriptor.describeBalls(true, true, player) + "  like no orgasm you've ever experienced, making you rock back on your heels and slam the nun's face against your groin. Scylla's expression shifts from mindless joy to suffocating ecstasy , her eyes rolling up in her head, body vibrating with a rolling orgasm, tiny hacking gasps escaping her throat as your climax pours hot, liquid relief into her belly.\n\n");
+            if (player.torso.balls.quantity > 0) DisplayText("An unfamiliar tingling starts at the base of your shaft and rushes to your tip in another second, sending cold chills through your frame. You can feel the bulbous protrusions of your infernal fuck-pole rippling inside Scylla's esophagus as she clenches down, muscles like a fist tightening on your prick. It almost feels like she's squeezing your flesh to its twitching core, milking your creamy center. The bumpy protrusions deforming the nun's neck flatten and deflate before your eyes and a spine-twisting rapture erupts from the tip of your cock. It's all you can do to grip the girl's curling horns to brace yourself from falling over. A sensation of teeth-clenching pleasure erupts from your " + Desc.Balls.describeBalls(true, true, player) + "  like no orgasm you've ever experienced, making you rock back on your heels and slam the nun's face against your groin. Scylla's expression shifts from mindless joy to suffocating ecstasy , her eyes rolling up in her head, body vibrating with a rolling orgasm, tiny hacking gasps escaping her throat as your climax pours hot, liquid relief into her belly.\n\n");
             else DisplayText("An unfamiliar tingling starts at the base of your shaft and rushes to your tip in another second, sending cold chills through your frame. You can feel the bulbous protrusions of your infernal fuck-pole rippling inside Scylla's esophagus as she clenches down, muscles like a fist tightening on your prick. It almost feels like she's squeezing your flesh to its twitching core, milking your creamy center. The bumpy protrusions deforming the nun's neck flatten and deflate before your eyes and a spine-twisting rapture erupts from the tip of your cock. It's all you can do to grip the girl's curling horns to brace yourself from falling over. A sensation of teeth-clenching pleasure erupts from your abdomen like no orgasm you've ever experienced, making you rock back on your heels and slam the nun's face against your groin. Scylla's expression shifts from mindless joy to suffocating ecstasy , her eyes rolling up in her head, body vibrating with a rolling orgasm, tiny hacking gasps escaping her throat as your climax pours hot, liquid relief into her belly.\n\n");
             DisplayText("When your crescendo finally ends, you notice that in your shuddering throes, you lost control of your other cocks, the slutty nun's blowjob drawing a pearl eruption from every member of your squirming mass of dicks. A gooey white glaze drips from the ceiling, splatters the walls, and soaks all three girls in sticky cocoons of seed. When you slide out of the cum-dump you've made of the nun's throat, a snarky comment about over-achievers dies on your lips. Your slippery, drool and spunk-soaked shaft has lost its fiendish features and has been smoothed down to a normal, flesh-colored penis. Scylla has literally sucked the corruption from your dick! A glossy blackness leaks from her plump lips, staining them ebony and she licks her pucker with a thrashing, serpentine tongue. She soundlessly mouths wordless prayers, trying to restrain the seething demonic taint boiling through her body, driven wild by the raw sexual stimulation overloading her saccharine-sweet demeanor. Probably best to get out of here before she gives into further temptation- you might not survive the next blowjob!\n\n");
             //[Demon dick reverted to human dick. End bonus encounter]
@@ -1114,7 +1114,7 @@
 
 
     //Scylla #6 - Cat Scratch Fever
-    public Scylla6(): void {
+    public Scylla6() {
         DisplaySprite(59);
         if (flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] < 6) flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] = 6;
         DisplayText().clear();
@@ -1130,7 +1130,7 @@
         simpleChoices("Next", Scylla6SLOW, "Duck!", Scylla6DUCK, "", null, "", null, "", null);
     }
     //(super high Intelligence or speed)
-    private Scylla6DUCK(): void {
+    private Scylla6DUCK() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("You turn in time to spot the ambush and drop low, a pipe swinging just past your head and cracking a brick next to you. Sweeping low, you knock your attacker's legs out from under him and rise into a defensive stance. A dozen cat-morphs have crept up behind you, silently seizing Scylla. The felines hiss, startled by your acute awareness and suddenly doubting their plan of attack.  You decide to end this before it gets too bloody, so you slowly curl your fingers into a fist, audibly cracking each knuckle on your hand one after the other. You rise to your feet and flick your ear with your thumb, chuckling. \"<i>You really broadcast that one,</i>\" you start, speaking slowly and loudly enough for your voice to bounce around the cramped alley. \"<i>But I'm sure you've got better. I mean, you know what I'm capable of. I've had demons helpless at my feet. Minotaurs three times your size cower when they remember my face. Surely you didn't just attack us at random? Nobody's luck is that bad. No, you're definitely trained professionals and not a miserable pack of errant transients, too drugged out to appreciate the scope of the mistake they've just made. So you'll be ready for the worst I've got. And oh, it is going to be DREADFUL.</i>\"\n\n");
@@ -1141,7 +1141,7 @@
     }
 
     //(Normal Characters)
-    private Scylla6SLOW(): void {
+    private Scylla6SLOW() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("Too late, you realize the pickpockets were a distraction, and before you can whip around, a heavy weight cracks against the side of your skull, turning your world into a pin point of pain in an ocean of black unconsciousness. You muscles become jelly and you don't remember falling to your knees or slumping against the brick wall of the alley");
@@ -1158,7 +1158,7 @@
 
             DisplayText("The cats around the two of you are jittery and mill impatiently. Males and females dressed in rags eye the pair of you with ill-concealed thirst, licking their lips with long, rough tongues. They're quite small, between four and five feet tall, but look lean and fast. Even if you broke your restraints, they'd be on you in an instant. You weren't too far from the city's dusty streets- if you can distract them for long enough, Urta or one of the other city guards should be along shortly. If you yelled for help, they might find you faster, but it would probably spook the felines away and, you have to admit, the furry bodies crawling atop you feel pretty good.\n\n");
             //[Yell]      [Wait]    [Kick Ass (Super high str only)]
-            let kickass: Function = null;
+            let kickass;
             if (player.stats.str >= 85) kickass = lactateAndKickAss;
             MainScreen.simpleChoices(["Yell", "Wait", "Kick Ass", "", ""], [Scylla6YellForHelp, Scylla6MilkyWait, kickass, null, null]);
         }
@@ -1170,8 +1170,8 @@
 
             DisplayText("The cats are milling around her colossal chest, anxious and jittery. Between Scylla's position and the pressure her bound arms are putting on her supple tit flesh, the nun's nipples have begun leaking drops of her creamy, thick milk, the smell of which seems to be driving the cats wild. Still, they're holding back, perhaps because they've never seen lips on boobs before. Maybe it's the concussion talking, but between the sight of all that exposed flesh and the heat pouring off of their puffed genitals, you're starting to feel a little hot under the collar. They haven't noticed you yet. What will you do?\n\n");
 
-            let submit: Function = null;
-            let rapeWorld: Function = null;
+            let submit;
+            let rapeWorld;
             if (flags[FlagEnum.KATHERINE_UNLOCKED] < 1) {
                 if (player.torso.vaginas.count > 0) submit = Scylla6NoMilkSubmit;
                 rapeWorld = Scylla6NoMilkRAPETHEWORLD;
@@ -1182,7 +1182,7 @@
         }
     }
     //[Kick Ass]
-    private lactateAndKickAss(): void {
+    private lactateAndKickAss() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("Cracking your neck, you decide to end this right now. Flexing your nearly unholy strength, you easily break the leather collar binding your hands and rise to your feet, dumping the cats pining you down to their asses. The felines hiss and leap backward, fearful of your might. You rub the bridge of your nose with the back of your hand, sniffing. \"<i>I enjoy a good joke,</i>\" you start, speaking slowly and loud enough for your voice to bounce around the cramped alley. \"<i>But you have to be kidding me. Cats? I've beaten demon overlords into bloody pulps. I've nearly torn the head off an imp with my bare hands. I've stomached a lot of crap since I came through the portal, but nothing I've drank or eaten, no matter how foul, has been as hard to swallow as this pathetic little ambush. I'm going to count to three and then I'm going to fuck the closest thing I lay my hands on. And if a hole isn't convenient, I'll make my own. Understand? One.</i>\"\n\n");
@@ -1192,7 +1192,7 @@
     }
 
     //[Yell]
-    private Scylla6YellForHelp(): void {
+    private Scylla6YellForHelp() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("You fill your lungs and scream for help as loudly as you can. The cats lying on you hiss and rake your exposed flesh with their needle-like claws. One tries to jam a leather ball in your mouth to gag you, but the damage is done. The clattering rush of the city guard surrounds the alley from both directions and the cats find themselves trapped. A few try to bolt between the guards, but a well-placed centaur kick knocks one into an unconscious slump and the others quail from the guards, huddling into a scared group.\n\n");
@@ -1204,7 +1204,7 @@
         MainScreen.simpleChoices(["Truth", "Lie", "", "", ""], [Scylla6AfterYellTruth, Scylla6AfterYellLie, null, null, null]);
     }
     //[Truth]
-    private Scylla6AfterYellTruth(): void {
+    private Scylla6AfterYellTruth() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("\"<i>These drifters attacked us in broad daylight,</i>\" you spit in disgust. \"<i>Lock them up, banish them from the city, do whatever it is you do. I never want to see these furry freaks again.</i>\"\n\n");
@@ -1213,18 +1213,18 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[Lie]
-    private Scylla6AfterYellLie(): void {
+    private Scylla6AfterYellLie() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You pull the watchwoman aside, away from the too-honest nun, and explain that it was all just a misunderstanding. You asked the cats to tie you up because you've got a bit of a bondage fetish, but you forgot the safe word in your pleasure. You promise it won't happen again. The Collie woman eyes you suspiciously but is stuck- without your testimony, she's got to let the cats go.\n\n");
 
         DisplayText("\"<i>But I'm going to fine you for this!</i>\" she barks, annoyed. \"<i>Keep your sex life behind closed doors and don't waste the watch's time again!</i>\" She collects her fee and disperses the Guard with another bark before turning to leave herself, tail curled up in irritation. The cats scatter too, but you're pretty sure you'll see them again as long as you're still lactating. Scylla's not sure what you told the watch, but she thanks you for your kindness with a kiss on the forehead and excuses herself; it's been a busy day and she's late for the soup kitchen. You muse that she'll probably end up feeding the same cats just recently denied a meal.");
-        player.stats.gems -= 10;
+        player.inventory.gems -= 10;
         statScreenRefresh();
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[Wait]
-    private Scylla6MilkyWait(): void {
+    private Scylla6MilkyWait() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("You don't want to risk aggravating junkies while you're unable to defend yourself, especially while all your sensitive bits are in claw's reach of the kitties. You shiver as they begin to lick at your breasts, four felines crowding around your chest, whiskers tickling your nipples as coarse, wet tongues moisten your mounds. Their combined purring sends electric vibrations through your body, drowning out the anger and pain of the attack. Fuzzy faces and hot tongues slather your tits up to the nipples, coaxing small, white drops to the surface. They draw a weak moan from you as each cat takes a turn lapping at your leaking nubs, their rough tongues textured like slick sandpaper, softly scratching your vulnerable teats just enough to leave you panting for more.\n\n");
@@ -1240,7 +1240,7 @@
         return { next: Scylla6MilkyWaitII };
     }
     //[Next]
-    private Scylla6MilkyWaitII(): void {
+    private Scylla6MilkyWaitII() {
         DisplaySprite(59);
         DisplayText().clear();
         //[Low milk output]
@@ -1263,18 +1263,18 @@
         //[Next]
         return { next: Scylla6MilkyWaitIII };
     }
-    private Scylla6MilkyWaitIII(): void {
+    private Scylla6MilkyWaitIII() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("When the last feline has drunk their fill of you and the nun and their bloated masturbation burns off the arousal of their theft, they clumsily untie the constricting collars from your arms and help take Scylla down from her perch. They avoid meeting your eyes, perhaps ashamed or maybe just still too horny, but they press a few meager gems into your hand, trying to pay for the milk they stole. Scylla refuses what they offer her, instead giving them the money she had on her. She manages to gently scold them for not asking first while keeping her blushing gaze hidden behind a veil of her shimmering curls. You help the nun gather up the torn scraps of the top half of her robe and ineffectually drape them around her milk-inflated chest. She tries to put her habit back on but her horns have grown into twisting loops atop her head and are slow to recede while the lusty felines are still around. Before anything else can jump you, you excuse yourself and slink away, rubbing your achingly sore nipples under your " + player.inventory.equipment.armor.displayName + " as you do so.");
         //[Gain gems. End encounter.]
-        player.stats.gems += 25;
+        player.inventory.gems += 25;
         statScreenRefresh();
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     //[Get Help]
-    private Scylla6NoMilkGetHelp(): void {
+    private Scylla6NoMilkGetHelp() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You fill your lungs and scream for help as loudly as you can. The cats around Scylla hiss and leap to their feet, trying to find you, cursing. A tall, black-furred girl tries to flee down the alleyway, but the damage is done. The clattering rush of the city guard surrounds the group from both directions and the cats find themselves trapped. A few try to bolt between the guards, but a well-placed centaur kick knocks one into an unconscious slump and the others quail from the guards in a scared huddle.\n\n");
@@ -1286,7 +1286,7 @@
         MainScreen.simpleChoices(["Truth", "Lie", "", "", ""], [Scylla6NoMilkTruth, Scylla6NoMilkLie, null, null, null]);
     }
     //[Truth]
-    private Scylla6NoMilkTruth(): void {
+    private Scylla6NoMilkTruth() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("\"<i>These drifters attacked us in broad daylight,</i>\" you spit in disgust. \"<i>Lock them up, banish them from the city, do whatever it is you do. I never want to see these furry freaks again.</i>\"\n\n");
@@ -1295,18 +1295,18 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[Lie]
-    private Scylla6NoMilkLie(): void {
+    private Scylla6NoMilkLie() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You pull the Watchwoman aside, away from the too-honest nun, and explain that it was all just a misunderstanding. You asked the cats to tie the nun up because the two of you have got a bit of a bondage fetish, but they got a little caught up in the role play and when they didn't stop after your companion used the safe word, you panicked. You promise it won't happen again. The Collie woman eyes you suspiciously but has no choice but to take your word for it- without your testimony, she's got to let the cats go.\n\n");
         DisplayText("\"<i>But I'm going to fine you for this!</i>\" she barks, annoyed. \"<i>Keep your sex life behind closed doors and don't waste the watch's time again!</i>\" She collects her fee and disperses the Guard with another bark before turning to leave herself, tail curled up in irritation. The cats scatter too, but you're pretty sure you'll see them again. Scylla's not sure what you told the Watch, but she thanks you for your kindness with a kiss on the forehead and excuses herself; it's been a busy day and she's late for the soup kitchen. You muse that she'll probably end up feeding the same cats just recently denied a meal.\n\n");
-        player.stats.gems -= 10;
+        player.inventory.gems -= 10;
         statScreenRefresh();
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     //[Submit] (Only available to players with vaginas)
-    private Scylla6NoMilkSubmit(): void {
+    private Scylla6NoMilkSubmit() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("You step around the corner, ready to save the nun, but the heat in your gut overpowers your heroism and you let your tongue hang out of your mouth as your eyelids grow heavy. You stumble and fall to your knees, head hanging low as you rub your body with both hands. The cats smelt your lust, and twelve furred, clawed bodies ring yours, dark rings around their almond-shaped eyes. You weakly try to shoo them away, but hands surround you and they hold firm against your struggles. You tire almost immediately and the cats pull you to the ground. The others push the largest among them forward, a black-furred feline of five feet with a small chest and lean build. Without meeting your gaze, she unhooks the leather collar from her neck and binds your hands behind your back tight enough to make your fingertips tingle, the small bell on it jingling. Then, she ducks back into the crowd, shifting her ragged clothes uncomfortably.\n\n");
@@ -1328,7 +1328,7 @@
         return { next: Scylla6NoMilkSubmitII };
     }
     //[Next]
-    private Scylla6NoMilkSubmitII(): void {
+    private Scylla6NoMilkSubmitII() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("The black cat who bound your hands sees your lusty want all too well. While the others descend on the nun blindly, she helps you to your feet and pushes you between Scylla's massive, pillowy breasts. With swift but inexperienced motions, she ducks between your legs, grabs your pulsing cock, and guides it to the nun's blushing face. The cat inadvertently teases the captive girl by bopping your cockhead against the nun's cheeks and lips before aiming it against her moist pucker. Your legs clench when you feel Scylla's hot breath on your sensitive tip, the crowd of drinking felines on her chest blocking your view of her debased flush as she lavishes distressed kisses on your prick.\n\n");
@@ -1340,7 +1340,7 @@
         DisplayText("The feline within you pulls back, your clenching hole reluctant to give up a single inch of her meat. Your walls tremble at the stimulation and you sigh hotly as the scooped cockhead tickles and strokes your recesses maddeningly. She pulls back far enough for her tip, slick with your lubrication, to rub against your clit and you bite your tongue, trying to hold back the boiling orgasm. She licks her coarse tongue between your shoulder blades, up your spine, along your neck, and up to your ear. With tiny, sharp teeth, she nibbles at the base of your earlobe and slides her hands down to your hips. Then, with a nip just hard enough to draw blood, she thrusts back into you, bottoming out in one motion- knot and all- her balls slapping your ass with a furry thwack.\n\n");
 
         DisplayText("Eight inches of the cat's bulbous dog cock stuffed into your body so suddenly draws a cry of sweet pain from you and the force of her insertion drives your dick all the way up Scylla's throat. Her neck bulges outward obscenely, the skin pulsing from the blood pumping through your dong. She tries to gasp and her throat opens just enough for your dick to slide under her collarbone, past her lungs, and into her stomach. The nun is speared on your cock, its outline clear between her breasts, pushing against your chest. Despite the vice-like sucking of your pussy, the cat girl hasn't had enough and she begins to fuck you with renewed vigor, thrusting hard and slow, shallow enough to keep her ballooning knot firmly locked inside you, teasing your cunny with her feral flesh.\n\n");
-        player.displayStretchVagina(36, true);
+        Mod.Vagina.displayStretchVagina(player, 36, true);
         player.stats.lib += 2;
         player.stats.sens += -1;
         player.stats.lust += 80;
@@ -1348,7 +1348,7 @@
         //[Next]
         return { next: Scylla6NoMilkSubmitIII };
     }
-    private Scylla6NoMilkSubmitIII(): void {
+    private Scylla6NoMilkSubmitIII() {
         DisplaySprite(59);
         DisplayText().clear();
         if (player.torso.balls.quantity > 0) {
@@ -1377,20 +1377,20 @@
         player.orgasm();
     }
     //ALL - [Next]
-    private Scylla6NoMilkSubmitIV(): void {
+    private Scylla6NoMilkSubmitIV() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You hadn't realized you fell asleep until the nun's gentle shaking rouses you. The cat-morphs have left, but the trail of their passing is impossible to miss. A long, gooey trail of paw print-shaped milk and cum puddles lead out of the alley and back into the city. Scylla hugs you warmly, her smile bright and satisfied. The nubs on her head look a bit larger than they used to, but she's more or less returned to her previous dimensions, the nun's strange elasticity compensating for her lusty transformations. She explains that the cats were very sorry for their aggression and agreed to a penance for their moment of weakness. Happily, she informs you, they've agreed to public works, trying to restore some of the ruined and abandoned structures in Tel'Adre that remain unused after the demonic sieges of some time ago. She taps you on the nose and assures you that she didn't forget the bop on the head they gave you. She produces a heavy sack of gems and says that while they don't have much, they wanted to offer a tithe to the Champion's noble cause. Holding a small silver bell between her forefinger and thumb, she adds that the tall black-furred girl wanted the two of you to carry her bell when you're walking around the city so she'll be able to find you again.\n\n");
         DisplayText("It occurs to you that, if Scylla's saccharin mood is any indication, you suspect that more than a few of her 'missions of mercy' turn out like this. Your thighs are still sticky with the cat girl's spunk and you can feel it rolling inside you like the moistness of a wet kiss. All in all, you suppose, the day turned out a lot more fun than volunteering at the soup kitchen. You stomach rumbles at the thought of food and you excuse yourself to grab a meal, the nun waving good bye, jingling the ebony herm's tiny bell.");
         flags[FlagEnum.KATHERINE_MET_SCYLLA] = 1;
         player.createKeyItem("Silver Kitty-Bell", 0, 0, 0, 0);
-        player.stats.gems += 50;
+        player.inventory.gems += 50;
         statScreenRefresh();
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     //[Rape]
-    private Scylla6NoMilkRAPETHEWORLD(): void {
+    private Scylla6NoMilkRAPETHEWORLD() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("You decide to have a little fun with this situation, so you remain hidden around the corner while the cats mill around Scylla. It's not long before their thirst overwhelms their caution and the felines sink to their knees, nuzzling Scylla's bare chest, small tongues lacquering her mountainous breasts in saliva. Her skin shimmers in the alley's waning light and the nun moans, struggling weakly against her bonds, her milk-laden tits jiggling tantalizingly. You strip off your " + player.inventory.equipment.armor.displayName + " and lightly grasp your cock, stroking slowly as you wait for the opportune moment.\n\n");
@@ -1405,7 +1405,7 @@
         //[Next]
         return { next: Scylla6NoMilkRapeII };
     }
-    private Scylla6NoMilkRapeII(): void {
+    private Scylla6NoMilkRapeII() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("The cat-morph freezes in your arms, back arched as natural panic wages war against the heat pumping out of her drooling snatch. She nods her head slowly and you grin. \"<i>Good kittie,</i>\" you murmur, sliding another teasing inch into her cunny. \"<i>Let's give our friends a feast,</i>\" you whisper, directing her to turn about, toward the nursing nun. The two of you slowly pace past milk-addled felines, your captive's scarlet bulb bobbing with each deliberate step. Carefully moving between the distracted cats, you guide the dusky herm between Scylla's expanded breasts. She notices the erection you've marched up to her with a husky coo of pleasure.\n\n");
@@ -1419,7 +1419,7 @@
         //[Next]
         return { next: Scylla6NoMilkRapeIII };
     }
-    private Scylla6NoMilkRapeIII(): void {
+    private Scylla6NoMilkRapeIII() {
         DisplaySprite(59);
         DisplayText().clear();
         DisplayText("You give one more savage pump and, at last, the kitty-knot pushes past the nun's pussy-tight, bimbo-bloated kisser with a moist 'plop.' The onyx herm howls like a wolf as her sensitive bulb is swallowed by the captive woman, the grapefruit-sized knob stuffing her cheeks. The cat's body spasms as she howls, and you can see the nun's mouth is distended wide enough to see the knot's bulge under her jaw. Despite the frightening width of her knot, compared to the nun's normal fare, the larger-than-average herm seems positively small, so you decide to give them both a little extra cream.\n\n");
@@ -1437,7 +1437,7 @@
         return { next: Scylla6NoMilkRapeIV };
     }
 
-    private Scylla6NoMilkRapeIV(): void {
+    private Scylla6NoMilkRapeIV() {
         scyllaSprite();
         DisplayText().clear();
         DisplayText("You pull Scylla down from her bound position and cut her restraints, but her face is still locked onto the dusky kitty's doggy dick. You don't think you could move her obscenely inflated milk-bags without a small wagon at this point. You can at least make her comfortable while she waits for the cat's knot and her own breasts to deflate. Before you can leave, the cat herm stops you with a soft word. She's still plugged into the nun's lips, but she's turned around inside of her cum-dump so that her cock is tucked between her legs, jizz-drizzling ass leaking onto Scylla's collared head. The nun doesn't seem to mind; her serpentine tongue slurps the seed from her face and into her over-stuffed mouth.\n\n");
@@ -1450,12 +1450,12 @@
 
     //This scene is available if the player has at least two tentacle dicks, and appears when the player chooses to \"<i>share an addiction</i>\" under the heading [Tentacles].  Additional text becomes available if the player has four or six tentacle dicks.
     //-------------------------------------------------------------------------------------------------
-    private shareTentaclesWithScylla(): void {
+    private shareTentaclesWithScylla() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-share-tentacle-addiction-one"));
+        DisplayImage(images.showImage("scylla-share-tentacle-addiction-one"));
         DisplayText("The girls pale as your writhing tentacle cocks snake out of your [armor], twisting and coiling in the air, already swollen with your excitement.  Scylla opens her mouth, but words fail her and the nun's puffy, crimson lips set into a worried pucker instead.  Abylon folds her arms over her chest and rolls her eyes.  \"<i>Some security they've got in this city,</i>\" the goblin mutters.  Pastie turns white as her name, sobering up instantly.  Letting out a high-pitched \"<i>Eeeek!</i>\" she launches herself at the window, wings fluttering at top speed.  In her panic, however, it seems she's forgotten about the glass.  With a sharp crack, the fairy bounces off the window pane and tumbles to the ground, stunned and fluttering ineffectually.  Gesturing broadly at the quivering forest of cockflesh, you offer a simple smile and slowly close the door behind you.");
         //[Silly Mode:
-        if (silly()) DisplayText("\n\nYou throw your hands in the air and put on a lascivious grin.  \"<i>You see a massive, shambling form emerge from the underbrush!</i>\" you announce, gesturing back at the door.  \"<i>Sensing your presence, it lumbers at you, full speed, tentacles outstretched!</i>\"  Your cocks hover menacingly as you puff out your chest to make yourself look bigger.  \"<i>While you struggle valiantly, the beast's raw might is more than a match for you.  You give up on fighting, too aroused to resist any longer!</i>\"  The girls look back and forth at one another before shrugging, content to play along.");
+        if (User.settings.silly()) DisplayText("\n\nYou throw your hands in the air and put on a lascivious grin.  \"<i>You see a massive, shambling form emerge from the underbrush!</i>\" you announce, gesturing back at the door.  \"<i>Sensing your presence, it lumbers at you, full speed, tentacles outstretched!</i>\"  Your cocks hover menacingly as you puff out your chest to make yourself look bigger.  \"<i>While you struggle valiantly, the beast's raw might is more than a match for you.  You give up on fighting, too aroused to resist any longer!</i>\"  The girls look back and forth at one another before shrugging, content to play along.");
         else if (player.stats.cor < 33) DisplayText("\n\nAlmost apologetically, you ask the girls if they could help you with the predicament you seem to have gotten yourself in.  While your serpentine phalli may be a bit much for one person to handle by themselves, three would keep any one person from being overwhelmed.  Scylla nervously fidgets with her curled tresses and quietly agrees that perhaps that would be best.  After all, they're here to help anybody, no matter how embarrassing the problem.  Abby snorts and Pastie moans, but neither offers a flat refusal.");
         //[Medium corruption:
         else if (player.stats.cor < 66) DisplayText("\n\nMildly, you invite the girls to join you.  You know they need this just as much as you do and the sight of all your turgid, pulsing cocks can't help but burn in their minds.  As you expected, the two larger girls nod, reluctantly, while Pastie merely gives up, hugging her head in anticipation of tomorrow's hangover.");
@@ -1467,13 +1467,13 @@
             DisplayText("\n\nScylla meets your gaze, her pure, sapphire eyes peering through her long, elegant lashes.  She opens her mouth once more to speak, perhaps to try to dissuade you from giving into temptation, perhaps to ask if she could be first.  The words die on her lips as the seething thirst inside her boils up, dulling the clarity of her eyes with a decidedly impure hunger.  She whispers a prayer and you can feel your body reacting to the nun's lustful desire, her corrupted supplications flowing across your flesh like sanctified oil.  [EachCock] pulse as blood surges through their lengths, growing longer and thicker with every heartbeat.  They expand and swell until each is at least five feet long, resembling true tentacles more than the simple cocks they once were.  You marvel at the famished depravity of the holy woman, but you must admit, her charity seems boundless.");
             //[Next]
         }
-        menu();
+        
         MainScreen.addButton(0, "Next", shareTentaclesWithScylla2);
     }
 
-    private shareTentaclesWithScylla2(): void {
+    private shareTentaclesWithScylla2() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-share-tentacle-addiction-two"));
+        DisplayImage(images.showImage("scylla-share-tentacle-addiction-two"));
         //[Two Tentacles:
         if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) <= 2) DisplayText("Abylon shakes out of the lurid trance of your sinuous coils and folds her arms across her flat chest.  \"<i>I ain't sharin' with fatso over there.  You have yer fun with the blow-up nun and come let me know if ya remember to bring enough for the whole class.</i>\"  Scooping Pastie up off the floor, the two slink out of the room, leaving you alone with Scylla.  If her friend's harsh words hurt, she doesn't show it – she hasn't taken her eyes off your groin yet.  You suppose one will have to do for now.\n\n")).length;
         //[Four Tentacles:
@@ -1508,13 +1508,13 @@
         }
         //[Next]
         dynStats("lib", .5, "lus=", 100, "cor", .25, "resisted", false);
-        menu();
+        
         MainScreen.addButton(0, "Next", shareTentaclesWithScylla3);
     }
 
-    private shareTentaclesWithScylla3(): void {
+    private shareTentaclesWithScylla3() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-share-tentacle-addiction-three"));
+        DisplayImage(images.showImage("scylla-share-tentacle-addiction-three"));
         DisplayText("With your members in place, you take a moment to drink in the sensations pulsing through your flesh.  Scylla appears almost relieved as her crimson puckers wrap around the peaks of your undulating tentacles, their lengths coiled around her statuesque limbs and squeezing her inflated breasts a little tighter with every inch she sucks down.");
         //[four cocks:
         if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) >= 4) DisplayText("  Abylon's hips roll as she struggles for breath, transfixed atop your shafts, stiletto-heeled boots uselessly kicking air while her mouth works silently, speechless at the strength of your sinuous poles.")).length;
@@ -1542,12 +1542,12 @@
         player.orgasm();
         player.stats.sens += -2;
         player.stats.cor += .5;
-        menu();
+        
         MainScreen.addButton(0, "Next", shareTentaclesWithScylla4);
     }
 
     //[Next]
-    private shareTentaclesWithScylla4(): void {
+    private shareTentaclesWithScylla4() {
         DisplayText().clear();
         DisplayText("As your orgasm wanes and you are able to catch your breath, the firmness gradually ebbs from your tentacle dicks.  Uncoiling them, your excess length shrinks back into your loins, restoring you, more or less, to normal.  Scylla slumps against the side of the bed, her eyes closed in a private communion, beatific face plastered and dripping with your seed.");
         //[four cocks:
@@ -1563,11 +1563,11 @@
     //Solo Feed Scylla
     //(becomes available the day after the second plot event.   [Nun] button appears between 8 and 12 am)
     //(If player has the \"<i>Opal Ring,</i>\" change text on 3rd event)
-    public scyllasFlyingSolo(): void {
+    public scyllasFlyingSolo() {
         scyllaSprite();
         DisplayText().clear();
 
-        DisplayText(images.showImage("scylla-feed-bar-intro"));
+        DisplayImage(images.showImage("scylla-feed-bar-intro"));
         if (flags[FlagEnum.TIMES_SOLO_FED_NUN] === 0) {
             DisplayText("Glancing around the bar, you spy the modestly attired, statuesque nun sitting alone in a booth.  She seems to be watching the bar patrons nervously, absently chewing at the ruby gloss of her plump lower lip.  Taking a moment longer, you realize that she's only staring at the male patrons, with a look halfway between worry and desire creasing her pale features.  Curling a loose lock of thick, jet-black hair with one hand, her other trembles atop the table, long, slender fingers drumming an anxious beat on the thick wood.  There is a lean, hungry look in her bright, blue eyes that would be positively predatory worn by anyone else— on the nun, it merely looks desperate.  She's so fixated on those around her that she doesn't even notice as you approach her booth until you clear your throat.");
             DisplayText("\n\n\"<i>O-oh!  Goodness, I am sorry, [name].  Forgive me, but I'm a bit distracted today.  I haven't, ah, eaten,</i>\" she apologizes, blushing.  Turning her gaze, you can't help but notice that she focuses in on your crotch first, before lifting her eyes to your face.  Despite her obvious thirst, she presses on with her politeness, asking, \"<i>is there anything I can do to help you?</i>\"");
@@ -1586,15 +1586,15 @@
 
         }
         //[Feed] [Leave]
-        menu();
+        
         MainScreen.addButton(0, "Feed", feedScyllaSomeJizzDatJunkieNeedsIt);
         MainScreen.addButton(4, "Back", telAdre.barTelAdre);
     }
 
     //[Feed]
-    private feedScyllaSomeJizzDatJunkieNeedsIt(): void {
+    private feedScyllaSomeJizzDatJunkieNeedsIt() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-feed-jizz-solo-one"));
+        DisplayImage(images.showImage("scylla-feed-jizz-solo-one"));
         scyllaSprite();
         flags[FlagEnum.TIMES_SOLO_FED_NUN]++;
         flags[FlagEnum.FED_SCYLLA_TODAY] = 1;
@@ -1607,7 +1607,7 @@
             //[balls:
             if (player.torso.balls.quantity > 0) DisplayText("  Your scrotum inflates ever larger until the pressure of your [armor] becomes unbearable.");
             DisplayText("  You hastily strip and guide the pliant, hunger-dazed woman to the bed.  She proves to be further gone than you would've guessed, sinking down sluggishly and laying on her back with a hot, breathless sigh.  Her head droops over the edge of the bed, a dreamy smile playing across her bimbo-thick lips as voluminous ebony curls spill from her habit.  Your abdomen clenches in icy tightness as your loins thicken with a need nearly as great as the one dominating the overwrought maiden on the bed.");
-            if (player.torso.balls.quantity > 0) DisplayText("  The orbs swinging beneath your " + CockDescriptor.describeMultiCockShort(player) + " continue their growth, threatening to immobilize you if you don't find release quickly.  Every motion sends your spunk-laden reservoirs sloshing and wobbling, the ponderous ballsac now hanging mere inches from the floor.");
+            if (player.torso.balls.quantity > 0) DisplayText("  The orbs swinging beneath your " + Desc.Cock.describeMultiCockShort(player) + " continue their growth, threatening to immobilize you if you don't find release quickly.  Every motion sends your spunk-laden reservoirs sloshing and wobbling, the ponderous ballsac now hanging mere inches from the floor.");
 
             DisplayText("\n\nStanding at the edge of the bed, you lift your [cock biggest] to the level of the virgin's head, holding your swollen tip inches from her panting mouth.  For the nun, everything has vanished but your turgid shaft and the creamy promise within.  With a moan of yearning desire, she circles her whorish pucker into a wanton O and presses the pliant, rosy flesh at the tip of your flushed crest.  The shameless prioress' obscene kiss sends tendrils of muscle-clenching bliss through your loins, and you can't help but thrust forward, your eager motion parting her garnet lips and slipping your pulsing cockhead into the virgin's needy mouth.  With voracious relish, she begins suckling at your [cock biggest] with a hungering devotion that borders on worship.  Her tongue swirls over and under your sloping shaft, licking and stroking every sensitive nerve in your trembling flesh.  Her cheeks go concave as she slurps greedily your long inches, her kiss reaching further, drawing more of your shaft into her.  You rock back and forth, letting the reclining maiden polish your receptive tip until a dangerous tingle thrills down your spine, warning you of the tensing in your loins.");
             //[balls:]
@@ -1627,7 +1627,7 @@
             //[balls:
             if (player.torso.balls.quantity > 0) DisplayText("  Your scrotum inflates ever larger until the pressure of your [armor] becomes delicious.");
             DisplayText("  She helps you strip and guides you to her bed with a coy smile.  Sinking down eagerly, she lays on her back with a hot, breathless sigh, just as before.  Her head droops over the edge of the bed, a dreamy smile playing across her bimbo-thick lips as voluminous ebony curls spill from her habit.  Your abdomen clenches in icy tightness as your loins thicken with a need nearly as great as her own.");
-            if (player.torso.balls.quantity > 0) DisplayText("  The orbs swinging beneath your " + CockDescriptor.describeMultiCockShort(player) + " continue their growth, every motion sending your spunk-laden reservoirs sloshing and wobbling.");
+            if (player.torso.balls.quantity > 0) DisplayText("  The orbs swinging beneath your " + Desc.Cock.describeMultiCockShort(player) + " continue their growth, every motion sending your spunk-laden reservoirs sloshing and wobbling.");
 
             DisplayText("\n\nStanding at the edge of the bed, you lift your [cock biggest] to the level of the virgin's head, holding your swollen tip inches from her panting mouth.  For the nun, everything has vanished but you and her, alone together in a moment that stretches on forever.  With a yearning moan, she circles her whorish pucker into a wanton O and presses the pliant, rosy flesh at the tip of your flushed crest.  The shameless prioress' obscene kiss sends tendrils of muscle-clenching bliss through your loins.  Eagerly, you thrust forward, parting her garnet lips and slipping your pulsing cockhead into the virgin's needy mouth.  With voracious relish, she begins suckling at your [cock biggest] with a hungering devotion that borders on worship.  Her tongue swirls over and under your sloping shaft, licking and stroking every sensitive nerve in your trembling flesh.  You rock back and forth, letting the reclining maiden polish your receptive tip until a dangerous tingle thrills down your spine, warning you of the tensing in your loins.");
             if (player.torso.balls.quantity > 0) DisplayText("  The churning burden heaving in your testes has grown large enough to put you off-balance, forcing you to adjust your stance to accommodate their swelling girth.");
@@ -1637,13 +1637,13 @@
         player.orgasm();
         player.stats.sens += -1;
         //[Next]
-        menu();
+        
         MainScreen.addButton(0, "Next", feedingScyllaCumStepTwo);
     }
 
-    private feedingScyllaCumStepTwo(): void {
+    private feedingScyllaCumStepTwo() {
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-feed-jizz-solo-two"));
+        DisplayImage(images.showImage("scylla-feed-jizz-solo-two"));
         scyllaSprite();
         if (flags[FlagEnum.TIMES_SOLO_FED_NUN] === 1) {
             DisplayText("Like a punch to the stomach, the nun's virile magic pours into you, a flux of hot and cold stimulating your prostate into an intoxicating overdrive.  ");
@@ -1691,11 +1691,11 @@
         MainScreen.addButton(0, "Next", cumFeedScyllaShesACoolGirl);
     }
 
-    private cumFeedScyllaShesACoolGirl(): void {
+    private cumFeedScyllaShesACoolGirl() {
         fatigue(10);
         scyllaSprite();
         DisplayText().clear();
-        DisplayText(images.showImage("scylla-feed-jizz-solo-three"));
+        DisplayImage(images.showImage("scylla-feed-jizz-solo-three"));
         if (flags[FlagEnum.TIMES_SOLO_FED_NUN] === 1) {
             //[Low Cum Production (under 250,000 ml)]
             if (player.cumQ() <= 50000) {
@@ -1716,7 +1716,7 @@
                 player.cumMultiplier += 1 + randInt(5);
                 if (player.torso.balls.quantity > 0) player.torso.balls.size++;
                 //[Offer][Decline]
-                menu();
+                
                 MainScreen.addButton(0, "Offer", beScyllasPersonSemenSquirtingMilkMaid);
                 MainScreen.addButton(4, "Leave", declineToBeASpunkPumpintJizztrocity);
             }
@@ -1743,7 +1743,7 @@
                     player.cumMultiplier += 1 + randInt(5);
                     if (player.torso.balls.quantity > 0) player.torso.balls.size++;
                     //[Offer][Decline]
-                    menu();
+                    
                     MainScreen.addButton(0, "Offer", beScyllasPersonSemenSquirtingMilkMaid);
                     MainScreen.addButton(4, "Leave", declineToBeASpunkPumpintJizztrocity);
                 }
@@ -1758,7 +1758,7 @@
     }
 
     //[Decline]
-    private declineToBeASpunkPumpintJizztrocity(): void {
+    private declineToBeASpunkPumpintJizztrocity() {
         DisplayText().clear();
         scyllaSprite();
         DisplayText("In retrospect, a thirst like Scylla's is only going to grow as time goes on and you'd just as soon not be accountable for the girl's limitless needs.  She seems capable of taking care of herself in your absence, so there's no reason to formalize the favors you do for her.  You accept the nun's grateful thanks and take your leave.");
@@ -1766,7 +1766,7 @@
     }
 
     //[Offer]
-    private beScyllasPersonSemenSquirtingMilkMaid(): void {
+    private beScyllasPersonSemenSquirtingMilkMaid() {
         DisplayText().clear();
         scyllaSprite();
         DisplayText("You explain the proposition to the sated nun, who listens attentively.  She's hesitant at first, saying that she could never impose so much on you after all the kindness you've done her, asking nothing in return.  You dismiss her reservations  with a laugh and explain the sort of trials you've already endured in graphic enough detail to make her blush a bright crimson.  After so much strife, feeding a nun in the most pleasurable way possible is hardly the chore she makes it out to be.  Though you can't guarantee that you'd be able to stop by every day, with the sheer amount you can leave her, Scylla should have enough cum to keep herself from losing control.  You note that she'll have to see about picking up plenty of condoms for next time, though.");
@@ -1778,7 +1778,7 @@
         DisplayText("\n\n(<b>Gained Key Item: Opal Ring</b>)");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
-    public openTheDoorToFoursomeWivScyllaAndFurries(): void {
+    public openTheDoorToFoursomeWivScyllaAndFurries() {
         DisplayText().clear();
         scyllaSprite();
         DisplayText("The door audibly creaks when you slip into the Wet Bitch’s back room, but the chamber’s occupants are none the wiser, too busy passionately rutting to hear something as subtle as a hinge’s protest. Scylla is on her knees (of course), her breasts ballooned to gargantuan sizes, big enough that the sit on the floor with her while two white-furred girls pound away at her noisily slurping lipples.");
@@ -1814,14 +1814,14 @@
         DisplayText("”</i>");
         DisplayText("\n\nYou feel like you started cumming a little more... vigorously since your first visits with Scylla as well. Nothing wrong with a little bit more spunk though, right? You feed the last few inches of your length past the nun’s scarlet suckers, feeling your [cockHead biggest] snake down her seemingly endless throat. It’s hard to be concerned about something that feels so unequivocally good, particularly when you’re already started to leak pre-cum like a sieve into a wanton woman’s belly.");
         DisplayText("\n\nScylla’s pearl-white cheeks color red in delight and excitement when her nose rubs against your belly, miraculously able to breath with ");
-        if (player.biggestCockLength() <= 12) DisplayText("a foot");
-        else if (player.biggestCockLength() < 24) DisplayText("over a foot");
+        if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length <= 12) DisplayText("a foot");
+        else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 24) DisplayText("over a foot");
         else DisplayText("a few feet");
         DisplayText(" of cock choking off her throat.");
         DisplayText("\n\nSnow, clearly feeling mischievous, draws most of the way out of chosen target, releasing a small avalanche of backed-up milk in the process. She gingerly guides her nearly three-foot pole over the nun’s leaking lips, brushing her quivering tip against the sensitive ruby pillows. <i>“Hey, if you use some of that magic on me, I’ll put it back in </i>and<i> milk [name]’s prostate for you.”</i>");
         DisplayText("\n\nScylla shows no outward signs of having heard the mouse-woman’s offer.");
         DisplayText("\n\n<i>“Don’t I get a say in this?”</i> you protest, held fast by the corrupted priestess’s lasciviously wriggling tongue and vacuum-sealed lips.");
-        DisplayText("\n\nSnow pushes her bulbous head halfway back in. <i>“Nope! Just think about it, you, making my huge dick squirt out rivers of that stuff you crave, and me, squeezing every... single... drop... from lover-" + player.mf("boy", "girl") + " here.”</i>");
+        DisplayText("\n\nSnow pushes her bulbous head halfway back in. <i>“Nope! Just think about it, you, making my huge dick squirt out rivers of that stuff you crave, and me, squeezing every... single... drop... from lover-" + Desc.Gender.mf(player, "boy", "girl") + " here.”</i>");
         DisplayText("\n\nThe white-furred mouse abruptly squeals and violently rams herself back in hard enough to splatter you with a spray of milk. <i>“D-d-damn!”</i>");
         DisplayText("\n\nScylla’s eyes open wide, the white around her azure gaze darkening. Her sclera seem to be filling up with ink, entrapping her once-innocent eyes in deep, corrupted sable. Her horns, formerly nubs, elongate, arching back along the nun’s head until they have more in common with a ram’s twisted battering rams than muted, demonic tips she bore before. Worst of all, there’s no hint of the gentle creature you’ve gotten to know so well. Her compassionate features have warped into a hungry, cruel sort of beauty, the sort of spell-binding, hypnotic attraction you’ve only ever seen in the flames of a bonfire.");
         DisplayText("\n\n<i>“Ahhhh~”</i> Snow gasps, arching her back to violently plunge herself deeply into Scylla. Just below her, you spy the demonic woman’s fingers wriggling, firmly embedded into the mousette’s vagina. Every movement of those digits is announced by the splattering of girlcum on the floor and echoed by abrupt upward pitching of Snow’s moans. The breast binding the mouse swells larger by the second, doubtless filling with a load of cum as immense as its source. It pushes against your [leg], partially enveloping you as it grows.");
@@ -1839,7 +1839,7 @@
         DisplayText("\n\nScylla shakes her head, her eyes abruptly losing their onyx luster, pain and confusion evident on her face. Her horns, however, stay as they are, and you are unable to deny the lust pounding through your veins, grabbing to aid you in wildly humping her face, dumping wad after wad into into her expanding belly. Her hands release Snow’s squirting twat and Winter’s hyper-inflated nutsack at the same time. Their voices pitch into a chorus of orgiastic delight, filling the air with so much passionate screaming that you can’t even pick your own exultations out of the crowd.");
         DisplayText("\n\nSnow is the first to whimper and fall away. Her thirty-inch rod pulls out with a tremendously wet-sounding pop, chased by sticky globules of cummy milk. She lays flat on her back, breathing heavily and lewdly pumping her hips as if she were still inside, somehow still pumping thick gouts of her own mousy cream onto her modest breasts. Gone is the swaggering dom. In her place is a lust-drunk mouse, rubbing palmfuls of pearly cream into her fur.");
         DisplayText("\n\nYou aren’t far behind her. The moment her tail slips from your sore prostate and out of your [asshole], your [legs] give out, dropping you on a pile of clothes. Your [cock biggest] gives a few feeble squirts before ");
-        if (player.stats.lib >= 80 || player.minLust() > 50) DisplayText("slapping into your belly, still hard but spent");
+        if (player.stats.lib >= 80 || player.stats.minLust() > 50) DisplayText("slapping into your belly, still hard but spent");
         else DisplayText("starting to go limp");
         DisplayText(". It feels like you’ve been cumming for hours, and you’re equal parts sore and exhausted as a consequence.");
 
@@ -1855,7 +1855,7 @@
     }
 
     //Could totally wake to an interstitial scene with other shit happening if I get time/energy.
-    private scyllaFurryFoursomePartDues(): void {
+    private scyllaFurryFoursomePartDues() {
         DisplayText().clear();
         scyllaSprite();
         DisplayText("A strong hand slaps down on your chest, rousing you from slumber. <i>“Whaa...?”</i>");

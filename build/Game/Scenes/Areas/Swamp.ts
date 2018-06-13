@@ -6,7 +6,7 @@ export class Swamp {
 	public let femaleSpiderMorphScene:FemaleSpiderMorphScene = new FemaleSpiderMorphScene();
 	public let maleSpiderMorphScene:MaleSpiderMorphScene = new MaleSpiderMorphScene();
 	public let rogar:Rogar = new Rogar();
-	public exploreSwamp(): void {
+	public exploreSwamp() {
 		//Discover 'Bog' at after 25 explores of swamp
 		if ((Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00272] >= 25) && Flags.list[FlagEnum.BOG_EXPLORED] === 0) {
 			DisplayText("While exploring the swamps, you find yourself into a particularly dark, humid area of this already fetid biome.  You judge that you could find your way back here pretty easily in the future, if you wanted to.  With your newfound discovery fresh in your mind, you return to camp.\n\n(<b>Bog exploration location unlocked! (Page 2)</b>)", true);

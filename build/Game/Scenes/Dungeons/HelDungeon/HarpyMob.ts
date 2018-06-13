@@ -1,14 +1,14 @@
 export class HarpyMob extends Monster {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.harpyHordeAI();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.pcDefeatsHarpyHorde();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.pcLosesToHarpyHorde();
 	}
 
@@ -38,7 +38,9 @@ export class HarpyMob extends Monster {
 this.baseStats.tou = 50;
 this.baseStats.spe = 120;
 this.baseStats.int = 40;
-		initLibSensCor(60, 45, 50);
+		this.baseStats.lib = 60;
+this.baseStats.sens = 45;
+this.baseStats.cor = 50;
 		this.weaponName = "claw";
 		this.weaponVerb = "claw";
 		this.weaponAttack = 10;

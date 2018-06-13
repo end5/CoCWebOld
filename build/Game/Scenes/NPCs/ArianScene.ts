@@ -171,19 +171,19 @@ export class ArianScene implements UpdateInterface {
 	//Initial Meeting
 	//Happens randomly while visiting Tel'Adre. If player doesn't choose to help, Arian is removed from the game.
 	//If you don't help, Arian is removed from the game.
-	public meetArian(): void {
+	public meetArian() {
 		DisplayText().clear();
 		DisplayText("As you wander Tel'Adre's streets, you pass by one of the many dark alleys that litter the half-empty city; you hear the sound of hacking, rasping coughs.  Following your ears, you see a hooded figure wrapped in a form-concealing cloak slumped against the wall, bent over and coughing loudly, wheezing for breath.  They really don't sound very well at all... on the other hand, it could be a setup for muggers or something.  Maybe you shouldn't try playing the good samaritan here...");
 		//[Help] [Don't Help]
 
-		menu();
+		
 		MainScreen.addButton(0, "Help", this.helpArianWhenYouMeetHim);
 		MainScreen.addButton(1, "Don't Help", this.dontHelpArianWhenYouMeetHim);
 		MainScreen.addButton(2, "Never Help", this.dontHelpArianWhenYouMeetHim, true);
 	}
 
 	//[=Don't Help=]
-	private dontHelpArianWhenYouMeetHim(never: boolean = false): void {
+	private dontHelpArianWhenYouMeetHim(never: boolean = false) {
 		DisplayText().clear();
 		DisplayText("Not liking the risks it presents - after all, they could be a mugger, or have something nasty and highly contagious - you keep on walking.  You've not gone too far before a pair of figures, elegantly dressed ferret-morphs, nearly slam into you, running quickly.  You shout at them to watch where they're going, but they ignore you, instead heading straight for the alleyway you just passed.  You watch as they grab the hooded figure and pull them to their feet.  The ferrets start chattering at their target; though you can't make out precisely what they're saying, it sounds like a scolding, even as they take a bottle from a pouch they're carrying and make the hooded figure drink it.  The cloaked man's coughs start to subside, and they promptly take an arm each and half-lead, half-carry him away.  You wonder what that was all about, but decide it doesn't matter and press on.");
 		//Disable the bitch if appropriate.
@@ -194,12 +194,12 @@ export class ArianScene implements UpdateInterface {
 			Flags.list[FlagEnum.NOT_HELPED_ARIAN_TODAY] = 1;
 		}
 		//Player enters Tel'Adre main screen
-		menu();
+		
 		MainScreen.addButton(0, "Next", telAdre.telAdreMenu);
 	}
 
 	//[=Help=]
-	private helpArianWhenYouMeetHim(): void {
+	private helpArianWhenYouMeetHim() {
 		DisplayText().clear();
 
 		Flags.list[FlagEnum.ARIAN_PARK] = 1;
@@ -242,7 +242,7 @@ export class ArianScene implements UpdateInterface {
 	//You need to get through the entirety of Arian's park dialogue before you can do anything meaningful with him.
 	//But you can just spam it if you want, there is no schedule and Arian will magically be at the park whenever you go there.
 	//Use variable ArianPark to determine the number of visits.
-	public visitThePark(): void {
+	public visitThePark() {
 		DisplayText().clear();
 		DisplayText("As you enter the ragged remnants of the park, you spot the sickly lizan, Arian, sitting at his usual bench, and greet him.  \"<i>Oh, hello there [name].  Good to see you.</i>\"  He waves lazily.");
 
@@ -335,7 +335,7 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//First Visit
-	public visitAriansHouse(): void {
+	public visitAriansHouse() {
 		DisplayText().clear();
 		if (Flags.list[FlagEnum.ARIAN_HEALTH] < 29 || Flags.list[FlagEnum.ARIAN_VIRGIN] === 1) arianHealth(1);
 		if (arianFollower()) {
@@ -386,11 +386,11 @@ export class ArianScene implements UpdateInterface {
 				Flags.list[FlagEnum.ARIAN_PARK]++;
 				DisplayText("Deciding to visit the sickly, Lizan mage, Arian, you promptly start walking.  The house is fairly large, at least two stories tall, but it looks pretty ordinary; there's nothing about it to make it really stand out from the other buildings in the neighborhood.  It's only the small brass plate on the door that says \"<i>Arian, Magus</i>\" that provides any clue that a wizard lives here.  There is a knocker on the front door, solid brass, carved in the shape of a leering grotesque, and you take hold of the handle and loudly bang it against the door to announce your presence.");
 
-				DisplayText("\n\n\"<i>One minute!</i>\"  You hear a feminine voice yell from inside.  After hearing the clicking of a latch the door slowly opens to reveal what looks like a tan-furred female ferret looking at you with bespectacled brown eyes; she is not very tall, and her body is clad in loose comfortable robes that hide her curves well.  She adjusts her glasses and asks, \"<i>How may I help you, " + player.mf("sir", "ma'am") + "?</i>\"");
+				DisplayText("\n\n\"<i>One minute!</i>\"  You hear a feminine voice yell from inside.  After hearing the clicking of a latch the door slowly opens to reveal what looks like a tan-furred female ferret looking at you with bespectacled brown eyes; she is not very tall, and her body is clad in loose comfortable robes that hide her curves well.  She adjusts her glasses and asks, \"<i>How may I help you, " + Desc.Gender.mf(player, "sir", "ma'am") + "?</i>\"");
 
 				DisplayText("\n\nYou explain you're an acquaintance of Arian the wizard, and you came to see him.  With a smile the ferret steps aside.  \"<i>Please come in.</i>\"  You promptly step inside, getting your first look at Arian's home.  The exterior and the interior match quite well; it looks very normal in here.  Aside from a few nice vases and potted flowers, nothing else stands out.");
 
-				DisplayText("\n\nThe ferret girl slowly closes the door behind you, closing the latch before she dusts her robes and turns to you.  \"<i>I'm afraid we haven't been properly introduced just yet, " + player.mf("sir", "ma'am") + ".  My name is Laika and I'm one of master Arian's aides.</i>\"  She curtsies with a smile and adds, \"<i>Pleased to meet you... umm....</i>\"  You smile and tell her your name.  She closes her eyes and nods.  \"<i>Ah, yes, [name]....</i>\"  Suddenly she opens her eyes wide open.  \"<i>Wait a moment... [name]!?</i>\"  She advances on you, threatening you with a wooden spoon.  \"<i>You! You're the one who helped master Arian get away!</i>\"  She yells with a frown, poking your [chest] with her spoon.");
+				DisplayText("\n\nThe ferret girl slowly closes the door behind you, closing the latch before she dusts her robes and turns to you.  \"<i>I'm afraid we haven't been properly introduced just yet, " + Desc.Gender.mf(player, "sir", "ma'am") + ".  My name is Laika and I'm one of master Arian's aides.</i>\"  She curtsies with a smile and adds, \"<i>Pleased to meet you... umm....</i>\"  You smile and tell her your name.  She closes her eyes and nods.  \"<i>Ah, yes, [name]....</i>\"  Suddenly she opens her eyes wide open.  \"<i>Wait a moment... [name]!?</i>\"  She advances on you, threatening you with a wooden spoon.  \"<i>You! You're the one who helped master Arian get away!</i>\"  She yells with a frown, poking your [chest] with her spoon.");
 
 				DisplayText("\n\nYou ask if that's really such a big deal; all he wanted was to go and sit in a park.  Laika points an accusing finger at you and is about to say something when a masculine voice interrupts her.  \"<i>Sis! What's the problem?</i>\" Slowly, another tan-furred ferret emerges from the hallway nearby, clad in robes much like his sister's.  If Laika were to remove her spectacles, they would look like identical twins.");
 
@@ -498,7 +498,7 @@ export class ArianScene implements UpdateInterface {
 						DisplayText("\n\nYou hear a faint moan.  \"<i>Oh... [name].</i>\"");
 						DisplayText("\n\nIs he... no, he couldn't be.  Arian's still too sickly to get horny... isn't he?  You wonder if you should try and spy on him - or maybe listen at the keyhole?  Then again, you could just barge on in - after all, it's not like he's really playing with himself, right?");
 						//[Eavesdrop] [Peep] [Barge In] [Leave]
-						menu();
+						
 						MainScreen.addButton(0, "Eavesdrop", eavesDropOnArian);
 						MainScreen.addButton(1, "Peep", peepOnArian);
 						MainScreen.addButton(2, "Barge In", bargeInOnArian);
@@ -543,8 +543,8 @@ export class ArianScene implements UpdateInterface {
 		}
 	}
 
-	private arianHomeMenu(): void {
-		menu();
+	private arianHomeMenu() {
+		
 		if (Flags.list[FlagEnum.ARIAN_S_DIALOGUE] === 0 && arianHealth() >= 10) MainScreen.addButton(0, "Next", arianStoryDialogue1);
 		else if (Flags.list[FlagEnum.ARIAN_S_DIALOGUE] === 1 && arianHealth() >= 20) MainScreen.addButton(0, "Next", arianStoryDialogue2);
 		else if (Flags.list[FlagEnum.ARIAN_S_DIALOGUE] === 2 && arianHealth() >= 30) MainScreen.addButton(0, "Next", arianDialogue3);
@@ -566,7 +566,7 @@ export class ArianScene implements UpdateInterface {
 		}
 	}
 
-	private dontSleepWithArian(): void {
+	private dontSleepWithArian() {
 		DisplayText().clear();
 		DisplayText("You decide not to sleep with Arian at night, for now.");
 		Flags.list[FlagEnum.SLEEP_WITH] = "";
@@ -574,18 +574,18 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//[=Eavesdrop=]
-	private eavesDropOnArian(): void {
+	private eavesDropOnArian() {
 		DisplayText().clear();
 		DisplayText("You sidle up to the door, pressing your ear against the wood and start to listen intently.");
 		DisplayText("\n\n\"<i>Curse my illness... curse my dreams... oh, [name]... if only you knew....</i>\"  Arian pants and moans, the distinct fapping sound of a hand slapping reaches your ears.  \"<i>Ah! The things you do to me... the things I wish you would do to me... ah....</i>\"");
 		player.stats.int += 1;
-		menu();
+		
 		MainScreen.addButton(0, "Barge In", bargeInOnArian);
 		MainScreen.addButton(4, "Leave", leaveFappingArian);
 	}
 
 	//[=Peep=]
-	private peepOnArian(): void {
+	private peepOnArian() {
 		DisplayText().clear();
 		DisplayText("Curious, you decide to take a little peek through the lock; you press yourself against it as best you can, looking through into the bedroom beyond.  True to what your ears heard, the sickly albino's health has improved enough for him to focus on more... carnal matters.  Naked from the waist down, he sits on the edge of his bed, groinal slit disgorging a single, average-sized phallus.  Maybe 6 inches long, it's a bright purple-red color, covered in strange lumps");
 		if (player.torso.cocks.filter(Cock.FilterType(CockType.LIZARD) > 0) DisplayText(" just like yours")).length;
@@ -596,13 +596,13 @@ export class ArianScene implements UpdateInterface {
 		DisplayText("\n\nYou ponder this curious development.  So, the reptile has developed a crush on you?  He thinks you're attractive?  Well, now... should you give him the chance to finish himself off, or should you head in now - either to tell him off, or offer him something a bit better than his hand to play with?");
 		player.stats.int += 1;
 		//[Barge In - Leads on to \"<i>Barge In</i>\" scene from first choice] [Leave]
-		menu();
+		
 		MainScreen.addButton(0, "Barge In", bargeInOnArian);
 		MainScreen.addButton(4, "Leave", leaveFappingArian);
 	}
 
 	//[=Leave=]
-	private leaveFappingArian(): void {
+	private leaveFappingArian() {
 		DisplayText().clear();
 		DisplayText("You decide to let Arian have some privacy and leave for the moment... after all, what the lizan mage does in his free time is not really your business....");
 		DisplayText("\n\nAs you make your way back to the entryway, Boon sees you and asks, \"<i>Leaving already? Usually you stay with master Arian for at least an hour... what happened?</i>\"");
@@ -614,7 +614,7 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//[=Barge in=]
-	private bargeInOnArian(): void {
+	private bargeInOnArian() {
 		DisplayText().clear();
 		DisplayText("With a wry smirk you turn the knob and find that Arian's door is unlocked; without missing a beat, you open the door and step in right in time to see a sticky rope of pre paint Arian's slender belly as he scrambles to cover himself up.");
 		DisplayText("\n\n\"<i>[name]!  W-Wait, I can explain!  I swear I... I... oh, Marae!</i>\"  He hides himself under the covers of his bed, his white-scaled face red with shame.");
@@ -625,7 +625,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\n\"<i>I just assumed... since we're both male....</i>\" He explains himself, fidgeting.  \"<i>I didn't know if you... well... if you would mind that....</i>\"");
 			DisplayText("\n\nYou raise your eyebrow; it seems that Arian is not opposed to some male on male.... What do you tell him?");
 			//[Don't mind] [Like Girls]
-			menu();
+			
 			MainScreen.addButton(0, "Don't Mind", youDontMindBeingGayForArian);
 			MainScreen.addButton(1, "Like Girls", youLikeGirlsNotSickLizardDudes);
 		}
@@ -643,7 +643,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nArian hides his face once more inside his covers and says in a whisper, \"<i>Yes....</i>\"");
 			DisplayText("\n\nYou pull the covers off his face and say, \"<i>Well... we'll have to fix that then.</i>\"  You slip off his bed and begin stripping off your [armor].  Arian shyly does the same, stripping off his robes until he is laying in his bed, completely naked.");
 			//(Proceed to Get Penetrated)
-			menu();
+			
 			MainScreen.addButton(0, "Next", getPenetratedByArianAndHisHitlerMustache);
 		}
 		//(else) //if PC is a herm
@@ -652,13 +652,13 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nYou tell him he looks adorable, especially when he's acting like a hopeless virgin.  At the mention of the word ‘virgin' Arian recoils, surprised by this development you ask him if he really is a virgin.");
 			DisplayText("\n\nArian hides his face once more inside his covers and says in a whisper, \"<i>Yes....</i>\"");
 			DisplayText("\n\nYou pull the covers off his face and say, \"<i>Well... we'll have to fix that then.</i>\"  You slip off his bed and begin stripping off your [armor].  Arian shyly does the same, stripping off his robes until he is laying in his bed, completely naked.");
-			DisplayText("\n\nOnce you toss your [armor] on the floor, however, Arian's eyes widen as he realizes you're not entirely female; he eyes your " + CockDescriptor.describeMultiCockShort(player) + " and the moistening pussy between your legs with equal parts wonder and arousal.");
+			DisplayText("\n\nOnce you toss your [armor] on the floor, however, Arian's eyes widen as he realizes you're not entirely female; he eyes your " + Desc.Cock.describeMultiCockShort(player) + " and the moistening pussy between your legs with equal parts wonder and arousal.");
 			DisplayText("\n\n\"<i>I... you... I never... wow....</i>\"  You call Arian's name, breaking his trance.  \"<i>S-Sorry for staring,</i>\" he quickly apologizes, but you just chuckle at his reaction and tell him he doesn't have to worry about this.");
 			DisplayText("\n\n\"<i>I never imagined you would have both... err... genders,</i>\" [Arian ey] says nervously.  You just smile at him and ask if he has a problem with that.");
 			DisplayText("\n\nArian quickly blurts out, \"<i>No!  Of course not!  Never!  I just... well... to be honest I don't mind that you have extra... umm... parts; in fact I think that is... kinda... sexy.</i>\"  He looks at you, cheeks red in shame over his admission.  \"<i>So... umm... my point is... I don't mind if you....</i>\"  Arian swallows audibly.  \"<i>If you decide to penetrate me... that is if you don't mind me being male... I don't mean to offend you or anything!  I just heard that some girls like you prefer... other girls....</i>\"  He looks away in shame.");
 			DisplayText("\n\nYou rub your chin in thought....");
 			//[Like Male] [Prefer Female]
-			menu();
+			
 			MainScreen.addButton(0, "Like Male", hermsLikeMaleArian);
 			MainScreen.addButton(1, "Like Female", hermsLikeFemaleArian);
 		}
@@ -666,25 +666,25 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//[=Like Male=]
-	private hermsLikeMaleArian(): void {
+	private hermsLikeMaleArian() {
 		DisplayText().clear();
 		DisplayText("You tell him that's not the case for you; you don't have a problem with him being a guy.  In fact, you think he looks very cute, earning you a nervous smile.  Arian relaxes, letting you look over his body and decide what you want to do....");
 		//(Should you penetrate him or mount him?)
 		//Penetrate - (Proceed to appropriate scene)
 		//Get Penetrated - (Proceed to appropriate scene)
-		menu();
+		
 		if (player.torso.cocks.count > 0 && player.cockThatFits(50) >= 0) MainScreen.addButton(0, "Penetrate", giveArianAnal);
 		MainScreen.addButton(1, "Get Penetrated", getPenetratedByArianAndHisHitlerMustache);
 	}
 	//[=Prefer Female=]
-	private hermsLikeFemaleArian(): void {
+	private hermsLikeFemaleArian() {
 		DisplayText().clear();
 		DisplayText("You tell him that while you do like to play with guys once in a while, you prefer girls.");
 		DisplayText("\n\n\"<i>So... you'd prefer if I was a girl... right?</i>\"");
 		DisplayText("\n\nYou scratch your chin in thought, and imagine how he would look as a girl; then you tell him you'd love it if he was a girl.  \"<i>Okay then... I... I'll do it!</i>\"");
 		DisplayText("\n\nYou raise your eyebrows in surprise.  What is he planning on doing?");
 		DisplayText("\n\nArian gets up and off the bed, not minding that he's exposing himself completely; then slowly walks toward his work desk and opens a drawer.  Reaching inside, he pulls out a mysterious bottle labelled with a pink egg.  He turns to look at you as he uncorks the bottle and then downs its contents.");
-		DisplayText("\n\nIt barely takes a second for the effects to start.  As soon as he puts the bottle back inside the drawer, he collapses on the nearby chair.  At first you consider calling for help, but any thought of doing so leaves your mind when you see Arian's shaft visibly shrinking, soon entering the recesses of his genital slit.  As soon as his shaft disappears inside, his genital slit closes up, the skin connecting and leaving only smooth scales in his groin; lower, between his - or should it be her now? - legs, another slit opens up, soon spreading open as a small erect clit emerges from the wet folds.  Moisture leaks, wetting the wooden chair; the smell of aroused female fills the small bedroom and you feel your blood surging to your " + CockDescriptor.describeMultiCockShort(player) + ".");
+		DisplayText("\n\nIt barely takes a second for the effects to start.  As soon as he puts the bottle back inside the drawer, he collapses on the nearby chair.  At first you consider calling for help, but any thought of doing so leaves your mind when you see Arian's shaft visibly shrinking, soon entering the recesses of his genital slit.  As soon as his shaft disappears inside, his genital slit closes up, the skin connecting and leaving only smooth scales in his groin; lower, between his - or should it be her now? - legs, another slit opens up, soon spreading open as a small erect clit emerges from the wet folds.  Moisture leaks, wetting the wooden chair; the smell of aroused female fills the small bedroom and you feel your blood surging to your " + Desc.Cock.describeMultiCockShort(player) + ".");
 		DisplayText("\n\nThe transformation is not over yet though; a throaty feminine moan precedes the appearance of a pair of small perky breasts, complete with sensitive little nipples.  You watch in a daze as the transformation finishes, Arian's face growing softer, rounder, girly; the same happens to her body, her hips grow larger, as does her butt, becoming fuller and attractive, giving her a beautiful, if slender, figure.");
 		DisplayText("\n\nWith a nervous smile, she asks, \"<i>S-So? How do I look now...?</i>\"");
 		DisplayText("\n\nYou don't bother replying; you walk up to her and gently help her up.  Then you push her gently towards the bed and begin stripping.  Arian smiles and lays down.");
@@ -693,12 +693,12 @@ export class ArianScene implements UpdateInterface {
 		Flags.list[FlagEnum.ARIAN_VAGINA] = 1;
 		Flags.list[FlagEnum.ARIAN_COCK_SIZE] = 0;
 		Flags.list[FlagEnum.ARIAN_BREASTS] = 1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", penetrateArian);
 	}
 
 	//[=Don't mind=]
-	private youDontMindBeingGayForArian(): void {
+	private youDontMindBeingGayForArian() {
 		DisplayText().clear();
 		DisplayText("You tell him that you don't have a problem with males, as long as they're cute.  You smile at him.  \"<i>You... do you really think I'm cute?</i>\"");
 		DisplayText("\n\nYou nod, it's not everyday you see a grown man acting like a hopeless virgin.  At the mention of the word ‘virgin' Arian recoils.... Surprised by this development you ask him if he really is a virgin.");
@@ -707,7 +707,7 @@ export class ArianScene implements UpdateInterface {
 		//(Proceed Give Anal)
 
 		// Redirecting the scene if the players cock is too big for the anal scene... not ideal, but its a QWIKFIX™
-		menu();
+		
 		if (player.cockThatFits(50) === -1) {
 			MainScreen.addButton(0, "Next", getBlownByArian);
 		}
@@ -717,23 +717,23 @@ export class ArianScene implements UpdateInterface {
 
 	}
 	//[=Like Girls=]
-	private youLikeGirlsNotSickLizardDudes(): void {
+	private youLikeGirlsNotSickLizardDudes() {
 		DisplayText().clear();
 		DisplayText("You tell him that you prefer females.... Arian looks at you expectantly.  \"<i>So... if I was a girl... then you wouldn't mind?</i>\"");
 		DisplayText("\n\nYou scratch your chin in thought; and let him know that if he was a girl, then you wouldn't mind at all.  \"<i>Okay then... I... I'll do it!</i>\"");
 		DisplayText("\n\nYou raise your eyebrows. What is he planning on doing?");
 		DisplayText("\n\nArian gets up and strips off his robes, exposing himself completely, then slowly walks toward his work desk and opens a drawer.  Reaching inside, he pulls out a mysterious bottle labelled with a pink egg.  He turns to look at you and uncorks the bottle, then downs the whole bottle.");
-		DisplayText("\n\nIt barely takes a second for the effects to start.  As soon as he puts the bottle back inside the drawer, he collapses on the nearby chair.  At first you consider calling for help, but any thought of doing so leaves your mind when you see Arian's shaft visibly shrinking, soon entering the recesses of his genital slit.  As soon as his shaft disappears inside, his genital slit closes up, the skin connecting and leaving only smooth scales in his groin; lower, between his - or should it be her now? - legs, another slit opens up, soon spreading open as a small erect clit emerges from the wet folds.  Moisture leaks, wetting the wooden chair; the smell of aroused female fills the small bedroom, and you feel your blood surging to your " + CockDescriptor.describeMultiCockShort(player) + ".");
+		DisplayText("\n\nIt barely takes a second for the effects to start.  As soon as he puts the bottle back inside the drawer, he collapses on the nearby chair.  At first you consider calling for help, but any thought of doing so leaves your mind when you see Arian's shaft visibly shrinking, soon entering the recesses of his genital slit.  As soon as his shaft disappears inside, his genital slit closes up, the skin connecting and leaving only smooth scales in his groin; lower, between his - or should it be her now? - legs, another slit opens up, soon spreading open as a small erect clit emerges from the wet folds.  Moisture leaks, wetting the wooden chair; the smell of aroused female fills the small bedroom, and you feel your blood surging to your " + Desc.Cock.describeMultiCockShort(player) + ".");
 		DisplayText("\n\nThe transformation is not over yet though; a throaty feminine moan precedes the appearance of a pair of small perky breasts, complete with sensitive little nipples.  You watch in a daze as the transformation finishes, Arian's face growing softer, rounder, girly; the same happens to her body, her hips grows larger as does her butt, becoming fuller and attractive, giving her a beautiful, if slender, figure.");
 		DisplayText("\n\nWith a nervous smile, she asks, \"<i>S-So? How do I look now...?</i>\"");
 		DisplayText("\n\nYou don't bother replying; you walk up to her and help her up then gently push her towards the bed as you begin stripping.  Arian smiles and lays down. ");
 		//(Proceed to Penetrate)
-		menu();
+		
 		Flags.list[FlagEnum.ARIAN_HERM_CHAT] = 1;
 		Flags.list[FlagEnum.ARIAN_VAGINA] = 1;
 		Flags.list[FlagEnum.ARIAN_BREASTS] = 1;
 		Flags.list[FlagEnum.ARIAN_COCK_SIZE] = 0;
-		menu();
+		
 		MainScreen.addButton(0, "Next", penetrateArian);
 	}
 
@@ -742,7 +742,7 @@ export class ArianScene implements UpdateInterface {
 	//They should happen whenever Arian reaches a new threshold.
 	//All of them occur only once.
 	//((if ArianHealth >= 10) && (ArianSDialogue === 0))//May give Vitality T. and Arian will accept it.
-	private arianStoryDialogue1(): void {
+	private arianStoryDialogue1() {
 		arianHealth(1);
 		DisplayText().clear();
 		DisplayText("You feel like you'd like to know a bit more about Arian, so you ask if he would mind sharing some of [Arian eir] history with you.  After all, as a survivor from at least the early days of the demon war, and a wizard to boot, he's got to have some stories up [Arian eir] voluminous sleeves.");
@@ -803,7 +803,7 @@ export class ArianScene implements UpdateInterface {
 
 	////((if ArianHealth >= 20) && (ArianSDialogue === 1)) 
 	//Can sex Arian.
-	private arianStoryDialogue2(): void {
+	private arianStoryDialogue2() {
 		DisplayText().clear();
 		arianHealth(1);
 		DisplayText("You look Arian over, remarking that he seems to be getting better after all.");
@@ -821,13 +821,13 @@ export class ArianScene implements UpdateInterface {
 		//ArianSDialogue++;
 		Flags.list[FlagEnum.ARIAN_S_DIALOGUE]++;
 		//[Drop It] [Pry]
-		menu();
+		
 		MainScreen.addButton(0, "Drop It", arianStory2DropIt);
 		MainScreen.addButton(1, "Pry", arianStoryPry);
 	}
 
 	//=Drop It=
-	private arianStory2DropIt(): void {
+	private arianStory2DropIt() {
 		DisplayText().clear();
 		DisplayText("Though you do feel a little curious, you decide to stop making him uncomfortable, and tell him that it's okay, you'll let him get some sleep now.");
 		DisplayText("\n\n\"<i>Thanks, [name].  I'll see you later then.</i>\"  Arian tucks himself in.  You watch until he's settled in, and then start the trek back to your home-away-from home in the Marethian wilderness.");
@@ -835,7 +835,7 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//=Pry=
-	private arianStoryPry(): void {
+	private arianStoryPry() {
 		DisplayText().clear();
 		DisplayText("Oh, no, you're not letting him wriggle out of this that easily.  You playfully tap [Arian eir] nose and tell him he should come clean and confess");
 		if (player.stats.cor < 40) DisplayText("; he'll sleep better with the burden off [Arian eir] conscience");
@@ -847,32 +847,32 @@ export class ArianScene implements UpdateInterface {
 
 	//((if ArianHealth >= 30) && (ArianSDialogue === 2))
 	//Will Teach Magic
-	private arianDialogue3(): void {
+	private arianDialogue3() {
 		DisplayText().clear();
 		arianHealth(1);
 		DisplayText("Before you can say anything, Arian asks you, \"<i>[name], I've been wondering....  Do you have any interest in magic?  You've done so much for me; I believe I should return the favor somehow.</i>\"");
 		//ArianSDialogue++;
 		Flags.list[FlagEnum.ARIAN_S_DIALOGUE]++;
 		//[Yes] [No]
-		menu();
+		
 		MainScreen.addButton(0, "Yes", yesArianShouldMagicTeach);
 		MainScreen.addButton(1, "No", noArianShouldntMagicTeach);
 	}
 
 	//=Yes=
-	private yesArianShouldMagicTeach(): void {
+	private yesArianShouldMagicTeach() {
 		DisplayText().clear();
 		DisplayText("You tell [Arian em] that sounds fascinating.  You'd love to learn how to cast spells the way [Arian ey] can, and you're grateful [Arian ey] wants to take you on as an apprentice.  Especially when [Arian ey]'s already so busy with the ones [Arian ey] already has.  Arian rubs the back of [Arian eir] neck.  \"<i>Sorry, [name].  But I can't actually teach you how to cast spells the same way I do....  That would take years to teach, not to mention it's very dangerous; I mean, look at what it's done to me....</i>\"  [Arian Ey] smiles at you.  \"<i>But I could still teach you about magic in general - how to cast more spells, how to make them more powerful, the principles behind every spell....  Basically, theory that might help you in the pursuit of magical studies.  I spent my whole childhood buried in books, so I'm sure I could help you out somehow.</i>\"");
 
 		DisplayText("\n\nYou smirk and point out that's basically what you meant, but you're definitely still interested either way.  Arian nods happily.  \"<i>Okay, then, where to start....</i>\"");
 
 		//(Go to Talk about Magic)
-		menu();
+		
 		MainScreen.addButton(0, "Next", arianMagicLessons);
 	}
 
 	//=No=
-	private noArianShouldntMagicTeach(): void {
+	private noArianShouldntMagicTeach() {
 		DisplayText().clear();
 		DisplayText("You think it over for a moment, and then tell Arian that while you are flattered by the offer and willing to consider it, you can't say that you want to study magic right this moment.  You'd like to discuss it at some other time, please.");
 		DisplayText("\n\nArian nods happily.  \"<i>Certainly, I'd be happy to be of some help to you.  So... is there something you'd like to do today?</i>\"");
@@ -883,7 +883,7 @@ export class ArianScene implements UpdateInterface {
 
 	//((if ArianHealth >= 50) && (ArianSDialogue === 3))
 	//Give Talisman, Imbue unlocked.
-	private arianImbue(): void {
+	private arianImbue() {
 		DisplayText().clear();
 		arianHealth(1);
 		DisplayText("Before you can say anything, Arian gasps, \"<i>Oh, [name].  I have a surprise for you.</i>\"  Arian says with a smile.");
@@ -917,13 +917,13 @@ export class ArianScene implements UpdateInterface {
 		//ArianSDialogue++;
 		Flags.list[FlagEnum.ARIAN_S_DIALOGUE]++;
 		//[Yes] [No]
-		menu();
+		
 		MainScreen.addButton(0, "Yes", yesPlotSexArian);
 		MainScreen.addButton(1, "No", noPlotSexNauArian);
 	}
 
 	//=Yes=
-	private yesPlotSexArian(): void {
+	private yesPlotSexArian() {
 		DisplayText().clear();
 		DisplayText("You approach the awkwardly amorous lizan and place your arms around [Arian eir] neck.  Leaning in close, you whisper into [Arian eir] ear that [Arian ey] only had to ask.");
 		//(Display Sex Menu)
@@ -931,7 +931,7 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//=No=
-	private noPlotSexNauArian(): void {
+	private noPlotSexNauArian() {
 		DisplayText().clear();
 		DisplayText("You apologize to the lizan, telling [Arian em] that you aren't in the mood right now....");
 		DisplayText("\n\nArian looks a bit disappointed, but doesn't press the issue.  \"<i>Oh... Okay then, but... maybe, next time?</i>\" [Arian ey] asks hopefully, smiling nervously despite [Arian eir] embarrassment....");
@@ -944,7 +944,7 @@ export class ArianScene implements UpdateInterface {
 
 	//((if ArianHealth >= 75) && (ArianSDialogue === 4))
 	//Will treat Corruption.
-	private arianPlot4(): void {
+	private arianPlot4() {
 		DisplayText().clear();
 		arianHealth(1);
 		DisplayText("Before you can say anything, Arian says, \"<i>Oh, I have good news, [name]!</i>\"");
@@ -962,7 +962,7 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//((if ArianHealth === 100) && (ArianSDialogue === 5))
-	private arianPlot5(): void {
+	private arianPlot5() {
 		DisplayText().clear();
 		arianHealth(1);
 		DisplayText("Before you can say anything, Arian stops you.  \"<i>I've been meaning to ask you something, [name].  I've been feeling a lot better lately; in fact, I may be even better than I was before.</i>\"  Arian blushes.");
@@ -983,23 +983,23 @@ export class ArianScene implements UpdateInterface {
 		//ArianSDialogue++;
 		Flags.list[FlagEnum.ARIAN_S_DIALOGUE]++;
 		//[Accept] [Deny]
-		menu();
+		
 		MainScreen.addButton(0, "Accept", acceptArianMovingIntoCamp);
 		MainScreen.addButton(1, "Deny", denyAriansMoveIn);
 	}
 
 	//[=Accept=]
-	private acceptArianMovingIntoCamp(): void {
+	private acceptArianMovingIntoCamp() {
 		DisplayText().clear();
 		DisplayText("You tell Arian you'd be delighted to have [Arian em] move in with you.  Arian's face lights up like a kid's who's been given a bucket of candy.  \"<i>Really!?  Great!  I'll pack my stuff and we can go right away!</i>\"");
 
 		//(Skip to ‘Invite to Camp')
-		menu();
+		
 		MainScreen.addButton(0, "Next", inviteArianToCamp);
 	}
 
 	//[=Deny=]
-	private denyAriansMoveIn(): void {
+	private denyAriansMoveIn() {
 		DisplayText().clear();
 		DisplayText("You tell Arian you'd like some time to think about it.  Arian looks disappointed at first, but smiles at you all the same.  \"<i>I understand... no pressure....  So, what are we going to do today?</i>\"");
 
@@ -1008,11 +1008,11 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//Talk
-	private talkToArianChoices(): void {
+	private talkToArianChoices() {
 		DisplayText().clear();
 		DisplayText("You tell Arian you'd like to talk to [Arian em].  Arian smiles at the prospect of chatting with you.  \"<i>I love talking with you; so what do you want to talk about?</i>\"");
 
-		menu();
+		
 		if (Flags.list[FlagEnum.ARIAN_VIRGIN] > 0) MainScreen.addButton(0, "Sexy Talk", arianSexingTalk);
 		if (Flags.list[FlagEnum.ARIAN_S_DIALOGUE] >= 3) MainScreen.addButton(1, "Teach Magic", arianMagicLessons);
 		if (!arianFollower() && Flags.list[FlagEnum.ARIAN_S_DIALOGUE] >= 6) MainScreen.addButton(4, "Invite2Camp", inviteArianToCamp);
@@ -1023,7 +1023,7 @@ export class ArianScene implements UpdateInterface {
 	//Magic:
 	//Magic Lessons, teaches white magic and increases int. Up to 100.
 	//Gain a pretty nice boost, 4 lessons per day, only.
-	private arianMagicLessons(): void {
+	private arianMagicLessons() {
 		DisplayText().clear();
 		arianHealth(1);
 		DisplayText("You ask Arian if [Arian ey] wouldn't mind giving you some magic lessons.");
@@ -1124,7 +1124,7 @@ export class ArianScene implements UpdateInterface {
 	}
 	//Sex:
 	//Available after the first time you have sex. (ArianVirgin > 0)
-	private arianSexingTalk(): void {
+	private arianSexingTalk() {
 		DisplayText().clear();
 		arianHealth(1);
 		DisplayText("You smirk knowingly at [Arian em] and ask how [Arian ey] feels about sex now that [Arian ey]'s had [Arian eir] first time?");
@@ -1224,7 +1224,7 @@ export class ArianScene implements UpdateInterface {
 			else {
 				DisplayText("\n\n[Arian Ey] smiles nervously at you and begins fidgeting.  \"<i>Perhaps... you'd like to... well... use me again?  Please?</i>\" Arian asks hopefully.");
 				//[Yes][No]
-				menu();
+				
 				MainScreen.addButton(0, "Yes", yesYouButtslutIllFuckYou);
 				MainScreen.addButton(1, "No", goddamnitNoYouButtSlut);
 				return;
@@ -1235,24 +1235,24 @@ export class ArianScene implements UpdateInterface {
 
 
 	//[=Yes=]
-	private yesYouButtslutIllFuckYou(): void {
+	private yesYouButtslutIllFuckYou() {
 		DisplayText().clear();
 		DisplayText("How could you refuse such a request?  You tell [Arian em] to strip and get ready.");
 		DisplayText("\n\nArian jumps to the task and eagerly strips, laying down in bed and swaying [Arian eir] tail back and forth as [Arian ey] waits for you to do the same.");
 		//(Go to Give Anal)
-		menu();
+		
 		MainScreen.addButton(0, "Next", giveArianAnal);
 	}
 
 	//[=No=]
-	private goddamnitNoYouButtSlut(): void {
+	private goddamnitNoYouButtSlut() {
 		DisplayText().clear();
 		DisplayText("You apologize, but you really can't do that right now.  Arian looks a bit disappointed, but smiles at you all the same.  \"<i>Oh... okay.  Next time then?</i>\"");
 		DisplayText("\n\nYou nod.");
 		sexTalkFinish(false);
 	}
 
-	private sexTalkFinish(newl: boolean = false): void {
+	private sexTalkFinish(newl: boolean = false) {
 		if (newl) DisplayText().clear();
 		else DisplayText("\n\n");
 		DisplayText("Satisfied with your little chat, you pat the lizan's head and excuse yourself, heading back to camp.");
@@ -1261,7 +1261,7 @@ export class ArianScene implements UpdateInterface {
 
 	//Invite to Camp:
 	//Only available if ArianHealth === 100.
-	private inviteArianToCamp(): void {
+	private inviteArianToCamp() {
 		DisplayText().clear();
 		DisplayText("You ask the lizan if [Arian ey] still really wants to leave [Arian eir] comfortable home in the city and come out to live with you in your little camp in the wastelands?");
 		DisplayText("\n\n\"<i>Of course I do!</i>\" Arian says enthusiastically.");
@@ -1302,11 +1302,11 @@ export class ArianScene implements UpdateInterface {
 
 		DisplayText("\n\n\"<i>Come on, I'm not that bad, am I?</i>\" Arian protests.  Boon and Laika look at each other, then look at you, wearing expressions identical to your own.  Finally you all nod in unison.  Arian sighs....");
 		DisplayText("\n\nHaving said your farewells, you begin the long trek back home... bringing with you a new ally (and lover) in tow.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", takeYerLizardHomePartII);
 	}
 
-	private takeYerLizardHomePartII(): void {
+	private takeYerLizardHomePartII() {
 		DisplayText().clear();
 		DisplayText("Upon arriving at the camp, the first thing Arian notices is the shimmering portal.  \"<i>Is this... where you came from?</i>\" Arian asks.");
 		DisplayText("\n\nYou nod your head and confirm that, yes, this was the doorway from your world into Mareth.");
@@ -1342,7 +1342,7 @@ export class ArianScene implements UpdateInterface {
 
 	//Sex
 	//ArianHealth must be at least 20 before you can even pick Sex as an option.
-	private arianSexMenu(output: boolean = true): void {
+	private arianSexMenu(output: boolean = true) {
 		if (output) {
 			DisplayText().clear();
 			DisplayText("You ask Arian if [Arian ey] feels strong enough to do a little lovemaking.");
@@ -1370,7 +1370,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nYou smile at your lizan lover and begin shedding your [armor].  Arian follows in suit, settling down on [Arian eir] bed and watching you enraptured as [Arian ey] awaits your decision.  Once you're naked, much to the lizan's delight, you smile at [Arian em] and consider your options....");
 		}
 		//(Display Options)
-		menu();
+		
 		if (player.torso.cocks.count > 0) {
 			//PC must have a cock that fits (cock area 50 or less)
 			if (player.cockThatFits(50) >= 0) MainScreen.addButton(0, "Anal - Pitch", giveArianAnal);
@@ -1413,7 +1413,7 @@ export class ArianScene implements UpdateInterface {
 	//Give Anal:
 	//Modified by AnalXP.
 	//PC must have a cock that fits (cock area 50 or less)
-	private giveArianAnal(): void {
+	private giveArianAnal() {
 		let x: number = player.cockThatFits(50);
 		DisplayText().clear();
 		arianHealth(3);
@@ -1421,9 +1421,9 @@ export class ArianScene implements UpdateInterface {
 		if (Flags.list[FlagEnum.ARIAN_ANAL_XP] >= 100) Flags.list[FlagEnum.ARIAN_ANAL_XP] = 100;
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-home-giveArianAnal"));
+			DisplayImage(images.showImage("arianfemale-home-giveArianAnal"));
 		else
-			DisplayText(images.showImage("arianmale-home-giveArianAnal"));
+			DisplayImage(images.showImage("arianmale-home-giveArianAnal"));
 
 		// This breaks the capacity-restriction, but it's a quickfix to make the scene stop crashing in lieu of writing new 
 		// content to work around the player not being able to call this scene from earlier interactions with Arian.
@@ -1463,7 +1463,7 @@ export class ArianScene implements UpdateInterface {
 
 			DisplayText("\n\n\"<i>I... yes....  I-I want it, too.  It's going to hurt, but I want it.... I-I want you to do it,</i>\" Arian admits, burying [Arian eir] face in the covers in an attempt to hide [Arian eir] shameless admission.  [Arian Ey] braces [Arian em]self, holding [Arian eir] pillow tightly in [Arian eir] clawed hands and bracing [Arian em]self for the next step.");
 
-			DisplayText("\n\nYou begin jerking yourself off, using slow, careful strokes to bring precum dribbling from your cock, smearing it across your shaft in an effort to lube it for your lizan lover.  Finally deciding you've made yourself slick enough, unable to resist making your move, you take hold of [Arian eir] butt for support and begin pushing your " + CockDescriptor.describeCock(player, x) + " against [Arian eir] virginal back door.  Arian lets out a girly yelp and [Arian eir] sphincter suddenly clenches up, halting your entry.  You ask what's wrong.");
+			DisplayText("\n\nYou begin jerking yourself off, using slow, careful strokes to bring precum dribbling from your cock, smearing it across your shaft in an effort to lube it for your lizan lover.  Finally deciding you've made yourself slick enough, unable to resist making your move, you take hold of [Arian eir] butt for support and begin pushing your " + Desc.Cock.describeCock(player, x) + " against [Arian eir] virginal back door.  Arian lets out a girly yelp and [Arian eir] sphincter suddenly clenches up, halting your entry.  You ask what's wrong.");
 			DisplayText("\n\n\"<i>N-nothing... you just surprised me... that's all.</i>\"  Even though [Arian ey]'s not admitting it, you can tell that Arian is very tense.  You lean over the nervous lizan and envelop [Arian em] in a soft hug, telling [Arian em] it's okay; you're not going to hurt [Arian em], you're going to make [Arian em] feel very good, but first [Arian ey] needs to relax or this will be painful when it shouldn't be.");
 
 			DisplayText("\n\nArian sighs and relaxes, loosening [Arian eir] sphincter enough to allow an easier penetration.  You don't risk delaying any more and promptly, but carefully, slide yourself into [Arian em] before [Arian ey] can tense up again.  Damn, but [Arian ey]'s so tight back here!  You have to push hard to make any progress, and it takes a lot of care to ensure you don't hurt the lizan in your press to penetrate [Arian eir] bowels.  \"<i>Ah!  It's in!</i>\"  Arian shudders, struggling to remain relaxed while you plow into [Arian eir] depths.  Finally, after a few more careful thrusts, you feel yourself bottom out in your shuddering lizan lover.");
@@ -1491,7 +1491,7 @@ export class ArianScene implements UpdateInterface {
 			}
 			//(High Cum Amount)
 			else {
-				DisplayText("\n\nFor a moment you hesitate....  Arian is clearly inexperienced and you know your load is nothing if not enormous; you worry if the inexperienced lizan will be able to handle you, but your worries are soon forgotten; it's much too late to worry about it now.  Your spunk jets inside the moaning lizan like a fire hose, dowsing both your and [Arian eir] flames of lust with its immense output of white, creamy goodness.  Arian's belly protrudes like a gravid woman's belly - no, actually, it's even wider, and yet the lizan's lewd little hole never tires as it milks you, even though by now Arian is beyond full - copious amounts of cum leak from around your " + CockDescriptor.describeCock(player, x) + " as [Arian eir] ass fails to contain it all.");
+				DisplayText("\n\nFor a moment you hesitate....  Arian is clearly inexperienced and you know your load is nothing if not enormous; you worry if the inexperienced lizan will be able to handle you, but your worries are soon forgotten; it's much too late to worry about it now.  Your spunk jets inside the moaning lizan like a fire hose, dowsing both your and [Arian eir] flames of lust with its immense output of white, creamy goodness.  Arian's belly protrudes like a gravid woman's belly - no, actually, it's even wider, and yet the lizan's lewd little hole never tires as it milks you, even though by now Arian is beyond full - copious amounts of cum leak from around your " + Desc.Cock.describeCock(player, x) + " as [Arian eir] ass fails to contain it all.");
 			}
 			DisplayText("\n\nYour orgasm triggers the lizan's own, and [Arian ey] bites into the pillow, groaning with ecstasy as [Arian ey] cums [Arian em]self, ");
 			if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] > 0) DisplayText("spewing forth large gobs of cum of [Arian eir] own");
@@ -1551,7 +1551,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nWell, if [Arian ey]'s that eager to get started....  You deliver a playful slap on [Arian eir] ass, which ripples delightfully at the impact and sends a crack echoing through the lizan's ");
 			if (arianFollower()) DisplayText("tent");
 			else DisplayText("bedchamber");
-			DisplayText(".  You sink your fingers into the smoothly scaled skin of [Arian eir] butt, and promptly thrust your " + CockDescriptor.describeCock(player, x) + " into [Arian eir] back passage; not with the gentleness you showed Arian as an anal virgin, but not with brutal force, either.  The practice the lizan's had with pleasuring your cock with [Arian eir] ass is obvious - you slide in as if it's been lubed, with what little resistance it poses quickly giving way under the insistent pressure of your thrusts.  It's not as painfully tight as it was, the looseness letting you move more freely without fear of hurting your lover, but at the same time it grips you like a well-trained pussy, holding you deliciously tight and eagerly sucking you into its depths.");
+			DisplayText(".  You sink your fingers into the smoothly scaled skin of [Arian eir] butt, and promptly thrust your " + Desc.Cock.describeCock(player, x) + " into [Arian eir] back passage; not with the gentleness you showed Arian as an anal virgin, but not with brutal force, either.  The practice the lizan's had with pleasuring your cock with [Arian eir] ass is obvious - you slide in as if it's been lubed, with what little resistance it poses quickly giving way under the insistent pressure of your thrusts.  It's not as painfully tight as it was, the looseness letting you move more freely without fear of hurting your lover, but at the same time it grips you like a well-trained pussy, holding you deliciously tight and eagerly sucking you into its depths.");
 
 			DisplayText("\n\nArian moans lewdly at your intrusion.  \"<i>Ah, I can feel you inside me.  I love this feeling... so full....  Do you like my ass, [name]?  Does it feel good when you use me like this?</i>\"");
 
@@ -1561,7 +1561,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText(".  \"<i>Yesssss.... Oh, sometimes it hurts a bit, but the feeling, the pleasure, the pain.... It's heavenly.</i>\"");
 			DisplayText("\n\nSmiling wryly, you lean over Arian's back and whisper into [Arian eir] ear, that if [Arian ey] likes this so much... you'll just have to fuck [Arian em] more.  Having said that, you quicken your pace, drawing a pleasured, shuddering moan from your lizan lover.  \"<i>Ah!  [name]!  If you keep this up you're going to make me - Ah!</i>\"  Make [Arian em] what now?  \"<i>C-cuuuuum~</i>\"");
 
-			DisplayText("\n\nArian's ass tightens around your " + CockDescriptor.describeCock(player, x) + " as [Arian eir] ");
+			DisplayText("\n\nArian's ass tightens around your " + Desc.Cock.describeCock(player, x) + " as [Arian eir] ");
 			if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] > 0) {
 				if (Flags.list[FlagEnum.ARIAN_DOUBLE_COCK] === 0) DisplayText("cock spews its load");
 				else DisplayText("twin cocks spew their loads");
@@ -1569,7 +1569,7 @@ export class ArianScene implements UpdateInterface {
 				if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0) DisplayText(" and [Arian eir] ");
 			}
 			if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0) DisplayText(" contracting pussy paints your lower body with lizan femcum");
-			DisplayText(".  Arian is only capable of moaning and shuddering as [Arian eir] powerful orgasm rocks the poor lizan to [Arian eir] core.  The extra tightness of [Arian eir] contracting butthole increases the friction on your " + CockDescriptor.describeCock(player, x) + ", pushing you ever closer to the climax.");
+			DisplayText(".  Arian is only capable of moaning and shuddering as [Arian eir] powerful orgasm rocks the poor lizan to [Arian eir] core.  The extra tightness of [Arian eir] contracting butthole increases the friction on your " + Desc.Cock.describeCock(player, x) + ", pushing you ever closer to the climax.");
 
 			DisplayText("\n\nSeeing no point in holding back yourself, you cry out as you give yourself over to the feeling of climax, orgasm ripping its way through you from the ");
 			if (player.torso.balls.quantity === 0) DisplayText("base of your spine");
@@ -1579,10 +1579,10 @@ export class ArianScene implements UpdateInterface {
 			//(Low Cum Amount)
 			if (player.cumQ() < 250) DisplayText("\n\nYou pump Arian's insides with as much cum as you can muster, filling [Arian em] with your liquid love while the lizan gasps, moans, and grips you tightly with [Arian eir] distended sphincter.  You are quickly spent though, and after a couple more tugs, you feel the lizan's contracting rosebud relax to let you pull out of [Arian eir] depths.");
 			//(Medium Cum Amount)
-			else if (player.cumQ() < 1000) DisplayText("\n\nArian's butt feels so good that you can't help but paint it in white.  Gob after gob of searing hot cum flows from your " + player.cockHead(x) + " and into the lizan's willing bowels.  You can't help but continue thrusting inside [Arian eir] deliciously slick insides, even as Arian's distended sphincter tries its best to hold you in place.  By the time you're done, Arian looks like [Arian ey]'s three months pregnant; after a few final thrusts, you're confident you've given [Arian em] all that you can muster for the moment and pull out of the lizan's hungry ass.");
+			else if (player.cumQ() < 1000) DisplayText("\n\nArian's butt feels so good that you can't help but paint it in white.  Gob after gob of searing hot cum flows from your " + Desc.Cock.describeCockHead(x) + " and into the lizan's willing bowels.  You can't help but continue thrusting inside [Arian eir] deliciously slick insides, even as Arian's distended sphincter tries its best to hold you in place.  By the time you're done, Arian looks like [Arian ey]'s three months pregnant; after a few final thrusts, you're confident you've given [Arian em] all that you can muster for the moment and pull out of the lizan's hungry ass.");
 			//(High Cum Amount)
 			else {
-				DisplayText("\n\nYou bury yourself as deep as you can into the lizan's behind and brace yourself, holding onto [Arian eir] hips as the first of many jets of cum finally escapes your throbbing " + CockDescriptor.describeCock(player, x) + ".  You can feel the groaning lizan shudder with each blast that you pump into [Arian eir] inviting interior; each of your sticky ropes of cum filling [Arian em] up until [Arian eir] belly looks as big as a beach ball.  Arian's contracted sphincter tries its best to hold your prodigious load in, but it can't hope to contain it all; soon white jism explodes from around the seal of your cock.  Trails of your pleasure run down the lizan's legs to soak the bedsheets along with the lizan's own fluids.  One final jet pushes Arian off your shaft, and you gaze at the messy results of your recent activities.");
+				DisplayText("\n\nYou bury yourself as deep as you can into the lizan's behind and brace yourself, holding onto [Arian eir] hips as the first of many jets of cum finally escapes your throbbing " + Desc.Cock.describeCock(player, x) + ".  You can feel the groaning lizan shudder with each blast that you pump into [Arian eir] inviting interior; each of your sticky ropes of cum filling [Arian em] up until [Arian eir] belly looks as big as a beach ball.  Arian's contracted sphincter tries its best to hold your prodigious load in, but it can't hope to contain it all; soon white jism explodes from around the seal of your cock.  Trails of your pleasure run down the lizan's legs to soak the bedsheets along with the lizan's own fluids.  One final jet pushes Arian off your shaft, and you gaze at the messy results of your recent activities.");
 			}
 
 			DisplayText("\n\nFor a moment you admire your handiwork, but all too soon the exhaustion of your recent tryst catches up to you and you collapse atop the lizan, almost as blissed out as [Arian ey] is....");
@@ -1619,7 +1619,7 @@ export class ArianScene implements UpdateInterface {
 			if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] > 0) DisplayText("his cock throbs and shoots rope after rope of cum onto the bedsheets");
 			DisplayText(". Overwhelmed by your sudden intrusion, Arian collapses forward, burying [Arian eir] face on [Arian eir] pillow and dragging you on top of [Arian em].  \"<i>Ah... [name], you feel so good.  It's amazing.  I never thought buttsex could ever feel this good.</i>\"");
 
-			DisplayText("\n\nYou almost blink in surprise; you were just throwing the term buttslut around as a joke, you didn't think Arian was really like that.  Still, there are far more important matters - like digging your way into the depths of Arian's greedy little ass with your " + CockDescriptor.describeCock(player, x) + "!  You squeeze the lizan's scaly butt and begin to rut [Arian em] like an animal, thrusting your way in and out of [Arian eir] back passage with all the eagerness you can muster.");
+			DisplayText("\n\nYou almost blink in surprise; you were just throwing the term buttslut around as a joke, you didn't think Arian was really like that.  Still, there are far more important matters - like digging your way into the depths of Arian's greedy little ass with your " + Desc.Cock.describeCock(player, x) + "!  You squeeze the lizan's scaly butt and begin to rut [Arian em] like an animal, thrusting your way in and out of [Arian eir] back passage with all the eagerness you can muster.");
 
 			DisplayText("\n\nArian screams in pleasure, muffled by [Arian eir] pillow.  [Arian Eir] ass strives to pull you in as far as you can go, contracting, milking, gripping; even though Arian's just climaxed, you can see [Arian eir] ");
 			if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] > 0) {
@@ -1632,7 +1632,7 @@ export class ArianScene implements UpdateInterface {
 
 			DisplayText("\n\nYou see no reason not to give it to [Arian em] how [Arian ey] wants, and keep thrusting - it's surprisingly difficult to pull out, though, as the lizan's hungry nethers keep trying to stubbornly hold you in.  Greedily [Arian eir] inner walls ripple and flex, caressing and squeezing in an effort to milk you into giving up your precious seed.");
 
-			DisplayText("\n\nYou can feel the pressure on [Arian eir] sphincter increasing and guess Arian must be close to another orgasm; you're not very far yourself, and if [Arian ey] keeps squeezing and massaging your " + CockDescriptor.describeCock(player, x) + " like this, you feel you'll blow any moment now.  Before you finally reach the inevitable abyss of your orgasm, you decide to lean over [Arian em], hugging [Arian eir] midriff just so you can pound [Arian em] harder.  It's surprising that Arian only seems to be feeling pleasure, others would be screaming in pain with how rough you're being, yet Arian bucks back against you with all [Arian eir] might, trying to get you deeper.  You ask [Arian em] if [Arian ey]'s really okay, if it doesn't hurt [Arian em] even a bit?");
+			DisplayText("\n\nYou can feel the pressure on [Arian eir] sphincter increasing and guess Arian must be close to another orgasm; you're not very far yourself, and if [Arian ey] keeps squeezing and massaging your " + Desc.Cock.describeCock(player, x) + " like this, you feel you'll blow any moment now.  Before you finally reach the inevitable abyss of your orgasm, you decide to lean over [Arian em], hugging [Arian eir] midriff just so you can pound [Arian em] harder.  It's surprising that Arian only seems to be feeling pleasure, others would be screaming in pain with how rough you're being, yet Arian bucks back against you with all [Arian eir] might, trying to get you deeper.  You ask [Arian em] if [Arian ey]'s really okay, if it doesn't hurt [Arian em] even a bit?");
 
 			DisplayText("\n\n\"<i>No! Ah, yes!  Cum inside me, [name]!  I need your seed inside my naughty ass.  I need to feel you filling me up, using me like the buttslut I am!  I want to cum with you!</i>\"  You lift a brow, of all the people you know, Arian is the last one you'd expect to hear this from... what would [Arian eir] apprentices say if they heard their " + arianMF("master", "mistress") + " begging to be used like that?  \"<i>Ah... I don't care, just fill me up with your hot, slimy spunk!</i>\"  It would seem the lizan mage is too far gone to give you a straight answer.  You'll have to talk to [Arian em] after this.");
 
@@ -1648,7 +1648,7 @@ export class ArianScene implements UpdateInterface {
 			}
 			//(High Cum amount)
 			else {
-				DisplayText("\n\nYou have no doubt Arian will appreciate your prodigious load, so you make sure to press as deep as you can into [Arian eir] ass to ensure [Arian ey] will keep it all inside, then finally let your cum flow out of you and into the cock and cum hungry ass, eagerly massaging your shaft.  \"<i>I can feel it!  It's going to be a big one!  Shoot it!</i>\" [Arian ey] screams in ecstasy.  You groan and begin dumping obscene amounts of seed into your lizan lover.  The first few jets inflate [Arian eir] belly slightly, and you dart a hand to feel it expand with every subsequent blast of sticky jism.  \"<i>So much cum!  So good... more!</i>\"  Arian demands, blissed out by your pumping appendage.  [Arian Eir] ass never stops its assault on your " + CockDescriptor.describeCock(player, x) + " intent on massaging you as you orgasm, even as you fill Arian beyond full and some cum begins backflowing out of [Arian eir] ass.  \"<i>Hmm, yesss... so full....</i>\"  You pound into [Arian em] a few more times, ensuring you spill every last drop of cum.");
+				DisplayText("\n\nYou have no doubt Arian will appreciate your prodigious load, so you make sure to press as deep as you can into [Arian eir] ass to ensure [Arian ey] will keep it all inside, then finally let your cum flow out of you and into the cock and cum hungry ass, eagerly massaging your shaft.  \"<i>I can feel it!  It's going to be a big one!  Shoot it!</i>\" [Arian ey] screams in ecstasy.  You groan and begin dumping obscene amounts of seed into your lizan lover.  The first few jets inflate [Arian eir] belly slightly, and you dart a hand to feel it expand with every subsequent blast of sticky jism.  \"<i>So much cum!  So good... more!</i>\"  Arian demands, blissed out by your pumping appendage.  [Arian Eir] ass never stops its assault on your " + Desc.Cock.describeCock(player, x) + " intent on massaging you as you orgasm, even as you fill Arian beyond full and some cum begins backflowing out of [Arian eir] ass.  \"<i>Hmm, yesss... so full....</i>\"  You pound into [Arian em] a few more times, ensuring you spill every last drop of cum.");
 			}
 			DisplayText("\n\nPleased and pleasured, Arian holds you still with [Arian eir] tail and rolls around on [Arian eir] back, your dick still buried inside [Arian em].  You gasp with the sudden friction and fall on top of the lizan, just in time to receive a kiss from your lizan lover.  [Arian Ey] grips you with both [Arian eir] hands and legs, then finally quakes as [Arian eir] second orgasm overtakes [Arian em].");
 			if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0) {
@@ -1706,14 +1706,14 @@ export class ArianScene implements UpdateInterface {
 
 	//Get Blown:
 	//PC must have a cock.
-	private getBlownByArian(): void {
+	private getBlownByArian() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		arianHealth(3);
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-home-getbj"));
+			DisplayImage(images.showImage("arianfemale-home-getbj"));
 		else
-			DisplayText(images.showImage("arianmale-home-getbj"));
+			DisplayImage(images.showImage("arianmale-home-getbj"));
 		DisplayText("You trail your hand down your belly, pondering what to do.  Arian doesn't seem to notice, instead staring with anticipation at your erection.  You idly swing your hips from side to side, and notice with amusement that the lizan seems to follow it.  Building on that train of thought, you ask if [Arian ey] would be willing to suck you off.");
 
 		//(if ArianHasBlown === 0)
@@ -1795,14 +1795,14 @@ export class ArianScene implements UpdateInterface {
 	//Penetrate:
 	//Arian must be herm/female.
 	//PC must have a cock that fits (cock area 50 or less)
-	private penetrateArian(): void {
+	private penetrateArian() {
 		let x: number = player.cockThatFits(50);
 		if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		arianHealth(3);
 
-		DisplayText(images.showImage("arianfemale-home-penetrate"));
+		DisplayImage(images.showImage("arianfemale-home-penetrate"));
 		DisplayText("You admire the transgendered lizan's body, from her feminized features, down past her [arian chest], all the way to her shapely thighs.  You tell Arian that the change looks very good on her; few boys would really be so naturally pretty when turned into a ");
 		if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] > 0) DisplayText("dick");
 		DisplayText("girl.");
@@ -1879,7 +1879,7 @@ export class ArianScene implements UpdateInterface {
 			else DisplayText("cock throbs");
 			DisplayText(" as she splashes her [arian chest] and face with her own futa-lizan seed.  ");
 		}
-		DisplayText("Her walls grip you tightly, almost painfully, as a flood of juices hit the " + player.cockHead(x) + " of your " + CockDescriptor.describeCock(player, x) + " with the force of a tidal wave, only to spill around her spread nethers and run down your lower body.  Her sopping wet pussy works overtime, trying its best to pull you in as deep as possible, intent on sucking all the cum out of ");
+		DisplayText("Her walls grip you tightly, almost painfully, as a flood of juices hit the " + Desc.Cock.describeCockHead(x) + " of your " + Desc.Cock.describeCock(player, x) + " with the force of a tidal wave, only to spill around her spread nethers and run down your lower body.  Her sopping wet pussy works overtime, trying its best to pull you in as deep as possible, intent on sucking all the cum out of ");
 		if (player.torso.balls.quantity === 0) DisplayText("you");
 		else DisplayText("your [balls]");
 		DisplayText(".");
@@ -1899,7 +1899,7 @@ export class ArianScene implements UpdateInterface {
 		}
 		//(High Cum amount)
 		else {
-			DisplayText("\n\nYou threaten to blow the poor lizan straight off your " + CockDescriptor.describeCock(player, x) + " with the sheer force of your cum.  Hosing down her walls to the point she can't hope to contain all of your powerful jets, you draw her close, and Arian groans, returning the gesture with a tight hug of her own.  \"<i>Ugh, my belly... so much... so good,</i>\" she moans, and you continue to torment her body with your prodigious load.  The sheets under the two of you have since turned into a wet mess of mixed juices, covering both of your lower bodies in the aftermath of you tryst; and it's not until you thrust into her a couple more times, to ensure you're completely spent, that you collapse on top of her, slightly propped up by the protruding, pregnant-looking belly you've given her.");
+			DisplayText("\n\nYou threaten to blow the poor lizan straight off your " + Desc.Cock.describeCock(player, x) + " with the sheer force of your cum.  Hosing down her walls to the point she can't hope to contain all of your powerful jets, you draw her close, and Arian groans, returning the gesture with a tight hug of her own.  \"<i>Ugh, my belly... so much... so good,</i>\" she moans, and you continue to torment her body with your prodigious load.  The sheets under the two of you have since turned into a wet mess of mixed juices, covering both of your lower bodies in the aftermath of you tryst; and it's not until you thrust into her a couple more times, to ensure you're completely spent, that you collapse on top of her, slightly propped up by the protruding, pregnant-looking belly you've given her.");
 		}
 
 		DisplayText("\n\n\"<i>Aaahhhh...</i>\"  Arian sighs.  \"<i>Sex... feels so good.</i>\"  Caressing the back of your head, she gently pulls you into a quick kiss.  \"<i>If this is how it'll feel every time we do this, then I have no regrets about turning into a girl,</i>\" she says, one hand snaking it's way between the two of you to rub her ");
@@ -1918,14 +1918,14 @@ export class ArianScene implements UpdateInterface {
 
 	//Get Anal:
 	//Arian must have a cock.
-	private getButtWreckedByArian(): void {
+	private getButtWreckedByArian() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		arianHealth(3);
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-home-getArianAnal"));
+			DisplayImage(images.showImage("arianfemale-home-getArianAnal"));
 		else
-			DisplayText(images.showImage("arianmale-home-getArianAnal"));
+			DisplayImage(images.showImage("arianmale-home-getArianAnal"));
 		DisplayText("With a lick of your lips with your tongue, you ask how Arian would like to be on the pitching end of anal?");
 		//(if AnalXP < 33)
 		if (Flags.list[FlagEnum.ARIAN_ANAL_XP] < 33) DisplayText("\n\n\"<i>I don't know... won't it hurt, are you sure?</i>\"");
@@ -1964,7 +1964,7 @@ export class ArianScene implements UpdateInterface {
 
 		DisplayText("\n\nWell, that would be a shame; it might be a little rough, but you'll have to make do with what you've got.  With that in mind, you cease your stroking, and start sliding yourself up Arian's body, until your [ass] is positioned above [Arian eir] jutting prick.  With slow, deliberate motions, you slowly start to impale yourself upon it...");
 
-		player.displayStretchButt(arianCockSize(), true, true, false);
+		Mod.Butt.displayStretchButt(player, arianCockSize(), true, true, false);
 
 		DisplayText("\n\n\"<i>Argh!  T-this is too much!</i>\"  With a groan of pleasure Arian shoots [Arian eir] cum into your bowels, lubricating it enough to allow you to easily slide down onto [Arian eir] shaft.");
 		if (Flags.list[FlagEnum.ARIAN_DOUBLE_COCK] > 0) {
@@ -2056,7 +2056,7 @@ export class ArianScene implements UpdateInterface {
 				player.slimeFeed();
 				//[Yes: Play the \"<i>PC fucks Arian's ass</i>\" scene]
 				//[No: You tell Arian you've had enough fun for now; maybe later, after you've both recovered.]
-				menu();
+				
 				if (player.cockThatFits(50) >= 0 && player.torso.cocks.count > 0) MainScreen.addButton(0, "Yes", giveArianAnal);
 				else DisplayText(".  You're too big to fit inside Arian's ass, though.");
 				MainScreen.addButton(1, "No", Scenes.camp.returnToCampUseOneHour);
@@ -2076,14 +2076,14 @@ export class ArianScene implements UpdateInterface {
 
 	//Blow:
 	//Arian must have a cock.
-	private suckAriansDick(): void {
+	private suckAriansDick() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		arianHealth(3);
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-home-suckariandick"));
+			DisplayImage(images.showImage("arianfemale-home-suckariandick"));
 		else
-			DisplayText(images.showImage("arianmale-home-suckariandick"));
+			DisplayImage(images.showImage("arianmale-home-suckariandick"));
 		DisplayText("You make a show of lewdly licking your lips and ask Arian if [Arian ey]'d be willing to let you have a little taste of lizan essence...?");
 		DisplayText("\n\n\"<i>Are you sure?  I could do something for you if you feel like,</i>\" Arian offers.");
 
@@ -2171,14 +2171,14 @@ export class ArianScene implements UpdateInterface {
 	//Get Penetrated:
 	//PC must have a vagina.
 	//Arian must have a cock.
-	private getPenetratedByArianAndHisHitlerMustache(): void {
+	private getPenetratedByArianAndHisHitlerMustache() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		arianHealth(3);
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-home-getpenetrated"));
+			DisplayImage(images.showImage("arianfemale-home-getpenetrated"));
 		else
-			DisplayText(images.showImage("arianmale-home-getpenetrated"));
+			DisplayImage(images.showImage("arianmale-home-getpenetrated"));
 		DisplayText("You look at Arian's ");
 		if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] < 3) DisplayText("slit, and think of what it's hiding in there");
 		else {
@@ -2235,8 +2235,8 @@ export class ArianScene implements UpdateInterface {
 
 			DisplayText("\n\nYou take hold of [Arian eir] arms and pull [Arian em] up towards you, making the lizan lose [Arian eir] balance and fully penetrate you.");
 			//(Enlargement/Virginity loss messages)
-			player.displayStretchVagina(arianCockSize(), true, true, false);
-			player.displayStretchButt(arianCockSize(), true, true, false);
+			Mod.Vagina.displayStretchVagina(player, arianCockSize(), true, true, false);
+			Mod.Butt.displayStretchButt(player, arianCockSize(), true, true, false);
 
 			DisplayText("\n\nThe lizan moans in shock at the deed, as if [Arian ey] still can't believe this is actually happening.  [Arian Eir] fingers clutch you tightly, but [Arian ey] doesn't make any further motions - more likely [Arian ey] can't bring himself to thrust just yet, still full of that nervous virgin behavior.");
 		}
@@ -2255,7 +2255,7 @@ export class ArianScene implements UpdateInterface {
 
 			DisplayText("\n\nArian lets out a tiny squeak of shock at the pinching sensation, which instinctively makes [Arian em] thrust [Arian emself] forward, embedding [Arian emself] in you to the hilt.");
 			//(Enlargement/Virginity loss messages)
-			player.displayStretchVagina(arianCockSize(), true, true, false);
+			Mod.Vagina.displayStretchVagina(player, arianCockSize(), true, true, false);
 
 			DisplayText("\n\nYou gasp in pleasure at the sudden intrusion; then hug your lizan lover closer, stroking [Arian eir] back.  You ask if that was so difficult?");
 
@@ -2328,14 +2328,14 @@ export class ArianScene implements UpdateInterface {
 	//Double Pen Arian:
 	//PC must have at least 2 cocks that fit. That means two cocks with a cock area of <= 50.
 	//This isn't meant to give AnalXP, but given the fact that Arian's ass will get pen'd it would also be justified. Up to you Fen!
-	private doublePenetrateArian(): void {
+	private doublePenetrateArian() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		arianHealth(3);
-		DisplayText(images.showImage("arianfemale-home-doublepenetrate"));
+		DisplayImage(images.showImage("arianfemale-home-doublepenetrate"));
 		let x: number = player.cockThatFits(Flags.list[FlagEnum.ARIAN_CAPACITY]);
 		let y: number = player.cockThatFits2(Flags.list[FlagEnum.ARIAN_CAPACITY]);
-		DisplayText("You look over your feminine lizard lover, and feel your " + CockDescriptor.describeMultiCockShort(player) + " starting to stir in your [armor].  Since you have enough tools for the job, and Arian has enough holes, you ask if Arian would be willing to let you fuck her in both her ass and pussy at the same time?");
+		DisplayText("You look over your feminine lizard lover, and feel your " + Desc.Cock.describeMultiCockShort(player) + " starting to stir in your [armor].  Since you have enough tools for the job, and Arian has enough holes, you ask if Arian would be willing to let you fuck her in both her ass and pussy at the same time?");
 
 		DisplayText("\n\nArian bites her lower lip, fidgeting a bit at your suggestion.  \"<i>Sure.  I mean... that's the way sex is supposed to be with lizan females, and I do have the parts now.</i>\"");
 
@@ -2385,36 +2385,36 @@ export class ArianScene implements UpdateInterface {
 
 		DisplayText("\n\nYou deliver a slap to her perky little butt, the crack of flesh on flesh ringing out as you then tell her not to get greedy; there's no race to be won here.  \"<i>Ow!  B-but... I want you!</i>\"  She pushes back at you insistently.  And you want her as well, you tell her, but still, no need to be so bossy.  Arian pouts.  \"<i>Sorry...</i>\"");
 
-		DisplayText("\n\nThat's better, you say.  With that, you start to thrust yourself into her two holes.  Penetrating both of Arian's holes is a unique feeling; her ass hugs your " + CockDescriptor.describeCock(player, y) + " tightly, trying to prevent you from moving as it does its best to keep you hilted deeply within; while her pussy, so slick and moist, massages your shaft expertly. For a moment you wonder if you even have to move.");
+		DisplayText("\n\nThat's better, you say.  With that, you start to thrust yourself into her two holes.  Penetrating both of Arian's holes is a unique feeling; her ass hugs your " + Desc.Cock.describeCock(player, y) + " tightly, trying to prevent you from moving as it does its best to keep you hilted deeply within; while her pussy, so slick and moist, massages your shaft expertly. For a moment you wonder if you even have to move.");
 
 		DisplayText("\n\n\"<i>Oooh, [name]... you have no idea how wonderful this feels.  I feel so full... so good... so wanted... I love you!  Fertilize my eggs!</i>\"  You groan and smirk, commenting that maybe Arian's getting a bit too caught up in this, unless she's telling you that this ex-boy really wants to be a mother?  \"<i>Me... a mother... d-don't stop!  I want you as deep inside me as possible!</i>\"  You moan as her two holes ripple around your intruding shafts, striving to suck you deeper and deeper inside of her.  You allow them to lead, but warn her that you just might end up making her a mother whether she wants to be or not if she doesn't temper her enthusiasm.");
 
-		DisplayText("\n\n\"<i>What do you think I'm trying to do!?  Now get in here and paint my womb white!</i>\" Arian snaps, bracing herself on her bed and allowing her ass and pussy both to suck you in with surprising force.  As soon as you're hilted within both holes, her ass clamps shut on your " + CockDescriptor.describeCock(player, y) + ", while her pussy's contractions begin truly milking you for all you're worth.  Stuck as you are, you have no option but to sit back and enjoy her contractions as you feel yourself nearing the edge of an inevitable orgasm.");
+		DisplayText("\n\n\"<i>What do you think I'm trying to do!?  Now get in here and paint my womb white!</i>\" Arian snaps, bracing herself on her bed and allowing her ass and pussy both to suck you in with surprising force.  As soon as you're hilted within both holes, her ass clamps shut on your " + Desc.Cock.describeCock(player, y) + ", while her pussy's contractions begin truly milking you for all you're worth.  Stuck as you are, you have no option but to sit back and enjoy her contractions as you feel yourself nearing the edge of an inevitable orgasm.");
 
 		DisplayText("\n\nYou still can't quite drown your surprise at how this is making her act, but if that's what she wants.  Besides, with the vice-like grip her holes have on your cocks, it's not as if you have a choice, right?  You thrust two, three more times with all the ferocity you can muster, grab her ass and holler as your climax finally erupts from your twin dicks.");
 
 		//(Low Cum Amount)
 		if (player.cumQ() <= 250) {
-			DisplayText("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " explode inside Arian's eager holes, giving them the liquid warmth they so crave.  The massage that your two cocks are receiving only enhance the intense feeling, and you find yourself cumming more than usual.  They don't stop massaging you for more, even as you stop unloading.");
+			DisplayText("\n\nYour " + Desc.Cock.describeMultiCockShort(player) + " explode inside Arian's eager holes, giving them the liquid warmth they so crave.  The massage that your two cocks are receiving only enhance the intense feeling, and you find yourself cumming more than usual.  They don't stop massaging you for more, even as you stop unloading.");
 
 			DisplayText("\n\n\"<i>More, I need more for my eggs!</i>\" Arian demands, yet you are truly spent...");
 		}
 		//(Medium Cum Amount)
 		else if (player.cumQ() <= 1000) {
-			DisplayText("\n\nLiquid lust floods Arian's insides, as your " + CockDescriptor.describeMultiCockShort(player) + " do their best to relieve ");
+			DisplayText("\n\nLiquid lust floods Arian's insides, as your " + Desc.Cock.describeMultiCockShort(player) + " do their best to relieve ");
 			if (player.torso.balls.quantity === 0) DisplayText("themselves");
 			else DisplayText("your [balls]");
-			DisplayText(" of their load; a load Arian is not only pleased to accept, but also eager to relieve you of every single stray drop off.  The tightness of her ass, pressing down on your " + CockDescriptor.describeCock(player, y) + ", her pussy milking on your " + CockDescriptor.describeCock(player, x) + ".  How could anyone refuse such an invitation?  You let yourself go, stuffing the eager lizan with more cum than you thought yourself capable of producing.");
+			DisplayText(" of their load; a load Arian is not only pleased to accept, but also eager to relieve you of every single stray drop off.  The tightness of her ass, pressing down on your " + Desc.Cock.describeCock(player, y) + ", her pussy milking on your " + Desc.Cock.describeCock(player, x) + ".  How could anyone refuse such an invitation?  You let yourself go, stuffing the eager lizan with more cum than you thought yourself capable of producing.");
 
 			DisplayText("\n\n\"<i>M-more,</i>\" Arian pleads, even as her belly starts to distend.");
 		}
 		//(High Cum Amount)
 		else {
-			DisplayText("\n\nYou cum with such force, that if Arian's ass wasn't clamping down on your " + CockDescriptor.describeCock(player, y) + " so tightly, you'd be sure she was going to get pushed off.  \"<i>So much cum!  Yesssss!</i>\" Arian moans, as you quickly give her usually lithe belly a very blatant bump.  Even though your prodigious amount of cum is enough to completely fill the eager lizan-girl, her ass and pussy work overtime to ensure you're completely spent; and you have no desire to resist.");
+			DisplayText("\n\nYou cum with such force, that if Arian's ass wasn't clamping down on your " + Desc.Cock.describeCock(player, y) + " so tightly, you'd be sure she was going to get pushed off.  \"<i>So much cum!  Yesssss!</i>\" Arian moans, as you quickly give her usually lithe belly a very blatant bump.  Even though your prodigious amount of cum is enough to completely fill the eager lizan-girl, her ass and pussy work overtime to ensure you're completely spent; and you have no desire to resist.");
 
 			DisplayText("\n\nBy the time you're finished, Arian's belly is positively bulging.  \"<i>Ahhh... eggs... cum... yes...</i>\" she states in a stupor.");
 		}
-		DisplayText("\n\nArian's ass goes slack around your " + CockDescriptor.describeCock(player, y) + ", and Arian slowly slides off your shaft to plop on her bed; eyes closed in bliss, as she takes a short nap.");
+		DisplayText("\n\nArian's ass goes slack around your " + Desc.Cock.describeCock(player, y) + ", and Arian slowly slides off your shaft to plop on her bed; eyes closed in bliss, as she takes a short nap.");
 
 		//(if ArianDblPenChat === 0)
 		if (Flags.list[FlagEnum.ARIAN_DOUBLE_PENETRATION_CHAT] === 0) {
@@ -2465,14 +2465,14 @@ export class ArianScene implements UpdateInterface {
 	//Docking
 	//ArianCockSize needs to be below 3. (ArianDblCock does not affect this decision.) 
 	//PC cock area must be <= 30.
-	private arianDocking(): void {
+	private arianDocking() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_VIRGIN] += 1;
 		arianHealth(3);
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-home-docking"));
+			DisplayImage(images.showImage("arianfemale-home-docking"));
 		else
-			DisplayText(images.showImage("arianmale-home-docking"));
+			DisplayImage(images.showImage("arianmale-home-docking"));
 		DisplayText("You set your eyes on Arian's genital slit, and then smile at [Arian em].  You ask how [Arian ey]'d feel about ‘hiding' your cock, rather than [Arian eirs], inside [Arian eir] slit?");
 
 		DisplayText("\n\nArian shudders a bit.  \"<i>That... would feel kinda weird, I think, but it's not unheard of among certain lizan couples.  If you want to try that, I'm okay with it.</i>\"");
@@ -2566,7 +2566,7 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//Give Item
-	private giveArianAnItem(): void {
+	private giveArianAnItem() {
 		DisplayText().clear();
 		DisplayText("Thinking about the many items in your possession, you ask if Arian would be willing to take something for you?");
 
@@ -2595,7 +2595,7 @@ export class ArianScene implements UpdateInterface {
 			//Display PC inventory
 		}
 
-		menu();
+		
 		if (Flags.list[FlagEnum.ARIAN_S_DIALOGUE] === 0 && arianHealth() >= 10) arianStoryDialogue1();
 		else if (Flags.list[FlagEnum.ARIAN_S_DIALOGUE] === 1 && arianHealth() >= 20) arianStoryDialogue2();
 		else if (Flags.list[FlagEnum.ARIAN_S_DIALOGUE] === 2 && arianHealth() >= 30) arianDialogue3();
@@ -2618,7 +2618,7 @@ export class ArianScene implements UpdateInterface {
 	//Vitality Tincture:
 	//increases ArianHealth by 4.
 	//Remove this option once Arian's health hits 100.
-	private arianVitalityTincture(): void {
+	private arianVitalityTincture() {
 		DisplayText().clear();
 		DisplayText("Fishing around amongst your pockets, you withdraw a vial of that strange potion Giacomo peddles and offer it to the sickly lizan, explaining it will bolster [Arian eir] constitution and fill [Arian em] with permanent vitality.");
 
@@ -2640,7 +2640,7 @@ export class ArianScene implements UpdateInterface {
 
 		player.inventory.items.consumeItem(consumables.VITAL_T);
 		arianHealth(10);
-		menu();
+		
 		MainScreen.addButton(0, "Next", giveArianAnItem);
 	}
 
@@ -2648,7 +2648,7 @@ export class ArianScene implements UpdateInterface {
 	//Increase Cock(s) size. Gives one cock if Arian lacks any.
 	//If cock(s) size is maxed, next dose reduces breast size.
 	//If at min breast size, next dose reverts Arian to male. (Lose breasts and vagina.)
-	private giveIncubusDraftToArian(): void {
+	private giveIncubusDraftToArian() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.P_DRAFT);
 		DisplayText("Fishing around in your pockets, your hand closes on the vial of purified incubus draft.  You offer this to Arian, asking ");
@@ -2778,7 +2778,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nYou admit that seems to be the case, and ask if [Arian ey]'d be willing to do something else, seeing as how that was a bust?  \"<i>Uhh... Sure.  What do you want to do?</i>\"");
 		}
 		//Back to Arian's Menu
-		menu();
+		
 		MainScreen.addButton(0, "Next", giveArianAnItem);
 	}
 
@@ -2788,7 +2788,7 @@ export class ArianScene implements UpdateInterface {
 	//Gives Vagina and Breasts, also feminine curves if Arian was male.
 	//Extra doses increase breasts size.
 	//If breasts is at maximum size, extra doses reduce Cock Size. Removing first the second cock and then the first one if necessary.
-	private succubiMilkForArian(): void {
+	private succubiMilkForArian() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.P_S_MLK);
 		DisplayText("Fishing out the bottle of purified demon's milk, you ask if Arian is willing to get ");
@@ -2908,7 +2908,7 @@ export class ArianScene implements UpdateInterface {
 	//Lactaid:
 	//Triggers Scene with temporary lactation
 	//If Arian has breasts, Increases breasts size by 1.
-	private giveArianLactaid(): void {
+	private giveArianLactaid() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.LACTAID);
 		DisplayText("Your hand closes around the vial of lactation-inducing potion that is Lactaid.  You almost reject it automatically, but then you stop and think.  There's odder things in this world, after all.  You remove the vial and ask Arian if [Arian ey] would be willing to let you see what lizan milk tastes like.");
@@ -2927,7 +2927,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nYou note that's strange, and wonder what could have stopped it working.  You shrug and suggest maybe it was Arian's lack of existing breasts?  Still, no harm done; would Arian maybe like to do something else instead?");
 
 			DisplayText("\n\nHe shrugs and closes [Arian eir] robes.  \"<i>I'm sorry it didn't work, [name].  If you want to do something else, just say so.</i>\"  Arian smiles at you.");
-			menu();
+			
 			MainScreen.addButton(0, "Next", giveArianAnItem);
 		}
 		else { //Lizard milk! Recover some HP and fatigue.
@@ -2979,12 +2979,12 @@ export class ArianScene implements UpdateInterface {
 	//Reducto:
 	//Reduces the size of a part
 	//Has a Back option, it displays no text, just cancels the interaction and goes back to previous menu.
-	private giveArianReducto(): void {
+	private giveArianReducto() {
 		DisplayText().clear();
 		DisplayText("Eyeing Arian up and down, you fish your pouches for a tube of Reducto.  Once you've found it, you hand it over to Arian and tell [Arian em] you'd like [Arian em] to reduce something for you.");
 		DisplayText("\n\n\"<i>Umm... sure, which part?</i>\"");
 		//(Display Options)
-		menu();
+		
 		if (Flags.list[FlagEnum.ARIAN_BREASTS] > 0) MainScreen.addButton(0, "Breasts", useReductoOnAriansBreasts);
 		if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] > 0) MainScreen.addButton(1, "Cock", useReductoOnArianCocks);
 		MainScreen.addButton(2, "Asshole", useReductoOnAriansAsshole);
@@ -2993,7 +2993,7 @@ export class ArianScene implements UpdateInterface {
 
 	//Breasts:
 	//Cannot go flat
-	private useReductoOnAriansBreasts(): void {
+	private useReductoOnAriansBreasts() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.REDUCTO);
 		DisplayText("You point at Arian's ");
@@ -3015,13 +3015,13 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\n\"<i>Umm... I...</i>\"  Before Arian can continue, you tell her that it's fine, you'll just have to find another way to get rid of her breasts.  \"<i>Okay.  So, is there anything else you'd like to do?</i>\"");
 		}
 		//(Back to Options menus)
-		menu();
+		
 		MainScreen.addButton(0, "Next", giveArianAnItem);
 	}
 	//Cock(s):
 	//Removes 2nd cock if at minimum size.
 	//Cannot remove cocks.
-	private useReductoOnArianCocks(): void {
+	private useReductoOnArianCocks() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.REDUCTO);
 		DisplayText("You point at [Arian eir] crotch, mentioning that you'd like [Arian em] to be smaller.");
@@ -3077,14 +3077,14 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nThe two of you wait for a while, but when no change happens Arian speaks up, \"<i>I guess... nothing changed?</i>\"  You're inclined to agree, something should've happened already.  Well that doesn't matter, you'll just have to try something else.  \"<i>Okay... so, anything else you'd like to do?</i>\"");
 		}
 		//(Back to Options menus)
-		menu();
+		
 		MainScreen.addButton(0, "Next", giveArianAnItem);
 	}
 
 	//Sphincter:
 	//Lose AnalXP, can't reduce it past 1.
 	//How much AnalXP should be lost per use is up to Fen.
-	private useReductoOnAriansAsshole(): void {
+	private useReductoOnAriansAsshole() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.REDUCTO);
 		DisplayText("You ask Arian to hand the tube of reducto back over to you, telling [Arian em] that you want to make [Arian em] a little tighter when you do [Arian em] from behind.  The lizard-");
@@ -3146,14 +3146,14 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nArian whimpers.  \"<i>It feels a bit less sensitive now, but I'm sure it'll still feel pretty good when you do me from behind.</i>\"  Arian smiles.  \"<i>Anything else you'd like to do?</i>\"");
 		}
 		//Back
-		menu();
+		
 		MainScreen.addButton(0, "Next", giveArianAnItem);
 	}
 
 	//Reptilum:
 	//Makes Arian horny and high, like giving catnip to a cat in some ways. 
 	//Chance to make Arian grow a second dick, if [Arian ey] has only one. (high chance: 50%)
-	private giveArianReptilum(): void {
+	private giveArianReptilum() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.REPTLUM);
 		DisplayText("Fingering the vial of reptilium, you smirk to yourself.  Quickly wiping it off your face, you instruct Arian to close [Arian eir] eyes and open [Arian eir] mouth, as you have a special surprise for [Arian em].");
@@ -3202,7 +3202,7 @@ export class ArianScene implements UpdateInterface {
 
 		DisplayText("\n\nYou shake your head and tell [Arian em] you'd rather [Arian ey] didn't lick your butt.  Why don't you go and get [Arian em] some candy instead?  \"<i>Candy!?  I love candy!  You can smear chocolate on yourself and I could lick it clean! Then we'd get chocolate flavored cloud ice-cream with " + player.race() + " musk!  What a great idea!  Get your undies off so I can get started!</i>\"  [Arian Ey] pounces on you, effectively removing your underpants and exposing your ");
 		if (player.torso.cocks.count > 0) {
-			DisplayText(CockDescriptor.describeMultiCockShort(player));
+			DisplayText(Desc.Cock.describeMultiCockShort(player));
 			if (player.torso.vaginas.count > 0) DisplayText(" and ");
 		}
 		if (player.torso.vaginas.count > 0) DisplayText("[vagina]");
@@ -3214,9 +3214,9 @@ export class ArianScene implements UpdateInterface {
 		DisplayText(".  \"<i>Yummy!  I could use seconds, but roleplay time is over; let's... masturbate each other!</i>\"  [Arian Ey] begins stroking [Arian eir] ");
 
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-home-mutualmasturbation"));
+			DisplayImage(images.showImage("arianfemale-home-mutualmasturbation"));
 		else
-			DisplayText(images.showImage("arianmale-home-mutualmasturbation"));
+			DisplayImage(images.showImage("arianmale-home-mutualmasturbation"));
 
 		if (Flags.list[FlagEnum.ARIAN_COCK_SIZE] === 1) {
 			DisplayText("quickly erecting lizan cock");
@@ -3289,7 +3289,7 @@ export class ArianScene implements UpdateInterface {
 	//Not with the power of friendship, but with magic!
 	//Balancing it is up to Fen.
 	//Reduce corruption, maybe libido, once per day.
-	private treatCorruption(): void {
+	private treatCorruption() {
 		DisplayText().clear();
 		DisplayText("You ask Arian if [Arian ey] thinks [Arian ey] can help you reduce some of the taint that has infected your soul.");
 
@@ -3335,7 +3335,7 @@ export class ArianScene implements UpdateInterface {
 	//if PC doesn't have the sufficient materials, option doesn't show up.
 	//Perhaps introduce a cooldown to the talisman?
 	//Ultimately, balance is in Fen's hands.
-	private imbueTalisman(): void {
+	private imbueTalisman() {
 		DisplayText().clear();
 		DisplayText("You tell Arian that, if it's not too much trouble, you'd like [Arian em] to ");
 		if (player.hasKeyItem("Arian's Talisman") >= 0) DisplayText("place a spell in the enchanted talisman [Arian ey] created for you");
@@ -3355,13 +3355,13 @@ export class ArianScene implements UpdateInterface {
 		*/
 		DisplayText("\n\n<b>Shielding Spell:</b> Two Black Chitin and One Tough Silk - Increases defense for the duration of the battle.");
 		DisplayText("\n<b>Immolation Spell:</b> 2x Goblin Ale and 1x Sweet Gossamer - Deals damage over time.");
-		menu();
+		
 		if (player.inventory.items.has(useables.B_CHITN, 2) && player.inventory.items.has(useables.T_SSILK)) MainScreen.addButton(0, "Shielding", arianSpellPlace, "Shielding Spell");
 		if (player.inventory.items.has(consumables.GOB_ALE, 2) && player.inventory.items.has(consumables.S_GOSSR)) MainScreen.addButton(1, "Immolation", arianSpellPlace, "Immolation Spell");
 		MainScreen.addButton(9, "Back", arianHomeMenu);
 	}
 
-	private arianSpellPlace(spell: string): void {
+	private arianSpellPlace(spell: string) {
 		DisplayText().clear();
 		DisplayText("You tell Arian that you want [Arian em] to place the " + spell + " spell in your talisman for you.");
 
@@ -3398,11 +3398,11 @@ export class ArianScene implements UpdateInterface {
 		}
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
-	private clearCharges(): void {
+	private clearCharges() {
 		if (player.statusAffects.has(StatusAffectType.ShieldingSpell)) player.statusAffects.remove("ShieldingSpell");
 		if (player.statusAffects.has(StatusAffectType.ImmolationSpell)) player.statusAffects.remove("ImmolationSpell");
 	}
-	public clearTalisman(): void {
+	public clearTalisman() {
 		player.removeKeyItem("Arian's Charged Talisman");
 		player.createKeyItem("Arian's Talisman", 0, 0, 0, 0);
 	}
@@ -3416,7 +3416,7 @@ export class ArianScene implements UpdateInterface {
 
 
 	//Sleep With Arian
-	public sleepWithArian(newl: boolean = false): void {
+	public sleepWithArian(newl: boolean = false) {
 		if (newl) DisplayText().clear();
 		Flags.list[FlagEnum.SLEEP_WITH] = "Arian";
 		DisplayText("Tired after a whole day of adventuring, you decide to retire and catch some shut-eye.  While going through the day's events, you recall Arian had offered to let you stay in [Arian eir] tent and sleep with [Arian em] in [Arian eir] bed.  Your tired body could surely use a soft bed today, and maybe a certain lizan to keep you company too.  With that in mind, you head to [Arian eir] tent.");
@@ -3452,14 +3452,14 @@ export class ArianScene implements UpdateInterface {
 
 		DisplayText("\n\nArian lays down beside you, and scoots over, trying to get as close as possible to you.  You promptly wrap your arms around [Arian eir] waist, and then wrap your [legs] around [Arian em] for good measure, nuzzling yourself against [Arian eir] smooth scales.");
 
-		DisplayText("\n\nArian sighs in happiness at your close contact.  \"<i>It feels so good to have your " + player.skinFurScales() + " against my scales.  So warm...</i>\" [Arian ey] sidles up against you, [Arian eir] tail draping over your waist as [Arian ey] sinks into your embrace.  You just squeeze [Arian em] a little tighter and hold [Arian em] close, saying nothing aside from a quiet whisper to sleep well.  \"<i>Good night, [name],</i>\" [Arian ey] whispers back, before extending a hand toward the globe illuminating the tent and snapping [Arian eir] fingers, shutting down the light.");
+		DisplayText("\n\nArian sighs in happiness at your close contact.  \"<i>It feels so good to have your " + Desc.Skin.skinFurScales(player) + " against my scales.  So warm...</i>\" [Arian ey] sidles up against you, [Arian eir] tail draping over your waist as [Arian ey] sinks into your embrace.  You just squeeze [Arian em] a little tighter and hold [Arian em] close, saying nothing aside from a quiet whisper to sleep well.  \"<i>Good night, [name],</i>\" [Arian ey] whispers back, before extending a hand toward the globe illuminating the tent and snapping [Arian eir] fingers, shutting down the light.");
 
 		//(if AnalXP <33)
 		if (Flags.list[FlagEnum.ARIAN_ANAL_XP] < 33) {
-			DisplayText("\n\nA strange sensation, combined with a soft sound, stirs you from your sleep.  You realize that Arian is stirring in [Arian eir] sleep, softly mumbling to [Arian em]self as [Arian eir] tail gently swishes to and fro under the covers, sometimes accidentally running its warm length over your " + player.skinFurScales() + ".");
+			DisplayText("\n\nA strange sensation, combined with a soft sound, stirs you from your sleep.  You realize that Arian is stirring in [Arian eir] sleep, softly mumbling to [Arian em]self as [Arian eir] tail gently swishes to and fro under the covers, sometimes accidentally running its warm length over your " + Desc.Skin.skinFurScales(player) + ".");
 
 			DisplayText("\n\nAt first you think the lizan might actually be awake, but under further inspection you realize that [Arian ey] is just sleep-talking.  Should you listen in or just go back to sleep?");
-			menu();
+			
 			MainScreen.addButton(0, "Listen", listenToLowAnalXPArian);
 			MainScreen.addButton(1, "Sleep", dontListenToLowAnalXPArian);
 		}
@@ -3468,7 +3468,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nYou awaken blearily to the sound of soft whimpering, the feeling of hips rubbing softly and repeatedly against your groin, and the sensation of a long, smoothly-scaled tail flickering across your [chest].  Looks like Arian is dreaming something... probably something erotic, too.");
 			DisplayText("\n\nShould you listen in, and perhaps tease [Arian em]?  Or just go back to sleep?");
 			//[Listen][Sleep]
-			menu();
+			
 			MainScreen.addButton(0, "Listen", listenToMediumAnalXPArian);
 			MainScreen.addButton(1, "Sleep", dontListenToMediumAnalXPArian);
 		}
@@ -3476,22 +3476,22 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nYou wake up, confused and wondering what's disturbing your sleep.  When you wake up, you almost think Arian's also awake; [Arian ey]'s insistently moaning in pleasure, grinding [Arian eir] ass feverishly against your crotch, tail thrashing around wildly.  Why, that little cheeky lizard; [Arian ey]'s having a wet dream!");
 			DisplayText("\n\nShould you tease [Arian em] a bit?  Or try to calm [Arian em] down and go back to sleep?");
 			//[Tease][Sleep]
-			menu();
+			
 			MainScreen.addButton(0, "Tease", TeaseHighAnalXPArian);
 			MainScreen.addButton(1, "Sleep", dontTeaseHighAnalXPArian);
 		}
 	}
 
 	//[=Sleep=]
-	private dontListenToLowAnalXPArian(): void {
+	private dontListenToLowAnalXPArian() {
 		DisplayText().clear();
 		DisplayText("You gently stroke the lizan's side and plant a soft, gentle kiss on [Arian eir] neck.  At your ministrations, Arian sighs and slowly falls still again.  You wait, but it seems that whatever dreams [Arian ey] was having have faded and [Arian ey]'s truly asleep now, allowing you to go back to sleep yourself.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", camp.sleepWrapper);
 	}
 
 	//[=Listen=]
-	private listenToLowAnalXPArian(): void {
+	private listenToLowAnalXPArian() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_MORNING] = 1;
 		DisplayText("You turn you head to try and catch what Arian might be dreaming about.");
@@ -3510,20 +3510,20 @@ export class ArianScene implements UpdateInterface {
 		DisplayText("\n\n\"<i>[name]... just let me bake overnight.  I'll be ready tomorrow.  G'night...</i>\"  Having said that, Arian finally calms down.");
 		DisplayText("\n\nYou wonder if maybe Arian always dreamed of being a baker instead of a wizard... or if [Arian ey] just had a midnight craving for pastries  With a soft sigh, you make yourself settle down and try to get back to sleep.");
 		player.stats.lust += 15;
-		menu();
+		
 		MainScreen.addButton(0, "Next", camp.sleepWrapper);
 	}
 
 	//[=Sleep=]
-	private dontListenToMediumAnalXPArian(): void {
+	private dontListenToMediumAnalXPArian() {
 		DisplayText().clear();
 		DisplayText("You gently stroke the lizan's side and plant a soft, gentle kiss on [Arian eir] neck.  At your ministrations, Arian sighs and slowly falls still again.  You wait, but it seems that whatever dreams [Arian ey] was having have faded and [Arian ey]'s truly asleep now, allowing you to go back to sleep yourself.");
 		camp.sleepRecovery(false);
-		menu();
+		
 		MainScreen.addButton(0, "Next", camp.sleepWrapper);
 	}
 	//[=Listen=]
-	private listenToMediumAnalXPArian(): void {
+	private listenToMediumAnalXPArian() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_MORNING] = 1;
 		DisplayText("You turn you head to try and catch what Arian might be dreaming about.");
@@ -3554,26 +3554,26 @@ export class ArianScene implements UpdateInterface {
 			DisplayText(".");
 		}
 		player.stats.lust += 15;
-		menu();
+		
 		MainScreen.addButton(0, "Next", camp.sleepWrapper);
 	}
 
 	//[=Sleep=]
-	private dontTeaseHighAnalXPArian(): void {
+	private dontTeaseHighAnalXPArian() {
 		DisplayText().clear();
 		DisplayText("You gently stroke the lizan's side and plant a soft, gentle kiss on [Arian eir] neck.  At your ministrations, Arian sighs and slowly falls still again.  You wait, but it seems that whatever dreams [Arian ey] was having have faded and [Arian ey]'s truly asleep now, allowing you to go back to sleep yourself.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", camp.sleepWrapper);
 	}
 
 	//[=Tease=]
-	private TeaseHighAnalXPArian(): void {
+	private TeaseHighAnalXPArian() {
 		DisplayText().clear();
 
 		if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-			DisplayText(images.showImage("arianfemale-camp-dreamingArian"));
+			DisplayImage(images.showImage("arianfemale-camp-dreamingArian"));
 		else
-			DisplayText(images.showImage("arianmale-camp-dreamingArian"));
+			DisplayImage(images.showImage("arianmale-camp-dreamingArian"));
 		Flags.list[FlagEnum.ARIAN_MORNING] = 1;
 		DisplayText("\n\nFirst, you decide to check what exactly is Arian dreaming about...");
 		DisplayText("\n\n\"<i>...[name]... no... don't stuff that turkey... stuff me....  I wanna be tasty too.</i>\"");
@@ -3586,7 +3586,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\n\"<i>Oooh... that's what I'm talking about... make me tasty...</i>\" Arian's hips eagerly begin thrusting against you in an attempt to force you even deeper into [Arian eir] contracting rosebud; every time you push inside, the flesh surrounding your [cock smallest] yields, allowing you easy access; and every time you pull out, Arian's sphincter grips you tightly, as if trying to prevent you from leaving its tight embrace.  It feels good, despite being a bit difficult to get into proper rhythm.");
 			DisplayText("\n\nStill, you persevere despite the awkwardness, leaning over and whispering into Arian's ear, asking if [Arian ey] wants to be stuffed nice and full.");
 			DisplayText("\n\n\"<i>More than full... I want to be as big as Miss Turkey...</i>\"");
-			DisplayText("\n\nIs that so, you ask?  Does [Arian ey] really want a big squishy belly, stuffed full of hot, salty " + player.mf("man", "herm") + "-goo?");
+			DisplayText("\n\nIs that so, you ask?  Does [Arian ey] really want a big squishy belly, stuffed full of hot, salty " + Desc.Gender.mf(player, "man", "herm") + "-goo?");
 			DisplayText("\n\n\"<i>Hmm, yessss... put the sauce inside me,</i>\" Arian hisses in obvious pleasure.");
 			DisplayText("\n\nAlready hot and bothered, you don't need much more encouragement.  A few final thrusts, brutal in your eagerness, and you give yourself over to climax, cumming as long and hard as you can into Arian's greedy little butt.");
 			DisplayText("\n\nYou cum as hard as you can, but find yourself unable to cum as much you're used to, due to the fact you're still half-asleep.  \"<i>Hmm, no... more stuffing.  I need it for my muffins...</i>\"  You try your best, but just can't dredge up anything more of note, and tell Arian that [Arian ey]'ll need to get some sleep and you'll stuff [Arian em] in the morning.  Arian whimpers, but seems to calm down for the time being... now maybe you can get some proper sleep.");
@@ -3606,19 +3606,19 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nYou give a few more tugs, then sigh in disgruntlement.  Looks like you'll just have to put up with this; you're too sleepy to wake [Arian em] up.  Still, Arian's in for a tongue-lashing in the morning, you note to yourself, even as you drift off to sleep.");
 			player.stats.lust += 15;
 		}
-		menu();
+		
 		MainScreen.addButton(0, "Next", camp.sleepWrapper);
 	}
 	//Waking up
 	//Always happens the morning after sleeping with Arian.
 	//Outcome slightly modified by AnalXP.
-	public wakeUpAfterArianSleep(): void {
+	public wakeUpAfterArianSleep() {
 		DisplayText().clear();
 		if (player.torso.cocks.count > 0) {
 			if (Flags.list[FlagEnum.ARIAN_VAGINA] > 0)
-				DisplayText(images.showImage("arianfemale-camp-dreamingArian"));
+				DisplayImage(images.showImage("arianfemale-camp-dreamingArian"));
 			else
-				DisplayText(images.showImage("arianmale-camp-dreamingArian"));
+				DisplayImage(images.showImage("arianmale-camp-dreamingArian"));
 			//(if AnalXP < 33)
 			if (Flags.list[FlagEnum.ARIAN_ANAL_XP] < 33) {
 				//(PC tried but didn't manage to get their cocks in. Even tho you slept with it inside, you do go flaccid at some point in the night.)
@@ -3636,7 +3636,7 @@ export class ArianScene implements UpdateInterface {
 
 				DisplayText("\n\nYou easily catch on to what the lizan has in mind and, with a smile, do as you are told, baring your crotch so to give [Arian em] the best access.");
 
-				DisplayText("\n\nArian promptly nuzzles your " + CockDescriptor.describeMultiCockShort(player) + ", rubbing [Arian eir] face all over ");
+				DisplayText("\n\nArian promptly nuzzles your " + Desc.Cock.describeMultiCockShort(player) + ", rubbing [Arian eir] face all over ");
 				if (player.torso.cocks.count === 1) DisplayText("it");
 				else DisplayText("them");
 				DisplayText(" shamelessly until a dollop of pre forms on the tip of your [cock biggest].  \"<i>[name]?</i>\"  You give a deliberate groan, playing up how much you're enjoying this for Arian's benefit and smiling at [Arian em].  \"<i>Thanks for the breakfast,</i>\"  [Arian ey] says with a smile, then proceeds to take the entirety of your [cock] past [Arian eir] lips and down [Arian eir] throat.  You can't resist chuckling and patting [Arian em] on the head.");
@@ -3793,7 +3793,7 @@ export class ArianScene implements UpdateInterface {
 	//Every 30 days, ArianEggEvent is set to 1. Allowing this event happen.
 	//It always happens the first time you visit Arian, every 30th day.
 	//If you don't visit Arian, you miss this event, and the eggs she would be laying.
-	public arianEggingEvent(): void {
+	public arianEggingEvent() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_EGG_EVENT] = 1;
 		if (Flags.list[FlagEnum.ARIAN_EGG_CHAT] === 0) {
@@ -3838,7 +3838,7 @@ export class ArianScene implements UpdateInterface {
 			DisplayText("\n\nAs you enter the tent, you are greeted with the sight of Arian laying on her bed, naked, as she rubs her belly in a slow circular motion.  She spots you walking towards her and greets you with a smile.  \"<i>Hello, [name].  I have a new clutch of eggs growing inside me, would you like me to try and create a colored egg for you?</i>\"");
 		}
 		//(Display Color Options, in the future you will also have the option of telling her you want to fertilise her eggs.) (Also include a leave option.)
-		menu();
+		
 		MainScreen.addButton(0, "Brown", pickAnEggArian, "brown");
 		MainScreen.addButton(1, "Purple", pickAnEggArian, "purple");
 		MainScreen.addButton(2, "Blue", pickAnEggArian, "blue");
@@ -3849,7 +3849,7 @@ export class ArianScene implements UpdateInterface {
 	}
 
 	//Pick a color
-	private pickAnEggArian(color: string = "pink"): void {
+	private pickAnEggArian(color: string = "pink") {
 		DisplayText().clear();
 		Flags.list[FlagEnum.ARIAN_EGG_COLOR] = color;
 		DisplayText("You tell Arian you'd like her to make you a " + color + " egg.");
@@ -3862,7 +3862,7 @@ export class ArianScene implements UpdateInterface {
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Leave
-	private leaveEggs(): void {
+	private leaveEggs() {
 		DisplayText().clear();
 		DisplayText("You tell her that you don't want any colored eggs from her this month.  The lizan nods, deciding it's not necessary for her to spell out that this means she'll just produce ordinary eggs and eat them for breakfast after she's laid them.  \"<i>So, do you want something?</i>\" she asks.");
 		return { next: Scenes.camp.returnToCampUseOneHour };
@@ -3873,7 +3873,7 @@ export class ArianScene implements UpdateInterface {
 	//Happens the day after Egging Event, always happens the first time the PC visits.
 	//Even if you miss, trigger it the next visit anyways, so as long as you don't miss the egging event, you don't miss out on your colored eggs.
 	//Randomly decide between small or large egg, I'd say 50% chance of either.
-	public arianLaysEggs(): void {
+	public arianLaysEggs() {
 		DisplayText().clear();
 		let color: string = Flags.list[FlagEnum.ARIAN_EGG_COLOR];
 		Flags.list[FlagEnum.ARIAN_EGG_COUNTER] = 0;
@@ -3932,7 +3932,7 @@ export class ArianScene implements UpdateInterface {
 		inventory.takeItem(itype, Scenes.camp.returnToCampUseOneHour);
 	}
 	//DildoFun
-	private arianDildoFun(): void {
+	private arianDildoFun() {
 		//As usual, nothing we write is centaur compatible.
 		//Cocks are going to be more or less forgotten here.
 		//PC must have the dildo sex toy from Giacomo to access this scene
@@ -4024,7 +4024,7 @@ export class ArianScene implements UpdateInterface {
 
 		DisplayText("\n\nOnce you catch your breath, you absently reach down and bring your favorite toy up to your face, you watch as it slowly reverts back to its original form, though still dripping with your mixed juices.  Smiling openly, you inform Arian that you may just be the luckiest girl in Mareth, to have a girlfriend like her.");
 
-		DisplayText("\n\nArian pants, still winded, though her breathing seems to have returned to a more normal level.  She can't help but grin at your compliment.  \"<i>Don't be silly, [name].  I'm the lucky one.  But I'm really glad you think so highly of me.</i>\"  Why shouldn't you?  She gave up her birth-gender, just to better please you - why, any girl who passed up a chance to snap up someone as sweet as Arian was a fool, but they'll never amend their mistake, because she's all yours now.  With that you slither around in the bed so that you can glomp onto your girlfriend, rubbing your " + player.skinFurScales() + " cheek against her own smooth scales, hugging her tightly to you.");
+		DisplayText("\n\nArian pants, still winded, though her breathing seems to have returned to a more normal level.  She can't help but grin at your compliment.  \"<i>Don't be silly, [name].  I'm the lucky one.  But I'm really glad you think so highly of me.</i>\"  Why shouldn't you?  She gave up her birth-gender, just to better please you - why, any girl who passed up a chance to snap up someone as sweet as Arian was a fool, but they'll never amend their mistake, because she's all yours now.  With that you slither around in the bed so that you can glomp onto your girlfriend, rubbing your " + Desc.Skin.skinFurScales(player) + " cheek against her own smooth scales, hugging her tightly to you.");
 
 		DisplayText("\n\nArian rubs herself back at you affectionately.  \"<i>I love you, [name].</i>\"  You just hold her and let her feel your warmth.  Then, you realize you're still holding a sopping wet dildo in one hand, and you casually present it to Arian, holding it in front of her face and telling her to clean it.  Before she can protest, you point out that <b>she</b> got the most fun out of it, and <b>she</b> made most of the mess, so that makes it <b>her</b> responsibility to clean it up.  You waggle it in front of her snout for emphasis.");
 

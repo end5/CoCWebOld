@@ -1,7 +1,7 @@
 
 export class IncubusMechanic extends Monster {
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (Flags.list[FlagEnum.D3_DISCOVERED] === 0) {
 			defeatedInDungeon1(hpVictory);
 		}
@@ -10,7 +10,7 @@ export class IncubusMechanic extends Monster {
 		}
 	}
 
-	private defeatedInDungeon1(hpVictory: boolean): void {
+	private defeatedInDungeon1(hpVictory: boolean) {
 		DisplayText().clear();
 		if (hpVictory)
 			DisplayText("You smile in satisfaction as the " + short + " collapses, unable to continue fighting.");
@@ -27,7 +27,7 @@ export class IncubusMechanic extends Monster {
 			}
 			else {
 				DisplayText("  Now would be the perfect opportunity to put his tool to use...\n\nWhat do you do?");
-				let titfuck: Function = null;
+				let titfuck;
 				if (player.torso.vaginas.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && player.inventory.equipment.armor.displayName === "lusty maiden's armor") {
 					titfuck = game.createCallBackFunction2((player.armor as LustyMaidensArmor).lustyMaidenPaizuri, player, this);
 				}
@@ -36,11 +36,11 @@ export class IncubusMechanic extends Monster {
 		}
 	}
 
-	private defeatedInDungeon3(hpVictory: boolean): void {
+	private defeatedInDungeon3(hpVictory: boolean) {
 		game.d3.incubusMechanic.beatDaMechanic(hpVictory);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (Flags.list[FlagEnum.D3_DISCOVERED] === 0) {
 			wonInDungeon1(hpVictory, pcCameWorms);
 		}
@@ -49,7 +49,7 @@ export class IncubusMechanic extends Monster {
 		}
 	}
 
-	private wonInDungeon1(hpVictory: boolean, pcCameWorms: boolean): void {
+	private wonInDungeon1(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foe doesn't seem to care...");
 			return { next: game.endLustLoss };
@@ -58,33 +58,33 @@ export class IncubusMechanic extends Monster {
 		}
 	}
 
-	private wonInDungeon3(hpVictory: boolean, pcCameWorms: boolean): void {
+	private wonInDungeon3(hpVictory: boolean, pcCameWorms: boolean) {
 		game.d3.incubusMechanic.mechanicFuckedYouUp(hpVictory, pcCameWorms);
 	}
 
-	private cockTripAttack(): void {
+	private cockTripAttack() {
 		if (statusAffects.has(StatusAffectType.Blind)) { //Blind dodge change
 			DisplayText(capitalA + short + " suddenly grows it's dick to obscene lengths and tries to trip you with it.  Thankfully he's so blind he wasn't aiming anywhere near you!");
 			game.combatRoundOver();
 			return;
 		}
-		DisplayText("The incubus lunges forward in a clumsy attack that you start to side-step, only to feel something grip behind your " + game.ButtDescriptor.describeButt(player) + " and pull your " + LegDescriptor.describeLegs(player) + " out from under you.");
+		DisplayText("The incubus lunges forward in a clumsy attack that you start to side-step, only to feel something grip behind your " + game.Desc.Butt.describeButt(player) + " and pull your " + Desc.Leg.describeLegs(player) + " out from under you.");
 		if ((player.stats.spe - 30) > randInt(60)) {
-			DisplayText("  You spin as you fall, twisting your " + LegDescriptor.describeLegs(player) + " free and springing back to your " + LowerBodyDescriptor.describeFeet(player) + " unharmed.");
+			DisplayText("  You spin as you fall, twisting your " + Desc.Leg.describeLegs(player) + " free and springing back to your " + Desc.Leg.describeFeet(player) + " unharmed.");
 		}
 		else { //Fall down go boom
-			DisplayText("  You land hard on your ass, momentarily stunned as the demonic cock-tentacle curls around your " + LegDescriptor.describeLegs(player) + ", smearing them with oozing demonic fluids.");
+			DisplayText("  You land hard on your ass, momentarily stunned as the demonic cock-tentacle curls around your " + Desc.Leg.describeLegs(player) + ", smearing them with oozing demonic fluids.");
 			if (player.stats.lust >= 80 || player.stats.cor >= 80) {
-				DisplayText("  Moaning with desire, you lick your lips as you slide your well-lubricated " + LegDescriptor.describeLegs(player) + " free.  You gather a dollop of cum and lick it seductively, winking at the incubus and hoping to make him cave into his desire.");
+				DisplayText("  Moaning with desire, you lick your lips as you slide your well-lubricated " + Desc.Leg.describeLegs(player) + " free.  You gather a dollop of cum and lick it seductively, winking at the incubus and hoping to make him cave into his desire.");
 				game.player.stats.lust += 13;
 				player.stats.cor += 1;
 			}
 			else if (player.stats.lust >= 50 || player.stats.cor >= 50) {
-				DisplayText("  Blushing at the scent and feel of cum on your " + LegDescriptor.describeLegs(player) + ", you twist and pull free.  You find yourself wondering what this demon's dick would taste like.");
+				DisplayText("  Blushing at the scent and feel of cum on your " + Desc.Leg.describeLegs(player) + ", you twist and pull free.  You find yourself wondering what this demon's dick would taste like.");
 				game.dynStats("lus", 8 + player.stats.cor / 20);
 			}
 			else {
-				DisplayText("  Disgusted, you pull away from the purplish monstrosity, the act made easier by your well-slimed " + LegDescriptor.describeLegs(player) + ".");
+				DisplayText("  Disgusted, you pull away from the purplish monstrosity, the act made easier by your well-slimed " + Desc.Leg.describeLegs(player) + ".");
 				game.dynStats("lus", 5 + player.stats.cor / 20);
 			}
 			game.takeDamage(5);
@@ -93,7 +93,7 @@ export class IncubusMechanic extends Monster {
 		game.combatRoundOver();
 	}
 
-	private spoogeAttack(): void {
+	private spoogeAttack() {
 		if (statusAffects.has(StatusAffectType.Blind)) { //Blind dodge change
 			DisplayText(capitalA + short + " pumps and thrusts his hips lewdly before cumming with intense force in your direction!  Thankfully his aim was off due to the blindness currently affect him.");
 			game.combatRoundOver();
@@ -111,19 +111,19 @@ export class IncubusMechanic extends Monster {
 				player.slimeFeed();
 				break;
 			case 1: //Chest
-				if (player.torso.chest.hasFuckableNipples()) {
-					DisplayText(BreastDescriptor.describeAllBreasts(player) + ".  The gooey demon-seed oozes and slides over you with a mind of its own, forcing its way into your open nipples.  You can feel it moving around inside you, doing its best to prepare you for its master.");
+				if (player.torso.chest.find(BreastRow.FuckableNipples)) {
+					DisplayText(Desc.Breast.describeAllBreasts(player) + ".  The gooey demon-seed oozes and slides over you with a mind of its own, forcing its way into your open nipples.  You can feel it moving around inside you, doing its best to prepare you for its master.");
 					game.player.stats.lust += 3;
 					if (!player.statusAffects.has(StatusAffectType.DemonSeed))
 						player.statusAffects.add(StatusAffectType.DemonSeed, 5, 0, 0, 0);
 						else player.statusAffects.get(StatusAffectType.DemonSeed).value1 = 8;
 					player.slimeFeed();
 				}
-				else DisplayText(BreastDescriptor.describeAllBreasts(player) + ".  Thankfully it doesn't seem to have much effect.");
+				else DisplayText(Desc.Breast.describeAllBreasts(player) + ".  Thankfully it doesn't seem to have much effect.");
 				break;
 			default: //Crotch
 				if (player.torso.vaginas.count > 0) {
-					DisplayText("crotch.  The gooey demon-seed oozes and slides over you with a mind of its own, forcing its way past your " + player.inventory.equipment.armor.displayName + " and into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  You can feel it moving around inside you, doing its best to prepare you for its master.");
+					DisplayText("crotch.  The gooey demon-seed oozes and slides over you with a mind of its own, forcing its way past your " + player.inventory.equipment.armor.displayName + " and into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  You can feel it moving around inside you, doing its best to prepare you for its master.");
 					game.player.stats.lust += 3;
 					if (!player.statusAffects.has(StatusAffectType.DemonSeed))
 						player.statusAffects.add(StatusAffectType.DemonSeed, 5, 0, 0, 0);
@@ -162,7 +162,9 @@ export class IncubusMechanic extends Monster {
 this.baseStats.tou = 40;
 this.baseStats.spe = 45;
 this.baseStats.int = 85;
-		initLibSensCor(80, 70, 80);
+		this.baseStats.lib = 80;
+this.baseStats.sens = 70;
+this.baseStats.cor = 80;
 		this.weaponName = "claws";
 		this.weaponVerb = "claw";
 		this.weaponAttack = 10;

@@ -1,7 +1,7 @@
 ﻿export class FrogGirlScene {
 	//const TIMES_ENCOUNTERED_FROG: number = 1017;
 	//Intro
-	public findTheFrogGirl(): void {
+	public findTheFrogGirl() {
 		DisplayText().clear();
 		if (Flags.list[FlagEnum.TIMES_ENCOUNTERED_FROG] === 0) {
 			DisplayText("You begin your trudge through the bog, slogging through the soupy muck.  Insects buzz by every second, spinning in hectic spirals around your head.");
@@ -21,13 +21,13 @@
 		}
 		Flags.list[FlagEnum.TIMES_ENCOUNTERED_FROG]++;
 		DisplayText("\n\nDo you follow the music into the arms of the frog girl, or resist her melody?");
-		menu();
+		
 		MainScreen.addButton(0, "Follow", followDatFrog);
 		MainScreen.addButton(1, "Resist", resistDatFrog);
 	}
 
 	//Follow:
-	private followDatFrog(): void {
+	private followDatFrog() {
 		DisplayText().clear();
 		DisplayText("You splash your way up the terrace of pools, shedding your [armor] as you do so, leaving your gear draped over the mangrove ridges.  She holds her arms out to you as you step naked into her pool.  She rises to meet you, and you notice that the water concealed a swollen, pregnant belly.");
 		DisplayText("\n\nHer skin is slimy to the touch, and as she pulls you in close, she leaves her ichor on your arms and [chest].  It tingles where it touches you, and the sunlight seems to grow a bit brighter around you.  Her song continues, and you swear that you can see the music floating in the air, every different note a different neon light drifting through the air.  Half focused, your eyes dart back and forth, tracking the tiny motes of light.");
@@ -46,16 +46,16 @@
 		DisplayText("\n\nCompletely lost in sensation, you pant as you feel slick fingers working at your [asshole], under the water.  Lovely, fluttery sensations accent your high as the frog girl takes a position between your legs.  A cool softness presses against your asshole, and some kind of thick goo adheres it to your twitching hole.");
 		DisplayText("\n\nYou cross and uncross your eyes, trying to focus on the frog girl as she grips your hips adjusting herself.  She’s in some kind of scissoring pose, her pussy glued to your asshole.  With a grunt, she wraps her arms around her pale belly, hugging herself.  You feel her soft pussy twitching against you as something gooey and large pushes against your bud.");
 		DisplayText("\n\n\"<i>Anh!  Unnnh!</i>\" she moans, shuddering and bearing down on her pregnant belly.  A round, gooey mass oozes from her cunt, stretching your asshole as it moves into you.");
-		player.displayStretchButt(30, true, true, false);
+		Mod.Butt.displayStretchButt(player, 30, true, true, false);
 		DisplayText("\n\nYou giggle drunkenly to yourself as a frog egg the size of an apple squeezes inside you.  If you weren’t so lost in mind-bending pleasure, you might be concerned at the pressure.  Instead, you just feel more dizzy - those eggs must be lubed with the frog girl’s slime - and with one inside you, the world begins to spin.");
 		DisplayText("\n\n\"<i>One down...</i>\" the frog girl hisses through gritted teeth.  But you can’t find the wherewithal to even raise an eyebrow at her words.  Pressure builds again against your asshole, and the frog girl pushes another massive, squishy egg into you.  \"<i>Unff!</i>\" she grunts, shaking with the effort of forcing her eggs into your body.");
 		DisplayText("\n\nYou giggle again, loving the way the world spins with every egg fed into you.  She lays egg after egg into you.  It’s finally too much for you and your mind collapses.  The world completely dissolves into a swirling collage of color, sensation, and sound.");
 		player.orgasm();
 		player.stats.sens += 1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", getFrogButtFilled);
 	}
-	private getFrogButtFilled(): void {
+	private getFrogButtFilled() {
 		DisplayText().clear();
 		DisplayText("You wake up an hour later and it takes a while for you remember anything.  Gradually, you piece the last hour together, remembering the frog girl, her hypnotic song, and hallucinogenic slime.  You’re floating on your back in a crystal-clear pool, and above you, between the mangrove canopies, Mareth’s sky drifting lazily far overhead.");
 		DisplayText("\n\nAnd the eggs.  Oh hell, the eggs!  You splash in the water, righting yourself and looking down at your swollen belly.  You look nine months pregnant!  The frog girl filled you with her eggs and took off leaving you to birth them.  You can’t seem to force them out, either - it looks like you’ll just have to carry these eggs to term.");
@@ -69,7 +69,7 @@
 	//[Anal stretch +1/Anal Moistness +1, sensitivity +1, int +1]
 
 	//Resist:
-	private resistDatFrog(): void {
+	private resistDatFrog() {
 		DisplayText().clear();
 		DisplayText("You shake your head and drop to the ground, dunking your head in one of the crystal clear pools.  You emerge with your head clear, cold water dripping from your [hair], frowning at the frog girl.");
 		DisplayText("\n\nRealizing that you’ve shaken off her hypnosis, the frog girl gulps, the action producing a curious croaking noise.  As you stomp up the terrace, she scrambles up out of the pool, or at least attempts to.");
@@ -78,20 +78,20 @@
 		DisplayText("\n\n\"<i>Okay, geeze, sorry,</i>\" she says, holding up her wide-fingered palms.  \"<i>Sorry - I’m done, no harm, no foul.  Be on your way</i>\"");
 		DisplayText("\n\nShe wrinkles up her noseless face and slouches down into the water, sinking down until it reaches the bottoms of her eyes, huffing out a bubbling sigh.");
 		DisplayText("\n\nYou admit to being a bit curious as to why she attempted to lure you in, but you do have your own tasks at hand.  On the other hand, she did just try to lure you in for unwanted sex.  Are you just going to let her get away with that?  Do you question the frog girl, continue on your way, or teach her a lesson?");
-		menu();
+		
 		MainScreen.addButton(0, "Question", questDatFrogGirl);
 		MainScreen.addButton(1, "TeachLesson", teachDatFrogALesson);
 		MainScreen.addButton(4, "Leave", leaveFrogBe);
 
 	}
 	//Leave her be:
-	private leaveFrogBe(): void {
+	private leaveFrogBe() {
 		DisplayText().clear();
 		DisplayText("You shrug and leave the pouting frog girl in her pond, hopping back down the terrace of pools and walking back towards your camp, hoping that your [hair] will dry by the time you get back.");
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Question the frog girl:
-	private questDatFrogGirl(): void {
+	private questDatFrogGirl() {
 		DisplayText().clear();
 		DisplayText("You decide to question the pouting amphibian and take a seat at the edge of her pool, asking her why she just tried to lure you in.");
 		DisplayText("\n\n\"<i>I’m pregnant,</i>\" she bubbles shortly, still half-sunk in the pool.  She purses her lips to one side, eyes shifting away from you.");
@@ -102,14 +102,14 @@
 		DisplayText("\n\n\"<i>So I was gonna...</i>\" she shifts her eyes from side to side quickly, \"<i>...drug you... and then fill up your ass with my eggs.</i>\"  She mumbles the last part quickly, apparently hoping that you won’t hear it.");
 		DisplayText("\n\nBefore you can react, she adds quickly, \"<i>It wouldn’t hurt you - or the eggs - you’d just carry them for a few days until they hatch.  And then I wouldn’t have to deal with them.  It’s win-win, really!</i>\"");
 		DisplayText("\n\nYou wonder what it would be like to carry the massive load of eggs. Do you want to offer to carry the frog’s eggs or continue on your way?");
-		menu();
+		
 		MainScreen.addButton(4, "Leave", continueOnYourWay);
 		if (player.torso.vaginas.count > 0) MainScreen.addButton(0, "Vaginally", superBonusFrogEggsInYerCooch);
 		MainScreen.addButton(1, "Carry", carryBeeGirlsEggsVoluntarilyYouButtSlut);
 	}
 
 	//Continue on your way:
-	private continueOnYourWay(): void {
+	private continueOnYourWay() {
 		DisplayText().clear();
 		DisplayText("You nod in sympathy, patting the frog girl on her head, but decide not to inquire any further.  She sighs and sinks down further into the water, resigned to her maternal duties.");
 		DisplayText("\n\nYou leave down the terrace of pools, heading back to your camp.");
@@ -117,7 +117,7 @@
 	}
 
 	//Offer to carry her eggs:
-	private carryBeeGirlsEggsVoluntarilyYouButtSlut(): void {
+	private carryBeeGirlsEggsVoluntarilyYouButtSlut() {
 		DisplayText().clear();
 		DisplayText("Feeling sympathy for the frog girl, you volunteer to help with her burden.");
 		DisplayText("\n\n\"<i>Omigosh, really?</i>\" she says, lunging forward with a splash.  She throws her arms around your shoulders.  \"<i>I promise to make it absolutely amazing for you.</i>\"");
@@ -134,7 +134,7 @@
 		DisplayText("\n\nYou lay back, shuddering in the water, mouth agape as your eyes focus loosely on the frog girl over you.  Your vision is full of colors and as she opens her mouth to sing again, nebulas of colors and sounds saturating the very air.");
 		DisplayText("\n\n\"<i>Oooh, you liked that, didn’t you?</i>\" she asks, as the world dissolves into colors with no name.  Her voice bizarrely echoes across the surface of the pool.");
 		DisplayText("\n\nCompletely lost in sensation, you pant as you feel slick fingers working at your [asshole], under the water.  Lovely, fluttery sensations accent your high as the frog girl takes a position between your legs.  A cool softness presses against your asshole, and some kind of thick goo slathers across your twitching hole.");
-		player.displayStretchButt(20, true, true, false);
+		Mod.Butt.displayStretchButt(player, 20, true, true, false);
 		DisplayText("\n\nYou cross and uncross your eyes, trying to focus on the frog girl as she grips your hips adjusting herself.  She’s in some kind of scissoring pose, her pussy glued to your asshole.  With a grunt, she wraps her arms around her pale belly, hugging herself.  You feel her soft pussy twitching against you as something gooey and large pushes against your bud.");
 		DisplayText("\n\n\"<i>Anh!  Unnnh!</i>\" she moans, shuddering and bearing down on her pregnant belly.  A round, gooey mass oozes from her cunt, stretching your asshole as it moves into you.");
 		DisplayText("\n\nYou giggle drunkenly to yourself as a frog egg the size of an apple squeezes inside you.  If you weren’t so lost in mind-bending pleasure, you might be concerned at the pressure.  Instead, you just feel more dizzy - those eggs must be lubed with the frog girl’s slime - and with one inside you, the world begins to spin.");
@@ -142,11 +142,11 @@
 		DisplayText("\n\nYou giggle again, loving the way the world spins with every egg fed into you.  She lays egg after egg into you.  It’s finally too much for you and your mind collapses.  The world completely dissolves into a swirling collage of color, sensation, and sound.");
 		player.orgasm();
 		player.stats.sens += 1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", voluntarilyGetEggedEpilogue);
 	}
 	//**
-	private voluntarilyGetEggedEpilogue(): void {
+	private voluntarilyGetEggedEpilogue() {
 		DisplayText().clear();
 		DisplayText("You wake up an hour later and it takes a while for you remember anything.  Gradually, you piece the last hour together, remembering the frog girl, her hypnotic song, and hallucinogenic slime.  You’re floating on your back in a crystal-clear pool, and above you, between the mangrove canopies, Mareth’s sky drifting lazily far overhead.");
 		DisplayText("\n\nAnd the eggs.  Oh hell, the eggs!  You splash in the water, righting yourself and looking down at your swollen belly.  You look nine months pregnant!  The frog girl really took you up on your offer and you belly bulges out uncomfortably.  You can’t seem to force them out, either - it looks like you’ll just have to carry these eggs to term.");
@@ -159,7 +159,7 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Teach Her a Lesson
-	private teachDatFrogALesson(): void {
+	private teachDatFrogALesson() {
 		DisplayText().clear();
 		DisplayText("This frog bitch needs to be careful about who she lures in.");
 		DisplayText("\n\nYou say so, and hop down into the water, sinking waist-deep, striding forward toward the frog girl, grabbing her by the wrist.  Slowed down by her pregnancy, it seems that she can do little to resist.");
@@ -169,11 +169,11 @@
 		DisplayText("\n\nThere’s no actual pain to it, just more slime, and you grasp at the edge of the tree pool to steady yourself as the world turns sideways.  You close your eyes for a moment to try to make the world stop spinning, and sink down in the pool.");
 		DisplayText("\n\nWhen you open your eyes again, the frog girl is standing over you.  The sky behind her looks like it’s on fire, and she’s covered in spinning lights.  \"<i>Okay, I’ll admit, I’m a terrible mother, but I’m pretty sure you’d be worse,</i>\" she huffs, slapping her tongue against your face once more.");
 		DisplayText("\n\nColors, lights, and sounds erupt, and you black out, unable to take any more.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", lessonFollowup);
 	}
 
-	private lessonFollowup(): void {
+	private lessonFollowup() {
 		DisplayText().clear();
 		DisplayText("You wake up two hours later, floating alone in the pool, with a migraine and soggy clothes.  You slog your way out, clutching your head, and head back to camp.");
 		//[Toughness -1]
@@ -182,12 +182,12 @@
 	}
 
 	//Laying the Eggs
-	public birthFrogEggsAnal(): void {
+	public birthFrogEggsAnal() {
 		DisplayText("\n<b>Oh no...</b>\nYou groan, feeling a shudder from deep inside, a churning from your gut.  A trickle of slime leaks from your [asshole] down your [legs] and you feel a pressure from deep inside.");
 		DisplayText("\n\nWater - you need to be near water!  The instinct is sudden and clear, and you stagger toward the small creek near your camp.  You crouch low on the river bank, hands on the ground, and knees angled up in an oddly frog-like pose.");
 		DisplayText("\n\nSlime pools beneath you, running down into the water as he first egg begins shoving out of you.  It feels... weird.  The pressure isn’t as intense as some of the things you’ve encountered in Mareth, but it’s still incredibly large.  Your asshole stretches wide, numbed a bit by the slime, but still far larger than you would have thought possible.  As the egg squelches to the ground, you realize that the eggs are jelly-like, and pliant enough to give you some leeway in laying them.");
 		DisplayText("\n\nThe first egg rolls down into the water, anchored by the pooling slime, but you can’t spare it more than a moment’s glance.  The next egg pushes against you, and you groan, shuddering and panting as you try to force it out.  Your asshole aches with every lurch of your body, but finally, the second watermelon-sized egg wobbles free from your ass.  You’re already exhausted as you feel the next one coming, but you manage to force this one out, too, collapsing face-forward onto the ground.");
-		player.displayStretchButt(80, true, true, false);
+		Mod.Butt.displayStretchButt(player, 80, true, true, false);
 		DisplayText("\n\nNature pushes onward, though, and your body works to push the next egg out.  You moan, only half conscious, the frog slime on your skin once again lifting you into a state of hazy awareness as egg after egg pushes out of your body.");
 		DisplayText("\n\n<b>Later, you wake up to the sound of splashing....</b>\nIn the river are a dozen tiny figures, each no more than a foot long, and each one a mirror of the frog girl from the waist-up, but oddly featureless from the waist-down. Their lower halves ending in vaguely-finned tails, like tadpoles.");
 		DisplayText("\n\nThe tadgirls splash each other, playing in the water, but take notice as you wake up.  It seems that they were waiting for you - displaying a level of concern that their original mother lacked.  Maybe they got that from you?  They wave and swim away downstream, and you notice that a few of them have a few unusual splashes of color in their hair and skin, looking a bit more like you than their mother.");
@@ -200,7 +200,7 @@
 		player.stats.sens += 1;
 	}
 	//Superbonus Vaginal Eggs!
-	private superBonusFrogEggsInYerCooch(): void {
+	private superBonusFrogEggsInYerCooch() {
 		DisplayText().clear();
 		DisplayText("\"<i>Wait, you want them where?</i>\" asks the frog girl, incredulously.");
 		DisplayText("\n\nYou repeat that you’d like her to lay her clutch in your womb, licking your lips and running your fingers down to your [vagina].");
@@ -213,7 +213,7 @@
 		if (player.torso.tailType > TailType.NONE) DisplayText(" hooked over your tail,");
 		else DisplayText(" clasped against your [ass],");
 		DisplayText(" smearing more and more of her slime against your body.");
-		player.displayStretchVagina(25, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, 25, true, true, false);
 
 		DisplayText("\n\nYou feel your brain turn happy little cartwheels as egg after egg pushes into you.  Somewhere along the way you cum, but you’re not even sure of that - your mind is too fogged by the hallucinogenic slime.");
 		DisplayText("\n\nYou’re not sure when the frog girl finishes.  By the time the trees stop dancing and the sky stops rippling, you’re floating face-up in the pool, watching the curve of your now-swollen belly as you bob gently in the water.");
@@ -226,7 +226,7 @@
 	}
 
 	//Vaginal Egg birth
-	public layFrogEggs(): void {
+	public layFrogEggs() {
 		if (player.torso.vaginas.count === 0) {
 			DisplayText("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold: a vagina.  ");
 			player.createVagina();
@@ -244,7 +244,7 @@
 		DisplayText("\n\n\"<i>Let’s relax your muscles and free your mind, dear,</i>\" says the frog girl with a smile.  You try to focus on her, but yours eyes just seem to cross and uncross on their own.  Her slick lips press against yours once more, and you feel a massive load of her slime force its way into your mouth, her muscular tongue right behind it.");
 		DisplayText("\n\nLacking the muscle control to resist, you swallow, your vision brightening with dancing motes of light and swirls of color.  You barely feel her lips pull away, but you feel the trickle of slime as it runs down your chin and onto your [chest].");
 		DisplayText("\n\nThe forest around you turns upside down as you lean forward and giggle, trying to make sense of what’s going on.  You feel your pussy stretch wider and wider, but there’s no pain, just a warm numbness and happy clouds at the corners of your eyes.  Between your legs you catch sight of the frog girl’s fingertips pushing between your lips, gently cradling large, grapefruit-sized eggs as they squish out of your body.");
-		player.displayStretchVagina(80, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, 80, true, true, false);
 		DisplayText("\n\nYou lose count of the squishy eggs passing through your vagina, distracted by the mesmerizing way they bob along in the water, anchored to the frog girl’s side.");
 		DisplayText("\n\nYou don’t even remember passing out, only awaking to the familiar sound of humming.  A chorus of alluring chirrups suffuses the air as you open your eyes.  Blinking to clear your vision, you find yourself lying atop a patch of riverbank ferns.");
 		DisplayText("\n\n\"<i>Sorry, did we wake you up?</i>\" queries the voice of the frog girl.  You push yourself up, seeing her floating mid-stream, surrounded by a half-dozen frog girl nymphs. From the waist-up, they’re miniature versions of their mother with varying haircolors, but from the waist down, they resemble large tadpoles.  No more than  few feet long, they bob along next to their mother as she conducts their song.");

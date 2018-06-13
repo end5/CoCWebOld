@@ -5,7 +5,7 @@
 export class CorruptedDrider extends AbstractSpiderMorph {
 
 	//Drider kiss!
-	public driderKiss(): void {
+	public driderKiss() {
 		let temp: number;
 		DisplayText("The corrupted drider closes in on your web-bound form, cooing happily at you while you struggle with the sticky fibers.\n\n");
 		//Blind dodge change
@@ -66,14 +66,14 @@ export class CorruptedDrider extends AbstractSpiderMorph {
 				//(HIT? + 15 lust)
 				game.player.stats.lust += 15;
 				DisplayText("Again, the drider ties your mouth up in her syrupy lip-lock, seeming to bind your mouth as effectively as her webs bind your body.  Her sweet venom bubbles and froths at the corners of the oral embrace, dripping over her many-breasted bosom and your " + player.Desc.Breast.describeChest(character) + ".");
-				if (player.torso.cocks.count > 0) DisplayText("  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " spews a rope of pre-cum into your " + player.inventory.equipment.armor.displayName + ", desperate to get out and fuck.");
-				if (player.torso.vaginas.count > 0) DisplayText("  Fem-cum dribbles down your " + LegDescriptor.describeLegs(player) + " while your " + player.VaginaDescriptor.describeClit(player) + " gets so hard you think it'll explode.");
+				if (player.torso.cocks.count > 0) DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " spews a rope of pre-cum into your " + player.inventory.equipment.armor.displayName + ", desperate to get out and fuck.");
+				if (player.torso.vaginas.count > 0) DisplayText("  Fem-cum dribbles down your " + Desc.Leg.describeLegs(player) + " while your " + player.Desc.Vagina.describeClit(player) + " gets so hard you think it'll explode.");
 				DisplayText("  This time, the drider is the one to break the kiss.  She asks, \"<i>Are you ready, my horny little morsel?</i>\"\n");
 				if (player.stats.lust <= 99) DisplayText("You shake your head 'no' and stand your ground!\n");
 			}
 			//(Get hit 3rd+ time)
 			else {
-				DisplayText("This time you barely move.  Your body is too entranced by the idea of another venom-laced kiss to resist.  Glorious purple goo washes into your mouth as her lips meet yours, sealing tight but letting your tongue enter her mouth to swirl around and feel the venom drip from her fangs.  It's heavenly!  Your " + SkinDescriptor.skin(character) + " grows hot and tingly, and you ache to be touched so badly.  Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s feel hard enough to cut glass, and a growing part of you admits that you'd love to feel the drider's chitinous fingers pulling on them.");
+				DisplayText("This time you barely move.  Your body is too entranced by the idea of another venom-laced kiss to resist.  Glorious purple goo washes into your mouth as her lips meet yours, sealing tight but letting your tongue enter her mouth to swirl around and feel the venom drip from her fangs.  It's heavenly!  Your " + Desc.Skin.skin(character) + " grows hot and tingly, and you ache to be touched so badly.  Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s feel hard enough to cut glass, and a growing part of you admits that you'd love to feel the drider's chitinous fingers pulling on them.");
 				//(HIT? + 20 lust)
 				game.player.stats.lust += 20;
 				if (player.torso.cocks.count > 0 || player.torso.vaginas.count > 0) {
@@ -89,7 +89,7 @@ export class CorruptedDrider extends AbstractSpiderMorph {
 		combatRoundOver();
 	}
 
-	public driderMasturbate(): void {
+	public driderMasturbate() {
 		//-Masturbate - (Lowers lust by 50, raises PC lust)
 		lust -= 30;
 		game.dynStats("lus", (10 + player.stats.lib / 20));
@@ -102,7 +102,7 @@ export class CorruptedDrider extends AbstractSpiderMorph {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.DisplaySprite(77);
 		if (lust > 70 && randInt(4) === 0) driderMasturbate();
 		//1/4 chance of silence if pc knows spells
@@ -121,11 +121,11 @@ export class CorruptedDrider extends AbstractSpiderMorph {
 		else driderKiss();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.swamp.corruptedDriderScene.defeatDriderIntro();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe drider licks her lips in anticipation...");
 			return { next: game.endLustLoss };
@@ -165,7 +165,9 @@ export class CorruptedDrider extends AbstractSpiderMorph {
 this.baseStats.tou = 50;
 this.baseStats.spe = 70;
 this.baseStats.int = 100;
-		initLibSensCor(80, 50, 90);
+		this.baseStats.lib = 80;
+this.baseStats.sens = 50;
+this.baseStats.cor = 90;
 		this.weaponName = "claws";
 		this.weaponVerb = "claw";
 		this.weaponAttack = 30;

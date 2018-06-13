@@ -3,7 +3,7 @@
     // LAST_EASTER_YEAR: number = 823;
 
     //[First time approach]
-    public bakeryuuuuuu(): void {
+    public bakeryuuuuuu() {
         if (isEaster() && player.torso.cocks.count > 0 && (Flags.list[FlagEnum.LAST_EASTER_YEAR] < date.fullYear || randInt(20) === 0)) {
             Flags.list[FlagEnum.LAST_EASTER_YEAR] = date.fullYear;
             easterBakeSale();
@@ -26,7 +26,7 @@
             return;
         }
         DisplayText().clear();
-        menu();
+        
         //First time
         if (Flags.list[FlagEnum.TIMES_VISITED_BAKERY] === 0) {
             DisplayText("You approach the bakery, but it appears to be sunk below the street level.  The entrance isn't even a set of doors – it's a double-wide ramp that takes you below ground level.  The passage leads directly into the bakery's interior, allowing unobstructed traffic to flow in and out from the cozy, underground building. The smell of yeasty bread, sweet treats, and fluffy snacks seems to even permeate the bricks of this place.  If it were shut down, you have no doubt it would smell delicious for weeks if not months.  You get in line and look at the menu while you wait.\n\n");
@@ -49,11 +49,11 @@
         MainScreen.addButton(9, "Leave", telAdre.telAdreMenu);
     }
 
-    private checkBakeryMenu(): void {
+    private checkBakeryMenu() {
         DisplayText().clear();
         //let used for minotaur cum eclair in the menu
-        let minoCum: Function = null;
-        let gcupcake: Function = null;
+        let minoCum;
+        let gcupcake;
         //Turn on cum eclairs if PC is an addict!
         if (player.perks.has(PerkType.MinotaurCumAddict) && Flags.list[FlagEnum.MINOTAUR_CUM_ECLAIR_UNLOCKED] === 0) {
             Flags.list[FlagEnum.MINOTAUR_CUM_ECLAIR_UNLOCKED]++;
@@ -80,7 +80,7 @@
 
         DisplayText("\nWhat will you order?");
 
-        menu();
+        
         //choices("Brownies",createCallBackFunction2(nomnomnom, "brownies", 3),"Cookies",createCallBackFunction2(nomnomnom, "cookies", 4),"Cupcakes",2833,"Doughnuts",createCallBackFunction2(nomnomnom, "doughnuts", 5),"Pound Cake",createCallBackFunction2(nomnomnom, "pound cake", 4),"Fox Berry",buyFoxBerry,"SpecialEclair",minoCum,"GiantCupcake",gcupcake,"",0,"Leave",bakeryuuuuuu);
 
         MainScreen.addButton(0, "Brownies", createCallBackFunction2(nomnomnom, "brownies", 5));
@@ -94,14 +94,14 @@
         MainScreen.addButton(9, "Leave", bakeryuuuuuu);
     }
 
-    public ingredientsMenu(): void {
+    public ingredientsMenu() {
         DisplayText().clear();
         DisplayText("Also try our special ingredients in your own baking!\n");
         DisplayText("Fox Berry - 5 gems.\n");
         DisplayText("Ringtail Fig - 5 gems.\n");
         DisplayText("Mouse Cocoa - 10 gems.\n");
         DisplayText("Ferret Fruit - 20 gems.\n");
-        menu();
+        
         MainScreen.addButton(0, "Fox Berry", buyFoxBerry);
         MainScreen.addButton(1, "Ringtail Fig", buyFig);
         MainScreen.addButton(2, "Mouse Cocoa", buyCocoa);
@@ -110,7 +110,7 @@
     }
 
     //[Bakery - Talk - Baker]
-    private talkToBaker(): void {
+    private talkToBaker() {
         DisplayText().clear();
         DisplayText("The minotaur snorts as you approach him, but waves you into the kitchen.  \"<i>What?</i>\" he asks, patiently watching you.  \"<i>Want to hear about baking?");
         //(Maddie 1 completed)
@@ -121,7 +121,7 @@
         //[Brownie][Cookie][Cupcake][Doughnut][Pound Cake][Fox Berry][Ringtail Fig][Mouse Cocoa][Nevermind]
         //[Nevermind] goes back to bakery main menu and is spacebar default
         //all purchases offered after talking should spacebar to [No] and go to normal purchase output if [Yes], returning to bakery main menu afterward 
-        menu();
+        
         MainScreen.addButton(0, "Brownie", talkAboutBrownies);
         MainScreen.addButton(1, "Cookie", talkAboutCookies);
         MainScreen.addButton(2, "Cupcake", talkAboutCupcakes);
@@ -134,30 +134,30 @@
     }
 
     //[Bakery - Talk - Baker - Brownie]
-    private talkAboutBrownies(): void {
+    private talkAboutBrownies() {
         DisplayText().clear();
         DisplayText("\"<i>Like our brownies?</i>\" the baker asks.  \"<i>Recipe been handed down from chef to chef for years.  Original maker invented it at an inn, for guests to carry in their lunchboxes.</i>\"");
 
         DisplayText("\n\nHe continues.  \"<i>Won't tell you full recipe.  Made with mouse cocoa, fresh egg, and sugar made from bee honey - heated and strained.  No transformations.  Pinch of salt, mix up, put in pan, bake.  Easy to make lots; popular.  Want one?  Three gems.</i>\"");
 
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", createCallBackFunction2(nomnomnom, "brownies", 3));
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
     //[Bakery - Talk - Baker - Cookie]
-    private talkAboutCookies(): void {
+    private talkAboutCookies() {
         DisplayText().clear();
         DisplayText("The baker nods at you.  \"<i>Cookies good.  Cookies easy, only need butter, sugar, flour, egg, and fig.  Mix batter and put in little circles, mash up figs, put figs in centers of circles, put other circle on top.  Cook cookie.  Also able to just put whatever into batter and make chocolate cookie or anything else, but fig most popular and cheapest.</i>\"  He smiles proudly and gestures toward the four-gem cookie display.  Do you buy one?");
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", createCallBackFunction2(nomnomnom, "cookies", 4));
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
     //[Bakery - Talk - Baker - Cupcake]
-    private talkAboutCupcakes(): void {
+    private talkAboutCupcakes() {
         DisplayText().clear();
         DisplayText("\"<i>Cupcakes take work,</i>\" the baker intones, tilting his long face downward.  \"<i>Need butter, sugar, flour, and eggs for batter; gotta mix long time and add stuff slowly.  Candied berries get cut up, put inside batter in little pieces.  Bake batter in a special pan.</i>\"");
 
@@ -165,116 +165,116 @@
 
         DisplayText("\n\n\"<i>Too popular, too cheap.  Always making cupcakes, no time to experiment on recipes.  Want to raise price but cupcakes are best seller and customers get mad.</i>\"  A bell rings.  Sighing again, he walks over to the oven and opens it, then pulls out a tray of un-iced cupcakes.  \"<i>See?  Making now.  You buying one?  Four... no, still three gems I guess.</i>\"");
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", createCallBackFunction2(nomnomnom, "cupcakes", 3));
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
     //[Bakery - Talk - Baker - Doughnut]
-    private talkAboutDoughnuts(): void {
+    private talkAboutDoughnuts() {
         DisplayText().clear();
         DisplayText("\"<i>Doughnuts are fun,</i>\" the gruff baker smiles.  \"<i>Make mix of wet yeast, milk, sugar, eggs, little salt, and shortening.  Sometimes cocoa too.  Pound dough until smooth, work out frustration from making cupcakes all day.  Then let sit in covered bowl to rise.  Roll it small and cut if plain, or make circles if jam doughnut; cover to rise again.</i>\"  He mimes bringing a string's ends together and traces a circle, respectively.");
 
         DisplayText("\n\n\"<i>Fry in hot oil until brown and delicious, lift out with spatula.  Penetrate jam doughnuts with pastry bag and squirt jam like cum into breeding cow... sorry.</i>\"  He frowns.  \"<i>Take longer to make than other things, even cupcakes.  Can't make batches as big because so many kinds.  So doughnuts cost more - five gems.  Still, lots of fun to pound and fry and stuff.  Sell lots when watch shifts change; watchmen come in and clean out doughnut trays.  Want to buy one before next rush starts?</i>\"");
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", createCallBackFunction2(nomnomnom, "doughnuts", 5));
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
     //[Bakery - Talk - Baker - Pound Cake]
-    private talkToBakerAboutPoundCake(): void {
+    private talkToBakerAboutPoundCake() {
         DisplayText().clear();
         DisplayText("The minotaur snorts again, \"<i>'Baker's Special' pound cake is easy... mix butter and shortening, then sugar and eggs.  Put in little salt and whatever dry stuff needed, like fruits or chocolate.  Add milk too.  Put in narrow pan, bake long time.  Can't make batter in bulk though, got to have lots of varieties since not one is more popular than others.  So costs four gems; not as cheap as batch items.  Want a piece?</i>\"");
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", createCallBackFunction2(nomnomnom, "pound cake", 4));
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
     //[Bakery - Talk - Baker - Fox Berry]
-    private talkAboutFoxBerry(): void {
+    private talkAboutFoxBerry() {
         DisplayText().clear();
         DisplayText("\"<i>Don't even know where these came from,</i>\" the baker admits.  \"<i>Shipper just showed up one day, showed me how to prepare and sell them.  Very fruity, but popular.  Candy or cook them right and eat them all day, never grow anything.  Eat them raw instead, get fox parts, look like guard captain lady and guy at whorehouse.  Still want one for five gems?</i>\"");
 
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", buyFoxBerry);
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
     //[Bakery - Talk - Baker - Ringtail Fig]
-    private talkAFig(): void {
+    private talkAFig() {
         DisplayText().clear();
         DisplayText("\"<i>Fig tree?  From border of swamp,</i>\" the baker explains.  \"<i>Grows in crevices on other garbage tree, slowly covers it up until other tree is sealed inside and dies.  Bushrangers traded dried figs to us, then we grew our own from seeds when demons attacked and they stopped coming around.  Rocky start, but they stand up to desert now.  Good to eat.  Campfire not good for preparation - cook it in oven long time or you grow stripey tail and sly-looking mask and watchmen will all be suspicious of you and follow you around.  Saw it happen.  Five gems to buy.</i>\"");
         //figjam marker here: once next phase of fig use is written, then if figjam flag <= 1, set figjam flag = 1 at end of this talk
         //[Yes][No]
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", buyFig);
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
     //[Bakery - Talk - Baker - Mouse Cocoa]
-    private talkAboutMouseCocoa(): void {
+    private talkAboutMouseCocoa() {
         DisplayText().clear();
         DisplayText("\"<i>Mouse cocoa comes from warm side of the lake, by forest border.  Like the name says, mouse people used to grow and eat a lot of it.  No mice left, though... hard to get now and expensive.  Have to buy it from the farmer at the lake; she sends out gathering parties.  Same one we get milk from.  Less and less every year... going to have to raise prices soon.  Ten gems for one handful, now.</i>\"");
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", buyCocoa);
         MainScreen.addButton(1, "No", talkToBaker);
     }
 
-    private buyCocoa(): void {
+    private buyCocoa() {
         DisplayText().clear();
-        if (player.stats.gems < 10) {
+        if (player.inventory.gems < 10) {
             DisplayText("You can't afford one of those!");
-            menu();
+            
             MainScreen.addButton(0, "Next", ingredientsMenu);
             return;
         }
         DisplayText("You pay ten gems for some cocoa.  ");
-        player.stats.gems -= 10;
+        player.inventory.gems -= 10;
         statScreenRefresh();
         inventory.takeItem(consumables.MOUSECO, ingredientsMenu);
     }
 
-    private buyFerretFruit(): void {
+    private buyFerretFruit() {
         DisplayText().clear();
-        if (player.stats.gems < 20) {
+        if (player.inventory.gems < 20) {
             DisplayText("You can't afford one of those!");
-            menu();
+            
             MainScreen.addButton(0, "Next", ingredientsMenu);
             return;
         }
         DisplayText("You pay twenty gems for a single ferret fruit.  ");
-        player.stats.gems -= 20;
+        player.inventory.gems -= 20;
         statScreenRefresh();
         inventory.takeItem(consumables.FRRTFRT, ingredientsMenu);
     }
 
-    private buyFig(): void {
+    private buyFig() {
         DisplayText().clear();
-        if (player.stats.gems < 5) {
+        if (player.inventory.gems < 5) {
             DisplayText("You can't afford one of those!");
-            menu();
+            
             MainScreen.addButton(0, "Next", ingredientsMenu);
             return;
         }
         DisplayText("You pay five gems for a fig.  ");
-        player.stats.gems -= 5;
+        player.inventory.gems -= 5;
         statScreenRefresh();
         inventory.takeItem(consumables.RINGFIG, ingredientsMenu);
     }
 
 
-    private talkBakeryMenu(): void {
+    private talkBakeryMenu() {
         //choices("Brownies",createCallBackFunction2(nomnomnom, "brownies", 3),"Cookies",2831,"Cupcakes",2833,"Doughnuts",createCallBackFunction2(nomnomnom, "doughnuts", 5),"Pound Cake",createCallBackFunction2(nomnomnom, "pound cake", 4),"Fox Berry",buyFoxBerry,"SpecialEclair",minoCum,"GiantCupcake",gcupcake,rubiT,rubiB,"Leave",telAdreMenu);
         DisplayText().clear();
         DisplayText("Who will you talk to?\n");
         let rubiT: string = "Waitress";
         if (Flags.list[FlagEnum.RUBI_INTRODUCED] > 0) rubiT = "Rubi";
-        menu();
+        
         MainScreen.addButton(0, "Baker", talkToBaker);
 
         // rubiIntros returns 0 if you've driven rubi away
@@ -301,18 +301,18 @@
         MainScreen.addButton(9, "Leave", bakeryuuuuuu);
     }
 
-    public nomnomnom(name: string, price: number): void {
+    public nomnomnom(name: string, price: number) {
         Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_NAME] = name;
         Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_PRICE] = price;
         DisplayText().clear();
-        if (player.stats.gems < Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_PRICE]) {
+        if (player.inventory.gems < Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_PRICE]) {
             DisplayText("You don't have enough gems to order that!");
             //return { next: bakeryuuuuuu };
-            menu();
+            
             MainScreen.addButton(0, "Next", checkBakeryMenu);
             return;
         }
-        player.stats.gems -= Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_PRICE];
+        player.inventory.gems -= Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_PRICE];
         statScreenRefresh();
         if (Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_NAME] === "eclair") {
             DisplayText("You hand over 10 gems and ask for the 'special eclair'.  The centaur working the counter smirks ");
@@ -327,12 +327,12 @@
             player.minoCumAddiction(10);
         }
         else {
-            DisplayText("You hand over " + num2Text(Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_PRICE]) + " gems and get your " + Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_NAME] + ".  A moment later you're at a table, licking the sugary residue from your fingertips and wondering just how they make the food so damned good.");
+            DisplayText("You hand over " + numToCardinalText(Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_PRICE]) + " gems and get your " + Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_NAME] + ".  A moment later you're at a table, licking the sugary residue from your fingertips and wondering just how they make the food so damned good.");
             if (Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_NAME] === "doughnuts") {
                 DisplayText(player.modTone(0, 2));
                 DisplayText(player.modThickness(100, 1));
                 if (randInt(3) === 0 && player.torso.butt.rating < 15) {
-                    DisplayText("\n\nWhen you stand back up your " + ButtDescriptor.describeButt(player) + " jiggles a little bit more than you'd expect.");
+                    DisplayText("\n\nWhen you stand back up your " + Desc.Butt.describeButt(player) + " jiggles a little bit more than you'd expect.");
                     player.torso.butt.rating++;
                 }
                 if (randInt(3) === 0 && player.torso.hipRating < 15) {
@@ -351,14 +351,14 @@
             else if (Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_NAME] === "brownies") {
                 DisplayText(player.modThickness(100, 4));
                 if (randInt(2) === 0 && player.torso.hipRating < 30) {
-                    DisplayText("\n\nAfter finishing, you find your gait has changed.  Your " + LowerBodyDescriptor.describeHips(player) + " definitely got wider.");
+                    DisplayText("\n\nAfter finishing, you find your gait has changed.  Your " + Desc.Hip.describeHips(player) + " definitely got wider.");
                     player.torso.hipRating += 2;
                 }
             }
             else if (Flags.list[FlagEnum.TEMP_STORAGE_PASTRY_NAME] === "cupcakes") {
                 DisplayText(player.modTone(0, 4));
                 if (randInt(2) === 0 && player.torso.butt.rating < 30) {
-                    DisplayText("\n\nWhen you stand back up your " + ButtDescriptor.describeButt(player) + " jiggles with a good bit of extra weight.");
+                    DisplayText("\n\nWhen you stand back up your " + Desc.Butt.describeButt(player) + " jiggles with a good bit of extra weight.");
                     player.torso.butt.rating += 2;
                 }
             }
@@ -366,17 +366,17 @@
                 DisplayText(player.modTone(0, 2));
                 DisplayText(player.modThickness(100, 2));
                 if (randInt(3) === 0 && player.torso.butt.rating < 25) {
-                    DisplayText("\n\nWhen you stand back up your " + ButtDescriptor.describeButt(player) + " jiggles a little bit more than you'd expect.");
+                    DisplayText("\n\nWhen you stand back up your " + Desc.Butt.describeButt(player) + " jiggles a little bit more than you'd expect.");
                     player.torso.butt.rating++;
                 }
                 if (randInt(3) === 0 && player.torso.hipRating < 25) {
-                    DisplayText("\n\nAfter finishing, you find your gait has changed.  Did your " + LowerBodyDescriptor.describeHips(player) + " widen?");
+                    DisplayText("\n\nAfter finishing, you find your gait has changed.  Did your " + Desc.Hip.describeHips(player) + " widen?");
                     player.torso.hipRating++;
                 }
             }
         }
         //return { next: bakeryuuuuuu };
-        menu();
+        
         MainScreen.addButton(0, "Next", checkBakeryMenu);
     }
     /*[doughnuts] – some thickness, lots of – tone. (+hips and butt!)
@@ -386,50 +386,50 @@
     [pound cake] – even split of + thickness and – tone.  (+butt)
     [mino cum eclair] – helps your cravings and – tone!, LUST!*/
 
-    public buySlutCake(): void {
+    public buySlutCake() {
         DisplayText().clear();
-        if (player.stats.gems < 500) {
+        if (player.inventory.gems < 500) {
             DisplayText("You don't have enough gems for one of those!");
             //return { next: bakeryuuuuuu };
-            menu();
+            
             MainScreen.addButton(0, "Next", checkBakeryMenu);
             return;
         }
         DisplayText("The minotaur chef emerges from the backroom bearing a box that contains your cupcake.  It's too big to scarf down immediately.\n\n");
-        player.stats.gems -= 500;
+        player.inventory.gems -= 500;
         statScreenRefresh();
         inventory.takeItem(consumables.CCUPCAK, bakeryuuuuuu);
     }
 
-    private buyFoxBerry(): void {
+    private buyFoxBerry() {
         DisplayText().clear();
-        if (player.stats.gems < 5) {
+        if (player.inventory.gems < 5) {
             DisplayText("You can't afford one of those!");
-            menu();
+            
             MainScreen.addButton(0, "Next", ingredientsMenu);
             return;
         }
         DisplayText("You pay five gems for a fox berry.  ");
-        player.stats.gems -= 5;
+        player.inventory.gems -= 5;
         statScreenRefresh();
         inventory.takeItem(consumables.FOXBERY, ingredientsMenu);
     }
 
 
-    private easterBakeSale(): void {
+    private easterBakeSale() {
         DisplayText().clear();
         DisplayText("You make your way to the bakery only to find that it's so full you can barely squeeze inside.  ");
         if (telAdre.rubi.rubiAffection() >= 40) DisplayText("An extremely busy Rubi can only manage a wave in your direction before going back to attending customers.  ");
         DisplayText("Seeing all of the holiday bustle hits you with a pang of homesickness, remembering times from Ingnam.  Shaking these feelings off, you make your way to the front of the queue determined to see what the fuss is about.  The normally absent minotaurus chef greets you, adding fuel to your notion that they are understaffed.");
         DisplayText("\n\n\"<i>Hello.  You come here often?  We busy.  Will try to do good.</i>\"");
         //[Check Menu] [Offer Help]
-        menu();
+        
         MainScreen.addButton(3, "Check Menu", checkBakeryMenu);
         MainScreen.addButton(0, "Offer Help", easterBakeSaleHelp);
         MainScreen.addButton(4, "Leave", telAdre.telAdreMenu);
     }
 
-    private easterBakeSaleHelp(): void {
+    private easterBakeSaleHelp() {
         DisplayText().clear();
         //[Offer Help]
         DisplayText("Determined to see if there is anything you can help with, you offer your assistance to the chef.  He responds to you in his usual briskness, \"<i>You help.  Go in back.  Make pastries.</i>\"  You ask if he'd rather you help with the chocolate eggs that are flying out of his door, but he declines and almost laughs at you.  \"<i>No.  I make eggs.  No one else.</i>\"");
@@ -448,12 +448,12 @@
         //(if the pc is a herm)
         else DisplayText("[eachCock jumping to full hardness, your nipples and [vagina] not far behind in getting ready for your encounter.");
         DisplayText("\n\nThe euphoria from your earlier drink fades, replaced by a more animalistic need.");
-        menu();
+        
         MainScreen.addButton(0, "Next", malesHelpOutWithEaster);
     }
 
     //[Male]
-    private malesHelpOutWithEaster(): void {
+    private malesHelpOutWithEaster() {
         DisplayText().clear();
         DisplayText("A idea crosses your mind; why not have the molten girl help you with your problem?  As if reading your mind, the girl continues her way to you, making her way with her eyes locked on your [cock biggest].  She is upon you now, flaccid streams drooling off her hand as she makes to grab your cock.  A heated pressure envelopes your shaft");
         if (player.torso.balls.quantity > 0) DisplayText(", sticky drops of chocolate trailing down your [balls]");
@@ -463,7 +463,7 @@
 
         DisplayText("\n\nYour chocolate counterpart is now screaming with a passion unmatched by even yourself, while you ram as fast as your [legs] will allow.  The girl's other equipment is also reaching its limit, convulsing as if about to burst.  The shriek the woman emits is nothing short of ear-shattering as she cums, chocolate raining down on you.  ");
         //[SILLYMODE]
-        if (silly()) DisplayText("You regret not bringing your umbrella for this Chocolate Rain, so that you could be like those that stay dry rather than those who feel the pain.  ");
+        if (User.settings.silly()) DisplayText("You regret not bringing your umbrella for this Chocolate Rain, so that you could be like those that stay dry rather than those who feel the pain.  ");
         DisplayText("Her rod is only seconds behind, emitting a stream of what appears to be white chocolate at least three feet into the air, sputtering three or four strands before calming down.  The girl collapses in a heap, bringing your conjoined genitals down as well.  You are not quite done, your own rod deep into her folds, quickly bringing yourself to your own orgasm.");
         //(small cum vol)
         if (player.cumQ() < 250) DisplayText("\n\nYour cock spits out a few streams into her expanse, thick cords of aftersex connecting you and your partner even as you pull away.");

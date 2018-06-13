@@ -4,7 +4,7 @@
  * @author ...
  */
 export class MinotaurMob extends Monster {
-	private precumTease(): void {
+	private precumTease() {
 		let teased: boolean = false;
 		let damage: number = 0;
 		let oldLust: number = player.stats.lust;
@@ -57,7 +57,7 @@ export class MinotaurMob extends Monster {
 		}
 		//(Medium damage taken)
 		else if (damage <= 14) {
-			DisplayText("The powerful pheromones and scents hanging in the air around you make your body flush hotly.  Your " + player.BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s grow harder");
+			DisplayText("The powerful pheromones and scents hanging in the air around you make your body flush hotly.  Your " + player.Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s grow harder");
 			if (player.stats.lust > 70) DisplayText(", though you didn't think such a thing was possible");
 			else DisplayText(", feeling like two bullets scraping along the inside of your " + player.inventory.equipment.armor.displayName);
 			DisplayText(", but it... it could have been worse.  You shudder as a little fantasy of letting them dribble it all over your body works through your mind.");
@@ -79,7 +79,7 @@ export class MinotaurMob extends Monster {
 			else {
 				DisplayText("  You can understand firsthand just how potent and addictive that fluid is...");
 			}
-			if (player.torso.cocks.count > 0) DisplayText("  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " twitches and dribbles its own pre-seed, but it doesn't smell anywhere near as good!");
+			if (player.torso.cocks.count > 0) DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " twitches and dribbles its own pre-seed, but it doesn't smell anywhere near as good!");
 			DisplayText("  Shuddering and moaning, your body is wracked by ever-increasing arousal.  Fantasies of crawling under the beast-men's soaked legs and lapping at their drooling erections inundate your mind, your body shivering and shaking in response.  ");
 			if (player.stats.lust <= 99) DisplayText("You pull back from the brink with a start.  It'll take more than a little drugged pre-cum to bring you down!");
 			else DisplayText("You sigh and let your tongue loll out.  It wouldn't so bad, would it?");
@@ -88,30 +88,30 @@ export class MinotaurMob extends Monster {
 	}
 
 	//Grope
-	private minotaurGangGropeAttack(): void {
+	private minotaurGangGropeAttack() {
 		game.DisplaySprite(94);
-		DisplayText("Strong hands come from behind and slide under your equipment to squeeze your " + Desc.Breast.describeChest(character) + ".  The brutish fingers immediately locate and pinch at your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s, the sensitive flesh on your chest lighting up with pain and pleasure.  You arch your back in surprise, utterly stunned by the violation of your body.  After a moment you regain your senses and twist away, but the damage is already done.  You're breathing a bit quicker now");
+		DisplayText("Strong hands come from behind and slide under your equipment to squeeze your " + Desc.Breast.describeChest(character) + ".  The brutish fingers immediately locate and pinch at your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s, the sensitive flesh on your chest lighting up with pain and pleasure.  You arch your back in surprise, utterly stunned by the violation of your body.  After a moment you regain your senses and twist away, but the damage is already done.  You're breathing a bit quicker now");
 		if (player.stats.lust >= 80) DisplayText(", and your pussy is absolutely soaking wet");
 		DisplayText(".");
 		game.dynStats("lus", (5 + player.stats.sens / 10));
 		combatRoundOver();
 	}
 	//Gang Grope
-	private minotaurGangGangGropeAttack(): void {
+	private minotaurGangGangGropeAttack() {
 		game.DisplaySprite(94);
-		DisplayText("Before you can react, hands reach out from multiple angles and latch onto your body.  One pair squeezes at your " + game.ButtDescriptor.describeButt(player) + ", the strong grip massaging your cheeks with loving touches.  Another set of hands are sliding along your tummy, reaching down for, but not quite touching, the juicy delta below.  Palms encircle your " + player.Desc.Breast.describeChest(character) + " and caress them, gently squeezing in spite of the brutish hands holding you.  You wriggle and squirm in the collective grip of the many minotaurs for a few moments, growing more and more turned on by the treatment.  At last, you shake out of their hold and stand free, panting hard from exertion and desire.");
+		DisplayText("Before you can react, hands reach out from multiple angles and latch onto your body.  One pair squeezes at your " + game.Desc.Butt.describeButt(player) + ", the strong grip massaging your cheeks with loving touches.  Another set of hands are sliding along your tummy, reaching down for, but not quite touching, the juicy delta below.  Palms encircle your " + player.Desc.Breast.describeChest(character) + " and caress them, gently squeezing in spite of the brutish hands holding you.  You wriggle and squirm in the collective grip of the many minotaurs for a few moments, growing more and more turned on by the treatment.  At last, you shake out of their hold and stand free, panting hard from exertion and desire.");
 		game.dynStats("lus", (15 + player.stats.sens / 10));
 		combatRoundOver();
 	}
 	//Waste  a turn
-	private minotaurGangWaste(): void {
+	private minotaurGangWaste() {
 		Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00329] = 1;
 		game.DisplaySprite(94);
 		DisplayText("\"<i>Oh man I can't wait to go hilt-deep in that pussy... I'm going to wreck her,</i>\" promises one bull to his brother.  The other laughs and snorts, telling him how he'll have to do the deed during sloppy seconds.  It quickly escalates, and soon, every single one of the beast-men is taunting the others, bickering over how and when they'll get to have you.  While they're wasting their time, it's your chance to act!");
 		combatRoundOver();
 	}
 
-	public doAI(): void {
+	public doAI() {
 		game.DisplaySprite(94);
 		Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00329] = 0;
 		let select: number = randInt(7);
@@ -122,11 +122,11 @@ export class MinotaurMob extends Monster {
 	}
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.highMountains.minotaurMobScene.victoryMinotaurGang();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe minutaurs share a laugh while you cum, but their throbbing erections don't subside in the slightest.");
 			return { next: game.endLustLoss };
@@ -170,7 +170,9 @@ export class MinotaurMob extends Monster {
 this.baseStats.tou = 60;
 this.baseStats.spe = 30;
 this.baseStats.int = 20;
-		initLibSensCor(40, 15, 35);
+		this.baseStats.lib = 40;
+this.baseStats.sens = 15;
+this.baseStats.cor = 35;
 		this.weaponName = "fists";
 		this.weaponVerb = "punches";
 		this.armorName = "thick fur";

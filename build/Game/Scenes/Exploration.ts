@@ -6,7 +6,6 @@ import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { BreastRow } from '../Body/BreastRow';
 import { Cock } from '../Body/Cock';
-import { LegType } from '../Body/Legs';
 import { VaginaWetness } from '../Body/Vagina';
 import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
@@ -47,42 +46,42 @@ export function display(character: Character): NextScreenChoices {
     }
 
     const choices: ScreenChoice[] = [["Explore", tryDiscover]];
-    // choices.push([
-    //     User.locations.get(PlaceName.Desert) ? "Desert" : "",
-    //     User.locations.get(PlaceName.Desert) ? Scenes.desert.exploreDesert : undefined
-    // ]);
+    choices.push([
+        User.places.get(PlaceName.Desert) ? "Desert" : "",
+        User.places.get(PlaceName.Desert) ? Scenes.desert.exploreDesert : undefined
+    ]);
     choices.push([
         User.places.get(PlaceName.Forest).locationKnown ? "Forest" : "",
         User.places.get(PlaceName.Forest).locationKnown ? Scenes.forest.exploreForest : undefined
     ]);
-    // choices.push([
-    //     User.locations.get(PlaceName.Lake) ? "Lake" : "",
-    //     User.locations.get(PlaceName.Lake) ? Scenes.lake.exploreLake : undefined
-    // ]);
-    // choices.push([
-    //     User.locations.get(PlaceName.Plains) ? "Plains" : "",
-    //     User.locations.get(PlaceName.Plains) ? Scenes.plains.explorePlains : undefined
-    // ]);
-    // choices.push([
-    //     User.locations.get(PlaceName.Swamp) ? "Swamp" : "",
-    //     User.locations.get(PlaceName.Swamp) ? Scenes.swamp.exploreSwamp : undefined
-    // ]);
+    choices.push([
+        User.places.get(PlaceName.Lake) ? "Lake" : "",
+        User.places.get(PlaceName.Lake) ? Scenes.lake.exploreLake : undefined
+    ]);
+    choices.push([
+        User.places.get(PlaceName.Plains) ? "Plains" : "",
+        User.places.get(PlaceName.Plains) ? Scenes.plains.explorePlains : undefined
+    ]);
+    choices.push([
+        User.places.get(PlaceName.Swamp) ? "Swamp" : "",
+        User.places.get(PlaceName.Swamp) ? Scenes.swamp.exploreSwamp : undefined
+    ]);
     choices.push([
         User.places.get(PlaceName.Deepwoods).locationKnown ? "Deepwoods" : "",
         User.places.get(PlaceName.Deepwoods).locationKnown ? Scenes.forest.exploreDeepwoods : undefined
     ]);
-    // choices.push([
-    //     User.locations.get(PlaceName.Mountains) ? "Mountain" : "",
-    //     User.locations.get(PlaceName.Mountains) ? Scenes.mountain.exploreMountain : undefined
-    // ]);
-    // choices.push([
-    //     User.locations.get(PlaceName.HighMountain) ? "High Mountain" : "",
-    //     User.locations.get(PlaceName.HighMountain) ? Scenes.highMountains.exploreHighMountain : undefined
-    // ]);
-    // choices.push([
-    //     User.locations.get(PlaceName.Bog) ? "Bog" : "",
-    //     User.locations.get(PlaceName.Bog) ? Scenes.bog.exploreBog : undefined
-    // ]);
+    choices.push([
+        User.places.get(PlaceName.Mountains) ? "Mountain" : "",
+        User.places.get(PlaceName.Mountains) ? Scenes.mountain.exploreMountain : undefined
+    ]);
+    choices.push([
+        User.places.get(PlaceName.HighMountain) ? "High Mountain" : "",
+        User.places.get(PlaceName.HighMountain) ? Scenes.highMountains.exploreHighMountain : undefined
+    ]);
+    choices.push([
+        User.places.get(PlaceName.Bog) ? "Bog" : "",
+        User.places.get(PlaceName.Bog) ? Scenes.bog.exploreBog : undefined
+    ]);
     return { choices, persistantChoices: [["Back", Menus.Player]] };
 }
 
@@ -101,48 +100,48 @@ export function tryDiscover(character: Character): NextScreenChoices {
             User.places.get(PlaceName.BeyondCamp).timesVisited++;
             return { next: Scenes.camp.returnToCampUseOneHour };
         }
-        // if (User.locations.get(PlaceName.Lake).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Desert).visited) {
-        //     DisplayText().clear();
-        //     DisplayText("You stumble as the ground shifts a bit underneath you.  Groaning in frustration, you straighten up and discover the rough feeling of sand ");
-        //     if (character.torso.hips.legs.type === LegType.HUMAN) DisplayText("inside your footwear, between your toes");
-        //     if (character.torso.hips.legs.type === LegType.HOOFED) DisplayText("in your hooves");
-        //     if (character.torso.hips.legs.type === LegType.DOG) DisplayText("in your paws");
-        //     if (character.torso.hips.legs.type === LegType.NAGA) DisplayText("in your scales");
-        //     DisplayText(".\n\n<b>You've discovered the Desert!</b>");
-        //     User.locations.get(PlaceName.Desert).timesVisited++;
-        //     User.locations.get(PlaceName.Desert).locationKnown = true;
-        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
-        //     return { next: Scenes.camp.returnToCampUseOneHour };
-        //     return;
-        // }
-        // if (User.locations.get(PlaceName.Desert).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Mountains).visited) {
-        //     DisplayText().clear();
-        //     DisplayText("Thunder booms overhead, shaking you out of your thoughts.  High above, dark clouds encircle a distant mountain peak.  You get an ominous feeling in your gut as you gaze up at it.\n\n<b>You have discovered the mountain!</b>");
-        //     User.locations.get(PlaceName.Mountains).timesVisited++;
-        //     User.locations.get(PlaceName.Mountains).locationKnown = true;
-        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
-        //     return { next: Scenes.camp.returnToCampUseOneHour };
-        //     return;
-        // }
-        // if (User.locations.get(PlaceName.Mountains).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Plains).visited) {
-        //     User.locations.get(PlaceName.Plains).timesVisited++;
-        //     User.locations.get(PlaceName.Plains).locationKnown = true;
-        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
-        //     DisplayText().clear();
-        //     DisplayText("You find yourself standing in knee-high grass, surrounded by flat plains on all sides.  Though the mountain, forest, and lake are all visible from here, they seem quite distant.\n\n<b>You've discovered the plains!</b>");
-        //     return { next: Scenes.camp.returnToCampUseOneHour };
-        //     return;
-        // }
-        // if (User.locations.get(PlaceName.Plains).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Swamp).visited) {
-        //     User.locations.get(PlaceName.Swamp).timesVisited++;
-        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
-        //     DisplayText().clear();
-        //     DisplayText("All things considered, you decide you wouldn't mind a change of scenery.  Gathering up your belongings, you begin a journey into the wasteland.  The journey begins in high spirits, and you whistle a little traveling tune to pass the time.  After an hour of wandering, however, your wanderlust begins to whittle away.  Another half-hour ticks by.  Fed up with the fruitless exploration, you're nearly about to head back to camp when a faint light flits across your vision.  Startled, you whirl about to take in three luminous will-o'-the-wisps, swirling around each other whimsically.  As you watch, the three ghostly lights begin to move off, and though the thought of a trap crosses your mind, you decide to follow.\n\n");
-        //     DisplayText("Before long, you start to detect traces of change in the environment.  The most immediate difference is the increasingly sweltering heat.  A few minutes pass, then the will-o'-the-wisps plunge into the boundaries of a dark, murky, stagnant swamp; after a steadying breath you follow them into the bog.  Once within, however, the gaseous balls float off in different directions, causing you to lose track of them.  You sigh resignedly and retrace your steps, satisfied with your discovery.  Further exploration can wait.  For now, your camp is waiting.\n\n");
-        //     DisplayText("<b>You've discovered the swamp!</b>");
-        //     return { next: Scenes.camp.returnToCampUseTwoHours };
-        //     return;
-        // }
+        if (User.places.get(PlaceName.Lake).locationKnown && randInt(3) === 0 && !User.places.get(PlaceName.Desert).visited) {
+            DisplayText().clear();
+            DisplayText("You stumble as the ground shifts a bit underneath you.  Groaning in frustration, you straighten up and discover the rough feeling of sand ");
+            if (character.torso.hips.legs.type === LegType.HUMAN) DisplayText("inside your footwear, between your toes");
+            if (character.torso.hips.legs.type === LegType.HOOFED) DisplayText("in your hooves");
+            if (character.torso.hips.legs.type === LegType.DOG) DisplayText("in your paws");
+            if (character.torso.hips.legs.type === LegType.NAGA) DisplayText("in your scales");
+            DisplayText(".\n\n<b>You've discovered the Desert!</b>");
+            User.places.get(PlaceName.Desert).timesVisited++;
+            User.places.get(PlaceName.Desert).locationKnown = true;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
+            return { next: Scenes.camp.returnToCampUseOneHour };
+            return;
+        }
+        if (User.places.get(PlaceName.Desert).locationKnown && randInt(3) === 0 && !User.places.get(PlaceName.Mountains).visited) {
+            DisplayText().clear();
+            DisplayText("Thunder booms overhead, shaking you out of your thoughts.  High above, dark clouds encircle a distant mountain peak.  You get an ominous feeling in your gut as you gaze up at it.\n\n<b>You have discovered the mountain!</b>");
+            User.places.get(PlaceName.Mountains).timesVisited++;
+            User.places.get(PlaceName.Mountains).locationKnown = true;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
+            return { next: Scenes.camp.returnToCampUseOneHour };
+            return;
+        }
+        if (User.places.get(PlaceName.Mountains).locationKnown && randInt(3) === 0 && !User.places.get(PlaceName.Plains).visited) {
+            User.places.get(PlaceName.Plains).timesVisited++;
+            User.places.get(PlaceName.Plains).locationKnown = true;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
+            DisplayText().clear();
+            DisplayText("You find yourself standing in knee-high grass, surrounded by flat plains on all sides.  Though the mountain, forest, and lake are all visible from here, they seem quite distant.\n\n<b>You've discovered the plains!</b>");
+            return { next: Scenes.camp.returnToCampUseOneHour };
+            return;
+        }
+        if (User.places.get(PlaceName.Plains).locationKnown && randInt(3) === 0 && !User.places.get(PlaceName.Swamp).visited) {
+            User.places.get(PlaceName.Swamp).timesVisited++;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
+            DisplayText().clear();
+            DisplayText("All things considered, you decide you wouldn't mind a change of scenery.  Gathering up your belongings, you begin a journey into the wasteland.  The journey begins in high spirits, and you whistle a little traveling tune to pass the time.  After an hour of wandering, however, your wanderlust begins to whittle away.  Another half-hour ticks by.  Fed up with the fruitless exploration, you're nearly about to head back to camp when a faint light flits across your vision.  Startled, you whirl about to take in three luminous will-o'-the-wisps, swirling around each other whimsically.  As you watch, the three ghostly lights begin to move off, and though the thought of a trap crosses your mind, you decide to follow.\n\n");
+            DisplayText("Before long, you start to detect traces of change in the environment.  The most immediate difference is the increasingly sweltering heat.  A few minutes pass, then the will-o'-the-wisps plunge into the boundaries of a dark, murky, stagnant swamp; after a steadying breath you follow them into the bog.  Once within, however, the gaseous balls float off in different directions, causing you to lose track of them.  You sigh resignedly and retrace your steps, satisfied with your discovery.  Further exploration can wait.  For now, your camp is waiting.\n\n");
+            DisplayText("<b>You've discovered the swamp!</b>");
+            return { next: Scenes.camp.returnToCampUseTwoHours };
+            return;
+        }
         // Used for chosing 'repeat' encounters.
         let choosey: number = randInt(6);
         // 2 (gargoyle) is never chosen once cathedral is discovered.
@@ -166,47 +165,47 @@ export function tryDiscover(character: Character): NextScreenChoices {
         }
         // Monster - 50/50 imp/gob split.
         else {
-            // User.locations.get(PlaceName.BeyondCamp).timesVisited++;
-            // const impGob: number = 5;
-            // Imptacular Encounter
-            // if (randInt(10) < impGob) {
-            //     if (character.stats.level >= 8 && randInt(2) === 0) {
-            //         Scenes.impScene.impLordEncounter();
-            //         DisplaySprite(29);
-            //         return;
-            //     }
-            //     else {
-            //         DisplayText().clear();
-            //         DisplayText("An imp wings out of the sky and attacks!");
-            //         CombatManager.beginBattle(character, character.party, [new Imp()]);
-            //         DisplaySprite(29);
-            //     }
-            //     return;
-            // }
-            // // Encounter Gobbalin!
-            // else {
-            //     // 50% of the time, goblin assassin!
-            //     if (character.stats.level >= 10 && randInt(2) === 0) {
-            //         kGAMECLASS.goblinAssassinScene.goblinAssassinEncounter();
-            //         return;
-            //     }
-            //     if (character.gender > 0) {
-            //         DisplayText().clear();
-            //         DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fucked, " + character.mf("stud", "slut"));
-            //         DisplayText(".</i>\"");
-            //         CombatManager.beginBattle(character, character.party, [new Goblin()]);
-            //         DisplaySprite(24);
-            //         return;
-            //     }
-            //     else {
-            //         DisplayText().clear();
-            //         DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fuc-oh shit, you don't even have anything to play with!  This is for wasting my time!");
-            //         DisplayText("</i>\"");
-            //         CombatManager.beginBattle(character, character.party, [new Goblin()]);
-            //         DisplaySprite(24);
-            //         return;
-            //     }
-            // }
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
+            const impGob: number = 5;
+            Imptacular Encounter
+            if (randInt(10) < impGob) {
+                if (character.stats.level >= 8 && randInt(2) === 0) {
+                    Scenes.impScene.impLordEncounter();
+                    DisplaySprite(29);
+                    return;
+                }
+                else {
+                    DisplayText().clear();
+                    DisplayText("An imp wings out of the sky and attacks!");
+                    CombatManager.beginBattle(character, character.party, [new Imp()]);
+                    DisplaySprite(29);
+                }
+                return;
+            }
+            // Encounter Gobbalin!
+            else {
+                // 50% of the time, goblin assassin!
+                if (character.stats.level >= 10 && randInt(2) === 0) {
+                    kGAMECLASS.goblinAssassinScene.goblinAssassinEncounter();
+                    return;
+                }
+                if (character.gender > 0) {
+                    DisplayText().clear();
+                    DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fucked, " + Desc.Gender.mf(character, "stud", "slut"));
+                    DisplayText(".</i>\"");
+                    CombatManager.beginBattle(character, character.party, [new Goblin()]);
+                    DisplaySprite(24);
+                    return;
+                }
+                else {
+                    DisplayText().clear();
+                    DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fuc-oh shit, you don't even have anything to play with!  This is for wasting my time!");
+                    DisplayText("</i>\"");
+                    CombatManager.beginBattle(character, character.party, [new Goblin()]);
+                    DisplaySprite(24);
+                    return;
+                }
+            }
         }
         DisplayText().clear();
         DisplayText("You wander around, fruitlessly searching for new places.");

@@ -111,7 +111,7 @@ export class Reptilum extends Consumable {
             // Find the first non-lizzy dick
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
             DisplayText("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + Desc.Cock.describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
-            if (character.torso.cocks.filter(Cock.HasSheath).length > 0) DisplayText("sheath ");
+            if (character.torso.cocks.find(Cock.HasSheath)) DisplayText("sheath ");
             else DisplayText("base ");
             DisplayText("to tip, undulating and convulsing as its color lightens, darkens, and finally settles on a purplish hue.  Your " + Desc.Cock.nounCock(CockType.HUMAN) + " resolves itself into a bulbous form, with a slightly pointed tip.  The 'bulbs' throughout its shape look like they would provide an interesting ride for your sexual partners, but the perverse, alien pecker ");
             if (character.stats.cor < 33) DisplayText("horrifies you.");
@@ -123,7 +123,7 @@ export class Reptilum extends Consumable {
             }
             DisplayText("  <b>You now have a bulbous, lizard-like cock.</b>");
             // Actually xform it nau
-            if (character.torso.cocks.filter(Cock.HasSheath).length > 0) {
+            if (character.torso.cocks.find(Cock.HasSheath)) {
                 nonLizzyDick.type = CockType.LIZARD;
                 if (character.torso.cocks.filter(Cock.HasSheath).length <= 0)
                     DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + Desc.Cock.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
@@ -146,7 +146,7 @@ export class Reptilum extends Consumable {
             else DisplayText("A wave of pre-cum splatters on the ground");
             DisplayText(" from the pleasure of the change.  In moments <b>you have a bulbous, lizard-like cock.</b>");
             // (REMOVE SHEATH IF NECESSARY)
-            if (character.torso.cocks.filter(Cock.HasSheath).length > 0) {
+            if (character.torso.cocks.find(Cock.HasSheath)) {
                 nonLizzyDick.type = CockType.LIZARD;
                 if (character.torso.cocks.filter(Cock.HasSheath).length <= 0)
                     DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + Desc.Cock.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
@@ -210,7 +210,7 @@ export class Reptilum extends Consumable {
             if (character.torso.chest.countNipples() === 2) DisplayText("\n\nBoth of your");
             else DisplayText("\n\nAll of your many");
             DisplayText(" nipples relax.  It's a strange feeling, and you pull back your top to touch one.  It feels fine, though there doesn't seem to be any milk leaking out.  You give it a squeeze and marvel when nothing ");
-            if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("but sexual fluid ");
+            if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("but sexual fluid ");
             DisplayText("escapes it.  <b>You are no longer lactating.</b>  That makes sense, only mammals lactate!  Smiling, you muse at how much time this will save you when cleaning your gear.");
             if (character.perks.has(PerkType.Feeder) || character.statusAffects.has(StatusAffectType.Feeder)) {
                 DisplayText("\n\n(<b>Feeder perk lost!</b>)");

@@ -27,12 +27,12 @@
 	}
 	//End of Interface Implementation
 
-	public encounter(): void {
+	public encounter() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("A strange woman seems to appear from the dunes themselves.  She identifies herself as a sand witch, and politely asks if she can cast a spell on you.");
 		if (player.statusAffects.get(StatusAffectType.Exgartuan).value1 === 1 && player.torso.cocks.get(0).area > 100 && player.statusAffects.get(StatusAffectType.Exgartuan).value2 === 0) {
-			DisplayText("\n\nThe " + player.inventory.equipment.armor.displayName + " covering your lower half hits the ground, as if yanked down by magic.  Your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " pulsates darkly, growing rigid in seconds as the demon within you takes over.  It barks, \"<i>Fuck, how about I cast my spell on you baby?</i>\"\n\n");
+			DisplayText("\n\nThe " + player.inventory.equipment.armor.displayName + " covering your lower half hits the ground, as if yanked down by magic.  Your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " pulsates darkly, growing rigid in seconds as the demon within you takes over.  It barks, \"<i>Fuck, how about I cast my spell on you baby?</i>\"\n\n");
 			DisplayText("The sandwitch ");
 			if (player.stats.cor < 50)
 				DisplayText("and you both turn crimson");
@@ -43,7 +43,7 @@
 		else MainScreen.doYesNo(allowSandWitchMagic, refuseSandWitchMagic);
 	}
 
-	private allowSandWitchMagic(): void {
+	private allowSandWitchMagic() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		if (player.torso.neck.head.hair.color === "sandy blonde") {
@@ -112,14 +112,14 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	private refuseSandWitchMagic(): void {
+	private refuseSandWitchMagic() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("With an inarticulate scream of rage, the Sand Witch attacks!");
 		startCombat(new SandWitch());
 	}
 
-	internal function sandwitchRape(): void {
+	internal function sandwitchRape() {
 		DisplaySprite(50);
 		player.clearStatuses(false);
 		//LUST DEFEAT
@@ -150,7 +150,7 @@
 					player.stats.sens += 1;
 					player.stats.lust += 1;
 				}
-				if (player.torso.chest.averageNipplesPerBreast() < 1) {
+				if (player.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 1) {
 					DisplayText("A dark spot appears on each breast, rapidly forming into a sensitive nipple.  ");
 					temp = player.torso.chest.count;
 					while (temp > 0) {
@@ -197,7 +197,7 @@
 			player.stats.lib += 1;
 			player.stats.sens += 5;
 			if (kGAMECLASS.sand === 0) kGAMECLASS.sand = 1;
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 		}
 		//HP DEFEAT
 		else {
@@ -208,11 +208,11 @@
 				return;
 			}
 			DisplayText("\n<b>You fall, defeated by the Sand Witch!</b>\n\n");
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 		}
 	}
 
-	private sandWitchBadEnd(): void {
+	private sandWitchBadEnd() {
 		DisplayText().clear();
 		DisplayText("You awaken in a candlelit stone shrine of some sort, resting naked and facedown on some warm, comfortable body pillows. Remembering your fight against the witch, you hurriedly try to get up, only to gasp with surprise when a painful weight pulls on your chest. Glancing down to find the source of the weight, you blink with shock, then fight rising panic – the \"pillows\" that you are lying on are your own breasts, swollen to such a size that you cannot possibly lift them!\n\n");
 		DisplayText("\"<i>Hello, my beautiful pet,</i>\" says a familiar voice. Looking to your front – and trying not to notice the vast expanse of cleavage that dominates the lower half of your vision – you see the Sand Witch sitting, nude, in a large granite basin set into the floor just in front of you. She smirks when she sees how your eyes avoid resting on your obscenely massive bust.\n\n");
@@ -220,14 +220,14 @@
 		return { next: sandWitchBadEndPartTwo };
 	}
 
-	private sandWitchBadEndPartTwo(): void {
+	private sandWitchBadEndPartTwo() {
 		DisplayText().clear();
 		DisplayText("With an audible gurgling noise, your breasts begin to fill with prodigious quantities of milk. Your eyes widen in amazement when you feel your tits swelling, filling, pumping up to their limits. It feels shockingly pleasurable and somehow almost right, like you were meant to have these shamefully huge, milk-filled titties. As you watch the soft flesh stretch taut, your breasts fatten into a very round shape beneath you, and the pleasurable sensation becomes a painful feeling of urgency.\n\n");
 		DisplayText("For a moment nothing happens, and you are surprised that your nipples are not leaking milk. The Sand Witch smiles at you, leaning to rest her arms and chin on your overstressed tits, and speaks: \"<i>Ask to be milked, slave.</i>\" Appalled, you shake your head, then grit your teeth and moan as you realize that the pressure in your chest is still building up, becoming unbearably painful. The witch patiently repeats herself, staring directly into your eyes, and you are struck by the awful knowledge that you are likely to be trapped here forever.");
 		return { next: sandWitchBadEndPartThree };
 	}
 
-	private sandWitchBadEndPartThree(): void {
+	private sandWitchBadEndPartThree() {
 		DisplayText().clear();
 		DisplayText("Something breaks within your soul, accompanied by a strangled sob. Tears of humiliation trickle down your face as you part your quivering lips. \"<i>Please milk me, Mistress. Your slave needs to be milked.</i>\"\n\n");
 		if (player.perks.has(PerkType.MarblesMilk)) {
@@ -243,13 +243,13 @@
 	}
 
 	//Sandwitch gets raped
-	private sandwitchRaped(): void {
+	private sandwitchRaped() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		if (player.hips.legs.type === LegType.CENTAUR) {
 			return { next: Scenes.camp.returnToCampUseOneHour };
 			sandwitchCentaurBoning();
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 			return;
 		}
 		DisplayText("Even as you rip her sand-colored robes from her body, her eyes hold power and defiance. Her chest holds four large breasts, each leaking milk upon the sands.  ");
@@ -268,12 +268,12 @@
 					//DOGGIES
 					if (player.torso.cocks.filter(Cock.FilterType(CockType.DOG) > 0 && player.torso.cocks.get(0).knotMultiplier > 1.4) knotSandwitch()).length;
 					else {
-						DisplayText("You place your " + player.foot() + " in the wet sand, pulling her hair and making her look you in the eyes. The sand witch looks shocked at your display of power, only turning you on more. You undo your " + player.inventory.equipment.armor.displayName + " and grope her nethers, only to find a surprise. She has " + num2Text(player.torso.cocks.count + 1) + " pussies and each seems to be made to fit you exactly. Pushing her to the ground, you bring the seeping head of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " to one of her nethers, slowly easing into her depths.  ");
-						DisplayText("Thrusting deep, you hit bottom, and marvel at the sensations as you feel the head of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " rub against the end of her slick cunts, only making you lust after her more. As though responding to your will, your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " grows just a tiny bit more in length and thickness.  ");
+						DisplayText("You place your " + player.foot() + " in the wet sand, pulling her hair and making her look you in the eyes. The sand witch looks shocked at your display of power, only turning you on more. You undo your " + player.inventory.equipment.armor.displayName + " and grope her nethers, only to find a surprise. She has " + numToCardinalText(player.torso.cocks.count + 1) + " pussies and each seems to be made to fit you exactly. Pushing her to the ground, you bring the seeping head of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to one of her nethers, slowly easing into her depths.  ");
+						DisplayText("Thrusting deep, you hit bottom, and marvel at the sensations as you feel the head of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " rub against the end of her slick cunts, only making you lust after her more. As though responding to your will, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " grows just a tiny bit more in length and thickness.  ");
 						DisplayText("With a satisfied growl of lust from yourself, and a screech of pain from the sand witch, you break past her cervix and into her womb. Pulling out, you rub yourself against her wet outer lips, bringing yourself closer and closer to your peak as the sand witch struggles, her eyes turning wide with fright as she starts to understand you hold more power than her.  ");
 						DisplayText("With a bestial cry of lust, you shove your shaft deep within one of her vaginas, past her cervix and into her womb where you blast your potent, corrupted, demon-tainted seed.  ");
-						DisplayText("\n\nThe sand witch screams in savage denial as you plant your seed deep within her body, your corruption no doubt making it extra potent. You gaze into her eyes, reveling in her expression of horror. Without uttering a word, you continue to fuck her, making sure your seed is well-entrenched within her womb, feeling it splatter and bubble around your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  You wonder if she will remember the pleasure her body felt today, and if she will be more likely to drop to her knees before you than to fight... ");
-						DisplayText("Finally finished, you pull your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " from one of her well-used slits, your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " drooling cum even now. With a grin, you walk away, happy with your little encounter.  ");
+						DisplayText("\n\nThe sand witch screams in savage denial as you plant your seed deep within her body, your corruption no doubt making it extra potent. You gaze into her eyes, reveling in her expression of horror. Without uttering a word, you continue to fuck her, making sure your seed is well-entrenched within her womb, feeling it splatter and bubble around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  You wonder if she will remember the pleasure her body felt today, and if she will be more likely to drop to her knees before you than to fight... ");
+						DisplayText("Finally finished, you pull your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " from one of her well-used slits, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " drooling cum even now. With a grin, you walk away, happy with your little encounter.  ");
 						player.orgasm();
 					}
 				}
@@ -284,15 +284,15 @@
 						rapeSandwitchMultis();
 						return;
 					}
-					DisplayText("Using the corruption in your blood, you place your " + player.foot() + " upon the budding shoots, and wipe them from existence. The sand witch looks shocked at your display of power, only turning you on more. You undo your loin cloth and grope her nethers, only to find a surprise. She has " + num2Text(player.torso.cocks.count + 1) + " loose wet cunts and each seems to be made to fit you exactly. Pushing her to the ground, you bring the seeping heads of your " + CockDescriptor.describeMultiCockShort(player) + " to her nethers, slowly easing into her depths.  ");
-					DisplayText("Thrusting deep, you hit bottom, and marvel at the sensations as you feel the heads of your " + CockDescriptor.describeMultiCockShort(player) + " rub against the end of her wet pussies, only making your desire to penetrate increase. As though responding to your will, your " + CockDescriptor.describeMultiCockShort(player) + " grow just a tiny bit more in length and thickness.  ");
-					DisplayText("With a satisfied growl of lust from yourself, and a screech of pain from the sand witch, you break past her cervixes and into her wombs. Pulling the heads of your " + CockDescriptor.describeMultiCockShort(player) + " from her wombs, you rub and rut at the outside of her cunts, bringing yourself closer and closer to your peak as the sand witch struggles, her eyes turning wide with fright as she starts to understand you hold more power than her.  ");
+					DisplayText("Using the corruption in your blood, you place your " + player.foot() + " upon the budding shoots, and wipe them from existence. The sand witch looks shocked at your display of power, only turning you on more. You undo your loin cloth and grope her nethers, only to find a surprise. She has " + numToCardinalText(player.torso.cocks.count + 1) + " loose wet cunts and each seems to be made to fit you exactly. Pushing her to the ground, you bring the seeping heads of your " + Desc.Cock.describeMultiCockShort(player) + " to her nethers, slowly easing into her depths.  ");
+					DisplayText("Thrusting deep, you hit bottom, and marvel at the sensations as you feel the heads of your " + Desc.Cock.describeMultiCockShort(player) + " rub against the end of her wet pussies, only making your desire to penetrate increase. As though responding to your will, your " + Desc.Cock.describeMultiCockShort(player) + " grow just a tiny bit more in length and thickness.  ");
+					DisplayText("With a satisfied growl of lust from yourself, and a screech of pain from the sand witch, you break past her cervixes and into her wombs. Pulling the heads of your " + Desc.Cock.describeMultiCockShort(player) + " from her wombs, you rub and rut at the outside of her cunts, bringing yourself closer and closer to your peak as the sand witch struggles, her eyes turning wide with fright as she starts to understand you hold more power than her.  ");
 					DisplayText("With a bestial cry of lust, you shove your shafts deep within her vaginas, past her cervices and into her womb where you blast your potent, corrupted, demon-tainted seed.  ");
 					//A few dicks...
-					DisplayText("\n\nThe sand witch screams in savage denial as you plant your seed deep within her body, your corruption no doubt making it extra potent. You gaze into her eyes, reveling in her expression of horror. Without uttering a word, you continue to fuck her, making sure your seed is well-entrenched within her wombs, feeling it splatter and bubble around your " + CockDescriptor.describeMultiCockShort(player) + ".  You wonder if she will remember the pleasure her body felt today, and if she will be more likely to drop to her knees before you than to fight... ");
-					DisplayText("Finally finished, you pull your " + CockDescriptor.describeMultiCockShort(player) + " from her well used slits, your " + CockDescriptor.describeMultiCockShort(player) + " drooling cum even now. With a grin, you walk away, happy with your little encounter.  ");
+					DisplayText("\n\nThe sand witch screams in savage denial as you plant your seed deep within her body, your corruption no doubt making it extra potent. You gaze into her eyes, reveling in her expression of horror. Without uttering a word, you continue to fuck her, making sure your seed is well-entrenched within her wombs, feeling it splatter and bubble around your " + Desc.Cock.describeMultiCockShort(player) + ".  You wonder if she will remember the pleasure her body felt today, and if she will be more likely to drop to her knees before you than to fight... ");
+					DisplayText("Finally finished, you pull your " + Desc.Cock.describeMultiCockShort(player) + " from her well used slits, your " + Desc.Cock.describeMultiCockShort(player) + " drooling cum even now. With a grin, you walk away, happy with your little encounter.  ");
 				}
-				cleanupAfterCombat();
+				return { next: Scenes.camp.returnToCampUseOneHour };
 			}
 		}
 		//Femfem
@@ -303,41 +303,41 @@
 		}
 	}
 
-	private sandwitchBewbs(): void {
+	private sandwitchBewbs() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("You move yourself atop the defeated sand witch, and bring your lips to her breasts.  The moment the first drop of milk touches your tongue, you drink, hungrily, needfully, demandingly. You grope and massage her breasts as she leans back and cries out, her eyes wide in surprise. You guzzle and drink her sweet cream, the small seedlings underneath you appearing to rustle and move as you drink the alabaster flow once intended for the desert sands.  ");
 		DisplayText("Warmth fills your gluttonous belly, and the sand witch places a hand to your stomach, rubbing it lightly as you drink from her breasts, moving on when the one you're drinking from is drained.  ");
-		DisplayText("You burp, and flush scarlet, but the sand witch lays a hand against your face, leans close, and kisses your lips sweetly. Her tongue snakes out and dives into your mouth. She pulls your face against hers, grinding her breasts against your chest. You can feel fresh milk dribbling against your " + player.skinDesc + " and the scents are driving you wild with lust.  ");
+		DisplayText("You burp, and flush scarlet, but the sand witch lays a hand against your face, leans close, and kisses your lips sweetly. Her tongue snakes out and dives into your mouth. She pulls your face against hers, grinding her breasts against your chest. You can feel fresh milk dribbling against your " + player.skin.desc + " and the scents are driving you wild with lust.  ");
 		DisplayText("She breaks the kiss and smiles at you, whispering. Your eyes slowly close as you grow drowsy; you realize too late that she's casting a spell. You fall asleep, the sand witch's milk in your stomach churning, gurgling.  ");
 		DisplayText("You wake up in the desert, immediately grabbing at your body to see if anything's changed...");
 		player.slimeFeed();
 		player.stats.lust += 25;
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 		DisplayText("\n");
 	}
-	private sandwitchSex(): void {
+	private sandwitchSex() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("With a charming, disarming smile, you reach between her legs and touch against the slick lips of her pussies. She has ");
-		if (player.torso.cocks.count > 1) DisplayText(num2Text(player.torso.cocks.count));
+		if (player.torso.cocks.count > 1) DisplayText(numToCardinalText(player.torso.cocks.count));
 		else DisplayText("two");
-		DisplayText(" of them!  The sand witch appears frightened, but as you gently tease her lips with your fingers, she slowly starts to breathe faster, starting to moan as her legs spread themselves against her better judgment. Grinning in satisfaction, you bring your rigid " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " against her lips, and push slowly, gently.  ");
-		DisplayText("The sand witch cries out, her hands grabbing your arms, pressing hard against your " + player.skinDesc + " as you slowly and teasingly ease your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " into her tight depths. You almost feel like a virgin, your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " throbbing, the need to cum almost beyond your ability to control.  ");
+		DisplayText(" of them!  The sand witch appears frightened, but as you gently tease her lips with your fingers, she slowly starts to breathe faster, starting to moan as her legs spread themselves against her better judgment. Grinning in satisfaction, you bring your rigid " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " against her lips, and push slowly, gently.  ");
+		DisplayText("The sand witch cries out, her hands grabbing your arms, pressing hard against your " + player.skin.desc + " as you slowly and teasingly ease your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " into her tight depths. You almost feel like a virgin, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " throbbing, the need to cum almost beyond your ability to control.  ");
 		DisplayText("You rest against her chest, her large breasts squirting milk against your own chest as your weight appears to excite her enough to make her lactate, if what you're doing already wasn't enough.  ");
 		DisplayText("You kiss the sand witch, getting accustomed to her unbelievable tightness. You hump backwards and forwards, grinning like a fool with his first girlfriend. Not even a succubus would be able to rival her lush depths.  ");
 		DisplayText("You finally get serious and ease yourself into fucking the sand witch, slowly gaining speed and depth as your groins slap together with such ferocity that a normal person would be bruised upon their next waking. You pound the sand witch, making her scream in ecstasy, her already tight depths turning vice-like as you grunt your lust, cumming and filling her depths. Your ");
 		if (player.torso.balls.quantity >= 2) DisplayText("balls ache and your ");
-		DisplayText(CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " throbs with need, even as you empty your lust into the defeated sand witch.");
-		DisplayText("\n\nWith a satisfied smirk, you lay atop your prize, your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " still twitching within her depths. One of the sand witch's hands rubs at your head, teasing your " + player.skinDesc + ". Like a fresh youth, you fall asleep, " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " buried deep in the sand witch.  ");
+		DisplayText(Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " throbs with need, even as you empty your lust into the defeated sand witch.");
+		DisplayText("\n\nWith a satisfied smirk, you lay atop your prize, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " still twitching within her depths. One of the sand witch's hands rubs at your head, teasing your " + player.skin.desc + ". Like a fresh youth, you fall asleep, " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " buried deep in the sand witch.  ");
 		DisplayText("With a start you wake up, only to find the sand witch still passed out beside you.  Almost thinking it was a dream, you touch your groin tenderly and rub softly. There's a faint trace of soreness, and you remember the ferocity with which you mashed your pelvises together.  You get up and get ready.  ");
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	/*
 	Event: Centaur-SWitch: Player Raping
 	Definition: Tentacle Cock: very long (smallest 2+ feet) */
-	private sandwitchCentaurBoning(): void {
+	private sandwitchCentaurBoning() {
 		DisplaySprite(50);
 		player.orgasm();
 		DisplayText("The Sand Witch is panting before you, her clothes in disarray ");
@@ -347,7 +347,7 @@
 		else DisplayText("and her fingers squeezing her nipples as lust overwhelms her. ");
 		//[has breasts]
 		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 3) {
-			DisplayText("As you approach, her eyes drift up to your " + player.BreastDescriptor.describeAllBreasts(player) + " and she ");
+			DisplayText("As you approach, her eyes drift up to your " + Desc.Breast.describeAllBreasts(player) + " and she ");
 			//[win via HP]
 			if (monster.stats.HP < 1) DisplayText("is unable to stop herself from slowly licking her lips. ");
 			//[win via lust]
@@ -355,40 +355,40 @@
 		}
 		//[lactating]
 		if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 1) {
-			DisplayText("Her eyes widen when she sees the beads of milk already dripping from your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s as her hand drops between her legs and she begins to slowly masturbate.");
+			DisplayText("Her eyes widen when she sees the beads of milk already dripping from your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s as her hand drops between her legs and she begins to slowly masturbate.");
 		}
 		DisplayText("\n\n");
 		//[Corruption < 70]
 		if (player.stats.cor < 70) {
 			DisplayText("You smile as you approach");
 			//[has breasts]
-			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText("; your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s  become stiff");
+			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText("; your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s  become stiff");
 			//[cock only]
-			if (player.torso.cocks.count > 0 && player.torso.vaginas.count <= 0) DisplayText(" and your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " hardens.");
+			if (player.torso.cocks.count > 0 && player.torso.vaginas.count <= 0) DisplayText(" and your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " hardens.");
 			//[cunt only]
-			if (player.torso.vaginas.count > 0 && player.torso.cocks.count === 0) DisplayText(" and your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " begins to drip with moisture.");
+			if (player.torso.vaginas.count > 0 && player.torso.cocks.count === 0) DisplayText(" and your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " begins to drip with moisture.");
 			//[cock and cunt]
-			if (player.torso.vaginas.count > 0 && player.torso.cocks.count > 0) DisplayText(" and your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " hardens as your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " begins to drip with moisture.");
+			if (player.torso.vaginas.count > 0 && player.torso.cocks.count > 0) DisplayText(" and your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " hardens as your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " begins to drip with moisture.");
 			if (player.gender === Gender.NONE) DisplayText(" her.");
-			DisplayText(" She seems hesitant at first, but soon approaches and begins to run her hands along your stomach and your " + LowerBodyDescriptor.describeHips(player));
+			DisplayText(" She seems hesitant at first, but soon approaches and begins to run her hands along your stomach and your " + Desc.Hip.describeHips(player));
 			//[has breasts]
-			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText(", eyes fixed on your " + player.BreastDescriptor.describeAllBreasts(player));
+			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText(", eyes fixed on your " + Desc.Breast.describeAllBreasts(player));
 			DisplayText(".\n\n");
 			//[GoTo: SW_3 and return] 
 			if (SWCentaurMore(3)) return;
 			DisplayText("\n\n");
 			DisplayText("Delicate hands reach around to ");
 			//[has breasts]
-			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText("fondle your " + player.BreastDescriptor.describeAllBreasts(player) + " and ");
-			DisplayText("tease your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s, and you can feel her grinding herself against your strong shoulders. ");
+			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText("fondle your " + Desc.Breast.describeAllBreasts(player) + " and ");
+			DisplayText("tease your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s, and you can feel her grinding herself against your strong shoulders. ");
 			//[orb penetrated player during combat] 
-			DisplayText("With a start you realize that the witch's orb is still inside you as it suddenly begins to pulse within your " + LowerBodyDescriptor.assholeOrPussy(player) + ", causing you to cry out and hasten your pace across the dunes. ");
+			DisplayText("With a start you realize that the witch's orb is still inside you as it suddenly begins to pulse within your " + Desc.Body.assholeOrPussy(player) + ", causing you to cry out and hasten your pace across the dunes. ");
 			DisplayText("You lose track of time and location as you ride, feeling her orgasm over and over against you, her milk pouring down your back and spilling onto the sands. ");
 			//[has breasts]
 			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) {
 				//[lactating]
 				if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) {
-					DisplayText("Your own " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s  are leaking as well, ");
+					DisplayText("Your own " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s  are leaking as well, ");
 					//[light-med lactation]
 					if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 3) DisplayText("small streams running out ");
 					//[heavy lactation] 
@@ -464,19 +464,19 @@
 		if (argument === 2) {
 			//[% Player has cock(s)]
 			if (player.torso.cocks.count > 0 || (player.gender === Gender.HERM && randInt(2) === 0)) {
-				DisplayText("Finished with your games, pre-cum starts pooling under your throbbing " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ". ");
+				DisplayText("Finished with your games, pre-cum starts pooling under your throbbing " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ". ");
 				//[largest cock is wide]
 				if (player.torso.cocks.get(0).thickness >= 3) {
-					if (player.torso.cocks.filter(Cock.HasKnot).length > 0) DisplayText("Seeing its sheer size combined with your swollen knot causes her to gasp in terror and try to run again.  ");
+					if (player.torso.cocks.find(Cock.HasKnot)) DisplayText("Seeing its sheer size combined with your swollen knot causes her to gasp in terror and try to run again.  ");
 					else DisplayText("Seeing its sheer size causes her to gasp in fear and turn to run again.  ");
 				}
-				DisplayText("You grab the witch and knock her down into the sand, quickly lowering your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " to be against her buttocks. ");
+				DisplayText("You grab the witch and knock her down into the sand, quickly lowering your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to be against her buttocks. ");
 				//[1 cock, non-tentacle]
 				if (player.torso.cocks.count === 1 && player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) === 0) DisplayText("With a single thrust, you push deep into one of her cunts, ")).length;
 				//[1 cock, tentacle]
-				if (player.torso.cocks.count === 1 && player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) === 1) DisplayText("Your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " caresses her anus teasingly, causing her to whimper in a mixture of arousal and denial.  With a single savage thrust, you push past her clenched muscles, ")).length;
+				if (player.torso.cocks.count === 1 && player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) === 1) DisplayText("Your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " caresses her anus teasingly, causing her to whimper in a mixture of arousal and denial.  With a single savage thrust, you push past her clenched muscles, ")).length;
 				//[two cocks] 
-				if (player.torso.cocks.count === 2) DisplayText("After aligning your " + CockDescriptor.describeMultiCockShort(player) + " to her twin cunts, you push yourself deeply into her, ");
+				if (player.torso.cocks.count === 2) DisplayText("After aligning your " + Desc.Cock.describeMultiCockShort(player) + " to her twin cunts, you push yourself deeply into her, ");
 				//[3+ cocks]
 				if (player.torso.cocks.count >= 3) DisplayText("Lining up two of your cocks to her twin cunts and another to her anus, you thrust into her without pre-amble.  Her anal muscles try to keep you out, but they are no match for the strength of your legs.  You tear into her, ");
 				DisplayText("eliciting a scream as your hind quarters push her forcefully over the sand. ");
@@ -486,17 +486,17 @@
 				}
 				//[2+ cocks]
 				if (player.torso.cocks.count >= 2) {
-					DisplayText("The feeling of your " + CockDescriptor.describeMultiCockShort(player) + " touching each other through the narrow layers of her body causes you to grunt in pleasure, experiencing the sensation anew during every thrust. ");
+					DisplayText("The feeling of your " + Desc.Cock.describeMultiCockShort(player) + " touching each other through the narrow layers of her body causes you to grunt in pleasure, experiencing the sensation anew during every thrust. ");
 				}
 				//[largest cock is long, non-tentacle]
 				if (player.torso.cocks.get(0).length >= 12) {
-					if (player.torso.cocks.count === 1) DisplayText("Her body surrenders more and more as your " + CockDescriptor.describeMultiCockShort(player) + " presses against her cervix. ");
-					else DisplayText("Her body surrenders more and more as your " + CockDescriptor.describeMultiCockShort(player) + "  press against her cervixes. ");
+					if (player.torso.cocks.count === 1) DisplayText("Her body surrenders more and more as your " + Desc.Cock.describeMultiCockShort(player) + " presses against her cervix. ");
+					else DisplayText("Her body surrenders more and more as your " + Desc.Cock.describeMultiCockShort(player) + "  press against her cervixes. ");
 					DisplayText("Her mouth opens in a soundless and agonizing cry when you finally push past. ");
 				}
 				//[1 cock, tentacle] 
 				if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) === 1 && player.torso.cocks.count === 1)).length {
-					DisplayText("Her body surrenders more and more as your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " pushes deep into her bowels, snaking its way further into her body as it fucks her insides. ");
+					DisplayText("Her body surrenders more and more as your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " pushes deep into her bowels, snaking its way further into her body as it fucks her insides. ");
 				}
 				DisplayText("It feels like you have been pushing yourself into her for hours");
 				//[largest cock is wide and/or long]
@@ -505,7 +505,7 @@
 				}
 				//[largest cock is not wide and/or long]
 				else DisplayText(", and her cries have long since turned into groans of pleasure. ");
-				DisplayText("You cannot hold off your orgasm any longer. Your " + CockDescriptor.describeMultiCockShort(player) + " explode");
+				DisplayText("You cannot hold off your orgasm any longer. Your " + Desc.Cock.describeMultiCockShort(player) + " explode");
 				if (player.torso.cocks.count === 1) DisplayText("s");
 				DisplayText(", ");
 				//[large cum production] 
@@ -529,36 +529,36 @@
 						if (player.torso.cocks.count >= 3) DisplayText(" and bowels");
 					}
 				}
-				DisplayText(".  With a satisfied groan, you pull out and let your " + CockDescriptor.describeMultiCockShort(player) + " dribble the last remnants of your cum over the ravished witch. Satisfied, you ride off into the desert.");
+				DisplayText(".  With a satisfied groan, you pull out and let your " + Desc.Cock.describeMultiCockShort(player) + " dribble the last remnants of your cum over the ravished witch. Satisfied, you ride off into the desert.");
 			}
 			//[% no cocks]
 			else {
 				DisplayText("Finished with your games ");
 				//[has cunt] 
-				if (player.torso.vaginas.count > 0) DisplayText("and your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " dripping with desire");
+				if (player.torso.vaginas.count > 0) DisplayText("and your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " dripping with desire");
 				DisplayText(", you push the witch unceremoniously to the ground and deliver a slap to her breasts.  She cries out in pain as milk splashes out onto the sand.  A cruel smile is brought to your face and you start slapping them even harder, alternatively smacking her pair of cunts for good measure.  Surprisingly, her cries of pain begin to turn into moans of pleasure with every slap.  She might even be pushing into the blows slightly, though it is difficult to tell.  After a sizable pool of milk and her juices has drained into the sands beneath her, you reach down and start to drive your fingers hard into one of the sand witch's cunts.  The first few thrusts are enough to violently bring her to orgasm.  You trot forward slowly until you are over her and the witch suddenly hops up. Driving her face into your ");
 				//[has cunt]
 				if (player.torso.vaginas.count > 0) {
-					DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", she fingers herself even harder than you had been a moment ago.  Her lips lock unto your " + VaginaDescriptor.describeClit(player) + " and she suckles on it, drawing a pained gasp from you and causing your pussy juices to gush over her face. You feel ");
+					DisplayText(Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", she fingers herself even harder than you had been a moment ago.  Her lips lock unto your " + Desc.Vagina.describeClit(player) + " and she suckles on it, drawing a pained gasp from you and causing your pussy juices to gush over her face. You feel ");
 					//[cunt size is small]
 					if (player.vaginalCapacity() < 10) DisplayText("one of her fingers ");
 					//[cunt size is normal]
 					else if (player.vaginalCapacity() < 20) DisplayText("several of her fingers ");
 					//[cunt size is large] 
 					else DisplayText("a fist ");
-					DisplayText("pushing deep into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", and you're surprised as ");
+					DisplayText("pushing deep into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", and you're surprised as ");
 					//[anus size is small]
 					if (player.analCapacity() < 10) DisplayText("her tongue ");
 					//[anus size is normal]
 					else if (player.analCapacity() < 20) DisplayText("two of her fingers ");
 					//[anus size is large]
 					else DisplayText("a fist ");
-					DisplayText("penetrates your " + ButtDescriptor.describeButthole(character.torso.butt));
+					DisplayText("penetrates your " + Desc.Butt.describeButthole(character.torso.butt));
 					DisplayText(".");
 				}
 				//[does not has cunt]
 				else {
-					DisplayText(ButtDescriptor.describeButthole(character.torso.butt) + ", she fingers herself even harder than you had been a moment ago.  Her tongue drives into your " + ButtDescriptor.describeButthole(character.torso.butt) + ", licking enthusiastically as she squeezes her nipples. ");
+					DisplayText(Desc.Butt.describeButthole(character.torso.butt) + ", she fingers herself even harder than you had been a moment ago.  Her tongue drives into your " + Desc.Butt.describeButthole(character.torso.butt) + ", licking enthusiastically as she squeezes her nipples. ");
 					//[anus size is small]
 					if (player.analCapacity() < 10) DisplayText("The sensations are intense, and you could almost swear that her tongue is tracing a pattern as her mouth mutters strange sounds. ");
 					//[anus size is normal] 
@@ -589,51 +589,51 @@
 	}
 
 	//Knot sand witch
-	private knotSandwitch(): void {
+	private knotSandwitch() {
 		DisplaySprite(50);
 		DisplayText().clear();
-		DisplayText("You press the tip of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " at the entrance of her fragent flower.  It slides in, thanks to the pre already dribbling from your cock, your eyes rolling back in your head from the touch of her slippery folds.  You can't help but suddenly stab the length of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " to the hilt within her, moaning as the tip pushes against her cervix.\n\n");
-		DisplayText("As your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " stirs within her, she begins to push back, her velvet walls gripping you tightly as you get a extra bit inside.  She pulls free and pounds in again, causing her to grunt from the force of your knot stretching her.  Your balls swing back and forth, slapping and bouncing against her ass in a delicious way.  You can feel the beginnings of the orgasm building within your loins, pulsing up through the tip of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ". As the pleasure increases, your body readies itself for the spill, and your knot begins to swell.  ");
+		DisplayText("You press the tip of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " at the entrance of her fragent flower.  It slides in, thanks to the pre already dribbling from your cock, your eyes rolling back in your head from the touch of her slippery folds.  You can't help but suddenly stab the length of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to the hilt within her, moaning as the tip pushes against her cervix.\n\n");
+		DisplayText("As your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " stirs within her, she begins to push back, her velvet walls gripping you tightly as you get a extra bit inside.  She pulls free and pounds in again, causing her to grunt from the force of your knot stretching her.  Your balls swing back and forth, slapping and bouncing against her ass in a delicious way.  You can feel the beginnings of the orgasm building within your loins, pulsing up through the tip of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ". As the pleasure increases, your body readies itself for the spill, and your knot begins to swell.  ");
 		DisplayText("You begin to buck into her at a frenzied pace, your body's need to release your motivation.  At first, your knot swelling is an extra sensation, a tightness that squeezes deliciously as more and more blood is forced inside by sheer stimulation.\n\n");
-		DisplayText("Then it begins to get in the way, preventing your length from going all the way in, causing the pointed tip of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " to lust for the unattainable depths of her cunt.  You press in, and get the sensation of the knot being squeezed in, crushing you with warm wet pleasure within her spasming cunt, only to release as you pull free.  As it continues to swell, you can no longer get your dick all the way inside her, your sperm-swollen knot bloated beyond her capacity.  Your desire is almost at its peak; within your grasp, but without that vice-like tightness around your knot it will be hard to cum.  ");
-		DisplayText("You grunt and push hard, desperate to force the bulbous cock-flesh inside, and you're rewarded as it pops in with a wet squelch. The tightening pressure around the base of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " pushes you over the edge, and the cum begins to shoot in her tight hole, with your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " trapped inside!\n\n");
+		DisplayText("Then it begins to get in the way, preventing your length from going all the way in, causing the pointed tip of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to lust for the unattainable depths of her cunt.  You press in, and get the sensation of the knot being squeezed in, crushing you with warm wet pleasure within her spasming cunt, only to release as you pull free.  As it continues to swell, you can no longer get your dick all the way inside her, your sperm-swollen knot bloated beyond her capacity.  Your desire is almost at its peak; within your grasp, but without that vice-like tightness around your knot it will be hard to cum.  ");
+		DisplayText("You grunt and push hard, desperate to force the bulbous cock-flesh inside, and you're rewarded as it pops in with a wet squelch. The tightening pressure around the base of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " pushes you over the edge, and the cum begins to shoot in her tight hole, with your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " trapped inside!\n\n");
 		//ORGAZMO
 		if (player.cumQ() < 25) DisplayText("The cum slicks your dick as you continue trying to hump, easing the over-sensation of your dick while you're glued together by the bulbous knot locked in her snatch.");
-		if (player.cumQ() >= 25 && player.cumQ() < 100) DisplayText("Your cum expands her pussy, stretching her out and leaving your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " swimming in your spunk, trapped within her tight-stretched walls by your massive knot.");
+		if (player.cumQ() >= 25 && player.cumQ() < 100) DisplayText("Your cum expands her pussy, stretching her out and leaving your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " swimming in your spunk, trapped within her tight-stretched walls by your massive knot.");
 		if (player.cumQ() >= 100 && player.cumQ() < 500) DisplayText("Your cum begins to pump into her corked body, filling her hole to the brim.  Surely the pressure is piling the jizz deep into her womb, and after what feels like forever, the overfull spunk shoves back on your knot, a little dribbling out around the edges of her taut feminine folds as her pussy reaches its limit.");
 		if (player.cumQ() >= 500) DisplayText("Your cum spurts into her in rapid jets, coating the inside of her walls briefly white as more continues to pour into her. Her cunt begins to fill, and as she strugles to relieve the pressure that continues to pump into her, she only succeeds in spurring your orgasm to a new height.  You continue to blast within her, your knot holding her fast as she squirms, each shot of cum from your prick managing to squirt a tiny bit of jizz from your locked genitals.");
 		player.orgasm();
 	}
 
 	//Sandwitch multi-cock corrupt rape
-	private rapeSandwitchMultis(): void {
+	private rapeSandwitchMultis() {
 		DisplaySprite(50);
 		DisplayText("With the corruption of this realm comfortably throbbing in your shameless veins, you feel your mind opening to new possibilities.  Despite the slickly perfect fit of the sand witch's multiple pussies as you pound into her, and the way she moans with each thrust of your titanic members, you feel there are still some further alleys of pleasure within her left to explore.  Long inured to carnal pleasure that would have rendered your earlier, purer self unconscious,  your mind wanders back to the witch's weapon of lust, the vibrating stone of pleasure.  You feel it's time to give her a dose of her own medicine.\n\n", true);
 		DisplayText("You grin wickedly at the humiliated and whimpering witch as you rape her.  Between involuntary gasps of pleasure as you steadily pound into her sopping snatches, she looks afraid, not knowing the source of your mirth.  It soon becomes clear enough. She struggles a little once she hears the low buzzing of her own corrupted pleasure stone and bucks and thrashes as you push the persistent little charm into her tight, but well-cum-lubed ass.  The feel of the stone vibrating within her spreads through to your cocks, enhancing the pleasure as she clenches and spasmes while being violated multiple ways.  All too soon, it brings you to a gushing orgasm.  As you finally withdraw from the troublesome sand witch, you spit on her milk-oozing form and take your leave.");
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	internal function beatSandwitch(): void {
+	internal function beatSandwitch() {
 		DisplaySprite(50);
 		if (monster.lust > 99) DisplayText("You smile in satisfaction as the " + monster.short + " drops down on all fours and begins masturbating feverishly.  Sadly you realize your own needs have not been met.  Of course you could always fuck the horny witch...\n\nDo you rape her?", true);
 		else DisplayText("You smile in satisfaction as the " + monster.short + " drops down on all fours and struggles to rise.  Sadly you realize your own needs have not been met.  Of course, you could always fuck the witch...", true);
 		DisplayText("  Of course, just taunting, teasing, and humiliating her for her arrogance would be equally amusing, <b>but it would give her plenty of time to turn the tables...</b>");
-		let temp2: Function = null;
-		let temp3: Function = null;
-		if (silly()) temp3 = missingoSex;
+		let temp2;
+		let temp3;
+		if (User.settings.silly()) temp3 = missingoSex;
 		if (player.hasKeyItem("Deluxe Dildo") >= 0) temp2 = Game.sandwitchGetsDildoed;
-		let shouldra: Function = null;
+		let shouldra;
 		if (kGAMECLASS.shouldraFollower.followerShouldra() && player.gender > 0) shouldra = kGAMECLASS.shouldraFollower.sandWitchGetsGhostly;
 		//doYesNo(sandwitchRaped, cleanupAfterCombat);
-		let ovi: Function = null;
+		let ovi;
 		if (player.gender > 0 && player.canOviposit()) ovi = ovipositSandWitches;
 
 		choices("Yes", sandwitchRaped, "Dildo Rape", temp2, "Use 3i@-", temp3, "Use Shouldra", shouldra, "Lay Eggs", ovi,
 			"Taunt Her", sandwitchSpanking, "", null, "", null, "", null, "Leave", cleanupAfterCombat);
 	}
 
-	//This is a bonus scene for those who are playing Corruption of Champions with Silly Mode activated and defeat the Sand Witch by dropping her hit points and have the option of having their way with her. A special third(?) option appears that begins the encounter. The idea is that it breaks the 4th wall and gives the player the impression that they've stumbled upon a glitchy, incomplete scene. As a special note to anyone who does coding: all code tags (anything like \" + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + \" but not my usual {code brackets} for example) are meant to be printed in game exactly as they were written on this document, pushing the idea that the player \"broke the game\".
+	//This is a bonus scene for those who are playing Corruption of Champions with Silly Mode activated and defeat the Sand Witch by dropping her hit points and have the option of having their way with her. A special third(?) option appears that begins the encounter. The idea is that it breaks the 4th wall and gives the player the impression that they've stumbled upon a glitchy, incomplete scene. As a special note to anyone who does coding: all code tags (anything like \" + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + \" but not my usual {code brackets} for example) are meant to be printed in game exactly as they were written on this document, pushing the idea that the player \"broke the game\".
 	//{Player defeats Sand Witch and has enough Lust}
 	//You smile in satisfaction as the sand-witch drops down on all fours and begins masturbating feverishly.  Sadly you realize your own needs have not been met.  Of course you could always fuck the horny witch...
 	//Do you rape her?
@@ -641,7 +641,7 @@
 
 
 	//{Player selects [Use 3i@-]}
-	private missingoSex(): void {
+	private missingoSex() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("You stride proudly towards your latest conquest, the prone witch starting at you with a look of pure and delightful helplessness. She backs away on all fours, but a simple \"Stop.\" uttered from your lips is enough to freeze her in place. You look do/n at her, your \" + multiCockDescript(0) + \" throbbing within your clothes. What clothes? Oh, those clothes th$t you happen to be tearing from your body, much to her dismay.\n\n");
@@ -650,7 +650,7 @@
 
 		DisplayText("You want to embarrass her further, complete her humiliation upon the sands she once thought to be her domain. You tear her robes into little shreds, exposing her four generously sized breasts. Your eyes follow her dri-^ling nipples, the pupils bouncing as they do. \"Wh-what are you going to do? Rape me?!\" cries the witch, her tone equal parts terrified and wishful. Her thighs attempt to close, though you're sure it's more t$ grind them together than any atte-pt at preserving her modesty. Leaning down, y-u open up to let your tongue lap at her swollen clit. She arches her back and moans, thrusting her hips towa-ds you as bes- she can.\n\n");
 
-		DisplayText("0)w is t$e time. But no, she won't get the dick. She hasn't EAR*ED the dick. She isn't even wor$h your \" + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + \" yet. No n- no, you need -o warm that ho_ cunt up. You whistle to g-t her attention, and as you do, you present your -i%-s ^a_=e* up to*--h-r. Her eyes wi_en, the wo$an's jaw going slack. \"N-no.. not t-e whole thing.\" you nod _n respo-se to her plea. \"The WHO-E THING?!\"\n\n");
+		DisplayText("0)w is t$e time. But no, she won't get the dick. She hasn't EAR*ED the dick. She isn't even wor$h your \" + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + \" yet. No n- no, you need -o warm that ho_ cunt up. You whistle to g-t her attention, and as you do, you present your -i%-s ^a_=e* up to*--h-r. Her eyes wi_en, the wo$an's jaw going slack. \"N-no.. not t-e whole thing.\" you nod _n respo-se to her plea. \"The WHO-E THING?!\"\n\n");
 
 		DisplayText("Now she begins to panic. She shake- her head rapidly as you draw bac- your %s99=, and thrust them towards her >pen sl1t...");
 
@@ -659,7 +659,7 @@
 		simpleChoices("N*xt", missingoSex2, "", null, "", null, "", null, "", null);
 	}
 	//{Next Page}
-	private missingoSex2(): void {
+	private missingoSex2() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("Naturally, you %i-+. Hon-stly, her hole can't take such a pounding. You can tell t-is by looking at her prone,',, vulnerable body, #ipe for y-ur abuse. Your *i- isn't ev|n enough to do this! Your-i*))s fall short, landing i( the sand, splashing he- bo^y with a wave of the -tuff. She gasps in su!p!i!e, barely a?le to keep it from getting into h_r mouth. Her tits hardly fare as well, being coated genero_sly, ^er milk mi$ing w--h it. The resulting concocti@n sticks to her chest, leaving it quite the mess.\n\n");
@@ -673,7 +673,7 @@
 	}
 
 	//{Next Page}
-	private missingoSex3(): void {
+	private missingoSex3() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("_at_r@_ly, you %i-+. Ho@-@@ly, her h_le c_n't take @_ch _ po_ndi_g. Yo_ can t_ll t-is b_ loo_ing _t her pr_ne,',, v@^@erable b@dy, #ipe _or y-ur a_use. Y_ur *i- isn't ev|n en_ug_ to do this! Y_ur-i*))s fall sho_t, la@d@ng i( the sa_d, sp_as_i_g he- bo^y wit@ a @ave @f the -tuff. She gasps in su!2!i!e, ba_el_ a?le to k_ep it fr_m g_tti_g into h_r m_uth. @er @it@ har_ly fa_e as well, bei@g c@_t_d ge_ero_sl_, ^er milk mi$ing w--h it. T_e re_ult_ng co@cocti@n sti-ks to her c_est, l@a_in@ it q_ite t_e m_s_.\n\n");
@@ -687,7 +687,7 @@
 	}
 
 	//{Next Page}
-	private missingoSex4(): void {
+	private missingoSex4() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("_oo_o@_oo, ooo %o-+. oo@-@@oo, ooo o_oo o_o'o oooo @_oo _ oo_ooo_o. oo_ oo o_oo o-oo o_ ooo_ooo _o ooo oo_o,',, o@^@oooooo o@oo, #ooo _oo o-oo o_ooo. o_oo oo- ooo'o oo|o oo_oo_ oo oo oooo! o_oo-o*))o oooo ooo_o, oo@o@oo o( ooo oo_o, oo_oo_o_o oo- oo^o ooo@ o @ ooo@o ooo -oooo. ooo ooooo oo oo!2!o!o, oo_oo_ o?oo oo o_oo oo oo_o o_ooo_o oooo o_o o_ooo. @oo @oo@ ooo_oo oo_o oo oooo, ooo@o o@_o_o oo_oo_oo_, ^oo oooo oo$ooo o--o oo. o_o oo_ooo_oo oo@ooooo@o ooo-oo oo ooo o_ooo, l@o_oo@ oo o_ooo o_o o_o_.\n\n");
@@ -700,7 +700,7 @@
 	}
 
 	//{Next Page}
-	private missingoSex5(): void {
+	private missingoSex5() {
 		DisplaySprite(50);
 		DisplayText().clear();
 		DisplayText("Yeah no, fuck this shit. Seriously. You grip your controller with a barely restrained fury, fighting the urge to throw it across the room in a fit. Taking a moment, you collect yourself, and test the game. Yep, totally unresponsive to your buttons now. Damn thing froze AGAIN.\n\n");
@@ -717,10 +717,10 @@
 		MainScreen.simpleChoices(["Restore", "", "", "", ""], [missingoSex6, null, null, null, null]);
 	}
 	//{Next Page}
-	private missingoSex6(): void {
+	private missingoSex6() {
 		DisplaySprite(50);
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 		hideUpDown();
 		statScreenRefresh();
 		DisplayText().clear();
@@ -735,7 +735,7 @@
 	//Either type on Sandwich: Finished (Radar)(edited)
 	//Display standard victory dialogue, yadda yadda, etc
 	//[Sex]----> [sex options here]   [Oviposition] 
-	private ovipositSandWitches(): void {
+	private ovipositSandWitches() {
 		DisplayText().clear();
 		DisplayText("As you glance down at the ");
 		if (monster.stats.HP < 1) DisplayText("bruised and battered");
@@ -747,11 +747,11 @@
 		//PC won through HP victory: 
 		if (monster.stats.HP < 1) DisplayText("\n\nRolling your eyes, you offer a sympathetic hand to the defeated witch, showing her that you don't mean to hurt her any further, that you have something more... pleasurable in mind.  ")
 		DisplayText("The sand witch slows to a dead stop as she assesses your intentions, which are made all the more clear as you disrobe and toss your [armor] aside, exposing your ");
-		if (player.torso.cocks.count > 0) DisplayText("hardened  " + CockDescriptor.describeMultiCockShort(player));
+		if (player.torso.cocks.count > 0) DisplayText("hardened  " + Desc.Cock.describeMultiCockShort(player));
 		if (player.gender === Gender.HERM) DisplayText(" and ");
-		if (player.torso.vaginas.count > 0) DisplayText(VaginaDescriptor.describeClit(player));
+		if (player.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeClit(player));
 		DisplayText(" for her viewing consumption.  Making quite the persuasive argument of non-hostility as you do, the sand witch finally relents, removing her cloak and exposing her four-breasted, ");
-		if (player.torso.cocks.count > 1) DisplayText(num2Text(player.torso.cocks.count + 1));
+		if (player.torso.cocks.count > 1) DisplayText(numToCardinalText(player.torso.cocks.count + 1));
 		else DisplayText("two");
 		DisplayText("-sexed form, allowing the sun to glisten off her bare body.");
 
@@ -765,10 +765,10 @@
 	}
 
 	//[Foreplay 1st]
-	private eggwitchForeplay(): void {
+	private eggwitchForeplay() {
 		DisplayText().clear();
 		DisplayText("Knowing how the desert witch feels at this moment, you decide to help ease her into receiving your young.  Slowly, you slide your fingers up the uneasy woman's legs, the sensation of your hands along her delicate frame soliciting a pitiful gasp from the sand witch as she receives the caress.  Gradually working upwards, your palms curve and twist along the blonde beauty's thighs, all the while causing her to shudder from the stimulus, her ");
-		if (player.torso.cocks.count > 1) DisplayText(num2Text(player.torso.cocks.count + 1));
+		if (player.torso.cocks.count > 1) DisplayText(numToCardinalText(player.torso.cocks.count + 1));
 		else DisplayText("two");
 		DisplayText(" clits all hard from the apparent promise of your carnal attentions.  Positioned between her thighs, your hands rest and you wait for the eager gaze of her eyes, the imploring of your continued progress.  The sand witch doesn't disappoint; her needy eyes beseech you to splay her legs open and get intimately acquainted with her naughty bits.");
 
@@ -791,7 +791,7 @@
 	}
 
 	//[Get Fucking]
-	private getToFuckingWithZeEggsInWitch(): void {
+	private getToFuckingWithZeEggsInWitch() {
 		DisplayText().clear();
 		//[PC corruption is less than 60: 
 		if (player.stats.cor < 66) {
@@ -818,7 +818,7 @@
 
 	//(Merge)
 	//choose pussy or anus randomly
-	private laySomeEggsInThatWitchFinally(): void {
+	private laySomeEggsInThatWitchFinally() {
 		DisplayText().clear();
 		let cunt: boolean = (randInt(2) === 0);
 		DisplayText("Before long the intense need to culminate the act grows too lucid to ignore, and with a hum of satisfaction you finally bore your ovipositor through the tight ");
@@ -858,16 +858,16 @@
 		DisplayText(" to spur you on.  Of course you don't have a problem with fulfilling her wishes; the neglect of your throbbing sex");
 		if (player.torso.cocks.count > 1 || player.gender > 2) DisplayText("es");
 		DisplayText(" is the only point of dissatisfaction, a point you make clear when you ");
-		if (player.torso.cocks.count > 0) DisplayText("take hold of your " + CockDescriptor.describeMultiCockShort(player) + " and bring it");
-		else DisplayText("bring your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+		if (player.torso.cocks.count > 0) DisplayText("take hold of your " + Desc.Cock.describeMultiCockShort(player) + " and bring it");
+		else DisplayText("bring your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 		DisplayText(" to her face.  The cute stare of her half-glazed eyes turns to the lunge of lips toward your sex, the sand witch driven like a woman possessed in her efforts to get the next batch going...");
 
 		DisplayText("\n\nFor what feels like an eternity you sit atop the pliant sorceress, having her tend to your sex");
 		if (player.torso.cocks.count > 1 || player.gender === Gender.HERM) DisplayText("es");
 		DisplayText(" while you slowly pump her full of eggs, her girlish little moans resonating through your body as she orally stimulates your ");
-		if (player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeMultiCockShort(player));
+		if (player.torso.cocks.count > 0) DisplayText(Desc.Cock.describeMultiCockShort(player));
 		if (player.gender === Gender.HERM) DisplayText(" and ");
-		if (player.torso.vaginas.count > 0) DisplayText("your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+		if (player.torso.vaginas.count > 0) DisplayText("your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 		DisplayText(".  At long last her enthusiastic efforts bring you to a more 'traditional' release, lathering ");
 		let facial: number = randInt(2);
 		if (facial === 0) DisplayText("her facial features with proof of your climax");
@@ -885,11 +885,11 @@
 		}
 		player.dumpEggs();
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//Birthing scene: Driders (Radar)(edited)
-	public sammitchBirthsDriders(): void {
+	public sammitchBirthsDriders() {
 		DisplayText().clear();
 		//Occurs 8 days (or moar appropriate time) after fertile oviposition, triggered when exploring the Desert
 		DisplayText("As you struggle with the loose footing of the hot desert sand, a weak howl reaches your ears.  Curiously, you stop and listen, trying to locate the potential source of the sound.  Yet all you can really hear is the wind against the sand-blasted, desolate terrain, giving you cause to shrug it off and continue on your merry way.");
@@ -914,7 +914,7 @@
 
 	//[Help her!] (corr < 60)
 	//no new PG
-	private helpZeWithBirfBabies(): void {
+	private helpZeWithBirfBabies() {
 		DisplayText("\n\nFilled with pride that you're going to be a 'father', you quickly rush to the sand witch's side and help her to her feet.  She can barely stand as it is, and groans intensely as she struggles to delay the birth of your children.");
 
 		//Body check
@@ -939,7 +939,7 @@
 	}
 
 	//[Must I really?] (corr >=60)
-	private reluctantlyHelpZeWitch(): void {
+	private reluctantlyHelpZeWitch() {
 		DisplayText("\n\nGreat.  Of all the things you could be doing, you get stuck helping this twit out.  Why she couldn't have just stayed home or gone to the swamp is beyond you at this point - you grumble at your misfortune, helping the bearer of your young to rise to her feet.");
 
 		//body fork
@@ -962,7 +962,7 @@
 
 	//all shapes and personalities come to:
 	//prompt with --Next-- button
-	private sandwitchBirthsYourMonstrosities(): void {
+	private sandwitchBirthsYourMonstrosities() {
 		DisplayText().clear();
 		DisplayText("After what seems like forever, you finally reach the outskirts of camp, stopping just outside of the perimeter to lay the sand witch on the cool dirt.  \"<i>H-here they come!</i>\" she cries out, before wincing in agony.  Splaying her legs, she finally relaxes and allows the birthing process to continue unhindered, the tell-tale signs slowly flowing out of her as green goop.  The pained expression on her face suddenly turns euphoric as the birthing fluids escape from her, acting as an numbing agent and aphrodisiac in the process.  Before long your newly hatched children emerge from their mother's body, covered in all sorts of liquids.  One by one they scurry out, amazed and awestruck by this strange new world they've finally entered into.  That soon gives way to hunger; the children are obviously thirsty and starved from the whole ordeal.  Clamoring up their mother, the fruits of your union quickly ascend to the sand witch's two pairs of breasts, minimizing any infighting for feeding rights.");
 
@@ -981,21 +981,21 @@
 	}
 
 	//irthing scene: Bees (Radar) (edited)
-	public witchBirfsSomeBees(): void {
+	public witchBirfsSomeBees() {
 		DisplayText().clear();
 		//Occurs 8 days (or moar appropriate time) after fertile oviposition; triggered when exploring the Desert
 		DisplayText("\n\nAs you trudge through the windy desolation of the desert, the familiar hum of buzzing bees can be heard.  You muse to yourself, trying to figure out what a swarm of bees is doing all the way out here.  Then it hits you; that sand witch you mated with must be nearby, and she's probably given birth!");
 
 		DisplayText("\n\nRushing towards the crescendo of loud buzzing, you stumble upon the haughty sorceress lying in the sand, with the tell-tale aftermath of bee-brand oviposition pooled around her buttocks.  The swarm stays only for a few brief moments");
-		if (silly()) DisplayText(", echoing tiny little cries of \"<i>@</i>\"");
-		DisplayText("; likely it was just waiting for someone to find their mother before taking off in the general direction of the forest.  The weak voice of the desert vixen fills the air as she speaks to you.  \"<i>That... was the best.  I can't believe I'm a mother!</i>\"  She gives you a look of appreciation for showing her how pleasurable being a host can be.  Seeing she needs her rest, you give a nod and turn to leave... only to feel a hand grasp at your [leg].  \"<i>I would be disappointed if you didn't come around and 'say hello' more often; keep that in mind " + player.mf("handsome", "beautiful") + ".</i>\"  She coos, before drifting off to sleep.  She'll be fine in this shady part of the desert while she rests, the dune currently obstructing the sun and keeping her from being burned from the sun's rays.");
+		if (User.settings.silly()) DisplayText(", echoing tiny little cries of \"<i>@</i>\"");
+		DisplayText("; likely it was just waiting for someone to find their mother before taking off in the general direction of the forest.  The weak voice of the desert vixen fills the air as she speaks to you.  \"<i>That... was the best.  I can't believe I'm a mother!</i>\"  She gives you a look of appreciation for showing her how pleasurable being a host can be.  Seeing she needs her rest, you give a nod and turn to leave... only to feel a hand grasp at your [leg].  \"<i>I would be disappointed if you didn't come around and 'say hello' more often; keep that in mind " + Desc.Gender.mf(player, "handsome", "beautiful") + ".</i>\"  She coos, before drifting off to sleep.  She'll be fine in this shady part of the desert while she rests, the dune currently obstructing the sun and keeping her from being burned from the sun's rays.");
 
 		DisplayText("\n\nContent with how things turned out, you head back to camp and decide on the next course of action for today.");
 		pregnancy.knockUpForce(); //Clear Pregnancy
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	private sandwitchSpanking(): void {
+	private sandwitchSpanking() {
 		DisplayText().clear();
 		DisplayText("Feeling euphoric after your clear victory, you lazily circle the panting witch and laugh at her.  \"<i>Look at you,</i>\" you taunt, \"<i>A mighty witch of the sands, laid low by a helpless traveller.");
 		if (monster.stats.HP < 1) DisplayText("  You can't even stand up!");
@@ -1017,7 +1017,7 @@
 		DisplayText("You bristle at your helplessness");
 		if (player.perks.has(PerkType.FireLord) || player.perks.has(PerkType.Hellfire) || player.perks.has(PerkType.Dragonfire)) DisplayText(", breathing out a gout of flame in rage, but you can't even direct the blast properly like this.  All it does is melt some of the sand below into glass");
 		else DisplayText(", but there's nothing you can do");
-		DisplayText(".  Fingers tickle the " + SkinDescriptor.skin(character) + " of your bottom, and then, without warning, your [butt] is slapped!  The sound of the hit rings out across the desert, hard enough to make moisture bead at the corners of your eyes.");
+		DisplayText(".  Fingers tickle the " + Desc.Skin.skin(character) + " of your bottom, and then, without warning, your [butt] is slapped!  The sound of the hit rings out across the desert, hard enough to make moisture bead at the corners of your eyes.");
 		DisplayText("\n\nThe smirking sorceress laughs, \"<i>You are too prideful for your own good.  Now, I will teach you respect for our order, one spank at a time.</i>\"  She doesn't even wait before hitting you again, bringing her hand down on your unprotected ass without hesitation.  You squirm from pain, trying to escape, to wiggle free, but there's no use - you're tied down with stone restraints that you can't hope to escape.  All you can do is writhe uselessly against your bindings while your [butt] is tanned bright red, tingling with residual pain even when it isn't being hit.");
 		DisplayText("\n\nThis seems to last forever, and after what feels like hours of pain, you begin to beg for it to stop, whining and whimpering.  As soon as your voice takes on a genuine note of repentance, the blows stop falling.  The witch, having worked her frustrations out of her system, says, \"<i>That is acceptable.  Now, I shall leave you to think on your sins.  Let the sun's baleful gaze bake away the pain and replace it with discipline.</i>\"  ");
 		if (player.stats.cor < 50) DisplayText("She sounds almost fanatical in her dedication to her order.");
@@ -1031,7 +1031,7 @@
 		monster.stats.HP = 2;
 		player.stats.lust = 100;
 		Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] = monster.XP;
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 		player.orgasm();
 		player.stats.sens += 5;
 	}

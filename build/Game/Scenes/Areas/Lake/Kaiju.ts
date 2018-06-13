@@ -8,12 +8,12 @@
 
 	//First encounter
 	//Boat
-	public kaijuMeeting(): void {
+	public kaijuMeeting() {
 		DisplayText().clear();
 		if (Flags.list[FlagEnum.KAIJU_MEETINGS] === 0) {
 			DisplayText("Your explorations take you to a small island you haven't seen before.  It appears to be a large, smooth rock hill jutting out of the water.  Do you explore it?");
 			//[Yes/No]
-			menu();
+			
 			MainScreen.addButton(0, "Yes", meetDatKaijuYo);
 			MainScreen.addButton(1, "No", noMeetingKaijus);
 		}
@@ -29,7 +29,7 @@
 	}
 
 	//[If no]
-	private noMeetingKaijus(): void {
+	private noMeetingKaijus() {
 		DisplayText().clear();
 		DisplayText("You continue rowing on, away from the hilly island.");
 		//[There is still a chance of finding the hill later]
@@ -37,7 +37,7 @@
 	}
 
 	//[If yes]
-	private meetDatKaijuYo(): void {
+	private meetDatKaijuYo() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		Flags.list[FlagEnum.KAIJU_MEETINGS] = 1;
@@ -50,7 +50,7 @@
 
 		DisplayText("\n\nWhatever weight she gained, it seemed to all go up.  Despite the green skin and turtle shell, she appears completely humanoid, save for her giant size and proportions.  She looks to be kneeling in the lake, making her exact height hard to estimate.  Though her breasts are a bit larger than proportional, the rest of her matches what would be fit and trim for a person for her rather extreme stature.  Beyond size it would seem the corrupt fluids poured into the lake have heightened her lust as well, judging by how she tugs and pulls on her shapely tits while staring ever intensely at you.  It appears she expects an answer.  What do you do?");
 		//[Compliment/Flirt/Insult]
-		menu();
+		
 
 		MainScreen.addButton(0, "Compliment", complimentKaiju);
 		if (player.gender > 0) MainScreen.addButton(1, "Flirt", flirtWithKaiju);
@@ -58,7 +58,7 @@
 	}
 
 	//[If insult]
-	private insultTheKaijuFirstMeeting(): void {
+	private insultTheKaijuFirstMeeting() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		if (kaijuCock()) {
@@ -70,12 +70,12 @@
 			if (player.statusAffects.has(StatusAffectType.KnowsWhitefire) && (!player.perks.has(PerkType.BloodMage) && player.fatigue + kGAMECLASS.spellCost(30) > 100)) {
 				DisplayText("\n\nSensing her desires, you try to quickly think of how to avoid pleasing the giant's large cock.  It occurs to you that you could use the spell whitefire to attack her.  Do you cast it?");
 				//[Yes][No]
-				menu();
+				
 				MainScreen.addButton(0, "Yes", yesBurnDatClit);
 				MainScreen.addButton(1, "No", corruptKaijuInsertion);
 			}
 			else {
-				menu();
+				
 				MainScreen.addButton(0, "Next", corruptKaijuInsertion);
 			}
 		}
@@ -88,7 +88,7 @@
 	}
 
 	//[If yes]
-	private yesBurnDatClit(): void {
+	private yesBurnDatClit() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		fatigue(30, 1);
@@ -100,7 +100,7 @@
 	}
 
 	//[If no] (Scene returns to regular blowjob/urethral insertion scene.)
-	private corruptKaijuInsertion(): void {
+	private corruptKaijuInsertion() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("She practically shoves your face into her dark green cock-head, your nose snug against the long slit.  It smells of the sexual corruption of the lake, of demonic jizz and tainted aphrodisiacs.  \"<i>Well go on,</i>\" she says, \"<i>lick it!</i>\"");
@@ -119,20 +119,20 @@
 	}
 
 	//[If compliment]
-	private complimentKaiju(): void {
+	private complimentKaiju() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You decide to compliment her figure, stating it is proportional and very pleasing.");
 
 		DisplayText("\n\n\"<i>Aw, that's so sweet of you to say!</i>\" she says as a smile forms on her face.  \"<i>You're just so small and sweet I want to pick you up and give you a great big hug,</i>\" she continues as she reaches down to pick you up.");
 		//[Let her/Stop it]
-		menu();
+		
 		MainScreen.addButton(0, "Let Her", letKaijuHaveWayWithYou);
 		MainScreen.addButton(1, "Stop It", stopItPlease);
 	}
 
 	//[If stop it]
-	private stopItPlease(): void {
+	private stopItPlease() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You cry out and wave the inquisitive hand away.  You tell her that you mean no offense, but at such a size and strength disparity you are afraid of what a grip from such a woman could do accidentally.  She seems a bit saddened at that, but makes no further attempt to grab you.");
@@ -141,7 +141,7 @@
 	}
 
 	//[If let her]
-	private letKaijuHaveWayWithYou(): void {
+	private letKaijuHaveWayWithYou() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You make no moves as the hand firmly but gently picks you up and brings you upwards towards her ample bosom.  She holds you tightly to a breast, nearly smothering you in tit flesh.  Her perky nipple seems massive up close as it practically bounces off your head when she begins grinding you up and down her gargantuan breast");
@@ -151,8 +151,8 @@
 		if (player.torso.vaginas.count > 0) DisplayText("  Your [vagina] moistens from your body's growing arousal.");
 
 		DisplayText("\n\n\"<i>Oh my, it seems someone is enjoying my special hug,</i>\" the giant beauty says noticing your rising arousal.  The lusty giant removes the lower half of your [armor] revealing your ");
-		if (player.gender === Gender.HERM) DisplayText(CockDescriptor.describeMultiCockShort(player) + " and [vagina]");
-		else if (player.gender === Gender.MALE) DisplayText(CockDescriptor.describeMultiCockShort(player));
+		if (player.gender === Gender.HERM) DisplayText(Desc.Cock.describeMultiCockShort(player) + " and [vagina]");
+		else if (player.gender === Gender.MALE) DisplayText(Desc.Cock.describeMultiCockShort(player));
 		else if (player.gender === Gender.FEMALE) DisplayText("[vagina]");
 		else DisplayText("bare groin");
 		DisplayText(".  \"<i>Let's have some fun!</i>\"");
@@ -162,7 +162,7 @@
 			DisplayText("\n\nShe brings you up to her nipple, letting your throbbing cock");
 			if (player.torso.cocks.count > 1) DisplayText("s");
 			if (player.torso.balls.quantity > 0) DisplayText(" and [balls]");
-			DisplayText(" rest on her perky pink naughty bit.  She coos in delight as her hand slowly rubs your private parts along her firm nipple.  She begins to bounce ever so slightly, which at her size means a verifiable mountain of boob begins smacking heavily against your lower body.  \"<i>Oh yes,</i>\" she says, moaning in ecstasy, \"<i>fuck my breast!</i>\"  You don't really seem to have a choice in the matter as she picks up the pace, almost violently slamming you against her smooth green skin and stiff pink nipple.  Despite the relatively soft flesh of her mammary, it is still hundreds of pounds of tit flesh.  As if unsatisfied with just smothering you in boob she takes one green pinkie finger and begins to spank you in a manner she probably believes to be quite soft but lands quite hard on your [butt].  A small number of spankings begin to leave your ass red and tingling, each strike pushing your " + CockDescriptor.describeMultiCockShort(player) + " further into soft breast and firm nipple.  \"<i>Please, cum on me!</i>\" she commands, and almost as if on cue your body obeys, jizz flying and coating her breast with as much sperm as your body can produce.");
+			DisplayText(" rest on her perky pink naughty bit.  She coos in delight as her hand slowly rubs your private parts along her firm nipple.  She begins to bounce ever so slightly, which at her size means a verifiable mountain of boob begins smacking heavily against your lower body.  \"<i>Oh yes,</i>\" she says, moaning in ecstasy, \"<i>fuck my breast!</i>\"  You don't really seem to have a choice in the matter as she picks up the pace, almost violently slamming you against her smooth green skin and stiff pink nipple.  Despite the relatively soft flesh of her mammary, it is still hundreds of pounds of tit flesh.  As if unsatisfied with just smothering you in boob she takes one green pinkie finger and begins to spank you in a manner she probably believes to be quite soft but lands quite hard on your [butt].  A small number of spankings begin to leave your ass red and tingling, each strike pushing your " + Desc.Cock.describeMultiCockShort(player) + " further into soft breast and firm nipple.  \"<i>Please, cum on me!</i>\" she commands, and almost as if on cue your body obeys, jizz flying and coating her breast with as much sperm as your body can produce.");
 			//[if PC has balls]
 			if (player.torso.balls.quantity > 0) DisplayText("  Your [balls] begin to ache as you slowly empty your load onto green flesh.");
 			player.orgasm();
@@ -170,7 +170,7 @@
 		//[if player has vagina]
 		else if (player.torso.vaginas.count > 0) {
 			DisplayText("\n\nShe spreads your legs open and slowly brings your pink netherlips into place, your [vagina] hovering right in front of her massive, cock-sized nipple!  With a squeal of delight, she pushes the tip of her nip into your pussy, her eyes almost rolling back in her head as she slowly, steadily shoves her nipple inch by inch into your stretched [vagina].");
-			player.displayStretchVagina(14, true, true, false);
+			Mod.Vagina.displayStretchVagina(player, 14, true, true, false);
 			DisplayText("  Something wet begins to leak out from the stiff, female member in your stuffed hole, and with a shock you realize she must be lactating!  The giantess's milk lubricates your passage, allowing her to ease more of her throbbing stiffness into you until finally her nipple bottoms out, your pussy lips kissing pink areola.  Your [vagina] clamps down on her, pinching her nipple and driving her deeper into what quickly turns into an ecstatic orgasm.  Her lactating tit suddenly erupts, pouring what must be gallons of corrupt milk into your womb, quickly distending your belly until you look pudgy, and then pregnant - with triplets!");
 
 			DisplayText("\n\nHer nipple pops out, spurting milk all over you, soaking your skin in slick whiteness.  You hope it's good for your skin.");
@@ -190,7 +190,7 @@
 	}
 
 	//[If flirt]
-	private flirtWithKaiju(): void {
+	private flirtWithKaiju() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You decide to try and flirt up the giantess.  You tell her that her figure is perfect and statuesque, and that her curves are quite magnificent to behold.  It seems to work if her spreading look of pleasure is any indication.");
@@ -201,9 +201,9 @@
 			DisplayText("You are surprised to see she has an enormous cock right where a clitoris would be.  It is already stiff and throbbing with arousal as corrupted lake water drips off it.  ");
 			//[Regardless of Marae's corruption]
 		}
-		DisplayText("Her moist pussy is large and pink while a steady stream of feminine slime leaks from it, soaking her green thighs.  \"<i>It's so nice when a cute " + player.mf("stud", "gal") + " takes an interest, don't you think?</i>\" she continues, gently picking you up in her tremendous hand.  Though you imagine it would be difficult for such large fingers to nimbly handle the clasps and straps of normal size clothing, she soon has you naked.  \"<i>Now, it may have been a while, but I know what flirting is for.  And you're just too cute to play 'hard to get,' with...</i>\"");
+		DisplayText("Her moist pussy is large and pink while a steady stream of feminine slime leaks from it, soaking her green thighs.  \"<i>It's so nice when a cute " + Desc.Gender.mf(player, "stud", "gal") + " takes an interest, don't you think?</i>\" she continues, gently picking you up in her tremendous hand.  Though you imagine it would be difficult for such large fingers to nimbly handle the clasps and straps of normal size clothing, she soon has you naked.  \"<i>Now, it may have been a while, but I know what flirting is for.  And you're just too cute to play 'hard to get,' with...</i>\"");
 
-		DisplayText("\n\nShe begins to push you towards her gargantuan slit as she spreads her legs.  \"<i>Now don't worry about protection, no normal sperm can hope to break through the above average walls of my eggs.  So you just relax and enjoy the fuck,</i>\" she tells you before plopping you head first past the lips and into the slick, warm walls of her mammoth cunt.  You are given a moment to examine your surroundings.  At first there's a small rising fear of claustrophobia, but it quickly passes and you begin inhaling her scent and the warm fluids of her sex seep into your " + player.skinFurScales() + ".  Obviously her corrupt twat juices double as an aphrodisiac.  Beginning to feel lusty, you notice her vaginal muscles tightening around you, gently squeezing and releasing you as if you were receiving a full body massage.  It's actually rather pleasant in here, albeit strange.");
+		DisplayText("\n\nShe begins to push you towards her gargantuan slit as she spreads her legs.  \"<i>Now don't worry about protection, no normal sperm can hope to break through the above average walls of my eggs.  So you just relax and enjoy the fuck,</i>\" she tells you before plopping you head first past the lips and into the slick, warm walls of her mammoth cunt.  You are given a moment to examine your surroundings.  At first there's a small rising fear of claustrophobia, but it quickly passes and you begin inhaling her scent and the warm fluids of her sex seep into your " + Desc.Skin.skinFurScales(player) + ".  Obviously her corrupt twat juices double as an aphrodisiac.  Beginning to feel lusty, you notice her vaginal muscles tightening around you, gently squeezing and releasing you as if you were receiving a full body massage.  It's actually rather pleasant in here, albeit strange.");
 		//[Lust increases]
 		player.stats.lust += 33;
 
@@ -263,11 +263,11 @@
 	}
 
 	//Second/Repeatable encounter/s at Boat
-	private repeatKaijuEncounter(): void {
+	private repeatKaijuEncounter() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("As you row through the lake you encounter a familiar sight, a giant shell as big as an island.  As you row near it the terrapin giantess, Venus emerges from the corrupted waters.  One giant green hand plays with her titanic jugs as the other remains in the water playing with her unseen sex.  It takes several moments before she notices you.  \"<i>Oh my, it's you again, my favorite voyeur!  Did you come back for a little peek, or do you want to have some real fun?</i>\"");
-		menu();
+		
 		let drafts: number = 0;
 		//[If PC has 15 incubus drafts (regular or pure) and Venus is not already a herm]
 		if (player.itemCount(consumables.INCUBID) + player.itemCount(consumables.P_DRAFT) >= 10 && !kaijuCock()) {
@@ -283,7 +283,7 @@
 		MainScreen.addButton(9, "Leave", leaveRepeatKaiju);
 	}
 	//[If Hug Boobs]
-	private kaijuRepeatBoobHug(): void {
+	private kaijuRepeatBoobHug() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You decide it would be fun to play with her titanic titties for a while.");
@@ -295,7 +295,7 @@
 		if (player.torso.vaginas.count > 0) DisplayText("  Your [vagina] moistens from your body's growing arousal.");
 
 		DisplayText("\n\n\"<i>Oh my, it seems someone is enjoying my special hug,</i>\" the giant beauty says noticing your rising arousal.  The lusty giant removes the lower half of your [armor] revealing your ");
-		if (player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeMultiCockShort(player));
+		if (player.torso.cocks.count > 0) DisplayText(Desc.Cock.describeMultiCockShort(player));
 		if (player.gender === Gender.HERM) DisplayText(" and ");
 		if (player.torso.vaginas.count > 0) DisplayText("[vagina]");
 		if (player.gender === Gender.NONE) DisplayText("bare groin");
@@ -306,14 +306,14 @@
 			DisplayText("\n\nShe brings you up to her nipple, letting your throbbing erection");
 			if (player.torso.cocks.count > 1) DisplayText("s");
 			if (player.torso.balls.quantity > 0) DisplayText(" and [balls]");
-			DisplayText(" rest on her perky pink naughty bit.  She coos in delight as her hand slowly rubs your private parts along her firm nipple.  She begins to bounce ever so slightly, which at her size means a verifiable mountain of boob begins smacking heavily against your lower body.  \"<i>Oh yes,</i>\" she says, moaning in ecstasy, \"<i>fuck my breast!</i>\"  You don't really seem to have a choice in the matter as she picks up the pace, almost violently slamming you against her smooth green skin and stiff pink nipple.  Despite the relatively soft flesh of her mammary, it is still hundreds of pounds of tit flesh.  As if unsatisfied with just smothering you in boob she takes one green pinkie finger and begins to spank you in a manner she probably believes to be quite soft but lands quite hard on your [butt].  A small number of spankings begin to leave your ass red and tingling, each strike pushing your " + CockDescriptor.describeMultiCockShort(player) + " further into her soft breast and firm nipple.  \"<i>Please, cum on me!</i>\" she commands, and almost as if on cue your body obeys, jizz flying and coating her breast with as much sperm as your body can produce.");
+			DisplayText(" rest on her perky pink naughty bit.  She coos in delight as her hand slowly rubs your private parts along her firm nipple.  She begins to bounce ever so slightly, which at her size means a verifiable mountain of boob begins smacking heavily against your lower body.  \"<i>Oh yes,</i>\" she says, moaning in ecstasy, \"<i>fuck my breast!</i>\"  You don't really seem to have a choice in the matter as she picks up the pace, almost violently slamming you against her smooth green skin and stiff pink nipple.  Despite the relatively soft flesh of her mammary, it is still hundreds of pounds of tit flesh.  As if unsatisfied with just smothering you in boob she takes one green pinkie finger and begins to spank you in a manner she probably believes to be quite soft but lands quite hard on your [butt].  A small number of spankings begin to leave your ass red and tingling, each strike pushing your " + Desc.Cock.describeMultiCockShort(player) + " further into her soft breast and firm nipple.  \"<i>Please, cum on me!</i>\" she commands, and almost as if on cue your body obeys, jizz flying and coating her breast with as much sperm as your body can produce.");
 			if (player.torso.balls.quantity > 0) DisplayText("  Your [balls] begin to ache as you slowly empty your load onto green flesh.");
 			player.orgasm();
 		}
 		//[if player has vagina]
 		if (player.torso.vaginas.count > 0) {
 			DisplayText("\n\nShe spreads your legs open and slowly brings your pink netherlips into place, your [vagina] hovering right in front of her massive, cock-sized nipple!  With a squeal of delight she pushes the tip of her nip into your pussy, her eyes almost rolling back in her head as she slowly, steadily shoves her nipple inch by inch into your stretched hole.");
-			player.displayStretchVagina(14, true, true, false);
+			Mod.Vagina.displayStretchVagina(player, 14, true, true, false);
 			DisplayText("  Something wet begins to leak out from the stiff female member in your stuffed hole, and with a shock you realize she must be lactating!  The giantess milk lubricates your passage, allowing her to ease more of her throbbing stiffness into you until finally her nipple bottoms out, your pussy lips kissing pink areola.  Your [vagina] clamps down on her, pinching her nipple and driving her deeper into what quickly turns into an ecstatic orgasm.  Her lactating tit suddenly erupts, pouring what must be gallons of corrupt milk into your womb, quickly distending your belly until you look pudgy, and then pregnant - with triplets!");
 			DisplayText("\n\nHer nipple pops out, spurting milk all over you, soaking your skin in slick whiteness. You hope it's good for your skin.");
 			player.orgasm();
@@ -330,7 +330,7 @@
 	}
 
 	//[If Fuck] 
-	private fuckThisGiantYouDumbCunt(): void {
+	private fuckThisGiantYouDumbCunt() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You decide it’d be fun to fuck the giantess, even if at her size you’re really more of a living dildo than a rutting stud.  She seems pretty happy with the thought if her spreading look of pleasure is any indication.");
@@ -342,7 +342,7 @@
 		}
 		DisplayText("Her moist pussy is large and pink while a steady stream of feminine slime leaks from it, soaking her green thighs.  \"<i>But you aren’t intimidated by all this, are you?</i>\" she continues, gently picking you up in her tremendous hand.  Though you imagine it would be difficult for such large fingers to nimbly handle the clasps and straps of normal size clothing, she soon has you naked.  \"<i>Now let’s fuck!</i>\"");
 
-		DisplayText("\n\nShe begins to push you towards her gargantuan slit as she spreads her legs.  \"<i>Now don't worry about protection, no normal sperm can hope to break through the above average walls of my eggs.  So you just relax and enjoy the fuck,</i>\" she tells you before plopping you head first past the lips and into the slick, warm walls of her mammoth cunt.  You are given a moment to examine your surroundings.  At first there's a small rising fear of claustrophobia, but it quickly passes and you begin inhaling her scent and the warm fluids of her sex seep into your " + player.skinFurScales() + ".  Obviously her corrupt twat juices double as an aphrodisiac.  Beginning to feel lusty, you notice her vaginal muscles tightening around you, gently squeezing and releasing you as if you were receiving a full body massage.  It's actually rather pleasant in here, albeit strange.");
+		DisplayText("\n\nShe begins to push you towards her gargantuan slit as she spreads her legs.  \"<i>Now don't worry about protection, no normal sperm can hope to break through the above average walls of my eggs.  So you just relax and enjoy the fuck,</i>\" she tells you before plopping you head first past the lips and into the slick, warm walls of her mammoth cunt.  You are given a moment to examine your surroundings.  At first there's a small rising fear of claustrophobia, but it quickly passes and you begin inhaling her scent and the warm fluids of her sex seep into your " + Desc.Skin.skinFurScales(player) + ".  Obviously her corrupt twat juices double as an aphrodisiac.  Beginning to feel lusty, you notice her vaginal muscles tightening around you, gently squeezing and releasing you as if you were receiving a full body massage.  It's actually rather pleasant in here, albeit strange.");
 		player.stats.lust += 33;
 
 		DisplayText("\n\nShe still has your [leg] held gently between two fingers, and she begins to steadily push you deeper and deeper inside her wet honeypot, coating you liberally in more of the lust inducing wetness.  \"<i>Oh that's it baby, slow and steady wins the race,</i>\" she moans, her voice sounding muffled from where you are.  Her vaginal walls continue their rhythmic massage of your body, relaxing your own muscles as the tension of your adventures seem to evaporate.");
@@ -408,7 +408,7 @@
 	}
 
 	//[If Urethra Fuck]
-	private urethraFuckDatGiantCock(): void {
+	private urethraFuckDatGiantCock() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You look at her with an inquisitive stare.  You’re interested in that big green cock of hers, but how can you use such a giant tool?");
@@ -423,7 +423,7 @@
 		DisplayText("\n\n\"<i>Gods above [name] but you look like a whore!  By Marae you’re turning me on!</i>\"");
 
 		DisplayText("\n\nShe quickly has you positioned in front of her cock once more, this time feet first so she can keep your head free.  You can see your legs slowly slide down into her green cock, her cum-slit swallowing you up to your [hips].  You can feel the walls of her cock head push in all around you, squeezing your [butt]");
-		if (player.torso.cocks.count > 0) DisplayText(" and your " + CockDescriptor.describeMultiCockShort(player));
+		if (player.torso.cocks.count > 0) DisplayText(" and your " + Desc.Cock.describeMultiCockShort(player));
 		DisplayText(".  \"<i>Wow, you look absolutely gorgeous in my cock!</i>\" the giantess says with glee, perverse desire in her eyes as she shoves you in further up to your [chest], her trembling, squeezing cock seeming to give you an almost relaxing massage.  You can barely believe it, but this unnatural giantess has as much control over her urethral walls as the most whorish succubus has over her cunt!  Only your arms and head are free of her cock as her unusual member starts squeezing and rippling all along your body.  It seems her dick wants to give you a happy ending.");
 
 		DisplayText("\n\nJudging by the lustful cooing sounds, the jolly green girl is nearing her limit, her free hand snaking down to gently stroke her giant cock.  \"<i>Going to cum I’m going to cum going to cum!</i>\" she shouts as she reaches her own orgasm before you.  Suddenly her dick widens at the base as her cum shot heads your way!  With your body lodged tightly in the way, the corrupted turtle sperm has nowhere to go but in, your [asshole] suddenly filling up as your bowels are flooded with cum!");
@@ -439,7 +439,7 @@
 	}
 
 	//[If Leave]
-	private leaveRepeatKaiju(): void {
+	private leaveRepeatKaiju() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You politely decline any options and bid the green girl goodbye as you row away.");
@@ -447,7 +447,7 @@
 	}
 
 	//[If Talk] 
-	private talkToKaiju(): void {
+	private talkToKaiju() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		Flags.list[FlagEnum.KAIJU_TALK_CYCLE]++;
@@ -491,7 +491,7 @@
 	}
 
 	//[If Peek]
-	private peekAtSomePhatAssKaijuButt(): void {
+	private peekAtSomePhatAssKaijuButt() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		Flags.list[FlagEnum.KAIJU_BAD_END_COUNTER]++;
@@ -512,18 +512,18 @@
 		if (kaijuCock()) {
 			DisplayText("\n\nThough she appears to be ending the show, you know you can encourage her to go even further.  Do you egg her on?");
 			//[Yes][No]
-			menu();
+			
 			MainScreen.addButton(0, "Yes", yesKaijuGimmePeepShowsMoar);
 			MainScreen.addButton(1, "No", noKaijuPeepShows);
 		}
 		else {
-			menu();
+			
 			MainScreen.addButton(0, "Next", noKaijuPeepShows);
 		}
 	}
 
 	//[If yes]
-	private yesKaijuGimmePeepShowsMoar(): void {
+	private yesKaijuGimmePeepShowsMoar() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		Flags.list[FlagEnum.KAIJU_BAD_END_COUNTER]++;
@@ -535,7 +535,7 @@
 	}
 
 	//[If no] (Skip corrupt/herm scene)
-	private noKaijuPeepShows(): void {
+	private noKaijuPeepShows() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("\"<i>My goodness, it's so much better with a captivated audience!</i>\" she says, breathing heavily.  You thank her for the show as she places you back into your boat and giving it a push.  You row away, considering perhaps coming back for another show.");
@@ -547,7 +547,7 @@
 	//One off scenes
 	//Scene for Newly Cocked Venus at Boat
 	//[Triggered if the PC has already had sex with pure female Venus before finishing the Factory quest, and has since stopped the Factory and corrupted the lake and Marae]
-	private kaijuGrowsWangus(): void {
+	private kaijuGrowsWangus() {
 		Flags.list[FlagEnum.KAIJU_COCK] = 1;
 		DisplayText().clear();
 		DisplaySprite(103);
@@ -558,14 +558,14 @@
 
 		DisplayText("\n\nYou never expected your actions in the factory to have such a perverse effect.  Do you help get her off?");
 		//[Yes][No][Mock]
-		menu();
+		
 		MainScreen.addButton(1, "No", dontGetFutaTurtlesOffToday);
 		MainScreen.addButton(0, "Yes", helpNewFutaKaijuGetOff);
 		MainScreen.addButton(2, "Mock", mockDatTurtleGirl);
 	}
 
 	//[If no]
-	private dontGetFutaTurtlesOffToday(): void {
+	private dontGetFutaTurtlesOffToday() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You shake your head no, politely responding that you do not want to get her off right now.  \"<i>Oh, okay. I understand,</i>\" the giantess states, looking somewhat crestfallen.  You row away, leaving her and her new addition to themselves for the time being.");
@@ -573,7 +573,7 @@
 	}
 
 	//[If Mock] 
-	private mockDatTurtleGirl(): void {
+	private mockDatTurtleGirl() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You laugh at the giant, asking her what kind of girl has a cock.  A rage overtakes her, her blue eyes suddenly glowing bright red as she grips you firmly in one massive hand, keeping your arms pinned to your sides so tightly you can't move.  \"<i>How dare you!</i>\" she tells you as two demonic horns creep up out of her red locks.  The factory's corruption has obviously given her more than a large male member.  \"<i>All you had to do was say no, you didn't have to be so rude about it! Maybe this will teach you a few manners,</i>\" she says, opening her hand to allow her new green cock to fall onto you before closing her hand again, firmly gripping you and her erect member.  All you can see is the green of her twitching cock flesh.  \"<i>I want to see if this thing is fully functional, so hang on tight!</i>\"");
@@ -604,7 +604,7 @@
 	}
 
 	//[If yes]
-	private helpNewFutaKaijuGetOff(): void {
+	private helpNewFutaKaijuGetOff() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		Flags.list[FlagEnum.KAIJU_BAD_END_COUNTER]++;
@@ -633,7 +633,7 @@
 	}
 
 	//[If Incubi Drafts]
-	private incubiDraftsDatKaiju(): void {
+	private incubiDraftsDatKaiju() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("You ask the big green slut if she’d be open to growing a new toy between her legs to play with.\n\nHer eyes go wide in surprise at the suggestion, a deep red blush spreading across her cheeks. \"<i>I admit, I have thought about it. Something long and hard to stroke, but I really don’t know,</i>\" she says, obviously excited yet embarrassed by the idea. \"<i>Would you really be okay with it?</i>\"");
@@ -644,7 +644,7 @@
 	}
 
 	//[If Yes]
-	private yesTurnKaijuFuta(): void {
+	private yesTurnKaijuFuta() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		Flags.list[FlagEnum.KAIJU_BAD_END_COUNTER] += 2;
@@ -665,7 +665,7 @@
 		DisplayText("\n\n\"<i>Sorry about that, it only just occurred to me that might pose a problem.  But I have an even better idea, and this way I can see your cute face!</i>\" she says, blushing in delight at the view of your precum dripping face.  \"<i>Gods above [name] but you look like a whore!  By Marae you’re turning me on!</i>\"");
 
 		DisplayText("\n\nShe quickly has you positioned in front of her cock once more, this time feet first so she can keep your head free.  You can see your legs slowly slide down into her green cock, her cum-slit swallowing you up to your [hips].  You can feel the walls of her cock head push in all around you, squeezing your [butt]");
-		if (player.torso.cocks.count > 0) DisplayText(" and your " + CockDescriptor.describeMultiCockShort(player));
+		if (player.torso.cocks.count > 0) DisplayText(" and your " + Desc.Cock.describeMultiCockShort(player));
 		DisplayText(".  \"<i>Wow, you look absolutely gorgeous in my cock!</i>\" the giantess says with glee, perverse desire in her eyes as she shoves you in further up to your [chest], her trembling, squeezing cock seeming to give you an almost relaxing massage.  You can barely believe it, but this unnatural giantess has as much control over her urethral walls as the most whorish succubus has over her cunt!  Only your arms and head are free of her cock as her unusual member starts squeezing and rippling all along your body.  It seems her new dick wants to give you a happy ending.");
 		DisplayText("\n\nJudging by the lustful cooing sounds, the jolly green girl is nearing her limit, her free hand snaking down to gently stroke her giant cock.  \"<i>Going to cum I’m going to cum going to cum!</i>\" she shouts as she reaches her own orgasm before you.  Suddenly her dick widens at the base as her second cum shot heads your way!  With your body lodged tightly in the way, the corrupted turtle sperm has nowhere to go but in, your [butt] suddenly filling up as your bowels are flooded with cum!");
 		//[If PC has a cock]
@@ -685,7 +685,7 @@
 	//Improved Bad End
 	//Venus' Sex Toy
 	//[Triggers after doing something sexual with Venus a lot in a few days, but with a cooldown]
-	private kaijuBadEndToyBOOSH(): void {
+	private kaijuBadEndToyBOOSH() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("As you are rowing through the lake you once more stumble upon the jolly green giantess Venus, who seems to be in the throes of pleasure as she masturbates furiously in some shallow waters, rubbing her large ");
@@ -700,19 +700,19 @@
 		if (player.canFly()) {
 			DisplayText("\n\nIt is not too late to fly to safety if you so choose.  Do you make a go of it?");
 			//[Yes][No]
-			menu();
+			
 			//[If yes] Flapping your wings at max speed you beat a hasty retreat! [PC winds up back at camp]
 			//[If no] (Scene continues as normal)
 			MainScreen.addButton(0, "Yes", flyAwayFromBadEnd);
 			MainScreen.addButton(1, "No", badEndPartTwo);
 		}
 		else {
-			menu();
+			
 			MainScreen.addButton(0, "Next", badEndPartTwo);
 		}
 	}
 
-	private flyAwayFromBadEnd(): void {
+	private flyAwayFromBadEnd() {
 		DisplayText().clear();
 		DisplaySprite(103);
 		DisplayText("Flapping your wings at max speed you beat a hasty retreat!");
@@ -720,10 +720,10 @@
 	}
 
 	//[End wings]
-	private badEndPartTwo(): void {
+	private badEndPartTwo() {
 		DisplayText().clear();
 		DisplaySprite(103);
-		DisplayText("The horny giantess makes short work of your [armor] and soon the green gal has you mashed against her puckered lips, doing her best to give a passionate kiss despite the size barrier.  Pulling you up towards eye level, her voice growls with lust as she says, \"<i>By Marae you get me so hot and bothered.  We've just been fucking so much lately I can't get you out of my mind!  You naughty, wonderful, glorious, perverted " + player.mf("boy", "girl") + "!  I just don't think I can stand it without you any longer!</i>\"  Without further comment she places you at the tip of one of her great big green milk machines, shoving your face into a pink colossal nipple.  \"<i>Drink up now.</i>\"  It's apparent she wants to feed you her corrupted milk, and there doesn't appear to be much of a choice in the matter now.  Her nipple is larger than even some of the more massive cocks you've seen in this land, yet you manage to get your mouth around the very tip of it and begin to suck mercilessly at the milky teat as you bring your hands up to stroke and pinch at the base of the overly sensitive large nub.  \"<i>Oh goddess!</i>\" the giant slut moans above you.");
+		DisplayText("The horny giantess makes short work of your [armor] and soon the green gal has you mashed against her puckered lips, doing her best to give a passionate kiss despite the size barrier.  Pulling you up towards eye level, her voice growls with lust as she says, \"<i>By Marae you get me so hot and bothered.  We've just been fucking so much lately I can't get you out of my mind!  You naughty, wonderful, glorious, perverted " + Desc.Gender.mf(player, "boy", "girl") + "!  I just don't think I can stand it without you any longer!</i>\"  Without further comment she places you at the tip of one of her great big green milk machines, shoving your face into a pink colossal nipple.  \"<i>Drink up now.</i>\"  It's apparent she wants to feed you her corrupted milk, and there doesn't appear to be much of a choice in the matter now.  Her nipple is larger than even some of the more massive cocks you've seen in this land, yet you manage to get your mouth around the very tip of it and begin to suck mercilessly at the milky teat as you bring your hands up to stroke and pinch at the base of the overly sensitive large nub.  \"<i>Oh goddess!</i>\" the giant slut moans above you.");
 		if (player.torso.neck.head.face.tongueType === TongueType.SNAKE) DisplayText("  Your snaky forked tongue begins lashing about, flicking at the nipple tip in your mouth while rubbing at the underside of it, urging the tender spot to give up a drop of the heavenly white liquid.");
 		//[If PC has demonic/dragon tongue]
 		else if (player.torso.neck.head.face.tongueType > TongueType.HUMAN) {
@@ -743,7 +743,7 @@
 			DisplayText("\n\n\"<i>Alright cupcake, drinky drinky,</i>\" she says, pushing your head deep into the bubbly goo.  She leaves you there to drink or drown, so drink you do, until your belly is fit to burst and your lungs are aching.  Then she gives you a chance to catch your breath before rubbing you on her cock tip, bathing you in the pink cum until your skin is shiny with it all over.  You suddenly feel a tingling all over your skin and in your belly, then slowly the tingling spreads as if your body is absorbing it into every part of yourself.");
 			DisplayText("\n\n\"<i>Do you feel it working yet?  Can you guess what it did?  I’ll give you a hint,</i>\" the giantess says, a mad look of lust in her eyes as she gazes at your nude, helpless form.  It appears the turtle girl you know is gone, completely taken over by her libido.  She turns you around and you suddenly feel the giant head of her dick resting on your [butt].  Why is she rubbing your ass with her dick, she knows it won’t fit right?  It’s bigger and wider than your whole body!");
 			DisplayText("\n\nAnd that’s when you feel the impossible.  Your asshole expands, gently giving ground to the leviathan at your backdoor as you feel your hips part and stretch away from each other.  Her magic pink cum has turned you into the most elastic fuck toy in the land!  Oh, this is just too wrong.");
-			player.displayStretchButt(500, true, true, false);
+			Mod.Butt.displayStretchButt(player, 500, true, true, false);
 			DisplayText("\n\nSuddenly her entire cockhead enters your ass, stretching you out obscenely.  You orgasm instantly.  You might handle anal better than this under normal conditions, but then there’s nothing normal about taking something this huge.");
 			if (player.torso.cocks.count > 0) DisplayText("  You prostate is pressed down like a button, and there’s just no letting up!");
 			if (player.torso.vaginas.count > 0) DisplayText("  Even if your cunt is empty, there is no free space left there, your cunt walls forced together like glue.");
@@ -758,7 +758,7 @@
 		DisplayText("\n\nYou’re drenched in the turtle girl’s love juices as she near instantly cums from pleasure, but you know it’s far from over as she keeps thrusting you up and down, in and out of her colossal cunt.  \"<i>Oh gods! So good!</i>\" she moans, her voice soft and muffled from your vantage point inside of her.  \"<i>I need more!  I need more in me!</i>\"  Well, considering you’re all the way in that’s going to be kind of hard, there’s nothing more to shove i... wait, what is that below you? Green foliage spreads out underneath you as she shoves a tree up her titanic twat!  Even for her impressive size you can tell this is almost too much for the giantess, as it stretches her cunt out.  But there’s something more, something almost hard to see in the dark, pink depths of her sex, but you manage to make out long, slithering tendrils sliding up from the tree towards you.  She’s fucking herself with a tentacle tree from a corrupted glade!  You’re not exactly in a position to walk away from the corrupted foliage as the tree’s long vine-cocks begin to climb up your legs with lustful intent.  Whether you want it or not, you’re about to get fucked inside this cunt.");
 
 		DisplayText("\n\nThe first planty-cock hits your ass like a switch, spanking your [butt] till your cheeks are blushing red before the tip snuggles up to your puckered sphincter.  It wriggles wildly, working itself up in ecstatic anticipation, or at least the plant-like version of anticipation, drippy vine-pre-seed lubing up your hole before pushing forth with all its might, meeting only a little resistance before the pressure and fluid mixture eases it into your [butt].");
-		player.displayStretchButt(30, true, true, false);
+		Mod.Butt.displayStretchButt(player, 30, true, true, false);
 		DisplayText("  Inches slide in at a time as it spasms inside of you, attempting to hit every sensitive spot your ass may have as it slowly tries to stretch you out.\n\n");
 
 		//[If PC has a cock] 
@@ -768,7 +768,7 @@
 		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) DisplayText("  Another tendril snakes its way up your abdomen to nestle between your [chest], slicking your mounds with pre as it slides between your tits, giving itself a titty-fuck with your titties!");
 
 		DisplayText("\n\nMore tentacles squirm up, wrapping around your limbs bondage fashion, while others rub and knead against you in a lewd massage, all while the giant’s pussy flesh wrings around you, soaking you and massaging you and the tentacles as the green girl screams like a whore in the throes of the best sex of her life.");
-		if (player.torso.cocks.count > 0) DisplayText("  More tentacles arrive and begin to wrap around your " + CockDescriptor.describeMultiCockShort(player) + ", slowly jacking you off to the tempo set by the cocks in your ass and mouth, wracking you with further pleasure.");
+		if (player.torso.cocks.count > 0) DisplayText("  More tentacles arrive and begin to wrap around your " + Desc.Cock.describeMultiCockShort(player) + ", slowly jacking you off to the tempo set by the cocks in your ass and mouth, wracking you with further pleasure.");
 		DisplayText("  All this intense pleasure is too much for you and you reach one of the hardest, messiest orgasms of your life, and by the way the green giant’s pussy clenches and soaks you even further in her fluids you know she has reached yet another climax as well, and yet she doesn’t stop thrusting that tree in and out of her abused turtle snatch, taking you for a further ride as you get pulled along with the corrupt foliage, attached by the tireless vines.");
 
 		DisplayText("\n\nIt is many hours before the pressure and pleasure becomes too much for even the slutty giant, but rather than end it she merely ratchets her sexual perversion down a peg, taking the tree out of her soaked cunt for now, but still diddling herself off to smaller orgasms with you.  You’re helpless as she uses you as a living dildo, pushing you as far into her dripping cunt as you will go, smacking you repeatedly into her G-spot and bringing herself to orgasm after orgasm.  Her massaging walls and inquisitive fingers bring you to orgasm almost as much.  Even in the haze of her lust, she still cares enough to get you off.  But that doesn’t seem to stop her from pumping you into her pussy for hours, only taking you out to feed you more of her milk to keep you going.  Finally, her arms grow tired, and even her impossible libido wanes. Hopefully you’ll be able to leave her and head back to camp soon... or so you thought.\n\nWhether through magic or gods only know how, she seems to have formed a boulder into a smooth, wide, bulbous yet short (relatively speaking) vaginal plug, which she uses to plug up her hole with you still trapped inside.  It appears you’re to now call her vagina home, a live in sex toy only taken out to be fed milk and pleasure her in various ways.");

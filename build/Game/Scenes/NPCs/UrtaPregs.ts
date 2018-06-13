@@ -44,14 +44,14 @@ export class UrtaPregs extends NPCAwareContent {
 		return Flags.list[FlagEnum.URTA_KIDS_MALES] + Flags.list[FlagEnum.URTA_KIDS_FEMALES] + Flags.list[FlagEnum.URTA_KIDS_HERMS];
 	}
 
-	private urtaSexMenu(): void {
-		let spank: Function = null;
+	private urtaSexMenu() {
+		let spank;
 		if ((player.torso.cocks.count > 0 && player.cockThatFits(urta.urtaCapacity()) >= 0) || player.hasKeyItem("Deluxe Dildo") >= 0) spank = urta.spankTheShitOutOfUrtaAndMakeHerCreamHerselfFromProstateStimulationAloneLikeTheHornyDrunkenSlutSheReallyIs;
 		//NOT Drunk
 		if (!urta.urtaDrunk()) {
 			//Lover
 			if (Flags.list[FlagEnum.URTA_PC_LOVE_COUNTER] === 1) {
-				menu();
+				
 				MainScreen.addButton(0, "Her Place", urta.goBackToUrtasForLuvinz);
 				if (Flags.list[FlagEnum.URTA_CUM_NO_CUM_DAYS] >= 5) MainScreen.addButton(1, "Suck Off", urta.slurpFawkesCocksForFunAndInflation);
 				else MainScreen.addButton(1, "Suck Off", urta.blowUrtaUnderTheTableLuv);
@@ -59,7 +59,7 @@ export class UrtaPregs extends NPCAwareContent {
 			}
 			//FRIEND
 			else {
-				menu();
+				
 				if (Flags.list[FlagEnum.URTA_CUM_NO_CUM_DAYS] >= 5) MainScreen.addButton(0, "Hidden BJ", urta.slurpFawkesCocksForFunAndInflation);
 				else MainScreen.addButton(0, "Hidden BJ", urta.blowUrtaUnderTable);
 				MainScreen.addButton(1, "Urta's Place", urta.goBackToUrtasForLuvinz);
@@ -70,7 +70,7 @@ export class UrtaPregs extends NPCAwareContent {
 		else {
 			//LOVER
 			if (urtaLove()) {
-				menu();
+				
 				MainScreen.addButton(0, "Jerkoff", urta.getAPublicFacialFromUrta);
 				MainScreen.addButton(1, "Anal Ride", urta.takeUrtaInTheButtPublically);
 				if (player.canOviposit()) MainScreen.addButton(2, "Lay Eggs", urta.giveTheFoxSomeEggs);
@@ -82,7 +82,7 @@ export class UrtaPregs extends NPCAwareContent {
 			}
 			//FRIEND
 			else {
-				menu();
+				
 				MainScreen.addButton(0, "Jerkoff", urta.getAPublicFacialFromUrta);
 				MainScreen.addButton(1, "Anal Ride", urta.takeUrtaInTheButtPublically);
 				if (player.canOviposit()) MainScreen.addButton(2, "Lay Eggs", urta.giveTheFoxSomeEggs);
@@ -96,7 +96,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 
-	internal function urtaPregAppearance(): void {
+	internal function urtaPregAppearance() {
 		switch (pregnancy.event) {
 			case 1:
 			case 2: DisplayText("Urta is sitting at her usual table, looking more clear-eyed and sober than usual.  She looks extremely happy, tail wagging gently behind her, and she gives you a thrilled look when she sees you, smiling blissfully and patting her belly in a meaningful gesture.");
@@ -114,14 +114,14 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//In Urta Menu
-	internal function urtaPreggoApproached(): void {
+	internal function urtaPreggoApproached() {
 		DisplayText().clear();
-		menu();
+		
 		switch (pregnancy.event) {
 			case 1: DisplayText("As you approach and take your usual seat, Urta chugs down a glass of something orange-colored and fizzy, which definitely doesn't smell like her usual taste in drinks.  She sees you looking at it and smiles, shrugging casually.  \"<i>Well, I can't drink alcohol while pregnant, can I, [name]?</i>\"  She then steals a kiss from you; she tastes sweet and a little tart - must be some sort of fruit-juice...");
 				//Horny:
 				if (Flags.list[FlagEnum.URTA_TIME_SINCE_LAST_CAME] === 0) {
-					DisplayText("  Her cock audibly clonks against the table's underside, but she just grins at the sound, fully confident in who she is now.  \"<i>Wanna come back to my place, lover" + player.mf("-boy", "") + "?  They say sex is good for the baby - and really good for the mommy...</i>\"  She croons, teasingly rubbing your [legs] with her foot.");
+					DisplayText("  Her cock audibly clonks against the table's underside, but she just grins at the sound, fully confident in who she is now.  \"<i>Wanna come back to my place, lover" + Desc.Gender.mf(player, "-boy", "") + "?  They say sex is good for the baby - and really good for the mommy...</i>\"  She croons, teasingly rubbing your [legs] with her foot.");
 					urtaSexMenu();
 				}
 				else {
@@ -179,7 +179,7 @@ export class UrtaPregs extends NPCAwareContent {
 				DisplayText("\n\n\"<i>Oh, [name]; thank goodness you're here, lover.  I - I <b>need</b> to fuck!  The baby's due any day now, but my hormones are driving me nuts.  Please, tell me you'll help me out, [name]?  I... I've always tried to respect you and your wishes, even when I was drunk off my rocker, but I swear, in this condition, I'm having a really hard time trying to stop myself from bending you over the table and spreading your gorgeous [butt] with my tool.  Right now I just want to fuck you until you're stuffed full of cum and rounder than I am.</i>\"  Urta's desperate expression and the nervous tremors that ripple through her cock suggest she really means what she's saying.");
 				DisplayText("\n\nYou could take Urta back to her apartment and give her the release she's so desperately craving, or you could take advantage of her current state and tease her a bit.  This would, of course, encourage her to fill you up with her cock like she said she wanted to.  Or you could just leave her to get a hold of herself.");
 				//[Sex] [Tease] [Leave]
-				menu();
+				
 				MainScreen.addButton(0, "Sex", preggoUrtaSmexOrSomething);
 				MainScreen.addButton(1, "Tease", urtaRaepsJoo);
 				MainScreen.addButton(4, "Leave", leavePreggoUrta);
@@ -192,7 +192,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Leave=]
-	private leavePreggoUrta(): void {
+	private leavePreggoUrta() {
 		DisplayText().clear();
 		DisplayText("You apologize to Urta, but you just really don't feel in the mood right now, and step away from her and start heading towards the door as quickly as politeness allows; if she really is as horny as she claims to be, you're not eager to give her too much temptation.  You pause at the door and look back; Urta looks a little hurt, but mostly resigned, and is clearly trying to calm herself down with breathing exercises.  Given the way one of the staff is approaching with a fresh bucket for her cock to drip into, you don't think it's working too well.");
 		//PC leaves the Wet Bitch as per choosing to Leave ordinary Urta
@@ -204,7 +204,7 @@ export class UrtaPregs extends NPCAwareContent {
 	///Later on, can potentially write an option for more sex-based \"home birth\" that PCs can opt to do instead
 	//☼☼
 	//Hospital
-	public preggoUrtaGivingBirth(): void {
+	public preggoUrtaGivingBirth() {
 		DisplayText().clear();
 		pregnancy.knockUpForce(); //Clear Pregnancy
 		Flags.list[FlagEnum.URTA_PREGNANT_DELIVERY_SCENE] = 0;
@@ -212,13 +212,13 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("As you start getting ready to settle in for the night, you become aware of a commotion steadily approaching your position.  Readying yourself to fight, you approach the boundaries of your camp.  There, stamping his hoof irritably, is a centaur wearing a studded leather jerkin.  \"<i>[name]!  Are you [name]?</i>\"  He cries upon spotting you.");
 		DisplayText("\n\nYou reply that you are, and ask who he is and what he wants.  \"<i>I'm a messenger from Tel'adre!  Captain Urta sent me to fetch you - she's in the hospital.</i>\"  He replies urgently.  \"<i>Please, you have to come with me - she's gone into labor; the baby is coming</i>!\"");
 		//[Go] [Refuse]
-		menu();
+		
 		MainScreen.addButton(0, "Go", goVisitUrtaBirfs);
 		MainScreen.addButton(1, "Refuse", IAintGotTimeForUrtaBirfs);
 	}
 
 	//[=Refuse=]
-	private IAintGotTimeForUrtaBirfs(): void {
+	private IAintGotTimeForUrtaBirfs() {
 		DisplayText().clear();
 		DisplayText("The centaur looks perplexed at your refusal.  \"<i>I - what?  Really?</i>\"");
 		DisplayText("\n\nYou nod your head, explaining why you can't go.  The centaur's jaw works, but he says nothing, instead nodding his head and galloping off.  You promptly go and turn in for the night.");
@@ -242,7 +242,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Play new day begins text, plus the following:
-	public getUrtaLetter(): void {
+	public getUrtaLetter() {
 		DisplayText("\nYou discover a letter has arrived in the night.  Opening it up confirms it's from Urta... and she's not particularly happy with you after you failed to show up for the birth.  You do learn that you and she now have a ");
 		if (Flags.list[FlagEnum.URTA_LATESTBORN_GENDER] === 1) DisplayText("son");
 		else if (Flags.list[FlagEnum.URTA_LATESTBORN_GENDER] === 2) DisplayText("daughter");
@@ -253,7 +253,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 
 	//[=Go=]
-	private goVisitUrtaBirfs(withUrta: boolean = false): void {
+	private goVisitUrtaBirfs(withUrta: boolean = false) {
 		DisplayText().clear();
 		pregnancy.knockUpForce(); //Clear Pregnancy
 		Flags.list[FlagEnum.URTA_PREGNANT_DELIVERY_SCENE] = 0;
@@ -262,7 +262,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 		//[1st time:
 		if (Flags.list[FlagEnum.URTA_TIMES_BIRTHED] === 0) {
-			DisplayText("\n\nA perky-looking young female mouse-morph, her nurse's outfit stretched a little tighter over her breasts than is considered professional, a small name tag with \"Splinter\" clipped onto one hem, looks up at you with a welcoming grin.  \"<i>Hello, " + player.mf("mister", "miss") + "; please state the nature of the problem.</i>\"  You explain your reason and her eyes widen with understanding.  \"<i>Ah, I see.  Please, follow me, [name]; I will take you to Urta's room.</i>\"  She promptly gets up out of her seat - allowing you to see a rather unladylike bulge at her crotch, though you have no idea if she's a herm or merely an effeminate male - and starts walking, with you following close behind.");
+			DisplayText("\n\nA perky-looking young female mouse-morph, her nurse's outfit stretched a little tighter over her breasts than is considered professional, a small name tag with \"Splinter\" clipped onto one hem, looks up at you with a welcoming grin.  \"<i>Hello, " + Desc.Gender.mf(player, "mister", "miss") + "; please state the nature of the problem.</i>\"  You explain your reason and her eyes widen with understanding.  \"<i>Ah, I see.  Please, follow me, [name]; I will take you to Urta's room.</i>\"  She promptly gets up out of her seat - allowing you to see a rather unladylike bulge at her crotch, though you have no idea if she's a herm or merely an effeminate male - and starts walking, with you following close behind.");
 		}
 		//Else:
 		else {
@@ -376,13 +376,13 @@ export class UrtaPregs extends NPCAwareContent {
 			Flags.list[FlagEnum.URTA_FIRSTBORN_GENDER] = Flags.list[FlagEnum.URTA_LATESTBORN_GENDER];
 			Flags.list[FlagEnum.URTA_FIRSTBORN_COCKTYPE] = Flags.list[FlagEnum.URTA_LATESTBORN_COCKTYPE];
 		}
-		menu();
+		
 		MainScreen.addButton(0, "Stay", stayAfterUrtaBirf);
 		MainScreen.addButton(1, "Go", goAfterUrtaBirf);
 	}
 
 	//[=No=]
-	private goAfterUrtaBirf(): void {
+	private goAfterUrtaBirf() {
 		DisplayText().clear();
 		DisplayText("You apologize, but there are pressing matters you need to attend to today... but you'll make it up to her somehow, you promise.  Urta looks disappointed, but sighs sadly and nods her head.  \"<i>Of course.  You're still a busy adventurer and all that.  Well, don't worry; I'll make sure this little one gets home and settled in safely.</i>\"");
 		model.time.hours++;
@@ -390,7 +390,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//=Yes=]
-	private stayAfterUrtaBirf(): void {
+	private stayAfterUrtaBirf() {
 		DisplayText().clear();
 
 		DisplayText("Of course, if that's what she wants, you'd be happy to oblige.  The vixen smiles at you thankfully.  \"<i>You won't regret it, [name]; I have an eventful day planned for us,</i>\" she finishes with a mischievous grin and a giggle of delight.");
@@ -404,12 +404,12 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nAt this, the new mother gives you a wicked grin.  \"<i>Now, I never said sex was out of the question... does that give you second thoughts?</i>\"");
 		DisplayText("\n\nOf course not!");
 		//Next
-		menu();
+		
 		MainScreen.addButton(0, "Next", wakeUpWithUrtaAfterStaying);
 	}
 
 	//(PC spends the day with Urta, so fast forward to PC waking up by Urta's side.)
-	private wakeUpWithUrtaAfterStaying(): void {
+	private wakeUpWithUrtaAfterStaying() {
 		DisplayText().clear();
 		model.time.days++;
 		model.time.hours = 6;
@@ -476,13 +476,13 @@ export class UrtaPregs extends NPCAwareContent {
 
 		DisplayText("\n\nUrta's breasts look awfully swollen... you'd guess she has way more milk than the baby will ever need.  Perhaps you could get a taste for yourself?");
 		//[Drink] [Leave]
-		menu();
+		
 		MainScreen.addButton(0, "Drink", drinkSomeUrtaPostBirthTitMilk);
 		MainScreen.addButton(4, "Leave", noNeedForTitMilkTodayUrta);
 	}
 
 	//[=Leave=]
-	private noNeedForTitMilkTodayUrta(): void {
+	private noNeedForTitMilkTodayUrta() {
 		DisplayText().clear();
 		DisplayText("It's better if you don't.  You kiss Urta on the cheek and let her know you should really be going. \"<i>Sure you don't want to stick around for breakfast, lover?  It's no trouble to set an extra plate at the table,</i>\" Urta asks, even as she continues rocking the baby.  The idea is tempting but... you shake your head.  \"<i>All right, lover; be safe out there, and come back to us when you can.</i>\"  Urta says, cuddling her child a little more enthusiastically as you quietly see yourself out of the house.");
 		//(Start day 1 hour later due to having to walk back to camp.)
@@ -490,7 +490,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Drink=]
-	private drinkSomeUrtaPostBirthTitMilk(): void {
+	private drinkSomeUrtaPostBirthTitMilk() {
 		DisplayText().clear();
 		DisplayText("You decide to ask if Urta wouldn't mind you getting breakfast before going.  Your hand wanders to caress her unoccupied breast.  She moans appreciatively and then giggles.  \"<i>Naughty [name]... but, I'm okay with that.  Just let me finish up with this little one first; I can't juggle the two of you at the same time.</i>\"");
 		DisplayText("\n\nA few minutes later, the kit is done and gently burped over Urta's shoulder, the vixen carefully putting the cooing, babbling infant down in ");
@@ -536,7 +536,7 @@ export class UrtaPregs extends NPCAwareContent {
 			//.. except for one.");
 			//DisplayText("\n\nUrta looks at you with a puzzled expression.  \"<i>What craving is that?</i>\"  Then she develops a sly look.  \"<i>It wouldn't happen to be something that a certain lucky vixen might be able to provide, hmm?</i>\"  You circle her, examining her with a sly smile.  Urta grins in anticipation, her erection already starting to lift her skirt up.  \"<i>You know... they don't expect me back in Tel'Adre for some time yet; plenty of time for us to help your cravings...</i>\"");
 			//DisplayText("\n\nDo you let Urta <i>help</i> you?");
-			//menu();
+			//
 			//addButton(0,"Yes",getUrtaHelpPreggoPC);
 			//addButton(1,"No",noHelpForUrtaPreggoPC);
 			//Flags.list[FlagEnum.EVENT_PARSER_ESCAPE] = 1;
@@ -556,7 +556,7 @@ export class UrtaPregs extends NPCAwareContent {
 			DisplayText("\n\n\"<i>Well, then I'll have to keep coming to see you,</i>\" Urta laughs, rubbing your belly.  \"<i>Now, it can't be easy carrying this big heavy belly around, so why don't you lie down and I'll give you a nice backrub, hmm?</i>\"");
 			//She shifts her arms to drape themselves flirtatiously around your neck, leaning in with a mischievous smile on her lips.  \"<i>Or I could take your mind off your belly altogether...</i>\"  She croons, then pecks you teasingly on the lips.");
 			//[Sex][Massage]
-			menu();
+			
 			//addButton(0,"Sex",getUrtaSexWhenPreggoz);
 			MainScreen.addButton(0, "Massage", getAnUrtaMassageWhenPreggo);
 			Flags.list[FlagEnum.EVENT_PARSER_ESCAPE] = 1;
@@ -566,7 +566,7 @@ export class UrtaPregs extends NPCAwareContent {
 		else if (player.pregnancyIncubation === 216) {
 			DisplayText("\nYou fetch a waterskin to quench your thirst, then sit down on the outskirts of the camp to get some rest.  \"<i>Hey there, beautiful.</i>\"  A familiar voice echoes from behind you as Urta emerges from the wilderness.  She walks right up to you and reaches around to pat your distended belly.  \"<i>And how's the baby treating you, sexy?  You carry that bump well, you know?</i>\"");
 			DisplayText("\n\nYou smile at her compliment and tell her that the baby's finally kicking now, asking her if she wants to feel it...");
-			DisplayText("\n\nUrta squeals in glee and immediately glomps onto your bloated belly, rubbing her hands and her cheek excitedly across its " + player.skinFurScales() + " surface in hopes of feeling her child moving around inside you.  You groan at Urta's tight hug, she throws you slightly off-balance, but you manage to remain steady.  From inside you, you feel the baby shifting in your increasingly tight womb, and Urta looks up at you in shock, glee dancing in her eyes.  \"<i>I felt it!  It's moving in there!");
+			DisplayText("\n\nUrta squeals in glee and immediately glomps onto your bloated belly, rubbing her hands and her cheek excitedly across its " + Desc.Skin.skinFurScales(player) + " surface in hopes of feeling her child moving around inside you.  You groan at Urta's tight hug, she throws you slightly off-balance, but you manage to remain steady.  From inside you, you feel the baby shifting in your increasingly tight womb, and Urta looks up at you in shock, glee dancing in her eyes.  \"<i>I felt it!  It's moving in there!");
 			if (urtaKids() === 0) DisplayText(" Oh, [name], we really are going to be parents...");
 			DisplayText("</i>\" She babbles happily, tail wagging so enthusiastically you wonder if it's going to fall off.");
 
@@ -580,7 +580,7 @@ export class UrtaPregs extends NPCAwareContent {
 		//6:
 		else if (player.pregnancyIncubation === 144) {
 			DisplayText("\nYou sigh.  You hope this baby will be born soon, your back is starting to ache after carrying the little guy everywhere.  \"<i>Hello, lover... oh, why the long face?</i>\"  Urta asks.  You're not surprised that she's here, now.  You explain to her about how tired you've been feeling lately, since you got this big.  Urta pats your shoulder, looking sympathetic.  \"<i>Really, you should take a break, lover.  I'm on an extended patrol right now, so you and I could stay here and rest together for the day - I'll handle the foraging and defending and stuff for you.</i>\"  She offers.");
-			menu();
+			
 			MainScreen.addButton(0, "Accept", acceptUrtaLevelSixPreggoHelps);
 			MainScreen.addButton(1, "Decline", declineUrtaLevelSixPreggoHelps);
 			Flags.list[FlagEnum.EVENT_PARSER_ESCAPE] = 1;
@@ -598,14 +598,14 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=No=]
-	private noHelpForUrtaPreggoPC(): void {
+	private noHelpForUrtaPreggoPC() {
 		DisplayText().clear();
 		DisplayText("You caress her cheek before saying a flat, \"<i>No</i>\".  Urta actually gives you puppy dogs eyes at that, then lets out a wounded-sounding huff.  \"<i>All right, [name]; I guess I better get back to work, then.  Now you take care of yourself; you've got a little one on board, now.</i>\"  She chastises you.");
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//[=Yes=]
-	private getUrtaHelpPreggoPC(): void {
+	private getUrtaHelpPreggoPC() {
 		DisplayText().clear();
 		DisplayText("Good, you hope this means she'll be having plenty of time, because you sure could use a fair share of vixen right now.  \"<i>As long as you want me, I'll be here.</i>\"  Urta laughs already starting to fiddle with the straps of her armor.  \"<i>Do you have any preferences for what we do?</i>\"");
 
@@ -614,7 +614,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Sex=]
-	private getUrtaSexWhenPreggoz(): void {
+	private getUrtaSexWhenPreggoz() {
 		DisplayText().clear();
 		DisplayText("Well... you could use a break from minding your passenger, so how does she plan to help you take your mind off your current predicament?  You ask with a knowing smile.");
 
@@ -626,7 +626,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Massage=]
-	private getAnUrtaMassageWhenPreggo(): void {
+	private getAnUrtaMassageWhenPreggo() {
 		DisplayText().clear();
 		DisplayText("You tell her that a backrub sounds fine, but you'd rather not lie down.  It could hurt the baby.  \"<i>Right, sorry, what was I thinking?  Well, I think I can be flexible...</i>\"  Urta grins, cracking her fingers. \"<i>Now, let's just find somewhere comfortable to put you first...</i>\"");
 
@@ -645,7 +645,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Decline=]
-	private declineUrtaLevelSixPreggoHelps(): void {
+	private declineUrtaLevelSixPreggoHelps() {
 		DisplayText().clear();
 		DisplayText("You thank Urta for the offer, but you'll have to decline.  You still have business to take care of, so you'll just rest for a while longer then be on your way.  Besides, it wouldn't look good for her to be absent for too long, she has a city to take care of.");
 
@@ -656,7 +656,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Accept=]
-	private acceptUrtaLevelSixPreggoHelps(): void {
+	private acceptUrtaLevelSixPreggoHelps() {
 		DisplayText().clear();
 		DisplayText("You're feeling really tired right now, and besides, spending a whole day with Urta would be nice, so you gladly accept her offer.");
 
@@ -669,7 +669,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//PC Gives Birth
-	public PCGivesBirf(): void {
+	public PCGivesBirf() {
 		DisplayText("\n");
 		Flags.list[FlagEnum.URTA_PREGNANT_DELIVERY_SCENE] = 0;
 		Flags.list[FlagEnum.NEW_BABY_ANNOUNCED] = 0;
@@ -766,7 +766,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//Requires Urta and Nancy are both present at the Wet Bitch
 	//Requires Urta is pregnant
 	//Plays automatically on entering the Wet Bitch
-	public urtaIsHappyAboutPregnancyAtTheBar(): void {
+	public urtaIsHappyAboutPregnancyAtTheBar() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.URTA_INCUBATION_CELEBRATION] = 1;
 		DisplayText("As you enter Urta's favorite bar, you notice immediately that the mood seems to be more festive; a shy and happily embarrassed-looking Urta is surrounded at her table by well-wishers, all clutching mugs in hands.  Nancy spots you from her position behind the bar, where she's busy doling out drinks, and grins widely.  \"<i>Hey, everybody!  Here's the baby-daddy!</i>\"  She calls, and you are promptly surrounded by laughing, cheering, teasing people, who shake your hand, compliment you on your potency, slap your back or shoulder and teasingly invite you to try your studliness on them.  Somehow, amidst the confusion, you find yourself seated next to Urta, who smiles at you and pats your hand.");
@@ -781,7 +781,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//This scene plays automatically upon entering Tel'adre, ala the whole \"see Urta kick the shit out of a corrupt wolf\" scene
 	//Fenoxo's choice if this is a once-off or repeat scene
 	// Urta should probably be at least stage 5 pregnancy to trigger this
-	public urtaIsAPregnantCopScene(): void {
+	public urtaIsAPregnantCopScene() {
 		DisplayText().clear();
 		DisplayText("As you enter the main square and start looking around to decide where to go next, a commotion erupts across the square.  \"<i>Stop in the name of the law!</i>\"  Edryn's voice rings out as a young, raggedy-looking dog-morph erupts from the crowd, Edryn in hot pursuit.  Unfortunately for the centauress, the smaller biped is quicker, more nimble, and better suited for making his way through the crowd.");
 		if (kGAMECLASS.telAdre.edryn.pregnancy.isPregnant) DisplayText("  Edryn's pregnant belly isn't helping her, either.");
@@ -801,12 +801,12 @@ export class UrtaPregs extends NPCAwareContent {
 	//Must have Urta's Key.
 	//Urta must be pregnant to trigger this scene.
 	//Play this scene upon entering Tel'Adre.
-	public urtaSpecialDeliveries(): void {
+	public urtaSpecialDeliveries() {
 		DisplayText().clear();
 
 		DisplayText("As you enter through the gates, Edryn clops up to you, a small basket swinging from the crook of one arm");
 		if (kGAMECLASS.telAdre.edryn.pregnancy.isPregnant) DisplayText(" and her pregnant belly jiggling from the motions");
-		DisplayText(", a faint smile on her face.  \"<i>Hey there, [name]; can you do me a favor, please?  Urta's been getting deliveries to her place, but I got an unexpected call, so I'm too busy to take her groceries to her today - you're her " + player.mf("boyfriend", "girlfriend") + "; can you please take this for me?</i>\"  The centauress asks.");
+		DisplayText(", a faint smile on her face.  \"<i>Hey there, [name]; can you do me a favor, please?  Urta's been getting deliveries to her place, but I got an unexpected call, so I'm too busy to take her groceries to her today - you're her " + Desc.Gender.mf(player, "boyfriend", "girlfriend") + "; can you please take this for me?</i>\"  The centauress asks.");
 
 		DisplayText("\n\nReasoning that it shouldn't take you too long, and Urta's likely to appreciate the action, you agree to do so and she hands it over with a rather knowing smile.  She then gallops off, ");
 		if (kGAMECLASS.telAdre.edryn.pregnancy.isPregnant) DisplayText("as quickly as a pregnant mare can, anyway,");
@@ -827,13 +827,13 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou stroke her arm, and tell her to rest well.  You get up and close the door to Urta's room and head back to Tel'Adre's main street, saying a farewell to Lianna along the way.");
 		Flags.list[FlagEnum.URTA_PREGNANT_DELIVERY_SCENE] = 1;
 		//(Return to TA menu.)
-		menu();
+		
 		MainScreen.addButton(0, "Next", telAdre.telAdreMenu);
 	}
 
 	//New Talk Topic: Her House
 	//PC questions why Urta keeps her old apartment around.
-	internal function talkToUrtaAboutHerHouse(): void {
+	internal function talkToUrtaAboutHerHouse() {
 		DisplayText().clear();
 		DisplayText("You've been wondering why Urta keeps her old apartment if she has a nicer and bigger house now.  It would be much better for her to put the lease money towards something more productive than keeping that apartment...");
 		if (player.stats.cor < 50) DisplayText(" despite it having some emotional value to you.");
@@ -849,13 +849,13 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou think about it and nod, smiling at her and thanking her for the explanation.");
 
 		DisplayText("\n\n\"<i>Now, since we've been talking about my apartment...</i>\"  Urta begins, rubbing one foot against yours, \"<i>how about we duck back there and give the bed a run?  For old time's sake?</i>\"  She smirks, even as her cock hits the table with an audible *THUNK*.");
-		menu();
+		
 		MainScreen.addButton(0, "Yes", yesUrtaHouseSex);
 		MainScreen.addButton(1, "No", noUrtaHouseSex);
 	}
 
 	//[=Yes=]
-	private yesUrtaHouseSex(): void {
+	private yesUrtaHouseSex() {
 		DisplayText().clear();
 		DisplayText("You smile seductively at her and raise a brow.");
 
@@ -876,7 +876,7 @@ export class UrtaPregs extends NPCAwareContent {
 		}
 	}
 	//[=No=]
-	private noUrtaHouseSex(): void {
+	private noUrtaHouseSex() {
 		DisplayText().clear();
 		DisplayText("You smile at her and apologize, you're just not in the mood right now.");
 
@@ -889,7 +889,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//New Talk Topic: Lianna
 	//Must have visited Urta's House by yourself after getting the key.
 	//Must have seen Lianna introduce herself properly to the PC.
-	private talkAboutLiana(): void {
+	private talkAboutLiana() {
 		DisplayText().clear();
 		DisplayText("You tell Urta that you need to talk with her about something.");
 		DisplayText("\n\n\"<i>Yes, [name]?</i>\"  The politely puzzled prick-vixen responds.");
@@ -922,7 +922,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Pregnant Urta Sex
-	private preggoUrtaSmexOrSomething(): void {
+	private preggoUrtaSmexOrSomething() {
 		DisplayText().clear();
 		DisplayText("You let Urta know that you're for helping her vent some steam, if that's what she wants.");
 
@@ -940,7 +940,7 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou lead her through the familiar streets towards her apartment, eagerly waiting for her to open the door and step in.  Urta giggles as she fishes for her key.  \"<i>I think we both left quite a trail...</i>\"  She notes, even as the door swings open.  She then turns to you and hungrily kisses you, precum smearing itself wetly against your belly as she does.  Sloppily she lets you go, a hungry look in her eyes as she turns and saunters through the door, already pulling off her clothes as she goes.");
 
 		DisplayText("\n\nYou waste no time, stripping off and throwing your [armor] into a pile on the couch and going after her.  When you open the door you're greeted with the sight of Urta, lazily reclining on a pillow, legs spread to give you a clear view of her throbbing shaft, balls and dripping pussy.  \"<i>So, sexy, what do you want to do with your horny pregnant vixen, hmm?</i>\"  She croons.");
-		menu();
+		
 		MainScreen.addButton(0, "Massage Her", massagePregnantUrtasBelly);
 		MainScreen.addButton(1, "Boob Worship", urtaBoobWorshipScene);
 		MainScreen.addButton(2, "Nurse", nurseFromMommaUrtasBooBees);
@@ -949,7 +949,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Belly Massage
-	private massagePregnantUrtasBelly(): void {
+	private massagePregnantUrtasBelly() {
 		DisplayText().clear();
 		DisplayText("Looking over Urta's swollen form, you ask her if she'd like you to give her a belly rub.  The fox blinks, then smiles at the prospect, nodding her head happily.  You promptly ask if she has any oil that you can use; admittedly, it probably won't work so well on someone with a furry belly, but it can't hurt, right?");
 
@@ -999,14 +999,14 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou are a bit confused about Urta's choice of words, is she asking you to massage her pussy?  Then again, she's looking at her shaft... or at least you think she is.  What do you do?");
 		Flags.list[FlagEnum.TIMES_MASSAGED_URTA_BELLY]++;
 		//[RubDick] [RubPussy]
-		menu();
+		
 		MainScreen.addButton(0, "Rub Dick", rubUrtaDick);
 		MainScreen.addButton(1, "Rub Pussy", rubUrtaPussy);
 
 	}
 
 	//[=RubDick=]
-	private rubUrtaDick(): void {
+	private rubUrtaDick() {
 		DisplayText().clear();
 		DisplayText("You decide that she probably means her shaft.  It's a bit weird that she'd refer to her male half as a \"her\" too, but you shrug it off and extend your hand to grab her shaft, gently teasing the cum-bubble on the tip of her flared crown.  She gives a lewd moan and thrusts her hips upwards, desperate for more stimulation.  \"<i>Oh, yeah, lover... you make that part feel good...</i>\"");
 
@@ -1017,7 +1017,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=RubPussy=]
-	private rubUrtaPussy(): void {
+	private rubUrtaPussy() {
 		DisplayText().clear();
 		DisplayText("You decide that by \"her,\" she could only mean her pussy.  So you stretch your arm, as if reaching for her shaft, then find your way under her furry balls to her waiting slit, gently touching and massaging her labia, teasing her clit with little pinches, forcing her wetness out of her slavering honeypot.  She lets out a surprised yelp, then laughs, \"<i>Not actually what I wanted... ooh!  But I'm not complaining...</i>\"");
 
@@ -1026,7 +1026,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Both choices converge here
-	private urtaMassageClimax(): void {
+	private urtaMassageClimax() {
 		DisplayText("\n\nWith a howl of pleasure, Urta thrusts her hips, her balls clenching tightly against her suddenly sopping-wet cunt as they explode their contents, the vein-like interior of her shaft visibly bulging as cum rockets up her length and explodes into her condom.  The latex visibly lifts from the surface of her cock's fully-widened crown with the force of her shot, a miniature fountain of spunk gurgling and spraying as it hits the impermeable barrier and is deflected, soon drowning the wedge from view with a growing flood of herm-seed.  The bubble-like tip of the condom stretches bigger and bigger, growing rounder and fuller as she gushes shot after shot of seed into it.  Eventually, it looks like an off-white basketball is wobbling around on the tip of her cock.  Urta's orgasm finally subsides, drawing an exhausted yet happy groan from the herm vixen.  Her dick gently falls limp onto the bed, bringing her condom down to rest on the sheets, soaked with her feminine fluids.");
 
 		DisplayText("\n\nYou look at the molten puddle of pleasured fox that Urta's become and fetch the can of cream to spray some more on her, but find that nothing is coming out.  \"<i>D-don't worry... I'll have that replaced by the next time you come around.</i>\"  She pats her belly weakly and laughs quietly.  \"<i>I guess it's a really worthwhile investment to have... wonder if it makes good lube, too...</i>\"");
@@ -1051,7 +1051,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//Boob Worship
 	//Requires preg stage 5 or above.
 	//Dicked PCs get an extension to the scene.  Centaurs do NOT get the extension.
-	private urtaBoobWorshipScene(): void {
+	private urtaBoobWorshipScene() {
 		DisplayText().clear();
 		DisplayText("You gaze at Urta's breasts, heavy with their milky load, a few droplets already escaping her black nipples.  \"<i>Oh, you like these, do you?  You like a nice, big pair of foxy-boobs, huh?</i>\"  She jokes, jiggling them for your amusement, before wincing at their sensitivity.");
 
@@ -1134,7 +1134,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Nurse
-	private nurseFromMommaUrtasBooBees(): void {
+	private nurseFromMommaUrtasBooBees() {
 		DisplayText().clear();
 		DisplayText("You look at Urta's breasts, full of milk and dripping, and absentmindedly lick your lips. Urta follows your gaze and gives you a knowing smile.  \"<i>You know, no matter how much I milk myself, I always seem to fill up again right away... I wonder if that's part of Taoth's so-called parting gift,</i>\" she muses to herself.");
 
@@ -1173,13 +1173,13 @@ export class UrtaPregs extends NPCAwareContent {
 
 		Flags.list[FlagEnum.TIMES_NURSED_FROM_URTA]++;
 		//[Stroke][Ignore]
-		menu();
+		
 		MainScreen.addButton(0, "Stroke", titWorshipAndStroke);
 		MainScreen.addButton(1, "Ignore", ignoreUrtaBonerWhenWorship);
 	}
 
 	//if Stroke:
-	private titWorshipAndStroke(): void {
+	private titWorshipAndStroke() {
 		DisplayText().clear();
 		DisplayText("You smile mischievously around Urta's breast and eagerly grab her shaft with a hand, careful not to hurt her, but roughly enough for her to feel what you just did.  Urta lets out a surprised groan.  \"<i>Lover?  What are you...?</i>\"  She moans again as your fingers shift on her distended dick.");
 
@@ -1191,13 +1191,13 @@ export class UrtaPregs extends NPCAwareContent {
 		finishTitWorshipWivUrta();
 	}
 	//Else:
-	private ignoreUrtaBonerWhenWorship(): void {
+	private ignoreUrtaBonerWhenWorship() {
 		DisplayText().clear();
 		DisplayText("You have other things to worry about right now, but you're glad she seems to be enjoying your ministrations.");
 		finishTitWorshipWivUrta();
 	}
 
-	private finishTitWorshipWivUrta(): void {
+	private finishTitWorshipWivUrta() {
 		DisplayText("\n\nWith one last suckle you unlatch from her breast and lick your lips.  Urta wriggles herself on the bed, then stretches her arms out, smiling up at you.  \"<i>Mmm, yeah, that feels much better; thank you for the help, lover.  Now, I'm feeling peckish; care to join me for a snack?</i>\"");
 		DisplayText("\n\nYou shake your head, pointing out you've just had a meal of your own.  You pat your belly for effect.");
 
@@ -1210,7 +1210,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Milk 
-	private milkPregnantUrta(): void {
+	private milkPregnantUrta() {
 		DisplayText().clear();
 		DisplayText("You tell her that you feel like playing with her toys.  Urta smiles and nods.  \"<i>Sure, though I prefer a more... personal touch... myself.  They're in that cupboard over there,</i>\" she finishes, pointing it out.");
 
@@ -1269,21 +1269,21 @@ export class UrtaPregs extends NPCAwareContent {
 
 		DisplayText("\n\nUrta looks intently at you as you say this.  \"<i>Now, I know that look, and that look means you're up to something... should I be excited, scared or both of whatever you have cooking up in that brain of yours?</i>\"  She asks sarcastically, though her eyes twinkle in a way that suggests she's not really that adverse to it.  Then she yawns loudly.  \"<i>Wow, I feel really tired now... I guess you better head off; I'm going to take a nap while I'm here,</i>\" she murmurs.");
 		player.stats.lust += 20;
-		menu();
+		
 		MainScreen.addButton(0, "Go", goHomeHorsecock);
 		MainScreen.addButton(1, "Stay", stayForHorseDickings);
 
 	}
 
 	//[=Go=]
-	private goHomeHorsecock(): void {
+	private goHomeHorsecock() {
 		DisplayText().clear();
 		DisplayText("You nod at Urta and gather your clothes, redressing in an instant.  Before going you ask if Urta needs anything.  She smiles and shakes her head, a soft smile on her face.  You bid her a good rest and leave her apartment.");
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//[=Stay=]
-	private stayForHorseDickings(): void {
+	private stayForHorseDickings() {
 		DisplayText().clear();
 		DisplayText("You yawn yourself, and suggest that maybe Urta would like some company.  You're kinda sleepy yourself.  She smirks and reclines on the bed, \"<i>Help yourself, lover - there's plenty of me to cuddle,</i>\" she giggles softly as she pats her swollen belly.");
 
@@ -1308,7 +1308,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//Cravings
 	//PC needs a dick to actually do something.
 	//Not centaur compatible.
-	private urtaPregCravings(): void {
+	private urtaPregCravings() {
 		DisplayText().clear();
 		DisplayText("You decide to ask Urta if she has any particular cravings right now.  The pregnant fox visibly thinks about, then surreptitiously eyes your crotch.");
 		//noDick:
@@ -1316,7 +1316,7 @@ export class UrtaPregs extends NPCAwareContent {
 			DisplayText("\n\n\"<i>No, I'm fine, really,</i>\" she replies with a shake of her head.");
 			DisplayText("\n\nPerhaps you should think about doing something else then?  Or maybe you should ask again when you have something else to offer her.  She seemed a bit saddened that you didn't have a dick.");
 
-			menu();
+			
 			MainScreen.addButton(0, "Next", preggoUrtaSmexOrSomething);
 			return;
 		}
@@ -1337,14 +1337,14 @@ export class UrtaPregs extends NPCAwareContent {
 		else DisplayText("base");
 		DisplayText(" to the tip.  You can't resist moaning as her vulpine tongue laps at your sensitive [cock biggest].");
 
-		DisplayText("\n\n\"<i>Mmm... baby-daddy likes that, does " + player.mf("he", "she") + "?</i>\"  Urta giggles, giving you another long lick for emphasis.  You moan and buck against her tongue, trying to work your way inside that foxy muzzle.  She licks and laps, but keeps positioning herself so you can't enter her mouth, no matter how much you try. She looks mischievously at you as she slurps up the precum drooling from your [cockHead biggest], then she rears her head back and looks you in the eye.  \"<i>You taste... yummy!</i>\"  She grins, then opens her mouth and hungrily engulfs your cock, practically inhaling it in her sudden eagerness to swallow, tongue eagerly slurping and slathering your shaft as she gulps it down.");
+		DisplayText("\n\n\"<i>Mmm... baby-daddy likes that, does " + Desc.Gender.mf(player, "he", "she") + "?</i>\"  Urta giggles, giving you another long lick for emphasis.  You moan and buck against her tongue, trying to work your way inside that foxy muzzle.  She licks and laps, but keeps positioning herself so you can't enter her mouth, no matter how much you try. She looks mischievously at you as she slurps up the precum drooling from your [cockHead biggest], then she rears her head back and looks you in the eye.  \"<i>You taste... yummy!</i>\"  She grins, then opens her mouth and hungrily engulfs your cock, practically inhaling it in her sudden eagerness to swallow, tongue eagerly slurping and slathering your shaft as she gulps it down.");
 
 		DisplayText("\n\nYou grasp at the sheets as you feel Urta suddenly engulf your [cock biggest], humping involuntarily in pleasure and bumping her chin");
 		if (player.torso.balls.quantity > 0) DisplayText(" with your [balls]");
 		DisplayText(".  You smile apologetically down at her and ask her if she's found out what she's been craving yet.  \"<i>What do you think?</i>\"  She mumbles sarcastically, a playful twinkle in her eye, then starts noisily slurping and sucking, tongue frenziedly lapping at your intruding dick and her eyes rolling shut in obvious enjoyment as she gulps down the precum she's eagerly coaxing from you.");
 
 		DisplayText("\n\nYou moan and try your best not to just grab onto her head and face-fuck her.  ");
-		if (player.torso.cocks.count > 2) DisplayText("The rest of your " + CockDescriptor.describeMultiCockShort(player) + " are as erect as your [cock biggest] dribbling pre along their lengths as they slap Urta during her frenzied bobs.  ");
+		if (player.torso.cocks.count > 2) DisplayText("The rest of your " + Desc.Cock.describeMultiCockShort(player) + " are as erect as your [cock biggest] dribbling pre along their lengths as they slap Urta during her frenzied bobs.  ");
 		DisplayText("You tell Urta that you're getting close; if she keeps up with this you won't last much longer.");
 
 		DisplayText("\n\nIf she hears you, Urta isn't put off - instead, she redoubles her efforts, gurgling and moaning as she deepthroats your cock as best she can");
@@ -1357,13 +1357,13 @@ export class UrtaPregs extends NPCAwareContent {
 			if (player.torso.vaginas.count > 0) DisplayText("your pussy");
 		}
 		DisplayText(".  She suddenly pops free, licking her lips.  \"<i>Come on, lover.  I thought you offered to help me with my craving?  And yet you won't give me any of that salty load of yours?  So hungry... gimme!</i>\"  She pleads, looking up at you with hopeful eyes even as she continues to stroke your shaft.");
-		menu();
+		
 		MainScreen.addButton(0, "Pop Load", getBlownByPregnantUrta);
 		MainScreen.addButton(1, "Hold Out", holdOnYouAintGettingYerCumYetYouNaughtyFox);
 	}
 
 	//[=Blow=]
-	private getBlownByPregnantUrta(): void {
+	private getBlownByPregnantUrta() {
 		DisplayText().clear();
 		DisplayText("If she wants it so bad, she can have it, you think to yourself, bucking against her hand as you finally feel ");
 		if (player.torso.balls.quantity > 0) DisplayText("your balls churn and ");
@@ -1400,12 +1400,12 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou're too tired to do much, except close your eyes and let the afterglow set in and slowly take you to dreamland.  The last thing you feel is one slimy fox-herm cuddling up to you, carefully positioning her overstuffed belly against you.");
 		player.orgasm();
 		player.stats.sens += 2;
-		menu();
+		
 		MainScreen.addButton(0, "Next", weirdUrtaCravingsConclusion);
 	}
 
 	//[=Hold On=]
-	private holdOnYouAintGettingYerCumYetYouNaughtyFox(): void {
+	private holdOnYouAintGettingYerCumYetYouNaughtyFox() {
 		DisplayText().clear();
 		DisplayText("You're not going to give in so easily.  If she wants it she'd best work hard for it.  You smile at her mischievously, even as you hump against her grip.");
 		DisplayText("\n\n\"<i>Hmm... you need a little more encouragement, I see...</i>\"  Urta notes, then lowers her head and starts to slowly, teasingly, swallow her way down your shaft, noisily gulping and lapping up inch after inch of it, trying to make sure you blow your load down her throat.");
@@ -1478,12 +1478,12 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou suddenly find yourself growing extremely drowsy after your recent climax, so you roll to give Urta enough room to lay down beside you.  You smile and pat the open spot beside you in hopes that Urta will join you for a quick nap.  Urta wastes no time in settling herself comfortably beside you, closing her eyes and drifting quietly off to sleep.");
 		player.orgasm();
 		player.stats.sens += -2;
-		menu();
+		
 		MainScreen.addButton(0, "Next", weirdUrtaCravingsConclusion);
 	}
 
 	//Both Options link here.
-	private weirdUrtaCravingsConclusion(): void {
+	private weirdUrtaCravingsConclusion() {
 		DisplayText().clear();
 		DisplayText("You have the distinct feeling that someone is groping you and something is wiggling inside your mouth... actually it feels like someone is lapping you inside your mouth.  You open your eyes to gaze at Urta's green eyes, as she continues kissing you.  She holds your [face] with both hands, closing her eyes as she deepens the kiss, then slowly lets go, opening her eyes and smiling.  \"<i>Morning, lover; sleep well?</i>\"  She laughs.");
 
@@ -1505,7 +1505,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//RapeFest
 	//The result of teasing her during the 7th stage of her preggo.
 	//Not centaur compatible, if someone wants to pursue that, be my guest!
-	private urtaRaepsJoo(): void {
+	private urtaRaepsJoo() {
 		DisplayText().clear();
 		DisplayText("You look at Urta and tell her you are just going to get something at the bar.  She swallows hard and nods, licking her lips in anticipation due to your lack of blatant refusal.  You get up and do your best to sway your [butt] in the sexiest way you can manage, glancing back to look at Urta, a smile on your lips.  The pregnant herm is watching you go with blatant hunger, precum dripping audibly from her fat, equine dong into the already-sloshing bucket hovering beneath it.  She twitches with nervous energy, as if seriously considering - and defying - the idea of throwing you down and taking you right here and now.");
 
@@ -1522,7 +1522,7 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nBefore you can protest, she attacks the lower half of your clothes, practically ripping it apart in her desire to expose your hindquarters.  You can feel her tearing off your underwear with her teeth, and definitely hear her growling and shaking it madly in her mouth like a dog with a rat before she spits it away with disdain.  \"<i>Oooh... yeah.</i>\"  She croons, running her nimble, supple fingers over each curving cheek of your [butt].  \"<i>You got such a sexy ass.</i>\"  She informs you, rubbing her belly up over the swell of your ass into the small of your back so she can then position the flared tip of her equine dick against your [asshole].  She rubs and thrusts against you, crudely lubing you up with the copious amounts of herm precum flowing from her she-cock.  Finally deeming you satisfactorily wet, she positions the tip of her dick so that it's pressing insistently against your back passage...");
 
 		DisplayText("\n\n\"<i>Are you ready for this, baby-daddy?</i>\"  She moans lewdly in your ears.  Then, with what you're certain is a wicked grin, she answers herself.  \"<i>Doesn't matter, because I sure am!</i>\"  With that, she promptly jams her swollen phallus right in, forcing herself in to the balls in one single fierce thrust!");
-		player.displayStretchButt(60, true, true, false);
+		Mod.Butt.displayStretchButt(player, 60, true, true, false);
 
 		DisplayText("\n\nYou scream in both pleasure and pain as Urta's cock is lodged deep into your ass.  Good thing you took that drink earlier.  You're rocked back and forth as the fox-herm doesn't even bother waiting for you to be ready before she starts properly fucking you.  Groaning and moaning, awkward with the weight of her distended midriff, Urta thrusts in and out of you, eagerly humping your ass as if trying to start burying you into the floor with her dick.  \"<i>Oh... so good, so hot!  Gonna...!</i>\"  She cries out as she cums; looking like she <i>really</i> needed that release if she's popping her load this early on.  You groan as you feel a rush of liquid flow into your backside, Urta having just climaxed from fucking you. The hot liquid gurgles into your bowels, stuffing them full of her now-virile herm seed, your belly growing a little pudgy as she finally finishes with an ecstatic groan.");
 
@@ -1594,11 +1594,11 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou come to your senses and notice the amazing softness of the pillow you're laying on.  It feels so good you can't help but dig your head in and rub your cheek against it.  \"<i>You like that, do you?</i>\"  A familiar voice says, sounding rather amused.");
 		player.orgasm();
 		player.stats.sens += 3;
-		menu();
+		
 		MainScreen.addButton(0, "Next", partTwoOfUrtaBoning);
 	}
 
-	private partTwoOfUrtaBoning(): void {
+	private partTwoOfUrtaBoning() {
 		DisplayText().clear();
 		DisplayText("You open your eyes and gaze at the smiling face of Urta.  \"<i>Good morning, lover.  Sleep well?</i>\"  She playfully teases you.  You smile at her, stretching yourself and finally becoming aware of the rest of your body.  You wince in pain as your abused ass screams a protest at your motions, a strange weight emanating from your midriff.  Your belly is visibly rounded out, filled with what you imagine is the result of many loads from your foxy lover.  Urta gives your belly a gentle rub and seems to seriously study your bulging gut and hers.  \"<i>I think mine is still bigger,</i>\" she says, with a slightly embarrassed giggle.");
 
@@ -1620,13 +1620,13 @@ export class UrtaPregs extends NPCAwareContent {
 
 		DisplayText("\n\n\"<i>Oh dear...</i>\"  she cuddles you back against her breast.  \"<i>I'm so sorry, lover...</i>\"  she suddenly smirks at you wickedly.  \"<i>Want me to kiss it better?</i>\"  She asks in a stage whisper.  You raise your brow in curiosity at the offer, wondering how exactly she intends to kiss it better.  She doesn't answer - not verbally, anyway.  Instead, she purses her lips and sticks out her tongue with lewd, wet, slurping noises as she licks the air in front of you before putting it back in her mouth.  Realization dawns on you, as you figure out just how exactly she intends to make you feel better.  She's offering you a rimjob.");
 
-		menu();
+		
 		MainScreen.addButton(0, "Accept", acceptUrtaRimJobbies);
 		MainScreen.addButton(1, "Decline", declineARimJob);
 	}
 
 	//[=Decline=]
-	private declineARimJob(): void {
+	private declineARimJob() {
 		DisplayText().clear();
 		DisplayText("You tell her that you appreciate the offer, but you're going to sit this one out.  Though she tries to hide it, she looks relieved at your refusal; she probably isn't really comfortable with that level of kinkiness.  Instead, she eagerly captures your lips with hers, murmuring into your mouth as she devours your kiss, tongue sliding between your lips to caress your own tongue.");
 		//Both choices converge here.
@@ -1636,7 +1636,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Accept=]
-	private acceptUrtaRimJobbies(): void {
+	private acceptUrtaRimJobbies() {
 		DisplayText().clear();
 		DisplayText("Well... she is responsible for your state, and her broad vulpine tongue must feel amazing on your sensitive ass... so you nod in acceptance of her offer.  \"<i>All right then... you do know you're the only person I'd ever do this for, right?</i>\" Urta comments.  \"<i>Now, roll around and present yourself to me; you can't expect a pregnant lady to do a lot of bending, now can you?</i>\"  She smirks.");
 
@@ -1649,7 +1649,7 @@ export class UrtaPregs extends NPCAwareContent {
 			DisplayText("\n\nYou stand up and face your back to her, letting her look at your [ass].  With a grunt of effort, Urta hauls herself upright and then positions herself behind your horsey-ass, squeezing and kneading the muscles of your flanks with her skilled fingers. She inhales as if to calm herself, then gently slides one finger into the still-loose and stretched ring of your anal muscles.  You wince in pain at the sudden intrusion, shaking a bit.");
 		}
 		DisplayText("\n\n\"<i>Right...</i>\"  With that, she leans in and gently begins to run the tip of her warm, wet tongue around your back passage, gently applying saliva to the soreness.  It still hurts a bit, but the feel of Urta's wet tongue on your ass does help you get over the pain, though the kinkiness of the act does not go unnoticed.");
-		if (player.torso.cocks.count > 1) DisplayText("  Especially not if your " + CockDescriptor.describeMultiCockShort(player) + " have anything to say about it, throbbing at the mere feeling of Urta's wet tongue.");
+		if (player.torso.cocks.count > 1) DisplayText("  Especially not if your " + Desc.Cock.describeMultiCockShort(player) + " have anything to say about it, throbbing at the mere feeling of Urta's wet tongue.");
 		else if (player.torso.cocks.count === 1) DisplayText("  Especially not if your [cock] has anything to say about it, throbbing at the mere feeling of Urta's wet tongue.");
 		else if (player.torso.vaginas.count > 0) DisplayText("  Especially not if your [pussy] has any say in the matter, winking at Urta, hoping for a licking of its own.");
 		DisplayText("  She slowly begins deepening the pseudo-kiss, pressing more and more of her wet tongue against you until she is taking slow, languid licks up and down the lengths of the chasm, slathering your burning skin with her cooling goo.");
@@ -1670,7 +1670,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//This option is disabled after choosing it for the first time.
 	//It exists as an unlocker for Urta's new Home.  You will get the Key to the place.
 	//Appears as a Talk topic
-	internal function visitKidsFirstTime(): void {
+	internal function visitKidsFirstTime() {
 		DisplayText().clear();
 		DisplayText("You ask Urta if she can take you to see your child");
 		if (urtaKids() > 1) DisplayText("ren");
@@ -1679,7 +1679,7 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\n\"<i>You want to see ");
 		if (urtaKids() === 1) DisplayText("our child");
 		else DisplayText("our babies");
-		DisplayText("?</i>\"  Urta asks, tail wagging excitedly at the thought.  \"<i>Why, of course, [name] - " + urtaKidsText("he'll", "she'll", "they'll") + " be so happy to see " + urtaKidsText("his", "her", "their") + " " + player.mf("father", "other-mother") + "!  Come on, let's get going!</i>\"  She insists, immediately getting up from her seat");
+		DisplayText("?</i>\"  Urta asks, tail wagging excitedly at the thought.  \"<i>Why, of course, [name] - " + urtaKidsText("he'll", "she'll", "they'll") + " be so happy to see " + urtaKidsText("his", "her", "their") + " " + Desc.Gender.mf(player, "father", "other-mother") + "!  Come on, let's get going!</i>\"  She insists, immediately getting up from her seat");
 		if (Flags.list[FlagEnum.URTA_TIME_SINCE_LAST_CAME] === 0) DisplayText(", erection already diminishing as she forgets about her horniness in her parental pride");
 		DisplayText(".  You waste no time in following her; indeed, she seems liable to leave you behind in her excitement to go and see her offspring.");
 
@@ -1691,7 +1691,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 		DisplayText("\n\n\"<i>Lianna!  I'm home!</i>\"  Urta calls as the two of you approach the door.  The door swings open and the buxom but conservatively dressed figure of a black-haired, female skunk-morph steps into view.");
 
-		DisplayText("\n\n\"<i>Welcome home, ma'am.</i>\" she politely says, then turns to look you over.  \"<i>" + player.mf("Sir", "Ma'am") + "?</i>\"  You quickly say your name, extending your hand for a handshake.  The skunkette... Lianna, grabs your hand give you a firm shake.  \"<i>I've heard a lot about you, [name].  It's a pleasure to finally meet you in person.</i>\"  Her eyes keep roaming your body.  Urta coughs.  Realizing she was blocking the doorway, Lianna quickly moves away to let you enter.  \"<i>Sorry...</i>\"");
+		DisplayText("\n\n\"<i>Welcome home, ma'am.</i>\" she politely says, then turns to look you over.  \"<i>" + Desc.Gender.mf(player, "Sir", "Ma'am") + "?</i>\"  You quickly say your name, extending your hand for a handshake.  The skunkette... Lianna, grabs your hand give you a firm shake.  \"<i>I've heard a lot about you, [name].  It's a pleasure to finally meet you in person.</i>\"  Her eyes keep roaming your body.  Urta coughs.  Realizing she was blocking the doorway, Lianna quickly moves away to let you enter.  \"<i>Sorry...</i>\"");
 
 		DisplayText("\n\n\"<i>[name], this is Lianna.</i>\"  The skunkette lifts a hand.  \"<i>I hired her as a live-in to keep an eye on our kids, since none of us can be here for them all the time.</i>\" Urta explains.");
 
@@ -1729,7 +1729,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//After Urta starts having kids of her own, she gets given a new, bigger house in which they live and are cared for by nannies when she's not in. However, she still keeps her old messy apartment as a private retreat, and comes here for sexing the PC.
 	//Male and herm kids are natural hypers, so will be bigger than normal even at their age.  
 	//Male and herms also have a 50/50 chance of having either a vulpine or equine dick. 
-	private pickKidSceneHere(): void {
+	private pickKidSceneHere() {
 		DisplayText().clear();
 		//ANNOUNCE BEHBIES
 		//Once per pregnancy?
@@ -1752,11 +1752,11 @@ export class UrtaPregs extends NPCAwareContent {
 
 	//New Baby Coming
 	//Requires Urta be pregnant or PC be pregnant with UrtaKid
-	private newBabyComing(): void {
+	private newBabyComing() {
 		DisplayText().clear();
 		DisplayText("You announce to your ");
 		if (urtaKids() === 1) DisplayText("child");
-		else DisplayText(num2Text(urtaKids()) + " kids");
+		else DisplayText(numToCardinalText(urtaKids()) + " kids");
 		DisplayText(" that you and Urta have something important to tell them.");
 
 		//If UrtaKids <8:
@@ -1831,11 +1831,11 @@ export class UrtaPregs extends NPCAwareContent {
 	//Only possible between 12-14 hours.
 	//Lianna can cook, its hard to make a mess when you have someone who knows what they're doing around. Then again Lianna is a mad scientist, so...
 
-	private hugAttackScene(): void {
+	private hugAttackScene() {
 		DisplayText().clear();
 		DisplayText("Before you can exchange any further pleasantries the sound of running padded feet fills the house.  Lianna simply looks at the approaching foxling");
 		if (urtaKids() > 1) DisplayText("s");
-		DisplayText(" from the safety of the kitchen, leaving you to handle the incoming charge.  It takes a bit of effort to keep from losing your balance as your brood tackles you, hugging you in affection.  \"<i>All right, all right, let your " + player.mf("father", "other-mother") + " go, or do you not want to play?</i>\" Urta says, smirking with amusement as she closes the front door.  With a groan and a bit of prying the little fox");
+		DisplayText(" from the safety of the kitchen, leaving you to handle the incoming charge.  It takes a bit of effort to keep from losing your balance as your brood tackles you, hugging you in affection.  \"<i>All right, all right, let your " + Desc.Gender.mf(player, "father", "other-mother") + " go, or do you not want to play?</i>\" Urta says, smirking with amusement as she closes the front door.  With a groan and a bit of prying the little fox");
 		if (urtaKids() > 1) DisplayText("es do");
 		else DisplayText(" does");
 		DisplayText(" eventually clamor" + urtaKidsText("s", "s", "") + " off of you, but not before taking your hands in " + urtaKidsText("his", "her", "their") + " own.  ");
@@ -1847,13 +1847,13 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText(" you towards the backyard, while your lover chuckles at your predicament.");
 
 		DisplayText("\n\nAfter a bit of a wrestling, some games, and an incident with a scraped knee everyone has moved into the family room, leaving you surrounded by smiling faces.  \"<i>Did you enjoy your play date [name]?</i>\" says Urta, prompting while Lianna bandages your kid's knee.  A little worn out yourself, your only answer is a slight nod.  Having been here for the better part of an hour, it's about time you hit the old dusty trail.  \"<i>Why don't you stay a little longer, lover?  We were just about to have lunch, why don't you join us?</i>\"  Urta asks, an inviting smile on her face.");
-		menu();
+		
 		MainScreen.addButton(0, "Yes", stayToPlay);
 		MainScreen.addButton(1, "No", noPlayTimeForKids);
 	}
 
 	//[=No=]
-	private noPlayTimeForKids(): void {
+	private noPlayTimeForKids() {
 		DisplayText().clear();
 		DisplayText("You shake your head, telling your family that you're sorry but you have to go.  \"<i>Really?  All right... but, you should at least hang around long enough to take some on the go.</i>\"  Urta insists.  You tell her you'll be fine, but you'll definitely stop by to eat with them sometime.  Urta gives a melodramatic sigh and rolls her eyes, then nods and smiles.  \"<i>All right... just make sure you do.</i>\"  She tells you, then gives you a quick hug and a kiss.  \"<i>We worry about you out there; come home safe to us.</i>\"  She says, then lets you go.");
 		DisplayText("\n\nYou give your lover a kiss, and wave goodbye as you step out.");
@@ -1862,7 +1862,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Yes=]
-	private stayToPlay(): void {
+	private stayToPlay() {
 		DisplayText().clear();
 		DisplayText("You nod your head in acceptance.  Urta smiles in delight.  \"<i>Take a seat, please, make yourself comfortable - I'll go and get it,</i>\" she says happily, tail wagging as she saunters off to the kitchen.");
 
@@ -1911,7 +1911,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//Bathtime
 	//Randomly picked by selecting the Kids option in Urta's House.
 	//So far this is the ONLY option to use that button, so...
-	private bathtime(): void {
+	private bathtime() {
 		DisplayText().clear();
 		DisplayText("You tell Lianna you just wanted to check in on your ");
 		if (urtaKids() > 1) DisplayText("kids");
@@ -1919,16 +1919,16 @@ export class UrtaPregs extends NPCAwareContent {
 		else DisplayText("son");
 		DisplayText(".  \"<i>Sure, but they need a bath, maybe you'd like to help me bathe them?</i>\"");
 		//[Yes] [No]
-		menu();
+		
 		MainScreen.addButton(0, "Yes", giveTheKidsABath);
 		MainScreen.addButton(1, "No", noBathTiemPlease);
 	}
 	//[=No=]
-	private noBathTiemPlease(): void {
+	private noBathTiemPlease() {
 		DisplayText().clear();
 		DisplayText("\"<i>I see, in that case excuse me,</i>\"  She says with a blank expression.  Looks like you don't have any business here for now, so you decide to leave.");
 		//(Back to TA/Camp)
-		menu();
+		
 		MainScreen.addButton(0, "Next", telAdre.telAdreMenu);
 	}
 	private urtaKidsText(male: string = "", female: string = "", plural: string = ""): string {
@@ -1939,7 +1939,7 @@ export class UrtaPregs extends NPCAwareContent {
 		else return plural;
 	}
 	//[=Yes=]
-	private giveTheKidsABath(): void {
+	private giveTheKidsABath() {
 		DisplayText().clear();
 		DisplayText("\"<i>Right, come with me.</i>\"  She leads you to the bathroom.  Urta spared no expense in making this place as luxuriant as possible - you could easily fit the core of your campsite in here.  A huge marble bathtub, sunken into the floor itself, dominates the room, big enough that two or three centaurs could easily fit into it.  Shiny brass taps stand ready to fill the sizable bath, which is already gently steaming from a brimming load of hot water already prepared.");
 
@@ -1970,7 +1970,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 		//If any UrtaKids=Male:
 		if (Flags.list[FlagEnum.URTA_KIDS_MALES] > 0) {
-			DisplayText("\n\nYou have " + num2Text(Flags.list[FlagEnum.URTA_KIDS_MALES]) + " vulpine son");
+			DisplayText("\n\nYou have " + numToCardinalText(Flags.list[FlagEnum.URTA_KIDS_MALES]) + " vulpine son");
 			if (Flags.list[FlagEnum.URTA_KIDS_MALES] > 1) DisplayText("s");
 			DisplayText(".");
 			if (Flags.list[FlagEnum.URTA_FIRSTBORN_GENDER] === 1) {
@@ -2008,7 +2008,7 @@ export class UrtaPregs extends NPCAwareContent {
 		}
 		//If any UrtaKids=Herm:
 		if (Flags.list[FlagEnum.URTA_KIDS_HERMS] > 0) {
-			DisplayText("\n\nYou have " + num2Text(Flags.list[FlagEnum.URTA_KIDS_HERMS]) + " vulpine, hermaphroditic daughter");
+			DisplayText("\n\nYou have " + numToCardinalText(Flags.list[FlagEnum.URTA_KIDS_HERMS]) + " vulpine, hermaphroditic daughter");
 			if (Flags.list[FlagEnum.URTA_KIDS_HERMS] > 1) DisplayText("s");
 			DisplayText(".");
 			if (Flags.list[FlagEnum.URTA_FIRSTBORN_GENDER] === 3) {
@@ -2038,7 +2038,7 @@ export class UrtaPregs extends NPCAwareContent {
 		}
 		//If any UrtaKids=Female:
 		if (Flags.list[FlagEnum.URTA_KIDS_FEMALES] > 0) {
-			DisplayText("\n\nYou have " + num2Text(Flags.list[FlagEnum.URTA_KIDS_FEMALES]) + " vulpine daughter");
+			DisplayText("\n\nYou have " + numToCardinalText(Flags.list[FlagEnum.URTA_KIDS_FEMALES]) + " vulpine daughter");
 			if (Flags.list[FlagEnum.URTA_KIDS_FEMALES] > 1) DisplayText("s");
 			DisplayText(".");
 			if (Flags.list[FlagEnum.URTA_FIRSTBORN_GENDER] === 2) {
@@ -2164,13 +2164,13 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nYou ask if she does this for Urta, as well.  \"<i>Yes, when we bathe together.</i>\"\n\nSo, Lianna and Urta do this as well...  It's not just something she's doing for you?  \"<i>No.  Why would you ask that?</i>\"  She looks at you in confusion as she scrubs her tail.");
 		DisplayText("\n\nJust curious, you reply.  You wonder whether or not you should take her up on her offer...");
 		//[Yes] [No]
-		menu();
+		
 		MainScreen.addButton(1, "No", noBathPleaseUrtaLian);
 		MainScreen.addButton(0, "Yes", getABackWashFromLianna);
 	}
 
 	//[=No=]
-	private noBathPleaseUrtaLian(): void {
+	private noBathPleaseUrtaLian() {
 		DisplayText().clear();
 		DisplayText("You politely refuse her invitation.  \"<i>Okay, but can you wash mine then?</i>\" she asks.  You give the idea a moment's thought and then agree; it's a harmless offer, right?  \"<i>Thanks,</i>\" she replies, getting out of the tub and sitting on a small wooden bench nearby.  \"<i>Use the flower extract shampoo, please.</i>\"  You nod your head in understanding as you climb out after her, taking up the indicated shampoo and approaching her before asking how much you should use.  \"<i>Plenty,</i>\" is her reply.");
 
@@ -2182,7 +2182,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Yes=]
-	private getABackWashFromLianna(): void {
+	private getABackWashFromLianna() {
 		DisplayText().clear();
 		DisplayText("You tell Lianna that if she is willing, you wouldn't object to her washing your back.");
 		DisplayText("\n\nShe pulls a small wooden bench out of the tub.  \"<i>Take a seat.</i>\"  You climb out of the bath and take your seat as indicated, ready for her to begin.  \"<i>Any preference?</i>\"  You can't resist asking if she's talking about soaps or sexual positions, seeing if you can ruffle the skunkette's tail with your teasing.  \"<i>Soaps.</i>\"   She replies nonchalantly.");
@@ -2191,7 +2191,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 		DisplayText("\n\nShe continues with her scrubbing, but eventually her nipples poke your back again.  She sighs.  \"<i>Sometimes I hate these...</i>\"  She remarks.  You ask her why she feels that way.  \"<i>Before I had the chemical incident that grew these, I had an easy time manipulating my potions and ingredients.  But now I find myself bumping on my equipment which leads to even more chemical incidents.  They're quite bothersome and unwieldy, I would have them reduced if I could figure out the formula that caused this.  Sure, they do feel good, but it's just way too much trouble.</i>\"  She takes a deep breath.  \"<i>Sorry for the rant, do you mind if my breasts touch your back?  I can't give you a proper backrub otherwise.</i>\"  You tell her that you don't mind; she should feel free to go ahead.");
 
-		DisplayText("\n\nLianna returns to her scrubbing and massaging, no longer self-conscious about letting her breasts rub against your back.  You groan appreciatively; not only is Lianna quite skilled at easing your tension, but you can feel her soft, pillowy breasts rubbing all over your " + player.skinFurScales() + ", the perky nipples stirring up not-unwelcome feelings in your loins.  \"<i>Ok, all done here.</i>\"  She pats you on the back.  You get up and stretch, listening to your joints cracking, and thank her for her efforts.  \"<i>You're welcome, now it's your turn,</i>\" she declares, taking a seat on the bench herself.  \"<i>Use the floral shampoo, please.</i>\"");
+		DisplayText("\n\nLianna returns to her scrubbing and massaging, no longer self-conscious about letting her breasts rub against your back.  You groan appreciatively; not only is Lianna quite skilled at easing your tension, but you can feel her soft, pillowy breasts rubbing all over your " + Desc.Skin.skinFurScales(player) + ", the perky nipples stirring up not-unwelcome feelings in your loins.  \"<i>Ok, all done here.</i>\"  She pats you on the back.  You get up and stretch, listening to your joints cracking, and thank her for her efforts.  \"<i>You're welcome, now it's your turn,</i>\" she declares, taking a seat on the bench herself.  \"<i>Use the floral shampoo, please.</i>\"");
 
 		DisplayText("\n\nYou nod your head in understanding as you take the indicated shampoo before asking how much you should use.  \"<i>Plenty,</i>\" is her reply.");
 
@@ -2207,7 +2207,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 	//Take the kids for a walk - Special thanks to Belin
 	//Randomly picked when selecting Kids option in Urta's house.
-	private takeTheKidsForWalk(): void {
+	private takeTheKidsForWalk() {
 		DisplayText().clear();
 		DisplayText("\"<i>You'd like to see " + urtaKidsText("him", "her", "them") + "?  Sure, but first I need to get " + urtaKidsText("him", "her", "them") + " ready.</i>\"   You ask her where she plans on taking " + urtaKidsText("him", "her", "them") + ".");
 
@@ -2220,11 +2220,11 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText(" are suitably dressed for a traipse around a desert city, you usher your kit");
 		if (urtaKids() > 1) DisplayText("s");
 		DisplayText(" out the door and into the street.  \"<i>Can " + urtaKidsText("I", "I", "we") + " get some ice cream?!</i>\"");
-		if (urtaKids() > 1) DisplayText("  \"<i>Yeah, can we " + player.mf("daddy", "mommy") + "?!</i>\"");
+		if (urtaKids() > 1) DisplayText("  \"<i>Yeah, can we " + Desc.Gender.mf(player, "daddy", "mommy") + "?!</i>\"");
 		DisplayText("  Your child");
 		if (urtaKids() > 1) DisplayText("ren plead");
 		else DisplayText(" pleads");
-		DisplayText(".  Well, the vendors down at the market would make for a suitably far destination, which should give Lianna plenty of time for herself, and you yourself wouldn't mind some ice cream either at that, so it's decided.  \"<i>Yay! You're the best " + player.mf("dad", "mom") + " ever!</i>\" ");
+		DisplayText(".  Well, the vendors down at the market would make for a suitably far destination, which should give Lianna plenty of time for herself, and you yourself wouldn't mind some ice cream either at that, so it's decided.  \"<i>Yay! You're the best " + Desc.Gender.mf(player, "dad", "mom") + " ever!</i>\" ");
 		if (urtaKids() > 1) DisplayText("a chorus of excited cheers sounds out.");
 		else DisplayText("an excited cheer sounds out.");
 		DisplayText("  It's hard not to want to live up to that title with such ");
@@ -2262,7 +2262,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 		DisplayText("\n\n\"<i>How did it go?</i>\"");
 
-		DisplayText("\n\nWithout a hitch, you reply.  The " + num2Text(urtaKids() + 1) + " of you stopped for some ice cream along the way.  \"<i>Good, now off you go.  Bathtime.</i>\"  She states, ushering your little fox");
+		DisplayText("\n\nWithout a hitch, you reply.  The " + numToCardinalText(urtaKids() + 1) + " of you stopped for some ice cream along the way.  \"<i>Good, now off you go.  Bathtime.</i>\"  She states, ushering your little fox");
 		if (urtaKids() > 1) DisplayText("es");
 		DisplayText(" towards the bathroom.  There is a " + urtaKidsText("shrill protest", "shrill protest", "chorus of shrill protests") + ", but " + urtaKidsText("he", "she", "they") + " clearly understand");
 		if (urtaKids() === 1) DisplayText("s");
@@ -2279,7 +2279,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//Lianna/Urta's House
 	//Only if the PC's got the key.
 	//To get the Key, you must talk to Urta about Children first.
-	public visitTheHouse(): void {
+	public visitTheHouse() {
 		DisplayText().clear();
 		DisplayText("You easily follow the streets to Urta's new home, and are soon standing in front of the door.  Fishing out the key, you unlock the door and then show yourself inside.  Inside, Urta's house is quite roomy, if a little bland; the colors are plain and neutral, and there's not over-much in the way of furniture; you have a feeling Urta focused on just buying what was needed for the house and left her old stuff back at her apartment.  Still, there's enough knickknacks and signs of life around to give it a comfy, cozy feel.");
 		DisplayText("\n\nLooking around, you can easily see a living room, a kitchen and several rooms, at least one of which you figure must be a nursery for your child");
@@ -2335,7 +2335,7 @@ export class UrtaPregs extends NPCAwareContent {
 			DisplayText("\n\n\"<i>So... what's your business today?</i>\"");
 		}
 		//[Appearance] [Talk] [Sex] [Get DSSpray] [Kids]
-		menu();
+		
 		MainScreen.addButton(0, "Appearance", liannasAppearance);
 		MainScreen.addButton(1, "Talk", talkToLiana);
 		MainScreen.addButton(2, "Sex", sexWithLianna);
@@ -2346,20 +2346,20 @@ export class UrtaPregs extends NPCAwareContent {
 
 	//Lianna
 	//Appearance
-	private liannasAppearance(): void {
+	private liannasAppearance() {
 		DisplayText().clear();
 		DisplayText("Lianna is a healthy looking young anthro, a skunk-morph covered in sleek, shiny black fur, with white adorning her swishing, fluffy-looking tail.  Her hair is pure black with streaks of white, tied out of the way into a short ponytail, and her green eyes glitter behind round, silver-rimmed glasses that perch atop her nose.  She wears a conservative short-sleeved blouse, and pants that, while slightly baggy, still manage to show off her nice legs.  They're certainly tight enough that you can tell she's all girl; no hidden surprises here.  She goes without shoes, exposing her paw-like feet.  She has a very nicely rounded, generous handful of an ass, and womanly hips; up top, she is no less stacked, with what are easily E-cup breasts making her even bustier than her employer is; despite all that, she tries to tone them down with her style of dress.");
 		//(Display Options)
-		menu();
+		
 		MainScreen.addButton(9, "Back", visitTheHouse);
 	}
 
-	private talkToLiana(output: boolean = true): void {
+	private talkToLiana(output: boolean = true) {
 		if (output) {
 			DisplayText().clear();
 			DisplayText("You tell her you'd like to talk her.  She adjusts her glasses.  \"<i>Oh?  What about?</i>\"");
 		}
-		menu();
+		
 		MainScreen.addButton(0, "Her Job", talkToLianaAboutHerJob);
 		MainScreen.addButton(1, "HerResearch", talkToLianaAboutHerResearch);
 		if (Flags.list[FlagEnum.LIANNA_HAVESTED_MALES] + Flags.list[FlagEnum.LIANNA_HAVESTED_LADIES] > 0) MainScreen.addButton(2, "Her Spray", talkAboutLiannasLubeSpray);
@@ -2368,7 +2368,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Her Job
-	private talkToLianaAboutHerJob(): void {
+	private talkToLianaAboutHerJob() {
 		DisplayText().clear();
 		DisplayText("You ask her about her jobs, both for Urta and what she intends to do afterwards.");
 		DisplayText("\n\nShe takes a deep breath.  \"<i>Well, working for Urta was a godsend, really.  I have a place to live, food, the job is relatively easy, and I can continue to study alchemy in my room.  Plus Urta is nice, she treats me well.</i>\"  You note that she seems genuine, and indicate for her to continue.");
@@ -2379,7 +2379,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//Her Research
-	private talkToLianaAboutHerResearch(): void {
+	private talkToLianaAboutHerResearch() {
 		DisplayText().clear();
 		DisplayText("You ask her why she's so eager to get samples from you, a human.  What sort of research is she doing that she needs human samples?");
 		DisplayText("\n\nHer eyes light up; obviously this is a subject of interest for her.  \"<i>I suppose the main reason I'm conducting this research is curiosity.  I guess I thought about it while looking at your kids.  I mean... we usually get hybrids when we mate with other species, but couplings with a human?  They always result in the children being the father or mother's species.  I want to know: why is that?  Why don't we get human-fox hybrids?</i>\"  She adjusts her glasses.");
@@ -2390,7 +2390,7 @@ export class UrtaPregs extends NPCAwareContent {
 		if (player.stats.cor >= 50) DisplayText("however half-heartedly it may be, ");
 		DisplayText("and ask if that's what pushed her to studying humans and Marethians.");
 
-		DisplayText("\n\nShe shrugs.  \"<i>I guess, though what I have is genuine curiosity.  Maybe someday one of your kids will ask why they don't look like " + player.mf("daddy", "mommy") + ".  Wouldn't you want to have an answer to that question?</i>\"  She smiles.");
+		DisplayText("\n\nShe shrugs.  \"<i>I guess, though what I have is genuine curiosity.  Maybe someday one of your kids will ask why they don't look like " + Desc.Gender.mf(player, "daddy", "mommy") + ".  Wouldn't you want to have an answer to that question?</i>\"  She smiles.");
 		DisplayText("\n\nNodding your head absently at the thought, you ask if her efforts have borne any fruit yet.");
 
 		//If PC sexed:
@@ -2410,7 +2410,7 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 	//Her Lube Spray
 	//Must've had sex with her at least once
-	private talkAboutLiannasLubeSpray(): void {
+	private talkAboutLiannasLubeSpray() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.DISCUSSED_LUBE_SPRAY] = 1;
 		DisplayText("You ask why it is that she produces a lubricating liquid rather than a noxious one, like you would expect of a skunk.");
@@ -2432,7 +2432,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 	//Side Effects
 	//Must have talked about her Lube Spray
-	private lubeSpraySideEffects(): void {
+	private lubeSpraySideEffects() {
 		DisplayText().clear();
 		DisplayText("So, if she's experimented on herself in the past, that must have gone wrong for her at least once or twice in the past, you comment.");
 		DisplayText("\n\nShe nods.  \"<i>Yep, it sure did.</i>\"  She rubs her chin in thought.");
@@ -2541,7 +2541,7 @@ export class UrtaPregs extends NPCAwareContent {
 	//Sex
 	//Will expand with more options in the future.
 	//Possible Urta threesome in the future?
-	private sexWithLianna(): void {
+	private sexWithLianna() {
 		DisplayText().clear();
 		DisplayText("\"<i>So you want to help me with my experiments?  Great!</i>\"  She takes your hand and basically drags you into her room.  You allow her to lead you, wondering what she has in mind.");
 
@@ -2557,7 +2557,7 @@ export class UrtaPregs extends NPCAwareContent {
 			//20% chance of turning PC into a herm with a 7-inch by 1-inch dick, 2-inch full balls, virgin vagina (Wetness = 2) and C-cup breasts (if smaller).)
 			DisplayText("\n\nYou look down at the floor as you point out that you're kind of lacking in the equipment to provide any sort of donation for Lianna.");
 			DisplayText("\n\n\"<i>That's no problem; I have another experiment that'll fix that problem.</i>\"  Lianna replies brightly.  \"<i>This mixture of mine is guaranteed to turn you from neuter to gendered, without corruption... the only problem is that it's a little unstable.  By which I mean there's no way of predicting what gender you'll become,</i>\" she hastens to add.");
-			menu();
+			
 			MainScreen.addButton(0, "Accept", acceptARandomGenderFromASkunk);
 			MainScreen.addButton(1, "Decline", refuseGenderlessInjection);
 			return;
@@ -2567,7 +2567,7 @@ export class UrtaPregs extends NPCAwareContent {
 		//If herm:
 		if (player.gender === Gender.HERM) DisplayText("\n\n\"<i>A herm, huh?  That's interesting.  I'll be sure to note that in my experiments.</i>\"  She crosses her arms.  \"<i>So which part will you be using to help me?</i>\"");
 		//(Display sex options)
-		menu();
+		
 		if (player.torso.vaginas.count > 0) {
 			if (player.pregnancyIncubation === 0) MainScreen.addButton(0, "HarvestGirly", getEggsHarvested);
 			else DisplayText("\n\n<b>She's not willing to have sex with you until your womb is unfilled.</b>");
@@ -2577,14 +2577,14 @@ export class UrtaPregs extends NPCAwareContent {
 	}
 
 	//[=Refuse=]
-	private refuseGenderlessInjection(): void {
+	private refuseGenderlessInjection() {
 		DisplayText().clear();
 		DisplayText("Lianna's face falls at your refusal, but she sighs.  \"<i>All right, I can understand; I mean, you must have your reasons.  Still, if ever you get a gender, remember that I'd be happy to use some of your seed, please.</i>\"");
 		DisplayText("\n\nYou promise to keep that in mind, not necessarily meaning that, and then quietly redress and leave; there's no point to your being here, you can see.");
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//[=Accept=]
-	private acceptARandomGenderFromASkunk(): void {
+	private acceptARandomGenderFromASkunk() {
 		DisplayText().clear();
 		DisplayText("You decide that it's worthwhile to go along and indicate that you'll let Lianna experiment on you with her \"genderiser\".");
 		DisplayText("\n\n\"<i>Most excellent.</i>\"  She ducks into her closet and rummages through it, then returns with a strange pointed vial and a notebook.  \"<i>Okay, now I need you to bend over.");
@@ -2687,7 +2687,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 	//Dildo-syringe
 	//Needs vag.
-	private getEggsHarvested(): void {
+	private getEggsHarvested() {
 		DisplayText().clear();
 		DisplayText("\"<i>All right, let's get this show on the road.</i>\"  She ducks out into her closet once more, and comes out carrying what looks like a dildo and a lollipop.  \"<i>So, let me explain.  It's pretty simple really.</i>\"  She takes the dildo in her hand.  \"<i>This is a special dildo I had custom-made for this experiment, It will pleasure you at the same time it lets me harvest your pussy juice and hopefully one of your ovum.  All you have to do is sit back and relax.  Any questions?</i>\"");
 		DisplayText("\n\nWell, there is one you have and can't resist asking; what's with the lollipop?  \"<i>That's for me.  It helps me concentrate.  I might give you one later though, if you're a good girl.</i>\"");
@@ -2743,7 +2743,7 @@ export class UrtaPregs extends NPCAwareContent {
 
 	//Handjob
 	//Needs cock.
-	private liannaHandjobbies(): void {
+	private liannaHandjobbies() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.LIANNA_HAVESTED_MALES]++;
 		DisplayText("\"<i>All right, let's get this show on the road.</i>\"  She ducks out into her closet once more, and comes out carrying what looks like a condom and a lollipop.  \"<i>Here's how this works.  You put on this condom and I milk your seed out of you.  Simple, yes?</i>\"");
@@ -2757,9 +2757,9 @@ export class UrtaPregs extends NPCAwareContent {
 		//If more than one dick:
 		if (player.torso.cocks.count > 1) {
 			DisplayText("\n\n\"<i>I need to get something first.</i>\"  She ducks out into her closet once more, rummaging through it until she emerges with a box full of cock-rings.  Okay, this doesn't look so inviting...");
-			DisplayText("\n\nShe ducks close to you and analyses your " + CockDescriptor.describeMultiCockShort(player) + ".  \"<i>I think this one should do.</i>\"  She says, caressing your [cock biggest].  You murmur appreciatively at the stimulus, but you don't forget what's coming next even as your traitorous flesh erects itself for her.  She fishes for a cock-ring and attaches it to your other dick");
+			DisplayText("\n\nShe ducks close to you and analyses your " + Desc.Cock.describeMultiCockShort(player) + ".  \"<i>I think this one should do.</i>\"  She says, caressing your [cock biggest].  You murmur appreciatively at the stimulus, but you don't forget what's coming next even as your traitorous flesh erects itself for her.  She fishes for a cock-ring and attaches it to your other dick");
 			if (player.torso.cocks.count > 2) DisplayText("s");
-			DisplayText(", effectively binding them at their base.  You groan hollowly at this; though this certainly will mean less mess, you're not so sure you're going to enjoy the sensation of trying to cum through the " + num2Text(player.torso.cocks.count - 1) + " cocks that have been blocked up.  Satisfied with her work, she looks at your [cock biggest].");
+			DisplayText(", effectively binding them at their base.  You groan hollowly at this; though this certainly will mean less mess, you're not so sure you're going to enjoy the sensation of trying to cum through the " + numToCardinalText(player.torso.cocks.count - 1) + " cocks that have been blocked up.  Satisfied with her work, she looks at your [cock biggest].");
 		}
 		DisplayText("\n\nFirst Lianna reaches behind herself and you see her brows furrow slightly.  Moments later, you hear a wet splash and she moves her hands back to her front, rubbing the slick lube all over them.  Having done that, she begins massaging your cock, lathering it with plenty of lube.  You shiver at her reactions, cock throbbing with pleasure and the coolness of her natural lube further stimulating your sensitive skin.  She reaches back to gather another handful of lube and apply it to your cock, ensuring that you're as slick as you'll get.  \"<i>This should be good enough.</i>\"  You nod your head; if this is the foreplay, then let's see what the real thing is!");
 		DisplayText("\n\nNext she takes the condom in her hand and removes the wrapping.  You restrain yourself from twitching too much, waiting for her to begin.  Lianna, however, just looks at the condom as if trying to puzzle it out.  You're about to say something when she says, \"<i>I guess that really is the best way of doing it.</i>\"  The skunkette discards her lollipop, throwing the shaft in a nearby trash, and puts the condom between her lips.  You watch her curiously, wondering what's going through her strange excuse for a mind.");

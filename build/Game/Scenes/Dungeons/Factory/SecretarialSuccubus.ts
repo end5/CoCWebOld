@@ -1,5 +1,5 @@
 export class SecretarialSuccubus extends AbstractSuccubus {
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (player.gender > 0) {
 			let dildo: Function = (player.hasKeyItem("Deluxe Dildo") >= 0 ? game.succubusGetsDildoed : null);
 
@@ -19,7 +19,7 @@ export class SecretarialSuccubus extends AbstractSuccubus {
 		}
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foe doesn't seem to care...");
 			return { next: game.endLustLoss };
@@ -50,7 +50,9 @@ export class SecretarialSuccubus extends AbstractSuccubus {
 this.baseStats.tou = 40;
 this.baseStats.spe = 75;
 this.baseStats.int = 35;
-		initLibSensCor(80, 70, 80);
+		this.baseStats.lib = 80;
+this.baseStats.sens = 70;
+this.baseStats.cor = 80;
 		this.weaponName = "claws";
 		this.weaponVerb = "slap";
 		this.weaponAttack = 10;

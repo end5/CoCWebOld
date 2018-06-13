@@ -196,7 +196,7 @@ private readSharkCuntManual():void {
 //Use only 10w30 jism.
 	DisplayText().clear();
 	DisplayText("You point to a pile of books which has a note on top declaring them to be combat manuals, feeling any combat tips you can get will be invaluable in this land.  \"<i>Those?</i>\" the shark asks.  \"<i>They're okay, I guess.  Mostly for beginners, but there are a few worthwhile tricks in each one.  20 gems to borrow one.</i>\"");
-	if(player.stats.gems < 20) {
+	if(player.inventory.gems < 20) {
 		DisplayText("\n\n<b>You haven't got that much.</b>");
 		return { next: tradeWithFuckingSharkBitches };
 	}
@@ -209,7 +209,7 @@ private readSharkCuntManual2():void {
 	DisplayText().clear();
 	
 	DisplayText("Handing Izma the gems she asked for, you pick up one of the many issues of 'Combat Manual'. Izma takes a moment to count and store the gems you've given her, while you move over to a nearby rock to have a quick read of the volume.\n\n");
-	player.stats.gems -= 20;
+	player.inventory.gems -= 20;
 	statScreenRefresh();
 	
 	//(One of the following random effects happens)
@@ -244,7 +244,7 @@ private sharkEdgingGuideLOL():void {
 	//durhur
 	DisplayText().clear();
 	DisplayText("You pick up a book titled 'Etiquette Guide' from its pile; the subtitle reads 'A handbook to society for the modern Lady or Gentleman'.  A little cheesy, but you suppose learning how to keep your mind on chastity and decorum might come in handy someday.  \"<i>Not a bad read.  Though, it's more or less useless for a shark girl like me,</i>\" Izma says of it, before holding her hand out to you.  \"<i>Hard to find more, so... 25 gems if you wanna borrow it.</i>\"");
-	if(player.stats.gems < 25) {
+	if(player.inventory.gems < 25) {
 		DisplayText("\n\n<b>You haven't got that much.</b>");
 		return { next: tradeWithFuckingSharkBitches };
 	}
@@ -254,7 +254,7 @@ private sharkEdgingGuideLOL():void {
 
 private readSharkEdgingGuideLOL():void {
 	DisplaySprite(32);
-	player.stats.gems -= 25;
+	player.inventory.gems -= 25;
 	statScreenRefresh();
 	DisplayText().clear();
 	DisplayText("You hand Izma the gems she asked for and then pick up a copy.  Izma takes a moment to count the gems, while you sit down near her.\n\n");
@@ -277,7 +277,7 @@ private sharkgirlPronz():void {
 	DisplaySprite(32);
 	DisplayText().clear();
 	DisplayText("Izma seems exceedingly embarassed as you turn this book up from under a pile of the others.  It seems to be a series of erotic images made in this land itself, detailing various creatures of all different genders caught up in sexual situations.  You raise a questioning eyebrow to her.  \"<i>Ah, that... it's good material, I-I suppose,</i>\" she stammers, trying to cover her embarrassment at having mislaid it among the others.  \"<i>Uh... 20 gems if you want to look?</i>\"");
-	if(player.stats.gems < 20) {
+	if(player.inventory.gems < 20) {
 		DisplayText("\n\n<b>You haven't got that much.</b>");
 		return { next: tradeWithFuckingSharkBitches };
 	}
@@ -287,7 +287,7 @@ private sharkgirlPronz():void {
 
 private readSharkgirlPornzYouFuckingPervertAsshole():void {
 	DisplaySprite(32);
-	player.stats.gems -= 20;
+	player.inventory.gems -= 20;
 	statScreenRefresh();
 	DisplayText().clear();
 	DisplayText("Izma colors brightly as you flamboyantly produce the requested gems and present them to her, but dutifully hands over the bound illustrations.  While she fumbles with the gems you move down a few feet to examine the pornographic material.\n\n");
@@ -467,7 +467,7 @@ private loseToIzma():void {
 		DisplayText(" at the thought of something that huge forcing its way into it... but you did make a promise and you are ");
 		if(player.stats.HP < 1) DisplayText("too weak to resist");
 		else DisplayText("feeling very horny");
-		DisplayText(", so you comply.  You remove the last bits of your " + player.inventory.equipment.armor.displayName + ", and position yourself on the ground, your " + ButtDescriptor.describeButt(player) + " facing towards Izma.  You can hear her stalking across the sand toward you, but it still sends tingles up your spine when her hands - now free of her metal gauntlets - fall onto your " + ButtDescriptor.describeButt(player) + ".\n\n");
+		DisplayText(", so you comply.  You remove the last bits of your " + player.inventory.equipment.armor.displayName + ", and position yourself on the ground, your " + Desc.Butt.describeButt(player) + " facing towards Izma.  You can hear her stalking across the sand toward you, but it still sends tingles up your spine when her hands - now free of her metal gauntlets - fall onto your " + Desc.Butt.describeButt(player) + ".\n\n");
 		
 		DisplayText("\"<i>Ooh, looking good from this angle.  I'm going to enjoy taking you like this... after all, if you want to be on top, then you gotta fight for it.</i>\"\n\n");
 	
@@ -477,12 +477,12 @@ private loseToIzma():void {
 	if(player.gender <= 1) {
 		//[(If player has tight butthole:)
 		if(player.analCapacity() < 26) {
-			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + ButtDescriptor.describeButthole(character.torso.butt) + ".");
+			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + Desc.Butt.describeButthole(character.torso.butt) + ".");
 			
 			DisplayText("\n\n\"<i>Holy-!  Think I better take it easy on this...</i>\" you hear Izma proclaim.  \"<i>For my own safety moreso than anything else!</i>\"  Her efforts become more gentle.  She still forces her way into you, inch by painstaking inch, but she does so at a slower, steady pace, allowing your pucker time to adjust to the fierce stretching she is subjecting it to and using her hot pre-cum like lubricant.");
 			//(If Izmafight <= -4)
 			if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= -4) DisplayText("  You find yourself pushing back to speed up the process, desperate for Izma to fill you again.");
-			player.displayStretchButt(monster.torso.cocks.get(0).area,true,true,false);
+			Mod.Butt.displayStretchButt(player, monster.torso.cocks.get(0).area,true,true,false);
 		}
 		//(If player has middling anus:) 
 		else if(player.analCapacity() < 60) {
@@ -491,18 +491,18 @@ private loseToIzma():void {
 			DisplayText("\"<i>Ahhhh... now that's a nice little hole!  Did you lose on purpose?</i>\" she asks, and you can hear the grin in her voice.");
 			//(If the player has lost 4+ times)  
 			if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= -4) DisplayText("  You find yourself wondering that as well...");
-			player.displayStretchButt(monster.torso.cocks.get(0).area,true,true,false);
+			Mod.Butt.displayStretchButt(player, monster.torso.cocks.get(0).area,true,true,false);
 		}
 		//(If player has a loosey goosey:)
 		else {
-			DisplayText("Izma's cock may be fairly impressive, but you've taken bigger in your time, and it shows; Izma's first experimental thrust sees her sink up to the hilt into your bowels, and you moan with the pleasure of being filled again even as her four balls slap against your " + ButtDescriptor.describeButt(player) + ".\n\n");
+			DisplayText("Izma's cock may be fairly impressive, but you've taken bigger in your time, and it shows; Izma's first experimental thrust sees her sink up to the hilt into your bowels, and you moan with the pleasure of being filled again even as her four balls slap against your " + Desc.Butt.describeButt(player) + ".\n\n");
 
 			DisplayText("\"<i>The heck!?  What kind of monsters have you been running into?</i>\" she wonders aloud.");
 		}
 		
-		DisplayText("\n\nFully buried, she tightly grips your " + ButtDescriptor.describeButt(player) + "  and then pulls out partway, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
+		DisplayText("\n\nFully buried, she tightly grips your " + Desc.Butt.describeButt(player) + "  and then pulls out partway, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
 		
-		DisplayText("Harder and faster she thrusts, building up a rhythm that grows in pace, her balls slapping audibly against your " + ButtDescriptor.describeButt(player) + " as she bucks back and forth.  You can feel her huge male organ in your depths, rubbing against your prostrate, stretching your inner walls, her boiling erection against your burning heat.  You moan in pleasure; you can't help but enjoy this");
+		DisplayText("Harder and faster she thrusts, building up a rhythm that grows in pace, her balls slapping audibly against your " + Desc.Butt.describeButt(player) + " as she bucks back and forth.  You can feel her huge male organ in your depths, rubbing against your prostrate, stretching your inner walls, her boiling erection against your burning heat.  You moan in pleasure; you can't help but enjoy this");
 		if(player.torso.cocks.count > 0) DisplayText(", and your own male organ is hard and throbbing from the stimulation");
 		DisplayText(".\n\n");
 
@@ -516,7 +516,7 @@ private loseToIzma():void {
 		DisplayText("You groan as well, ");
 		//[(male)
 		if(player.torso.cocks.count > 0) {
-			DisplayText(CockDescriptor.describeMultiCockSimpleOne(player) + " disgorging ");
+			DisplayText(Desc.Cock.describeMultiCockSimpleOne(player) + " disgorging ");
 			if(player.cumQ() < 25) DisplayText("a trickle");
 			else if(player.cumQ() <= 150) DisplayText("several squirts");
 			else DisplayText("a steady stream");
@@ -538,7 +538,7 @@ private loseToIzma():void {
 	else if(player.gender === Gender.FEMALE) {
 		//[(If player has tight cunt:) 
 		if(player.vaginalCapacity() < 26) {
-			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
+			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
 			
 			DisplayText("\"<i>Whoah-!  ");
 			if(player.torso.vaginas.get(0).virgin) DisplayText("First time, huh?");
@@ -546,16 +546,16 @@ private loseToIzma():void {
 			DisplayText("  Don't worry kiddo; I'll go easy on you... at least for the first few thrusts.</i>\"  Surprisingly she's telling the truth, and her efforts become more gentle.  She still forces her way into you, inch by painstaking inch, but she does so at a slower, steady pace, allowing your pussy time to adjust to the fierce stretching she is subjecting it to, using her hot pre-cum like lubricant.");
 			//(If Izmafight <= -4)
 			if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= -4) DisplayText("  You find yourself pushing back to speed up the process, desperate for Izma to fill you again.");
-			player.displayStretchVagina(monster.torso.cocks.get(0).area,true,true,false);
+			Mod.Vagina.displayStretchVagina(player, monster.torso.cocks.get(0).area,true,true,false);
 		}
 		//(If player has ordinary, everyday cunt:)
 		else if(player.vaginalCapacity() < 60) {
-			DisplayText("You can feel every inch of her cock as it sinks steadily into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", filling your moist folds as inexorably as the rising tide.\n\n");
+			DisplayText("You can feel every inch of her cock as it sinks steadily into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", filling your moist folds as inexorably as the rising tide.\n\n");
 			
 			DisplayText("\"<i>Ahhhh~  Now that's a nice little hole!  Did you lose on purpose?</i>\" she asks, and you can hear the grin in her voice.");
 			//(If the player has lost 4+ times)  
 			if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= -4) DisplayText("  You find yourself wondering that as well...");
-			player.displayStretchVagina(monster.torso.cocks.get(0).area,true,true,false);
+			Mod.Vagina.displayStretchVagina(player, monster.torso.cocks.get(0).area,true,true,false);
 		}
 		//(If player is loose:)
 		else {
@@ -563,11 +563,11 @@ private loseToIzma():void {
 			
 			DisplayText("\"<i>The heck!?  What kind of monsters have you been running into?</i>\" she wonders aloud.");
 		}
-		DisplayText("\n\nFully buried, she tightly grips your " + ButtDescriptor.describeButt(player) + " and then starts to pull out, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
+		DisplayText("\n\nFully buried, she tightly grips your " + Desc.Butt.describeButt(player) + " and then starts to pull out, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
 
 		DisplayText("Harder and faster she thrusts, building up a rhythm that grows in pace, her balls slapping audibly against your butt as she bucks back and forth.  You can feel her huge male organ in your depths, rubbing against your womb's walls and stretching you out, her boiling erection pressed against your burning insides.  You moan; you can't help but enjoy this, your cunt drooling from the intense pleasure.\n\n");
 
-		DisplayText("\"<i>Oh, somebody likes it, eh?  Well, don't worry, you wanted to test your luck, so I'm not going to hold back!  You're getting the whole experience, sweetheart!</i>\" Izma growls.  Her hands suddenly shift from your buttocks to holding onto your " + Desc.Breast.describeChest(character) + ", and you howl in a mixture of pain and pleasure as Izma suddenly gives your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s a good hard tug.  \"<i>Stiff nipples?  You so wanted this...</i>\" Izma teases, licking at your neck and causing you to moan in pleasure.");
+		DisplayText("\"<i>Oh, somebody likes it, eh?  Well, don't worry, you wanted to test your luck, so I'm not going to hold back!  You're getting the whole experience, sweetheart!</i>\" Izma growls.  Her hands suddenly shift from your buttocks to holding onto your " + Desc.Breast.describeChest(character) + ", and you howl in a mixture of pain and pleasure as Izma suddenly gives your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s a good hard tug.  \"<i>Stiff nipples?  You so wanted this...</i>\" Izma teases, licking at your neck and causing you to moan in pleasure.");
 		//(If the player has lost 4+ times) 
 		if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= -4) DisplayText("  If this is how the sharks do it, you could really get used to it...");
 		DisplayText("\n\n");
@@ -581,7 +581,7 @@ private loseToIzma():void {
 		DisplayText("\"<i>That's how shark people have sex,</i>\" she tells you.  \"<i>Of course, it's different if you're the one who won... but you'll need to come back again and beat me if you want to see what that's like.</i>\"  She leans down and gives you a small peck on the lips, then drops the tigershark tooth beside you.");
 		if(player.pregnancyIncubation === 0 || player.pregnancyIncubation > 180) DisplayText("  From her oak chest she fetches an odd leaf, which she pushes past your lips.  \"<i>Birth control herbs.  No way I'm giving kids to someone who's not my mate,</i>\" Izma says, making sure you swallow the plant before diving into the water, most likely to clean herself off.\n\n");
 
-		DisplayText("You remain where you are, waiting for the strength to flow into your limbs and for some of the abundance of sexual fluids to vacate your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " before you dress yourself and leave.  You had no idea that Izma could take charge in such a fierce manner... but, at the same time, you find yourself actually liking it.  A part of you wonders if you could see her that way again...");
+		DisplayText("You remain where you are, waiting for the strength to flow into your limbs and for some of the abundance of sexual fluids to vacate your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " before you dress yourself and leave.  You had no idea that Izma could take charge in such a fierce manner... but, at the same time, you find yourself actually liking it.  A part of you wonders if you could see her that way again...");
 		//(Izmafight minus 1)
 		Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON]--;
 	}
@@ -626,23 +626,23 @@ private loseToIzma():void {
 		//(10-19 inches)
 		else if(player.torso.cocks.get(x).length <= 19) DisplayText("\"<i>Not bad, I'm actually impressed,</i>\" Izma says, nodding slightly in approval.");
 		//(20+ inches)
-		else DisplayText("Izma gives a low whistle at the sight of your " + CockDescriptor.describeCock(player, x) + ".  \"<i>Now THAT'S a cock.  Looks like you've got a third leg down there!</i>\"");
+		else DisplayText("Izma gives a low whistle at the sight of your " + Desc.Cock.describeCock(player, x) + ".  \"<i>Now THAT'S a cock.  Looks like you've got a third leg down there!</i>\"");
 		
-		DisplayText("\n\nSeemingly done appraising you, Izma roughly grabs your " + LowerBodyDescriptor.describeFeet(player) + " and pulls your rear upwards, forcing your weight onto your spine and making you cry out from the uncomfortable position.  She doesn't waste time on foreplay, simply deciding to bury her cock into you slowly, inch by painstaking inch until she's pushing against the entrance to your womb.");
-		player.displayStretchVagina(monster.torso.cocks.get(0).area,true,true,false);
+		DisplayText("\n\nSeemingly done appraising you, Izma roughly grabs your " + Desc.Leg.describeFeet(player) + " and pulls your rear upwards, forcing your weight onto your spine and making you cry out from the uncomfortable position.  She doesn't waste time on foreplay, simply deciding to bury her cock into you slowly, inch by painstaking inch until she's pushing against the entrance to your womb.");
+		Mod.Vagina.displayStretchVagina(player, monster.torso.cocks.get(0).area,true,true,false);
 		DisplayText("\n\n");
 
-		DisplayText("She starts thrusting in and out of you, gradually increasing the speed and force, her hot pre-cum and your feminine juices acting like a lubricant to make things easier.  \"<i>Ahh~  You're a lovely cock-sleeve... you like being treated like this, don't ya, weakling?</i>\" Izma taunts, slamming in and out of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".");
+		DisplayText("She starts thrusting in and out of you, gradually increasing the speed and force, her hot pre-cum and your feminine juices acting like a lubricant to make things easier.  \"<i>Ahh~  You're a lovely cock-sleeve... you like being treated like this, don't ya, weakling?</i>\" Izma taunts, slamming in and out of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".");
 		//(If Izmafight <= -4) 
 		if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= -4) DisplayText("  You're not even really ashamed to admit that such is the case anymore.");
 		DisplayText("\n\n");
 		
 		DisplayText("Every thrust pushes you deeper into the sands, and eventually you find yourself pumping your hips upward against Izma's own, eager to pleasure her and yourself.  Izma seems to notice this and laughs loudly.  \"<i>Oh?  You really like being dominated?  Ha, I thought as much.</i>\"  She continues to taunt you as she pounds into you, her balls smacking against you every time.  Your mind is too clouded with lust to hear even half of what she says.  Right now all you care about is getting off.\n\n");
 
-		DisplayText("Within minutes, Izma gives one final, powerful thrust and roars loudly, cum pumping into your womb and spraying out onto the sands.  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " twitches and pulses, ready to blow.  Izma quickly takes hold and points ");
+		DisplayText("Within minutes, Izma gives one final, powerful thrust and roars loudly, cum pumping into your womb and spraying out onto the sands.  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " twitches and pulses, ready to blow.  Izma quickly takes hold and points ");
 		if(player.torso.cocks.count === 1) DisplayText("it");
 		else DisplayText("them");
-		DisplayText(" toward your face, stroking you to your own climax.  Jets of your own cum splatter across your face and body as you writhe, protesting. \"<i>Tch, you really thought I'd let you cum on ME?  Maybe if you actually managed to beat me I'd give you the honor,</i>\" Izma says, pulling free with a loud *SCHLICK* sound.  She releases your " + LowerBodyDescriptor.describeFeet(player) + ", allowing your " + ButtDescriptor.describeButt(player) + " to hit the sand with a plop, and gets to work redressing while you lie still.");
+		DisplayText(" toward your face, stroking you to your own climax.  Jets of your own cum splatter across your face and body as you writhe, protesting. \"<i>Tch, you really thought I'd let you cum on ME?  Maybe if you actually managed to beat me I'd give you the honor,</i>\" Izma says, pulling free with a loud *SCHLICK* sound.  She releases your " + Desc.Leg.describeFeet(player) + ", allowing your " + Desc.Butt.describeButt(player) + " to hit the sand with a plop, and gets to work redressing while you lie still.");
 		if(player.pregnancyIncubation === 0 || player.pregnancyIncubation > 150) {
 			DisplayText("  Moving over to her oak chest, she returns with a strange leaf in her hands, which she pushes past your lips.\n\n");
 
@@ -668,7 +668,7 @@ private loseToIzma():void {
 	else DisplayText("  You embrace the dreams fully, desperate to cling to them as long as you can. It's getting so hard to care about your former mission anymore; why fight the demons when you can just give it up and surrender yourself to Izma? Yes... such a strong, powerful, worthy alpha she is; Izma is all you need. Let her take control of your life, why don't you?");
 	Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] = consumables.TSTOOTH.id;
 	player.slimeFeed();
-	cleanupAfterCombat();
+	return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 //[Final loss sex scene]
@@ -682,33 +682,33 @@ private finalIzmaSubmission():void {
 	else DisplayText("flank");
 	DisplayText(".\n\n");
 	
-	DisplayText("Some of Izma's hot pre-cum dribbles out onto your back and runs down to your " + ButtDescriptor.describeButt(player) + ".  It causes your eyes to roll back in your head; you can only imagine the taste of her salty pre running down your throat.  Izma snickers, aware of her hold over you, before tightening her grip.");
+	DisplayText("Some of Izma's hot pre-cum dribbles out onto your back and runs down to your " + Desc.Butt.describeButt(player) + ".  It causes your eyes to roll back in your head; you can only imagine the taste of her salty pre running down your throat.  Izma snickers, aware of her hold over you, before tightening her grip.");
 	if(player.torso.cocks.count > 0 || player.torso.vaginas.count > 0) {
 		DisplayText("  The tight embrace makes ");
 		if(player.torso.cocks.count > 0) {
-			DisplayText(CockDescriptor.describeMultiCockSimpleOne(player) + " stiffen");
+			DisplayText(Desc.Cock.describeMultiCockSimpleOne(player) + " stiffen");
 			if(player.torso.vaginas.count > 0) DisplayText(" and ");
 		}
-		if(player.torso.vaginas.count > 0) DisplayText("your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " moisten considerably");
+		if(player.torso.vaginas.count > 0) DisplayText("your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " moisten considerably");
 	}
 	DisplayText(".\n\n");
 	
 	DisplayText("\"<i>Beg,</i>\" she orders, licking your neck and collarbone, giving off a few growls and purrs as she goes.  \"<i>Wh-what?</i>\" you manage to reply, lost in your anticipation.  \"<i>You heard me,</i>\" she replies sternly, grinding her throbbing cock, now erect and well over sixteen inches, against your back.  It seems like giving free rein to her dominating instincts is making her harder than you've ever felt.  You moan loudly from the sensation.  \"<i>Please fuck me!  Please, Izma, mistress, I need your cock!</i>\" you cry, not caring if anything is nearby to hear you.  Izma chuckles in response before pulling you in and roughly kissing you, her long tongue curling around your own.  She continues to tongue-fuck you until you nearly run out of breath, and you feel like Izma could make you orgasm from this alone.\n\n");
 
-	DisplayText("She keeps you held in place as she positions the tip of her cock against your " + ButtDescriptor.describeButthole(character.torso.butt) + ".  With no warning, she forces her meat-pole into you, making you squeal in delight from the familiar heat of her cock.  ");
-	player.displayStretchButt(monster.torso.cocks.get(0).area,true,false,true);
-	DisplayText("She keeps forcing her way in your backdoor, inch after inch, and you only feel weaker against Izma the further in she goes.  Eventually she manages to bury her entire dick into your pucker, sighing in delight as her meaty quads press against your " + ButtDescriptor.describeButt(player) + ".\n\n");
+	DisplayText("She keeps you held in place as she positions the tip of her cock against your " + Desc.Butt.describeButthole(character.torso.butt) + ".  With no warning, she forces her meat-pole into you, making you squeal in delight from the familiar heat of her cock.  ");
+	Mod.Butt.displayStretchButt(player, monster.torso.cocks.get(0).area,true,false,true);
+	DisplayText("She keeps forcing her way in your backdoor, inch after inch, and you only feel weaker against Izma the further in she goes.  Eventually she manages to bury her entire dick into your pucker, sighing in delight as her meaty quads press against your " + Desc.Butt.describeButt(player) + ".\n\n");
 
 	DisplayText("She pulls back out, and for a moment you feel a bit of trepidation at the absence of her cock, before crying out as she again goes balls-deep into your backside.  She continues to thrust and grind into you, giving a few animalistic snarls of pleasure.  You manage to glance back, only to notice how completely the bookworm has turned into some sort of proud wild woman.  It suits her; she's proven that she's so much stronger than you, after all.  So strong, so in control, so powerful... it feels right to be like this, underneath Izma as she asserts her position over you.\n\n");
 
-	DisplayText("As if sensing your complete submission, Izma's hands trail down toward your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + ", mauling and groping at them, tweaking your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s in an almost-painful fashion.  It only manages to turn you on further though, groaning and squirming from intense pleasure.  Izma makes you orgasm first, your muscles twitching and spasming as you briefly lose control over yourself");
+	DisplayText("As if sensing your complete submission, Izma's hands trail down toward your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + ", mauling and groping at them, tweaking your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s in an almost-painful fashion.  It only manages to turn you on further though, groaning and squirming from intense pleasure.  Izma makes you orgasm first, your muscles twitching and spasming as you briefly lose control over yourself");
 	if(player.torso.vaginas.count > 0 || player.torso.cocks.count > 0) {
 		DisplayText("; ");
 		if(player.torso.cocks.count > 0) {
-			DisplayText(CockDescriptor.describeMultiCockSimpleOne(player) + " begins spurting jizz all over the sandy shore");
+			DisplayText(Desc.Cock.describeMultiCockSimpleOne(player) + " begins spurting jizz all over the sandy shore");
 			if(player.torso.vaginas.count > 0) DisplayText(" and ");
 		}
-		if(player.torso.vaginas.count > 0) DisplayText("your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " starts squirting fluids liberally");
+		if(player.torso.vaginas.count > 0) DisplayText("your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " starts squirting fluids liberally");
 	}
 	DisplayText(".\n\n");
 
@@ -746,22 +746,22 @@ private victoryPenisIzma():void {
 	DisplayText().clear();
 	let cockIndex:number = player.cockThatFits(monster.vaginalCapacity());
 	if(cockIndex < 0) cockIndex = 0;
-	DisplayText("You watch the defeated tigershark closely and a grin forms on your face.  You touch a hand to her forehead and push her onto her back with minimal effort, slipping her clothing off.  She hardly lacks the strength to stop you, but she knows full well what the terms of the battle were, so she's not going to go back on her word.  You remove your " + player.inventory.equipment.armor.displayName + " and spread Izma's legs wide, " + CockDescriptor.describeMultiCockSimpleOne(player) + " almost painfully erect as you lift her quartet of balls up to look at her glistening womanhood.\n\n");
+	DisplayText("You watch the defeated tigershark closely and a grin forms on your face.  You touch a hand to her forehead and push her onto her back with minimal effort, slipping her clothing off.  She hardly lacks the strength to stop you, but she knows full well what the terms of the battle were, so she's not going to go back on her word.  You remove your " + player.inventory.equipment.armor.displayName + " and spread Izma's legs wide, " + Desc.Cock.describeMultiCockSimpleOne(player) + " almost painfully erect as you lift her quartet of balls up to look at her glistening womanhood.\n\n");
 	
-	DisplayText("Not wanting to waste any time on foreplay, you push your " + CockDescriptor.describeCock(player, cockIndex) + " into Izma's slit as far as you can manage, making Izma gasp sharply and writhe against you.  You snicker and start thrusting into her, the odd little tendrils inside her cunt teasing and massaging your cock.  The walls themselves are so tight and smooth that her pussy conforms to you like a glove.  It almost feels like Izma's snatch was made just for you.");
+	DisplayText("Not wanting to waste any time on foreplay, you push your " + Desc.Cock.describeCock(player, cockIndex) + " into Izma's slit as far as you can manage, making Izma gasp sharply and writhe against you.  You snicker and start thrusting into her, the odd little tendrils inside her cunt teasing and massaging your cock.  The walls themselves are so tight and smooth that her pussy conforms to you like a glove.  It almost feels like Izma's snatch was made just for you.");
 	//[(If Izmafight = 3+)
 	if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] >= 3) DisplayText("  Hell, maybe it was made for you, given just how eager Izma seems to be whenever she sees you.  It's like she loses to you on purpose.");
 	DisplayText("\n\n");
 
 	DisplayText("You start to pick up speed as you mash your hips against Izma's own, earning moans from the pretty tigershark which only seem to get louder with every subsequent thrust.  Izma quickly starts to return the gesture, moving her hips up to meet your own thrusts every time.  It's while she's doing this that you notice her throbbingly erect cock wobbling around.\n\n");
 	
-	DisplayText("Deciding that it'd be rude not to, and because you want to see just how loud you can make Izma moan, you grab hold of her raging erection and start jerking her off while you pound into her.  The move seems to surprise Izma, and she starts moaning and screaming in pleasure.  The double stimulation you're pulling off pushes Izma past her limit very quickly, and she starts shooting thick jets of spunk into the air, which begin to rain down on her face and breasts.  Her vaginal walls clamp down on your " + CockDescriptor.nounCock(player.torso.cocks.get(cockIndex).type) + " almost painfully as the orgasm wracks her female genitalia too.\n\n");
+	DisplayText("Deciding that it'd be rude not to, and because you want to see just how loud you can make Izma moan, you grab hold of her raging erection and start jerking her off while you pound into her.  The move seems to surprise Izma, and she starts moaning and screaming in pleasure.  The double stimulation you're pulling off pushes Izma past her limit very quickly, and she starts shooting thick jets of spunk into the air, which begin to rain down on her face and breasts.  Her vaginal walls clamp down on your " + Desc.Cock.nounCock(player.torso.cocks.get(cockIndex).type) + " almost painfully as the orgasm wracks her female genitalia too.\n\n");
 	
 	DisplayText("Izma starts panting and gasping for breath after the intense release, but immediately starts groaning when she realizes you are not done.  You giggle and release her softening erection, placing both hands on her thighs as you start to redouble your efforts at fucking her.  You push Izma deeper and deeper into the sands with each thrust, and despite her exhaustion Izma gives a few soft pleasured moans.\n\n");
 
 	//[(Male)
 	if(player.gender === Gender.MALE) {
-		DisplayText("After a lengthy fuck, you grunt loudly as your " + CockDescriptor.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
+		DisplayText("After a lengthy fuck, you grunt loudly as your " + Desc.Cock.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
 		//[(multi) 
 		if(player.torso.cocks.count > 1) DisplayText(" and onto her groin");
 		DisplayText(", causing Izma to cry out loudly.");
@@ -771,11 +771,11 @@ private victoryPenisIzma():void {
 			if(player.cumQ() >= 1500) DisplayText(".  Eventually it can swell no more and each new squirt forces cum out from her stuffed pussy, trickling past her asshole");
 			DisplayText(".");
 		}
-		DisplayText("  You sigh happily and push back from her, weakly getting back on your " + LowerBodyDescriptor.describeFeet(player) + " and redressing. Izma scrambles to her chest and takes out some sort of leaf, then eats it.\n\n");
+		DisplayText("  You sigh happily and push back from her, weakly getting back on your " + Desc.Leg.describeFeet(player) + " and redressing. Izma scrambles to her chest and takes out some sort of leaf, then eats it.\n\n");
 	}
 	//(Herm)
 	else {
-		DisplayText("After a lengthy fuck, you grunt loudly as your " + CockDescriptor.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
+		DisplayText("After a lengthy fuck, you grunt loudly as your " + Desc.Cock.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
 		if(player.torso.cocks.count > 1) DisplayText(" and onto her groin");
 		DisplayText(", causing Izma to cry out loudly.");
 		//[(big skeet)
@@ -784,16 +784,16 @@ private victoryPenisIzma():void {
 			if(player.cumQ() >= 1500) DisplayText(", eventually it can swell no more and each new squirt forces cum out from her stuffed pussy, trickling past her asshole");
 			DisplayText(".");
 		}
-		DisplayText("  You sigh happily and push back from her, weakly getting to your " + LowerBodyDescriptor.describeFeet(player) + ".  You're not done yet though, not fully.\n\n");
+		DisplayText("  You sigh happily and push back from her, weakly getting to your " + Desc.Leg.describeFeet(player) + ".  You're not done yet though, not fully.\n\n");
 		
-		DisplayText("Izma gasps again as you plant your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " onto her face, grinding against the angular features and moaning loudly as her obliging tongue darts past your lips.  You could really get used to this feeling.  You ride her face for another few minutes before an orgasm rocks your female parts, splattering girlcum onto Izma's face.  You sigh happily and weakly get to your feet, redressing.  You see Izma fishing something from her storage chest - a plant of some sort - and munching it down.\n\n");
+		DisplayText("Izma gasps again as you plant your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " onto her face, grinding against the angular features and moaning loudly as her obliging tongue darts past your lips.  You could really get used to this feeling.  You ride her face for another few minutes before an orgasm rocks your female parts, splattering girlcum onto Izma's face.  You sigh happily and weakly get to your feet, redressing.  You see Izma fishing something from her storage chest - a plant of some sort - and munching it down.\n\n");
 	}
 	player.orgasm();
 	//[(if Izmafight <=4)
 	if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= 4 || Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00235] > 0) {
 		DisplayText("You say your goodbyes to the pretty tigershark and leave once she hands you your tooth-shaped reward.");
 		Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] = consumables.TSTOOTH.id;
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//(if Izmafight >=5 then go to [Victor's Choice]] (Izmafight +1)
 	else victorzChoice();
@@ -806,14 +806,14 @@ private useVagooOnIzmaWin():void {
 	DisplayText("You watch the defeated tigershark closely and a grin forms on your face.  You touch a hand to her forehead and push her onto her back with minimal effort, slipping her clothing off.  She lacks the strength to stop you, but she knows full well what the terms of the battle were, so she's not going to go back on her word.  You strip off your " + player.inventory.equipment.armor.displayName + " and spread Izma's legs wide, licking your lips at the sight of her throbbing erection and meaty quads.  You give Izma's massive cock a few test strokes, earning some pleasured groans from the tiger shark.\n\n");
 	
 	DisplayText("Deciding you've had enough foreplay, you mount her and slide down her cock.");
-	player.displayStretchVagina(monster.torso.cocks.get(0).area,true,true,false);
+	Mod.Vagina.displayStretchVagina(player, monster.torso.cocks.get(0).area,true,true,false);
 	DisplayText("  You start grinding and gyrating atop her, ");
 	//[(taur)
 	if(player.torso.hips.legs.isTaur()) DisplayText("your weight pinning her to the sand and preventing her from taking control.");
 	//(non-taur and height > 4') 
-	else if(player.tallness > 48) DisplayText("and pin her hands above her head to stop her from trying to change the position. Her heaving breasts rub against your " + BreastDescriptor.describeAllBreasts(player) + " as you ride her in this posture.  She needs to know who's in charge here, after all.");
+	else if(player.tallness > 48) DisplayText("and pin her hands above her head to stop her from trying to change the position. Her heaving breasts rub against your " + Desc.Breast.describeAllBreasts(player) + " as you ride her in this posture.  She needs to know who's in charge here, after all.");
 	//(non-taur and height <= 4')
-	else DisplayText("but small as you are, you can't stop her as she reaches up and grabs onto your " + ButtDescriptor.describeButt(player) + ", then begins bouncing you like a goblin cocksleeve.");
+	else DisplayText("but small as you are, you can't stop her as she reaches up and grabs onto your " + Desc.Butt.describeButt(player) + ", then begins bouncing you like a goblin cocksleeve.");
 	DisplayText("\n\n");
 	
 	DisplayText("Izma seems to do her best, moving and jerking her cock up as much as she can, earning gasps of pleasure from you.");
@@ -837,7 +837,7 @@ private eatIzmasLeafAfterRapinHer():void {
 	//[(if Izmafight <=4) 
 	if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= 4 || Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00235] > 0) {
 		DisplayText("  You say your goodbyes to the pretty tigershark and leave once she hands you your tooth-shaped reward.");
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//(if Izmafight >=5 then go to [Victor's Choice]]
 	else victorzChoice();
@@ -854,7 +854,7 @@ private dontEatIzamsLeafAfterRape():void {
 	
 	DisplayText("You slap the leaf out of her hand.  \"<i>Try getting stronger before you impose your decisions on others!</i>\" you bark.  \"<i>Whether I decide to have your kids or not is none of your business; you should be grateful at the chance to father them with someone tougher than you!</i>\"  She shivers and nods meekly, and you turn about and pick your way back to camp.\n\n");
 	player.knockUp(PregnancyType.IZMA, PregnancyType.INCUBATION_IZMA);
-	cleanupAfterCombat();
+	return { next: Scenes.camp.returnToCampUseOneHour };
 	//(Izmafight +1)
 	Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON]++;
 }
@@ -869,19 +869,19 @@ private takeItInZeButtVictoryLikeFromIzma():void {
 	
 	DisplayText("You lean down and start licking and suckling the tip of her monster dick, slurping up her hot pre and lubricating the tip of her raging boner.  She moans and jerks at your touch, writhing around and loving the sensation of submissiveness.  The feeling of having her under your power manages to bring a smile to your own face.\n\n");
 	
-	DisplayText("Gradually you start to suck more and more of her cock, inch after inch moving down your throat.  You gag lightly as you finally reach the base of her cock, before pulling it out.  She whines weakly and looks at you pitifully, wondering why you're teasing her.  You remove your " + player.inventory.equipment.armor.displayName + " before turning to show her your " + ButtDescriptor.describeButt(player) + ", and a small smile spreads over her angular face as she realizes what you have planned.  You plant your hands on your backside and pull your cheeks wide, before starting to slide onto her well-lubed pecker.\n\n");
+	DisplayText("Gradually you start to suck more and more of her cock, inch after inch moving down your throat.  You gag lightly as you finally reach the base of her cock, before pulling it out.  She whines weakly and looks at you pitifully, wondering why you're teasing her.  You remove your " + player.inventory.equipment.armor.displayName + " before turning to show her your " + Desc.Butt.describeButt(player) + ", and a small smile spreads over her angular face as she realizes what you have planned.  You plant your hands on your backside and pull your cheeks wide, before starting to slide onto her well-lubed pecker.\n\n");
 	
 	DisplayText("She grunts and huffs as you slide down, and you too feel a strain from her iron-hard dick despite the various fluids lubricating it.  But gradually pain turns to pleasure and you're both moaning loudly and calling each other's names as you ride her.");
-	player.displayStretchButt(monster.torso.cocks.get(0).area,true,true,false);
+	Mod.Butt.displayStretchButt(player, monster.torso.cocks.get(0).area,true,true,false);
 	DisplayText("\n\n");
 	
-	DisplayText("The shark grits her teeth and gives a roar as she cums, blowing a massive, hot load straight up your " + ButtDescriptor.describeButthole(character.torso.butt) + ", bloating you slightly as she empties her quads inside you.  Your muscles twitch and contract, and you can swear you see stars as she ejaculates.  It takes you a while to catch your breath as you slide off her slowly softening meat pole and crawl onto the sand.\n\n");
+	DisplayText("The shark grits her teeth and gives a roar as she cums, blowing a massive, hot load straight up your " + Desc.Butt.describeButthole(character.torso.butt) + ", bloating you slightly as she empties her quads inside you.  Your muscles twitch and contract, and you can swear you see stars as she ejaculates.  It takes you a while to catch your breath as you slide off her slowly softening meat pole and crawl onto the sand.\n\n");
 	player.orgasm();
 	//[(if Izmafight <=4)
 	if(Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON] <= 4 || Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00235] > 0) {
 		DisplayText("You say your goodbyes to the pretty tigershark and leave once she hands you your tooth-shaped reward.");
 		Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] = consumables.TSTOOTH.id;
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//(if Izmafight >=5 then go to [Victor's Choice]]
 	else victorzChoice();
@@ -907,7 +907,7 @@ private leaveIzmaVictoryTease():void {
 	
 	Flags.list[FlagEnum.IZMA_TIMES_FOUGHT_AND_WON]++;
 	Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] = consumables.TSTOOTH.id;
-	cleanupAfterCombat();
+	return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 //[Victor's choice] (tacks onto end of victory sex if Izmafight >= 5)
@@ -922,7 +922,7 @@ private chooseIzmaTooth():void {
 	DisplayText("You accept the tooth from her with a polite word of thanks.");
 	//(gain 1 t-shark toof)
 	Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] = consumables.TSTOOTH.id;
-	cleanupAfterCombat();
+	return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 //Gloves]
@@ -938,7 +938,7 @@ private chooseIzmaGloves():void {
 	//(gain 1 Hooked gauntlets) 
 	Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] = weapons.H_GAUNT.id;
 	Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00235]++;
-	cleanupAfterCombat();
+	return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 private chooseYourIzmaWeapon():void {
@@ -958,15 +958,15 @@ private nonFightIzmaSmexPAINUS():void {
 	
 	DisplayText("You respond in kind, shedding your garments as her lips purse and her eyes roam up and down your form.  ");
 	//Single Normal dicks
-	if(player.torso.cocks.count === 1 && player.torso.cocks.get(0).type.Index < 9) {
+	if(player.torso.cocks.count === 1 && player.torso.cocks.get(0).type < 9) {
 		//[Human dick in slot 0]
 		if(player.torso.cocks.get(0).type === CockType.HUMAN) DisplayText("Izma seems surprised to see your genitalia is similar to hers.  \"<i>Huh. Thought that every land-dweller usually bumbled into a dick transformation around here.</i>\"");
 		//[Horse cock in slot 0] 
-		else if(player.torso.cocks.get(0).type === CockType.HORSE) DisplayText("Seeing your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " causes Izma to lick her lips slowly. \"<i>Well... Equinum is pretty popular, isn't it?</i>\"");
+		else if(player.torso.cocks.get(0).type === CockType.HORSE) DisplayText("Seeing your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " causes Izma to lick her lips slowly. \"<i>Well... Equinum is pretty popular, isn't it?</i>\"");
 		//[Dog cock]
-		else if(player.torso.cocks.filter(Cock.HasKnot).length > 0) DisplayText("Izma stares intently at your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ", as if trying to make up her mind about it. \"<i>Well, it is a rather cute look. Just be careful with the knot, will ya?</i>\"");
+		else if(player.torso.cocks.find(Cock.HasKnot)) DisplayText("Izma stares intently at your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", as if trying to make up her mind about it. \"<i>Well, it is a rather cute look. Just be careful with the knot, will ya?</i>\"");
 		//[Tentacle] 
-		else if(player.torso.cocks.get(0).type === CockType.TENTACLE) DisplayText("A puzzled look plays across Izma's face as she stares at your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  \"<i>Wow... I've read a lot about the corrupt plants.  Didn't think people could wind up like that.</i>\"");
+		else if(player.torso.cocks.get(0).type === CockType.TENTACLE) DisplayText("A puzzled look plays across Izma's face as she stares at your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  \"<i>Wow... I've read a lot about the corrupt plants.  Didn't think people could wind up like that.</i>\"");
 		//[Demon Dick] 
 		else if(player.torso.cocks.get(0).type === CockType.DEMON) DisplayText("Izma looks shocked as she lays eyes on your perverted pecker, having never seen anything quite like it before. \"<i>Um... that looks... awkward. Like having a truncheon between your legs.</i>\"");
 		//[cat dork] 
@@ -974,16 +974,16 @@ private nonFightIzmaSmexPAINUS():void {
 		//[lizardick]
 		else if(player.torso.cocks.get(0).type === CockType.LIZARD) DisplayText("Her eyes goggle as you reveal a bulbous purple pecker.  \"<i>Oh wow.  Do you have a green one too?</i>\"");
 		//[Captain Nemo] 
-		else if(player.torso.cocks.get(0).type === CockType.ANEMONE) DisplayText("She grimaces as you unveil a " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  \"<i>God, not one of those.  You wind up hornier after cumming than you were before you started touching it.</i>\"");
+		else if(player.torso.cocks.get(0).type === CockType.ANEMONE) DisplayText("She grimaces as you unveil a " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  \"<i>God, not one of those.  You wind up hornier after cumming than you were before you started touching it.</i>\"");
 		//[Kangaroo Jack] 
-		else if(player.torso.cocks.get(0).type === CockType.KANGAROO) DisplayText("She looks on blankly as you reveal your sheath, then gives a start as your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " slides out of it after a few strokes.  \"<i>Woah... it's so... thin and pointy.</i>\"");
+		else if(player.torso.cocks.get(0).type === CockType.KANGAROO) DisplayText("She looks on blankly as you reveal your sheath, then gives a start as your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " slides out of it after a few strokes.  \"<i>Woah... it's so... thin and pointy.</i>\"");
 	}
 	//Multi or weird new shit.
-	else DisplayText("Her eyes bug out as you reveal " + CockDescriptor.describeMultiCockSimpleOne(player) + ".  \"<i>Woah, jeez, look at that one... oh man, and that one's... daaamn.</i>\"");
+	else DisplayText("Her eyes bug out as you reveal " + Desc.Cock.describeMultiCockSimpleOne(player) + ".  \"<i>Woah, jeez, look at that one... oh man, and that one's... daaamn.</i>\"");
 	DisplayText("\n\n");
 	
 	//[If the player is masculine but has B-cups or larger]
-	if(player.mf("m","f") === "m" && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2) {
+	if(Desc.Gender.mf(player, "m","f") === "m" && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2) {
 		DisplayText("The fact that you have breasts seems to confuse Izma quite a bit as well, causing her to tilt her head.  \"<i>You're a guy... with boobs.  Did you honestly think they were necessary, or did you just want something to play with?</i>\"");
 		//[If player is lactating] 
 		if(player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 2) DisplayText("  Catching sight of some milk oozing from your nipples makes Izma step back slightly.  \"<i>You're lactating too?!  Man, there are way too many things that are weird about this...</i>\"  Still, you doubt Izma is as turned off as she acts, what with the raging erection between her legs.");
@@ -996,11 +996,11 @@ private nonFightIzmaSmexPAINUS():void {
 	if(player.torso.cocks.get(0).type === CockType.TENTACLE) DisplayText("\"<i>Well, actually...</i>\" you begin, flexing your cock-tentacle.  She cuts you off with a glare.  ");
 	//(other slot 0)
 	else DisplayText("You go to protest further, but stop when she gives you a glare.  ");
-	DisplayText("You're already too horny to back out now, though.  Sighing in annoyance, you flop back onto the sands and motion at Izma to join you.  Izma nods and smiles, making her way over to you and swinging her hips from side to side as if to tease you further, before positioning her head at your groin and rubbing her own groin against your head.  \"<i>Alright, let's do this,</i>\" Izma says bluntly, wasting no time gorging herself on your " + CockDescriptor.nounCock(player.torso.cocks.get(0).type) + ", wrapping her tongue around it and fellating like a pro.  You gasp slightly at the expert treatment, and decide your previous protests were pointless if you're gonna get this kind of pleasure from the deal.\n\n");
+	DisplayText("You're already too horny to back out now, though.  Sighing in annoyance, you flop back onto the sands and motion at Izma to join you.  Izma nods and smiles, making her way over to you and swinging her hips from side to side as if to tease you further, before positioning her head at your groin and rubbing her own groin against your head.  \"<i>Alright, let's do this,</i>\" Izma says bluntly, wasting no time gorging herself on your " + Desc.Cock.nounCock(player.torso.cocks.get(0).type) + ", wrapping her tongue around it and fellating like a pro.  You gasp slightly at the expert treatment, and decide your previous protests were pointless if you're gonna get this kind of pleasure from the deal.\n\n");
 	
 	DisplayText("You wrap your lips around Izma's own massive erection, sucking and gagging on her more-than-footlong cock as she jerks and twists her hips around.  Her muffled moans seem to assure you that you're doing a great job, and Izma responds by increasing the speed of her head-bobbing.  Your vision is a little obscured by Izma's quartet of balls repeatedly bumping against your forehead and the bridge of your nose, but if anything this serves to arouse you further.\n\n");
 
-	DisplayText("In an effort to further pleasure your tigershark partner, you occasionally reach up to fondle her swollen sack and finger her tight, damp cunt.  Izma gasps sharply and shudders from the pleasure you're giving her.  As if to reward you for your efforts, Izma picks up more speed with her sucking, drenching every inch of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " with her saliva, and as you're so eager for her magic tongue you start thrusting your hips up to reach as far into her mouth as you can.\n\n");
+	DisplayText("In an effort to further pleasure your tigershark partner, you occasionally reach up to fondle her swollen sack and finger her tight, damp cunt.  Izma gasps sharply and shudders from the pleasure you're giving her.  As if to reward you for your efforts, Izma picks up more speed with her sucking, drenching every inch of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " with her saliva, and as you're so eager for her magic tongue you start thrusting your hips up to reach as far into her mouth as you can.\n\n");
 	
 	DisplayText("Eventually, the two of you manage to bring each other to a powerful simultaneous orgasm, Izma's hot cum shoots down your eager throat, and you yourself fire loads into Izma's cheeks");
 	if(player.torso.cocks.count > 1) DisplayText(" and hair");
@@ -1041,18 +1041,18 @@ private nonFightIzmaSmexCUNTPUSSYSNATCHQUIM():void {
 	
 	DisplayText("\"<i>Your turn now.  Fair's fair,</i>\" she says, watching you with seductively-lidded eyes.\n\n");
 
-	DisplayText("You nod and remove your " + player.inventory.equipment.armor.displayName + ", not doing it with quite as much showmanship as Izma herself.  You expose your " + BreastDescriptor.describeAllBreasts(player) + " to the air; your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s grow stiff from the breeze.  The bottom half of your clothing comes off, exposing your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
-	if(player.torso.cocks.count > 0) DisplayText(" and " + CockDescriptor.describeMultiCockShort(player));
+	DisplayText("You nod and remove your " + player.inventory.equipment.armor.displayName + ", not doing it with quite as much showmanship as Izma herself.  You expose your " + Desc.Breast.describeAllBreasts(player) + " to the air; your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s grow stiff from the breeze.  The bottom half of your clothing comes off, exposing your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
+	if(player.torso.cocks.count > 0) DisplayText(" and " + Desc.Cock.describeMultiCockShort(player));
 	DisplayText(" to the happy tigershark.  \"<i>Not bad, if you don't mind me saying so,</i>\" Izma remarks, moving toward you and placing a hand on your shoulder.  \"<i>Okay, so here's how we're gonna do this...</i>\" she begins, her hot erection poking you eagerly in the crotch.  \"<i>We won't be mating in the conventional sense, just working to get each other off, with our mouths,</i>\" she explains, showing you that her fangs are retracted just to reassure you.\n\n");
 	
 	DisplayText("You nod in agreement and watch Izma move onto the sands, before positioning your crotch over her face and putting your mouth just over her stiff cock.  Izma wastes no time, moving her face up and burying it into your cunt, her tongue probing your depths.  The sudden intrusion makes you gasp loudly, but 'fair's fair' as Izma says, and you respond by taking the head of her cock into your mouth.\n\n");
 
-	DisplayText("You get to work licking and sucking the tip, strands of saliva linking your mouth to the hot organ every time you come up for air.  Izma doubles her licking speed and clamps her hands on your " + ButtDescriptor.describeButt(player) + ", earning a gasp from you.  It seems Izma wants to up the ante a little.\n\n");
+	DisplayText("You get to work licking and sucking the tip, strands of saliva linking your mouth to the hot organ every time you come up for air.  Izma doubles her licking speed and clamps her hands on your " + Desc.Butt.describeButt(player) + ", earning a gasp from you.  It seems Izma wants to up the ante a little.\n\n");
 	
 	DisplayText("You decide to oblige her and start deepthroating her cock, all 15 inches sliding down your throat and stretching it out, earning some muffled moans from Izma.  You also start to rub and massage her meaty quad of balls, almost begging for her cum.  If the flavor of her salty pre from earlier was any indication, you're in for quite a taste when Izma finally blows her load.  Izma decides to match your efforts, rubbing and pinching at your clit with skilled hands.  Izma's no stranger to female lovers it would seem, but that's not surprising given what the normal shark girls are like.\n\n");
 	
 	DisplayText("Izma gives a muffled groan of pleasure, her cum blasting down your throat and filling your cheeks as you pull your mouth up.  It's not too long after that when you cry out in orgasm, your girlcum spattering onto the tigershark's face");
-	if(player.torso.cocks.count > 0) DisplayText(" and " + CockDescriptor.describeMultiCockSimpleOne(player) + " shooting a weak load across her chest");
+	if(player.torso.cocks.count > 0) DisplayText(" and " + Desc.Cock.describeMultiCockSimpleOne(player) + " shooting a weak load across her chest");
 	DisplayText(".  You roll off her and try to catch your breath, swallowing residual cum.  The taste is incredible, you have to admit... it's hard to define just what it is that makes it so good.  Something in the water Izma swims in?\n\n");
 	player.slimeFeed();
 	DisplayText("You don't get long to contemplate it, sitting up alongside Izma.  \"<i>Phew... now, you are something else.  We're going to do this again some time,</i>\" Izma says, licking her lips and handing you the promised payment.  You smile, more than excited to take her up on the offer.  You stand up then and get dressed, departing for camp feeling very satisfied.\n\n");
@@ -1274,9 +1274,9 @@ private izmaLakeDominate():void {
 	if(x < 0) x = 0;
 	//[Male/Herm]
 	if(player.torso.cocks.count > 0 && (player.gender === Gender.MALE || randInt(2) === 0)) {
-		DisplayText("You remove your " + player.inventory.equipment.armor.displayName + " and spread Izma's legs wide, " + CockDescriptor.describeMultiCockSimpleOne(player) + " almost painfully erect as you lift her quartet of balls up to look at her glistening womanhood.\n\n");
+		DisplayText("You remove your " + player.inventory.equipment.armor.displayName + " and spread Izma's legs wide, " + Desc.Cock.describeMultiCockSimpleOne(player) + " almost painfully erect as you lift her quartet of balls up to look at her glistening womanhood.\n\n");
  
-		DisplayText("Not wanting to waste any time on foreplay, you push your " + CockDescriptor.describeCock(player, x) + " into Izma's slit as far as you can manage, making Izma gasp sharply and writhe against you.  You snicker and start thrusting into her, the odd little tendrils inside her cunt teasing and massaging your cock.  The walls themselves are so tight and smooth that her pussy conforms to you like a glove.  It almost feels like Izma's snatch was made just for you.\n\n");
+		DisplayText("Not wanting to waste any time on foreplay, you push your " + Desc.Cock.describeCock(player, x) + " into Izma's slit as far as you can manage, making Izma gasp sharply and writhe against you.  You snicker and start thrusting into her, the odd little tendrils inside her cunt teasing and massaging your cock.  The walls themselves are so tight and smooth that her pussy conforms to you like a glove.  It almost feels like Izma's snatch was made just for you.\n\n");
  
 		DisplayText("You start to pick up speed as you mash your hips against Izma's own, earning moans from the pretty tigershark which only seem to get louder with every subsequent thrust.  Izma quickly starts to return the gesture, moving her hips up to meet your own thrusts every time.  It's while she's doing this that you notice her throbbingly erect cock wobbling around.\n\n");
 		//NEW RADAR STUFF, GAO
@@ -1289,14 +1289,14 @@ private izmaLakeDominate():void {
 		DisplayText("You strip off your " + player.inventory.equipment.armor.displayName + " and spread Izma's legs wide, licking your lips at the sight of her throbbing erection and meaty quads.  You give Izma's massive cock a few test strokes, earning some pleasured groans from the tiger shark.\n\n");
  
 		DisplayText("Deciding you've had enough foreplay, you mount her and slide down her cock.");
-		player.displayStretchVagina(30,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 30,true,true,false);
 		DisplayText("  You start grinding and gyrating atop her, ");
 		//[(taur)
 		if(player.torso.hips.legs.isTaur()) DisplayText("your weight pinning her to the sand and preventing her from taking control.");
 		///(non-taur and height > 4')
 		else if(player.tallness > 48) DisplayText("and pin her hands above her head to stop her from trying to change the position. Her heaving breasts rub against your " + Desc.Breast.describeChest(character) + " as you ride her in this posture.  She needs to know who's in charge here, after all.");
 		//(non-taur and height <= 4')
-		else DisplayText("but small as you are, you can't stop her as she reaches up and grabs onto your " + ButtDescriptor.describeButt(player) + ", then begins bouncing you like a goblin cocksleeve.");
+		else DisplayText("but small as you are, you can't stop her as she reaches up and grabs onto your " + Desc.Butt.describeButt(player) + ", then begins bouncing you like a goblin cocksleeve.");
 		DisplayText("\n\n");
 		
  		DisplayText("Izma seems to do her best, moving and jerking her cock up as much as she can, earning gasps of pleasure from you.");
@@ -1317,13 +1317,13 @@ private izmaLakeDominate():void {
  
 		DisplayText("You lean down and start licking and suckling the tip of her monster dick, slurping up her hot pre and lubricating the tip of her raging boner.  She moans and jerks at your touch, writhing around and loving the sensation of submissiveness.  The feeling of having her under your power manages to bring a smile to your own face.\n\n");
  
-		DisplayText("Gradually you start to suck more and more of her cock, inch after inch moving down your throat.  You gag lightly as you finally reach the base of her cock, before pulling it out.  She whines weakly and looks at you pitifully, wondering why you're teasing her.  You remove your " + player.inventory.equipment.armor.displayName + " before turning to show her your " + ButtDescriptor.describeButt(player) + ", and a small smile spreads over her angular face as she realizes what you have planned.  You plant your hands on your backside and pull your cheeks wide, before starting to slide onto her well-lubed pecker.\n\n");
+		DisplayText("Gradually you start to suck more and more of her cock, inch after inch moving down your throat.  You gag lightly as you finally reach the base of her cock, before pulling it out.  She whines weakly and looks at you pitifully, wondering why you're teasing her.  You remove your " + player.inventory.equipment.armor.displayName + " before turning to show her your " + Desc.Butt.describeButt(player) + ", and a small smile spreads over her angular face as she realizes what you have planned.  You plant your hands on your backside and pull your cheeks wide, before starting to slide onto her well-lubed pecker.\n\n");
  
 		DisplayText("She grunts and huffs as you slide down, and you too feel a strain from her iron-hard dick despite the various fluids lubricating it.  But gradually pain turns to pleasure and you're both moaning loudly and calling each others' names as you ride her.");
-		player.displayStretchButt(30,true,true,false);
+		Mod.Butt.displayStretchButt(player, 30,true,true,false);
 		DisplayText("\n\n");
  
-		DisplayText("The shark grits her teeth and gives a roar as she cums, blowing a massive, hot load straight up your " + ButtDescriptor.describeButthole(character.torso.butt) + ", bloating you slightly as she empties her quads inside you.  Your muscles twitch and contract, and you can swear you see stars as she ejaculates.  It takes you a while to catch your breath as you slide off her slowly softening meat pole and crawl onto the sand.");
+		DisplayText("The shark grits her teeth and gives a roar as she cums, blowing a massive, hot load straight up your " + Desc.Butt.describeButthole(character.torso.butt) + ", bloating you slightly as she empties her quads inside you.  Your muscles twitch and contract, and you can swear you see stars as she ejaculates.  It takes you a while to catch your breath as you slide off her slowly softening meat pole and crawl onto the sand.");
 																																				  
 		DisplayText("The two of you get dress after awhile, have some small talk, and then you make your way back to camp.");
 		player.slimeFeed();
@@ -1341,14 +1341,14 @@ private izmaLakeDominateContinueVanilla(vanilla:boolean = true) :void
 
 	if(vanilla) {
 		DisplayText().clear();
-		DisplayText("Deciding that it'd be rude not to, and because you want to see just how loud you can make Izma moan, you grab hold of her raging erection and start jerking her off while you pound into her.  The move seems to surprise Izma, and she starts moaning and screaming in pleasure.  The double stimulation you're pulling off pushes Izma past her limit very quickly, and she starts shooting thick jets of spunk into the air, which begin to rain down on her face and breasts.  Her vaginal walls clamp down on your " + CockDescriptor.nounCock(player.torso.cocks.get(cockIndex).type) + " almost painfully as the orgasm wracks her female genitalia too.\n\n");
+		DisplayText("Deciding that it'd be rude not to, and because you want to see just how loud you can make Izma moan, you grab hold of her raging erection and start jerking her off while you pound into her.  The move seems to surprise Izma, and she starts moaning and screaming in pleasure.  The double stimulation you're pulling off pushes Izma past her limit very quickly, and she starts shooting thick jets of spunk into the air, which begin to rain down on her face and breasts.  Her vaginal walls clamp down on your " + Desc.Cock.nounCock(player.torso.cocks.get(cockIndex).type) + " almost painfully as the orgasm wracks her female genitalia too.\n\n");
 	}
 
 	DisplayText("Izma starts panting and gasping for breath after the intense release, but immediately starts groaning when she realizes you are not done.  You giggle and release her softening erection, placing both hands on her thighs as you start to redouble your efforts at fucking her.  You push Izma deeper and deeper into the sands with each thrust, and despite her exhaustion Izma gives a few soft pleasured moans.\n\n");
 
 	//[(Male)
 	if(player.gender === Gender.MALE) {
-		DisplayText("After a lengthy fuck, you grunt loudly as your " + CockDescriptor.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
+		DisplayText("After a lengthy fuck, you grunt loudly as your " + Desc.Cock.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
 		//[(multi) 
 		if(player.torso.cocks.count > 1) DisplayText(" and onto her groin");
 		DisplayText(", causing Izma to cry out loudly.");
@@ -1356,11 +1356,11 @@ private izmaLakeDominateContinueVanilla(vanilla:boolean = true) :void
 		if(player.cumQ() >= 500) DisplayText("  Her belly swells as you empty your impressive load into her.");
 		//[(mega), 
 		if(player.cumQ() >= 1500) DisplayText("  Eventually it can swell no more and each new squirt forces cum out from her stuffed pussy, trickling past her asshole.");
-		DisplayText("  You sigh happily and push back from her, weakly getting to your " + LowerBodyDescriptor.describeFeet(player) + " and redressing. Izma scrambles to her chest and takes out some sort of leaf, then eats it.");
+		DisplayText("  You sigh happily and push back from her, weakly getting to your " + Desc.Leg.describeFeet(player) + " and redressing. Izma scrambles to her chest and takes out some sort of leaf, then eats it.");
 	}
 	//(Herm)
 	else {
-		DisplayText("After a lengthy fuck, you grunt loudly as your " + CockDescriptor.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
+		DisplayText("After a lengthy fuck, you grunt loudly as your " + Desc.Cock.describeCock(player, cockIndex) + " swells, blasting streamers of jizz into Izma's womb");
 		//[(multi)
 		if(player.torso.cocks.count > 1) DisplayText(" and onto her groin");
 		DisplayText(", causing Izma to cry out loudly.");
@@ -1368,9 +1368,9 @@ private izmaLakeDominateContinueVanilla(vanilla:boolean = true) :void
 		if(player.cumQ() >= 500) DisplayText("  Her belly swells as you empty your impressive load into her.");
 		//[(mega), 
 		if(player.cumQ() >= 1500) DisplayText("  Eventually it can swell no more and each new squirt forces cum out from her stuffed pussy, trickling past her asshole.");
-		DisplayText("  You sigh happily and push back from her, weakly getting to your " + LowerBodyDescriptor.describeFeet(player) + ".  You're not done yet though, not fully.\n\n");
+		DisplayText("  You sigh happily and push back from her, weakly getting to your " + Desc.Leg.describeFeet(player) + ".  You're not done yet though, not fully.\n\n");
 		
-		DisplayText("Izma gasps again as you plant your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " onto her face, grinding against the angular features and moaning loudly as her obliging tongue darts past your lips.  You could really get used to this feeling.  You ride her face for another few minutes before an orgasm rocks your female parts, splattering girlcum onto Izma's face.  You sigh happily and weakly get to your feet, redressing.  You see Izma fishing something from her storage chest - a plant of some sort - and munching it down.");
+		DisplayText("Izma gasps again as you plant your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " onto her face, grinding against the angular features and moaning loudly as her obliging tongue darts past your lips.  You could really get used to this feeling.  You ride her face for another few minutes before an orgasm rocks your female parts, splattering girlcum onto Izma's face.  You sigh happily and weakly get to your feet, redressing.  You see Izma fishing something from her storage chest - a plant of some sort - and munching it down.");
 	}
 	player.orgasm();
 	player.stats.sens += -1;
@@ -1409,7 +1409,7 @@ private noWankingForIzma():void {
 private izmaCumsAfterRadarStuffHere(denied:boolean):void {
 	let cockIndex:number = player.cockThatFits(65);
 	if(cockIndex < 0) cockIndex = 0;
-	if(!denied) DisplayText("The double stimulation pushes Izma past her limit very quickly, and she starts shooting thick jets of spunk into the air, which begin to rain down on her face and breasts.  Her vaginal walls clamp down on your " + CockDescriptor.nounCock(player.torso.cocks.get(cockIndex).type) + " almost painfully as the orgasm wracks her female genitalia too.\n\n");
+	if(!denied) DisplayText("The double stimulation pushes Izma past her limit very quickly, and she starts shooting thick jets of spunk into the air, which begin to rain down on her face and breasts.  Her vaginal walls clamp down on your " + Desc.Cock.nounCock(player.torso.cocks.get(cockIndex).type) + " almost painfully as the orgasm wracks her female genitalia too.\n\n");
 	//[Remove her hands] 
 	else DisplayText("Without another word, or another moment of tormenting impediment, Izma howls with unbridled fury, releasing her hot, sticky load into the air and onto her forehead.  Convulsing with utter euphoria as she finally blows her wad, the walls of her vagina clamp down hard in concert with her feelers, trying ever so valiantly to push you over the edge.  Unfortunately, (for Izma anyway), the unconscious efforts of her body fail to bring you to release. Remarking to Izma that she came so soon, you coo down to her that you are pleased with her ability to speedily heed your commands.\n\n");
 	izmaLakeDominateContinueVanilla(false);
@@ -1422,16 +1422,16 @@ private submitToLakeIzma():void {
 	//(starter -all sexes)
 	DisplayText("You give Izma a smile and begin to slowly, sensuously remove your " + player.inventory.equipment.armor.displayName + ", littering the sand around you.  As the tigershark watches, you strike a few poses, and then sink onto your hands and knees with your rear facing towards her.  You twist around to look at her over your shoulder, ");
 	if(player.hasLongTail() > 0) DisplayText("your tail waving enticingly, ");
-	DisplayText("before you give your " + ButtDescriptor.describeButt(player) + " a seductive wiggle.  You tell her that you think it's her turn to play.\n\n");
+	DisplayText("before you give your " + Desc.Butt.describeButt(player) + " a seductive wiggle.  You tell her that you think it's her turn to play.\n\n");
 		
-	DisplayText("Izma's breath visibly catches in her throat, her cock painfully erect and pulsing with lust.  She doesn't even bother to remove her bikini, instead stalking towards you, her intention obvious with every movement.  Within seconds she is behind you, her hands firmly gripping your " + ButtDescriptor.describeButt(player) + ".  You feel a sudden hot liquid sensation in between your buttocks, and you squeak in shock - it's almost like somebody has tipped hot lava onto your ass. Izma's cum is so hot you're surprised you don't see steam wafting back over you.\n\n");
+	DisplayText("Izma's breath visibly catches in her throat, her cock painfully erect and pulsing with lust.  She doesn't even bother to remove her bikini, instead stalking towards you, her intention obvious with every movement.  Within seconds she is behind you, her hands firmly gripping your " + Desc.Butt.describeButt(player) + ".  You feel a sudden hot liquid sensation in between your buttocks, and you squeak in shock - it's almost like somebody has tipped hot lava onto your ass. Izma's cum is so hot you're surprised you don't see steam wafting back over you.\n\n");
 	
 	//(male/Unsexed)
 	if(player.gender <= 1) {
 		///[(If player has tight butthole:)
 		if(player.analCapacity() < 26) {
-			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + ButtDescriptor.describeButthole(character.torso.butt) + ".");
-			player.displayStretchButt(30,true,true,false);
+			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + Desc.Butt.describeButthole(character.torso.butt) + ".");
+			Mod.Butt.displayStretchButt(player, 30,true,true,false);
 			DisplayText("\n\n");
 
 			DisplayText("\"<i>Holy-!  Think I better take it easy on this...</i>\" you hear Izma proclaim.  \"<i>For my own safety moreso than anything else!</i>\"  Her efforts become more gentle.  She still forces her way into you, inch by painstaking inch, but she does so at a slower, steady pace, allowing your pucker time to adjust to the fierce stretching she is subjecting it to and using her hot pre-cum like lubricant.\n\n");
@@ -1444,14 +1444,14 @@ private submitToLakeIzma():void {
 		}
 		//(If player has a loosey goosey:)
 		else {
-			DisplayText("Izma's cock may be fairly impressive, but you've taken bigger in your time, and it shows; Izma's first experimental thrust sees her sink up to the hilt into your bowels, and you moan with the pleasure of being filled again even as her four balls slap against your " + ButtDescriptor.describeButt(player) + ".\n\n");
+			DisplayText("Izma's cock may be fairly impressive, but you've taken bigger in your time, and it shows; Izma's first experimental thrust sees her sink up to the hilt into your bowels, and you moan with the pleasure of being filled again even as her four balls slap against your " + Desc.Butt.describeButt(player) + ".\n\n");
 			
  			DisplayText("\"<i>The heck!?  What kind of monsters have you been running into?</i>\" she wonders aloud.\n\n");
 		}
 		
-		DisplayText("Fully buried, she tightly grips your " + ButtDescriptor.describeButt(player) + "  and then pulls out partway, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
+		DisplayText("Fully buried, she tightly grips your " + Desc.Butt.describeButt(player) + "  and then pulls out partway, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
 		
- 		DisplayText("Harder and faster she thrusts, building up a rhythm that grows in pace, her balls slapping audibly against your " + ButtDescriptor.describeButt(player) + " as she bucks back and forth.  You can feel her huge male organ in your depths, rubbing against your prostrate, stretching your inner walls, her boiling erection against your burning heat.  You moan in pleasure; you can't help but enjoy this");
+ 		DisplayText("Harder and faster she thrusts, building up a rhythm that grows in pace, her balls slapping audibly against your " + Desc.Butt.describeButt(player) + " as she bucks back and forth.  You can feel her huge male organ in your depths, rubbing against your prostrate, stretching your inner walls, her boiling erection against your burning heat.  You moan in pleasure; you can't help but enjoy this");
 		if(player.torso.cocks.count > 0) DisplayText(", and your own male organ is hard and throbbing from the stimulation");
 		DisplayText(".\n\n");
  
@@ -1462,7 +1462,7 @@ private submitToLakeIzma():void {
  		DisplayText("You groan as well, ");
 		//[(male)
 		if(player.torso.cocks.count > 0) {
-			DisplayText(CockDescriptor.describeMultiCockSimpleOne(player) + " disgorging ");
+			DisplayText(Desc.Cock.describeMultiCockSimpleOne(player) + " disgorging ");
 			if(player.cumQ() < 25) DisplayText("a trickle");
 			else if(player.cumQ() < 150) DisplayText("several squirts");
 			else DisplayText("a steady stream");
@@ -1478,7 +1478,7 @@ private submitToLakeIzma():void {
 	else if(player.gender === Gender.FEMALE) {
 		//[(If player has tight cunt:) 
 		if(player.vaginalCapacity() < 26) {
-			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
+			DisplayText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
 
 			DisplayText("\"<i>Whoah-!  ");
 			if(player.torso.vaginas.get(0).virgin) DisplayText("First time, huh?");
@@ -1487,7 +1487,7 @@ private submitToLakeIzma():void {
 		}
  		//(If player has ordinary, everyday cunt:)
 		else if(player.vaginalCapacity() < 60) {
-			DisplayText("You can feel every inch of her cock as it sinks steadily into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", filling your moist folds as inexorably as the rising tide.\n\n");
+			DisplayText("You can feel every inch of her cock as it sinks steadily into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", filling your moist folds as inexorably as the rising tide.\n\n");
 			
 			DisplayText("\"<i>Ahhhh~  Now that's a nice little hole!  Did you lose on purpose?</i>\" she asks, and you can hear the grin in her voice.  You find yourself wondering that as well...");
 		}
@@ -1498,14 +1498,14 @@ private submitToLakeIzma():void {
  
 			DisplayText("\"<i>The heck!?  What kind of monsters have you been running into?</i>\" she wonders aloud.");
 		}
-		player.displayStretchVagina(30,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 30,true,true,false);
 		DisplayText("\n\n");
 		
- 		DisplayText("Fully buried, she tightly grips your " + ButtDescriptor.describeButt(player) + " and then starts to pull out, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
+ 		DisplayText("Fully buried, she tightly grips your " + Desc.Butt.describeButt(player) + " and then starts to pull out, before thrusting herself back in fiercely.  \"<i>Thought you were clever, eh?  Wanted to try doing it like shark people do, did you?  Well, among the sharks, there're only two sorts - the strong and the weak.  And this is what the weak get.</i>\"  She growls fiercely.\n\n");
 		
  		DisplayText("Harder and faster she thrusts, building up a rhythm that grows in pace, her balls slapping audibly against your butt as she bucks back and forth.  You can feel her huge male organ in your depths, rubbing against your womb's walls and stretching you out, her boiling erection pressed against your burning insides.  You moan; you can't help but enjoy this, your cunt drooling from the intense pleasure.\n\n");
 		
-		DisplayText("\"<i>Oh, somebody likes it, eh?  Well, don't worry, you wanted to test your luck, so I'm not going to hold back!  You're getting the whole experience, sweetheart!</i>\" Izma growls.  Her hands suddenly shift from your buttocks to holding onto your " + Desc.Breast.describeChest(character) + ", and you howl in a mixture of pain and pleasure as Izma suddenly gives your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s a good hard tug.  \"<i>Stiff nipples?  You so wanted this...</i>\" Izma teases, licking at your neck and causing you to moan in pleasure.\n\n");
+		DisplayText("\"<i>Oh, somebody likes it, eh?  Well, don't worry, you wanted to test your luck, so I'm not going to hold back!  You're getting the whole experience, sweetheart!</i>\" Izma growls.  Her hands suddenly shift from your buttocks to holding onto your " + Desc.Breast.describeChest(character) + ", and you howl in a mixture of pain and pleasure as Izma suddenly gives your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s a good hard tug.  \"<i>Stiff nipples?  You so wanted this...</i>\" Izma teases, licking at your neck and causing you to moan in pleasure.\n\n");
  
 		DisplayText("\"<i>That's it, weakling, moan for me; make this sweeter!  I'd be moaning if you had won, so the least you can do is give me the same courtesy - fair's fair!</i>\" she mutters.  \"<i>Oh, yes, yes, yes! Good little fuck, good!  I... I'm... here... it... comes!</i>\"  She roars, releasing her grip on your tormented breasts to bellow her exultation to the sky, the climax that has been churning and thrashing her mighty balls finally erupting from within her.\n\n");
  
@@ -1537,23 +1537,23 @@ private submitToLakeIzma():void {
 		//(10-19 inches)
 		else if(player.torso.cocks.get(x).length <= 19) DisplayText("\"<i>Not bad, I'm actually impressed,</i>\" Izma says, nodding slightly in approval.");
 		//(20+ inches)
-		else DisplayText("Izma gives a low whistle at the sight of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  \"<i>Now THAT'S a cock.  Looks like you've got a third leg down there!</i>");
+		else DisplayText("Izma gives a low whistle at the sight of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  \"<i>Now THAT'S a cock.  Looks like you've got a third leg down there!</i>");
 		DisplayText("\n\n");
 		
-		DisplayText("Seemingly done appraising you, Izma roughly grabs your " + LowerBodyDescriptor.describeFeet(player) + " and pulls your rear upwards, forcing your weight onto your spine and making you cry out from the uncomfortable position.  She doesn't waste time on foreplay, simply deciding to bury her cock into you slowly, inch by painstaking inch until she's pushing against the entrance to your womb.");
-		player.displayStretchVagina(30,true,true,false);
+		DisplayText("Seemingly done appraising you, Izma roughly grabs your " + Desc.Leg.describeFeet(player) + " and pulls your rear upwards, forcing your weight onto your spine and making you cry out from the uncomfortable position.  She doesn't waste time on foreplay, simply deciding to bury her cock into you slowly, inch by painstaking inch until she's pushing against the entrance to your womb.");
+		Mod.Vagina.displayStretchVagina(player, 30,true,true,false);
 		DisplayText("\n\n");
 		
- 		DisplayText("She starts thrusting in and out of you, gradually increasing the speed and force, her hot pre-cum and your feminine juices acting like a lubricant to make things easier.  \"<i>Ahh~  You're a lovely cock-sleeve... you like being treated like this, don't ya, weakling?</i>\" Izma taunts, slamming in and out of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  You're not even really ashamed to admit that such is the case anymore.\n\n");
+ 		DisplayText("She starts thrusting in and out of you, gradually increasing the speed and force, her hot pre-cum and your feminine juices acting like a lubricant to make things easier.  \"<i>Ahh~  You're a lovely cock-sleeve... you like being treated like this, don't ya, weakling?</i>\" Izma taunts, slamming in and out of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  You're not even really ashamed to admit that such is the case anymore.\n\n");
  
 		DisplayText("Every thrust pushes you deeper into the sands, and eventually you find yourself pumping your hips upward against Izma's own, eager to pleasure her and yourself.  Izma seems to notice this and laughs loudly.  \"<i>Oh?  You really like being dominated?  Ha, I thought as much.</i>\"  She continues to taunt you as she pounds into you, her balls smacking against you every time.  Your mind is too clouded with lust to hear even half of what she says.  Right now all you care about is getting off.\n\n");
 		
-		DisplayText("Within minutes, Izma gives one final, powerful thrust and roars loudly, cum pumping into your womb and spraying out onto the sands.  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " twitches and pulses, ready to blow.  Izma quickly takes hold and points ");
+		DisplayText("Within minutes, Izma gives one final, powerful thrust and roars loudly, cum pumping into your womb and spraying out onto the sands.  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " twitches and pulses, ready to blow.  Izma quickly takes hold and points ");
 		if(player.torso.cocks.count === 1) DisplayText("it");
 		else DisplayText("them");
 		DisplayText(" toward your face, stroking you to your own climax.  Jets of your own cum splatter across your face and body as you writhe, protesting. \"<i>Tch, you really thought I'd let you cum on ME?  Maybe if you actually managed to beat me I'd give you the honor,</i>\" Izma says, pulling free with a loud *SCHLICK* sound.  She ");
 		if(player.pregnancyIncubation === 0) {
-			DisplayText("releases your " + LowerBodyDescriptor.describeFeet(player) + ", allowing your " + ButtDescriptor.describeButt(player) + " to hit the sand with a plop, and gets to work redressing while you lie still.  She returns with an anti-pregnancy herb in her hands, and then flips a leaf into her mouth. Before you can wonder why she did that, she bends down and kisses you fiercely, her tongue pushing it past your lips and down your throat.");
+			DisplayText("releases your " + Desc.Leg.describeFeet(player) + ", allowing your " + Desc.Butt.describeButt(player) + " to hit the sand with a plop, and gets to work redressing while you lie still.  She returns with an anti-pregnancy herb in her hands, and then flips a leaf into her mouth. Before you can wonder why she did that, she bends down and kisses you fiercely, her tongue pushing it past your lips and down your throat.");
 		
 			DisplayText("\"<i>I'd be happy to make some babies with you... but <b>after</b> you accept me as a mate.\"</i>  She smirks, giving you a second, decidedly unchaste kiss before she helps you up.  You dress yourself and head back to camp feeling very sated.");
 		}
@@ -1732,7 +1732,7 @@ private izmaSexMenu():void {
 		assDom = radarIzmaAnalDominant;
 	}
 	//choices("Anal \'Catch\'",analCatch,"DominateVagina",domVag,"DomWithAss",assDom,"Get Mounted",mount,"Izma's Vagina",vagoo,"RideIzmaCock",getVagooFucked,"Sixtynine",sixty,kids,childToggle,"",0,"Back",izmaFollowerMenu);
-	menu();
+	
 	MainScreen.addButton(0,"Anal \'Catch\'",analCatch);
 	MainScreen.addButton(1,"DominateVagina",domVag);
 	MainScreen.addButton(2,"DomWithAss",assDom);
@@ -1753,17 +1753,17 @@ private followerIzmaMountsPC(lastHalf:boolean = false):void {
 	if(x < 0) x = 0;
 	if(!lastHalf) {
 		if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) player.slimeFeed();
-		DisplayText("With a smirk, you make a show of removing your " + player.inventory.equipment.armor.displayName + " and settling yourself down on your back, " + CockDescriptor.describeMultiCockSimpleOne(player) + " pointing into the air excitedly.  You give Izma a coy look and tell her that you're thinking of letting her have control this time... if she thinks she can dominate with her pussy");
+		DisplayText("With a smirk, you make a show of removing your " + player.inventory.equipment.armor.displayName + " and settling yourself down on your back, " + Desc.Cock.describeMultiCockSimpleOne(player) + " pointing into the air excitedly.  You give Izma a coy look and tell her that you're thinking of letting her have control this time... if she thinks she can dominate with her pussy");
 		if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText(" instead of her cock");
 		DisplayText(".  Izma watches you eagerly and licks her lips.  \"<i>I think that can be arranged,</i>\" she purrs, straddling you and then slowly sliding down onto your erect member.  The tiny tendrils inside her cunt tickle and massage your cock all the while.\n\n");
 	
-		DisplayText("You groan, lie yourself back down, and give yourself over to your aquatic girlfriend's ministrations; you don't know why she has naughty little tentacles inside her pussy, but you're certainly not going to complain about them.  You can feel them caress and stroke your " + CockDescriptor.describeCock(player, x) + ", eagerly pulling it deeper and deeper into her warm, wet, inviting depths.\n\n");
+		DisplayText("You groan, lie yourself back down, and give yourself over to your aquatic girlfriend's ministrations; you don't know why she has naughty little tentacles inside her pussy, but you're certainly not going to complain about them.  You can feel them caress and stroke your " + Desc.Cock.describeCock(player, x) + ", eagerly pulling it deeper and deeper into her warm, wet, inviting depths.\n\n");
 	
 		DisplayText("Once you're fully inside her pussy she looks at you and smirks, a low, animalistic growl escaping her lips.  As her hips start to gain speed she leans down and bites your collar bone, thankfully with her human teeth.  You yelp in shock and cast a startled glance at her.  She hums in your ear as her hips start to twist and gyrate even faster.\n\n");
 		
 		DisplayText("It does feel pretty good, and so you settle back down, one hand cautiously lifting up to caress the mark of your lover's bite.  \"<i>Hehe, don't worry; you're not bleeding or anything.  Just marking you as mine,</i>\" she whispers, before giving a loud moan.  ");
-		if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText("  Your stomach starts to feel wet, and as you look down you realize her pre is starting to soak into your " + player.skinFurScales() + ".\n\n");
-		else DisplayText("  Your stomach starts to feel wet, and as you look down you realize her feminine lubricant is starting to soak into your " + player.skinFurScales() + ".\n\n");
+		if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText("  Your stomach starts to feel wet, and as you look down you realize her pre is starting to soak into your " + Desc.Skin.skinFurScales(player) + ".\n\n");
+		else DisplayText("  Your stomach starts to feel wet, and as you look down you realize her feminine lubricant is starting to soak into your " + Desc.Skin.skinFurScales(player) + ".\n\n");
 	
 		DisplayText("You wonder if you should be more actively moving your hips to her thrusts, but then, this is supposed to be about letting her be in charge.");
 		if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) {
@@ -1783,7 +1783,7 @@ private followerIzmaMountsPC(lastHalf:boolean = false):void {
 	}
 	else DisplayText("Izma moans loudly as you rub her rock hard nipples. \"<i>There's a good bitch,</i>\" she mumbles.  You bite back the retort that immediately springs to your mind; it's all part of the fun.  Still, it wouldn't hurt to remind Izma that she's not going to get everything her own way... your hands start to pinch and tug, mixing a bit of pain in with the shark's pleasure, timing the hard pulls to coincide with every rise and fall of her pussy on your cock.  Working those tender nubs hard, you apply all of your knowledge and skill to keeping your partner on the edge of orgasm.  Sometimes, you even cup her breasts and gently caress them, but only for a moment at a time.\n\n");
 
-	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText("Izma bites her lip in response, clearly wanting to enjoy her time on top just a little bit longer.  But the grunts and moans of ecstasy make it clear that the tigershark can't hold back much longer.  Her vaginal walls clamp down hard against your cock.  She squeals loudly and thick ropes of her jizz fly through the air, going to the point where a few even arc over your head. Most of it, though, hits your face and " + BreastDescriptor.describeAllBreasts(player) + ", plastering the top half of your body in cum as she empties her quads.\n\n");
+	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText("Izma bites her lip in response, clearly wanting to enjoy her time on top just a little bit longer.  But the grunts and moans of ecstasy make it clear that the tigershark can't hold back much longer.  Her vaginal walls clamp down hard against your cock.  She squeals loudly and thick ropes of her jizz fly through the air, going to the point where a few even arc over your head. Most of it, though, hits your face and " + Desc.Breast.describeAllBreasts(player) + ", plastering the top half of your body in cum as she empties her quads.\n\n");
 	else DisplayText("Izma bites her lip in response, clearly wanting to enjoy her time on top just a little bit longer.  But the grunts and moans of ecstasy make it clear that the tigershark can't hold back much longer.  Her vaginal walls clamp down hard against your cock.  She squeals loudly and thin streams of her girl-cum run from your belly, the wriggling cilia in her twat going at your dick like crazy.  Her juices run so fast and so freely that it soaks most of your belly, [hips], [butt], and [legs].\n\n");
 	
 
@@ -1880,7 +1880,7 @@ private followerIzmaTakesItInPooper():void {
 
 	DisplayText("\"<i>Get it nice and slippery, then, if you're so eager.</i>\"\n\n");
 
-	DisplayText("You start kissing along her fifteen-inch length, but Izma's in more of a hurry than that, because she grabs your " + HeadDescriptor.describeHair(player) + " and pulls you back to the tip.  With her smooth glans resting at your lips, you look up at her. She grins, showing all her teeth, and starts pushing your head down.\n\n");
+	DisplayText("You start kissing along her fifteen-inch length, but Izma's in more of a hurry than that, because she grabs your " + Desc.Head.describeHair(player) + " and pulls you back to the tip.  With her smooth glans resting at your lips, you look up at her. She grins, showing all her teeth, and starts pushing your head down.\n\n");
 	
 	DisplayText("As her cock slides past your lips and down your throat, it takes a lot of effort not to gag, but you feel proud and happy when she's the first one to look away, tilting her head back and grunting in pleasure as she bottoms out in your mouth, her balls tapping against your chin.\n\n");
 
@@ -1890,14 +1890,14 @@ private followerIzmaTakesItInPooper():void {
 	if(player.torso.cocks.count > 0) {
 		DisplayText("You expect to feel her penetrate you when she thrusts forward, but instead she runs her cock along the surface of your asshole");
 		//[(if player has balls)
-		if(player.torso.balls.quantity > 0) DisplayText(" and " + BallsDescriptor.describeSack(player));
-		DisplayText(" until her dark-red cock is lined up with your " + CockDescriptor.describeMultiCockShort(player) + ".\n\n");
+		if(player.torso.balls.quantity > 0) DisplayText(" and " + Desc.Balls.describeSack(player));
+		DisplayText(" until her dark-red cock is lined up with your " + Desc.Cock.describeMultiCockShort(player) + ".\n\n");
 	
-		DisplayText("She takes your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " and presses it against her own, holding both of them together in one hand and rubbing slightly.  Her other hand reaches down below, to rub her double set of balls");
+		DisplayText("She takes your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and presses it against her own, holding both of them together in one hand and rubbing slightly.  Her other hand reaches down below, to rub her double set of balls");
 		//[(if player has balls)
-		if(player.torso.balls.quantity > 0) DisplayText(" against your own " + BallsDescriptor.describeBalls(true, true, player));
+		if(player.torso.balls.quantity > 0) DisplayText(" against your own " + Desc.Balls.describeBalls(true, true, player));
 		//(if no balls and vag)
-		else if(player.torso.vaginas.count > 0) DisplayText(" against your already-dripping " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+		else if(player.torso.vaginas.count > 0) DisplayText(" against your already-dripping " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 		//(else)
 		else DisplayText(" against your perineum");
 		DisplayText(", humiliating you more than she stimulates you.\n\n");
@@ -1907,7 +1907,7 @@ private followerIzmaTakesItInPooper():void {
 		//[dick0 >14 but <16] 
 		else if(player.torso.cocks.get(0).length < 16) DisplayText("\"<i>It's nice that we keep things fair around here,</i>\" murmurs Izma, smiling at your similarly-sized cocks.");
 		//[If dick0 >16]
-		else DisplayText("\"<i>Oh fuck,</i>\" she says, her eyes filling with lust as she sees your cock extending well past her own.  She tilts forward and rubs the base of her cock hard against the base of your " + CockDescriptor.nounCock(player.torso.cocks.get(0).type) + ", jerking the both of you off together.  You moan helplessly when she stops, and she sighs, \"<i>It feels so good to be alpha over a powerful cock like yours.</i>\"");
+		else DisplayText("\"<i>Oh fuck,</i>\" she says, her eyes filling with lust as she sees your cock extending well past her own.  She tilts forward and rubs the base of her cock hard against the base of your " + Desc.Cock.nounCock(player.torso.cocks.get(0).type) + ", jerking the both of you off together.  You moan helplessly when she stops, and she sighs, \"<i>It feels so good to be alpha over a powerful cock like yours.</i>\"");
 		DisplayText("\n\n");
 	}
 	
@@ -1925,7 +1925,7 @@ private followerIzmaTakesItInPooper():void {
 	else {
 		DisplayText("Izma starts to push and, meeting no resistance from your well-trained ass, slams her hips against yours with a groan of satisfaction.\n\n");
 	}
-	player.displayStretchButt(30,true,true,false);
+	Mod.Butt.displayStretchButt(player, 30,true,true,false);
 	DisplayText("\n\n");
 
 	DisplayText("With her hips securely pressed against yours, she leans over you to grab your wrists and hold them to the ground, her elbows hooked");
@@ -1945,11 +1945,11 @@ private followerIzmaTakesItInPooper():void {
 	if(player.torso.cocks.count <= 0) DisplayText("The feeling of her cock throbbing finally puts you over the edge and you orgasm, your tight pucker helping milk the last of her cum into you.\n\n");
 	//(if player has penis)
 	else {
-		DisplayText("She collapses onto you, spent, and you close your eyes and relish the feeling of her hot cock pulsing in your ass and her warm belly lying against your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  When she sits back up, she gives you a stern look as she lets go of your wrists, making it clear that they should stay right where they are.  You look at her pleadingly as she trails her fingers along your " + CockDescriptor.nounCock(player.torso.cocks.get(0).type) + ".\n\n");
+		DisplayText("She collapses onto you, spent, and you close your eyes and relish the feeling of her hot cock pulsing in your ass and her warm belly lying against your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  When she sits back up, she gives you a stern look as she lets go of your wrists, making it clear that they should stay right where they are.  You look at her pleadingly as she trails her fingers along your " + Desc.Cock.nounCock(player.torso.cocks.get(0).type) + ".\n\n");
 		//[(if penis 0 length <14 inches)
 		if(player.torso.cocks.get(0).length < 14) {
-			DisplayText("Izma grabs your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)));
-			if(player.torso.cocks.count > 1) DisplayText(" first, then your other " + CockDescriptor.describeCock(player, 1) + ", synchronizing her movements");
+			DisplayText("Izma grabs your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)));
+			if(player.torso.cocks.count > 1) DisplayText(" first, then your other " + Desc.Cock.describeCock(player, 1) + ", synchronizing her movements");
 			DisplayText(", and starts jerking you off.  It feels incredible, and when she says, \"<i>You've been a good beta for me, but now I want to see you come,</i>\" you can't help but obey; you orgasm messily onto your own " + Desc.Breast.describeChest(character));
 			//(huge cum)
 			if(player.cumQ() >= 1500) DisplayText(" over and over again until you're a sticky mess lying in a pool of your own semen.");
@@ -1960,7 +1960,7 @@ private followerIzmaTakesItInPooper():void {
 		}
 		//(else if penis 0 length <16 inches)
 		else if(player.torso.cocks.get(0).length < 16) {
-			DisplayText("When Izma guides " + CockDescriptor.describeMultiCockSimpleOne(player) + " between her breasts, you're not sure what you're feeling at first; smooth in one direction, rough in the other direction.  Pushing her breasts tight around your " + CockDescriptor.describeMultiCockShort(player) + ", she starts to move up and down.  The contrast quickly brings you over the edge and you cum all over her face and breasts, ");
+			DisplayText("When Izma guides " + Desc.Cock.describeMultiCockSimpleOne(player) + " between her breasts, you're not sure what you're feeling at first; smooth in one direction, rough in the other direction.  Pushing her breasts tight around your " + Desc.Cock.describeMultiCockShort(player) + ", she starts to move up and down.  The contrast quickly brings you over the edge and you cum all over her face and breasts, ");
 			//[(normal cum)
 			if(player.cumQ() < 300) DisplayText("leaving her looking spattered but pleased");
 			else if(player.cumQ() < 500) DisplayText("leaving her looking wet but impressed");
@@ -1969,7 +1969,7 @@ private followerIzmaTakesItInPooper():void {
 		}
 		//[(else if penis 0 length >15 inches)
 		else {
-			DisplayText("Your sigh of relief soon becomes a moan of pleasure when you feel Izma take the head of your " + CockDescriptor.nounCock(player.torso.cocks.get(0).type) + " into her mouth.  Despite the hidden presence of her ring of sharp teeth, you feel nothing but bliss as she sucks, her own cock still buried deep inside of you.  She nestles the shaft of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " between her breasts and starts moving her upper body up and down against your cock.  You're startled to feel that her breasts are smooth in one direction and rough in the other, and the alternating sensations soon overwhelm you.  You manage a shuddering yell to warn Izma before you start pumping cum into her mouth");
+			DisplayText("Your sigh of relief soon becomes a moan of pleasure when you feel Izma take the head of your " + Desc.Cock.nounCock(player.torso.cocks.get(0).type) + " into her mouth.  Despite the hidden presence of her ring of sharp teeth, you feel nothing but bliss as she sucks, her own cock still buried deep inside of you.  She nestles the shaft of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " between her breasts and starts moving her upper body up and down against your cock.  You're startled to feel that her breasts are smooth in one direction and rough in the other, and the alternating sensations soon overwhelm you.  You manage a shuddering yell to warn Izma before you start pumping cum into her mouth");
 			if(player.torso.cocks.count > 1) DisplayText(" and onto your combined bodies");
 			DisplayText(".\n\n");
 			
@@ -1993,7 +1993,7 @@ private followerIzmaTakesItInVagoo():void {
 	DisplaySprite(32);
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) player.slimeFeed();
 	DisplayText().clear();
-	DisplayText("Admiring the view of the tigershark's ornamented crotch, you lower the bottoms of your " + player.inventory.equipment.armor.displayName + " and reveal the base of your " + CockDescriptor.describeMultiCockShort(player) + ", something that instantly draws Izma's eyes.  You ask how she'd like her alpha to tend to her oft-neglected pussy.  Izma smiles eagerly and spreads her legs");
+	DisplayText("Admiring the view of the tigershark's ornamented crotch, you lower the bottoms of your " + player.inventory.equipment.armor.displayName + " and reveal the base of your " + Desc.Cock.describeMultiCockShort(player) + ", something that instantly draws Izma's eyes.  You ask how she'd like her alpha to tend to her oft-neglected pussy.  Izma smiles eagerly and spreads her legs");
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText(", gently lifting her meaty quads up so");
 	else DisplayText(", gently parting her muscled thighs so");
 	DisplayText(" you can better see her damp nether-lips.  \"<i>Okay lover... if anyone knows how to make me feel good down there, it's you.</i>\"\n\n");
@@ -2005,7 +2005,7 @@ private followerIzmaTakesItInVagoo():void {
 
 	DisplayText("Sauntering over, you settle yourself on your elbows and knees before her.  Reaching out with one hand, you start to stroke her pussy, feeling its intense heat and letting her juices squelch and ooze between your fingers.  Casually, nonchalantly, you tell Izma that she was out of line for talking to you like that, and suggest that maybe you shouldn't put anything into her, if that's the mood she's in.\n\n");
 
-	DisplayText("Izma moans and writhes slightly as you rub her cunt.  \"<i>N-noooo,</i>\" she whines, looking at you with puppy-dog eyes.  \"<i>Please, I need you...</i>\"  You enjoy her struggles for a little while, then give her your wickedest grin.  Well, if that's the way she feels about it...  You surge forward, rising up between her legs until your pelvises are positioned properly.  You position your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " against her labia and then slide it home, enveloping it in her hot, wet depths.  She moans loudly and goes limp, gasping and panting from the pleasure.  The strange tendrils in her cunt waste no time massaging and teasing your cock");
+	DisplayText("Izma moans and writhes slightly as you rub her cunt.  \"<i>N-noooo,</i>\" she whines, looking at you with puppy-dog eyes.  \"<i>Please, I need you...</i>\"  You enjoy her struggles for a little while, then give her your wickedest grin.  Well, if that's the way she feels about it...  You surge forward, rising up between her legs until your pelvises are positioned properly.  You position your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " against her labia and then slide it home, enveloping it in her hot, wet depths.  She moans loudly and goes limp, gasping and panting from the pleasure.  The strange tendrils in her cunt waste no time massaging and teasing your cock");
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText(", while Izma herself reaches around to jerk herself off.\n\n");
 	else DisplayText(", while Izma herself reaches up to massage her heavy breasts.\n\n");
 
@@ -2024,14 +2024,14 @@ private followerIzmaTakesItInVagoo():void {
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText("own ");
 	DisplayText("thrusts, trying to match her pace.  The tendrils inside her vagina writhe and flex, an experience unlike anything you've had before - you don't think any creature other than a succubus could give you this sort of pleasure!\n\n");
 
-	DisplayText("Izma continues to moan and groan loudly, and starts to mash her own hips against yours, trying to work in as many inches of your " + CockDescriptor.nounCock(player.torso.cocks.get(0).type) + " as she can.  ");
+	DisplayText("Izma continues to moan and groan loudly, and starts to mash her own hips against yours, trying to work in as many inches of your " + Desc.Cock.nounCock(player.torso.cocks.get(0).type) + " as she can.  ");
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText("As she jerks off, you can see long streams of pre dribble down her red cock, and know full well she's close to her limit.  Unable to resist, even as you feel that familiar pressure signaling the approach of your own climax, you bend towards Izma's cock and plant a long, wet kiss right on the glans, below the urethra.\n\n");
 	else DisplayText("As she fucks you, you can see long streams of girlish-goo dribbling from her pussy, and you know full well she's close to her limit.  Unable to resist, even as you feel that familiar pressure signaling the approach of your own climax, you bend upward to plant a kiss on one of Izma's hard nipples, immediately switching to a brief, gentle suckle.\n\n");
 
 	DisplayText("This sends a shudder through Izma's whole body.  She cries loudly as she orgasms");
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText(", a hot jet of spunk going straight into your mouth, and several subsequent shots hitting you in the lips and face.  ");
 	else DisplayText(", a small explosion of fem-cum splattering your belly, and several subsequent squirts dripping down your thighs.  ");
-	DisplayText("Her vagina clamps down on your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ", making you grunt as the feelers in her pussy milk you for all you've got. You groan deep in your throat, the scent of Izma's hot ");
+	DisplayText("Her vagina clamps down on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", making you grunt as the feelers in her pussy milk you for all you've got. You groan deep in your throat, the scent of Izma's hot ");
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 1) DisplayText("girl-");
 	DisplayText("cum filling your nostrils and the feeling of her milking, hungry feelers is too much.  You cum, blasting everything you have deep into Izma's cunt.  ");
 	//[(Normal cum production)
@@ -2075,7 +2075,7 @@ private radarIzmaXPackLetHer():void {
 }
 private wheresItGoing(denied:boolean = false):void {
 	DisplaySprite(32);
-	DisplayText("\n\nIzma continues to moan and groan loudly, and starts to mash her own hips against yours, trying to work in as many inches of your " + CockDescriptor.nounCock(player.torso.cocks.get(0).type) + " as she can.  As she ");
+	DisplayText("\n\nIzma continues to moan and groan loudly, and starts to mash her own hips against yours, trying to work in as many inches of your " + Desc.Cock.nounCock(player.torso.cocks.get(0).type) + " as she can.  As she ");
 	if(!denied) DisplayText("jerks off ");
 	else DisplayText("moans fiercely ");
 	DisplayText("you can see long streams of pre dribble down her red cock, and know full well she's close to her limit.  Her cock stands at attention, ready to release its sticky load in your direction.");
@@ -2089,7 +2089,7 @@ private facialWhereItGoesRadarIzmaXpack():void {
 	DisplayText().clear();
 	DisplayText("This sends a shudder through Izma's whole body.  She cries loudly as she orgasms");
 	DisplayText(", a hot jet of spunk going straight into your mouth, and several subsequent shots hitting you in the lips and face.  ");
-	DisplayText("Her vagina clamps down on your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ", making you grunt as the feelers in her pussy milk you for all you've got. You groan deep in your throat, the scent of Izma's hot ");
+	DisplayText("Her vagina clamps down on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", making you grunt as the feelers in her pussy milk you for all you've got. You groan deep in your throat, the scent of Izma's hot ");
 	DisplayText("cum filling your nostrils and the feeling of her milking, hungry feelers is too much.  You cum, blasting everything you have deep into Izma's cunt.  ");
 	//[(Normal cum production)
 	if(player.cumQ() < 750) DisplayText("You pump straight into her womb, enough to make a trickle of your baby batter dribble from her freshly used cunt when you pull out.");
@@ -2163,13 +2163,13 @@ private followerIzmaTakesIt69():void {
 	DisplayText("Izma smiles and nods, swinging her hips from side to side as she makes her way over to you, as if to tease you further. She positions her head at your groin, rubbing her own crotch against your head.  \"<i>Alright, let's do this,</i>\" Izma says happily, and wastes no time ");
 	//[(Male/herm)
 	if(player.torso.cocks.count > 0) {
-		DisplayText("gorging herself on your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ", her tongue wrapping around it and caressing it like jewelry");
+		DisplayText("gorging herself on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", her tongue wrapping around it and caressing it like jewelry");
 		//[(if herm)
-		if(player.torso.vaginas.count > 0) DisplayText(" while pushing two fingers into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+		if(player.torso.vaginas.count > 0) DisplayText(" while pushing two fingers into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 	}
 	//(Female)
 	else if(player.torso.vaginas.count > 0) {
-		DisplayText("licking and eating you out, paying special attention to your " + VaginaDescriptor.describeClit(player));
+		DisplayText("licking and eating you out, paying special attention to your " + Desc.Vagina.describeClit(player));
 	}
 	DisplayText(".\n\n");
 
@@ -2178,11 +2178,11 @@ private followerIzmaTakesIt69():void {
  
 	if(Flags.list[FlagEnum.IZMA_NO_COCK] === 0) DisplayText("In an effort to further pleasure your tigershark partner, you occasionally reach up to fondle her swollen sack and finger her tight, damp cunt.  Izma gasps sharply and shudders from the pleasure you're giving her.  As if to reward you for your efforts, Izma picks up speed with her sucking, drenching every inch of your ");
 	else DisplayText("In an effort to further pleasure your tigershark partner, you occasionally reach up to caress her orange rump and slide a finger into her tight, damp cunt.  Izma gasps sharply and shudders from the pleasure you're giving her.  As if to reward you for your efforts, Izma picks up speed with her sucking, drenching every inch of your ");
-	if(player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeCock(player, player.torso.cocks.get(0)));
-	else DisplayText(            VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+	if(player.torso.cocks.count > 0) DisplayText(Desc.Cock.describeCock(player, player.torso.cocks.get(0)));
+	else DisplayText(            Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 	DisplayText(" with her saliva, and as you're so eager for her magic tongue you start thrusting your hips up ");
 	if(player.torso.cocks.count > 0) DisplayText("to reach ");
-	else DisplayText("to push your " + VaginaDescriptor.describeClit(player));
+	else DisplayText("to push your " + Desc.Vagina.describeClit(player));
 	DisplayText(" as far into her mouth as you can.\n\n");
  
 	if(player.torso.cocks.count > 0) DisplayText("Eventually, the two of you manage to bring each other to a powerful simultaneous orgasm, Izma's hot cum shoots down your eager throat, and you ");
@@ -2479,10 +2479,10 @@ public pcPopsOutASharkTot():void {
 		DisplayText("You crumple suddenly; strong pains and pressures pulverize the nerves in your gut.  As your eyes shoot wide open, you look down to see your belly absurdly full and distended.  You can feel movement underneath the skin, and watch as its bulges and shifts reflect another living being moving independently inside you.  Instinctively, you spread your legs as you feel the creature press outward, parting your cervix and allowing a gush of water to spill forth - far more water than you thought you were holding.\n\n");
  
 		DisplayText("You cry out as the first wrenching labor pain begins in earnest, unthinkingly hoping for somebody to come and help you.  Much to your despair, no one does, leaving you alone to deliver the baby.  You double your focus, set on pushing in time with its own frantic attempts to escape.  Squeezing over and over, you try to force out the child before the pain robs you of consciousness; luckily it seems to oblige, sliding out of you legs-first after a few more pushes.  The shark-skin rasps your inflamed pussy, drawing gasps of shock from you as she squeezes past your lips in fits and starts.");
-		player.displayStretchVagina(100,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 100,true,true,false);
 		DisplayText("\n\n");
 
-		DisplayText("Finally, she's out; you quiver weakly as she crawls over to you and it takes all your effort to lift your " + player.inventory.equipment.armor.displayName + " and expose your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s to her.  As she sucks greedily at them, the haze begins to clear from your vision.  For the first time, you can actually make out distinct features on your new daughter; she's a ");
+		DisplayText("Finally, she's out; you quiver weakly as she crawls over to you and it takes all your effort to lift your " + player.inventory.equipment.armor.displayName + " and expose your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s to her.  As she sucks greedily at them, the haze begins to clear from your vision.  For the first time, you can actually make out distinct features on your new daughter; she's a ");
 		if(randInt(100) <= 59) {
 			DisplayText("shark-girl");
 			Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00412]++;
@@ -2514,14 +2514,14 @@ public pcPopsOutASharkTot():void {
  
 		DisplayText("\"<i>Right, sorry.</i>\" She has the courtesy to look chagrined, at least.\n\n");
  
-		DisplayText("She unhesitatingly steps up and kneels before you, one hand reaching out to stroke your swollen orb of a belly, the other trailing around the edges of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " in a manner at once sensual and professional. \"<i>Don't worry, " + player.short + "; I'm going to help you get through this.</i>\" The tigershark promises you.\n\n");
+		DisplayText("She unhesitatingly steps up and kneels before you, one hand reaching out to stroke your swollen orb of a belly, the other trailing around the edges of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " in a manner at once sensual and professional. \"<i>Don't worry, " + player.short + "; I'm going to help you get through this.</i>\" The tigershark promises you.\n\n");
  
 		DisplayText("You point out it's the least she can do, seeing as how she's the one who put this thing in you in the first place, then turn your attention back fully to the task of bringing your offspring into the world.\n\n");
  
-		DisplayText("Time slips away; you're too overwhelmed by the pain of your womb contracting and the pleasure as Izma ministers to your " +             VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
-		if(player.torso.cocks.count > 0) DisplayText(" and " + CockDescriptor.describeMultiCockShort(player));
+		DisplayText("Time slips away; you're too overwhelmed by the pain of your womb contracting and the pleasure as Izma ministers to your " +             Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
+		if(player.torso.cocks.count > 0) DisplayText(" and " + Desc.Cock.describeMultiCockShort(player));
 		DisplayText(", which makes the birth pangs become less painful and more orgasmic. You lose yourself in the haze to the point you're barely aware when the birth finally comes to an end; you feel a great pressure welling up inside you, an overwhelming urge to push, and then, the next thing you know, relief washes over you as your stomach deflates.");
-		player.displayStretchVagina(100,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 100,true,true,false);
 		DisplayText("\n\n");
  
 		DisplayText("\"<i>We've got her, " + player.short + "! Whoa- hold still, you slippery little girl! Stop wriggling so much, you're out now, it's me, your daddy!</i>\" Izma cries out. As you regain your strength and your vision clears, you are presented with the sight of Izma trying desperately to wrangle a squirming baby shark-morph; from her ");
@@ -2541,7 +2541,7 @@ public pcPopsOutASharkTot():void {
 		else DisplayText("tigershark");
 		DisplayText(". Finally, she calms down in her \"<i>daddy's</i>\" arms, looking around with surprising aclarity for a newborn. She sees you and holds her arms out, making strange babbling noises; she has no teeth at all, from what you can see. Izma walks over to you, smiling proudly, and lets you hold your new baby girl, who nuzzles against you and then immediately turns her attention towards your milky breasts.\n\n");
  
-		DisplayText("She latches onto the " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " and starts to suckle for all she's worth, waves of pleasure both sexual and maternal filling you, overwhelming you with bliss. Oblivious to everything else, you hold her against your breast, allowing her to sate her incredible appetite. She drinks your breast dry, and then immediately latches onto the next one.");
+		DisplayText("She latches onto the " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " and starts to suckle for all she's worth, waves of pleasure both sexual and maternal filling you, overwhelming you with bliss. Oblivious to everything else, you hold her against your breast, allowing her to sate her incredible appetite. She drinks your breast dry, and then immediately latches onto the next one.");
 		if(player.torso.chest.count > 1) DisplayText("  She then starts on your third breast, and while she slows down at the fourth breast, she still finishes it off.");
 		//(If player has six breasts: 
 		if(player.torso.chest.count > 2) DisplayText("  She seems to almost be struggling to finish off your third pair, but she manages to suck all six of your breasts dry.");
@@ -2589,12 +2589,12 @@ private izmaKidsPlaytime():void {
 	else DisplayText("There are ");
 	if (Flags.list[FlagEnum.IZMA_CHILDREN_SHARKGIRLS] > 0) {
 		if (Flags.list[FlagEnum.IZMA_CHILDREN_SHARKGIRLS] === 1) DisplayText("one shark-girl");
-		else DisplayText(num2Text(Flags.list[FlagEnum.IZMA_CHILDREN_SHARKGIRLS]) + " shark-girls");
+		else DisplayText(numToCardinalText(Flags.list[FlagEnum.IZMA_CHILDREN_SHARKGIRLS]) + " shark-girls");
 		if (Flags.list[FlagEnum.IZMA_CHILDREN_TIGERSHARKS] > 0) DisplayText(" and ");
 	}
 	if (Flags.list[FlagEnum.IZMA_CHILDREN_TIGERSHARKS] > 0) {
 		if (Flags.list[FlagEnum.IZMA_CHILDREN_TIGERSHARKS] === 1) DisplayText("one tigershark");
-		else DisplayText(num2Text(Flags.list[FlagEnum.IZMA_CHILDREN_TIGERSHARKS]) + " tigersharks");
+		else DisplayText(numToCardinalText(Flags.list[FlagEnum.IZMA_CHILDREN_TIGERSHARKS]) + " tigersharks");
 	}
 	DisplayText(" living here; the fruits of your love with Izma.\n\n");
 	//The above is the default scene, that plays whenever the player selects the "Children" option when interacting with Izma./
@@ -2663,15 +2663,15 @@ private inCampRideIzmasDickDongTheWitchIsDead():void {
 	if(player.torso.vaginas.get(0).wetness > 3) DisplayText("dripping ");
 	DisplayText("fuckhole meaningfully, telling her to lie down and let you give her fifteen inches and four balls a run.\n\n");
  
-	DisplayText("Izma gives a happy squeal in response, before blushing and clearing her throat.  \"<i>Ah ha... of course, my Alpha,</i>\" she replies curtly.  She lies down on the ground and her giant dong stands straight to attention, waiting for your " +             VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
+	DisplayText("Izma gives a happy squeal in response, before blushing and clearing her throat.  \"<i>Ah ha... of course, my Alpha,</i>\" she replies curtly.  She lies down on the ground and her giant dong stands straight to attention, waiting for your " +             Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".\n\n");
  
-	DisplayText("Slowly and sensuously you remove your " + player.inventory.equipment.armor.displayName + ", exulting in the way Izma hungrily drinks in every inch of exposed " + player.skinFurScales() + ".  Her eyes devour your " + BreastDescriptor.describeAllBreasts(player) + ", then slide eagerly down to your crotch to feast upon");
+	DisplayText("Slowly and sensuously you remove your " + player.inventory.equipment.armor.displayName + ", exulting in the way Izma hungrily drinks in every inch of exposed " + Desc.Skin.skinFurScales(player) + ".  Her eyes devour your " + Desc.Breast.describeAllBreasts(player) + ", then slide eagerly down to your crotch to feast upon");
 	if(player.torso.cocks.count > 0) {
-		DisplayText(" " + CockDescriptor.describeMultiCockSimpleOne(player));
-		if(player.torso.balls.quantity > 0) DisplayText(" and " + BallsDescriptor.describeBalls(false, true, player, true));
+		DisplayText(" " + Desc.Cock.describeMultiCockSimpleOne(player));
+		if(player.torso.balls.quantity > 0) DisplayText(" and " + Desc.Balls.describeBalls(false, true, player, true));
 		DisplayText(" before going to the main attraction:");
 	}
-	DisplayText(" your pussy.  You sashay over to the prone tigershark, your " + LowerBodyDescriptor.describeHips(player) + " swaying in a fashion that has her hypnotised.  By the time you reach her, her cock is visibly bubbling pre from the slit and drooling it down onto her four swollen balls, which sit in a steadily-growing puddle of feminine juices. Smiling hungrily, you gently stroke her long, crimson-hued cock, playfully asking what such a little girl is doing with such a big, hard thing.\n\n");
+	DisplayText(" your pussy.  You sashay over to the prone tigershark, your " + Desc.Hip.describeHips(player) + " swaying in a fashion that has her hypnotised.  By the time you reach her, her cock is visibly bubbling pre from the slit and drooling it down onto her four swollen balls, which sit in a steadily-growing puddle of feminine juices. Smiling hungrily, you gently stroke her long, crimson-hued cock, playfully asking what such a little girl is doing with such a big, hard thing.\n\n");
  
 	DisplayText("Izma pants and giggles in response, licking her lips at the little show you're putting on for her.  \"<i>Big?  Me?  Haha...</i>\"  She gasps and moans as you rub at her head.  \"<i>There are much bigger fish in those lake waters...</i>\" she pants, winking at you.  You don't know if she's joking or not.\n\n");
  
@@ -2681,9 +2681,9 @@ private inCampRideIzmasDickDongTheWitchIsDead():void {
  
 	DisplayText("You smile and bend over, hungrily kissing and suckling at her impressive breasts, squeezing them firmly to squeals of delight from the tigershark.");
 	if(player.torso.cocks.count > 0) {
-		DisplayText("  Your " + CockDescriptor.nounCock(player.torso.cocks.get(0).type) + " rubs against her shaft, sending delicious sparks surging through you.");
+		DisplayText("  Your " + Desc.Cock.nounCock(player.torso.cocks.get(0).type) + " rubs against her shaft, sending delicious sparks surging through you.");
 	}
-	DisplayText("  Tiring of the foreplay, you slither up her body and position yourself over her, slipping down onto her shark-sausage just enough that the head is poking teasingly into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", but not enough to really penetrate you.");
+	DisplayText("  Tiring of the foreplay, you slither up her body and position yourself over her, slipping down onto her shark-sausage just enough that the head is poking teasingly into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", but not enough to really penetrate you.");
 	if(player.torso.vaginas.get(0).wetness >= 5) DisplayText("  Not that this stops your nether-lips from drooling your lubricant all over Izma's crotch.");
 	DisplayText("\n\n");
  
@@ -2700,7 +2700,7 @@ private inCampRideIzmasDickDongTheWitchIsDead():void {
 	else if(player.vaginalCapacity() < 50) DisplayText("  You groan and shudder slightly as you slide down the generous 15 inches of dick, the slight pain being drowned out by the sensation of being filled as full as you could possibly hold.");
 	//(Gaping)
 	else DisplayText("  You shudder and lick your lips. Izma may be big but you've had bigger, and you fit her cock like a glove.");
-	player.displayStretchVagina(30,true,true,false);
+	Mod.Vagina.displayStretchVagina(player, 30,true,true,false);
  	DisplayText("  Once you have made it to the very base of Izma's cock you pause for a moment to help yourself adjust, then, clenching your vaginal muscles, you start to rock back and forth; your body is sliding up and then slamming down, picking up speed and force as you continue to thrust.  Your hands reach out to maul Izma's tits");
 	if(player.torso.cocks.count > 0) {
 		DisplayText(", your erect cock");
@@ -2721,9 +2721,9 @@ private inCampRideIzmasDickDongTheWitchIsDead():void {
 	else DisplayText("fountains");
 	DisplayText(" onto the tigershark under you");
 	if(player.torso.cocks.count > 0) {
-		DisplayText("; " + CockDescriptor.describeMultiCockSimpleOne(player) + " spraying all over her belly, breasts and face");
+		DisplayText("; " + Desc.Cock.describeMultiCockSimpleOne(player) + " spraying all over her belly, breasts and face");
 	}
-	DisplayText(".  Izma, feeling the twitching of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", finally gives a loud roar as she climaxes inside you, filling your womb up with sharky spunk to the point where it makes your stomach bloat out from the sheer volume of her deposit.\n\n");
+	DisplayText(".  Izma, feeling the twitching of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", finally gives a loud roar as she climaxes inside you, filling your womb up with sharky spunk to the point where it makes your stomach bloat out from the sheer volume of her deposit.\n\n");
  
 	DisplayText("You sit there on top of Izma for a few minutes, basking in the afterglow, feeling her still semi-hard phallus inside you, patting your cum-inflated belly with one hand.  You compliment Izma on her load... then, giving a wicked grin, you playfully wonder aloud why she's still so hard inside you.  Is she really still horny?  Well, you're a good alpha, so you'll keep going until you've milked her dry...\n\n");
  
@@ -2857,7 +2857,7 @@ private removeIzmasPenis():void {
 		DisplayText("You ask Izma if she wouldn't mind getting rid of her dick for you, her Alpha.  She recoils at the mention, a haughty look on her angular visage.  \"<i>Tch, why would I want to get rid of my pride and joy?  My dick feels so good... I would never want to lose it,</i>\" Izma answers with a hint of rebellion.");
 		DisplayText("\n\nShe isn't happy with the idea, but if you want, you could assert yourself as an Alpha to overcome it.");
 		Flags.list[FlagEnum.ASKED_IZMA_ABOUT_WANG_REMOVAL] = 1;
-		menu();
+		
 		MainScreen.addButton(0,"Okay",izmaFollowerMenu);
 		MainScreen.addButton(1,"Force Her",forceIzmaPenis);
 		return;
@@ -2999,7 +2999,7 @@ private fuckIzmasPussyDominate():void {
 	//(If human or Harpy legs are present: 
 	else DisplayText("Lifting your right leg over her rump, you give yourself the superior position needed to ravage her cunt.  ");
 	//(if Single cocked (multicocked x2, suitable size(s) to fuck Izma, if possible)):
-	DisplayText("With a hearty roar, you plunge ruthlessly into Izma's love canal, giving the feelers inside of her pussy little time to brace for impact as you savagely brush them aside.  The brutal straining of her pussy causes Izma to yell out in pained shock at the sudden intrusion in her pussy.  \"<i>A little too rough for you?  I thought that's how shark-girls liked it,</i>\" you say to Izma, taunting her as she wriggles weakly under you.  Grabbing at her shoulders, you brace yourself against her body, readying your pelvis to mash against her rump.  Drawing out of her slowly, you allow her the opportunity to adapt to your " + CockDescriptor.describeCock(player, x) + "; something the feelers in her cunt appreciate as she moans approvingly.");
+	DisplayText("With a hearty roar, you plunge ruthlessly into Izma's love canal, giving the feelers inside of her pussy little time to brace for impact as you savagely brush them aside.  The brutal straining of her pussy causes Izma to yell out in pained shock at the sudden intrusion in her pussy.  \"<i>A little too rough for you?  I thought that's how shark-girls liked it,</i>\" you say to Izma, taunting her as she wriggles weakly under you.  Grabbing at her shoulders, you brace yourself against her body, readying your pelvis to mash against her rump.  Drawing out of her slowly, you allow her the opportunity to adapt to your " + Desc.Cock.describeCock(player, x) + "; something the feelers in her cunt appreciate as she moans approvingly.");
 	DisplayText("\n\nYou start out slowly, giving her just enough time to adjust to you before you pick up the pace, increasing in tempo as you slap your [if (hasBalls = true) [balls]|thighs] off of her ass cheeks.  The sounds of your passion create a crescendo of erotic harmony that rings out across the camp; your lover providing the \"vocals\" to your musical symphony of lust as she moans, gasps and pants in utter bliss.  Before long, you are pulverizing her rump with your thighs, driving your cock well into her humid cunt and causing Izma's body to jig back and forth along the stump.");
 
 	//(If PC has Tentacle dick long that 48 inches: 
@@ -3068,33 +3068,33 @@ private radarIzmaAnalDominant():void {
 	if(player.torso.vaginas.count > 0) DisplayText("Your [clit] flushes with");
 	else if(player.torso.cocks.count > 0) DisplayText("[EachCock] bobs in");
 	else DisplayText("You flush with");
-	DisplayText(" aroused intrigue at her words, flooding you with the need to take that thick, perverse dick inside of you.  With little more than a quick twist, you place your arms out against the stump and stick your " + ButtDescriptor.describeButt(player) + " out towards your lover, moving your hips with just enough force to gently sway your hips like an unsuspecting mouse to Izma's \"python\".  Faster than you can raise a hand to beckon her over, Izma darts in and closes the distance in a flash, taking your [butt] against her pre-cum soaked member as she hangs it close to you, barely containing her lust as she whispers in your ear, \"<i>So... where do you want me, Alpha?  Do I get to be in charge today?</i>\" she asks.");
+	DisplayText(" aroused intrigue at her words, flooding you with the need to take that thick, perverse dick inside of you.  With little more than a quick twist, you place your arms out against the stump and stick your " + Desc.Butt.describeButt(player) + " out towards your lover, moving your hips with just enough force to gently sway your hips like an unsuspecting mouse to Izma's \"python\".  Faster than you can raise a hand to beckon her over, Izma darts in and closes the distance in a flash, taking your [butt] against her pre-cum soaked member as she hangs it close to you, barely containing her lust as she whispers in your ear, \"<i>So... where do you want me, Alpha?  Do I get to be in charge today?</i>\" she asks.");
 
-	DisplayText("\n\nLooking back over your shoulder, you tell her that she... won't be dominant; in fact, she won't even lay a hand on you.  Izma's passionate, eager expression turns to one of confusion at your words; something you rectify by taking hold of her lengthy dick and caressing it with your " + ButtDescriptor.describeButthole(character.torso.butt) + ", allowing the head of her cock to be roughed around from tip to belly in the contours of your " + ButtDescriptor.describeButthole(character.torso.butt) + " and " + ButtDescriptor.describeButt(player) + ".  The callous treatment of her dick surges through Izma, sending a visible shiver through her as her member electrifies her body with sexual pleasure.  You remark to Izma how cute she looks from this angle, in a manner that denotes your playful yet condescending control over her; all the tigershark can do is blush fiercely as she whimpers, in what seems to be both a need for better intimacy and sensual overload.  With an almost mean spirited disregard for her need to warm up first, you begin to force her freakishly large member inside of your " + ButtDescriptor.describeButthole(character.torso.butt) + ", ");
+	DisplayText("\n\nLooking back over your shoulder, you tell her that she... won't be dominant; in fact, she won't even lay a hand on you.  Izma's passionate, eager expression turns to one of confusion at your words; something you rectify by taking hold of her lengthy dick and caressing it with your " + Desc.Butt.describeButthole(character.torso.butt) + ", allowing the head of her cock to be roughed around from tip to belly in the contours of your " + Desc.Butt.describeButthole(character.torso.butt) + " and " + Desc.Butt.describeButt(player) + ".  The callous treatment of her dick surges through Izma, sending a visible shiver through her as her member electrifies her body with sexual pleasure.  You remark to Izma how cute she looks from this angle, in a manner that denotes your playful yet condescending control over her; all the tigershark can do is blush fiercely as she whimpers, in what seems to be both a need for better intimacy and sensual overload.  With an almost mean spirited disregard for her need to warm up first, you begin to force her freakishly large member inside of your " + Desc.Butt.describeButthole(character.torso.butt) + ", ");
 	//(if Virgin to Tight:
 	if(player.analCapacity() < 35) DisplayText("painfully rending the tight shape of your anus on it, causing both of you to moan in pain as you envelop more and more of her dick inside of you.  Izma slams into you forcefully as she unleashes a huge gasp, face utterly flooded with ecstasy as she stares into the sky behind closed eyes."); 
 	//(If loose to gaping: 
-	else DisplayText("slipping past the fleshy \"gates\" of your anus, requiring little stretching or working of your " + ButtDescriptor.describeButthole(character.torso.butt) + ".  You're worried that this might not work the way you want it to, given how easy it was to take Izma; a series of wild, erratic thrashings against your ass as the penile intruder tunnels deeper seems to dispel that notion.");
-	player.displayStretchButt(42,true,true,false);
+	else DisplayText("slipping past the fleshy \"gates\" of your anus, requiring little stretching or working of your " + Desc.Butt.describeButthole(character.torso.butt) + ".  You're worried that this might not work the way you want it to, given how easy it was to take Izma; a series of wild, erratic thrashings against your ass as the penile intruder tunnels deeper seems to dispel that notion.");
+	Mod.Butt.displayStretchButt(player, 42,true,true,false);
 
 	DisplayText("\n\nWith a cool, yet skittish breath of air, you tell Izma that you will be working her cock with your ass ");
 	if(player.torso.hips.legs.isGoo()) DisplayText("and goo");
 	DisplayText("; she will not touch you, she will not pull away, and she will remain standing like a good girl.  Pausing briefly to work the muscles in your anus along her shaft and \"torment\" her, you conclude your instructions by telling her that she'll be rewarded if she holds out long enough.  Before Izma can even utter a syllable, you grind your hot innards along the tigershark's rock hard cock; something that seems to drive the poor woman over the edge.  With an almost malevolent smirk, you comment to Izma that perhaps she doesn't want her reward if she's going to cum so early, and that she would be better off being stuck with her hand for a couple days.  \"<i>NOOoooghhhhoo,</i>\" the tormented beta replies shakily, \"<i>NOOooooghhaahhooo.</i>\"  Giggling in contentment at her submission, you tell her to hold on and keep her seed bottled up until you tell her to, lowering a hand down to your ");
-	if(player.torso.vaginas.count > 0) DisplayText(VaginaDescriptor.describeClit(player));
-	else if(player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeCock(player, player.torso.cocks.get(0)));
+	if(player.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeClit(player));
+	else if(player.torso.cocks.count > 0) DisplayText(Desc.Cock.describeCock(player, player.torso.cocks.get(0)));
 	else DisplayText("violated anus");
 	DisplayText(" to masturbate as you do so.");
 	
 	DisplayText("\n\nDespite Izma's near orgasmic scare, she soldiers on through your brutal and \"agonizing\" stimulation of her giant red dick");
 	if(player.torso.hips.legs.isGoo()) DisplayText("; taking her firm ass into your slippery body's grip, you begin to force Izma to gyrate against you, driving the shark-morph mad with pleasure");
 	DisplayText(".  Your pumping of your ");
-	if(player.torso.vaginas.count > 0) DisplayText(VaginaDescriptor.describeClit(player));
-	else if(player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeCock(player, player.torso.cocks.get(0)));
+	if(player.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeClit(player));
+	else if(player.torso.cocks.count > 0) DisplayText(Desc.Cock.describeCock(player, player.torso.cocks.get(0)));
 	else DisplayText("anus");
-	DisplayText(" increases in ferocity as you slam your " + ButtDescriptor.describeButt(player) + " against her lap, her quadrate of testicles slapping against your ");
+	DisplayText(" increases in ferocity as you slam your " + Desc.Butt.describeButt(player) + " against her lap, her quadrate of testicles slapping against your ");
 	
 	//(if PC is fingering their pussy: 
-	if(player.torso.vaginas.count > 0) DisplayText("feverish hands as you fingerfuck your " +             VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".");
+	if(player.torso.vaginas.count > 0) DisplayText("feverish hands as you fingerfuck your " +             Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".");
 	//(If PC has balls: 
 	else if(player.torso.balls.quantity > 0) DisplayText("swinging [balls] with each gyration of your hips.");
 	//(If PC is genderless: 
@@ -3105,11 +3105,11 @@ private radarIzmaAnalDominant():void {
 	if(player.gender > 0) {
 		DisplayText("\n\nWith just enough time for her to finish flooding you with jizz, you pull yourself off of her and hurriedly order her to the ground, ");
 		//(If PC has vagina: 
-		if(player.torso.vaginas.count > 0) DisplayText("intent on burying your " + VaginaDescriptor.describeClit(player) + " in her face and having her finish you off.  Izma tries her best to pleasure you, but she's still too wracked with bliss to be any help... still, you manage to find stimulation by grinding yourself against her spaced-out face, eventually orgasming and drenching her face in your lady fluids as she weakly strokes the remaining cum out of her cock.");
+		if(player.torso.vaginas.count > 0) DisplayText("intent on burying your " + Desc.Vagina.describeClit(player) + " in her face and having her finish you off.  Izma tries her best to pleasure you, but she's still too wracked with bliss to be any help... still, you manage to find stimulation by grinding yourself against her spaced-out face, eventually orgasming and drenching her face in your lady fluids as she weakly strokes the remaining cum out of her cock.");
 		//(If PC has cock(s): 
-		else if(player.torso.cocks.count > 0) DisplayText("stroking furiously along your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " to bring an explosive end to this passionate act.  Izma is still off in another world of orgasmic fulfillment to note the impending facial coming her way.  It takes her a few moments to register it, but she coos lovingly as the scent of semen hits her nostrils, finally realizing that you have blown your steamy load all over her face.");
+		else if(player.torso.cocks.count > 0) DisplayText("stroking furiously along your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to bring an explosive end to this passionate act.  Izma is still off in another world of orgasmic fulfillment to note the impending facial coming her way.  It takes her a few moments to register it, but she coos lovingly as the scent of semen hits her nostrils, finally realizing that you have blown your steamy load all over her face.");
 		//(genitalia end: 
-		DisplayText("  Falling back on your " + ButtDescriptor.describeButt(player) + ", you breathe a sigh of relief, both thanking and lamenting the fact that your orgasms have reached fruition.  Despite still being able to get up and walk around, Izma is another story.");
+		DisplayText("  Falling back on your " + Desc.Butt.describeButt(player) + ", you breathe a sigh of relief, both thanking and lamenting the fact that your orgasms have reached fruition.  Despite still being able to get up and walk around, Izma is another story.");
 	
 		DisplayText("\n\nYou could carry her back to her bedding and tuck her in... or you could just let her sleep it off.");
 		
@@ -3159,13 +3159,13 @@ private radarFucksIzmasAss():void {
 	if(x < 0) x = 0;
 	let y:number = player.cockThatFits2(65);
 
-	DisplayText("Your eyes are unavoidably drawn to her well toned ass; the potential feel of her tight asshole against your " + CockDescriptor.describeCock(player, x) + " is one you cannot pass up now.  Placing an authoritative hand on your beta's shoulder, you physically command her to get down on the ground... something the tigershark does all too willingly, flopping down to the ground on her stomach and waving her tail in your face; almost as if to taunt you and jokingly convey that \"<i>you can't have this.</i>\"  Her intent on what she wants you to do clear, you forcefully reach out and grab that smugly shaking tail of hers and pull hard, dragging her prone body along the ground to the base of your feet as you yank her crescent shaped appendage to your face.  Izma groans briefly from the friction burn and then giggles at the rough treatment.  Oh... she needs a good fucking in that asshole of hers, you think to yourself, and grin as you lower your body down to her rump.  Flush with desire, Izma glances over her shoulder and stares intently, eagerly awaiting the moment that your " + CockDescriptor.describeCock(player, x) + " lights her body up like the night sky.");
+	DisplayText("Your eyes are unavoidably drawn to her well toned ass; the potential feel of her tight asshole against your " + Desc.Cock.describeCock(player, x) + " is one you cannot pass up now.  Placing an authoritative hand on your beta's shoulder, you physically command her to get down on the ground... something the tigershark does all too willingly, flopping down to the ground on her stomach and waving her tail in your face; almost as if to taunt you and jokingly convey that \"<i>you can't have this.</i>\"  Her intent on what she wants you to do clear, you forcefully reach out and grab that smugly shaking tail of hers and pull hard, dragging her prone body along the ground to the base of your feet as you yank her crescent shaped appendage to your face.  Izma groans briefly from the friction burn and then giggles at the rough treatment.  Oh... she needs a good fucking in that asshole of hers, you think to yourself, and grin as you lower your body down to her rump.  Flush with desire, Izma glances over her shoulder and stares intently, eagerly awaiting the moment that your " + Desc.Cock.describeCock(player, x) + " lights her body up like the night sky.");
 
 	//(If non tentacle dicked)
 	if(player.torso.cocks.get(x).type != CockType.TENTACLE) {
-		DisplayText("\n\nNot one to keep a lover waiting, you take your " + CockDescriptor.describeCock(player, x) + " and edge it along the smooth crevice of her ass checks, taking the time to enjoy the hypersensitive feeling of your soft cock head against her rough skin before pressing your prick against her little asshole.  With a surprised look over her shoulder, your ample Beta sports a fiendish grin at where you intent to sex her.  \"<i>Ohhhh... back door?  You pervert...</i>\" she teases.  You shoot an annoyed look back, physically reminding her that she isn't deciding how she's getting fucked here.  Giggling softly, Izma responds in a sultry manner, \"<i>I'm not complaining.</i>\"  Well, we'll just see about that, you muse to yourself as you painfully breeze past her boiling hot anus with your " + CockDescriptor.describeCock(player, x) + ", provoking a ear screeching howl.  Condescendingly, you inquire to your wailing lover if there is a certain... \"problem\" she's having; her pained flash of teeth and grunting seems to provide an clear answer for you.  Slapping her rump mockingly, you comment on how perhaps Izma spoke too soon.  The concussive force of her buttocks against your [hips] seems to disprove your take on this situation.  With an earnest laugh, you toy with Izma and comment on how the \"little girl\" still has some fight in her, eager and hungry for a good anal fuck.");
+		DisplayText("\n\nNot one to keep a lover waiting, you take your " + Desc.Cock.describeCock(player, x) + " and edge it along the smooth crevice of her ass checks, taking the time to enjoy the hypersensitive feeling of your soft cock head against her rough skin before pressing your prick against her little asshole.  With a surprised look over her shoulder, your ample Beta sports a fiendish grin at where you intent to sex her.  \"<i>Ohhhh... back door?  You pervert...</i>\" she teases.  You shoot an annoyed look back, physically reminding her that she isn't deciding how she's getting fucked here.  Giggling softly, Izma responds in a sultry manner, \"<i>I'm not complaining.</i>\"  Well, we'll just see about that, you muse to yourself as you painfully breeze past her boiling hot anus with your " + Desc.Cock.describeCock(player, x) + ", provoking a ear screeching howl.  Condescendingly, you inquire to your wailing lover if there is a certain... \"problem\" she's having; her pained flash of teeth and grunting seems to provide an clear answer for you.  Slapping her rump mockingly, you comment on how perhaps Izma spoke too soon.  The concussive force of her buttocks against your [hips] seems to disprove your take on this situation.  With an earnest laugh, you toy with Izma and comment on how the \"little girl\" still has some fight in her, eager and hungry for a good anal fuck.");
 
-		DisplayText("\n\nOn that note, the domination of Izma's tight, humid ass begins; starting off shallow, you thrust violently against your submissive lover, ceasing your " + CockDescriptor.describeCock(player, x) + "'s unbearably hot descent into her sphincter to briefly pull out, only to savagely force your way back into her and surpass your previous self-imposed threshold.  Recoiling with every gyration, the hermaphroditic shark tries to brace herself for a bottoming out that never materializes, only stopping her reactionary movements forward when she deciphers your pattern.  Throwing her for a loop, you decide to push past the threshold you've been gradually increasing, slowly retreating out of her tight fitting anus");
+		DisplayText("\n\nOn that note, the domination of Izma's tight, humid ass begins; starting off shallow, you thrust violently against your submissive lover, ceasing your " + Desc.Cock.describeCock(player, x) + "'s unbearably hot descent into her sphincter to briefly pull out, only to savagely force your way back into her and surpass your previous self-imposed threshold.  Recoiling with every gyration, the hermaphroditic shark tries to brace herself for a bottoming out that never materializes, only stopping her reactionary movements forward when she deciphers your pattern.  Throwing her for a loop, you decide to push past the threshold you've been gradually increasing, slowly retreating out of her tight fitting anus");
 		if(y >= 0) DisplayText(" as you gently place your other dick against her labia");
 		DisplayText(".");
 
@@ -3187,7 +3187,7 @@ private radarFucksIzmasAss():void {
 	else {
 		//Scenes will vary based on length (at least 4 feet of dick per tentacle), and how many dicks you have. Please note that both conditions must be met for a scene; for example, to get the uber awesome constricted and fucked everywhere tentacle dick scene, you must have 3 + 4 (pussy, asshole, balls, breasts) + 3 for blowjob 
 		//Intro: 
-		DisplayText("\n\nWith precision and care, you work your " + CockDescriptor.describeCock(player, x) + " into Izma's tight little asshole, causing her face to grimace in both pain and euphoria as you breach her depths without even needing to thrust; your mutated cock doing all the work at the whim of your thoughts.  The busty tigershark grasps at the ground under her as you retain your grip of her tail, shuddering at the sensation of lifting her slutty little tail over her as you pump her anus with your cock.  Izma vibrates with pleasure and reaches down to her clit and ");
+		DisplayText("\n\nWith precision and care, you work your " + Desc.Cock.describeCock(player, x) + " into Izma's tight little asshole, causing her face to grimace in both pain and euphoria as you breach her depths without even needing to thrust; your mutated cock doing all the work at the whim of your thoughts.  The busty tigershark grasps at the ground under her as you retain your grip of her tail, shuddering at the sensation of lifting her slutty little tail over her as you pump her anus with your cock.  Izma vibrates with pleasure and reaches down to her clit and ");
 		//(PC has one TD: 
 		if(player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) === 1) DisplayText("begins to slowly caress her pussy in tandem with your thrusts, bringing an expression of intense bliss to her face as her eyes clamp shut and her mouth opens wide to let out a deep moan.")).length;
 		//(PC has 2 TD's and 30 INT: 
@@ -3317,7 +3317,7 @@ Chuckling to yourself, you pull your leg away and stare down at the shark morph;
 
 With deft grace, you (kick/slap) Izma's hand away with just enough force that she'll understand that such weakness will not be tolerated.  With a panicked realization of some kind of wrongdoing, Izma looks at you with a worried look in her eyes.  Walking in front of her and turning your backside to her, you admonish Izma for not even trying; that nothing in this life is accomplished without some kind of struggle. Lowering yourself down into a crouched position, you tell Izma... That she has.  Five.  Minutes.  To get that luscious ass.  Over to the damn river.  Or there will be no sex for a week.  Eyes wide in complete horror, Izma begins to frantically claw at the ground, desperately dragging herself along the ground to beat your imposed time limit.  Grinning smugly, you turn around and walk backwards, occasionally questioning her fortitude and resolve while reminding her of how much time she has left.  The journey isn't easy for her as she drapes along the grassy ground, leaving a thin but noticeable trail of cum in her wake. 
 
-With three minutes to go, you take hold of your (" + multicockDescriptLight() + " (and) " + VaginaDescriptor.describeClit(player) + "  /   " + ButtDescriptor.describeButt(player) + "), cradling it (them/it) in your hands as you whistle at Izma.  Raising your voice, you tell Izma that THIS is what she is fighting for; the privilege for her Alpha to bestow upon her the "blessing(s)" she enjoys, and that no Beta of yours will fail to make the deadline. Growling with newfound drive, Izma feverishly claws along the ground, greatly picking up her pace as you praise her progress.
+With three minutes to go, you take hold of your (" + multicockDescriptLight() + " (and) " + Desc.Vagina.describeClit(player) + "  /   " + Desc.Butt.describeButt(player) + "), cradling it (them/it) in your hands as you whistle at Izma.  Raising your voice, you tell Izma that THIS is what she is fighting for; the privilege for her Alpha to bestow upon her the "blessing(s)" she enjoys, and that no Beta of yours will fail to make the deadline. Growling with newfound drive, Izma feverishly claws along the ground, greatly picking up her pace as you praise her progress.
 
 With one minute to go, Izma reaches the river bank; running into the water, you taunt Izma by slapping your " + multicockDescriptLight() + " against the water, commenting that she could taste you if she was in the water right now.  That seems to the final bit of encouragement she needs; with a great shove against the slope of the river bank, Izma begins her descent down into the water.  The sand doesn't even seem to slow her down as she becomes a humanoid missile, speeding down the bank and into the water with a loud, resounding splash.  Satisfied, you wade over to the tigershark that floats on her back, sporting a look of pure triumph as she slowly drifts down the stream.  As you grab her and drag her closer to shore, she mutters loudly, "The things I do for a good dicking..." Noting that her face is clear of cum, you dart in and kiss her fiercely, cradling the side and the back of her head as you reward your Beta for her efforts.  After a few moments, you break that kiss and tell the hermaphroditic shark-morph that she better clean up fast; that you will be taking her again soon, and that she better not keep her Alpha waiting.  Climbing out of the water, you leave your wildly thrashing Beta to quickly clean up in preparation for the next time you decide to fuck her. 
 */
@@ -3327,7 +3327,7 @@ private internalIzmaAnalCumShot():void {
 	DisplayText().clear();
 	DisplayText("With a series of labored breaths, you excitedly tell your lover that you are going to cum inside her, and that she'd better love every second of it.  The rushing warmth that resonates through your cock fills you with a relaxed euphoria as you groan and bottom out once more, releasing your seed deep into her eager depths.");
 	//(If PC fucked her vaginally: 
-	if(player.cockThatFits2(65) >= 0) DisplayText("  The feelers in her pussy glide along the glans of your " + CockDescriptor.describeCock(player, player.cockThatFits2(65)) + ", driving your dick's unconscious efforts to inseminate her into overdrive as you feel each subsequent stream of semen increase in velocity.");
+	if(player.cockThatFits2(65) >= 0) DisplayText("  The feelers in her pussy glide along the glans of your " + Desc.Cock.describeCock(player, player.cockThatFits2(65)) + ", driving your dick's unconscious efforts to inseminate her into overdrive as you feel each subsequent stream of semen increase in velocity.");
 }
 //[External, Non-TD scenes]
 private backJizzShot():void {
@@ -3336,7 +3336,7 @@ private backJizzShot():void {
 	if(player.torso.cocks.count === 1) DisplayText("your shaft ");
 	else if(player.torso.cocks.count === 2) DisplayText("two shafts ");
 	else DisplayText("three shafts");
-	DisplayText(" as you struggle to cum.  Rolling over onto her thoroughly abused ass, the feminine tigershark twists her head back to get her hair out of her face, and opens up wide to receive your load.  Arcing like lightning in the sky, your orgasm flows forcefully out of your " + CockDescriptor.describeMultiCockShort(player) + ", ");
+	DisplayText(" as you struggle to cum.  Rolling over onto her thoroughly abused ass, the feminine tigershark twists her head back to get her hair out of her face, and opens up wide to receive your load.  Arcing like lightning in the sky, your orgasm flows forcefully out of your " + Desc.Cock.describeMultiCockShort(player) + ", ");
 	//(Cum volume normal: 
 	if(player.cumQ() < 500) DisplayText("firing thin streams of semen from [eachCock], lathering Izma's luscious red body and making it glisten in the sun.");
 	//(Cum volume high:
@@ -3357,7 +3357,7 @@ public izmaDomsLatexy():void {
 		//{First time}
 		DisplayText("\nFamiliar, lusty pants can be heard coming from the edge of the camp, and you begrudgingly head over to investigate.  The heavy breathing is accompanied by a few groans of pleasure, each higher pitched than the last, and as you round a rock, you're treated to the sight of Izma nude, holding a rope that's currently lashed around " + Flags.list[FlagEnum.GOO_NAME] + ".  The goo-girl has one hand stuffed into her slick quim, busily fisting herself for the shark-girl's pleasure.");
 		//[Stop] [Watch]
-		menu();
+		
 		MainScreen.addButton(0,"Stop",stopIzmaLatexy);
 		MainScreen.addButton(1,"Watch",izmaDomsLatexyPartI);
 	}
@@ -3435,7 +3435,7 @@ private stopIzmaLatexy():void {
 private izmaLatexySubmenu():void {
 	DisplayText().clear();
 	DisplayText("\"<i>Oh, I wouldn't worry about her, [name],</i>\" Izma says while her tail flicks back and forth.");
-	menu();
+	
 	if(Flags.list[FlagEnum.IZMA_X_LATEXY_DISABLED] === 1) MainScreen.addButton(0,"KeepHerFed",izmaLatexyToggle);
 	else {
 		MainScreen.addButton(0,"No Feeding",izmaLatexyToggle);
@@ -3456,7 +3456,7 @@ private izmaLatexyToggle():void {
 		DisplayText("You tell Izma that you've changed your mind, and she can keep " + Flags.list[FlagEnum.GOO_NAME] + " fluid topped off.  The shark-girl hugs you with a predatory grin splitting her face.  \"<i>I can't wait.</i>\"");
 		Flags.list[FlagEnum.IZMA_X_LATEXY_DISABLED] = 0;
 	}
-	menu();
+	
 	MainScreen.addButton(4,"Back",izmaLatexySubmenu);
 }
 }

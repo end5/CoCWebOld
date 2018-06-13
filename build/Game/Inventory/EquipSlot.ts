@@ -1,4 +1,5 @@
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { FilterOption } from '../../Engine/Utilities/List';
 import { Character } from '../Character/Character';
 import { EquipableItem } from '../Items/EquipableItem';
 import { ItemFactory } from '../Items/ItemFactory';
@@ -6,6 +7,12 @@ import { ItemFactory } from '../Items/ItemFactory';
 export type EquipEffect = (item: EquipableItem, character: Character) => void;
 
 export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSlot<T>> {
+    public static FilterName<T extends EquipableItem>(name: string): FilterOption<EquipSlot<T>> {
+        return (a: EquipSlot<T>) => {
+            return a.isEquipped() && a.item.name === name;
+        };
+    }
+
     private character: Character;
     private equippedItem: T;
     private onEquipEffects: EquipEffect[];

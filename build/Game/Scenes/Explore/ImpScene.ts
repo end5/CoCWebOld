@@ -58,11 +58,11 @@ export function impVictory(character: Character, imp: Character): NextScreenChoi
                 choices[1] = ["Female Rape", rapeImpWithPussy];
             }
         }
-        else if (maleRape && character.torso.chest.filter(BreastRow.FuckableNipples).length > 0 && !canFeed && !canBikiniTits && !character.canOvipositBee()) {
+        else if (maleRape && character.torso.chest.find(BreastRow.FuckableNipples) && !canFeed && !canBikiniTits && !character.canOvipositBee()) {
             return { next: Scenes.camp.returnToCampUseOneHour }; // Only happens when there's no way to fuck the imp
         }
         choices[0] = [character.torso.hips.legs.isTaur() ? "Centaur Rape" : "Male Rape", maleRape];
-        if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+        if (character.torso.chest.find(BreastRow.FuckableNipples)) {
             choices[2] = ["NippleFuck", noogaisNippleRape];
         }
     }
@@ -167,12 +167,12 @@ function sprocketImp(character: Character): NextScreenChoices {
     DisplayText("The imp pulls the loincloth from his waist, revealing his red throbbing cock.  It is certainly large, even though it stands smaller than your own erection.  He tosses the cloth aside, and you see him fluttering down toward you just before the rough fabric lands on your face.  His clawed fingers grasp ");
     // Variable cocktext
     if (character.torso.cocks.get(0).type === CockType.HUMAN || character.torso.cocks.get(0).type === CockType.DEMON || character.torso.cocks.get(0).type > 4) DisplayText("your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", rubbing the tip of his prick against your own, ");
-    else if (character.torso.cocks.filter(Cock.HasKnot).length > 0) DisplayText("your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", rubbing the tip of his prick against your point, ");
+    else if (character.torso.cocks.find(Cock.HasKnot)) DisplayText("your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", rubbing the tip of his prick against your point, ");
     else if (character.torso.cocks.get(0).type === CockType.HORSE) DisplayText("your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", rubbing the tip of his prick against your flared head, ");
     else if (character.torso.cocks.get(0).type === CockType.TENTACLE) DisplayText("your huge green dick, rubbing the tip of his prick against your purplish cock-head, ");
     DisplayText("smearing your pre-cum together.  You wonder if he is planning on just jerking both of you off as you shake the cloth from your face.  He flashes you an evil smile, making your eyes widen in terror as you realize what he is planning. Before you can even think to make a move to stop him, the imp ");
     if (character.torso.cocks.get(0).type === CockType.HUMAN || character.torso.cocks.get(0).type === CockType.DEMON || character.torso.cocks.get(0).type > 4) DisplayText("shoves his shaft deeply into the slit in the head of your dick.  ");
-    else if (character.torso.cocks.filter(Cock.HasKnot).length > 0) DisplayText("finds the hole in the pointed head of your cock and plunges his shaft deeply into it, literally fucking your urethra.  ");
+    else if (character.torso.cocks.find(Cock.HasKnot)) DisplayText("finds the hole in the pointed head of your cock and plunges his shaft deeply into it, literally fucking your urethra.  ");
     else if (character.torso.cocks.get(0).type === CockType.HORSE) DisplayText("seats his dick in the flared head of your prick, and then pushes farther. His shaft plunges into yours, filling your cock more than any cum load ever could.  ");
     else if (character.torso.cocks.get(0).type === CockType.TENTACLE) DisplayText("shoves his dick deeply into the slit in the head of your vine-like cock.  ");
     // New PG
@@ -242,7 +242,7 @@ function centaurGirlOnImps(character: Character, imp: Character): NextScreenChoi
         if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 1) {
             DisplayText("He slides up to your torso and grasps your wildly flailing " + Desc.Breast.describeAllBreasts(character) + ", massaging them harshly. His ministrations are surprisingly crude, and you wonder how many times he's attempted to pleasure a woman.");
             // [Has fuckable nipples:
-            if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("  His fingers slide inside your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s and start spreading and squishing them. Your femcum leaks out over his hands and soon your front is slick and shiny.");
+            if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("  His fingers slide inside your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s and start spreading and squishing them. Your femcum leaks out over his hands and soon your front is slick and shiny.");
             // All other nipples:
             else DisplayText("  His fingers grope and grab at your nipples, stretching them uncomfortably. Before you can complain he seems to realize his mistake and releases them.");
             // [Is lactating normally:
@@ -370,7 +370,7 @@ function centaurOnImpMale(character: Character, imp: Character, vape: boolean = 
                 // <<GoTo I3 then return>>
                 centaurOnImpResults(character, imp, 3);
                 DisplayText("A guttural moan escapes your mouth as you realize the creature has completely passed out underneath you.  ");
-                if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("Shoving your fingers deep into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s");
+                if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("Shoving your fingers deep into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s");
                 else DisplayText("With a fierce tug on your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s");
                 DisplayText("you begin to cum deep and directly into the imp's stomach and " + Desc.Butt.describeButthole(character.torso.butt) + ".  ");
                 // <<cum multiplier: lots>>
@@ -389,7 +389,7 @@ function centaurOnImpMale(character: Character, imp: Character, vape: boolean = 
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 0) {
                 DisplayText("One of your hands releases it and begins playing with your " + Desc.Breast.describeAllBreasts(character));
                 // <<nips have pussies>>
-                if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText(" and fingering your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s");
+                if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" and fingering your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s");
                 DisplayText(" as you drool slightly in absolute pleasure.  ");
             }
             DisplayText("When the creature's noises lessen and all you can hear is the sloppy sounds of its ass being fucked you push yourself in a single mighty heave, grinding the creature into the rock and eliciting one last scream that pushes you over.\n\n");
@@ -452,7 +452,7 @@ function centaurOnImpFemale(character: Character, imp: Character, vape: boolean 
         if (character.stats.cor >= 50 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2) {
             DisplayText("You release the tree as you begin playing with your " + Desc.Breast.describeAllBreasts(character));
             // <<w/ nip-pussies>>
-            if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText(" and shoving your fingers into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ".  ");
+            if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText(" and shoving your fingers into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ".  ");
             else DisplayText(".  ");
             // <</Breasts>>
         }
@@ -472,7 +472,7 @@ function centaurOnImpFemale(character: Character, imp: Character, vape: boolean 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function centaurOnImpResults(character: Character, imp: Character, iNum: number): void {
+function centaurOnImpResults(character: Character, imp: Character, iNum: number) {
     const cocksThatFit = character.torso.cocks.filter(Cock.CockThatFits(imp.analCapacity()));
     const cockThatFits = cocksThatFit.length > 0 ? cocksThatFit[0] : character.torso.cocks.get(0);
     // {{ GoTo results }}
@@ -522,7 +522,7 @@ function centaurOnImpResults(character: Character, imp: Character, iNum: number)
         if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2) {
             DisplayText("As the sensations intensify you reach up and begin massaging your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " and playing with your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s.  ");
             // <<(breasts cont.) nips have pussies>>
-            if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+            if (character.torso.chest.find(BreastRow.FuckableNipples)) {
                 // <<nip-pussies and milk>>
                 if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) DisplayText("Milk streams out from your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s as if they had been recently filled with dripping cum.  ");
                 else DisplayText("Your fingers slide faster and faster into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s even as the imp begins to stroke itself under you.  ");
@@ -1085,7 +1085,7 @@ export function impGangabangaEXPLOSIONS(character: Character): NextScreenChoices
                 // (High Corruption)
                 else DisplayText("The tongue squeezing and tugging your nipple floods your body with lust. You moan and arch your back, offering your tits to the imp riding your chest. You can hear your pulse pounding in your ears as you pant in desire.");
                 DisplayText("  Suddenly you feel tiny needle-sharp teeth pierce your nipple. You scream as venom pumps into your tits, red-hot poison that makes your " + Desc.Breast.describeAllBreasts(character) + " feel as though they were being stung by bees. You moan in pain as your breasts start to swell, the imp rider biting into your other nipple to pump demon-taint into it.");
-                if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("With the imp's taint seeping into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", each one's cunt-like shape begins swelling. The fuckable orifices engorge into larger and fatter looking labia, becoming fuller cunts each with an engorged clitoral nub the size of a golf ball. Their color deepens as the skin of your nipple-cunts becomes tighter and smoother.  The imp giggles and continues nibbling the newly swollen sensitive flesh, injecting further doses of venom.");
+                if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("With the imp's taint seeping into your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", each one's cunt-like shape begins swelling. The fuckable orifices engorge into larger and fatter looking labia, becoming fuller cunts each with an engorged clitoral nub the size of a golf ball. Their color deepens as the skin of your nipple-cunts becomes tighter and smoother.  The imp giggles and continues nibbling the newly swollen sensitive flesh, injecting further doses of venom.");
                 DisplayText("\n\n");
                 // Grow tits!
                 Mod.Breast.growSmallestBreastRow(character, 2, character.torso.chest.count, false);
@@ -1161,7 +1161,7 @@ export function impGangabangaEXPLOSIONS(character: Character): NextScreenChoices
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) {
                 DisplayText("Imps lick milk from your bloated " + Desc.Breast.describeBreastSize(character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating) + " as your rider milks you.  As one imp drinks his fill, staggering away with a sloshing belly, another steps up to guzzle from your milk-spewing udders.\n\n");
                 // Additional nipplefucking scene by Xodin
-                if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+                if (character.torso.chest.find(BreastRow.FuckableNipples)) {
                     DisplayText("The imp rider grabs the fat folds of one of your nipplecunt's 'labia' and grins mischeviously. He rubs his obscene erection all over the milk stained surface of your nipple-cunt's clit and begins to press the head of his bulbous imp cock into the swollen orifice against the flow of milk. You know no woman in your village could have handled an aroused cock this big, and yet now this imp on your " + Desc.Breast.describeAllBreasts(character) + " is about to ram just such an erection into one of your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s. He tugs and pulls and pulls again on your nipple-cunt's sensitive labia, forcing his cock to push into the flesh of your " + Desc.Breast.describeBreastSize(character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating) + ". Your taut flesh burns with his venom already, and is now violated by the presence of his demonic flesh rod.  ");
                     // [START BREAST SIZE SPECIFIC TEXT]
                     // [IF breastSize <= DD]

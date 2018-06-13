@@ -54,6 +54,14 @@ export class BreastRow implements ISerializable<BreastRow> {
         return b.nipples.count - a.nipples.count;
     }
 
+    public static readonly MostBreastsPerRow: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return a.count - b.count;
+    }
+
+    public static readonly LeastBreastsPerRow: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return b.count - a.count;
+    }
+
     public static readonly HasNipples: FilterOption<BreastRow> = (a: BreastRow) => {
         return a.nipples.count > 0;
     }
@@ -97,6 +105,7 @@ export class BreastRow implements ISerializable<BreastRow> {
     public milkFullness: number = 0;
     public fullness: number = 0;
     public nipples: Nipples = new Nipples();
+    public count: number = 2;
 
     public constructor(rating: BreastCup = BreastCup.C, lactationMultiplier: number = 0) {
         this.rating = rating;
@@ -110,6 +119,7 @@ export class BreastRow implements ISerializable<BreastRow> {
             milkFullness: this.milkFullness,
             fullness: this.fullness,
             nipples: this.nipples.serialize(),
+            count: this.count
         };
     }
 
@@ -119,5 +129,6 @@ export class BreastRow implements ISerializable<BreastRow> {
         this.milkFullness = saveObject.milkFullness;
         this.fullness = saveObject.fullness;
         this.nipples.deserialize(saveObject.nipples);
+        this.count = saveObject.count;
     }
 }

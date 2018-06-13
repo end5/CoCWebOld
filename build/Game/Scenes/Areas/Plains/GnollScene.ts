@@ -4,7 +4,7 @@
 export class GnollScene {
 
 	//Gnoll Entrance
-	public gnollEncounter(): void {
+	public gnollEncounter() {
 		DisplaySprite(11);
 		DisplayText().clear();
 		DisplayText("The sound of distant laughter comes across the plains, then seems to die off suddenly.  A moment later, a gnoll comes bounding from the nearest scrap of cover and barrels into you.  The monstrous thing giggles as it bounces back and forth before you, looking for an opening to exploit.");
@@ -13,7 +13,7 @@ export class GnollScene {
 
 
 	//Gnoll Rape
-	public getRapedByGnoll(): void {
+	public getRapedByGnoll() {
 		//Oh shit get anal raped.
 		if (player.inventory.items.has(consumables.S_DREAM)) {
 			yoDawgIHeardULiekGNollBallzzzdahdakjldh();
@@ -22,17 +22,17 @@ export class GnollScene {
 		DisplayText().clear();
 		DisplayText("The sound of the gnoll's mocking laughter grates in your ears as you collapse down on your knees before her.  She circles you with the last scrap of her wariness and then surges forward to knock you over, exposing your ");
 		if (player.torso.cocks.count > 0) {
-			DisplayText(CockDescriptor.describeMultiCockShort(player));
+			DisplayText(Desc.Cock.describeMultiCockShort(player));
 			if (player.torso.vaginas.count > 0) DisplayText(" and ");
 		}
-		if (player.torso.vaginas.count > 0) DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+		if (player.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 		if (player.gender > 0) DisplayText(".  ");
 		else DisplayText("flat, featureless groin.  ");
 		//  (if cockTotal=0 AND vaginas=1)
 		if (player.torso.cocks.count <= 0) {
 			if (player.torso.vaginas.count > 0) {
-				DisplayText("The gnoll looks a little disappointed at the void between your legs.  \"<i>Aw, I was hoping for something substantial,</i>\" she titters.  That doesn't stop her from hefting her engorged clit-dick and slapping its tip onto the entrance of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  With one jittery lurch forward, she shoves her clit up inside you, her pubic mound mashing up against your " + VaginaDescriptor.describeClit(player) + ".");
-				player.displayStretchVagina(9, true, true, false);
+				DisplayText("The gnoll looks a little disappointed at the void between your legs.  \"<i>Aw, I was hoping for something substantial,</i>\" she titters.  That doesn't stop her from hefting her engorged clit-dick and slapping its tip onto the entrance of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  With one jittery lurch forward, she shoves her clit up inside you, her pubic mound mashing up against your " + Desc.Vagina.describeClit(player) + ".");
+				Mod.Vagina.displayStretchVagina(player, 9, true, true, false);
 				DisplayText("\n\n");
 			}
 			//(if cockTotal=0 AND vaginas=0)
@@ -43,10 +43,10 @@ export class GnollScene {
 			//thickestCock()>2")
 			if (player.thickestCockThickness() > 2) {
 				//(if cockTotal>1)
-				if (player.torso.cocks.count > 1) DisplayText("The gnoll fishes into your " + CockDescriptor.describeMultiCockShort(player) + " and quickly snaps up the thickest one.  ");
+				if (player.torso.cocks.count > 1) DisplayText("The gnoll fishes into your " + Desc.Cock.describeMultiCockShort(player) + " and quickly snaps up the thickest one.  ");
 				//(if cockTotal=1)
-				else DisplayText("The gnoll's hands dart down to your crotch and grabs " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ".  ");
-				DisplayText("\"<i>Yes, this will do nicely,</i>\" she says with relish, pumping your " + CockDescriptor.nounCock(player.torso.cocks.list[player.thickestCock()].cockType) + " until it plumps up, filling with blood.  She cantilevers her body over yours, knees bent sharply, and brings the tip of her massive clitoris up against the head of your dick.  The moment a dollop of pre forms at your urethra, her hips surge forward, sinking her giant clit down the length of your " + CockDescriptor.nounCock(player.torso.cocks.list[player.thickestCock()].cockType) + ".  ");
+				else DisplayText("The gnoll's hands dart down to your crotch and grabs " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  ");
+				DisplayText("\"<i>Yes, this will do nicely,</i>\" she says with relish, pumping your " + Desc.Cock.nounCock(player.torso.cocks.list[player.thickestCock()].cockType) + " until it plumps up, filling with blood.  She cantilevers her body over yours, knees bent sharply, and brings the tip of her massive clitoris up against the head of your dick.  The moment a dollop of pre forms at your urethra, her hips surge forward, sinking her giant clit down the length of your " + Desc.Cock.nounCock(player.torso.cocks.list[player.thickestCock()].cockType) + ".  ");
 				DisplayText("You gasp at the feeling of her hot skin rippling down the interior of your dick, and all she can do is laugh as she plunges it deeper and deeper into you.\n\n");
 			}
 			//(if cockTotal>0 AND thickestCock()<2")
@@ -55,7 +55,7 @@ export class GnollScene {
 				if (player.torso.cocks.count > 1) DisplayText("\"<i>This will have to do,</i>\" she says with the barest trace of disappointment as she grabs your thickest cock.  ");
 				//(if cockTotal=1)
 				else DisplayText("\"<i>This will have to do,</i>\" she says as she grabs your cock.  ");
-				DisplayText("She runs her rough hand up and down its length until it begins to plump up.  She cantilevers her body over yours, knees bent sharply, and brings the tip of her massive clitoris up against the head of your dick.  The moment a dollop of pre forms at your urethra, her hips surge forward, sinking her giant clit down the length of your " + CockDescriptor.nounCock(player.torso.cocks.list[player.thickestCock()].cockType) + ".  ");
+				DisplayText("She runs her rough hand up and down its length until it begins to plump up.  She cantilevers her body over yours, knees bent sharply, and brings the tip of her massive clitoris up against the head of your dick.  The moment a dollop of pre forms at your urethra, her hips surge forward, sinking her giant clit down the length of your " + Desc.Cock.nounCock(player.torso.cocks.list[player.thickestCock()].cockType) + ".  ");
 				DisplayText("You scream in pain as she forces her bizarre pseudo-penis down the length of your dick.  In horror, you watch as the bulge of her anatomy's invasion of yours slowly descends towards your ");
 				if (player.torso.balls.quantity > 0) DisplayText("balls");
 				else DisplayText("groin");
@@ -66,11 +66,11 @@ export class GnollScene {
 		}
 		DisplayText("In no time whatsoever she falls into an easy rhythm, pistoning her obscene girl-dick in and out of you.  At first, you can do little more than gurgle and squirm under the assault, but all too soon you feel the telltale signs of your own arousal building.  You find yourself moving in sympathy with her thrusts, at least as best you can given the circumstances.");
 		//(if rating>C)
-		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 3) DisplayText("  Your " + player.BreastDescriptor.describeAllBreasts(player) + " bounce up and down as the gnoll grinds her anatomy into yours, slick with sweat under the hot sun.  Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s tighten and flush as your whole body submits to the rough fuck administered by the hyena girl.");
+		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 3) DisplayText("  Your " + Desc.Breast.describeAllBreasts(player) + " bounce up and down as the gnoll grinds her anatomy into yours, slick with sweat under the hot sun.  Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s tighten and flush as your whole body submits to the rough fuck administered by the hyena girl.");
 		//(if cockTotal>0)
 		if (player.torso.cocks.count > 0) {
 			DisplayText("  Your hips begin to buck as your orgasm builds, but the gnoll slams her hands down on your sides, pinning you to the hardscrabble ground.  \"<i>Best if you don't move too much, lover,</i>\" she laughs, even as she quickens her pace.  Immediately your ");
-			if (player.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeSack(player));
+			if (player.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeSack(player));
 			else DisplayText("body");
 			DisplayText(" seizes tighter and you can feel your cum churning inside you.\n\n");
 
@@ -83,13 +83,13 @@ export class GnollScene {
 		DisplayText("The hyena girl slumps against your body, but only for a moment.  Then she's suddenly up again, sliding her bizarre member out of you with an obscene slurp.  She leans down to pat your cheek and giggles, \"<i>Thanks, lover.</i>\"   Then she sprints off towards the horizon.");
 		DisplayText("  A whimper bubbles up your throat and comes out as a half-giggle as you slump down unconscious.");
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 
-	public defeatHyena(): void {
+	public defeatHyena() {
 		DisplayText().clear();
-		let dickDownClit: Function = null;
+		let dickDownClit;
 		//Gnoll Defeat (HP)	
 		if (monster.stats.HP < 1) DisplayText("The hyena girl collapses backwards onto the dusty ground, unable to continue the fight.");
 		//Gnoll Defeat (Lust)
@@ -124,56 +124,56 @@ export class GnollScene {
 				MainScreen.simpleChoices(["SuckHerClit", "", "", "", "Leave"], [suckGnollClit, null, null, null, cleanupAfterCombat]);
 			}
 		}
-		else cleanupAfterCombat();
+		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//DickDownClit
-	private dickDownGnollClit(): void {
+	private dickDownGnollClit() {
 		DisplayText().clear();
 		DisplayText("This is not an opportunity you can pass up.  You roughly roll her onto her back and pull her long clit up to a vertical position.  She moans softly, and the rough skin beneath your fingers pulses as her arousal brings it harder and taller.  The end bloats larger, fuller, until finally it looks nearly wide enough.  You don't wait any further; you position the head of your dick against the end of hers and jam it inside.\n\n");
 		DisplayText("Inch by inch, you sink your dick down into the warm tunnel of her monstrous clitoris.  The interior, you are happy to find, is not as rough as the exterior, and in fact is just slick enough to make your invasion possible.  After a few thrusts, you find it easiest to adopt a sort of reverse-cowgirl position, facing her feet as you roll your hips forward and shove more and more of your dick inside her.   Beneath you, the gnoll is clutching at the ground and making little submissive whimpers.\n\n");
 		let x: number = player.longestCock();
-		//(if biggestCockLength()>9)
-		if (player.torso.cocks.get(x).length > 9) DisplayText("Finally you can feel your cockhead push free into a deeper, wetter place.  You look down at her strange anatomy, the entire length of her tube bulging thicker to accommodate your " + CockDescriptor.describeCock(player, x) + ".  You've made it all the way to her vagina!\n\n");
-		else DisplayText("Soon you feel the end of her clitoral tunnel butting up against your crotch.  You are as far in as you'll get.  You look down the length of her strange anatomy, the tube bulging thicker to accomodate your " + CockDescriptor.describeCock(player, x) + ".  There are still inches between your cockhead and the end of her clit-dick.\n\n");
+		//(if torso.cocks.sort(Cock.LargestCockArea)[0].length>9)
+		if (player.torso.cocks.get(x).length > 9) DisplayText("Finally you can feel your cockhead push free into a deeper, wetter place.  You look down at her strange anatomy, the entire length of her tube bulging thicker to accommodate your " + Desc.Cock.describeCock(player, x) + ".  You've made it all the way to her vagina!\n\n");
+		else DisplayText("Soon you feel the end of her clitoral tunnel butting up against your crotch.  You are as far in as you'll get.  You look down the length of her strange anatomy, the tube bulging thicker to accomodate your " + Desc.Cock.describeCock(player, x) + ".  There are still inches between your cockhead and the end of her clit-dick.\n\n");
 
 		DisplayText("Now you begin to roll your hips in a steady rhythm, running your dick up and down her long clitoral tunnel.  It's like the deepest, tightest cunt you've ever had, gripping every inch of you.");
 		//(if balls>0)
-		if (player.torso.balls.quantity > 0) DisplayText("  It doesn't take long before your " + BallsDescriptor.describeBalls(true, true, player) + " begin twitching, pumping cum down the length of your encased cock.");
+		if (player.torso.balls.quantity > 0) DisplayText("  It doesn't take long before your " + Desc.Balls.describeBalls(true, true, player) + " begin twitching, pumping cum down the length of your encased cock.");
 		DisplayText("  Your orgasm is quick and hard.  Your entire body seems to tremble under the hot sun and your thrusting doubles and then redoubles, stuffing your dick down hers like mad.\n\n");
 
 		//(if cumQ()<25)
-		if (player.cumQ() < 25) DisplayText("Your " + CockDescriptor.describeCock(player, x) + " convulses, pumping down the length of her clitoris.  She squirms and howls beneath you, hissing for more.");
+		if (player.cumQ() < 25) DisplayText("Your " + Desc.Cock.describeCock(player, x) + " convulses, pumping down the length of her clitoris.  She squirms and howls beneath you, hissing for more.");
 		//(if cumQ()>25 AND cumQ()<500)
-		else if (player.cumQ() < 500) DisplayText("Your " + CockDescriptor.describeCock(player, x) + " convulses, pumping cum into her.  Her clitoris bulges even more as the jism backs up.  The warm, wet, sticky insides swirl around your dick.");
+		else if (player.cumQ() < 500) DisplayText("Your " + Desc.Cock.describeCock(player, x) + " convulses, pumping cum into her.  Her clitoris bulges even more as the jism backs up.  The warm, wet, sticky insides swirl around your dick.");
 		//(if cumQ()>500)
-		else DisplayText("Your " + CockDescriptor.describeCock(player, x) + " convulses, pouring cum into her.  Her clitoris bulges even more as the jism backs up, the skin pulling tight and shiny as the pressure builds.  Finally gouts of cum begin spurting back out the tip of her clitoris, splashing against your crotch.");
+		else DisplayText("Your " + Desc.Cock.describeCock(player, x) + " convulses, pouring cum into her.  Her clitoris bulges even more as the jism backs up, the skin pulling tight and shiny as the pressure builds.  Finally gouts of cum begin spurting back out the tip of her clitoris, splashing against your crotch.");
 		DisplayText("  With a lusty groan, you pull out with a long, slippery sound, and leave the gnoll panting on the dusty ground.");
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//DickInAss
-	private dickInGnollAss(): void {
+	private dickInGnollAss() {
 		DisplayText().clear();
 		let x: number = player.cockThatFits(monster.analCapacity());
 		if (x < 0) x = 0;
 		let y: number = player.cockThatFits2(monster.analCapacity());
 		if (randInt(2) === 0) {
-			DisplayText("The gnoll must be taught a lesson, but you're staying the hell away from her freaky anatomy.  You roughly roll her onto her belly and pull her lean ass up into the air.  You line up your " + CockDescriptor.describeCock(player, x) + " and ram it home into her tiny puckered entrance, eliciting a half-conscious gasp from the hyena girl.\n\n");
+			DisplayText("The gnoll must be taught a lesson, but you're staying the hell away from her freaky anatomy.  You roughly roll her onto her belly and pull her lean ass up into the air.  You line up your " + Desc.Cock.describeCock(player, x) + " and ram it home into her tiny puckered entrance, eliciting a half-conscious gasp from the hyena girl.\n\n");
 			//(if cockTotal>1)
-			if (player.torso.cocks.count > 1 && player.cockArea(x) < monster.analCapacity() && y != -1) {
-				DisplayText("With a smirk, you pound away for a few minutes to get her loosened up.  Then you reach down and slap another " + CockDescriptor.nounCock(CockType.HUMAN) + " alongside the first.  With a grunt and a thrust, you shove both of them inside.");
+			if (player.torso.cocks.count > 1 && x.area < monster.analCapacity() && y != -1) {
+				DisplayText("With a smirk, you pound away for a few minutes to get her loosened up.  Then you reach down and slap another " + Desc.Cock.nounCock(CockType.HUMAN) + " alongside the first.  With a grunt and a thrust, you shove both of them inside.");
 				//(if cockTotal>2)
-				if (player.torso.cocks.count > 2 && player.cockArea(x) + player.cockArea(y) < monster.analCapacity()) DisplayText("  A few thrusts more, and you slow again.  As you gather up your third cock, the gnoll whimpers quietly, fearing what she knows will come next.  You slowly push forward, sinking your rigid meat into her ass.  When all three are in, it's very slow going, but you don't let up.");
+				if (player.torso.cocks.count > 2 && x.area + player.cockArea(y) < monster.analCapacity()) DisplayText("  A few thrusts more, and you slow again.  As you gather up your third cock, the gnoll whimpers quietly, fearing what she knows will come next.  You slowly push forward, sinking your rigid meat into her ass.  When all three are in, it's very slow going, but you don't let up.");
 				//(if cockTotal>3)
-				if (player.torso.cocks.count > 3 && player.torso.cocks.get(0).area + player.torso.cocks.get(1).area + player.torso.cocks.get(2).area < monster.analCapacity()) DisplayText("  From there it's some time before her anus is stretched wide enough for more.  By now you can feel your orgasm on the horizon, so you're less careful with your fourth " + CockDescriptor.describeCock(player, y) + ".  You slap it into the bundle of dicks and then ram it home.");
+				if (player.torso.cocks.count > 3 && player.torso.cocks.get(0).area + player.torso.cocks.get(1).area + player.torso.cocks.get(2).area < monster.analCapacity()) DisplayText("  From there it's some time before her anus is stretched wide enough for more.  By now you can feel your orgasm on the horizon, so you're less careful with your fourth " + Desc.Cock.describeCock(player, y) + ".  You slap it into the bundle of dicks and then ram it home.");
 				//(if cockTotal>4)
 				if (player.torso.cocks.count > 4 && player.torso.cocks.get(0).area + player.torso.cocks.get(1).area + player.torso.cocks.get(2).area + player.cockArea(3) < monster.analCapacity()) DisplayText("  And then the next.");
 				//(if cockTotal>5)
 				if (player.torso.cocks.count > 5 && player.torso.cocks.get(0).area + player.torso.cocks.get(1).area + player.torso.cocks.get(2).area + player.cockArea(4) + player.cockArea(5) < monster.analCapacity()) DisplayText("  And the next.");
 				//(if cockTotal>6)
-				if (player.torso.cocks.count > 6 && player.torso.cocks.get(0).area + player.torso.cocks.get(1).area + player.torso.cocks.get(2).area + player.cockArea(4) + player.cockArea(5) + player.cockArea(6) < monster.analCapacity()) DisplayText("  And the next, until all of your " + CockDescriptor.describeMultiCockShort(player) + " are inside her wide-spread ass.");
+				if (player.torso.cocks.count > 6 && player.torso.cocks.get(0).area + player.torso.cocks.get(1).area + player.torso.cocks.get(2).area + player.cockArea(4) + player.cockArea(5) + player.cockArea(6) < monster.analCapacity()) DisplayText("  And the next, until all of your " + Desc.Cock.describeMultiCockShort(player) + " are inside her wide-spread ass.");
 				DisplayText("\n\n");
 			}
 
@@ -184,9 +184,9 @@ export class GnollScene {
 		else {
 			DisplayText("Your mind is made up; this gnoll needs to learn her place.  You eye her freakish pseudo-phallus for a moment, then shake your head, roughly grabbing her by the bony hips and flopping her onto her belly.  She lets out a little barking whine when you firmly smack her bony rear, lowering her chin to the ground and raising her hips submissively in recognition of your dominance.\n\n");
 
-			DisplayText("You stroke your " + CockDescriptor.describeCock(player, x) + " eagerly, bringing yourself to full mast and squeezing out a few drops of pre to pool against her puckered anus, leaning over and adding a little bit of saliva for good measure.  Sliding your shaft between her flat ass cheeks, you make sure to get the tip nice and lubed up, then you drop her hips down and ram yourself home in one go.\n\n");
+			DisplayText("You stroke your " + Desc.Cock.describeCock(player, x) + " eagerly, bringing yourself to full mast and squeezing out a few drops of pre to pool against her puckered anus, leaning over and adding a little bit of saliva for good measure.  Sliding your shaft between her flat ass cheeks, you make sure to get the tip nice and lubed up, then you drop her hips down and ram yourself home in one go.\n\n");
 
-			DisplayText("The gnoll lets out a squeal that sounds halfway like a maniacal laugh, sliding forward in the dirt a little.  Your " + CockDescriptor.describeCock(player, x) + " throbs wonderfully, fully engulfed by the tight passage of the gnoll's anus");
+			DisplayText("The gnoll lets out a squeal that sounds halfway like a maniacal laugh, sliding forward in the dirt a little.  Your " + Desc.Cock.describeCock(player, x) + " throbs wonderfully, fully engulfed by the tight passage of the gnoll's anus");
 			if (player.torso.cocks.count > 1) DisplayText(" while the remainder of your endowments slide along her bare buttocks");
 			DisplayText(", and you begin to thrust forward and back, digging your fingers into her hips.\n\n");
 
@@ -209,13 +209,13 @@ export class GnollScene {
 			}
 			//Med CumQ):
 			else if (player.cumQ() <= 500) {
-				DisplayText("Gripping her sides tightly, you let out a bellowing moan that echos through the grasslands, " + CockDescriptor.describeMultiCockSimpleOne(player) + " swelling noticeably as you pump thick ribbons of spunk into the gnoll's innards");
+				DisplayText("Gripping her sides tightly, you let out a bellowing moan that echos through the grasslands, " + Desc.Cock.describeMultiCockSimpleOne(player) + " swelling noticeably as you pump thick ribbons of spunk into the gnoll's innards");
 				if (player.torso.cocks.count > 1) DisplayText(", unleashing a torrent of semen that mats down the short fur on her back and rear as");
-				DisplayText(".  The muscular ring of her anus bears down on your " + CockDescriptor.describeCock(player, x) + " as you pull out, making an audible *schlick!*, and the gnoll drops to the ground in exhaustion, shamelessly playing with herself in an effort to get off.\n\n");
+				DisplayText(".  The muscular ring of her anus bears down on your " + Desc.Cock.describeCock(player, x) + " as you pull out, making an audible *schlick!*, and the gnoll drops to the ground in exhaustion, shamelessly playing with herself in an effort to get off.\n\n");
 			}
 			//(High CumQ):
 			else {
-				DisplayText("You bear down on the limber hyena girl with all your force, groaning through clenched teeth as " + CockDescriptor.describeMultiCockSimpleOne(player) + " distends with the pressure of your virile load.  Her puckered anus stretches around the swell of your seed, and she lets out a shuddering, laughing moan as her belly begins to distend with your thick jism.  The involuntary spasms of her rectum milk your " + CockDescriptor.describeCock(player, x) + " for every drop, clenching your member tightly");
+				DisplayText("You bear down on the limber hyena girl with all your force, groaning through clenched teeth as " + Desc.Cock.describeMultiCockSimpleOne(player) + " distends with the pressure of your virile load.  Her puckered anus stretches around the swell of your seed, and she lets out a shuddering, laughing moan as her belly begins to distend with your thick jism.  The involuntary spasms of her rectum milk your " + Desc.Cock.describeCock(player, x) + " for every drop, clenching your member tightly");
 				if (player.torso.cocks.count > 1) {
 					if (player.torso.cocks.count > 2) DisplayText(" while your remaining endowments soak her back thoroughly, covering her in a thick blanket of spunk");
 					else DisplayText(" while your remaining endowment soaks her back thoroughly, covering her in a thick blanket of spunk");
@@ -225,11 +225,11 @@ export class GnollScene {
 			DisplayText("Satisfied, you leave the gnoll to her pleasures, gather your " + player.inventory.equipment.armor.displayName + ", and head back to camp.");
 		}
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//SuckHerClit
-	private suckGnollClit(): void {
+	private suckGnollClit() {
 		DisplayText().clear();
 		DisplayText("Since you first saw this strange anatomy, you knew it needed to be inside you.  You roughly roll her onto her back and pull her long clit up to a vertical position.  She moans softly, and the rough skin beneath your fingers pulses as her arousal brings it harder and taller.  The end bloats larger and fuller, until it might be too wide for your purposes.  Without losing any more time, you lean forward and stuff the clit's end into your mouth.\n\n");
 		DisplayText("The gnoll yelps in surprise and then moans appreciatively as your mouth and tongue roam across her sensitive skin.  Her hips squirm against the hard-baked dirt, tentatively pushing her clit deeper into your mouth.\n\n");
@@ -238,31 +238,31 @@ export class GnollScene {
 		DisplayText("The massive clit-dick then begins to flutter and twitch as the gnoll starts to cum.  Her feet stamp the ground to either side of you and she abruptly screams into the sky.  Her warbling cry then seems to collapse inward, and her entire body slumps to the ground, unconscious.\n\n");
 		DisplayText("You leave her there on the sun-caked ground and head back to camp.");
 		dynStats("lus=", 100);
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//TakeHerClit
-	private takeGnollClit(): void {
+	private takeGnollClit() {
 		DisplayText().clear();
-		DisplayText("You roughly roll her onto her back and pull her long clit up to a vertical position.  She moans softly, and the rough skin beneath your fingers pulses as her arousal brings it harder and taller.  The end bloats larger, fuller, until it might be too wide for your purposes.  You line up your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and lower yourself onto the long, narrow faux-cock.");
-		player.displayStretchVagina(9, true, true, false);
+		DisplayText("You roughly roll her onto her back and pull her long clit up to a vertical position.  She moans softly, and the rough skin beneath your fingers pulses as her arousal brings it harder and taller.  The end bloats larger, fuller, until it might be too wide for your purposes.  You line up your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " and lower yourself onto the long, narrow faux-cock.");
+		Mod.Vagina.displayStretchVagina(player, 9, true, true, false);
 		DisplayText("\n\n");
 		DisplayText("It slithers up your love canal with alacrity, and you quickly find yourself sitting on the gnoll's haunches.  You pump your hips up and down, relishing the feel of the thin spike slipping around within you.  This was not, however, what her anatomy was designed to do, and you can feel her monstrous clitoris flagging within you, collapsing down and denying you your well-deserved fucking.\n\n");
 		DisplayText("\"<i>Hey!</i>\" you shout, and reach forward to slap the gnoll across the face.  Abruptly the clit-dick hardens inside you, even as the girl's face registers little response.  With a smirk, you try it again.  A second hard slap brings the hyena's pseudocock ramrod straight up inside you, and you roll your hips atop her appreciatively.\n\n");
 		DisplayText("Every few strokes, the fake dick starts to fail you and you reach forward to slap her again.  Pump pump slap.  Thrust thrust smack.  Grunt grunt slap.  By the time your body rises up to the quivering summit of orgasm, the gnoll's face is purple with bruises.  You scream your orgasm to the sky, bearing down hard on her hollow clitoris, and come hard enough that you see stars.\n\n");
-		DisplayText("When you can get your feet under yourself again, you stand up, letting the now-shrunken clitoris fall out of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " with a wet plop.  You leave her there on the sun-caked ground and head back to camp.");
+		DisplayText("When you can get your feet under yourself again, you stand up, letting the now-shrunken clitoris fall out of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " with a wet plop.  You leave her there on the sun-caked ground and head back to camp.");
 		player.orgasm();
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	internal function yoDawgIHeardULiekGNollBallzzzdahdakjldh(): void {
+	internal function yoDawgIHeardULiekGNollBallzzzdahdakjldh() {
 		DisplayText().clear();
 		player.inventory.items.consumeItem(consumables.S_DREAM);
 		//[either Gnoll loss, if the player has a succubi's dream in inventory]
 
 		DisplayText("A rolling, harsh laughter surrounds you as you sink to ground, no longer strong enough to remain upright.  The gnoll's mocking bark fills the air as she disposes of your " + player.inventory.equipment.armor.displayName);
 		if (player.weaponName != "fists") DisplayText(" and " + player.weaponName);
-		DisplayText(" with rough motions, the soft pads of her paw-like hands coarsely grasping your " + LowerBodyDescriptor.describeHips(player) + " as much to grope as to strip you.  As she knocks your belongings aside, a small, bulbous bottle rolls out of your pouches, the lurid white fluid sloshing inside like an alabaster stain against the dull browns and greens of the plains.  The hyena-girl pauses in her eagerness to taste the spoils of victory, regarding the stray vial doubtfully.  Her lips curl into a sneer that approaches a smile and she stoops down to retrieve the creamy flask.  Through the panting haze obscuring your vision, you can make out the murky whorls of curious thickness in the cum-colored elixir and you realize that the amazon has found your Succubi's Dream.\n\n");
+		DisplayText(" with rough motions, the soft pads of her paw-like hands coarsely grasping your " + Desc.Hip.describeHips(player) + " as much to grope as to strip you.  As she knocks your belongings aside, a small, bulbous bottle rolls out of your pouches, the lurid white fluid sloshing inside like an alabaster stain against the dull browns and greens of the plains.  The hyena-girl pauses in her eagerness to taste the spoils of victory, regarding the stray vial doubtfully.  Her lips curl into a sneer that approaches a smile and she stoops down to retrieve the creamy flask.  Through the panting haze obscuring your vision, you can make out the murky whorls of curious thickness in the cum-colored elixir and you realize that the amazon has found your Succubi's Dream.\n\n");
 
 		DisplayText("You try to protest the theft, but she casually snaps her leg into a kick that jerks your chin up and the ground rushes to meet the back of your head, white pain exploding before your eyes.  \"<i>All that you have and all that you are belongs to me,</i>\" the hyena-woman snarls.  \"<i>I will take what tribute I see fit.</i>\"  Laughing again, she flicks the cork from your potion and sniffs the concoction with renewed interest.  Her nostrils crinkle at the scent, but she locks her gaze to yours and, in an aggressive, unblinking gesture, throws her head back to swallow the curiously thick ivory fluid.  Discarding the empty glass, she licks her lips as if the refreshingly cool cream merely inflamed a different sort of thirst.\n\n");
 
@@ -273,21 +273,21 @@ export class GnollScene {
 		return { next: yoDawgHyenaBallz2 };
 	}
 
-	private yoDawgHyenaBallz2(): void {
+	private yoDawgHyenaBallz2() {
 		DisplayText().clear();
-		DisplayText("Using the distraction, you roll onto your belly, crawling towards your " + player.inventory.equipment.armor.displayName + ", hoping to use the distraction to make an escape.  Baring your " + ButtDescriptor.describeButt(player) + ", however, proves to be a mistake, as the gnoll fixates on the wobbling orbs, lunging desperately.  She lands atop you, her paws pinning your head and shoulders to the ground as the warmth of her impatient shaft slides between your cheeks, her new scrotum slapping wetly against ");
-		if (player.torso.balls.quantity > 0) DisplayText("your own " + BallsDescriptor.describeBalls(true, true, player));
+		DisplayText("Using the distraction, you roll onto your belly, crawling towards your " + player.inventory.equipment.armor.displayName + ", hoping to use the distraction to make an escape.  Baring your " + Desc.Butt.describeButt(player) + ", however, proves to be a mistake, as the gnoll fixates on the wobbling orbs, lunging desperately.  She lands atop you, her paws pinning your head and shoulders to the ground as the warmth of her impatient shaft slides between your cheeks, her new scrotum slapping wetly against ");
+		if (player.torso.balls.quantity > 0) DisplayText("your own " + Desc.Balls.describeBalls(true, true, player));
 		else DisplayText("your sweat-slick thighs");
-		DisplayText(".  The amazon wastes no time, guiding her monstrous clit to your " + ButtDescriptor.describeButthole(character.torso.butt) + " with gasping pleasure, thrusting the barrel-like pseudo-cock deeply inside your nethers, drawing a cry of penetration from your lips.  The plush interior of your anus parts before her energized clitoris, her cunt flowing with warm lubrication so heavily that its deluge inundates your bowels like a flood of pre-cum.");
-		player.displayStretchButt(30, true, true, false);
+		DisplayText(".  The amazon wastes no time, guiding her monstrous clit to your " + Desc.Butt.describeButthole(character.torso.butt) + " with gasping pleasure, thrusting the barrel-like pseudo-cock deeply inside your nethers, drawing a cry of penetration from your lips.  The plush interior of your anus parts before her energized clitoris, her cunt flowing with warm lubrication so heavily that its deluge inundates your bowels like a flood of pre-cum.");
+		Mod.Butt.displayStretchButt(player, 30, true, true, false);
 		DisplayText("\n\n");
 
 		DisplayText("Roughly, she bucks against your hips, pushing your face against the grass and dirt, moving with relentless speed as she fucks you with every ounce of strength in her well-toned body.  She snarls and cries out, even laughing with a mad desperation, as she plunges her rock-hard joy buzzer into your loins trying to achieve release.  Your struggles are useless against the rutting passion of the hyena-girl, who uses you like a beast in heat.  In mere minutes, her body seizes, muscles straining with the blissful throes of imminent orgasm and you whisper a prayer that she'll be done shortly.  Gnashing her teeth, she hooks both spotted paws around your shoulders and drives her jet-black member into the velvet folds of your clenching asshole, her sweltering cunny gushing with her girl-cum.\n\n");
 
-		DisplayText("Her bucking pauses for a split-second and you can feel her fuzzy balls throbbing against your " + ButtDescriptor.describeButt(player) + ", the stimulation of her fucking filling them with fresh loads, eager to spill into your violated hole.  But, without a passage to let loose the torrent of her sperm with, the gnoll's balls merely swell with unspent passion, lewdly quivering against");
+		DisplayText("Her bucking pauses for a split-second and you can feel her fuzzy balls throbbing against your " + Desc.Butt.describeButt(player) + ", the stimulation of her fucking filling them with fresh loads, eager to spill into your violated hole.  But, without a passage to let loose the torrent of her sperm with, the gnoll's balls merely swell with unspent passion, lewdly quivering against");
 		if (player.torso.balls.quantity > 0) DisplayText(" your distended sac, ballooning with the fatigued flood of the prostate-milking the girl is giving you");
 		else DisplayText(" your sore loins, soaked with the slimy river of the girl's excitement");
-		DisplayText(".  \"<i>N-no! I can't... quite... arg!</i>\" She trembles, unable to cum, before mindlessly starting anew, pistoning into your " + ButtDescriptor.describeButthole(character.torso.butt) + " with renewed vigor.  \"<i>I just! Have to! Fucking! Cum!</i>\" she grunts from between clenched teeth as she slams into you, the waterfall of lubrication from her pussy soaking your " + player.skinFurScales() + " as she wetly slaps her hips into yours in her increasingly desperate assault.\n\n");
+		DisplayText(".  \"<i>N-no! I can't... quite... arg!</i>\" She trembles, unable to cum, before mindlessly starting anew, pistoning into your " + Desc.Butt.describeButthole(character.torso.butt) + " with renewed vigor.  \"<i>I just! Have to! Fucking! Cum!</i>\" she grunts from between clenched teeth as she slams into you, the waterfall of lubrication from her pussy soaking your " + Desc.Skin.skinFurScales(player) + " as she wetly slaps her hips into yours in her increasingly desperate assault.\n\n");
 
 		DisplayText("Again and again, she rushes toward a release, and every time, her balls slosh with overflowing lust, unable to climax yet urging her to greater depravity until even words are too difficult to manage.  Your ravaged body aches under the endless rape.  It's all you can do to work your hands under your hips to masturbate in the blissful pauses while the gnoll's muscles clench in near orgasm, before she slams you back to the dirt for another round.  You lose track of time as your world narrows to the endlessly thrusting shaft of the hyena-girl's massive clitoris and the merciless weight of her ball-slapping, spunk-swollen pouch. Every time you climax, it fuels her mad frenzy until you silently beg your body to shut out the overwhelming sensations, to no avail.  Day fades into night and night into day as the amazon fucks your spasming, shuddering pucker without thought, or pity, or release.\n\n");
 		//[NEXT]
@@ -297,14 +297,14 @@ export class GnollScene {
 		statScreenRefresh();
 	}
 
-	private yoDawgHyenaBallz3(): void {
+	private yoDawgHyenaBallz3() {
 		DisplayText().clear();
 		DisplayText("Finally, you feel the gnoll's clit slide out of your anus as the overly-endowed girl collapses at your side.  Broken utterly, she pants with depraved exhaustion, no strength left to continue pounding your body into the dirt.  Even now, she strokes her massive clit with one spotted paw as the other helplessly massages the basketball-sized testicles that audibly churn with gallons of the girl's jizz.  Finding a reserve of strength you didn't know you had, you rise tenderly and gather your belongings, creeping away before the hyena-girl can get her second wind.");
 		//[24 hours pass, player asshole size increased, sensitivity significantly lowered, toughness lowered temporarily, fatigue maxed, remove one succubi's dream]
 		player.orgasm();
 		player.stats.lib += 2;
 		player.stats.sens += -10;
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	/*
@@ -323,12 +323,12 @@ export class GnollScene {
 
 	 Hyena Spot Effect #2
 	 (if hipRating>0)
-	 You cry out as your pelvis suddenly cave inward, crumpling narrower at the top of your legs to form " + LowerBodyDescriptor.describeHips(player)
+	 You cry out as your pelvis suddenly cave inward, crumpling narrower at the top of your legs to form " + Desc.Hip.describeHips(player)
 	 (decrease hipRating)
 
 	 Hyena Spot Effect #3
 	 (if buttRating>0)
-	 You seem to bounce on your feet as you drop a few pounds in your rear.  With your new, light " + ButtDescriptor.describeButt(player) + ", you feel like you can fly across the plains.
+	 You seem to bounce on your feet as you drop a few pounds in your rear.  With your new, light " + Desc.Butt.describeButt(player) + ", you feel like you can fly across the plains.
 	 (decrease buttRating)
 
 	 Hyena Spot Effect #4

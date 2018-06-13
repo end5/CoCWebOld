@@ -49,7 +49,7 @@ const conditionalOptions =
         issquirter: (char: Character) => (char.torso.vaginas.get(0).wetness >= 4),
         ispregnant: (char: Character) => char.pregnancy.womb.isPregnant(),
         isbuttpregnant: (char: Character) => char.pregnancy.buttWomb.isPregnant(),
-        hasnipplecunts: (char: Character) => char.torso.chest.filter(BreastRow.FuckableNipples).length > 0,
+        hasnipplecunts: (char: Character) => char.torso.chest.find(BreastRow.FuckableNipples),
         canfly: (char: Character) => char.canFly(),
         islactating: (char: Character) => (char.lactationQ() > 0),
         true: () => true,

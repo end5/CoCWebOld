@@ -29,7 +29,7 @@
     */
 
     //Appearance (edited) (C)
-    private appearanceOfLoppe(): void {
+    private appearanceOfLoppe() {
         DisplayText().clear();
         if (Flags.list[FlagEnum.LOPPE_FURRY] === 0) {
             DisplayText("Loppe is a 6'2\" bunny-girl with deep brown eyes set in her pretty face.  Shoulder-length black hair and a pair of snow-white rabbit ears adorn the top of her head, tilted and lying backward to conceal the insides.  Curiously, her face is that of a normal human woman.");
@@ -49,20 +49,20 @@
             DisplayText("\n\nFrom what you recall, her phallus looks like that of a horse; it is 14</i>\" long and about 2.5</i>\" wide.  A heavy sack dangles beneath her sheath.");
             DisplayText("\n\nHer pussy is tight, despite the amount of action she must get; it's a mystery how she manages to keep it that way.  Although if you ask, it would probably just earn you a sultry smile and a wink.");
         }
-        menu();
+        
         MainScreen.addButton(0, "Next", loppeGenericMeetings);
     }
 
 
     //First Meeting (edited) (C)
     //Happens randomly when choosing to go into the bar after 16:00
-    public loppeFirstMeeting(): void {
+    public loppeFirstMeeting() {
         DisplayText().clear();
         DisplayText("Wandering towards the bar, you notice an unusual commotion; there are a lot more people hanging around here than is usual for the time of day.  Feeling curious, you go over to investigate, and ask a bystander what all of this is about.");
         DisplayText("\n\n\"<i>You don't know?  Today we're having a show at the bar.  A dancer is going to be dancing for us.  You should go and have a look, it's very beautiful!</i>\"");
         DisplayText("\n\nDo you watch the show?");
         //[Yes][Not Now][Uninterested]
-        menu();
+        
         MainScreen.addButton(0, "Yes", yesToMeetingLoppe);
         MainScreen.addButton(1, "Not Now", mebbeLaterToLoppe);
         MainScreen.addButton(2, "Uninterested", noLoppeInterest);
@@ -70,40 +70,40 @@
     }
 
     //[=Uninterested=]
-    private noLoppeInterest(): void {
+    private noLoppeInterest() {
         DisplayText().clear();
         DisplayText("Dancers aren't really your thing, and you shake your head.");
         //(disable repeat and NPC)
         Flags.list[FlagEnum.LOPPE_DISABLED] = 1;
-        menu();
+        
         MainScreen.addButton(0, "Next", telAdre.barTelAdre);
     }
 
     //[=Not Now=]
-    private mebbeLaterToLoppe(): void {
+    private mebbeLaterToLoppe() {
         DisplayText().clear();
         DisplayText("You're not really in the mood for this right now, so you leave the bar.");
         //(go to T'A main menu, repeat event in 15 days.)
-        menu();
+        
         MainScreen.addButton(0, "Next", telAdre.telAdreMenu);
     }
 
     //[=Yes=]
-    private yesToMeetingLoppe(): void {
+    private yesToMeetingLoppe() {
         DisplayText().clear();
         Flags.list[FlagEnum.LOPPE_MET] = 1;
         DisplayText("There's no harm in staying a while...");
 
         DisplayText("\n\nYou make your way through the crowd, pushing past the doorway to try and find a table to sit down at.  The place is really jam-packed, and it's not helped by the fact that a small makeshift stage has been set up in the center of the room.  The bartender is working flat-out to provide drinks for all the thirsty people, and you wonder where in the world you'll find a place to sit down and watch.  After a lot of elbowing, narrowly avoiding being stepped on, and small confusions, you manage to find what you think is a good place to watch the 'show'.");
         //--Next--
-        menu();
+        
         MainScreen.addButton(0, "Next", yesToLoppeMeetingTwo);
     }
 
-    private yesToLoppeMeetingTwo(): void {
+    private yesToLoppeMeetingTwo() {
         DisplayText().clear();
 
-        DisplayText(images.showImage("loppe-show-at-bar"));
+        DisplayImage(images.showImage("loppe-show-at-bar"));
         DisplayText("Suddenly the bar goes silent and the lights dim; a figure clad in a white mantle steps onto the stage; discarding the covering with a swift movement, it reveals the comely visage of a bunny-girl - a literal bunny-girl, in that apart from the obvious bunny ears and the hints of rabbit-like legs, she actually looks otherwise human despite the prevalence of anthropomorphic animals in this city.");
 
         DisplayText("\n\nA strange, exotic robe adorned with floral designs decorates her body, and her face is completely white, delicately painted to make her look like a porcelain doll; her eyes are shaded with a red eyeliner and her lips with a crimson lipstick.  The black hair atop her head is done in a small bun, perched just above her flattened bunny ears.  She smiles at her audience and takes a pair of fans out of her long sleeves, opening them and beginning to motion in graceful, fluid movements.  You watch mesmerized as an unusual, but calming, music begins playing in the background; while the small makeshift stage begins to glow with a strange substance, the dancer begins going through her preparatory motions.");
@@ -135,23 +135,23 @@
 
         DisplayText("\n\nYou smile, share your own name in turn and then shake her hand.  It's quite a coincidence to see someone who has the same race as the dancer that was just eyeballing you in the Wet Bitch so soon afterward.  Loppe giggles, then comes clean.  \"<i>Yeah, that was me... did you enjoy the show?  Ah, actually, let's not talk about it here in the street... did you maybe want to come with me to this little bakery I know?  They make a mean carrot cake.</i>\"");
         //[Sure] [Not Really]
-        menu();
+        
         MainScreen.addButton(1, "Not Really", notReallyInterestedInLoppe);
         MainScreen.addButton(0, "Sure", sureBakeryWithLoppe);
     }
     //[=Not Really=]
-    private notReallyInterestedInLoppe(): void {
+    private notReallyInterestedInLoppe() {
         DisplayText().clear();
         DisplayText("You decline, and the girl gives you a look of disappointment.");
         DisplayText("\n\n\"<i>Well, that's... too bad.  Erm, if you change your mind, look me up, ok?  I spend a lot of time in the gym.  Gotta keep fit and maintain my dancer's body!</i>\"  For emphasis, or perhaps enticement, she runs her hands along her frame, flattening the robes to show off her curves... and a suspicious bulge tenting between her legs.  Following your gaze down to it, the girl turns bright red, claps a hand over her crotch and excuses herself, mumbling as she goes.");
 
         DisplayText("\n\n\"<i>Dammit, came on too strong...</i>\"");
-        menu();
+        
         MainScreen.addButton(0, "Next", telAdre.barTelAdre);
     }
 
     //[=Sure=]
-    private sureBakeryWithLoppe(): void {
+    private sureBakeryWithLoppe() {
         DisplayText().clear();
         DisplayText("You consider the time of day, and the girl offering, and decide that it can't hurt.  Loppe smiles and takes your hand, leading you towards a nearby bakery.");
 
@@ -161,7 +161,7 @@
 
         DisplayText("\n\nLoppe shrugs and smiles.  \"<i>I love sweets, and dancing works up an appetite.</i>\"  Then she gives you a seductive glance.  \"<i>You aren't going to deny a dainty-looking bunny-girl her pleasure, are you... sugar?</i>\"  She lets the last word roll off her tongue in a provocative manner.");
 
-        DisplayText("\n\nYou tell her that you aren't, you just didn't expect her to have such an appetite.  With a playful smile, you ask what other not-so-dainty secrets she's hiding; does she burp loudly to show she enjoyed her meal?  Loppe smiles mischievously, \"<i>Oh, my sweet " + player.mf("boy", "girl") + "...  When I get my hands on something I like, I eat it up whole...</i>\"  Slowly, you feel a foot gently glide across your [legs].");
+        DisplayText("\n\nYou tell her that you aren't, you just didn't expect her to have such an appetite.  With a playful smile, you ask what other not-so-dainty secrets she's hiding; does she burp loudly to show she enjoyed her meal?  Loppe smiles mischievously, \"<i>Oh, my sweet " + Desc.Gender.mf(player, "boy", "girl") + "...  When I get my hands on something I like, I eat it up whole...</i>\"  Slowly, you feel a foot gently glide across your [legs].");
 
         //(Low Libido)
         if (player.stats.lib < 33) DisplayText("\n\nWell, now.  This is a different kind of world, indeed, but this feels a little too quick.  You're not sure you're all that comfortable with the bunny-girl feeling you up under the table, cute as she may be.  An awkward silence falls over the both of you as you try to think of a polite way to stop or slow her advances without telling her off... thankfully, the waitress arrives to take your orders.");
@@ -177,12 +177,12 @@
         DisplayText("\n\nLoppe clicks her tongue in disappointment and quietly retracts her foot.  \"<i>You know what I want, sugar.</i>\"  She smiles lasciviously, reinforcing the double entendre behind her apparently innocuous words.");
 
         //(if PC has >= 30 gems)
-        if (player.stats.gems >= 30) {
+        if (player.inventory.gems >= 30) {
             DisplayText("\n\nYou tell the waitress, a fetching young cat-woman, what you'd like, and pull out the thirty gems needed to cover the tab; as mostly specialty items not on the usual menu, the price is a bit higher.");
             //[(corr > 40)
             if (player.stats.cor > 40) DisplayText("  A small voice inside wonders if she'd eat so extravagantly were she footing her own bill.");
             //remove 30 gems
-            player.stats.gems -= 30;
+            player.inventory.gems -= 30;
             statScreenRefresh();
         }
         else {
@@ -194,13 +194,13 @@
 
         DisplayText("\n\n\"<i>... So?</i>\" she carefully asks.  \"<i>I do have a pussy as well, by the way.  I'm hermaphroditic.  This is the part where you can tell me to... fuck off, or go away, or something similar, if you like.  I've dated enough to know when someone isn't into me... and I'm not made of glass; I won't break, so don't worry.</i>\"  Despite her tough display you do notice a bit of moisture gather in her eyes.");
         //[Okay]  [NoWay]
-        menu();
+        
         MainScreen.addButton(0, "StickAround", okayLoppeLetsGo);
         MainScreen.addButton(1, "Go Away", NoWayLoppe);
     }
     //[=NoWay=]
     //Removes Loppe from game.
-    private NoWayLoppe(): void {
+    private NoWayLoppe() {
         DisplayText().clear();
         DisplayText("Loppe lets out a breath she had obviously been holding in a bitter sigh, the ghost of the words, \"<i>I knew it</i>\" echoing faintly as she does so.  \"<i>Well, I understand.  I just had to give it a try all the same.  It was nice talking to you, [name].  Might see you again, someday.  Sorry for wasting your time...</i>\"");
 
@@ -210,7 +210,7 @@
     }
 
     //[=Okay=]
-    private okayLoppeLetsGo(): void {
+    private okayLoppeLetsGo() {
         DisplayText().clear();
         DisplayText("Loppe looks at you, studying you to see if you're mocking her.  But when she detects only honesty, she sighs and breaths a sigh of relief.  \"<i>Sugar, you really are sweet.  I can't tell you the number of times I've been rejected just because I'm a herm... anyways, we can chat later.  Our food is here.</i>\"  She points toward the waitress holding your orders in a tray.  You nod to her in agreement and turn your attention towards the food, ready to savor the sweets.");
 
@@ -218,16 +218,16 @@
 
         DisplayText("\n\n\"<i>Haha, I have no problems with my sex.  It's just coincidence that this kimono is really good at hiding it.</i>\"  Loppe grins at you, then gives you a sultry look.");
 
-        DisplayText("\n\n\"<i>Hey, [name],</i>\" she says quietly, \"<i>you're really " + player.mf("handsome", "beautiful") + ", y'know?  And kind... how about a quick stop at my place, before we say goodbye?</i>\"");
+        DisplayText("\n\n\"<i>Hey, [name],</i>\" she says quietly, \"<i>you're really " + Desc.Gender.mf(player, "handsome", "beautiful") + ", y'know?  And kind... how about a quick stop at my place, before we say goodbye?</i>\"");
 
         //[Yes][No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", yesLoppesHouse);
         MainScreen.addButton(1, "No", noLoppesHouse);
     }
 
     //[=No=]
-    private noLoppesHouse(): void {
+    private noLoppesHouse() {
         DisplayText().clear();
         DisplayText("Loppe gives a disappointed sigh, but smiles at you all the same.  \"<i>I understand... if you ever feel like talking some more, you can find me in the gym.  I need to keep myself in tip-top shape for my dancing shows, after all.</i>\"");
         DisplayText("\n\nShe sighs again, picks up her last cookie, and leaves.");
@@ -236,7 +236,7 @@
     }
 
     //[=Yes=]
-    private yesLoppesHouse(): void {
+    private yesLoppesHouse() {
         DisplayText().clear();
         //Loppe can now be found in the Gym
         DisplayText("The dancer smiles mischievously at you.  \"<i>Wonderful.  I'm going to show you just how great my body looks without this dress.  You wouldn't believe how much time I spend in the gym, working out.</i>\"  Loppe grabs her last cookie in one hand and your arm in the other, leading you away - presumably to her house.  Enroute, she giggles constantly, provoking a question from you.");
@@ -244,7 +244,7 @@
         DisplayText("\n\n\"<i>I always get giddy when I can spend time with a sexy thing like you...</i>\" she replies, \"<i>but I was just recalling some of my earlier encounters.  I should warn you, I tend to get very, and I do mean <b>very</b> carried away during the act.  Things can get pretty intense.</i>\"");
 
         //(Min Lust >= 50)
-        if (player.minLust() >= 50) {
+        if (player.stats.minLust() >= 50) {
             DisplayText("\n\nYou grin and warn her that your appetite is a lot higher than normal; you are usually so aroused that you have no doubt you can go at it a lot more than the average person.");
             DisplayText("\n\nLoppe shoots you a sultry look.  \"<i>Well, sugar, I guess I'll just have to take care of this 'endless lust' of yours, huh?</i>\"  She tightens her hold on your hand and starts walking faster, eager to get you to her place.");
         }
@@ -262,13 +262,13 @@
             DisplayText("\n\nYou bite your lip eagerly, hoping that you haven't gotten in over your head with this girl.");
         }
         //(Continue on \"<i>Sex</i>\")
-        menu();
+        
         MainScreen.addButton(0, "Next", loppeSexChoice, true);
     }
 
     //Generic Meeting (edited) (C)
     //Loppe can be found from 6:00 to 15:00 (yeah she works out like a boss!)
-    public loppeGenericMeetings(): void {
+    public loppeGenericMeetings() {
         DisplayText().clear();
         DisplayText("You decide to approach the bunny-girl.  Loppe smiles and wipes the sweat off her brow with the towel.  \"<i>Hey there, [name], nice seeing you around here.  So... do you want to do something?  Talk, maybe?  Or go to my place for a 'workout'?</i>\" she asks with a smirk.");
         //Appearance
@@ -276,7 +276,7 @@
         //Sex
         //Special Training (Available after talking about \"<i>Your Job</i>\" at least once)
         //Meet Uma (Must have spoken about Loppe's mother and shagged Loppe at least once before.)
-        menu();
+        
         MainScreen.addButton(0, "Appearance", appearanceOfLoppe);
         MainScreen.addButton(1, "Talk", talkWithLoppe);
         MainScreen.addButton(2, "Sex", loppeSexChoice);
@@ -285,14 +285,14 @@
     }
 
     //Talk (edited) (C)
-    private talkWithLoppe(): void {
+    private talkWithLoppe() {
         DisplayText().clear();
         DisplayText("That 'workout' is going to have to be postponed; you have some questions.");
         DisplayText("\n\nLoppe giggles, and her horse-tail waves as she does so.  \"<i>I'd much rather let my body speak for me, but alright.  Let's go to the cafeteria; I could use a break anyway.</i>\"  You follow her and find a seat in a booth on the corner.");
 
         DisplayText("\n\n\"<i>Okay then, what do you want to talk about?</i>\"");
 
-        menu();
+        
         //Loppe
         MainScreen.addButton(0, "Loppe", talkWithLoppeAboutLoppe);
         //Children (available after having sex with Loppe at least once)
@@ -312,7 +312,7 @@
     }
 
     //Loppe (edited) (C)
-    private talkWithLoppeAboutLoppe(): void {
+    private talkWithLoppeAboutLoppe() {
         DisplayText().clear();
         DisplayText("You tell the laquine that you're curious about her, that you'd like to know more about her: who she is, where she comes from, et cetera.");
 
@@ -364,7 +364,7 @@
 
     //Children (edited) (C)
     //req LoppeSexed > 0 and LoppeChat > 0
-    private askLoppeAboutChildren(): void {
+    private askLoppeAboutChildren() {
         DisplayText().clear();
         DisplayText("You decide to ask Loppe for her thoughts on children.  Has she considered having any?");
         DisplayText("\n\n\"<i>Kids, huh?  I suppose I've never given it much thought, but I guess I'd be willing if I ever found the right person, you know?  Don't want a rehash of my mom's story... plus I have my job as a dancer right now.  But I suppose I would like to have children in the future, to give my mom a bunch of grandkids... I'm sure she would like that,</i>\" Loppe finishes with a smile.");
@@ -385,7 +385,7 @@
 
         DisplayText("\n\nYou contemplate that little matter for a moment; how do you feel about kids?");
 
-        menu();
+        
         //[Don't Want][Maybe][Someday][Soon][No Opinion]
         MainScreen.addButton(0, "Don't Want", loppeIDontReallyWantKidsYouStupidTwat);
         MainScreen.addButton(1, "Maybe", loppeKidsAreOkayIfYoureARabbitOrSumthin);
@@ -395,7 +395,7 @@
     }
 
     //[No Opinion] (spacebar default)
-    private noOpinionOnLoppeArt(): void {
+    private noOpinionOnLoppeArt() {
         DisplayText().clear();
         DisplayText("You decline to answer, waving the question off.  Loppe raises an eyebrow at that.  \"<i>Haven't thought about it either, huh?</i>\"");
         DisplayText("\n\n\"<i>Just making conversation,</i>\" you reply.");
@@ -405,7 +405,7 @@
     }
 
     //[=Don't Really Want Them=]
-    private loppeIDontReallyWantKidsYouStupidTwat(): void {
+    private loppeIDontReallyWantKidsYouStupidTwat() {
         DisplayText().clear();
         DisplayText("You confess you aren't really a 'kids' person; you don't think you could ever envision yourself as a parent, especially in this crazy world.");
 
@@ -417,7 +417,7 @@
 
 
     //[=They're Okay=]
-    private loppeKidsAreOkayIfYoureARabbitOrSumthin(): void {
+    private loppeKidsAreOkayIfYoureARabbitOrSumthin() {
         DisplayText().clear();
         DisplayText("You finally announce that you're hardly what you'd call interested in being a parent, but you think that you could eventually see yourself having kids.  You don't think you'd be too upset if one day you found you were going to have a little bundle of joy, but you must admit you probably wouldn't go and try to have kids on purpose.");
         DisplayText("\n\n\"<i>So, you'll just leave that to chance?  Or are you waiting for that someone special as well?</i>\" Loppe asks.");
@@ -426,7 +426,7 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[=Someday=]
-    private loppeIWantKidsSomedayJeezeQuitHasslingMe(): void {
+    private loppeIWantKidsSomedayJeezeQuitHasslingMe() {
         DisplayText().clear();
         DisplayText("You always saw yourself as having children at some point in your future.  Coming through the portal, though, you gave up on that dream; when you first arrived, it seemed like the world had nothing in it but imps and goblins and other twisted monsters - what kind of family could you make with people like that?");
         DisplayText("\n\nLoppe smiles at you. \"<i>I know the world might be a bit screwed up now, but I have hope that everything will go back to normal... or at least close enough.  So... do you have anyone 'dear' to you yet?  Any plans for a family, as of right now?</i>\"");
@@ -436,13 +436,13 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[=Soon=]
-    private loppeIWantKidsSoonOkayCanWeFuck(): void {
+    private loppeIWantKidsSoonOkayCanWeFuck() {
         DisplayText().clear();
         DisplayText("With a faint smile, you declare that having children is definitely in your future.  You want to be a parent; all you need is to find somebody who feels similar to you.");
 
         DisplayText("\n\nLoppe smiles at you.  \"<i>I'm sure you will.  Maybe, if the time is right, I might be willing to help you build you a nice, big family... just maybe.</i>\"  Loppe shoots you a sultry stare.");
         DisplayText("\n\nHmm... is that a suggestion?");
-        DisplayText("\n\nLoppe grins at you.  \"<i>Oh... I don't know.  I'm sure a " + player.mf("handsome", "beautiful") + " person like you has already drawn quite a few stares,</i>\" Loppe teases, batting her eyes at you.  \"<i>But, if the time is right, and you ask nicely... I'm pretty sure there's a certain bunny-girl around here who wouldn't mind...</i>\"");
+        DisplayText("\n\nLoppe grins at you.  \"<i>Oh... I don't know.  I'm sure a " + Desc.Gender.mf(player, "handsome", "beautiful") + " person like you has already drawn quite a few stares,</i>\" Loppe teases, batting her eyes at you.  \"<i>But, if the time is right, and you ask nicely... I'm pretty sure there's a certain bunny-girl around here who wouldn't mind...</i>\"");
 
         DisplayText("\n\nWell, you'll keep that in mind.  Realizing how much time has gone past, you politely excuse yourself.");
 
@@ -454,11 +454,11 @@
     //req LoppeSexed > 0
     //Player can pick the character they want to talk about via buttons; if no options are present, auto-leave.
     //Must also have met the character they want to talk about at least once, and said character must not have been disabled from the game. Otherwise we might have awkward results...
-    private gossipWithLoppe(): void {
+    private gossipWithLoppe() {
         DisplayText().clear();
         DisplayText("You ask Loppe if she has any comments on the other residents of Tel'Adre.  The laquine smiles at you.  \"<i>It's not polite to pry into other people's lives, y'know?</i>\"");
         DisplayText("\n\nLoppe closes her eyes, weighing your request carefully, before replying, \"<i>Even so, I think I'll humor you... I do get to meet all sorts of people in my line of work.  But you'll have to be a bit more specific; why don't you tell me who you'd like to talk about?</i>\"");
-        menu();
+        
         //Build menu - see notes above func name
         //Urta
         MainScreen.addButton(0, "Urta", gossipWithLoppeAboutUrta);
@@ -479,7 +479,7 @@
     }
 
     //Urta:
-    private gossipWithLoppeAboutUrta(): void {
+    private gossipWithLoppeAboutUrta() {
         DisplayText().clear();
         //(if UrtaSex or UrtaLover flags are NOT active)
         if (Flags.list[FlagEnum.TIMES_FUCKED_URTA] <= 0 || Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] === -1) {
@@ -490,14 +490,14 @@
         else if (Flags.list[FlagEnum.LOPPE_URTA_CHATS] === 0) {
             DisplayText("Loppe smirks at you.  \"<i>I heard she's been getting along nicely with a certain outsider; you wouldn't happen to know anything about that, would you, [name]?</i>\"");
             //[It's Me] [No]
-            menu();
+            
             MainScreen.addButton(0, "It's Me", itsMeFuckingUrtaLoppe);
             MainScreen.addButton(1, "No", noLoppeWhosFuckingUrta);
         }
         //(if LoppeUrtaKnowledge > 0)
         else {
             DisplayText("\"<i>Urta again, huh?</i>\"  Loppe stares you, but her curious expression turns into one of smug triumph, like a cat that's caught a mouse.  \"<i>So... she has a big horse-cock.  I'm beginning to see a pattern here, sugar.   You like women with huge equine parts?  Is that why you hang out with me?  With Urta?</i>\"");
-            menu();
+            
             //[Play Along][Admit][Deny]
             MainScreen.addButton(0, "Play Along", playAlongWivLoppesesUrtaGossip);
             MainScreen.addButton(1, "Admit", admitToLoppeThatYouLoveZeHorsecock);
@@ -506,14 +506,14 @@
     }
 
     //[=No=]
-    private noLoppeWhosFuckingUrta(): void {
+    private noLoppeWhosFuckingUrta() {
         DisplayText().clear();
         DisplayText("You shake your head, claiming that you have no idea what she's talking about.  Loppe looks at you, then shrugs, clearly not caring if you don't have any gossip on the subject to share.");
         //end scene
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[=It's Me=]
-    private itsMeFuckingUrtaLoppe(): void {
+    private itsMeFuckingUrtaLoppe() {
         DisplayText().clear();
         //set LoppeUrtaKnowledge = 1
         Flags.list[FlagEnum.LOPPE_URTA_CHATS] = 1;
@@ -533,7 +533,7 @@
     }
 
     //[=Play Along=]
-    private playAlongWivLoppesesUrtaGossip(): void {
+    private playAlongWivLoppesesUrtaGossip() {
         DisplayText().clear();
         DisplayText("And... what would she do if, hypothetically, you <i>did</i> have a fetish for dickgirls ready to give a stallion an inferiority complex?");
         DisplayText("\n\nLoppe gives it some thought.  \"<i>There's not enough paper in Tel'Adre to list the things I would do, sugar.  It'd be a long, hard punishment, but I'm sure we could eventually come - to a mutual understanding.</i>\" Loppe winks at you, laying special emphasis on the last words.");
@@ -554,7 +554,7 @@
     }
 
     //[=Admit=]
-    private admitToLoppeThatYouLoveZeHorsecock(): void {
+    private admitToLoppeThatYouLoveZeHorsecock() {
         DisplayText().clear();
         DisplayText("You look her in the eyes and tell her she's hit the nail on the head; you do have a fetish for chicks with dicks, and having a horsecock makes a dickgirl even sexier to you.");
         DisplayText("\n\n\"<i>Huh.</i>\"  Loppe rubs her chin.  \"<i>Y'know?  I always thought I'd be getting a lover despite my endowments... certainly not because of them.</i>\"");
@@ -573,14 +573,14 @@
         DisplayText("\n\nWell... compared to things like feet, hair, pregnant bellies, chubby people, and more, is it so strange?");
         DisplayText("\n\nLoppe taps her chin in thought.  \"<i>Maybe you're right...</i>\"   Then she dismisses the subject and shoots you a come-hither look, resting her chin on both hands and lowering her eyelids at you.  \"<i>So, sugar, want me to help you enact your wet dreams?  I'm just as happy getting my workout in the comforts of home, y'know... ?</i>\"");
         //[Yes] [No]
-        menu();
+        
         MainScreen.addButton(0, "Yes", loppeSexChoice, true);
         MainScreen.addButton(1, "No", dontLoppesHouse4Fucks);
     }
 
 
     //[Admit -> No]
-    private dontLoppesHouse4Fucks(): void {
+    private dontLoppesHouse4Fucks() {
         DisplayText().clear();
         DisplayText("Loppe raspberries you.  \"<i>You tell me you love herms with big horse cocks and now you won't have sex with me?  You're one big tease, [name].</i>\"");
         DisplayText("\n\nThe dancer finishes her drink and leaves you, with a sly glance out of the corner of her eye.  It's unlikely that you've heard the last of this...");
@@ -589,7 +589,7 @@
     }
 
     //[=Deny=]
-    private denyToLoppeThatYouLoveZeHorsecock(): void {
+    private denyToLoppeThatYouLoveZeHorsecock() {
         DisplayText().clear();
         DisplayText("Not in the mood to play along with Loppe's little game, you simply state that your reasons are your own and will stay that way for now.");
         DisplayText("\n\n\"<i>Aww, sugar.  You're no fun...</i>\" Loppe says, pouting at your refusal to play along with her games.  \"<i>But you're really sweet, so I guess I can forgive you.</i>\"  The dancer gets up and gives you a quick peck on the cheek.  \"<i>I should get back to my training now.  I'll see you later!</i>\"");
@@ -599,7 +599,7 @@
     }
 
     //Scylla:
-    private gossipWithLoppeAboutScylla(): void {
+    private gossipWithLoppeAboutScylla() {
         DisplayText().clear();
         DisplayText("\"<i>The nun who likes sucking on dicks?</i>\" Loppe asks you.  \"<i>Yes, I've run into her at the Wet Bitch.  She offered to blow me too.  I was tempted, y'know?  She has those wonderful looking lips... nice big breasts too... but ultimately I wound up refusing.  It's just... not right.</i>\"");
         DisplayText("\n\nHuh... if there were anyone you'd be willing to bet would gladly accept Scylla's offer, that would be Loppe.");
@@ -610,7 +610,7 @@
     }
 
     //Jasun:
-    private gossipWithLoppeAboutJasun(): void {
+    private gossipWithLoppeAboutJasun() {
         DisplayText().clear();
         DisplayText("\"<i>The male shark living in the pools of the gym?  Oh boy, is he self-obsessed.  He spends his days swimming and bodybuilding; looks almost cubical because of how much time he spends with the weights and things.  He's also an arrogant prat, but fortunately he's easy to ignore and he doesn't go sticking his nose into trouble.  Just brush him off and he's harmless.</i>\"");
         DisplayText("\n\nSounds like Loppe has had to deal with him herself.");
@@ -618,7 +618,7 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private gossipWithLoppeAboutHeckel(): void {
+    private gossipWithLoppeAboutHeckel() {
         DisplayText().clear();
         DisplayText("You ask if Loppe's ever had a run-in with a herm hyena who's usually running in the track at the gym.");
         DisplayText("\n\nAt this, Loppe scowls.  \"<i>Oh, her?  Yeah, I've seen her once or twice.  Thinks she runs the gym.  Alpha bitch my sweet bunny ass...</i>\" she grumbles to herself.  \"<i>Her name's Heckel.  Don't know too much about her except she wandered in from the plains one day; she lives to prove she's stronger than everyone, and she's a real jerkass.  Why do you ask?</i>\"");
@@ -628,7 +628,7 @@
     }
 
     //Edryn:
-    private gossipWithLoppeAboutEdryn(): void {
+    private gossipWithLoppeAboutEdryn() {
         DisplayText().clear();
         DisplayText("\"<i>That pretty centauress watchwoman that hangs in the Wet Bitch when she's off duty?  Yes, it's no secret that she specializes in particular sorts of wetwork for those with... compatible endowments,</i>\" Loppe says, giving you a lecherous wink.");
         DisplayText("\n\nSomething in her look suggests a question to you.");
@@ -637,7 +637,7 @@
     }
 
     //Lottie:
-    private gossipWithLoppeAboutLottie(): void {
+    private gossipWithLoppeAboutLottie() {
         DisplayText().clear();
         DisplayText("\"<i>That pig-girl that started hanging around the gym in the evenings?  I heard about her... I believe she wants to get fit,</i>\" Loppe comments conversationally.");
         //(if PC's training Lottie)
@@ -655,7 +655,7 @@
     }
 
     //Cotton:
-    private gossipWithLoppeAboutCotton(): void {
+    private gossipWithLoppeAboutCotton() {
         DisplayText().clear();
         DisplayText("\"<i>That pretty horse-girl that's always practicing yoga?  Not really, but she looks friendly.  As does that beast in her shorts.</i>\"  Loppe flinches at the memory of it.  \"<i>I'm very familiar with Cotton's not so little friend... though you'll find out that size isn't everything, sugar.  For instance, can she last long enough to fuck every little ounce of energy out of you?  I don't think so...</i>\"");
         DisplayText("\n\nUncharacteristically defensive... perhaps Loppe has a bit of a complex?");
@@ -665,7 +665,7 @@
 
     //Working (edited)
     //req LoppeChat > 0
-    private talkWithLoppeAboutWorking(): void {
+    private talkWithLoppeAboutWorking() {
         DisplayText().clear();
         DisplayText("Her curse naturally impacts her social life, but what about work?  How do she and her mother put food on the table?");
         DisplayText("\n\nLoppe smiles and shakes her head.  \"<i>Well, I am training to become a proficient masseuse and acupuncturist.  Most of my income comes from dancing though, which is why I work so hard to maintain my figure.  But I've always admired mom's work... and if I learned her trade I'd be able to take some weight off her shoulders, plus we'd get to spend more time together.</i>\"");
@@ -681,7 +681,7 @@
     }
 
     //Her Mother (edited)
-    private chatWithLoppeAboutHerMom(): void {
+    private chatWithLoppeAboutHerMom() {
         DisplayText().clear();
         //req LoppeChat > 0
         DisplayText("Loppe rubs her chin, deep in thought.  \"<i>Where do I start?  I guess by saying that my mom is a super mom.  She raised me all on her own, and she's always had time for me, despite having to keep up with her job.  I love her very much.</i>\"");
@@ -702,10 +702,10 @@
 
         if (Flags.list[FlagEnum.LOPPE_PC_MET_UMA] === 0) {
             DisplayText("\n\nSo, if she's so confident that her mom wouldn't disapprove of her daughter's sexual awakening... what about your relationship?\n\n");
-            DisplayText("Loppe looks you over, thoughtful.  \"<i>To be honest... I don't think she would mind.  Want me to introduce you to her?  To become my 'official' " + player.mf("boy", "girl") + "friend?  I know I certainly wouldn't mind having a 'serious' relationship with a cutie like you.</i>\"  The dancer winks at you. \"<i>How about it Sugar, do you wanna go visit my mom?</i>\"");
+            DisplayText("Loppe looks you over, thoughtful.  \"<i>To be honest... I don't think she would mind.  Want me to introduce you to her?  To become my 'official' " + Desc.Gender.mf(player, "boy", "girl") + "friend?  I know I certainly wouldn't mind having a 'serious' relationship with a cutie like you.</i>\"  The dancer winks at you. \"<i>How about it Sugar, do you wanna go visit my mom?</i>\"");
         }
 
-        menu();
+        
 
         if (Flags.list[FlagEnum.LOPPE_PC_MET_UMA] === 0) {
             MainScreen.addButton(0, "Visit Mom", telAdre.umasShop.firstVisitPart1);
@@ -719,7 +719,7 @@
 
     //Her Village (edited)
     //req LoppeChat > 0
-    private chatWithLoppeAboutLoppesVillage(): void {
+    private chatWithLoppeAboutLoppesVillage() {
         DisplayText().clear();
         DisplayText("You ask if Loppe would be willing to tell you about her village.");
         DisplayText("\n\nAt this, Loppe smiles.  \"<i>It was quiet and peaceful.  We lived by a river far from here, on floodplains.  We grew crops, wove linen, made art... we were just your basic nobodies; do no harm to others and all that.  We knew of the demons, but we trusted in our isolation and peaceful ways to keep ourselves from needing armaments.</i>\"  She shakes her head sadly, obviously well aware now of what a foolish belief that was.");
@@ -734,7 +734,7 @@
     }
 
     //Sex
-    private loppeSexChoice(bakery: boolean = false): void {
+    private loppeSexChoice(bakery: boolean = false) {
         DisplayText().clear();
         //First Time Intro (edited)
         if (Flags.list[FlagEnum.LOPPE_TIMES_SEXED] === 0) {
@@ -743,7 +743,7 @@
                 DisplayText("That 'workout' seems like a nice option right now.");
                 DisplayText("\n\nLoppe lifts an eyebrow and smiles at you.  \"<i>Are you sure, sugar?  I tend to get carried away, so it can be pretty intense.</i>\"");
                 //(Min Lust >= 50)
-                if (player.minLust() >= 50) {
+                if (player.stats.minLust() >= 50) {
                     DisplayText("\n\nYou grin and warn her that your appetite is a lot higher than normal; you are usually so aroused that you have no doubt you can go at it a lot more than the average person.");
                     DisplayText("\n\nLoppe shoots you a sultry look.  \"<i>Well, sugar, I guess I'll just have to take care of this 'endless lust' of yours, huh?</i>\" She tightens her hold on your hand and starts walking faster, eager to get you to her place.");
                 }
@@ -809,7 +809,7 @@
             DisplayText("\n\nThe dancer grins and gives you a little peck on the lips.  \"<i>Can't get enough laquine loving, can you?</i>\"");
 
             //(High Min Lust)
-            if (player.minLust() >= 50) {
+            if (player.stats.minLust() >= 50) {
                 DisplayText("\n\nWell, after all, how many people can actually sate your hunger for sex?");
                 DisplayText("\n\nLoppe grins at you.  \"<i>I just knew you'd come back for more.</i>\"  She takes your hand in hers and fairly drags you along, already heading for the door.");
             }
@@ -856,7 +856,7 @@
         }
         //Display sex options
         //[Cowgirl][Frot][TakeVaginal][Boobjob][TakeAnal][Bail]
-        menu();
+        
         //if(Flags.list[FlagEnum.LOPPE_TIMES_SEXED] > 0)
         if (player.torso.cocks.count > 0 && player.stats.lust >= 33) {
             if (player.cockThatFits(loppeCapacity()) >= 0)
@@ -876,9 +876,9 @@
     //Male
     //Cowgirl Cock Ride: (edited)
     //Loppe's vag capacity = 80-100
-    private loppeRidesCocks(): void {
+    private loppeRidesCocks() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-rides-your-cocks"));
+        DisplayImage(images.showImage("loppe-rides-your-cocks"));
         DisplayText("Looking over the hermaphroditic, horse-cocked bunny-girl, you contemplate your options.  You settle yourself ");
         //[(not centaur)]
         if (!player.torso.hips.legs.isTaur()) DisplayText("on her bed, making yourself comfortable, and start suggestively stroking yourself");
@@ -886,7 +886,7 @@
         else DisplayText("cumbersomely on the floor, rolling over and spreading your hindlegs to expose yourself");
         DisplayText(".  Quietly, you ask Loppe how she would feel about indulging her feminine half.");
 
-        DisplayText("\n\n\"<i>I would love to, sugar!</i>\"  Loppe gazes at your " + CockDescriptor.describeMultiCockShort(player) + ".");
+        DisplayText("\n\n\"<i>I would love to, sugar!</i>\"  Loppe gazes at your " + Desc.Cock.describeMultiCockShort(player) + ".");
         //[(2 fit cocks)
         let x: number = player.cockThatFits(loppeCapacity());
         let y: number = player.cockThatFits2(loppeCapacity());
@@ -907,10 +907,10 @@
         DisplayText(" nice and slick.  You gasp in pleasure and surprise as you feel Loppe's erect cock sidle up to yours, helping lube you with its leaking pre. Raising up your hips, you clumsily try to ");
         if (y < 0) DisplayText("slide your shaft against her");
         else DisplayText("pinion her shaft between your");
-        DisplayText(" own, shivering from the sensation of your sensitive " + SkinDescriptor.skin(character) + " against her proud horseflesh, already drooling even though you can plainly feel that it's only half-erect.");
+        DisplayText(" own, shivering from the sensation of your sensitive " + Desc.Skin.skin(character) + " against her proud horseflesh, already drooling even though you can plainly feel that it's only half-erect.");
         if (player.torso.balls.quantity > 0) DisplayText("  Your [balls] gently brush and rub against her own swollen cum-factories, and you can't wait to empty your overfilled sac into her waiting womb.");
 
-        DisplayText("\n\n\"<i>Okay, that's enough foreplay!</i>\" Loppe announces suddenly, eyeing your " + CockDescriptor.describeCock(player, x) + " with a hunger that you never expected to see on her face.  Loppe quickly straddles you, aligning it with her pussy");
+        DisplayText("\n\n\"<i>Okay, that's enough foreplay!</i>\" Loppe announces suddenly, eyeing your " + Desc.Cock.describeCock(player, x) + " with a hunger that you never expected to see on her face.  Loppe quickly straddles you, aligning it with her pussy");
         if (y >= 0) DisplayText("; its neighbor is aimed for her tight rosebud");
         DisplayText(".  \"<i>Itadakimasu!</i>\" Loppe says, licking her lips as she finally slides you home.");
 
@@ -942,20 +942,20 @@
         if (!player.torso.hips.legs.isTaur()) {
             DisplayText("<b>You realize that if you keep holding onto Loppe, you're going to end up with a face covered in herm-cum - if you act quickly, though, you can avoid the impromptu facial.  You could even turn her hose of a cock back on her.</b>");
             //[NoFace] [Facial] [HoseHer]
-            menu();
+            
             MainScreen.addButton(0, "NoFace", loppeRidesYouNoFaceJizz);
             MainScreen.addButton(1, "Facial", loppeRidesYouSpunksInYourEye);
             MainScreen.addButton(2, "HoseHer", loppeRidesYouHoseHer);
         }
         else {
-            menu();
+            
             MainScreen.addButton(0, "Next", loppeRidesYouNoFaceJizz);
         }
         dynStats("lus=", 100, "resisted", false);
     }
 
     //{If NoFace:
-    private loppeRidesYouNoFaceJizz(): void {
+    private loppeRidesYouNoFaceJizz() {
         DisplayText().clear();
         let y: number = player.cockThatFits2(loppeCapacity());
 
@@ -971,7 +971,7 @@
     }
 
     //{If Facial:}
-    private loppeRidesYouSpunksInYourEye(): void {
+    private loppeRidesYouSpunksInYourEye() {
         DisplayText().clear();
         let x: number = player.cockThatFits(loppeCapacity());
         let y: number = player.cockThatFits2(loppeCapacity());
@@ -979,8 +979,8 @@
         DisplayText("You keep your ");
         if (player.torso.hips.legs.isDrider()) DisplayText("legs");
         else DisplayText("arms");
-        DisplayText(" wrapped around your lover, welcoming what's approaching as her horse-prick throbs and her flared tip inflates.  With a rapturous howl the laquine's cumslit opens like a floodgate, spurting jet after jet of cum onto your [chest], [face] and even the wall behind you; her own pillowy breasts and face are splashed with the force of her orgasm.  Her tight pussy contracts, milking your " + CockDescriptor.describeCock(player, x) + " for all its worth");
-        if (y >= 0) DisplayText(", while her anal ring constricts your " + CockDescriptor.describeCock(player, y) + " tightly, intent on holding you in place");
+        DisplayText(" wrapped around your lover, welcoming what's approaching as her horse-prick throbs and her flared tip inflates.  With a rapturous howl the laquine's cumslit opens like a floodgate, spurting jet after jet of cum onto your [chest], [face] and even the wall behind you; her own pillowy breasts and face are splashed with the force of her orgasm.  Her tight pussy contracts, milking your " + Desc.Cock.describeCock(player, x) + " for all its worth");
+        if (y >= 0) DisplayText(", while her anal ring constricts your " + Desc.Cock.describeCock(player, y) + " tightly, intent on holding you in place");
         DisplayText(".");
 
         DisplayText("\n\nThe smell of her juices fills the air and floods your nostrils, the copious cum painting itself over both your bodies in great smears that make things deliciously slick and slippery.  The combination of this stimulus with the expert milking of her wonderfully tight nethers and your own hyper-aroused state renders you unable to hold out any more.  With a great shout of your own, you unleash your orgasm into her waiting depths.");
@@ -989,7 +989,7 @@
     }
 
     //{If HoseHer:
-    private loppeRidesYouHoseHer(): void {
+    private loppeRidesYouHoseHer() {
         DisplayText().clear();
 
         DisplayText("You let go of Loppe, and she gratefully swivels herself fully upright, cock jutting out over your belly - your hand lunges forward and places itself palm upright underneath the shaft, fingers curling around as you push it further up and up until it's pointing, as best you can make it, at her face!  You can feel it throbbing like mad against your fingers, can feel the impressive bulge of semen as it distends her urethra and surges up towards her flared tip.  With an ululation of ecstasy, she literally explodes into orgasm, cum geysering from her cock and squarely into her face, causing her to choke and splutter at the surprise facial, the pearly spooge splattering down her throat and onto her breasts.  With a laugh she shakes her head, closing her eyes and opening her mouth; even as she continues to bounce and buck and grind against you, her cock keeps spurting cum, and she clumsily tries to catch it, eagerly swallowing down mouthful after mouthful.  She's actually quite good at it, but despite her best efforts, her hair, ears, face and breasts end up completely plastered in cum... not that this stops her from milking you with her lower hole");
@@ -999,15 +999,15 @@
     }
 
 
-    private loppeRidesPCCockFinal(): void {
+    private loppeRidesPCCockFinal() {
         let x: number = player.cockThatFits(loppeCapacity());
         let y: number = player.cockThatFits2(loppeCapacity());
 
-        DisplayText(images.showImage("loppe-rides-your-cock"));
-        DisplayText("\n\nYour " + CockDescriptor.describeCock(player, x) + " gushes fluids into her hungry womb");
+        DisplayImage(images.showImage("loppe-rides-your-cock"));
+        DisplayText("\n\nYour " + Desc.Cock.describeCock(player, x) + " gushes fluids into her hungry womb");
         if (y >= 0 || player.torso.vaginas.count > 0) {
             DisplayText(", while ");
-            if (y >= 0) DisplayText("your second " + CockDescriptor.describeCock(player, y) + " just as easily pumps her perverted ass full of baby juice");
+            if (y >= 0) DisplayText("your second " + Desc.Cock.describeCock(player, y) + " just as easily pumps her perverted ass full of baby juice");
             if (y >= 0 && player.torso.vaginas.count > 0) DisplayText(" and ");
             if (player.torso.vaginas.count > 0) {
                 DisplayText("your [vagina] ");
@@ -1025,11 +1025,11 @@
         DisplayText(" around her, pulling her into a post-coital cuddle.  Her wet cock quietly slaps against your belly as she embraces you back, clearly savoring the closeness the same way you are.  However, moments later, you feel Loppe's hips start to twitch, slowly building into more lustful thrustings, seconds before Loppe pushes herself back into a deliberately upright position, her pace building steadily.  With a lusty smile and a mischievous twinkle in her eyes, Loppe looks you straight in the eye as she proclaims, \"<i>It's time for round two, [name]!</i>\"");
 
         //(High libido or High Min lust)
-        if (player.stats.lib >= 70 || player.minLust() >= 50) {
+        if (player.stats.lib >= 70 || player.stats.minLust() >= 50) {
             DisplayText("\n\nYou remember what she told you about her libido and shrug; what's another round, after all?  You're happy to finally have someone capable of sating your endless hunger for sex.  [EachCock] begins to harden again, and the girl on top of you gives you a knowing smile.");
         }
         //(Medium libido or Medium Min lust)
-        else if (player.stats.lib >= 50 || player.minLust() >= 35) {
+        else if (player.stats.lib >= 50 || player.stats.minLust() >= 35) {
             DisplayText("\n\nYou remember what she told you about her libido, but another round?  So soon?  Sighing, you tell Loppe that you just can't handle so much sex in such a short notice; she'd have to at least give you a few moments to recover.");
         }
         else {
@@ -1037,12 +1037,12 @@
         }
 
         DisplayText("\n\nLoppe quietly disentangles herself from your half-staff ");
-        DisplayText(CockDescriptor.describeMultiCockShort(player) + " and slides down your body, pressing her soft, cum-slickened breasts against you.  You moan as the smooth curves of her chest press against [eachCock]; the cum-slick ");
+        DisplayText(Desc.Cock.describeMultiCockShort(player) + " and slides down your body, pressing her soft, cum-slickened breasts against you.  You moan as the smooth curves of her chest press against [eachCock]; the cum-slick ");
         if (Flags.list[FlagEnum.LOPPE_FURRY] === 0) DisplayText("skin");
         else DisplayText("fur");
         DisplayText(" give you the impression of being wrapped in the moist folds of a woman's sex.  As Loppe slides further down you feel her teasingly licking at the tip");
         if (y >= 0) DisplayText("s");
-        DisplayText(" of your " + CockDescriptor.describeMultiCockShort(player) + ".");
+        DisplayText(" of your " + Desc.Cock.describeMultiCockShort(player) + ".");
 
         DisplayText("\n\nThe skillful dance of her warm, wet tongue on the sensitive skin of your post-orgasmic member");
         if (y >= 0) DisplayText("s");
@@ -1057,7 +1057,7 @@
         DisplayText(" the laquine on her nose, leaving you ready to be mounted by her once again.");
 
         DisplayText("\n\n\"<i>I can't remember the last time I've had so much fun with anyone else,</i>\" Loppe whispers, shivering.  \"<i>Now, sugar... it's time for another session, and you'd best be ready for overtime");
-        if (player.minLust() <= 30 && player.stats.lib <= 50) DisplayText("; if I have to stop to tend to you after every coupling, I'll never get these empty");
+        if (player.stats.minLust() <= 30 && player.stats.lib <= 50) DisplayText("; if I have to stop to tend to you after every coupling, I'll never get these empty");
         DisplayText(".</i>\"  She points with a smirk to her swollen balls.  Er... didn't she just blow her load? Her balls look at least as full as, if not fuller than, when you started, and they nearly slosh with eagerness to be rid of their cargo!");
 
         DisplayText("\n\nLoppe straddles you and with a mischievous smirk, she says, \"<i>I'm not stopping until I'm completely satisfied, sugar.  So sit back and relax; this could take some time.</i>\"  She doesn't bother waiting for an answer before she sinks, impaling herself upon your shaft");
@@ -1066,7 +1066,7 @@
 
         DisplayText("\n\n<b>One hour and several orgasms later...</b>");
 
-        DisplayText("\n\n\"<i>Thanks, sugar.  You're the best!  I feel completely satisfied!</i>\" Loppe says, happily smiling and hugging you tightly.  As she snuggles up to you, you can feel the distinct bump of her gravid-looking belly rubbing against your " + SkinDescriptor.skin(character) + "; the cum-filled flesh deforms as the pressure pushes some of the skin-stretching load out of her nethers and further smears the proof of your pleasure on your entwined lower halves, but even so she still looks ready to pop with three or four kids.  You consider answering her, but find that you lack the will to do so... in fact, you lack the energy to do anything at all, Loppe having fucked you until you were shooting blanks");
+        DisplayText("\n\n\"<i>Thanks, sugar.  You're the best!  I feel completely satisfied!</i>\" Loppe says, happily smiling and hugging you tightly.  As she snuggles up to you, you can feel the distinct bump of her gravid-looking belly rubbing against your " + Desc.Skin.skin(character) + "; the cum-filled flesh deforms as the pressure pushes some of the skin-stretching load out of her nethers and further smears the proof of your pleasure on your entwined lower halves, but even so she still looks ready to pop with three or four kids.  You consider answering her, but find that you lack the will to do so... in fact, you lack the energy to do anything at all, Loppe having fucked you until you were shooting blanks");
         //[(if high cum amount)]
         if (player.cumQ() >= 500) DisplayText(" despite your usually messy orgasms");
         DisplayText(".");
@@ -1106,25 +1106,25 @@
     //Obviously, PC needs a cock.
     //For tentacle variant, you need a tentacle cock 14</i>\" long or more.
     //Not available to centaurs.
-    private loppeWorshipsDicks(): void {
+    private loppeWorshipsDicks() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-worships-your-cock"));
+        DisplayImage(images.showImage("loppe-worships-your-cock"));
         DisplayText("As your eyes sweep over the naked half-breed's form, they focus on her equine masculinity, already standing proud and eager at the prospect of sex.  Distinctly aware of your own male appendage");
         if (player.torso.cocks.count > 1) DisplayText("s");
         DisplayText(", you conversationally ask Loppe what she thinks of your [cock biggest], an idea starting to form in your mind.");
 
         //(if cock area <= 17.5)
-        if (player.torso.cocks.biggestCocks[0].area <= 17.5) {
+        if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area <= 17.5) {
             DisplayText("\n\n\"<i>What do I think about your dick?  Well... it's much smaller than my own, but it's cute.  And to be honest I wouldn't mind having it fill me up, even if you won't be able to go that deep.</i>\"");
             DisplayText("\n\nLoppe laughs.  \"<i>Or, were you thinking I'd care about who has the biggest dick between us?  As long as you can hump me till I blow a load of my own, I'm fine.  And, to be entirely honest, lately I find myself getting off on anything... so, as long as you don't mind a little tussle in the bed, I certainly don't mind getting on with a cutie like you.</i>\"  She winks and blows you a kiss.");
         }
-        else if (player.torso.cocks.biggestCocks[0].area <= 35) {
+        else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area <= 35) {
             DisplayText("\n\n\"<i>What do I think about your dick?  Well, it's about the same size as mine, which is good, I think... and it looks hard too.  I can see the veins bulge each time it throbs.  Looks tasty... and I wouldn't mind having something like that inside me.</i>\"  She nods appreciatively.");
         }
         else { //cock area > 35
             DisplayText("\n\n\"<i>What do I think about your dick?  Well... it's huge!  So big, hard and juicy - that's a cock I can really get my hands around.  To be honest with you, I'm having a hard time not taking it for a spin.  Such a wonderful looking member... ");
             //[(if cock area > Loppe's capacity)
-            if (player.torso.cocks.biggestCocks[0].area > loppeCapacity()) DisplayText("even if it does look too big to fit.");
+            if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area > loppeCapacity()) DisplayText("even if it does look too big to fit.");
             else DisplayText("or maybe I should get a taste first?");
             DisplayText("</i>\"  She licks her lips.");
         }
@@ -1171,10 +1171,10 @@
         DisplayText("\n\n\"<i>You're the best, sugar.</i>\"  You simply nod, too dazed to really listen.  She humps you a couple more times, noting your softening member.  Giggling, she says,  \"<i>It's too early for you to go soft on me, [name].  I still have a lot of appreciation to show you... and I'm sure you still want to show your appreciation for me too.  So get ready for round two!</i>\"  She leers at you, licking her lips in blatant anticipation.");
 
         //Low Libido:
-        if (player.stats.lib < 33 && player.minLust() < 30) DisplayText("\n\nYou groan from the depths of your throat; Loppe and her libido...");
+        if (player.stats.lib < 33 && player.stats.minLust() < 30) DisplayText("\n\nYou groan from the depths of your throat; Loppe and her libido...");
 
         //{Moderate Libido:
-        else if (player.stats.lib < 66 && player.minLust() < 50) DisplayText("\n\nWith a wince of equal parts anticipated pleasure and pain, you ready yourself for a long session.");
+        else if (player.stats.lib < 66 && player.stats.minLust() < 50) DisplayText("\n\nWith a wince of equal parts anticipated pleasure and pain, you ready yourself for a long session.");
         //High Libido:
         else DisplayText("\n\nYour fatigue ebbs away, chased off by your eagerness for more of the incredible sex you just had.");
 
@@ -1196,9 +1196,9 @@
 
     //Female
     //Get Vagina-Fucked: (edited)
-    private getFuckedInYerTwatYaCunt(): void {
+    private getFuckedInYerTwatYaCunt() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-sticks-it-in-your-vagoo"));
+        DisplayImage(images.showImage("loppe-sticks-it-in-your-vagoo"));
         DisplayText("As you contemplate the delicious possibilities that the herm presents, your eyes are drawn to her admirable piece of horse-meat.  With a half-grin, you settle yourself on her bed, ");
         //[(mans)
         if (!player.torso.hips.legs.isTaur()) DisplayText("spreading your labia in an invitation that needs no words.");
@@ -1211,7 +1211,7 @@
         DisplayText(" that I intend to fill up with my laquine love.</i>\"  She wastes no time and pounces on the bed, ready to bury her face between your [legs], licking her lips while taking deep breaths to inhale as much of your pheromones as she can.  You blink at the speed with which she moves, but smile, repositioning yourself to give her better access");
         //[(herm non-horse)
         if (player.gender === Gender.HERM && !player.torso.hips.legs.isTaur()) {
-            DisplayText(", though she needs to move aside " + CockDescriptor.describeMultiCockSimpleOne(player) + " ");
+            DisplayText(", though she needs to move aside " + Desc.Cock.describeMultiCockSimpleOne(player) + " ");
             if (player.torso.balls.quantity > 0) DisplayText("and [balls] ");
             DisplayText("to really get at your cunt");
         }
@@ -1222,7 +1222,7 @@
         if (!player.torso.hips.legs.isTaur() && player.gender === Gender.HERM) {
             DisplayText(", under your ");
             if (player.torso.balls.quantity > 0) DisplayText("[sack]");
-            else DisplayText(CockDescriptor.describeMultiCockShort(player));
+            else DisplayText(Desc.Cock.describeMultiCockShort(player));
             DisplayText(",");
         }
         DisplayText(" to lick and kiss your sensitive labia.  You arch your back and thrust your crotch at her, letting the laquine have your precious pussy to taste and suckle and ravage... she's pretty good with that tongue of hers.  Loppe lifts her head and wipes her face with her arm.  \"<i>I'm even better with this,</i>\" she says, mirroring your thoughts and holding her painfully erect equine-shaft.  You watch as it throbs, every vein bulging visibly, balls engorged as they churn up a load of cum to deposit in your waiting womb.  She ducks to take another lick, tasting you like one tastes a fine wine.");
@@ -1255,7 +1255,7 @@
         else if (player.vaginalCapacity() < 35) DisplayText(", forcing your entrance wide to accommodate herself");
         DisplayText(".");
         //cuntchange, but suppress standard messages
-        player.displayStretchVagina(35, true, true, false);
+        Mod.Vagina.displayStretchVagina(player, 35, true, true, false);
 
         DisplayText("\n\n\"<i>Ah, It feels even better than it tastes...</i>\" Loppe says airily as she begins humping you, her powerful hips working to bring both of you closer to the edge and beyond.");
         //[(not horse)
@@ -1264,7 +1264,7 @@
         DisplayText("\n\nLoppe's technique is exquisite; she gyrates her hips with each thrust, making sure to press her flare against that special spot inside you that makes you scream in pleasure, once she sees your reaction, she deliberately drags her tip across it with each pass, depositing huge amounts of pre.");
 
         DisplayText("\n\nYou hiss and shudder, writhing across the bedsheets as your lover works her magic on you, filling you with pleasure.  Juices flow wet and thick from your pussy");
-        if (player.torso.cocks.count > 0) DisplayText(", precum begins to drool from your " + CockDescriptor.describeMultiCockShort(player));
+        if (player.torso.cocks.count > 0) DisplayText(", precum begins to drool from your " + Desc.Cock.describeMultiCockShort(player));
         DisplayText(".");
 
         //Not Centaur:
@@ -1321,7 +1321,7 @@
         DisplayText("\n\n\"<i>Oh, you're awake.  Great!  I brought something to eat,</i>\" Loppe says, casually walking towards you with a tray containing a sandwich and some milk.");
 
         DisplayText("\n\nYour belly rumbles, reminding you that even if you don't look like it, you still just woke up after a marathon sex session, and you gratefully accept her offer of food.");
-        if (silly()) DisplayText("  \"<i>Da! Sandvich is kredit to team!</i>\"");
+        if (User.settings.silly()) DisplayText("  \"<i>Da! Sandvich is kredit to team!</i>\"");
 
         //(First Time)
         if (Flags.list[FlagEnum.LOPPE_TIMES_SEXED] === 0) {
@@ -1336,7 +1336,7 @@
 
         DisplayText("\n\nYou think it over, but then laugh and turn her down; just how can you trust her not to follow you into the bath and stuff you so full you can't get out of it?");
         //[Libido >=50:
-        if (player.stats.lib >= 50 || player.minLust() >= 30) DisplayText("  Not that you didn't just titillate yourself thinking of it...");
+        if (player.stats.lib >= 50 || player.stats.minLust() >= 30) DisplayText("  Not that you didn't just titillate yourself thinking of it...");
         DisplayText("  Your lover laughs, \"<i>Okay, you got me there... but, anyway, I have some chores to run for my mom, so I guess I'll see you later?</i>\"");
 
         DisplayText("\n\nYou slide out from beneath the covers and start redressing yourself.  Once you're done, Loppe steals a quick peck on the lips before you head out.");
@@ -1353,9 +1353,9 @@
 
     //Any(C)
     //Get Ass-Fucked, for not horses: (edited)(C)
-    private getButtFuckedNonHoarseByLoppe(): void {
+    private getButtFuckedNonHoarseByLoppe() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-sticks-it-in-your-butt"));
+        DisplayImage(images.showImage("loppe-sticks-it-in-your-butt"));
         DisplayText("You swallow as your eyes are drawn to the equine sausage jutting out between the bunny-girl's legs, and know you just have to have it.  Slowly, you spread yourself upon Loppe's bed, scooting up toward the head and pillows and kneeling, [butt] in the air, inviting the laquine to do with you as she will.");
 
         DisplayText("\n\nLoppe giggles.  \"<i>So you want it that way, huh?  You sure about this, sugar?</i>\"");
@@ -1394,7 +1394,7 @@
 
             DisplayText("\n\nHaving said that, she begins to push against your tightly-sealed sphincter, slowly increasing the pressure until her flared tip finally pops in.  You try to relax, like she said, but still can't restrain a soft groan of pleasure-pain as she forces her way inside of you, stretching you in a way you know you'll never completely recover from.");
             //insert anal virginity loss message
-            player.displayStretchButt(35, true, true, false);
+            Mod.Butt.displayStretchButt(player, 35, true, true, false);
             DisplayText("\n\nOnce inside, Loppe slowly slides forward, aided by the lube you've poured on her shaft earlier, until she's as far in as she's going to get.");
         }
         //(else if Anal Looseness < 3)
@@ -1405,13 +1405,13 @@
 
             DisplayText("\n\nYou manage to look at her over your shoulder and tell her it's no fun for your partners if you let yourself get too stretched out; you take good care of yourself.  Loppe leers at you.  \"<i>Don't worry, sugar. I'll take very good care of you, too.</i>\"  She licks her lips salaciously at the thought of what she intends.");
             DisplayText("\n\nYour eyes twinkle with eagerness; as much fun as banter is, you're waiting for the hard rod in your ass to start moving.  Loppe smiles back and gently humps you, sliding herself in inch by inch until she's as deep in your tight confines as she'll go.  You just purr in pleasure, wiggling your ass back into her crotch in appreciation.");
-            player.displayStretchButt(35, true, true, false);
+            Mod.Butt.displayStretchButt(player, 35, true, true, false);
         }
         else {
             DisplayText("\n\nLoppe presses her flared head against your [butt] and gasps in surprise as her tip all but glides inside without a hitch.  You croon in delight at the welcome feeling of cock up your trained ass once more.  \"<i>Whoa, sugar.  I can see you really enjoy some butt-fun.</i>\"");
             DisplayText("\n\nHaving an enormous cock and a libido as large as she claims, you would think she'd be pretty used to stimulating herself with a little ass-play as well.  \"<i>Of course I do, once in a while, but I'm not nearly as loose as you are.  But I won't lie and say this doesn't feel good; it's like a moist little pussy...</i>\" Loppe retorts.");
             DisplayText("\n\nWell, in that case, surely Loppe knows what to do.  You push back against her, sliding several more inches into yourself, and Loppe giggles.  \"<i>Of course I do, sugar.</i>\"  She bucks her hips into you, quickly hilting herself within your gaping, accommodating ass.  You gasp in pleasure and surprise as you suddenly find yourself filled with Loppe's equine-prick, moaning audibly as Loppe settles inside you, and turn to smile at her, eager to see what she can do once she really gets going.");
-            player.displayStretchButt(35, true, true, false);
+            Mod.Butt.displayStretchButt(player, 35, true, true, false);
         }
         DisplayText("\n\nLoppe grabs your [hips], leaning over your back to whisper into your ear.  \"<i>Should I get started, sugar?  Or do you want me to wait while you get used to me?</i>\"");
 
@@ -1520,9 +1520,9 @@
 
     //Get Ass-Fucked: Centaur Enhanced Edition (edited)(C)
     //Replaces the normal anal scene in case you're a centaur.
-    private getAssFuckedByLoppeAsACentaur(): void {
+    private getAssFuckedByLoppeAsACentaur() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-sticks-it-in-your-butt-you-centaur"));
+        DisplayImage(images.showImage("loppe-sticks-it-in-your-butt-you-centaur"));
         DisplayText("You swallow as your eyes are drawn to the equine sausage jutting out between the bunny-girl's legs, and know you just have to have it.  But is she confident in her ability, even with your shape?");
 
         DisplayText("\n\n\"<i>Confident enough,</i>\" she replies, winking at you.  \"<i>I'm not some blushing virgin, after all.  You're hardly the first centaur who wanted to take a shot at me, sugar.</i>\"");
@@ -1547,7 +1547,7 @@
 
             DisplayText("\n\nHaving said that, she begins to push against your tightly-sealed sphincter, slowly increasing the pressure until her flared tip finally pops in.  You try to relax, like she said, but still can't restrain a soft groan of pleasure-pain as she forces her way inside of you, stretching you in a way you know you'll never completely recover from.");
             //insert anal virginity loss message
-            player.displayStretchButt(35, true, true, false);
+            Mod.Butt.displayStretchButt(player, 35, true, true, false);
 
             DisplayText("\n\nOnce inside, Loppe slowly slides forward, aided by the lube you've poured on her shaft earlier, until she's as far in as she's going to get.");
         }
@@ -1558,7 +1558,7 @@
 
             DisplayText("\n\nYou manage to look at her over your shoulder and tell her it's no fun for your partners if you let yourself get too stretched out; you take good care of yourself.  Loppe leers at you.  \"<i>Don't worry, sugar. I'll take very good care of you, too.</i>\"  She licks her lips salaciously at the thought of what she intends.");
             DisplayText("\n\nYour eyes twinkle with eagerness; as much fun as banter is, you're waiting for the hard rod in your ass to start moving.  Loppe smiles back and gently humps you, sliding herself in inch by inch until she's as deep in your tight confines as she'll go.  You just purr in pleasure, wiggling your ass back into her crotch in appreciation.");
-            player.displayStretchButt(35, true, true, false);
+            Mod.Butt.displayStretchButt(player, 35, true, true, false);
         }
         else {
             DisplayText("\n\nLoppe presses her flared head against your [butt] and gasps in surprise as her tip all but glides inside without a hitch.  You croon in delight at the welcome feeling of cock up your trained ass once more.  \"<i>Whoa, sugar.  I can see you really enjoy some butt-fun.</i>\"");
@@ -1622,7 +1622,7 @@
 
         DisplayText("\n\nYou would say something if you weren't so tired after the multiple orgasms.  You feel completely battered... also, satisfied.  Quite tired too.  Your whole body feels bloated with laquine seed and for a moment you wonder how you'll be able to fit out the door again.  But right now, sleep is more important.  You set down on the floor and close your eyes, intent on getting some rest.");
 
-        DisplayText("\n\n\"<i>[name]?  [name], are you... oh.</i>\"  Loppe smiles as she sees you've dozed off.  Quietly she slips away to the bed and pulls off her blanket, moving around to carefully seat herself against your bloated stomach, draping her blanket over the both of you and gently resting her head on your distended horse-gut.  \"<i>Sweet dreams, lover-" + player.mf("boy", "girl") + ",</i>\" she stage-whispers to you, then closes her eyes, just as eager for some rest, listening to the gurgling of your flooded stomach as she drifts off.");
+        DisplayText("\n\n\"<i>[name]?  [name], are you... oh.</i>\"  Loppe smiles as she sees you've dozed off.  Quietly she slips away to the bed and pulls off her blanket, moving around to carefully seat herself against your bloated stomach, draping her blanket over the both of you and gently resting her head on your distended horse-gut.  \"<i>Sweet dreams, lover-" + Desc.Gender.mf(player, "boy", "girl") + ",</i>\" she stage-whispers to you, then closes her eyes, just as eager for some rest, listening to the gurgling of your flooded stomach as she drifts off.");
 
         DisplayText("\n\n<b>Two hours later...</b>");
 
@@ -1670,9 +1670,9 @@
 
     //SqueezeDick: (edited)(C)
     //LoppeSexed must be true.
-    private loppeSqueezedickWhateverThatIs(): void {
+    private loppeSqueezedickWhateverThatIs() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-orgazm-denial"));
+        DisplayImage(images.showImage("loppe-orgazm-denial"));
         //(if LoppeDenial === 0)
         if (Flags.list[FlagEnum.LOPPE_DENIAL_COUNTER] === 0) {
             DisplayText("After seeing Loppe's prodigious output, you wonder how she would handle not being able to orgasm.");
@@ -1696,7 +1696,7 @@
             DisplayText("\n\nWith a wry smile, you hold out a hand in response to her question, curling it into a half-clenched fist.  Loppe follows curiously, then blenches when you squeeze it shut, looking quite queasy.  She looks at you with a sort of apologetic horror.");
             DisplayText("\n\n\"<i>I don't know, sugar.  I'm still a bit sore from last time... maybe we can do it after I've had some more time to recover?</i>\"");
             //Display Sex Options.
-            menu();
+            
             MainScreen.addButton(4, "Back", loppeSexChoice);
             return;
         }
@@ -1745,23 +1745,23 @@
         if (player.stats.cor < 50) {
             DisplayText("  You loosen your grip; this was supposed to be pleasurable, not painful, so it's definitely time to stop.");
             //Goto [Let Go]
-            menu();
+            
             MainScreen.addButton(0, "Let Go", letsLoppeGoCum);
             MainScreen.addButton(1, "Hold", superLoppeOrgasmDenialGo);
         }
         //(High Corruption, no new pg)
         else {
             DisplayText("  You suppose you could let her go... on the other hand, it might be fun to see just how big she'll get if you keep holding her in.");
-            menu();
+            
             MainScreen.addButton(0, "Let Go", letsLoppeGoCum);
             MainScreen.addButton(1, "Hold", superLoppeOrgasmDenialGo);
         }
     }
 
     //[=Let Go=]
-    private letsLoppeGoCum(): void {
+    private letsLoppeGoCum() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-comes-after-orgasm-denial"));
+        DisplayImage(images.showImage("loppe-comes-after-orgasm-denial"));
         DisplayText("As your fingers slacken on the laquine's straining shaft, they're practically pushed away by the violent force of long-delayed ejaculation, which rockets out of her horse-cock with immense speed and volume as you back away.  For an instant you almost think like she's going to punch a hole through the wall.  She screams, both in pleasure and relief as she fountains cum like a perverted geyser.  Spooge flies through the air, spilling all over the room; you manage to avoid the brunt of it, but some droplets inevitably hit you.");
         DisplayText("\n\nOnce she is done, all Loppe can do is smile goofily at you, dizzy due to her explosive climax.  \"<i>Why are you spinning?</i>\" she asks, disjointedly.");
         DisplayText("\n\nYou look around at the room, cum dripping wetly from the ceiling, puddling inches deep on the floor... maybe her mother should have installed drains in her bedroom.");
@@ -1787,9 +1787,9 @@
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[=Hold=]
-    private superLoppeOrgasmDenialGo(): void {
+    private superLoppeOrgasmDenialGo() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-comes-after-moar-orgasm-denial"));
+        DisplayImage(images.showImage("loppe-comes-after-moar-orgasm-denial"));
         DisplayText("For fear of not being able to hold her back anymore, you return both hands to tightly gripping her shaft.  Tears escape Loppe's eyes as she's denied yet again.  \"<i>Stop...</i>\" she says meekly.");
 
         DisplayText("\n\nYou give her shaft a few more strokes, prompting another chain reaction of orgasms, and another, and another.  By the time you've stopped drawing them out, Loppe's balls look so inflated you doubt she'd be able to touch the floor, were she to stand.  With one last stroke, you release and watch as the laquine gasps, screaming soundlessly as a veritable eruption of cum splashes violently against the wall, instantly painting the entirety of the room cum white, including both occupants.  But one layer is not enough... the obscene volcano of jism continues to paint in layer after layer, and you're unable to protect anything but your eyes from the white rain showering your naked form.");
@@ -1832,9 +1832,9 @@
 
     //Boobjob Loppe: (edited, pending boob size decision)(C)
     //Needs DD-(cup) boobs.
-    private boobjobLoppe(): void {
+    private boobjobLoppe() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-give-her-a-titty-fuck"));
+        DisplayImage(images.showImage("loppe-give-her-a-titty-fuck"));
         DisplayText("You contemplate your options, unthinkingly rubbing your breasts.  As you do so, you notice your lover is observing your hands very keenly.  With a grin, you grope your tits and ask if Loppe likes your display.");
         DisplayText("\n\n\"<i>Jiggly... wait, what?  What was the question?</i>\"");
 
@@ -1852,7 +1852,7 @@
 
         DisplayText("\n\nLoppe can't resist humping you slightly.  \"<i>Sugar, you're so soft...</i>\"  Smiling wanly, you grab your [chest] and do your best to wrap around her horse-dick, pinning the shaft inside.  \"<i>I love it!  Don't stop!</i>\" the girl moans in pleasure.");
 
-        DisplayText("\n\nEmboldened, you clasp your breasts firmer together and start to rise and fall, slowly scraping your " + SkinDescriptor.skin(character) + " up and down the half-breed's prick.  It feels so hot and firm against your chest, growing increasingly damp as Loppe oozes gouts as voluminous as the cumshots of ordinary men, making your breasts and her prick alike equally slippery and enabling you to stroke her faster and faster. \"<i>K-keep that up and I'm gonna shoot anytime,</i>\" Loppe groans, trying to hump into your cleavage.");
+        DisplayText("\n\nEmboldened, you clasp your breasts firmer together and start to rise and fall, slowly scraping your " + Desc.Skin.skin(character) + " up and down the half-breed's prick.  It feels so hot and firm against your chest, growing increasingly damp as Loppe oozes gouts as voluminous as the cumshots of ordinary men, making your breasts and her prick alike equally slippery and enabling you to stroke her faster and faster. \"<i>K-keep that up and I'm gonna shoot anytime,</i>\" Loppe groans, trying to hump into your cleavage.");
 
         //[(Normal/Naga tongue)
         if (player.torso.neck.head.face.tongueType < TongueType.DEMONIC) DisplayText("\n\nYou bend your head and lean down, letting your tongue flick out of your lips and slide gently across the flared head of Loppe's horse-prick, seductively tasting the sweet-salty flavor of her pre.  \"<i>Ah!  Hmm... I seriously hope you like the taste, because you're getting a faceful anytime now!</i>\"  Loppe moans.");
@@ -1880,7 +1880,7 @@
             DisplayText("\n\n\"<i>Aaaah...</i>\"  Loppe sighs, shooting her last (you hope) orgasm down your throat.  Finally, after what seems like an eternity, she withdraws from your mouth and falls nervelessly to lie beside you.  \"<i>Hmm... you look so sexy when you're full, sugar,</i>\" she idly comments, rubbing your amazingly distended belly and making her many mouthfuls of cum swish and churn underneath the skin in response to her motions.");
 
             DisplayText("\n\nAny pithy retorts you might have had are drowned out by a belch hard enough to make Loppe's ears flap about as if blown by a strong breeze, the laquine wrinkling her nose as she gets hit in the face by the fumes of your cum-soaked breath.  \"<i>Err... did I do that?</i>\" she asks, smiling nervously");
-            if (silly()) DisplayText(".  You can't help but think of Family Matters");
+            if (User.settings.silly()) DisplayText(".  You can't help but think of Family Matters");
             DisplayText(".  You simply nod and groan, hands cradling your distended gut.  Loppe snuggles up against you, rubbing your bloated midriff.  \"<i>Sorry about that... hmm, how about we just cuddle and rest?</i>\"");
 
             DisplayText("\n\nWith one last belch for confirmation and possibly chastisement, you allow the herm bunny-hybrid to snuggle up against you, close your eyes, and try to doze off whilst ignoring the complaints of your over-stretched stomach.");
@@ -1907,7 +1907,7 @@
 
             DisplayText("\n\n\"<i>Hey, sugar?  Mind cuddling with me?  Just a bit?</i>\" she asks, still soaking in her puddle of cum.  She's all slimy and sticky, and your reaction must be apparent in your face.  \"<i>Aww.... come on?  It's not like you're in a better state yourself...</i>\"");
 
-            DisplayText("\n\nLooking at your own " + player.skinFurScales() + ", now off-white from the glazing she's given you inadvertently, you concede the point to yourself.  Still...");
+            DisplayText("\n\nLooking at your own " + Desc.Skin.skinFurScales(player) + ", now off-white from the glazing she's given you inadvertently, you concede the point to yourself.  Still...");
 
             DisplayText("\n\n\"<i>Pleaaase?</i>\" she asks, giving you her best doe eyes.");
 
@@ -1937,9 +1937,9 @@
     }
 
     //Leave (edited)
-    private beATeaseAndLeaveLoppeAfterSexInvite(): void {
+    private beATeaseAndLeaveLoppeAfterSexInvite() {
         DisplayText().clear();
-        DisplayText(images.showImage("loppe-teaze-and-leave"));
+        DisplayImage(images.showImage("loppe-teaze-and-leave"));
         DisplayText("Despite the hybrid beauty standing stark naked before you, you decide that you aren't in the mood after all.");
 
         DisplayText("\n\nLoppe shoots you a look of annoyance and disappointment.  \"<i>Well, if you really don't want to do anything, there's nothing I can do.  But nevertheless, that was very mean of you, [name]; teasing a poor, innocent laquine with the promise of sex...</i>\"  She pouts exaggeratedly, possibly hoping you'll relent.");
@@ -1956,13 +1956,13 @@
 
         DisplayText("\n\nYou nod your head, quietly redress yourself, and exit.");
         dynStats("lus", 5 + randInt(5));
-        menu();
+        
         MainScreen.addButton(0, "Next", telAdre.telAdreMenu);
     }
 
     //Fondle&Tease (rewritten and edited)(C)
     //req LoppeChat > 1
-    private fondleAndTease(output: boolean = true): void {
+    private fondleAndTease(output: boolean = true) {
         if (output) {
             DisplayText().clear();
             DisplayText("You lean in over the table and tell Loppe you'd like to talk about her.  She looks vaguely confused.  \"<i>Well, I already told you about everything I can think of.  Was there something you wanted to explore in more detail?</i>\"");
@@ -1984,14 +1984,14 @@
             DisplayText("\n\nYou contemplate your options; you could just run away and leave her to calm down.  On the other hand, you could help.  But, take her home?  Why?  It might be more fun to see if you can keep stroking her until she busts her pants <i>and</i> her nut.  Or else you could be nice and cut her a deal under the table.");
         }
         //[Suck] [Handjob] [Kiss&Run]
-        menu();
+        
         MainScreen.addButton(0, "Suck", teaseLoppeNSuck);
         MainScreen.addButton(1, "Handjob", teaseLoppeNHJ);
         MainScreen.addButton(2, "KissNRun", teaseLoppeKissRun);
     }
 
     //Handjob (edited)(C)
-    private teaseLoppeNHJ(): void {
+    private teaseLoppeNHJ() {
         DisplayText().clear();
         DisplayText("You know exactly how to help her with her problem.  Loppe looks at you and gives a quizzical little smile.  \"<i>Uh... yeah, I kind of know how you can help me too.  Why do you say that?</i>\" She asks, clearly baffled and obviously expecting you to lead her out of the cafe and back to her place for some quick nookie.");
         DisplayText("\n\nYou smile mischievously as your hand darts under the table to bat her own away and give her wild stallion a little pinch.  \"<i>W-what are you thinking?  We're exposed here!</i>\" she yelps, sounding surprisingly shy for someone normally so confident in the bedroom.  \"<i>Y-yes, I'd like being touched more, but... not here!  There are people all around!</i>\"");
@@ -2053,7 +2053,7 @@
     }
 
     //Suck (edited)(C)
-    private teaseLoppeNSuck(): void {
+    private teaseLoppeNSuck() {
         DisplayText().clear();
         DisplayText("You lean over the table and give the laquine a kiss.  Confused, but not displeased, Loppe eagerly returns it, then watches as you break the lip lock and start to slide yourself under the table.  \"<i>Umm... sugar?  What are you doing?</i>\"");
 
@@ -2133,7 +2133,7 @@
     }
 
     //Kiss 'n' Run (edited)(C)
-    private teaseLoppeKissRun(): void {
+    private teaseLoppeKissRun() {
         DisplayText().clear();
         DisplayText("Feeling wicked, you give the bunny-girl's bulging horsecock a few comforting pats, then lean across the table and press your lips against hers.  You kiss her passionately, the relieved laquine closing her eyes and murmuring softly as she sinks into the kiss, her engorged cock literally throbbing under your fingers, but trusting you to help her find the quick release that she needs to spare herself embarrassment.");
 

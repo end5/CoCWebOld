@@ -1,7 +1,7 @@
 ﻿export class GreenSlime extends Monster {
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		DisplayText("You smile in satisfaction as the " + short + " collapses, unable to continue fighting.", true);
 		//Boobfeed.
 		if (player.statusAffects.has(StatusAffectType.Feeder)) {
@@ -21,23 +21,23 @@
 			DisplayText("  Sadly you realize your own needs have not been met.  Of course, you could always play with the poor thing... Do you rape it?");
 			game.doYesNo(game.lake.greenSlimeScene.slimeVictoryRape, game.cleanupAfterCombat);
 		}
-		else game.cleanupAfterCombat();
+		else game.return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe slime doesn't even seem to notice.\n\n");
 		}
 		return { next: game.lake.greenSlimeScene.slimeLoss };
 	}
 
-	private lustAttack(): void {
+	private lustAttack() {
 		DisplayText("The creature surges forward slowly with a swing that you easily manage to avoid.  You notice traces of green liquid spurt from the creature as it does, forming a thin mist that makes your skin tingle with excitement when you inhale it.");
 		game.dynStats("lus", player.stats.lib / 10 + 8);
 		return { next: game.playerMenu };
 	}
 
-	private lustReduction(): void {
+	private lustReduction() {
 		DisplayText("The creature collapses backwards as its cohesion begins to give out, and the faint outline of eyes and a mouth form on its face.  Its chest heaves as if it were gasping, and the bolt upright erection it sports visibly quivers and pulses before relaxing slightly.");
 		lust -= 13;
 		return { next: game.playerMenu };
@@ -68,7 +68,9 @@
 this.baseStats.tou = 20;
 this.baseStats.spe = 10;
 this.baseStats.int = 5;
-		initLibSensCor(50, 60, 20);
+		this.baseStats.lib = 50;
+this.baseStats.sens = 60;
+this.baseStats.cor = 20;
 		this.weaponName = "hands";
 		this.weaponVerb = "slap";
 		this.armorName = "gelatinous skin";

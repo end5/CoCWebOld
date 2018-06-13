@@ -17,7 +17,7 @@ class KatherineEmployment {
 
     public get urta(): Urta { return kGAMECLASS.urta; }
 
-    public employmentTalk(): void {
+    public employmentTalk() {
         DisplayText().clear();
         DisplayText("You ask Katherine if she’s ever thought about trying to get a job, so she can settle into a home of her own and get off the streets.\n\n");
         DisplayText("“<i>Oh, sure, plenty of times.</i>”  The feline shrugs.  “<i>But it’s never worked out; nobody’s ever been willing to hire me... I guess I just don’t look very employable.</i>”  She sighs and picks at a thread hanging from her usual tatters.\n\n");
@@ -27,7 +27,7 @@ class KatherineEmployment {
         return { next: tryShops };
     }
 
-    private tryShops(): void {
+    private tryShops() {
         DisplayText().clear();
         DisplayText("You look around the city for a shop that might be a good place for Kath to work.  Shrugging, you start with the nearest building - the Pawn Broker’s.\n\n");
         DisplayText("As you approach Oswald, the dog-morph sighs and looks right at you.  “<i>I suppose you’re here to ask if I’ll give a job to that cat who’s always skulking out back, yes?</i>”  You nod, surprised that he would have figured it out, he smiles at your surprise.  “<i>I heard the two of you talking from the backroom.</i>”  Then his face turns solemn and he replies, “<i>Sorry; I know this seems cold, but I’m already living hand to mouth as it is - I can’t afford to take on a partner.</i>”\n\n");
@@ -65,7 +65,7 @@ class KatherineEmployment {
         return { next: tryTheWatch };
     }
 
-    private tryTheWatch(): void {
+    private tryTheWatch() {
         DisplayText().clear();
         DisplayText("You sigh in disappointment.  Absolutely nothing; not one person in Tel’Adre seems to be willing to hire Kath.  You’re about to go back to Katherine in defeat, when suddenly you stop, inspiration striking you in a flash of brilliance: The City Watch surely always needs new recruits, right?  Especially given all the rape-crazy monsters out there in the world.");
 
@@ -88,7 +88,7 @@ class KatherineEmployment {
         return Flags.list[FlagEnum.KATHERINE_UNLOCKED] === 1 && Flags.list[FlagEnum.KATHERINE_TRAINING] > 1 && (Flags.list[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_EDRYN) === 0;
     }
 
-    public talkToEdryn(): void {
+    public talkToEdryn() {
         //Triggers when you go to talk to Edryn in the Wet Bitch and
         //    (KATHERINE_UNLOCKED === 1 && KATHERINE_TRAINING > 0
         //    && (KATHERINE_TRAINING & KBIT_TRAINING_TALK_EDRYN) === 0)
@@ -99,7 +99,7 @@ class KatherineEmployment {
         if (edryn.pregnancy.isPregnant) DisplayText(" stop her pregnancy-induced feasting, stifle a belch and");
         DisplayText(" smile happily at you.  “<i>Hello " + player.short + ", what’s on your mind?</i>” she asks.\n\n");
         DisplayText("You ask if there might be any positions available in the Watch?  You wanted to talk to her about joining it.\n\n");
-        DisplayText("Edryn stares at you in surprise.  “<i>Well, yes, we always have room for new recruits... don’t tell me that you want to give up the adventurer’s life and settle down as a watch" + player.mf("man", "woman") + "?</i>”  She asks.");
+        DisplayText("Edryn stares at you in surprise.  “<i>Well, yes, we always have room for new recruits... don’t tell me that you want to give up the adventurer’s life and settle down as a watch" + Desc.Gender.mf(player, "man", "woman") + "?</i>”  She asks.");
         let edrynKidsPlus: number = Flags.list[FlagEnum.EDRYN_NUMBER_OF_KIDS] + (edryn.pregnancy.isPregnant ? 1 : 0);
         if (edrynKidsPlus > 0) {
             DisplayText("  She then widens her eyes in surprise");
@@ -123,8 +123,8 @@ class KatherineEmployment {
         }
     }
 
-    private pregnantEdrynSexSelector(): void {
-        menu();
+    private pregnantEdrynSexSelector() {
+        
         MainScreen.addButton(0, "Preg. Fuck", edryn.fuckPregEdryn);
         MainScreen.addButton(1, "Eat,Rut,Fuck", edryn.eatEdrynPussyLikeABawss);
     }
@@ -133,7 +133,7 @@ class KatherineEmployment {
         return !urta.urtaDrunk() && Flags.list[FlagEnum.KATHERINE_UNLOCKED] === 1 && Flags.list[FlagEnum.KATHERINE_TRAINING] > 1 && (Flags.list[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_URTA) === 0;
     }
 
-    public talkToUrta(): void {
+    public talkToUrta() {
         //Triggers when you go to talk to Urta in the Wet Bitch
         //    (KATHERINE_UNLOCKED === 1 && KATHERINE_TRAINING > 0 && (KATHERINE_TRAINING & KBIT_TRAINING_TALK_URTA) === 0)
         DisplayText().clear();
@@ -153,7 +153,7 @@ class KatherineEmployment {
         }
     }
 
-    public talkToKath(): void {
+    public talkToKath() {
         //Only appears if you’ve talked to Edryn, Urta or the desk sargeant and haven’t yet had this talk with Kath
         //    (KATHERINE_UNLOCKED === 1 && KATHERINE_TRAINING >= 3 &&
         //    && (KATHERINE_TRAINING & KBIT_TRAINING_TALK_KATH) === 0)
@@ -217,12 +217,12 @@ class KatherineEmployment {
         return true;
     }
 
-    private postpone(): void {
+    private postpone() {
         DisplayText("\n\nKath has been living in the streets for quite a while, and even though you promised to help her, one more day isn’t going to hurt... with that in mind you continue on your way to visit her...\n\n");
         katherine.katherineVisitNormal(false);
     }
 
-    private trainKath(): void {
+    private trainKath() {
         DisplayText().clear();
         DisplayText("Back in camp you thought long and hard about what it would take to turn Katherine into a watch officer.  You recalled what you learned about the watch and their duties you decided there were three major areas where you need to improve Katherine’s knowledge and skills.\n\n");
         DisplayText("The watch sometimes has to patrol in the desert around Tel’Adre.  She’s probably never been outside the city, so giving Kath some amount of wilderness survival is going to be necessary.\n\n");
@@ -240,7 +240,7 @@ class KatherineEmployment {
         return { next: katherineTrainingStage1 };
     }
 
-    public katherineTrainingStage1(clearOut: boolean = true): void {
+    public katherineTrainingStage1(clearOut: boolean = true) {
         if (clearOut) DisplayText().clear();
         DisplayText((Flags.list[FlagEnum.KATHERINE_TRAINING] === 0 ? "  You" : "Kath readies herself quickly and you") + " lead her on a long, winding trek through the desert sands.  You always keep Tel’Adre in sight so that if the two of you are somehow separated Kath will be able to find her way home.\n\n");
         DisplayText("You show her some strategies and good tricks for staying alive out here and moving across the sand without tiring yourself as much.  Kath’s good at listening and while she doesn’t improve much you know she’ll do better tomorrow.\n\n");
@@ -254,7 +254,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingStage1Success(): void {
+    private katherineTrainingStage1Success() {
         DisplayText().clear();
         DisplayText("She tips out the contents and says, “<i>I’ve lived on the street for almost a year now.  Building and finding shelter?  That I can do.</i>”\n\n");
         DisplayText("Since Kath is tired it takes a while.  She takes the various bits of wood, fasteners and stakes from the sack and and puts them in separate piles on the ground.  Despite the wind she manages to link the supports and fasteners together and raises the frame.\n\n");
@@ -267,7 +267,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingStage1Failure(): void {
+    private katherineTrainingStage1Failure() {
         DisplayText().clear();
         DisplayText("She tips out the contents and says, “<i>I’ve lived on the street for almost a year now.  Building and finding shelter?  That I can do.</i>”\n\n");
         DisplayText("You know things are off to a bad start when Kath begins to assemble the tent frame immediately rather than making sure she's using the right parts.  She’s tired and not thinking too clearly.  Soon she has fasteners attached to the wrong supports.  Then she takes apart one bit of the frame only to assemble it backwards.\n\n");
@@ -279,7 +279,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingStage1Horny(): void {
+    private katherineTrainingStage1Horny() {
         DisplayText().clear();
         DisplayText("Kath tips the contents of the sack on the ground.  Then she lies down and pulls the sack itself over her body.  You hope she’s just playing, but when you try explain that the sack hardly qualifies as decent shelter you hear a wet ‘schlick’ noise.\n\n");
         DisplayText("You’re in the desert, so there are only so many things that could sound so wet.  You rip the sack off her and are treated to a view of Kath with her hands jammed down her pants.\n\n");
@@ -289,7 +289,7 @@ class KatherineEmployment {
         simpleChoices("Oral", katherine.giveKatOralPenisWingWang, "Handjob", katherine.handjobbiesFurrDemCatFurries, "", null, "", null, "", null);
     }
 
-    public katherineTrainingStage2(): void {
+    public katherineTrainingStage2() {
         DisplayText("You’re sure Kath’s basic survival skills are now good enough to pass any tests the watch might put her through; now it’s time to work on her combat skills.  You’re still trying to work on her endurance, so you march her even further from Tel’Adre.  Only when you reach a quiet spot on the shores of the lake do you finally stop.\n\n");
         DisplayText("Katherine is a little winded from the walk" + (player.stats.tou < 50 ? " and frankly so are you" : "") + ".  Kath keeps looking around, examining the lakeshore and the plants that grow nearby.  You tell her not to stray too far.  It might look a lot prettier than the desert but there are dangerous creatures near the lake.  You sit on a large rock and wait for Kath to regain some energy and return.");
         switch (randInt(3)) {
@@ -299,7 +299,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingStage2Success(): void {
+    private katherineTrainingStage2Success() {
         DisplayText().clear();
         DisplayText("By the time Kath gets back you’ve pulled the training swords and lightweight clubs from the sack.  You show her a variety of moves, some for swords and some for fighting in close with an opponent.  After several minutes of instruction you tell Kath that it’s time to put what she’s learning to practice.\n\n");
         DisplayText("Both of you square off and Kath bounces from foot to foot looking for an opening.  She tries striking you again and again.  Every once in a while she nails you with a quick hit or a surprise move after a feint.  For your part you manage to knock away her weapon a few times and show her how to defeat some blocks.\n\n");
@@ -309,7 +309,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseTwoHours }; //Use up two hours, go back to camp
     }
 
-    private katherineTrainingStage2Failure(): void {
+    private katherineTrainingStage2Failure() {
         DisplayText().clear();
         DisplayText("By the time Kath gets back you’ve pulled the training swords and lightweight clubs from the sack.  Kath grabs some weapons and starts practicing thrusts and swings.  You give her a few pointers and then she assumes a combat stance and tells you she’s ready to party.\n\n");
         DisplayText("You take up your training sword and begin making some quick, simple thrusts and feints, testing to see if Kath uses the blocks you’ve taught her.  Instead she tries to bat your sword away so she can get in close.\n\n");
@@ -320,18 +320,18 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseTwoHours }; //Use up two hours, go back to camp
     }
 
-    private katherineTrainingStage2Horny(): void {
+    private katherineTrainingStage2Horny() {
         DisplayText().clear();
         DisplayText("Katherine returns much sooner than you expected and with energy to spare.  Her pupils are dilated and her head and tail both flick continuously from side to side.  “<i>There is the most amazing smell over that way,</i>” she says, pointing inland toward a patch of bushes.\n\n");
         DisplayText("You don’t need to go over to the bushes to find out what the smell is; it’s all over her.  It’s a sweet-yet-creamy scent, unlike anything back home.  It seems whisker fruits, or at least the blossoms of the tree it comes from, have a certain effect on your feline friend.\n\n");
         DisplayText("As you smell Katherine she is likewise busy sniffing you.  She rubs her nose against your cheek, her whiskers tickling your face, and says, “<i>This place is really nice... I know what we could do.</i>”");
         Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_LAKE; //Makes sure the scene happens on the shores of the lake
-        let penKath: Function = null;       //Fuck and give options only available for males and herms
-        let penAnal: Function = null;
-        let penBoth: Function = null;
-        let takeVag: Function = null;       //Mount her option is only available to females and herms with a vaginal capacity >= 100
-        let takeAnal: Function = null;      //Take Anal option is only available when Kath’s knot size is less than 4</i>”
-        let takeVagAndAss: Function = null; //Take both is available for those who meet both the Mount Her and Take Anal requirements
+        let penKath;       //Fuck and give options only available for males and herms
+        let penAnal;
+        let penBoth;
+        let takeVag;       //Mount her option is only available to females and herms with a vaginal capacity >= 100
+        let takeAnal;      //Take Anal option is only available when Kath’s knot size is less than 4</i>”
+        let takeVagAndAss; //Take both is available for those who meet both the Mount Her and Take Anal requirements
         if (player.cockThatFits(70) > -1) {
             penKath = katherine.penetrateKatsVag;
             penAnal = katherine.pcPenetratesKatAnally;
@@ -346,7 +346,7 @@ class KatherineEmployment {
             "Nount Her", takeVag, "Take Anal", takeAnal, "Take Both", takeVagAndAss, "", null, "", null);
     }
 
-    public katherineTrainingStage3(): void {
+    public katherineTrainingStage3() {
         DisplayText("Now that you know Kath can handle the job physically all that’s left is teaching her how to act.  First you give Kath a rundown on some of Tel’Adre’s laws and how the watch is expected to enforce them.\n\n");
         DisplayText("Then you tell Kath to stick the training sword and practice club into her belt.  She does and you then straighten her clothes and adjust her posture so she’s standing up straight." + (player.stats.lust >= 50 ? "  Before you begin her training you take a moment to appreciate what her ramrod straight posture does to Katherine’s chest." : "") + "  You tell Kath that she will have to imagine the uniform and helmet.  Right now she is a watch officer out on patrol.  Kath examines herself, fidgets and mumbles, “<i>I feel kind of silly like this.</i>”");
         if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 99) {
@@ -361,7 +361,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingStage3Success(): void {
+    private katherineTrainingStage3Success() {
         DisplayText().clear();
         DisplayText("You press on and tell her that she just found some miscreants trying to pickpocket an older lady and she’s chased one down an alley.  The thief has stopped next to two other people and all three are now claiming he’s been there all afternoon.  Now how is she going to deal with the situation?\n\n");
         DisplayText("Katherine marches toward you, hand on the grip of her club.  She levels a stare at you and says, “<i>I’m placing you under arrest.  Come with me to the watch house quietly or I will be forced to subdue you.</i>”\n\n");
@@ -373,7 +373,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingStage3Failure(): void {
+    private katherineTrainingStage3Failure() {
         DisplayText().clear();
         DisplayText("You press on and tell her that she just found some miscreants trying to pickpocket an older lady and she’s chased one down an alley.  The thief has stopped next to two other people and all three are now claiming he’s been there all afternoon.  Now how is she going to deal with the situation?\n\n");
         DisplayText("Katherine marches toward you, hand on the grip of her club.  She levels a stare at you and says, “<i>I’m placing you under arrest.  Come with me to the watch house quietly or I will be forced to subdue you.</i>”\n\n");
@@ -387,7 +387,7 @@ class KatherineEmployment {
     }
 
 
-    private katherineTrainingStage3Horny(): void {
+    private katherineTrainingStage3Horny() {
         DisplayText().clear();
         DisplayText("You try to press on and explain the crime she has to deal with but you realize Katherine is shifting uncomfortably.  " + (katherine.cockLength <= 10 ? "At first you aren’t sure why, but Kath’s embarrassment tips you off.  A little bulge is developing between her legs." : "The reason is immediately apparent.  The crotch of Katherine’s pants is bulging thanks to her sizeable dog dick.") + "  “<i>I’m sorry " + player.short + ", I really want to keep training.  It’s just when you were touching me and straightening me up you smelled nice and it feels like its been so long since we had fun.</i>”\n\n");
         DisplayText("You tell Kath that she needs to control herself.  What if this happened while she was out on patrol?  You are about to start explaining what the criminal is up to when Kath’s tattered pants give way.  Her canine member pops out and smacks audibly against her midriff.\n\n");
@@ -397,16 +397,16 @@ class KatherineEmployment {
         alleywaySexOptions();
     }
 
-    private alleywaySexOptions(): void {
+    private alleywaySexOptions() {
         Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_STREETS; //Makes sure the scene happens in a Tel’Adre alleyway
-        let penKath: Function = null;       //Fuck and give options only available for males and herms
-        let penAnal: Function = null;
-        let penBoth: Function = null;
-        let suckNFucks: Function = null;
-        let takeVag: Function = null;       //Mount her option is only available to females and herms with a vaginal capacity >= 100
-        let takeAnal: Function = null;      //Take Anal option is only available when Kath’s knot size is less than 4</i>”
-        let takeVagAndAss: Function = null; //Take both is available for those who meet both the Mount Her and Take Anal requirements
-        let suckNFucked: Function = null;
+        let penKath;       //Fuck and give options only available for males and herms
+        let penAnal;
+        let penBoth;
+        let suckNFucks;
+        let takeVag;       //Mount her option is only available to females and herms with a vaginal capacity >= 100
+        let takeAnal;      //Take Anal option is only available when Kath’s knot size is less than 4</i>”
+        let takeVagAndAss; //Take both is available for those who meet both the Mount Her and Take Anal requirements
+        let suckNFucked;
         if (player.cockThatFits(70) > -1) {
             penKath = katherine.penetrateKatsVag;
             penAnal = katherine.pcPenetratesKatAnally;
@@ -423,7 +423,7 @@ class KatherineEmployment {
             "Mount Her", takeVag, "Take Anal", takeAnal, "Take Both", takeVagAndAss, "SuckNFuckd", suckNFucked, "", null);
     }
 
-    public katherineTrainingComplete(): void {
+    public katherineTrainingComplete() {
         //Triggers when you visit Kath with her training score at or over 100
         //    (KATHERINE_UNLOCKED === 2) && (KATHERINE_TRAINING >= 100)
         if (urta.urtaDrunk() || model.time.hours >= 15) {
@@ -445,7 +445,7 @@ class KatherineEmployment {
                 Flags.list[FlagEnum.KATHERINE_URTA_AFFECTION] = 1;
                 if (urta.urtaLove() && (Flags.list[FlagEnum.AMILY_VISITING_URTA] === 4 || Flags.list[FlagEnum.URTA_KNOWS_PC_HAS_MARBLE_FOLLOWER] > 0)) {
                     DisplayText("\n\nBefore Katherine can respond Urta adds, “<i>Don’t worry, I’m not angry about " + player.short + " sleeping around");
-                    if (Flags.list[FlagEnum.URTA_OPEN_ABOUT_EDRYN] > 0) DisplayText(" and " + player.mf("he", "she") + " doesn’t get " + player.mf("his", "her") + " back up when I sleep around");
+                    if (Flags.list[FlagEnum.URTA_OPEN_ABOUT_EDRYN] > 0) DisplayText(" and " + Desc.Gender.mf(player, "he", "she") + " doesn’t get " + Desc.Gender.mf(player, "his", "her") + " back up when I sleep around");
                     DisplayText(".  Considering the world we live in it’s a fine arrangement.</i>”\n\n");
                     DisplayText("Kath sits there, trying to process what she’s hearing.  Finally she grips your hand tightly and says, “<i>I guess so.  I mean I never thought... but yeah.</i>”  She looks back at you and says, “<i>When you’re outside Tel’Adre you must need relief sometimes.</i>”");
                     if (Flags.list[FlagEnum.AMILY_VISITING_URTA] === 4) {
@@ -480,7 +480,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingCompleteUrtaLover(): void {
+    private katherineTrainingCompleteUrtaLover() {
         DisplayText().clear();
         DisplayText("You spend the next few hours alternately waiting in the bar and strolling around the block to stretch your legs, all the while wondering how Kath is doing.  You’ve just stepped back into the bar when you hear footsteps fast approaching from behind.\n\n");
         DisplayText("Kath races into the bar and leaps into your arms, nearly knocking you off your feet.  “<i>I did it!  I did it!</i>” she cries while hugging you tight enough to squeeze the breath out of you.  “<i>Oh thank you " + player.short + ", I couldn’t have done it without you.  The tests were hard but I knew what she wanted.</i>”\n\n");
@@ -493,7 +493,7 @@ class KatherineEmployment {
     }
 
 
-    private katherineTrainingCompleteNeverSpokenOrPermanentlyPissed(): void {
+    private katherineTrainingCompleteNeverSpokenOrPermanentlyPissed() {
         DisplayText().clear();
         DisplayText("You go back to Kath’s alley and pace back and forth, waiting.  Hours later Kath races into the alley and leaps into your arms, nearly knocking you off your feet.  “<i>I did it!  I did it!</i>” she cries while hugging you tight enough to squeeze the breath out of you.  “<i>Oh thank you " + player.short + ", I couldn’t have done it without you.  The tests were hard but I knew what she wanted.</i>”\n\n");
         DisplayText("You stroke her hair and Katherine finally calms down enough to show you her new badge.  “<i>I’m starting tomorrow.  Oh - and that’s not even the best part.  I didn’t know about this, but because I’m in the watch they can give me papers that show I have a good job, that I’m a good citizen.  I forget what it’s called, but it means I’ll be able to get a house really soon cause they know I’m good for it and I’ll be earning a wage.</i>”\n\n");
@@ -501,7 +501,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseFourHours }; //Use up 4 hours, go back to camp
     }
 
-    private katherineTrainingCompleteUrtaThoughtYouDidntLikeHer(): void {
+    private katherineTrainingCompleteUrtaThoughtYouDidntLikeHer() {
         DisplayText().clear();
         DisplayText("You spend the next few hours alternately waiting in the bar and strolling around the block to stretch your legs, all the while wondering how Kath is doing.  You’ve just stepped back into the bar when you hear footsteps fast approaching from behind.\n\n");
         DisplayText("Kath races into the bar and leaps into your arms, nearly knocking you off your feet.  “<i>I did it!  I did it!</i>” she cries while hugging you tight enough to squeeze the breath out of you.  “<i>Oh thank you " + player.short + ", I couldn’t have done it without you.  The tests were hard but I knew what she wanted.</i>”\n\n");
@@ -512,7 +512,7 @@ class KatherineEmployment {
         return { next: urtaForgivesYou };
     }
 
-    private urtaForgivesYou(): void {
+    private urtaForgivesYou() {
         DisplayText().clear();
         DisplayText("She leads you over to her table and soon you’re " + (player.isPregnant() ? "drinking some hot chocolate while Urta sips some kind of hard liquor" : "sipping some harsh form of whiskey with her") + ".  Urta starts by complimenting you on Kath’s training.  It seems few candidates are that well prepared on their first attempt to take the tests.  She seems nervous, even acts bit deferential to you.\n\n");
         DisplayText("From how she’s acting you feel there’s more to this talk than that but it takes a while, and several more drinks, for Urta to work up her courage.  Finally she says, “<i>From the way Katherine acted I know you two are together.</i>”  She tilts her glass and looks at the amber liquid.  “<i>From the testing I can tell Kath is a herm.  I mean, we did some combat tests, some grappling.  It’s kind of hard to miss.</i>”\n\n");
@@ -520,7 +520,7 @@ class KatherineEmployment {
         simpleChoices("Flirt", urta.flirtWithUrta, "Friends", friendsWithUrta, "Destroy Her", destroyUrta, "", null, "", null);
     }
 
-    private friendsWithUrta(): void {
+    private friendsWithUrta() {
         DisplayText().clear();
         DisplayText("You tell her that you don’t have any problem with herms, in fact you find some of them quite attractive.\n\n");
         DisplayText("There’s an awkward silence for a few moments.  Then Urta says, “<i>Well you sure seem to be good for Kath.  Anyone who can take a street urchin and train her up into a fine watch recruit is in my good books.  Come and talk to me anytime.</i>”");
@@ -529,14 +529,14 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseFourHours }; //Use up 4 hours, go back to camp
     }
 
-    private destroyUrta(): void {
+    private destroyUrta() {
         DisplayText().clear();
         DisplayText("She’s been giving you the cold shoulder all this time and <b>now</b> she wants to make up?  Fuck this fox bitch!  You tell Urta in no uncertain terms that you don't hate herms - you hate her.  She’s a drunk, pushy, ugly bitch and no one will ever love her.  She makes you sick and she’d better leave you and your girl alone.\n\n");
         DisplayText("Urta looks like she’s about to fly into a rage, but instead you see tears forming in the corners of her eyes.  Soon she’s sobbing into her drink.  You walk out of the bar and head back to camp, sure that Urta is too devastated to ever talk about this to Kath.");
         return { next: Scenes.camp.returnToCampUseFourHours }; //Use up 4 hours, go back to camp
     }
 
-    private trainKathWithUrta(): void {
+    private trainKathWithUrta() {
         DisplayText().clear();
         DisplayText("With a smile, you turn and make your way to the Wet Bitch.  Once inside you easily spot Urta and sit at her table.\n\n");
         DisplayText("Urta smiles openly and warmly, her tail abandoning it’s habitual position obscuring her sizable cock to instead wag in vulpine greeting.  “<i>Hello, " + player.short + "; so, how is your would-be watchman coming along?</i>” she asks.  Then she takes another look at you and smirks.  “<i>From that look on your face, I’m thinking you’re here to ask for my help, yes?</i>”\n\n");
@@ -565,7 +565,7 @@ class KatherineEmployment {
         MainScreen.doYesNo(chastityBeltFun, noChastityFunForNow);
     }
 
-    private chastityBeltFun(): void {
+    private chastityBeltFun() {
         DisplayText().clear();
         DisplayText("You lift the chastity belt off her hands and look it over.  Then give her a lusty look.  Realizing what you’re thinking, she protests, “<i>Lover, no, just... no.  I already told you it gets me so worked up I’m ready to burst when I get it off - the last time I dared wear that, when I finally got it off, I damn near flooded the whole house venting the pressure that had built up in my balls!  Please, I love you, but don’t make me wear that again!</i>” she begs you.\n\n");
         DisplayText("Flooded the house?  Your smile widens and you look at the belt... then back at her again.  You raise your eyebrows, as if asking an unspoken question.  Urta winces and whimpers like the fox she so resembles.  “<i>Please, " + player.short + ", please don’t look at me like that... I don’t want to do it, it hurts when I’m trapped in that thing.</i>”  she pleads.\n\n");
@@ -574,14 +574,14 @@ class KatherineEmployment {
         urta.chastityBeltFun(false);
     }
 
-    private noChastityFunForNow(): void {
+    private noChastityFunForNow() {
         DisplayText().clear();
         DisplayText("Perhaps some other time...  You shake your head and tell Urta that, for now, this is all you had to discuss with her.\n\n");
         DisplayText("Urta sighs softly, slumping.  “<i>Okay, lover.  Business before pleasure, I can understand that.  I’ll see you around, okay?</i>”  She concludes in a hopeful tone.");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private initiateTrainingWithUrta(): void {	//Happens next time you visit Kath after the visit to Urta
+    private initiateTrainingWithUrta() {	//Happens next time you visit Kath after the visit to Urta
         DisplayText("You approach the alleyway behind the pawn shop, looking for Kath... and sure enough, you spot the cat-herm grooming herself.  Gently coughing to get her attention, you wave a hand at her.\n\n");
         DisplayText("She looks up and gives you a strained smile.  “<i>Hi, " + player.short + ".  So... uh, something you need?</i>” she asks weakly, clearly still not too enthused about signing up for the Watch.\n\n");
         DisplayText("You nod, and simply state that, “<i>It’s time</i>”.  You tell her to pack up whatever she needs and wait while you go check up on her trainer.  “<i>Trainer?</i>” Kath repeats, curious.  But she doesn’t press on the matter, instead indicating you should go while she gets her meager belongings together to move out of the alley.\n\n");
@@ -619,7 +619,7 @@ class KatherineEmployment {
         DisplayText("“<i>It looks like a dump,</i>” Katherine points out.  “<i>And I used to live in a dump.  This is worse.</i>”\n\n");
         DisplayText("You can’t help commenting that you were surprised when you saw Urta’s apartment as being, well, a lot less glamorous then you’d expect for someone of her rank, but if all the Watch’s properties are so run down...\n\n");
         DisplayText("“<i>We just get whatever places the Council assigns us, okay?</i>” Urta snaps, bristling with hurt pride.  “<i>Do you want to get a job or not, pussy cat?  Believe me, it’s a lot sturdier than it looks, and a lot better kept inside.</i>”");
-        if (silly()) {
+        if (User.settings.silly()) {
             DisplayText("You joke that maybe you should get your ghostbusting gear?  Just in case?\n\n");
             DisplayText("“<i>There’s no such thing as ghosts!</i>” Urta snaps.");
             if (kGAMECLASS.shouldraFollower.followerShouldra()) {
@@ -664,7 +664,7 @@ class KatherineEmployment {
         DisplayText("Kath spits, just like an angry barn cat.  “<i>Touch me with that and I’ll claw your eyes out!</i>” she warns.\n\n");
         DisplayText("“<i>Oooh, looks like this kitten has some fire in her after all... I’m the captain of the Watch, I’ve been threatened with things much worse than claws; so if you think that is going to scare me, you’re dead wrong.  Now put on the belt!</i>” Urta growls intimidatingly.\n\n");
         DisplayText("Kath lets out a surprisingly feral yowl, and then bolts for it, racing towards the other end of the safehouse in hopes of getting away from you and the vulpine captain.\n\n");
-        if (silly()) {
+        if (User.settings.silly()) {
             DisplayText("It’s a long shot... but you decide to try something... You extend a hand and start chanting, “<i>here, kitty, kitty.</i>”\n\n");
             DisplayText("Urta stops bristling in anticipation of a fight with Kath and instead looks at you in confusion.  “<i>What are you doing, " + player.short + "?</i>”\n\n");
             DisplayText("You explain this is just a method you used to use in order to get stray cats to approach you back in your village.\n\n");
@@ -690,7 +690,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    public katherineTrainingWithUrta(): void {
+    public katherineTrainingWithUrta() {
         DisplayText().clear();
         DisplayText("From Oswald's pawnshop you retrace your steps to the safehouse where Urta is getting Kath into shape and rap your knuckles against the door.\n\n");
         if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 100)
@@ -702,7 +702,7 @@ class KatherineEmployment {
         else katherineTrainingWithUrtaStage1();
     }
 
-    private katherineTrainingWithUrtaStage1(): void {
+    private katherineTrainingWithUrtaStage1() {
         DisplayText("“<i>Come in, " + player.short + "! It’s open!</i>”  You hear Urta’s voice from the other side, followed shortly by a string of yells aimed at someone you can only presume to be Katherine.  “<i>No, no, no!  Sheesh, <b>I</b> can do it better than that, and I spend half my life parked behind a desk filling paperwork!</i>” she yells; evidently, Katherine isn’t doing so well.\n\n");
         DisplayText("“<i>Is that what you call sitting in a bar and drinking yourself into a stupor?</i>” the cat-herm sarcastically retorts.  You wonder if you’ll hear a whip cracking in response, but the fox-herm evidently has better control of herself than that.\n\n");
         DisplayText("Sounds like the girls are having a heated argument.  You sigh... so much for them having something in common...  You turn the knob on the door and let yourself in, just in time to see a growling Urta glaring at a panting Kath.\n\n");
@@ -731,7 +731,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingWithUrtaStage1Success(): void {
+    private katherineTrainingWithUrtaStage1Success() {
         DisplayText().clear();
         DisplayText("When she’s done, what stands before you is a pretty well-made tent.  Some room for improvement, but, all in all, you think it’s acceptable.  Looking at Urta, she seems to agree; she nods and then smiles at Kath.  “<i>Not bad, kitty, not bad; I’d say you pass this test.</i>”\n\n");
         DisplayText("“<i>...I did it?</i>” Kath repeats, eyes widened in shock.  “<i>...I did it!</i>” she cheers, dancing with glee in front of you, laughing with joy.\n\n");
@@ -751,7 +751,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage1Failure(): void {
+    private katherineTrainingWithUrtaStage1Failure() {
         DisplayText().clear();
         DisplayText("The end result of all Kath’s hard work, however, isn’t very good.  It looks like a stiff breeze would knock it over... and, seconds later, that’s what happens.  Kath’s face falls and she scuffs idly at the floor with one foot, while Urta sighs and shakes her head gently and you quietly encourage her to try again.\n\n");
         DisplayText("“<i>I’m going to keep trying this until I get it right,</i>” Kath vows to you.\n\n");
@@ -767,7 +767,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage1Horny(): void {
+    private katherineTrainingWithUrtaStage1Horny() {
         DisplayText().clear();
         DisplayText("Kath tries and fidgets, but eventually casts the tent equipment aside.  “<i>It’s no use, I’m too horny!  I didn’t get a chance to jerk myself off this morning... and prickvixen here walking around with no pants on and flashing her goods in my face all the time isn’t helping!</i>” she wails.\n\n");
         DisplayText("“<i>I do not flash my goods in anyone’s face!</i>” Urta protests, blushing with embarrassment.\n\n");
@@ -803,7 +803,7 @@ class KatherineEmployment {
         MainScreen.simpleChoices(["Help Out", "Leave", "", "", ""], [helpThem, katherineTrainingWithUrtaStage1HornyLeave, null, null, null]);
     }
 
-    private katherineTrainingWithUrtaStage1HornyLeave(): void {
+    private katherineTrainingWithUrtaStage1HornyLeave() {
         if (player.gender === Gender.NONE)
             DisplayText("\n\nToo bad you don’t have the parts to join on this bonding session... so you politely tell them that you have to go and then leave.");
         else
@@ -813,12 +813,12 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage1HornyHelp(): void {
+    private katherineTrainingWithUrtaStage1HornyHelp() {
         threesome.circlejerk();
         return { next: circlejerkTrainingEnding };
     }
 
-    private circlejerkTrainingEnding(): void {
+    private circlejerkTrainingEnding() {
         DisplayText().clear();
         DisplayText("When you come to you're lying on your back - fairly clean, but still matted in some places with the results of your session with the lovely herms.  You stretch the kinks out of your limbs and sit up.  Immediately, you gaze upon Urta, scolding Kath for something she did wrong... both already dressed.  You don’t really catch what’s being said as Kath retorts... so the two are still bickering... you sigh.  Upon closer inspection though... you see something different... rather than scowling at each other they’re... smiling?  Well, well.  It seems these two can get along after all.\n\n");
         DisplayText("With a groan you rise to your feet, looking around to see if you can spot your " + player.inventory.equipment.armor.displayName + ".  “<i>Hello, sleepy-head; 'bout time you woke up.</i>” Kath suddenly declares, spotting you getting up.  Urta turns to confirm and smiles.  “<i>Well, I guess we wore you out, huh?</i>” she jokes.  No kidding... you might have to think twice next time you decide to join them...\n\n");
@@ -832,7 +832,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage2(): void {
+    private katherineTrainingWithUrtaStage2() {
         DisplayText("The sound of combat echoes from inside the safehouse; it being obvious you’re not going to get Urta or Kath to come and see you, you push on the door - surprisingly, it swings open, not being locked, and you head on inside.\n\n");
         DisplayText("“<i>Oh, hello, " + player.short + ",</i>” Urta calls to you, looking right at you even as she throws a punch that Katherine narrowly avoids.  The cat growls in frustration and charges at the fox, throwing a clumsy but strong-looking haymaker that Urta ducks, right before she attempts to grab and throw her “<i>trainee</i>”.\n\n");
         DisplayText("You watch them practice and jokingly ask if they have any popcorn around here?  It’s not everyday you get to watch a literal cat-fight.\n\n");
@@ -861,7 +861,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingWithUrtaStage2Success(): void {
+    private katherineTrainingWithUrtaStage2Success() {
         DisplayText().clear();
         DisplayText("Kath lunges at Urta, aiming a punch straight at the vixen’s face.  Urta ducks under the blow effortlessly, then charges Kath.  With a confident smirk, Kath intercepts Urta and pulls her down and over her body, throwing the surprised vixen over her head and down on the floor with an audible <b>thud</b>.\n\n");
         DisplayText("The fox-herm lays there on the floor, looking quite stunned indeed.  She finally shakes her head and looks up at Kath.  “<i>I can’t believe that happened - do you know nobody’s ever beaten me before?  Nice job, Kath.</i>”\n\n");
@@ -870,7 +870,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage2Failure(): void {
+    private katherineTrainingWithUrtaStage2Failure() {
         DisplayText().clear();
         DisplayText("Kath lunges at Urta, aiming a punch straight at the vixen’s face.  Urta ducks under the blow effortlessly, then charges Kath.  With a confident smirk, Kath intercepts Urta and pulls her down and over her body, trying to throw the surprised vixen over her head, but unfortunately, Urta twists her body around and pins the helpless cat-herm under her into a submission hold.\n\n");
         DisplayText("“<i>In a hold like this, you’re helpless.  Time to give up, kitty,</i>” Urta says in a matter of fact tone of voice.\n\n");
@@ -882,7 +882,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage2Horny(): void {
+    private katherineTrainingWithUrtaStage2Horny() {
         DisplayText().clear();
         DisplayText("Kath lunges toward Urta, trying to goad her into charging just as you suggested.  When Urta closes Kath tries to duck under Urta’s blow and throw her.  Urta realizes what’s happening at the last moment and manages to get an arm around Kath.  The two of them collapse to the ground as a mess of limbs as each of your girlfriends tries to pin the other.\n\n");
         DisplayText("You think to yourself that the fight could still go either way.  Even though Urta is stronger Kath’s extra flexibility means that pinning her is way more difficult than it should be.  Time and time again Urta locks one of Kath’s arms behind her only to have Kath twist in some impossible way and yank it free again.\n\n");
@@ -895,7 +895,7 @@ class KatherineEmployment {
         MainScreen.simpleChoices(["Spitroast", "Leave", "", "", ""], [spitroast, katherineTrainingWithUrtaStage2HornyLeave, null, null, null]);
     }
 
-    private katherineTrainingWithUrtaStage2HornyLeave(): void {
+    private katherineTrainingWithUrtaStage2HornyLeave() {
         if (player.gender === Gender.NONE)
             DisplayText("\n\nYou gesture toward your featureless crotch and remind Urta that there's no way you're going to be able to help fill Kath.  You wish her the best of luck and wave goodbye as Kath, now free of her chastity belt, wraps herself around Urta once more.");
         else
@@ -905,7 +905,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage3(): void {
+    private katherineTrainingWithUrtaStage3() {
         DisplayText("Much to your surprise, a stiff looking Kath opens the door.  She puffs out her chest and clears her throat.\n\n");
         DisplayText("“<i>Greetings citizen, how may I help you?</i>” she asks, shakily.\n\n");
         DisplayText("“<i>No, no, no,</i>” Urta states, appearing behind the depressed-looking cat.  “<i>You need to be confident, but relaxed at the same time.  Oh, hello, " + player.short + "; come on in, I’m just trying to help Kath learn how to talk like a guard.</i>”\n\n");
@@ -924,7 +924,7 @@ class KatherineEmployment {
         DisplayText("Getting into character, you tell Urta to piss off, this is a free city!  You go wherever you want, whenever you want.\n\n");
         DisplayText("“<i>Citizen, if you will not obey orders and leave, then I will be forced to take you in,</i>” Urta warns you, meeting your gaze with a cold, level stare of her own.\n\n");
         DisplayText("You glare right back at her with a menacing gaze.  If she wants to get you out... why doesn’t she come here and make you leave?  Stupid vixen...\n\n");
-        DisplayText("Urta promptly surges forward, seizing your wrists and rapidly pulling you into a powerful wrist-lock.  Even if this weren’t for pretend, you think you’d have a hard time pulling free of it.  “<i>You were warned, " + player.mf("mister", "miss") + "!</i>” she growls.  “<i>Come on now, let’s go, move it!</i>” she barks, pushing you to indicate you should start walking.\n\n");
+        DisplayText("Urta promptly surges forward, seizing your wrists and rapidly pulling you into a powerful wrist-lock.  Even if this weren’t for pretend, you think you’d have a hard time pulling free of it.  “<i>You were warned, " + Desc.Gender.mf(player, "mister", "miss") + "!</i>” she growls.  “<i>Come on now, let’s go, move it!</i>” she barks, pushing you to indicate you should start walking.\n\n");
         DisplayText("With no other choice, you grudgingly follow her instructions, murmuring a string of insults at her.\n\n");
         DisplayText("Urta walks you several steps, and then lets you go.  “<i>And there we are.  Fairly simple; you just need to remember that you should resort to violence against a non-monstrous hostile only as a last resort, but that generally isn’t hard to remember.  Now, we just need you to try and pull it off, Kath,</i>” she declares.\n\n");
         DisplayText("“<i>O-okay... I’ll try,</i>” Kath replies.");
@@ -940,7 +940,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingWithUrtaStage3Success(): void {
+    private katherineTrainingWithUrtaStage3Success() {
         DisplayText().clear();
         DisplayText("You enact your part while Kath enacts hers... at one point she seems to cower at your harsh words, but then she picks herself up and lunges at you, attempting to wrist-lock you.  Being far more experienced in combat, you manage to escape Kath’s inexperienced hold.  You are about to turn around when Urta interrupts the scene.\n\n");
         DisplayText("“<i>That’s enough, the pair of you,</i>” the fox states in her most authoritative tone.  Kath immediately lets you go, and Urta favors her with a smile.  “<i>Well done, kitty-Kath; your holds need some work, but you pass this test.</i>”\n\n");
@@ -954,7 +954,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage3Failure(): void {
+    private katherineTrainingWithUrtaStage3Failure() {
         DisplayText().clear();
         DisplayText("You enact your part while Kath enacts hers... at one point you hurl a string of insults at Kath and, unfortunately, the cat cowers, looking at you with a hurt expression and slumping her shoulders as you continue.\n\n");
         DisplayText("“<i>Alright, that’s enough, stop it the pair of you!</i>” Urta snaps, suddenly interposing herself between you.\n\n");
@@ -964,7 +964,7 @@ class KatherineEmployment {
         DisplayText("Now that’s a nice scene... still... you decide to join on the girls, gently patting Kath’s back and hugging her along with Urta.  Eventually, Kath hiccups and sniffles her eyes dry.  “<i>I’m sorry, " + player.short + ", Urta... I just, I couldn’t help it,</i>” she admits, clearly terribly ashamed of losing control of her emotions like that.  You tell Kath that it’s fine... but she shouldn’t let these words get to her.\n\n");
         DisplayText("“<i>It’s alright, Kath, we understand... words hurt more than any strike.  I know... but you gotta learn to ignore what others say, or you’ll be their victim forever,</i>” Urta tells the cat, stroking her hair in a surprisingly maternal gesture.  Neither you, nor Urta, nor Kath seem willing break the hug, preferring to stay in your current position for a while longer... maybe too long... your arms are starting to hurt...\n\n");
         DisplayText("Finally, Urta lets go of Kath, and starts shoving at you.  “<i>Alright, let me up, cuddlebug; you were let in too, we didn’t forget about you, so now it’s time to let go,</i>” she says; she’s trying to sound gruff, but she’s obviously joking, and Kath smiles at her soon-to-be superior officer sounding so much like a grumpy kid.\n\n");
-        if (silly()) {
+        if (User.settings.silly()) {
             DisplayText("You joke right back, asking her what bug has bitten her?  Does she need a hug herself to make it all better?  You open your arms in a welcoming fashion and slowly walk up to the retreating vulpine.  “<i>Okay, okay, that’s enough, now stop that, " + player.short + "!</i>” Urta says, backing up warily.  “<i>I don’t know what you got planned, but I’m sure I wouldn’t like it!</i>”  Come now, you say.  She hugged Kath without hesitation... and she used to bicker with the cat-herm all the time, why is she denying your fun now?  You ask, as she slowly backs against a wall.\n\n");
             DisplayText("“<i>That was!  But she!</i>” Urta starts and stammers, trying to find an excuse to get out of being hugged.\n\n");
             DisplayText("“<i>Leave captain Urta alone, " + player.short + "!</i>” Kath’s voice suddenly rings out from behind you, and before you know it, the cat has playfully leapt at you and enveloped you in a tight hug.  “<i>Run for it while I distract [him], Urta!</i>” Kath cries out dramatically, spoiling the image she is going for with a delighted giggle; looks like you’ve turned her mood around.  You can’t resist playing along and cursing the cat for foiling your plans of vulpine entrapment.\n\n");
@@ -987,7 +987,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private katherineTrainingWithUrtaStage3Horny(): void {
+    private katherineTrainingWithUrtaStage3Horny() {
         DisplayText().clear();
         DisplayText("Kath stands up straight and tells you you’re going to have to leave.  You tell her it’s a public street and you can do what you like.  To emphasize this you slide your hands up your thighs and turn.  It’s a move you’ve had goblins and other monsters pull on you out there in the wilderness.\n\n");
         DisplayText("Kath stammers slightly as she gets a good look at your ass, the fabric of your clothes pulled tightly across it.  Again she orders you to leave.  You slowly shift your ass from side to side and ask her how long it’s been since she got any.  Katherine purrs, probably hoping you won’t hear her.\n\n");
@@ -1001,7 +1001,7 @@ class KatherineEmployment {
         simpleChoices("Spitroast", spitroast, "369", three69, "Try Leaving", threesome.roastYou, "", null, "", null);
     }
 
-    private katherineTrainingWithUrtaComplete(): void {
+    private katherineTrainingWithUrtaComplete() {
         DisplayText().clear();
         DisplayText("As you approach the safehouse, you wonder what else is on the agenda for Katherine’s training.  However, when you get there, Urta is outside, looking expectantly up and down the streets.  She sees you and grins widely, tail wagging openly in her happiness.\n\n");
         DisplayText("You smile and wave to the excited vixen, approaching her.  Once you’re close enough you ask what is the reason for all that happiness?  Could it be that she’s just that happy to see you? you joke.\n\n");
@@ -1014,11 +1014,11 @@ class KatherineEmployment {
         DisplayText("Urta nods her head.  “<i>Indeed she did.  I’m proud of how far our little rebel has come.</i>”");
         DisplayText("\n\nYou clap your hands, congratulating Kath on a job well done, then ask her how it feels - to finally have a job?  Even if it wasn’t her dream job...\n\n");
         DisplayText("“<i>You can say that again, but a job is a job, and it feels great - finally, I’ll be something more than a homeless vagrant!  I can hold my head high - even go and see my parents again!</i>” Kath cheers.  You smile at the cat-herm, then turn to Urta and take the vixen’s hands in yours, thanking her for her time and patience.  Kath would never have managed it if it weren’t for her.\n\n");
-        DisplayText("Urta smiles and waves her hand in a casual manner.  “<i>It’s okay; I was doing something to help out my " + player.mf("boy", "girl") + "friend; I got a petty criminal off the street and rehabilitated, and, heck, I even netted a cute little assistant to boot.  Though I wouldn’t say no to a little personal thank you later on...</i>” she trails off, winking at you.\n\n");
+        DisplayText("Urta smiles and waves her hand in a casual manner.  “<i>It’s okay; I was doing something to help out my " + Desc.Gender.mf(player, "boy", "girl") + "friend; I got a petty criminal off the street and rehabilitated, and, heck, I even netted a cute little assistant to boot.  Though I wouldn’t say no to a little personal thank you later on...</i>” she trails off, winking at you.\n\n");
         DisplayText("“<i>Wait, assistant?</i>” Kath asks, clearly baffled to hear that.  You can’t help but voice your surprise as well, asking Urta to elaborate.\n\n");
         DisplayText("“<i>They were originally discussing assigning Kath to another part of the city, but I pulled a few strings and, well, you’re now my official assistant, Corporal Kath.  Which, incidentally, means you’ll be hanging around here where you and " + player.short + " have ample opportunities to bump into each other,</i>” The fox herm explains, giving her a knowing wink as she finishes.  This makes Kath blush and giggle nervously.");
         DisplayText("“<i>That’s wonderful news!</i>” you say.  This way you'll always be able to see two of your favorite girls anytime.  Now that you have not one... but two girlfriends working in the watch... you ask what you get as a reward, grinning at both of them.\n\n");
-        DisplayText("The two herms look at each other, grin and then look back at you.  “<i>Hmm... what do you say, Kath?  Would a nice, long spitroasting be reward enough?</i>” Urta suggests.  “<i>" + katherine.cockMultiple("I bag " + player.mf("his ass", "her pussy") + ", foxy - you’ll choke [him] on that supersize sausage of yours", "I bag the back end, I got two shafts for the price of one") + ",</i>” Kath purrs.\n\n");
+        DisplayText("The two herms look at each other, grin and then look back at you.  “<i>Hmm... what do you say, Kath?  Would a nice, long spitroasting be reward enough?</i>” Urta suggests.  “<i>" + katherine.cockMultiple("I bag " + Desc.Gender.mf(player, "his ass", "her pussy") + ", foxy - you’ll choke [him] on that supersize sausage of yours", "I bag the back end, I got two shafts for the price of one") + ",</i>” Kath purrs.\n\n");
         DisplayText("The two of them start advancing menacingly towards you, and then they spring...!  ...Only to start smothering you in kisses.  You can’t help but scream at their lunge, only to begin laughing, tossing and turning as the girls continue to kiss you, you try to kiss them back, but the flurry of kisses you’re getting makes the task nearly impossible.  By the time Urta and Kath let you up, you’re panting, and more than a little aroused.  You grin at the girls and tell them you’ll take this as an invitation to seek them out later for some proper “<i>rewards</i>”.  Now then, this begs for a celebration.  “<i>Any ideas?</i>” you ask the two of them.\n\n");
         DisplayText("“<i>We can all go to the Wet Bitch for a nice stiff drink,</i>” Urta suggests eagerly, tail wagging at the thought.\n\n");
         DisplayText("“<i>It’d be nice to be inside the bar instead of rummaging through the dustbins outside...</i>” Kath agrees.\n\n");
@@ -1026,7 +1026,7 @@ class KatherineEmployment {
         return { next: katherineTrainingWithUrtaCompleteContinued };
     }
 
-    private katherineTrainingWithUrtaCompleteContinued(): void {
+    private katherineTrainingWithUrtaCompleteContinued() {
         DisplayText().clear();
         DisplayText("Later that " + (model.time.hours + 3 > 18 ? "evening" : "day") + "...\n\n");
         DisplayText("You laugh at Urta’s joke, indicating that if that were you, things would have been very different.  Then you take a sip of your drink.  Kath is currently gulping her way down a very large, fruity-smelling drink, while Urta, having finished her joke, is chugging down yet another " + (urta.pregnancy.isPregnant ? "virgin margarita.  You and Kath already had a laugh about how inappropriate it is for any of you to be drinking something 'virgin'" : "of her favorite bottles of alcohol, the strange amber-colored stuff with the JD label - odd, you can’t remember what it’s called") + ".  The two herms seem to be having a great time here.\n\n");
@@ -1046,7 +1046,7 @@ class KatherineEmployment {
         }
     }
 
-    private katherineTrainingWithUrtaCompleteLeave(): void {
+    private katherineTrainingWithUrtaCompleteLeave() {
         DisplayText().clear();
         DisplayText("You apologize to the amorous herms, but you really have to be going...\n\n");
         DisplayText("“<i>Aw...</i>” the two sigh, clearly disappointed.  “<i>Well, I guess we’ll just try to have fun without you... but we’ll miss you,</i>” Urta says.  “<i>Yeah, so hurry back, lover,</i>” Kath winks, right before Urta reaches up and, to Kath’s own visible surprise, pulls her into a kiss... damn, but she must be drunk.\n\n");
@@ -1054,7 +1054,7 @@ class KatherineEmployment {
         return { next: Scenes.camp.returnToCampUseFourHours }; //Return to camp, use up four hours
     }
 
-    private katherineTrainingWithUrtaCompleteStay(): void {
+    private katherineTrainingWithUrtaCompleteStay() {
         DisplayText().clear();
         DisplayText("You decide that another hour is a necessary sacrifice to make, in order to indulge your lusts, as well as the lusts of the two herms eyeing you with predatory glares of hunger.  You confidently strut back towards the table and tell them that they’ve managed to convince you to stay.  The two shoot up in their seats with an excited cry, then hug each other in glee, rubbing cheeks as they smile their most winning smile.  “<i>Ooh, I can’t wait to get started on some serious fun!</i>” Urta laughs, then blinks in shock as Kath licks her playfully on the tip of her nose.  “<i>Why, you lewd little...</i>” she licks back, which somehow induces the two herms to end up making out with each other...\n\n");
         DisplayText("You cough, feeling the need to remind the two girls that, not only are you feeling a bit left out... but also that it’s not polite to invite someone over and then forget about them.  The two stop what they’re doing with a visible start, giving you a matching pair of sheepish looks.\n\n");
@@ -1072,7 +1072,7 @@ class KatherineEmployment {
         simpleChoices("Let 'em fuck", threesome.doubleStuffKath, "DP Kath", dpKath, "", null, "", null, "", null);
     }
 
-    public katherineGetsEmployed(): void {	//This scene plays automatically the first time that the player goes to Tel’Adre after Kath’s training is done
+    public katherineGetsEmployed() {	//This scene plays automatically the first time that the player goes to Tel’Adre after Kath’s training is done
         DisplayText().clear();
         DisplayText("As you make your way past the familiar sight of the gate guards to Tel’Adre, you think one of them looks familiar.  Then, a moment later, you recognize who she is and stop.  There, grinning widely at you, clad in the usual armor and helmet of the Watch and with a brand-new sword strapped to her waist, is Katherine.\n\n");
         DisplayText("“<i>Hi, " + player.short + " - what, didn’t you recognize me?</i>” she jokes.  “<i>I finally did it!  I’m in the Watch now - I have a job and a home and everything, and I owe it all to you" + (Flags.list[FlagEnum.KATHERINE_TRAINING] === 200 ? " and Captain Urta" : "") + "!</i>”\n\n");
@@ -1089,7 +1089,7 @@ class KatherineEmployment {
         telAdre.telAdreMenuShow();
     }
 
-    public postTrainingAlleyDescription(): void {
+    public postTrainingAlleyDescription() {
         DisplayText().clear();
         DisplayText("You go into the alleyway behind Oswald's shop.  It seems empty without a happy cat-morph to greet you.\n\n");
         DisplayText("Looking closely you notice a few of the secret hiding spots among the crates have been emptied.  Kath must have been here to collect some of her more sentimental possessions.\n\n");

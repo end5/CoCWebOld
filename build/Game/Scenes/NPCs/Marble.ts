@@ -1,6 +1,6 @@
 ﻿
 export class Marble extends Monster {
-	private marbleSpecialAttackOne(): void {
+	private marbleSpecialAttackOne() {
 		//Special1: Heavy overhead swing, high chance of being avoided with evasion, does heavy damage if it hits.
 		let damage: number = 0;
 		//Blind dodge change
@@ -33,7 +33,7 @@ export class Marble extends Monster {
 		statScreenRefresh();
 		combatRoundOver();
 	}
-	private marbleSpecialAttackTwo(): void {
+	private marbleSpecialAttackTwo() {
 		//Special2: Wide sweep; very high hit chance, does low damage.
 		let damage: number = 0;
 		//Blind dodge change
@@ -60,11 +60,11 @@ export class Marble extends Monster {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.marbleScene.marbleFightWin();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.marbleScene.marbleFightLose();
 	}
 

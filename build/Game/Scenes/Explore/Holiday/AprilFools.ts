@@ -14,12 +14,12 @@ export class AprilFools {
     }
 
     //----------Next Page-----------
-    public leavePonies(): void {
+    public leavePonies() {
         DisplayText().clear();
         DisplayText("Deciding it must be some demonic trick, you decide to retreat from the scene before they notice your presence.");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
-    public approachPonies(): void {
+    public approachPonies() {
         DisplayText().clear();
         DisplayText("You slowly begin your approach, though you are spotted almost immediately by the pink one.\n\n");
 
@@ -46,20 +46,20 @@ export class AprilFools {
         simpleChoices("Too creepy", derpCreepy, "Yay Party!", derpyParty, "", null, "", null, "Leave", derpPolitely);
     }
 
-    public derpPolitely(): void {
+    public derpPolitely() {
         DisplayText().clear();
         DisplayText("You hold out your arms and stop the ponies.  Once you have their attention you let them know you have something important you need to do for now, but will come back soon.  With a wave you turn and walk back into the trees to a chorus of disappointed \"<i>ahhhs</i>\", mostly from the pink one.");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    public derpCreepy(): void {
+    public derpCreepy() {
         DisplayText().clear();
         DisplayText("Cocks, horns and slavering vaginas is one thing, but this is almost too much cute to process.  You determine to leave this grove and never EVER come back again.  Still disturbed by the mental images running through your head, as you make your way back to camp, you callously slaughter an imp. Yeah, that feels better.\n\n(+10 XP!  +5 Gems!)");
         player.XP += 10;
-        player.stats.gems += 5;
+        player.inventory.gems += 5;
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
-    public derpyParty(): void {
+    public derpyParty() {
         DisplayText().clear();
         DisplayText("You watch in amazement as the flying horses string up banners, while the purple one sets a table with snacks and drinks using glowy powers coming from the horn on her head.  Whilst they set up, you discuss your home village with the orange one who compares it with working on an apple farm and you try to ignore  the white one as she primps and fusses around you, obviously unwilling to let you stay in, to quote her own words, \"<i>Hideous attire, lacking any grace or style.</i>\"\n\n");
 

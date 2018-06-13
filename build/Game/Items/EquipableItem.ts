@@ -1,5 +1,4 @@
 import { Item } from './Item';
-import { ItemType } from './ItemType';
 import { Character } from '../Character/Character';
 import { EquipSlot } from '../Inventory/EquipSlot';
 

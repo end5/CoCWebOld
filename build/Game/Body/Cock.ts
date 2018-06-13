@@ -1,5 +1,11 @@
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
+import {
+    FilterOption,
+    FindOption,
+    MapOption,
+    ReduceOption,
+    SortOption
+    } from '../../Engine/Utilities/List';
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
@@ -70,6 +76,10 @@ export class Cock implements ISerializable<Cock> {
         return previousValue + currentValue.length;
     }
 
+    public static readonly MajorityType: ReduceOption<Cock, CockType> = (previousValue: CockType, currentValue: Cock, index: number, array: Cock[]) => {
+        return array.filter((cock) => cock.type === previousValue).length >= array.filter((cock) => cock.type === currentValue.type).length ? previousValue : currentValue.type;
+    }
+
     // Note: DogCocks/FoxCocks are functionally identical. They actually change back and forth depending on some
     // of the PC's attributes, and this is recaluculated every hour spent at camp.
     // As such, delineating between the two is kind of silly.
@@ -79,7 +89,13 @@ export class Cock implements ISerializable<Cock> {
         };
     }
 
-    public static CockThatFits(area: number): FilterOption<Cock> {
+    public static CocksThatFit(area: number): FilterOption<Cock> {
+        return (a: Cock) => {
+            return a.area <= area;
+        };
+    }
+
+    public static CockThatFits(area: number): FindOption<Cock> {
         return (a: Cock) => {
             return a.area <= area;
         };

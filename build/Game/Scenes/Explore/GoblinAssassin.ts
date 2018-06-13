@@ -1,5 +1,7 @@
-﻿export class GoblinAssassin extends Monster {
-	protected goblinDrugAttack(): void {
+﻿import { Character } from '../../Character/Character';
+
+export class GoblinAssassin extends Character {
+	protected goblinDrugAttack() {
 		let temp2: number = randInt(5);
 		let color: string = "";
 		if (temp2 === 0) color = "red";
@@ -49,7 +51,7 @@
 		return;
 	}
 	//Lust Needle
-	protected lustNeedle(): void {
+	protected lustNeedle() {
 		DisplayText("With a swift step, the assassin vanishes, her movements too quick for you to follow. You take a sharp breath as you feel her ample thighs clench your head in between them, her slick cunt in full view as you take in her scent.");
 		//Miss
 		if (combatMiss() || combatEvade()) {
@@ -65,7 +67,7 @@
 		combatRoundOver();
 	}
 	//Dual Shot
-	protected dualShot(): void {
+	protected dualShot() {
 		DisplayText("The assassin throws a syringe onto the ground, shattering it and allowing the dissipating smoke from its contents to distract you long enough for her to slip underneath you. With a quick flick of her wrists two needles are placed into her hands, though you’ve already caught wind of her movements.");
 		//Miss: 
 		if (combatMiss() || combatEvade() || combatMisdirect() || combatFlexibility()) {
@@ -82,7 +84,7 @@
 		combatRoundOver();
 	}
 	//Explosion
-	protected goblinExplosion(): void {
+	protected goblinExplosion() {
 		DisplayText("Without a second thought, the assassin pulls a thin needle from the belt wrapped around her chest and strikes it against the ground, causing a flame to erupt on the tip. She twirls forward, launching the needle in your direction which subsequently bursts apart and showers you with heat.");
 		DisplayText("\nYou shield yourself from the explosion, though the goblin has already lit a second needle which she throws behind you, launching your body forwards as it explodes behind your back. ");
 		//(High HP loss, no lust gain)
@@ -91,14 +93,14 @@
 		DisplayText(" (" + damage + ")");
 		combatRoundOver();
 	}
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.goblinAssassinScene.gobboAssassinRapeIntro();
 
 	}
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (player.gender === Gender.NONE) {
 			DisplayText("You collapse in front of the goblin, too wounded to fight.  She growls and kicks you in the head, making your vision swim. As your sight fades, you hear her murmur, \"<i>Fucking dicks can't even bother to grow a dick or cunt.</i>\"");
-			game.cleanupAfterCombat();
+			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		}
 		else {
 			game.goblinAssassinScene.gobboAssassinBeatYaUp();
@@ -127,7 +129,9 @@
 this.baseStats.tou = 55;
 this.baseStats.spe = 110;
 this.baseStats.int = 95;
-		initLibSensCor(65, 35, 60);
+		this.baseStats.lib = 65;
+this.baseStats.sens = 35;
+this.baseStats.cor = 60;
 		this.weaponName = "needles";
 		this.weaponVerb = "stabbing needles";
 		this.armorName = "leather straps";
@@ -146,7 +150,7 @@ this.baseStats.int = 95;
 		checkMonster();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		let actions: Array = [eAttack, goblinDrugAttack, lustNeedle, dualShot, goblinExplosion];
 		actions[randInt(actions.length)]();
 	}

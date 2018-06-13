@@ -2,7 +2,7 @@
  * Created by K.Quesom 11.06.14
  */
 export class Phouka extends Monster {
-	protected phoukaFightAttack(): void {
+	protected phoukaFightAttack() {
 		let damage: number;
 		//Only the bunny, goat and horse forms make physical attacks
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 1) {
@@ -45,7 +45,7 @@ export class Phouka extends Monster {
 		combatRoundOver();
 	}
 
-	protected phoukaFightLustAttack(): void { //Only the faerie, bunny and horse forms make lust attacks
+	protected phoukaFightLustAttack() { //Only the faerie, bunny and horse forms make lust attacks
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_FAERIE)
 			DisplayText("The " + this.short + " uses his wings to climb high up in the air above you.  Then he starts jerking his cock at you with one hand while fondling his balls with the other.  ");
 		else if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_BUNNY)
@@ -68,7 +68,7 @@ export class Phouka extends Monster {
 		combatRoundOver();
 	}
 
-	protected phoukaFightSilence(): void { //Reuses the statusAffect Web-Silence from the spiders
+	protected phoukaFightSilence() { //Reuses the statusAffect Web-Silence from the spiders
 		DisplayText(this.capitalA + this.short + " scoops up some muck from the ground and rams it down over his cock.  After a few strokes he forms the lump of mud and precum into a ball and whips it at your face.  ");
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2)
 			DisplayText("Since he's blind the shot goes horribly wide, missing you entirely.");
@@ -87,7 +87,7 @@ export class Phouka extends Monster {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		let blinded: boolean = statusAffects.has(StatusAffectType.Blind);
 		if ((!blinded) && !player.statusAffects.has(StatusAffectType.WebSilence) && randInt(4) === 0) {
 			phoukaTransformToPhouka(); //Change to faerie form so that it can lob the ball of muck at you
@@ -115,7 +115,7 @@ export class Phouka extends Monster {
 		}
 	}
 
-	public teased(lustDelta: number): void {
+	public teased(lustDelta: number) {
 		if (lustDelta >= 10)
 			DisplayText("\n\nThe " + this.short + " breaks off its attack in the face of your teasing.  Its drooling member leaves a trail of precum along the ground and you get the feeling it needs to end this fight quickly.");
 		else if (lustDelta >= 5)
@@ -125,11 +125,11 @@ export class Phouka extends Monster {
 		applyTease(lustDelta);
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.bog.phoukaScene.phoukaPlayerWins(hpVictory);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe " + this.short + " looks on, amused. <i>“Kinky! But those wee things can't handle whiskey, so I’m safe from ‘em. Now be a good ");
 			if (player.torso.vaginas.count > 0)
@@ -147,7 +147,7 @@ export class Phouka extends Monster {
 		}
 	}
 
-	protected phoukaTransformToBunny(): void {
+	protected phoukaTransformToBunny() {
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_BUNNY) return; //Already a bunny, so no change
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_FAERIE) {
 			DisplayText("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to expand and warp.  You blink and see that in front of you there is now a 5 foot tall bunny morph.\n\n");
@@ -164,7 +164,7 @@ export class Phouka extends Monster {
 		PhoukaScene.phoukaForm = PhoukaScene.PHOUKA_FORM_BUNNY;
 	}
 
-	protected phoukaTransformToGoat(): void {
+	protected phoukaTransformToGoat() {
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_GOAT) return; //Already a goat, so no change
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_FAERIE) {
 			DisplayText("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to expand and warp.  You blink and see that in front of you there is now a 4 foot tall goat morph.\n\n");
@@ -181,7 +181,7 @@ export class Phouka extends Monster {
 		PhoukaScene.phoukaForm = PhoukaScene.PHOUKA_FORM_GOAT;
 	}
 
-	protected phoukaTransformToHorse(): void {
+	protected phoukaTransformToHorse() {
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_HORSE) return; //Already a horse, so no change
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_FAERIE) {
 			DisplayText("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to grow larger and larger.  You watch amazed as the creature's form stretches.  Finally it seems unable to grow further and settles into the form of a massive stallion.\n\n");
@@ -198,7 +198,7 @@ export class Phouka extends Monster {
 		PhoukaScene.phoukaForm = PhoukaScene.PHOUKA_FORM_HORSE;
 	}
 
-	protected phoukaTransformToPhouka(): void {
+	protected phoukaTransformToPhouka() {
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_FAERIE) return; //Already a faerie, so no change
 		if (PhoukaScene.phoukaForm === PhoukaScene.PHOUKA_FORM_BUNNY) {
 			DisplayText("The bunny morph hops back from you and starts to melt and shrink.  In seconds only a tiny faerie is left floating in the air where the bunny once was.\n\n");
@@ -215,21 +215,21 @@ export class Phouka extends Monster {
 		PhoukaScene.phoukaForm = PhoukaScene.PHOUKA_FORM_FAERIE;
 	}
 
-	public handleAwardItemText(itype: ItemType): void {
+	public handleAwardItemText(itype: ItemType) {
 		DisplayText("  You are just about to leave when you remember that glint from the hollow of that nearby tree.");
 		if (itype === null)
 			DisplayText("\n\nYou take a look and curse the " + this.short + ".  Looks like it used a piece of a broken bottle to lure you in.  At least you learned more about fighting the little pests.  You gain " + this.XP + " XP from your victory.");
 		else DisplayText("\n\nYou look inside the hollow and are pleased to find " + itype.longName + ".  You also gain " + this.XP + " XP from your victory, since you learned a bit more about fighting these little pests.\n\n");
 	}
 
-	public handleAwardText(): void {
+	public handleAwardText() {
 		//Talk about gems and XP when the player looks in the hollow of the tree instead of here
 	}
 
 	public handleCombatLossText(inDungeon: boolean, gemsLost: number): number {
-		if (player.stats.gems > 1)
+		if (player.inventory.gems > 1)
 			DisplayText("  Once free you check your gem pouch and realize the " + this.short + " took " + gemsLost + " of your gems.");
-		else if (player.stats.gems === 1)
+		else if (player.inventory.gems === 1)
 			DisplayText("  Once free you check your gem pouch and realize the " + this.short + " took your only gem.");
 		return 1; //Only use up one hour after combat loss
 	}
@@ -267,7 +267,9 @@ export class Phouka extends Monster {
 this.baseStats.tou = 25;
 this.baseStats.spe = 80;
 this.baseStats.int = 40;
-		initLibSensCor(75, 35, 100);
+		this.baseStats.lib = 75;
+this.baseStats.sens = 35;
+this.baseStats.cor = 100;
 
 		this.weaponName = "claws";
 		this.weaponVerb = "claw";

@@ -1,16 +1,16 @@
 export class Zetaz extends Monster {
 
 
-	public doAI(): void {
+	public doAI() {
 		game.zetazAI();
 	}
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.defeatZetaz();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foe doesn't seem put off enough to care...");
 			return { next: game.endLustLoss };
@@ -43,7 +43,9 @@ export class Zetaz extends Monster {
 this.baseStats.tou = 60;
 this.baseStats.spe = 45;
 this.baseStats.int = 52;
-		initLibSensCor(55, 35, 100);
+		this.baseStats.lib = 55;
+this.baseStats.sens = 35;
+this.baseStats.cor = 100;
 		this.weaponName = "claws";
 		this.weaponVerb = "claw-slash";
 		this.armorName = "leathery skin";

@@ -2,6 +2,7 @@
 export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
 export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
 export type MapOption<T, U> = (value: T, index: number, array: T[]) => U;
+export type FindOption<T> = (value: T, index: number, array: T[]) => boolean;
 
 export class List<Entry> implements Iterable<Entry> {
     protected list: Entry[] = [];
@@ -49,7 +50,7 @@ export class List<Entry> implements Iterable<Entry> {
 
     /**
      * Returns a filtered copy of the list using the provided filter option
-     * @param option SortOption
+     * @param option FilterOption or FindOption
      */
     public filter(option: FilterOption<Entry>): Entry[] {
         return this.list.filter(option);
@@ -57,18 +58,28 @@ export class List<Entry> implements Iterable<Entry> {
 
     /**
      * Reduces the list using reduce option provided
-     * @param option SortOption
+     * @param option ReduceOption
+     * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
      */
     public reduce<U>(option: ReduceOption<Entry, U>, initialValue: U): U {
         return this.list.reduce(option, initialValue);
     }
 
-    public map<U>(option: MapOption<Entry, U>, thisArg?: any): U[] {
-        return this.list.map(option, thisArg);
+    /**
+     * Returns the value of the first element in the array where predicate is true, and undefined
+     * otherwise.
+     * @param option FindOption or FilterOption
+     */
+    public find(option: FindOption<Entry>): Entry | undefined {
+        return this.list.find(option);
     }
 
-    public forEach(callbackfn: (value: Entry, index: number, array: Entry[]) => void, thisArg?: any): void {
-        return this.list.forEach(callbackfn, thisArg);
+    public map<U>(option: MapOption<Entry, U>): U[] {
+        return this.list.map(option);
+    }
+
+    public forEach(callbackfn: (value: Entry, index: number, array: Entry[]) => void): void {
+        return this.list.forEach(callbackfn);
     }
 
     public [Symbol.iterator](): Iterator<Entry> {

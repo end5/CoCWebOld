@@ -1,6 +1,6 @@
 export class ChameleonGirl extends Monster {
 
-    public chameleonTongueAttack(): void {
+    public chameleonTongueAttack() {
         this.weaponName = "tongue";
         this.weaponVerb = "tongue-slap";
         this.weaponAttack = 10;
@@ -13,7 +13,7 @@ export class ChameleonGirl extends Monster {
     }
 
     //Ignores armor
-    public chameleonClaws(): void {
+    public chameleonClaws() {
         //Blind dodge change
         if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 1) {
             DisplayText(capitalA + short + " completely misses you with a blind claw-attack!\n");
@@ -33,7 +33,7 @@ export class ChameleonGirl extends Monster {
     }
 
     //Attack 3:
-    public rollKickClawWhatTheFuckComboIsThisShit(): void {
+    public rollKickClawWhatTheFuckComboIsThisShit() {
         //Blind dodge change
         if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 1) {
             DisplayText(capitalA + short + " completely misses you with a blind roll-kick!\n");
@@ -57,7 +57,7 @@ export class ChameleonGirl extends Monster {
         combatRoundOver();
     }
 
-    override protected performCombatAction(): void {
+    override protected performCombatAction() {
         game.DisplaySprite(89);
         let select: number = randInt(3);
         if (select === 0) rollKickClawWhatTheFuckComboIsThisShit();
@@ -66,25 +66,25 @@ export class ChameleonGirl extends Monster {
     }
 
 
-    public defeated(hpVictory: boolean): void {
+    public defeated(hpVictory: boolean) {
         game.bog.chameleonGirlScene.defeatChameleonGirl();
     }
 
 
-    public won(hpVictory: boolean, pcCameWorms: boolean): void {
+    public won(hpVictory: boolean, pcCameWorms: boolean) {
         if (pcCameWorms) {
             DisplayText("\n\nThe chameleon girl recoils.  \"<i>Ew, gross!</i>\" she screetches as she runs away, leaving you to recover from your defeat alone.");
-            game.cleanupAfterCombat();
+            game.return { next: Scenes.camp.returnToCampUseOneHour };
         } else {
             game.bog.chameleonGirlScene.loseToChameleonGirl();
         }
     }
 
-    override protected outputPlayerDodged(dodge: number): void {
+    override protected outputPlayerDodged(dodge: number) {
         DisplayText("The chameleon girl whips her head and sends her tongue flying at you, but you hop to the side and manage to avoid it.  The pink blur flies back into her mouth as quickly as it came at you, and she looks more than a bit angry that she didn't find her target.\n");
     }
 
-    public outputAttack(damage: number): void {
+    public outputAttack(damage: number) {
         if (damage <= 0) {
             DisplayText("The Chameleon Girl lashes out with her tongue, but you deflect the sticky projectile off your arm, successfully defending against it.  She doesn't look happy about it when she slurps the muscle back into her mouth.");
         } else {

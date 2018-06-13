@@ -1,8 +1,8 @@
 export class Brigid extends Monster {
 
 	//Attack One: Hot Poker, Right Up Your Ass!
-	private brigidPoke(): void {
-		DisplayText("Brigid stalks forward with confidence, her shield absorbing your defensive blows until she's right on top of you. She bats your [weapon] aside and thrashes you with her hot poker, scalding your " + SkinDescriptor.skin(character) + " and sending you reeling.");
+	private brigidPoke() {
+		DisplayText("Brigid stalks forward with confidence, her shield absorbing your defensive blows until she's right on top of you. She bats your [weapon] aside and thrashes you with her hot poker, scalding your " + Desc.Skin.skin(character) + " and sending you reeling.");
 		//(Effect: Heavy Damage)
 		let damage: number = Math.round((str + weaponAttack) - randInt(player.stats.tou) - player.armorDef);
 		if (damage < 30) damage = 30;
@@ -12,7 +12,7 @@ export class Brigid extends Monster {
 	}
 
 	//Attack Two: SHIELD BOP! OOM BOP!
-	private brigidBop(): void {
+	private brigidBop() {
 		DisplayText("The harpy feints at you with her poker; you dodge the blow, but you leave yourself vulnerable as she spins around and slams her heavy shield into you, knocking you off balance.");
 		//(Effect: Stagger/Stun)
 		let damage: number = 5;
@@ -24,12 +24,12 @@ export class Brigid extends Monster {
 	}
 
 	//Attack Three: Harpy Ass Grind GO!
-	private BrigidAssGrind(): void {
+	private BrigidAssGrind() {
 		DisplayText("Brigid grins as she approaches you.  She handily deflects a few defensive blows and grabs you by the shoulders.  She forces you onto your knees and before you can blink, has turned around and smashed your face into her ass!  \"<i>Mmm, you like that, don'tcha?</i>\" she growls, grinding her huge, soft ass across your face, giving you an up-close and personal feel of her egg-laying hips.");
 		game.player.stats.lust += 30;
 		game.combatRoundOver();
 	}
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (player.statusAffects.has(StatusAffectType.Stunned)) {
 			player.statusAffects.remove("Stunned");
 			if (randInt(2) === 0) BrigidAssGrind();
@@ -42,11 +42,11 @@ export class Brigid extends Monster {
 	}
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.brigidScene.pcDefeatsBrigid();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.brigidScene.pcDefeatedByBrigid();
 	}
 
@@ -73,7 +73,9 @@ export class Brigid extends Monster {
 this.baseStats.tou = 60;
 this.baseStats.spe = 120;
 this.baseStats.int = 40;
-		initLibSensCor(40, 45, 50);
+		this.baseStats.lib = 40;
+this.baseStats.sens = 45;
+this.baseStats.cor = 50;
 		this.weaponName = "poker";
 		this.weaponVerb = "burning stab";
 		this.weaponAttack = 30;

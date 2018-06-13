@@ -5,11 +5,11 @@
 export class FemaleSpiderMorph extends AbstractSpiderMorph {
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.swamp.femaleSpiderMorphScene.defeatASpiderBitch();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe spider flashes a predatory grin while she waits it out...");
 			return { next: game.endLustLoss };
@@ -41,7 +41,9 @@ export class FemaleSpiderMorph extends AbstractSpiderMorph {
 this.baseStats.tou = 50;
 this.baseStats.spe = 99;
 this.baseStats.int = 99;
-		initLibSensCor(35, 35, 20);
+		this.baseStats.lib = 35;
+this.baseStats.sens = 35;
+this.baseStats.cor = 20;
 		this.weaponName = "dagger";
 		this.weaponVerb = "stab";
 		this.weaponAttack = 15;

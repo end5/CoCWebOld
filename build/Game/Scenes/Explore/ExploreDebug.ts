@@ -3,9 +3,9 @@
  */
 public class ExploreDebug {
 
-	public doExploreDebug(): void {
+	public doExploreDebug() {
 		DisplayText().clear();
-		menu();
+		
 
 		DisplayText("<b>Monsters</b> &nbsp; combat each monster.\n\n");
 		MainScreen.addButton(0, "Monsters", exploreDebugMonsters);
@@ -99,9 +99,9 @@ public class ExploreDebug {
 		function (): Monster { return new Ember(); }
 	];
 
-	private exploreDebugMonsters(monsterIdx: number = 0): void {
+	private exploreDebugMonsters(monsterIdx: number = 0) {
 		DisplayText().clear();
-		menu();
+		
 
 		if (monsterIdx === 0) {
 			DisplayText("<b>WARNING.</b> You are going to fight (probably) all the monsters. " +
@@ -115,31 +115,31 @@ public class ExploreDebug {
 			DisplayText("You have fought every monster.");
 		} else {
 			let m: Monster = allMonsters[monsterIdx]();
-			m.onDefeated = function (hpVictory: boolean): void {
+			m.onDefeated = function (hpVictory: boolean) {
 				Game.inCombat = false;
 				Game.clearStatuses(false);
 				statScreenRefresh();
 				exploreDebugMonsters(monsterIdx + 1);
 			};
-			m.onWon = function (hpVictory: boolean, pcCameWorms: boolean): void {
+			m.onWon = function (hpVictory: boolean, pcCameWorms: boolean) {
 				Game.inCombat = false;
 				Game.clearStatuses(false);
 				statScreenRefresh();
 				exploreDebugMonsters(monsterIdx + 1);
 			};
-			m.onPcRunAttempt = function (): void {
+			m.onPcRunAttempt = function () {
 				Game.inCombat = false;
 				Game.clearStatuses(false);
 				statScreenRefresh();
 				exploreDebugMonsters(monsterIdx + 1);
 			};
 			DisplayText("You are going to fight " + m.a + " " + m.short + ".");
-			MainScreen.addButton(0, "Fight", function (): void {
+			MainScreen.addButton(0, "Fight", function () {
 				DisplayText("\n\nStarting combat...");
 				startCombat(m);
 			});
 			MainScreen.addButton(1, "Skip", exploreDebugMonsters, monsterIdx + 1);
-			MainScreen.addButton(2, "Heal", function (): void {
+			MainScreen.addButton(2, "Heal", function () {
 				player.stats.HP = player.maxHP();
 				player.stats.lust = 0;
 				statScreenRefresh();

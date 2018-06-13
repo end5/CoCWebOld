@@ -26,7 +26,7 @@ class UmasShop {
     /**
      * Builds an array of the sub-scenes for Loppe conversations. No point continually building the shit every time, right?
      */
-    private initLoppeTalks(): void {
+    private initLoppeTalks() {
         _loppeTalks = [];
         _loppeTalks.push(talkLoppeAttitudes);
         _loppeTalks.push(talkLoppeCarrotIncident);
@@ -39,7 +39,7 @@ class UmasShop {
      * First time scene entering le shoppe
      * Edit Status: 100%
      */
-    public firstVisitPart1(): void {
+    public firstVisitPart1() {
         DisplayText().clear();
 
         DisplayText("You make your way to Uma's shop.  It's close to Loppe's house");
@@ -75,7 +75,7 @@ class UmasShop {
 
         DisplayText("with a soft expression; her features are maternal and friendly, but there's a playful twinkle in her eye that makes her look younger than she really is.  For all that, she's clearly a mature woman but still strong and attractive.  Black hair, starting to go gray at the tips, is worn in a long, elegant braid, the end knotted around an elaborate butterfly hairpin.  While her fur is a beautiful shade of chestnut brown, her large eyes are a deep brown, almost black.  She casually flicks an equine ear in a manner that reminds you very much of Loppe, and you have a strong feeling that this is Uma, Loppe's mother.\n\n");
 
-        menu();
+        
         MainScreen.addButton(0, "Next", firstVisitPart2);
     }
 
@@ -84,7 +84,7 @@ class UmasShop {
      * Page 2 of introduction scene
      * Edit Status: 95%
      */
-    public firstVisitPart2(): void {
+    public firstVisitPart2() {
         DisplayText().clear();
 
         DisplayText("Loppe bounces up towards the tall equine and they embrace in a friendly hug.  \"<i>Hi, mom!</i>\"  Uma laughs softly . \"<i>Hello my little horsey hopper.  Who is this?</i>\" she asks, looking at you.\n\n");
@@ -103,7 +103,7 @@ class UmasShop {
         DisplayText("Uma is the first to break the awkwardness.  \"<i>Well then, care to give me the details?  How did you two meet?  When did you start fooling around?  Has my daughter worked so hard you had to seek a healer yet?</i>\"\n\n");
         DisplayText("Loppe holds your hand and the two of you begin detailing how you met....\n\n");
 
-        menu();
+        
         MainScreen.addButton(0, "Next", firstVisitPart3);
 
 
@@ -113,7 +113,7 @@ class UmasShop {
      * Page 3 of introduction scene
      * Edit Status: 95%
      */
-    public firstVisitPart3(): void {
+    public firstVisitPart3() {
         DisplayText().clear();
 
         DisplayText("\"<i>I see... that is so like my daughter to do something like that.</i>\"  Uma glares mischievously at Loppe.  \"<i>Aww mom... cut me some slack!</i>\"  Loppe protests, playfully.  You can't resist laughing softly at the two; it reminds you of people back in Ingnam... albeit they're joking about subject matter you'd normally not touch back in your world.</i>\n\n");
@@ -131,7 +131,7 @@ class UmasShop {
         flags[FlagEnum.LOPPE_PC_MET_UMA] = 1;
 
         // Player returns to Camp
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
@@ -140,7 +140,7 @@ class UmasShop {
      * Edit Status: 90%
      * @param returnedTo	Indicates the "entrance" mode. false = came here from an external menu, true = backed out from one of Uma's options
      */
-    public enterClinic(returnedTo: boolean = false): void {
+    public enterClinic(returnedTo: boolean = false) {
         DisplayText().clear();
 
         // Hide the stuff that dun make no sense if you're dropping back from a menu inside the clinic
@@ -170,13 +170,13 @@ class UmasShop {
      * Build the primary interface menu to interact with Uma.
      * @param	noSex	Indicates if the Sex button should be hidden from display.
      */
-    private buildCoreMenu(noSex: boolean = false): void {
+    private buildCoreMenu(noSex: boolean = false) {
         if (noSex) {
             DisplayText("You sigh softly, but accept Uma's sexuality is the way it is and apologize for the problem.\n\n");
             DisplayText("\"<i>Don't worry about that, it's nothing personal.  I just don't swing that way.  Although, if you were to make yourself a bit more feminine, I might consider it.  Maybe you could find yourself a nice little beauty salon somewhere?  I heard there are some treatments that can make you absolutely gorgeous.</i>\"\n\n");
         }
 
-        menu();
+        
         MainScreen.addButton(0, "Massage", massageMenu);
         MainScreen.addButton(1, "Acupunct.", acupunctureMenu);
         MainScreen.addButton(2, "Talk", talkMenu);
@@ -197,7 +197,7 @@ class UmasShop {
      * Primary massage intro & selection menu
      * Edit Status: 95%
      */
-    public massageMenu(): void {
+    public massageMenu() {
         DisplayText().clear();
 
         DisplayText("You ask if she'd like to have a little business.  You could really use one of her famous massage sessions.\n\n");
@@ -210,7 +210,7 @@ class UmasShop {
         DisplayText("Finally, the last message in the catalogue reads, \"Need a little more power?  Going to have a fight on your hands soon?  With the special arts of do-in, we can boost your muscles and let you deliver a real knock-out punch - it doesn't last forever, so be careful!\"\n\n");
         DisplayText("You contemplate your choices carefully.");
 
-        menu();
+        
         MainScreen.addButton(0, "Relief", massageRelief);
         MainScreen.addButton(1, "Lust", massageLust);
         MainScreen.addButton(2, "Modelling", massageModelling);
@@ -223,13 +223,13 @@ class UmasShop {
      * Player changed mind about MASSAGEU TIEMU
      * Edit Status: 100%
      */
-    public massageNope(): void {
+    public massageNope() {
         DisplayText().clear();
 
         DisplayText("You apologize and tell Uma that you've changed your mind, you don't want a massage right now.\n\n");
         DisplayText("\"<i>Very well, dear.</i>\"  Uma takes the catalogue back.");
 
-        menu();
+        
         MainScreen.addButton(0, "Next", enterClinic, true);
     }
 
@@ -241,7 +241,7 @@ class UmasShop {
     public static const MASSAGE_RELIEF: number = 0;
     public static const MASSAGE_RELIEF_BONUS: number = 0.9;	// Multiplicative bonus to Lust gains
     private static const MASSAGE_RELIEF_BONUS_TEXT: string = "<b>(10% Reduction to all Lust gains whilst active!)</b>";
-    public massageRelief(): void {
+    public massageRelief() {
         DisplayText().clear();
 
         DisplayText("You tell Uma that you're interested in the lust-relieving massage.\n\n");
@@ -260,7 +260,7 @@ class UmasShop {
     public static const MASSAGE_LUST: number = 1;
     public static const MASSAGE_LUST_BONUS: number = 1.1;	// Multiplicative bonus to Lust gains
     private static const MASSAGE_LUST_BONUS_TEXT: string = "<b>(10% Increase to all Lust gains whilst active!)</b>";
-    public massageLust(): void {
+    public massageLust() {
         DisplayText().clear();
 
         DisplayText("You tell Uma that you're interested in the arousal-inducing massage.\n\n");
@@ -279,7 +279,7 @@ class UmasShop {
     public static const MASSAGE_MODELLING: number = 2;
     public static const MASSAGE_MODELLING_BONUS: number = 10;	// Flat bonus applied to femininity stat
     private static const MASSAGE_MODELLING_BONUS_TEXT: string = "<b>(+10 Bonus Femininity whilst active!)</b>";
-    public massageModelling(): void {
+    public massageModelling() {
         DisplayText().clear();
 
         DisplayText("You tell Uma that you're interested in the attractiveness-boosting massage.\n\n");
@@ -305,7 +305,7 @@ class UmasShop {
     public static const MASSAGE_RELAXATION: number = 3;
     public static const MASSAGE_RELAXATION_BONUS: number = 0.9;	// Multiplicative bonus to damage taken -- these seem a little op with current values
     private static const MASSAGE_RELAXATION_BONUS_TEXT: string = "<b>(10% Reduction to all Damage taken whilst active!)</b>";
-    public massageRelaxation(): void {
+    public massageRelaxation() {
         DisplayText().clear();
 
         DisplayText("You tell Uma that you're interested in the relaxing massage.\n\n");
@@ -324,7 +324,7 @@ class UmasShop {
     public static const MASSAGE_POWER: number = 4;
     public static const MASSAGE_POWER_BONUS: number = 1.1;	// Multiplicative bonus to damage done -- these seem a little op with current values
     private static const MASSAGE_POWER_BONUS_TEXT: string = "<b>(10% Increase to all Damage inflicted whilst active!)</b>";
-    public massagePower(): void {
+    public massagePower() {
         DisplayText().clear();
 
         DisplayText("You tell Uma that you're interested in the strength-boosting massage.\n\n");
@@ -342,7 +342,7 @@ class UmasShop {
      * @param	selectedMassage		int key of the massage type, for later application of benefits.
      * Edit Status: 95%
      */
-    public massageMain(selectedMassage: number): void {
+    public massageMain(selectedMassage: number) {
         DisplayText().clear();
 
         DisplayText("The room is light, but not overwhelmingly bright, with cool breezes gently wafting through, tingling deliciously on your exposed [skin] and setting the chimes hanging from the rafters gently a-tinkle.  A number of large potted plants occupy the corners of the room, and there's even a tiny fountain with stones in it, the tumble of water over rocks creating a strangely soothing melody.  A small brazier produces a sweet, calming smell from incense burning in it.  The pride of the room is a sizable table, made from bamboo; it's covered in a white cloth, and has an upraised headboard with a hole in it that looks like it's big enough to fit your head through.\n\n");
@@ -351,19 +351,19 @@ class UmasShop {
         DisplayText("Uma slaps her forehead.  \"<i>Sorry about that, dear.  Usually I charge 100 gems for this kind of service, but since you're my little horsey-hopper's [boyfriend], I'll give you a discount... how about 75 gems instead?</i>\"\n\n");
 
         // Not enough cashmonies to pay for massage
-        if (player.stats.gems < 75) {
+        if (player.inventory.gems < 75) {
             DisplayText("You tell her that you don't have that many gems on you right now.\n\n");
             DisplayText("Uma sighs and shakes her head.  \"<i>Sorry dear, but if you can't pay I can't treat you.</i>\"\n\n");
             DisplayText("You sigh in turn, and tell her that you accept that; she is a business-woman, after all.  You'll have to come back another day, when you do have the money to pay for it.\n\n");
             DisplayText("Wishing her well, you calmly let yourself out of the shop and head back to camp.");
 
-            menu();
+            
             return { next: Scenes.camp.returnToCampUseOneHour };
             return;
         }
 
         DisplayText("You tell her that sounds fair, withdrawing the gems and handing them to her.\n\n");
-        player.stats.gems -= 75;
+        player.inventory.gems -= 75;
 
         DisplayText("\"<i>Thanks, dear,</i>\" Uma  beams, pocketing the gems and walking towards the table.  \"<i>Okay, get yourself stripped naked and lay down on the table, face up for me dear.</i>\"\n\n");
         DisplayText("You promptly set about removing your [armorname], ");
@@ -375,7 +375,7 @@ class UmasShop {
 
         DisplayText("and move over to lay yourself on the table.  You get yourself comfortable and tell Uma that you're ready.\n\n");
 
-        menu();
+        
         MainScreen.addButton(0, "Next", massageCommence, selectedMassage);
     }
 
@@ -384,7 +384,7 @@ class UmasShop {
      * @param	selectedMassage		Massage bonus ID to apply
      * Edit Status: 95%
      */
-    public massageCommence(selectedMassage: number): void {
+    public massageCommence(selectedMassage: number) {
         DisplayText().clear();
 
         DisplayText("\"<i>Very well, dear.</i>\"  She cracks her knuckles ominously, \"<i>This might hurt a bit, but bear with it,</i>\" she adds, rolling up the sleeves of her kimono.\n\n");
@@ -418,7 +418,7 @@ class UmasShop {
 
         // Apply bonus & back to camp!
         applyMassageBonus(selectedMassage);
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
@@ -428,7 +428,7 @@ class UmasShop {
      * StatusAffects.UmasMassage for all bonuses
      * @param	selectedMassage
      */
-    public applyMassageBonus(selectedMassage: number): void {
+    public applyMassageBonus(selectedMassage: number) {
         if (selectedMassage < 0 || selectedMassage > 4) {
             DisplayText("<b>Invalid massage bonus ID! Welp!</b>");
         }
@@ -473,7 +473,7 @@ class UmasShop {
      * Handle reducing the remaining time that the bonus is active for.
      * When expired, remove and include a message to the effect.
      */
-    public updateBonusDuration(hours: number): void {
+    public updateBonusDuration(hours: number) {
         let statIndex: number = player.findStatusAffect(StatusAffects.UmasMassage);
 
         if (statIndex >= 0) {
@@ -488,7 +488,7 @@ class UmasShop {
     /**
      * Spam a message about the bonus being removed.
      */
-    public bonusExpired(): void {
+    public bonusExpired() {
         DisplayText("\n<b>You groan softly as a feeling of increased tension washes over you, no longer as loose as you were before.  It looks like the effects of Uma's massage have worn off.</b>\n");
 
         player.statusAffects.remove("UmasMassage");
@@ -646,7 +646,7 @@ class UmasShop {
      * ie. it makes future balancing of the perks more of a chore. Rather, other code can just reference the static vars we have here using UmasShop.NEEDLEWORK_MAGIC_blah. It's still bad, but its an shader of bad lighter so fuck it!
      * @param	selectedSession		Static bonus index to apply to the player
      */
-    public applyNeedlework(selectedSession: number): void {
+    public applyNeedlework(selectedSession: number) {
         if (selectedSession === NEEDLEWORK_UNDO) {
             player.removePerk(this.getNeedleworkPerk());
             flags[FlagEnum.UMA_TIMES_ACUPUNCTURE_UNDO]++;
@@ -678,7 +678,7 @@ class UmasShop {
      * Edit Status: 85%
      * 				Some of the session descriptions might be a little... off. I've touched up one or two.
      */
-    public acupunctureMenu(): void {
+    public acupunctureMenu() {
         DisplayText().clear();
 
         DisplayText("You tell her that you want to try one of those acupuncture sessions of hers.\n\n");
@@ -691,7 +691,7 @@ class UmasShop {
             DisplayText("You tell her that you understand what she's saying, and consider the decision carefully.  You ask her how difficult she estimates the process would be, given the past sessions you have endured.\n\n");
             DisplayText("The mare takes a moment to inspect you carefully, seeming to look through rather than at you.  \"<i>This could be quite a challenge, even for my skills... but, seeing as you're my little hoppers special someone, just for you I will have to ask for " + String(sessionCost) + " gems.  That's half the price of what I'd usually charge for work this difficult.</i>\"\n\n");
 
-            menu();
+            
             MainScreen.addButton(0, "Undo", needleworkSession, NEEDLEWORK_UNDO);
         }
         else {
@@ -707,7 +707,7 @@ class UmasShop {
             DisplayText("\"<i>Finally, I can use my needles to rearrange your chi flow and optimise your offense; your blows will be far more powerful, but your natural defense will be impaired, making you more vulnerable to strikes by the enemy.</i>\"\n\n");
             DisplayText("The mare tries to remember any other types of needlework that might be useful to you, but ultimately, she can't think of anything else.  \"<i>That's all you might use, I think...</i>\"  She then pauses.  \"<i>As for a price, given you're my little Loppe's special someone, shall we say " + String(sessionCost) + " gems?  That's half-price of what I'd usually charge.</i>\"\n\n");
 
-            menu();
+            
             MainScreen.addButton(0, "Speed", needleworkSession, NEEDLEWORK_SPEED);
             MainScreen.addButton(1, "Lust", needleworkSession, NEEDLEWORK_LUST);
             MainScreen.addButton(2, "Defense", needleworkSession, NEEDLEWORK_DEFENSE);
@@ -719,11 +719,11 @@ class UmasShop {
         MainScreen.addButton(9, "No Thanks", needleworkTurnDown);
 
         // Cashmonies time
-        if (player.stats.gems < sessionCost) {
+        if (player.inventory.gems < sessionCost) {
             DisplayText("You click your tongue and apologize to Uma, but you don't have enough gems to pay for your treatment...\n\n");
             DisplayText("Uma sighs, \"It's okay, dear.  Just come back when you do, my doors are always open.\"");
 
-            menu();
+            
             return { next: Scenes.camp.returnToCampUseOneHour };
             return;
         }
@@ -743,13 +743,13 @@ class UmasShop {
      * Player changes mind about going through with Accupuncture session.
      * Edit Status: 100%
      */
-    public needleworkTurnDown(): void {
+    public needleworkTurnDown() {
         DisplayText().clear();
 
         DisplayText("You shake your head and tell Uma that you'd actually rather not get one of her acupuncture treatments at this point in time.\n\n");
         DisplayText("\"<i>Very well, dear.  It's important that you think this through, they're not easy to undo.</i>\"");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", enterClinic, true);
     }
@@ -759,7 +759,7 @@ class UmasShop {
      * Edit Status: 100%
      * @param	selectedSession		Static let indicating the desired outcome based on player selection. See NEEDLEWORK_ vars.
      */
-    public needleworkSession(selectedSession: number): void {
+    public needleworkSession(selectedSession: number) {
         DisplayText().clear();
 
         // Pay up
@@ -768,16 +768,16 @@ class UmasShop {
             DisplayText("You tell Uma that you'd like her to remove the effects of your last acupuncture session from your body.  Then hand over the gems.\n\n");
             DisplayText("\"<i>Alright, dear,</i>\" Uma replies, pocketing the gems.  \"<i>It might take some time, but I think I can help you with that... follow me.</i>\"\n\n");
 
-            player.stats.gems -= this.needleworkUndoCost();
+            player.inventory.gems -= this.needleworkUndoCost();
         }
         else {
             DisplayText("You tell Uma that you would like her to give you the " + this.needleworkString(selectedSession) + " acupuncture session, please. Then hand over the gems.\n\n");
             DisplayText("\"<i>Alright dear,</i>\" Uma replies, pocketing the gems.  \"<i>Let's go then.</i>\"  She motions for you to follow her.");
 
-            player.stats.gems -= 125;
+            player.inventory.gems -= 125;
         }
 
-        menu();
+        
         MainScreen.addButton(0, "Next", doNeedleworkSession, selectedSession);
     }
 
@@ -786,7 +786,7 @@ class UmasShop {
      * Edit Status: 90%
      * @param	selectedSession		Static let indicating the desired outcome based on player selection. See NEEDLEWORK_ vars.
      */
-    public doNeedleworkSession(selectedSession: number): void {
+    public doNeedleworkSession(selectedSession: number) {
         DisplayText().clear();
 
         DisplayText("The room is light, but not overwhelmingly bright, with cool breezes gently wafting through, tingling deliciously on your exposed [skin] and setting the chimes hanging from the rafters gently a-tinkle. A number of large potted plants occupy the corners of the room, and there's even a tiny fountain with stones in it, the tumble of water over rocks creating a strangely soothing melody.  A small brazier produces a sweet, calming smell from incense burning in it.  The pride of the room is a sizable table, made from bamboo; it's covered in a white cloth, and has an upraised headboard with a hole in it that looks like it's big enough to fit your head through.\n\n");
@@ -812,7 +812,7 @@ class UmasShop {
 
         applyNeedlework(selectedSession);
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
@@ -821,13 +821,13 @@ class UmasShop {
      * Most of these will need breaking into multiple pages methinks.
      * Edit Status: 100%
      */
-    public talkMenu(): void {
+    public talkMenu() {
         DisplayText().clear();
 
         DisplayText("You tell Uma that you'd like to chat; you're interested in getting to know her better, and who knows, maybe she can help you get to know her daughter better?\n\n");
         DisplayText("\"<i>Sure, what would you like to talk about?</i>\"  Uma replies with a smile.");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Job", talkJob);
         MainScreen.addButton(1, "Sexuality", talkSexuality);
@@ -840,7 +840,7 @@ class UmasShop {
      * Talk Job
      * Edit Status: 95%
      */
-    public talkJob(): void {
+    public talkJob() {
         DisplayText().clear();
 
         DisplayText("You tell her that you're curious about the work she does and what it can do.\n\n");
@@ -858,7 +858,7 @@ class UmasShop {
         DisplayText("\"<i>It's always pleasure speaking to the [man] that wooed my little Loppe, dear.  Come visit soon, will you?</i>\"\n\n");
         DisplayText("You promise you'll try, and then head back to camp.");
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
@@ -866,7 +866,7 @@ class UmasShop {
      * Talk Sexuality
      * Edit Status: 90%
      */
-    public talkSexuality(): void {
+    public talkSexuality() {
         DisplayText().clear();
 
         DisplayText("You tell her that, if it's not too personal, you'd like to ask her some questions about her sexuality?\n\n");
@@ -885,7 +885,7 @@ class UmasShop {
         DisplayText("You laugh at that, thanking her for her generosity and her time, and then tell her it's time for you to go.  Uma smiles at you and says, \"<i>Come visit me again soon.</i>\"\n\n");
         DisplayText("You promise that you will, and then head out of the quaint little clinic and back to camp.\n\n");
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
@@ -893,7 +893,7 @@ class UmasShop {
      * Talk about Loppe. Randomly selects a specific scene after selection.
      * Edit Status: 100%
      */
-    public talkLoppe(): void {
+    public talkLoppe() {
         DisplayText().clear();
 
         DisplayText("You tell her that you wouldn't mind hearing some stories about Loppe; what was she like as a little Loppe?  Maybe her mom's got some embarrassing secrets to share about her, you grin?\n\n");
@@ -908,8 +908,8 @@ class UmasShop {
     /**
      * Centralise the end-of-talk loppe stuffs
      */
-    public talkLoppeJoiner(): void {
-        menu();
+    public talkLoppeJoiner() {
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
         //addButton(1, "Debugz", talkMenu);
     }
@@ -918,7 +918,7 @@ class UmasShop {
      * Random talk scene about Loppe's Attitudes.
      * Edit Status: 90%
      */
-    public talkLoppeAttitudes(): void {
+    public talkLoppeAttitudes() {
         DisplayText("\"<i>What do you think of Loppe?  How she acts?  Looks?  Behaves?</i>\"  Uma asks with a smile.\n\n");
         DisplayText("You're not quite sure what Uma's getting at and tell her as much, but finally declare that you'd probably call her girly.  A little on the tomboyish side, but, given she's a herm that only seems reasonable; it's hard to say what gender traits would be best for a person who is functionally both male and female.\n\n");
         DisplayText("\"<i>That's true, but what you probably don't know is Loppe was a lot more troublesome when she was just a little hopper.  She was a lot more boyish, and if anyone called her a girl she'd happily start an all out brawl at a moments notice.</i>\"\n\n");
@@ -947,7 +947,7 @@ class UmasShop {
      * Loppe Talk - The Carrot Incident
      * Edit Status: 90%
      */
-    public talkLoppeCarrotIncident(): void {
+    public talkLoppeCarrotIncident() {
         DisplayText("\"<i>Tell me, [name].  Did you know rabbits love carrots?</i>\"  Uma asks with a smirk.\n\n");
         DisplayText("You tell her that's what people say, back in the village you come from.  But, then again, you smirk, they also say that horses love carrots too, and you verbally recount an incident in which a mare broke out of her pen and ate so many carrots from one of the village fields she was heartily sick.  You ask jokingly if Uma shares any favorite dishes with her daughter?\n\n");
         DisplayText("\"<i>Of course I do.  I happen to have a soft spot for carrot cake myself... but that's not why I asked.  As you know, my daughter is part equine and part leporid, so as you can imagine she loves carrots, right?</i>\"\n\n");
@@ -974,7 +974,7 @@ class UmasShop {
      * Loppe Talk - Loppe Puberty
      * Edit Status: 80%
      */
-    public talkLoppePuberty(): void {
+    public talkLoppePuberty() {
         DisplayText("\"<i>By now, you must know about Loppe's stamina, right?  And that her cum production is also... quite elevated too, no?</i>\"  Uma asks, smiling.\n\n");
         DisplayText("You can't resist a wry grin as you comment that you might be familiar with what Uma is talking about, yes.\n\n");
         DisplayText("\"<i>But, did you know it caused her no end of problems when she was younger?</i>\"\n\n");
@@ -996,14 +996,14 @@ class UmasShop {
 
         if (player.femininity >= UMA_CONSIDER_PC_FEM) {
             DisplayText("\"<i>Old? Why you... take off your clothes and hop on my table, I'll show you old!</i>\"  Uma replies with indignation.  \"<i>I promise you that by the time I'm done with you, you won't be able to stand on your own two feet, ");
-            if (LowerBodyDescriptor.describeFeet(player) != "feet") {
+            if (Desc.Leg.describeFeet(player) != "feet") {
                 DisplayText("or whatever the term is for you, ");
             }
             DisplayText("then we'll see who is old!</i>\"\n\n");
         }
         else {
             DisplayText("\"<i>Old? Why you... if you were girly enough to be my type I would show you who's old!</i>\"  Uma replies indignantly.  \"<i>I promise you wouldn't be able to stand on your own two feet, ");
-            if (LowerBodyDescriptor.describeFeet(player) != "feet") {
+            if (Desc.Leg.describeFeet(player) != "feet") {
                 DisplayText("or whatever the term is for you, ");
             }
             DisplayText("then we'll see who is old!</i>\"\n\n");
@@ -1030,7 +1030,7 @@ class UmasShop {
      * 				Calling it 75%. I've been through all of it and some of the tensing seems off in places, but I've cleaned up a bunch of shit. I don't even know if this should stay;
      * 				It's good, but it's doesn't exactly fit with the style of anything else in CoC outside of Urta's Quest in a way, so...
      */
-    public talkLoppesFirstGirl(): void {
+    public talkLoppesFirstGirl() {
         DisplayText("\"<i>Oh, I know what would be a great story...</i>\"  Uma smirks at you.  \"<i>How would you like to hear about my little laquine's first time with a girl?</i>\"\n\n");
         DisplayText("You give it a moments thought, and tell the mare that would be nice; you're curious about just what Loppe's dating life was like before you met her.  Oh, she talks a bold game, but you're not entirely certain she's being honest with you...\n\n");
         DisplayText("\"<i>Very well, please make yourself comfortable, it's a bit of a long story.</i>\" Uma suggests, motioning at a nearby chair and taking a seat herself.\n\n");
@@ -1041,12 +1041,12 @@ class UmasShop {
         DisplayText("You shake your head, not sure you want to ask why she'd use such a street name.  You tell the mare to continue; she was saying that Loppe had been blossoming into a pretty young herm who caught the eyes of many in the village?\n\n");
         DisplayText("\"<i>Yes.  One day, I had my little Loppe take a request to the local carpenter, which happens to be close to where Puff used to... hunt.</i>\"\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstGirlPart2);
     }
 
-    public talkLoppesFirstGirlPart2(): void {
+    public talkLoppesFirstGirlPart2() {
         DisplayText().clear();
 
         DisplayText("<b>Years ago in a village to the east...</b>\n\n");
@@ -1063,12 +1063,12 @@ class UmasShop {
         DisplayText("Somehow, then and there, Puff just knew she had to have that young bunny over for lunch. Taking a quick look at her pocket mirror to see if she was presentable enough she cleared her throat and struck the sexiest pose she could muster whilst leaning against the wall to the carpentry.\n\n");
         DisplayText("When Loppe approached the carpentry, written request in hand, a melodic, feminine voice called,  \"<i>Hey, bunny-girl!</i>\"\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstGirlPart3);
     }
 
-    public talkLoppesFirstGirlPart3(): void {
+    public talkLoppesFirstGirlPart3() {
         DisplayText().clear();
 
         DisplayText("Loppe blinks in surprise, wondering who was talking to her.  \"<i>Yes?  Who?</i>\" She began, looking around and then realising who was calling to her...  \"<i>Oh, Ms. Puff, hello.</i>\"  She replied, quietly.  She still wasn't really sure why her mother and everyone else seemed to call her \"Puffy Lips\", or \"Puff\" for short - though she had to admit, the she-wolf's lips certainly looked kissable.\n\n");
@@ -1094,12 +1094,12 @@ class UmasShop {
         DisplayText("Swallowing nervously, heart pounding like a drum, Loppe does her best to not watch Puff go - she's already hard enough, after all.  Long minutes pass as she tries to quell her raging erection, and then finally she remembers what she's supposed to be doing and heads to the carpentry store.\n\n");
         DisplayText("Back in her house, Puff goes to the bathroom to freshen up and prepare for the young laquine.  But first, she should add the laquine's name to her list.  Being a hooker and proud of her trade, she kept a list with the names of all customers she'd serviced in the past.  It was sorta like a trophy list... but she marked the people who had been able to pleasure her the most, for future contact.  Well, she hoped this girl knows how to use her pony, she really needed more favorites on her list. Humming to herself she quickly retrieved the notebook from the cupboard nearby, and carefully added Loppe's name to it, then she closed it and stripped naked; those clothes would only get in the way...\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstGirlPart4);
     }
 
-    public talkLoppesFirstGirlPart4(): void {
+    public talkLoppesFirstGirlPart4() {
         DisplayText().clear();
 
         DisplayText("<b>Moments later in Puffy Lips' house...</b>\n\n");
@@ -1131,12 +1131,12 @@ class UmasShop {
         DisplayText("\"<i>What? But you promised!</i>\" Loppe pleads, eyes widened to make herself more appealing.  \"<i>Plus, weren't you 'going to fuck me until you ran my balls dry'?</i>\"  She quotes the wolfess jokingly.  \"<i>I thought you took pride in being a - Yesss - a whore, and never left a customer unsatisfied.</i>\"  Loppe continues to tease.\n\n");
         DisplayText("\"<i>That sounded like a challenge... okay!  You're on bunny-girl!</i>\"  Puff replies with a grin.\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstGirlPart5);
     }
 
-    public talkLoppesFirstGirlPart5(): void {
+    public talkLoppesFirstGirlPart5() {
         DisplayText().clear();
 
         DisplayText("<b>Many orgasms later...</b>\n\n");
@@ -1146,12 +1146,12 @@ class UmasShop {
         DisplayText("As she began heading merrily home, the laquine whistled with glee; she just got laid!  And by the utterly gorgeous Puffy Lips, no less!  Nothing could ruin her day now... at least, not until she took a look at the sun...\n\n");
         DisplayText("\"<i>Oh crap!  Mom's gonna kill me for staying out this late!</i>\"  The half-breed wailed, clasping her head in anguish.  She promptly began sprinting home at full speed, desperate to get there as quickly as possible and assuage the full fury of a mother whose daughter is out past her bedtime.\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstGirlPart6);
     }
 
-    public talkLoppesFirstGirlPart6(): void {
+    public talkLoppesFirstGirlPart6() {
         DisplayText().clear();
 
         DisplayText("<b>Uma's detailed description of events over...</b>\n\n");
@@ -1182,7 +1182,7 @@ class UmasShop {
      * Talk Loppe - Loppe's First Boyfriend
      * Edit Status: 75% Some akwardness, and its fukken long. I did what I could without stomping all over everything.
      */
-    public talkLoppesFirstBoyfriend(): void {
+    public talkLoppesFirstBoyfriend() {
         DisplayText("\"<i>How about I tell you about Loppe's first boyfriend?</i>\"  Uma suggests.\n\n");
         DisplayText("You tell Uma that it sounds like an interesting story, and you kindly ask her to proceed.\n\n");
         DisplayText("\"<i>Okay.  This happened a while after my little Loppe blossomed into pretty young lady.  She used to go to an art school, where she learned how to dance, and one of her colleagues was a black cat boy by the name of Hyou.  He was very handsome.  He had green eyes that resembled polished gems, his black fur was always well kept and on top of all that he was nice, someone pleasant to be around.  He was Loppe's senior and was the first person to greet her when she started attending the school.</i>\"\n\n");
@@ -1210,12 +1210,12 @@ class UmasShop {
         DisplayText("You admit that, and tell her to continue.\n\n");
         DisplayText("\"<i>So they started dating.  And as is normal for a young couple, one day, after they had come back from a nice dinner, he suggested that he wanted to see Loppe naked.</i>\"\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstBoyfriendPart2);
     }
 
-    public talkLoppesFirstBoyfriendPart2(): void {
+    public talkLoppesFirstBoyfriendPart2() {
         DisplayText().clear();
 
         DisplayText("<b>Some years ago...</b>\n\n");
@@ -1239,12 +1239,12 @@ class UmasShop {
         DisplayText("With the best growl she can manage, the horse-dicked rabbit hops through the air to snatch her feline boyfriend, but he jumps away with a laugh.  Gracefully he dances around and around the bedroom, the increasingly frustrated rabbit trying to cut him off.  Finally, with one perfectly timed leap, she slams into him and knocks him over onto the bed with a mutual 'whoof!' of startled shock.  Belly to belly they catch their breath, and then Loppe rises back up, completing the pinning maneuver.  \"<i>Haha, caught you!</i>\"  Loppe taunts, then blinks in surprise; what's that funny-nice feeling?  Rearing back, she looks down at their two bellies, seeing their mutual erections rubbing their sensitive flesh against each other, a sight which makes her blush.  \"<i>S-sorry, Hyou, I didn't mean to...</i>\"  \n\n");
         DisplayText("\"<i>Don't worry about that, I don't mind.  So, you managed to catch me... what do you intend to do with me now?  Hmm?</i>\"  Hyou asks, ears twitching cutely.\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstBoyfriendPart3)
     }
 
-    public talkLoppesFirstBoyfriendPart3(): void {
+    public talkLoppesFirstBoyfriendPart3() {
         DisplayText().clear();
 
         DisplayText("She trails off, looking at the smug smirk of the cat beneath her.  \"<i>Alright, the time for fooling is over; let's try something from one of my mom's books.</i>\"  With the awkwardness of someone who's never actually done this before, Loppe pivots in her \"seat\" in Hyou's lap, rotating around until she's facing away from him.  \"<i>Okay, let me see... just gotta find your dick... damn it's hard to do this when your own dick is in the way.</i>\" She mutters to herself, wriggling around in an effort to try and line up her waiting pussy with Hyou's shaft.\n\n");
@@ -1271,12 +1271,12 @@ class UmasShop {
         DisplayText("Hyou yowls one last time and bucks against Loppe, his claws digging into her hips as his eyes cross, looking straight at a dollop of pre that seems to have formed on the flared tip of Loppe's member.  Finally, he relaxes and lets his orgasm overtake him, spewing rope after rope of cum inside Loppe's eager pussy.\n\n");
         DisplayText("The laquine moans in pleasure at the sudden sensation of being filled... then blinks in surprise as she feels the cat-prick inside her needy pussy going soft.  \"<i>What's wrong?  What happened?</i>\" She asks, baffled; she tries to ride the limp dick a little more, but it's futile.\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstBoyfriendPart4);
     }
 
-    public talkLoppesFirstBoyfriendPart4(): void {
+    public talkLoppesFirstBoyfriendPart4() {
         DisplayText().clear();
 
         DisplayText("Panting, but unable to hide the rumbling purr rising from his chest, Hyou sighs.  \"<i>S-Sorry Lops.  That was AMAZING... I-I couldn't help myself.</i>\"\n\n");
@@ -1307,12 +1307,12 @@ class UmasShop {
         DisplayText("Hyou purrs, licking at his cum-caked arms, happily.  His belly is distended with the massive amount of laquine-cum sloshing about inside.  \"<i>Wow.  I have to say Loppe, you're one of a kind.  Best sex ever!</i>\"  He sighs, continuing to lick at his arms.  \"<i>Sorry for only getting your female half once.  I swear I don't know what's wrong with me... but it just felt so good when you started fucking me with that wonderful, big, horse-cock of yours, that I just lost it... sorry.</i>\"\n\n");
         DisplayText("\"<i>It's okay, Hyou...</i>\" Loppe sighs.  She cradles her stomach, which looks no different than it did when she started, and looks enviously at the engorged midriff of her boyfriend, very visible proof of her masculine potency.  \"<i>Still, we'll try and concentrate more on that part next time, okay?</i>\" She asks.\n\n");
 
-        menu();
+        
 
         MainScreen.addButton(0, "Next", talkLoppesFirstBoyfriendPart5);
     }
 
-    public talkLoppesFirstBoyfriendPart5(): void {
+    public talkLoppesFirstBoyfriendPart5() {
         DisplayText().clear();
 
         DisplayText("<b>Uma's detailed description of events over...</b>\n\n");
@@ -1341,7 +1341,7 @@ class UmasShop {
      * Talk Loppe - Loppe's Dad
      * Edit Status: FUCK ALL
      */
-    public talkLoppesDad(): void {
+    public talkLoppesDad() {
         DisplayText().clear();
 
         DisplayText("Quietly, and assuring her that you don't want to offend her, you ask if Uma will tell you about the bunny-herm who fathered Loppe?\n\n");
@@ -1363,7 +1363,7 @@ class UmasShop {
         DisplayText("Uma nods thoughtfully at your words.  \"<i>A sister or two?  Definitely.  Hey, why not go out on a limb and say five or six little sisters?  I loved being a mom, being pregnant was actually kind of hot, and I'm still young enough to do some serious breeding.</i>\"  She pats her belly with a defiant expression.  But then she slumps and sighs longingly.  \"<i>But I want my Usagi back first...</i>\" She mourns.\n\n");
         DisplayText("You tell her to keep hoping; as strong a warrior as Uma described her to be, you're sure that the bunny-herm is still out there, somewhere.  You politely withdraw to give Uma a chance to compose herself, heading back to camp.\n\n");
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
@@ -1377,7 +1377,7 @@ class UmasShop {
      * Main sex menu
      * Edit Status: FUCK ALL
      */
-    public sexMenu(): void {
+    public sexMenu() {
         DisplayText().clear();
 
         if (player.gender === Gender.NONE) {
@@ -1445,8 +1445,8 @@ class UmasShop {
         buildSexMenu();
     }
 
-    private buildSexMenu(): void {
-        menu();
+    private buildSexMenu() {
+        
 
         MainScreen.addButton(0, "EroMassage", sexEroticMassage);
         MainScreen.addButton(1, "Eat Her Out", sexEatHerOut);
@@ -1468,7 +1468,7 @@ class UmasShop {
     * Erotic Massage
     * Edit Status: FUCK ALL
     */
-    private sexEroticMassage(): void {
+    private sexEroticMassage() {
         DisplayText().clear();
 
         DisplayText("You tell Uma you'd enjoy one of her erotic massages, please.\n\n");
@@ -1531,11 +1531,11 @@ class UmasShop {
         dynStats("lust=", 0);
         player.hoursSinceCum = Math.ceil(hoursSinceCum * 0.75);
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    public sexGetFingered(): void {
+    public sexGetFingered() {
         DisplayText().clear();
 
         DisplayText("You give a knowing wink to the mare masseur and say you'd like to see her magic fingers put to work. You particularly want to see if she can pick the locks and open your secret treasure box.\n\n");
@@ -1637,11 +1637,11 @@ class UmasShop {
 
         dynStats("lust=", 0);
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
-    private sexHandjob(): void {
+    private sexHandjob() {
         DisplayText().clear();
 
         DisplayText("Rubbing your crotch for a moment, you ask her if she's willing to handle a more masculine element of your body for you?\n\n");
@@ -1710,11 +1710,11 @@ class UmasShop {
 
         dynStats("lust=", 0);
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //Needs Cock.
-    private sexGetABJFromDisMilfyLesboSlut(): void {
+    private sexGetABJFromDisMilfyLesboSlut() {
         //Aim for something right around the biggest she can take, otherwise just take smallest.
         let x: number = player.cockThatFits(25);
         if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
@@ -1766,10 +1766,10 @@ class UmasShop {
         else DisplayText("Mmmm...  Don't tell anyone, but I think I'm starting to like helping you like this.");
         DisplayText("</i>\"");
 
-        DisplayText("\n\nGrunting softly at her ministrations, you let your [hips] shiver as she passes over your " + player.cockHead(x) + " once more.  Her tightly sealed lips glide over your spit-slicked length at an even, nerve-tickling pace");
+        DisplayText("\n\nGrunting softly at her ministrations, you let your [hips] shiver as she passes over your " + Desc.Cock.describeCockHead(x) + " once more.  Her tightly sealed lips glide over your spit-slicked length at an even, nerve-tickling pace");
         if (player.torso.cocks.get(x).length < 9) DisplayText(" until she hits your [sheath]");
         else DisplayText(" until she has her mouth as full as she can handle");
-        DisplayText(".  She holds you like that, letting you feel her hot breath wash over the [skinFurScales] of your crotch.  Her tongue wags back and forth underneath you, slipping and sliding against you. Inside her mouth, your " + CockDescriptor.describeCock(player, x) + " twitches and jumps in her maw.  Beads of pre-cum are beading and dripping out onto her busy organ.");
+        DisplayText(".  She holds you like that, letting you feel her hot breath wash over the [skinFurScales] of your crotch.  Her tongue wags back and forth underneath you, slipping and sliding against you. Inside her mouth, your " + Desc.Cock.describeCock(player, x) + " twitches and jumps in her maw.  Beads of pre-cum are beading and dripping out onto her busy organ.");
 
         DisplayText("\n\nUma's shaft-muffled voice mumbles, \"<i>");
         if (flags[FlagEnum.UMA_TIMES_SUCKED_YOU] < 2) DisplayText("Girls taste better.");
@@ -1796,7 +1796,7 @@ class UmasShop {
             else DisplayText(" is");
             DisplayText(" the perfect mate to your spare length");
             if (player.torso.cocks.count > 2) DisplayText("s");
-            DisplayText(", and soon you are dribbling and dripping from all of your " + CockDescriptor.describeMultiCockShort(player) + ".");
+            DisplayText(", and soon you are dribbling and dripping from all of your " + Desc.Cock.describeMultiCockShort(player) + ".");
         }
 
         DisplayText("\n\nWhile the steady pleasure her mouth and tongue gives you has you feeling very, very good, it isn't quite bringing you towards the orgasm you came here craving.  You suggest she begin to bob up and down on you. \"<i>Cocks need to feel like they're fucking something,</i>\" you ");
@@ -1820,7 +1820,7 @@ class UmasShop {
         }
         //{More than five blowjobs!}
         else {
-            DisplayText("\n\nUma valiantly holds herself in place on your " + CockDescriptor.describeCock(player, x) + ", just in time for the flow of your juices to turn white and salty, an inevitable prelude to the coming discharge of your orgasm.  She noisily slurps, emptying her mouth of precum to make room, and in the process, inadvertently provides you with even more impetus to unload.  ");
+            DisplayText("\n\nUma valiantly holds herself in place on your " + Desc.Cock.describeCock(player, x) + ", just in time for the flow of your juices to turn white and salty, an inevitable prelude to the coming discharge of your orgasm.  She noisily slurps, emptying her mouth of precum to make room, and in the process, inadvertently provides you with even more impetus to unload.  ");
             if (player.cumQ() <= 25) DisplayText("She dutifully swallows every drop of your average-sized load, her long tongue slipping and sliding around your shaft as she ensures it is completely cleaned.");
             else if (player.cumQ() <= 100) {
                 DisplayText("She dutifully attempts to swallow every drop, but your load is a little bigger than average, and she's forced to let some of the frothy spit and jizz mixture wash back out over your length.");
@@ -1881,10 +1881,10 @@ class UmasShop {
         }
         dynStats("lust=", 0);
         flags[FlagEnum.UMA_TIMES_SUCKED_YOU]++;
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
-    private sexEatHerOut(): void {
+    private sexEatHerOut() {
         DisplayText().clear();
 
         DisplayText("With a lustful smirk, you ask if Uma would like to receive a little ministering from you for a change?\n\n");
@@ -1928,7 +1928,7 @@ class UmasShop {
 
         player.stats.lust += 30;
 
-        menu();
+        
         return { next: Scenes.camp.returnToCampUseOneHour };
 
     }

@@ -1,16 +1,16 @@
 export class Sirius extends Naga {
 
-	public eAttack(): void {
+	public eAttack() {
 		DisplayText("Sirius readies his hands, undulating his body erratically with quick motions in order to catch you off-guard and strike at you.\n");
 		super.eAttack();
 	}
 
 
-	override protected outputPlayerDodged(dodge: number): void {
+	override protected outputPlayerDodged(dodge: number) {
 		DisplayText("With your trained eyes, you see through his feints and effectively block his first swipe, then quickly twist your body to kick him away.  He clutches his belly where you kicked him, but recovers quickly, eyes fixated on yours.\n");
 	}
 
-	public outputAttack(damage: number): void {
+	public outputAttack(damage: number) {
 		if (damage <= 0) {
 			super.outputAttack(damage);
 		} else {
@@ -18,7 +18,7 @@ export class Sirius extends Naga {
 		}
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		let attack: number = randInt(4);
 		if (player.statusAffects.has(StatusAffectType.Blind)) attack = randInt(3);
 		if (attack === 0) eAttack();
@@ -27,7 +27,7 @@ export class Sirius extends Naga {
 		if (attack === 3) nagaSpitAttack();
 	}
 
-	private manNagaTease(): void {
+	private manNagaTease() {
 		DisplayText("The snake-man stares deeply into your eyes, seemingly looking past them, and for a moment your body goes numb.");
 		//Miss:
 		if (randInt(10) === 0) {
@@ -47,7 +47,7 @@ export class Sirius extends Naga {
 		combatRoundOver();
 	}
 
-	private nagaSpitAttack(): void {
+	private nagaSpitAttack() {
 		DisplayText("Hissing loudly, Sirius suddenly curls his lips and spits at your eyes!  ");
 		//{Hit:
 		if (spe / 20 + randInt(20) + 1 > player.stats.spe / 20 + 10) {
@@ -59,7 +59,7 @@ export class Sirius extends Naga {
 		combatRoundOver();
 	}
 
-	private poisonBite(): void {
+	private poisonBite() {
 		DisplayText("With a loud and vicious hiss, Sirius suddenly lunges at you, mouth distended impossibly wide and revealing four needle-like fangs dripping with venom!  ");
 		//Miss:
 		if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
@@ -74,11 +74,11 @@ export class Sirius extends Naga {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.urtaQuest.urtaBeatsUpSiriusRadio();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.urtaQuest.urtaLosesToSirriusSnakeRadio();
 	}
 
@@ -105,7 +105,9 @@ export class Sirius extends Naga {
 this.baseStats.tou = 70;
 this.baseStats.spe = 75;
 this.baseStats.int = 92;
-		initLibSensCor(45, 35, 40);
+		this.baseStats.lib = 45;
+this.baseStats.sens = 35;
+this.baseStats.cor = 40;
 		this.weaponName = "fangs";
 		this.weaponVerb = "bite";
 		this.weaponAttack = 25;

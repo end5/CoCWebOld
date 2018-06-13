@@ -1,4 +1,4 @@
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 
 export interface IEncounter {
     encounter(character: Character);

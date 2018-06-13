@@ -244,7 +244,7 @@ export function displaySleepRecovery(character: Character, time: number) {
     character.stats.fatigue -= character.stats.fatigue;
 }
 
-export function sleepRecovery(character: Character, time: number): void {
+export function sleepRecovery(character: Character, time: number) {
     character.stats.HP += time * 20;
     character.stats.fatigue -= character.stats.fatigue;
 }

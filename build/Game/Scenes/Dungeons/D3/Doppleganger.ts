@@ -5,16 +5,16 @@
 export class Doppleganger extends Monster {
 	private let _roundCount: number = 0;
 
-	public mirrorAttack(damage: number): void {
+	public mirrorAttack(damage: number) {
 		this.statusAffects.add(StatusAffectType.MirroredAttack, 0, 0, 0, 0);
 
-		DisplayText("As you swing your [weapon] at the doppleganger, " + player.mf("he", "she") + " smiles mockingly, and mirrors your move exactly, lunging forward with " + player.mf("his", "her") + " duplicate " + weaponName + ".");
+		DisplayText("As you swing your [weapon] at the doppleganger, " + Desc.Gender.mf(player, "he", "she") + " smiles mockingly, and mirrors your move exactly, lunging forward with " + Desc.Gender.mf(player, "his", "her") + " duplicate " + weaponName + ".");
 
 		// Cribbing from combat mechanics - if the number we got here is <= 0, it was deflected, blocked or otherwise missed.
 		// We'll use this as our primary failure to hit, and then mix in a bit of random.
 		// tl;dr this avoids a bunch of weapon effects and perks, but given the specific means of attack, I think it actually makes sense overall. (Basically having to pull back from what you would normally do mid-attack to successfully land any kind of hit).
 		if (damage > 0 && randInt(8) < 6) {
-			DisplayText("  At the very last moment, you twist downwards and strike into your opponent’s trunk, drawing a gasp of pain from " + player.mf("him", "her") + " as " + player.mf("he", "she") + " clumsily lashes " + player.mf("his", "her") + " own " + weaponName + " over you. It’s your turn to mirror " + player.mf("him", "her") + ", smiling mockingly at " + player.mf("his", "her") + " rabid snarls as " + player.mf("he", "she") + " resets " + player.mf("him", "her") + "self, " + player.mf("his", "her") + " voice bubbling and flickering for a moment as " + player.mf("he", "she") + " tries to maintain control. (" + damage + ")");
+			DisplayText("  At the very last moment, you twist downwards and strike into your opponent’s trunk, drawing a gasp of pain from " + Desc.Gender.mf(player, "him", "her") + " as " + Desc.Gender.mf(player, "he", "she") + " clumsily lashes " + Desc.Gender.mf(player, "his", "her") + " own " + weaponName + " over you. It’s your turn to mirror " + Desc.Gender.mf(player, "him", "her") + ", smiling mockingly at " + Desc.Gender.mf(player, "his", "her") + " rabid snarls as " + Desc.Gender.mf(player, "he", "she") + " resets " + Desc.Gender.mf(player, "him", "her") + "self, " + Desc.Gender.mf(player, "his", "her") + " voice bubbling and flickering for a moment as " + Desc.Gender.mf(player, "he", "she") + " tries to maintain control. (" + damage + ")");
 			this.HP -= damage;
 		}
 		else {
@@ -28,28 +28,28 @@ export class Doppleganger extends Monster {
 		addTalkShit();
 	}
 
-	public mirrorTease(damage: number, successful: boolean): void {
+	public mirrorTease(damage: number, successful: boolean) {
 		DisplayText().clear();
-		DisplayText("You move your hands seductively over your body, and - you stop. The doppelganger stops too, staring at you with wicked coyness, " + player.mf("his", "her") + " hands frozen on " + player.mf("his", "her") + " form exactly where yours are. Glaring back, you begin your slow, lustful motions again, as your reflection does the exact same thing. It’s a lust off!");
+		DisplayText("You move your hands seductively over your body, and - you stop. The doppelganger stops too, staring at you with wicked coyness, " + Desc.Gender.mf(player, "his", "her") + " hands frozen on " + Desc.Gender.mf(player, "his", "her") + " form exactly where yours are. Glaring back, you begin your slow, lustful motions again, as your reflection does the exact same thing. It’s a lust off!");
 
 		if (damage > 0 && successful) {
-			DisplayText("\n\nYou determinedly display and twist your carnality to what you know are its best advantages, ignoring what the doppelganger is doing- you’re extremely familiar with it, after all. After a few slow seconds crawl past a blush settles upon your reflection’s face, and " + player.mf("he", "she") + " hands falter and stop being able to follow yours as " + player.mf("he", "she") + " stares at what you’re doing.");
+			DisplayText("\n\nYou determinedly display and twist your carnality to what you know are its best advantages, ignoring what the doppelganger is doing- you’re extremely familiar with it, after all. After a few slow seconds crawl past a blush settles upon your reflection’s face, and " + Desc.Gender.mf(player, "he", "she") + " hands falter and stop being able to follow yours as " + Desc.Gender.mf(player, "he", "she") + " stares at what you’re doing.");
 
-			DisplayText("\n\n“<i>It’s- it’s been so long,</i>” " + player.mf("he", "she") + " groans, managing to break away to stare into your smirking, smouldering eyes with lust-filled rage. “<i>But I’ll have that, I’ll have everything soon enough!</i>”");
+			DisplayText("\n\n“<i>It’s- it’s been so long,</i>” " + Desc.Gender.mf(player, "he", "she") + " groans, managing to break away to stare into your smirking, smouldering eyes with lust-filled rage. “<i>But I’ll have that, I’ll have everything soon enough!</i>”");
 
 			this.applyTease(damage);
 		}
 		else {
-			DisplayText("You keep moving and displaying your body as best you can, but an overwhelming amount of self-awareness creeps in as your doppelganger mockingly copies you. Is that really what you look like when you do this? It looks so cheap, so clumsy, so desperate. As a blush climbs onto your face you feel a vague sense of vertigo as control of the situation shifts- you copy the doppelganger as " + player.mf("he", "she") + " cruelly continues to slide " + player.mf("his", "her") + " hands over " + player.mf("his", "her") + " body exaggeratedly.");
+			DisplayText("You keep moving and displaying your body as best you can, but an overwhelming amount of self-awareness creeps in as your doppelganger mockingly copies you. Is that really what you look like when you do this? It looks so cheap, so clumsy, so desperate. As a blush climbs onto your face you feel a vague sense of vertigo as control of the situation shifts- you copy the doppelganger as " + Desc.Gender.mf(player, "he", "she") + " cruelly continues to slide " + Desc.Gender.mf(player, "his", "her") + " hands over " + Desc.Gender.mf(player, "his", "her") + " body exaggeratedly.");
 
-			DisplayText("\n\n“<i>What’s the matter, [name]?</i>” " + player.mf("he", "she") + " breathes, staring lustfully into your eyes as " + player.mf("he", "she") + " sinks both hands into " + player.mf("his", "her") + " crotch and bends forward, forcing you close to " + player.mf("his", "her") + " face. “<i>Never tried it in front of a mirror? You were missing out on the nasty little tramp you are.</i>”");
+			DisplayText("\n\n“<i>What’s the matter, [name]?</i>” " + Desc.Gender.mf(player, "he", "she") + " breathes, staring lustfully into your eyes as " + Desc.Gender.mf(player, "he", "she") + " sinks both hands into " + Desc.Gender.mf(player, "his", "her") + " crotch and bends forward, forcing you close to " + Desc.Gender.mf(player, "his", "her") + " face. “<i>Never tried it in front of a mirror? You were missing out on the nasty little tramp you are.</i>”");
 
 			game.dynStats("lus", damage + (randInt(7) - 3));
 		}
 		addTalkShit();
 	}
 
-	private addTalkShit(): void {
+	private addTalkShit() {
 		statScreenRefresh();
 
 		if (HP < 1) {
@@ -120,15 +120,15 @@ export class Doppleganger extends Monster {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.d3.doppleganger.punchYourselfInTheBalls();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.d3.doppleganger.inSovietCoCSelfFucksYou();
 	}
 
-	public handleSpellResistance(spell: string): void {
+	public handleSpellResistance(spell: string) {
 		DisplayText("The mirror demon barely even flinches as your fierce, puissant fire washes over [him].");
 
 		DisplayText("\n\n“<i>Picked up a few things since you’ve been here, then?</i>” [he] yawns. Flickers of flame cling to [his] fingers, its radiance sputtering and burning away, replaced by a livid black color. “<i>Serf magic. Easy to pick up, easy to use, difficult to impress with. Let me show you how it’s really done!</i>” [He] thrusts [his] hands out and hurls a pitiless black fireball straight at you, a negative replica of the one you just shot at [him].");
@@ -143,12 +143,12 @@ export class Doppleganger extends Monster {
 		addTalkShit();
 	}
 
-	public handlePlayerWait(): void {
+	public handlePlayerWait() {
 		DisplayText("Your doppleganger similarly opts to take a momentary break from the ebb and flow of combat.");
 		addTalkShit();
 	}
 
-	public doAI(): void {
+	public doAI() {
 		DisplayText("Your duplicate chuckles in the face of your attacks.");
 		addTalkShit();
 	}
@@ -176,7 +176,7 @@ export class Doppleganger extends Monster {
 		hipRating = player.torso.hipRating;
 		buttRating = player.torso.butt.rating;
 		hips.legs.type = player.lowerBody;
-		skinDesc = player.skinDesc;
+		skinDesc = player.skin.desc;
 		initStrTouSpeInte(player.stats.str, player.stats.tou, player.stats.spe, player.stats.int);
 		initLibSensCor(player.stats.lib, player.stats.sens, player.stats.cor);
 		faceType = player.torso.neck.head.face.type;
@@ -238,13 +238,13 @@ export class Doppleganger extends Monster {
 	public get long(): string {
 		let str: string = "";
 
-		str += "You are fighting the doppelganger. " + player.mf("He", "She") + " is a ";
+		str += "You are fighting the doppelganger. " + Desc.Gender.mf(player, "He", "She") + " is a ";
 		str += String(Math.floor(player.tallness / 12) + " foot " + player.tallness % 12 + " inch tall ");
 		str += player.race() + ", with " + player.bodyType() + ". ";
 
-		str += player.mf("His", "Her") + " face is " + player.faceDesc() + ".";
+		str += Desc.Gender.mf(player, "His", "Her") + " face is " + player.faceDesc() + ".";
 
-		str += " " + player.mf("His", "Her") + " " + player.HeadDescriptor.describeHair(player) + " is parted by";
+		str += " " + Desc.Gender.mf(player, "His", "Her") + " " + player.Desc.Head.describeHair(player) + " is parted by";
 
 		switch (player.torso.neck.head.earType) {
 			case EarType.HORSE:
@@ -286,11 +286,11 @@ export class Doppleganger extends Monster {
 				break;
 		}
 
-		str += ". " + player.mf("He", "She") + " keeps exploring the area around " + player.mf("his", "her") + " mouth with " + player.mf("his", "her") + " tongue with a horribly acquisitive, sensual interest.";
-		str += " " + player.mf("He", "She") + " moves around on " + player.mf("his", "her") + " " + LegDescriptor.describeLegs(player) + " with a twitchy jerkiness, " + player.mf("his", "her") + " " + game.LowerBodyDescriptor.describeHips(player) + " swinging and tightening.";
-		if (player.torso.tailType != 0) str += " " + player.mf("His", "Her") + " tail flicks this way and that.";
-		str += " " + player.mf("He", "She") + " wields the exact same " + player.weaponName + " you do, and is dressed in the mirror image of your " + player.inventory.equipment.armor.displayName + ". ";
-		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2) str += "It’s difficult not to notice the way the mirror image of your " + player.BreastDescriptor.describeBreastRow(player.biggestTitRow()) + " ebbs and heaves within it.";
+		str += ". " + Desc.Gender.mf(player, "He", "She") + " keeps exploring the area around " + Desc.Gender.mf(player, "his", "her") + " mouth with " + Desc.Gender.mf(player, "his", "her") + " tongue with a horribly acquisitive, sensual interest.";
+		str += " " + Desc.Gender.mf(player, "He", "She") + " moves around on " + Desc.Gender.mf(player, "his", "her") + " " + Desc.Leg.describeLegs(player) + " with a twitchy jerkiness, " + Desc.Gender.mf(player, "his", "her") + " " + game.Desc.Hip.describeHips(player) + " swinging and tightening.";
+		if (player.torso.tailType != 0) str += " " + Desc.Gender.mf(player, "His", "Her") + " tail flicks this way and that.";
+		str += " " + Desc.Gender.mf(player, "He", "She") + " wields the exact same " + player.weaponName + " you do, and is dressed in the mirror image of your " + player.inventory.equipment.armor.displayName + ". ";
+		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2) str += "It’s difficult not to notice the way the mirror image of your " + player.Desc.Breast.describeBreastRow(player.biggestTitRow()) + " ebbs and heaves within it.";
 
 		return str;
 	}

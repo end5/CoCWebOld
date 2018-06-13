@@ -9,24 +9,24 @@
 
 export class EncapsulationPod extends Monster {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		game.encapsulationPodAI();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.encapsulationVictory();
 	}
 
 	public get long(): string {
 		//[Round 1 Description]
 		let _long: string;
-		if (findStatusAffect(StatusAffects.Round) < 0) _long = "You're totally trapped inside a pod!  The walls are slimy and oozing moisture that makes the air sickeningly sweet.  It makes you feel a little dizzy.  Tentacles are climbing up your " + LegDescriptor.describeLegs(player) + " towards your crotch, doing their best to get under you " + player.inventory.equipment.armor.displayName + ".  There's too many to try to pull away.  Your only chance of escape is to create a way out!";
+		if (findStatusAffect(StatusAffects.Round) < 0) _long = "You're totally trapped inside a pod!  The walls are slimy and oozing moisture that makes the air sickeningly sweet.  It makes you feel a little dizzy.  Tentacles are climbing up your " + Desc.Leg.describeLegs(player) + " towards your crotch, doing their best to get under you " + player.inventory.equipment.armor.displayName + ".  There's too many to try to pull away.  Your only chance of escape is to create a way out!";
 		//[Round 2 Description]
 		else if (statusAffects.get(StatusAffectType.Round).value1 === 2) {
 			_long = "You're still trapped inside the pod!  By now the walls are totally soaked with some kind of viscous slime.  The smell of it is unbearably sweet and you have to put a hand against the wall to steady yourself.  Warm tentacles are curling and twisting underneath your armor, caressing every ";
 			if (player.skin.type === SkinType.FUR) _long += "furry ";
 			if (player.skin.type === SkinType.SCALES) _long += "scaley ";
-			_long += "inch of your " + LegDescriptor.describeLegs(player) + ", crotch, and " + game.ButtDescriptor.describeButt(player) + ".";
+			_long += "inch of your " + Desc.Leg.describeLegs(player) + ", crotch, and " + game.Desc.Butt.describeButt(player) + ".";
 		}
 		//[Round 3 Description]
 		else if (statusAffects.get(StatusAffectType.Round).value1 === 3) {
@@ -35,10 +35,10 @@ export class EncapsulationPod extends Monster {
 		//[Round 4 Description]
 		else {
 			_long = "You're trapped inside the pod and being violated by tentacles from the shoulders down!  The slime around your waist is rising even faster now.  It will probably reach ";
-			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) _long += "the underside of your " + game.BreastDescriptor.describeAllBreasts(player);
+			if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) _long += "the underside of your " + game.Desc.Breast.describeAllBreasts(player);
 			else _long += "your chest";
 			_long += " in moments.  You're being fucked by a bevy of tentacles while your nipples are ";
-			if (!player.torso.chest.hasFuckableNipples()) _long += "fondled ";
+			if (!player.torso.chest.find(BreastRow.FuckableNipples)) _long += "fondled ";
 			else _long += "fucked ";
 			_long += "by more of the slippery fungal protrusions.  It would be so easy to just relax back in the fluid and let it cradle you while you're pleasured.  You barely even smell the sweet, thought-killing scent from before, but your hips are rocking on their own and you stumble every time you try to move.  Your resistance is about to give out!";
 		}
@@ -86,7 +86,9 @@ export class EncapsulationPod extends Monster {
 this.baseStats.tou = 1;
 this.baseStats.spe = 1;
 this.baseStats.int = 1;
-		initLibSensCor(1, 1, 100);
+		this.baseStats.lib = 1;
+this.baseStats.sens = 1;
+this.baseStats.cor = 100;
 		this.weaponName = "pod";
 		this.weaponVerb = "pod";
 		this.armorName = "pod";

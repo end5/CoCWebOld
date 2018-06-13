@@ -3,7 +3,7 @@
  */
 
 export class AbstractSpiderMorph extends Monster {
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (player.stats.spe >= 2 && randInt(2) === 0) {
 			spiderMorphWebAttack();
 		}
@@ -20,7 +20,7 @@ export class AbstractSpiderMorph extends Monster {
 	/**
 	 * -Web - lowers speed by 25 each application and disables
 	 * flight once hit.*/
-	public spiderMorphWebAttack(): void {
+	public spiderMorphWebAttack() {
 		DisplayText("Turning to the side, " + a + short + " raises " + mf("his", "her") + " abdomen and unleashes a spray of webbing in your direction!  ");
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2) {
@@ -70,17 +70,17 @@ export class AbstractSpiderMorph extends Monster {
 	}
 
 	/**-Bite - Raises arousal by 30*/
-	public getBitten(): void {
+	public getBitten() {
 		//-Languid Bite - Inflicted on PC's who have been reduced to 1 speed by webbing, raises arousal by 60.
 		if (player.stats.spe < 2 && player.statusAffects.has(StatusAffectType.Web)) {
 			DisplayText("The arachnid aggressor slowly saunters forward while you struggle under the heaps of webbing, gently placing " + mf("his", "her") + " arms around your back in a tender hug.  " + mf("His", "Her") + " fangs slide into your neck with agonizing slowness, immediately setting off a burning heat inside you that makes you dizzy and weak.  ");
 			if (player.torso.cocks.count > 0) {
-				DisplayText(player.CockDescriptor.describeMultiCockSimpleOne(player, true) + " turns rock hard and squirts weakly, suddenly so aroused that it starts soaking your " + player.inventory.equipment.armor.displayName);
-				if (player.torso.vaginas.count > 0) DisplayText(" along with your " + player.VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)));
+				DisplayText(player.Desc.Cock.describeMultiCockSimpleOne(player, true) + " turns rock hard and squirts weakly, suddenly so aroused that it starts soaking your " + player.inventory.equipment.armor.displayName);
+				if (player.torso.vaginas.count > 0) DisplayText(" along with your " + player.Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
 				DisplayText(".  ");
 			}
-			else if (player.torso.vaginas.count > 0) DisplayText("Your " + player.VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " grows wet as hell and so sensitive that every step and movement reminds you of the powerful need for something between your sopping nether-lips.  ");
-			DisplayText("While " + mf("his", "her") + " venom pours into you, the spider-" + mf("boy", "girl") + " reaches into your gear to play with your " + player.BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + ", and you moan like a whore from the dual stimulation of " + mf("his", "her") + " venom and nipple-play.\n\n");
+			else if (player.torso.vaginas.count > 0) DisplayText("Your " + player.Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " grows wet as hell and so sensitive that every step and movement reminds you of the powerful need for something between your sopping nether-lips.  ");
+			DisplayText("While " + mf("his", "her") + " venom pours into you, the spider-" + mf("boy", "girl") + " reaches into your gear to play with your " + player.Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", and you moan like a whore from the dual stimulation of " + mf("his", "her") + " venom and nipple-play.\n\n");
 			if (count > 0) DisplayText("The saucy dominatrix exhausts her supply of aphrodisiac toxin for the moment and finally steps back, admiring her work and giving you a lewd wink.  You ");
 			else DisplayText("The confident male exhausts his supply of aphrodisiac toxin for the moment and finally steps back, admiring his work and giving you a lewd wink.  You ");
 			game.player.stats.lust += 60;
@@ -128,7 +128,7 @@ export class AbstractSpiderMorph extends Monster {
 
 	/**-Disarm - hits the PC's weapon with web and sticks it to a
 	 nearby tree, reducing PC's attack to 0 for the rest of the fight.*/
-	public spiderDisarm(): void {
+	public spiderDisarm() {
 		DisplayText(capitalA + short + " shifts and sprays webbing, aiming a tight strand of it at your " + player.weaponName + ".  ");
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2) {
@@ -167,7 +167,7 @@ export class AbstractSpiderMorph extends Monster {
 	}
 
 	/**-Silence - sprays webs on the PC's mouth, silencing them for 1 to 3 turns.*/
-	public spiderSilence(): void {
+	public spiderSilence() {
 		DisplayText(capitalA + short + " squirts a concentrated spray of " + mf("his", "her") + " webs directly at your face!  ");
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2) {

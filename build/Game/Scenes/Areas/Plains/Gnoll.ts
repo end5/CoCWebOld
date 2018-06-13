@@ -5,7 +5,7 @@
 export class Gnoll extends Monster {
 
 	//Gnoll Description
-	private gnollAttackText(): void {
+	private gnollAttackText() {
 		let damage: number = 0;
 		let attack: number = randInt(6);
 		//return to combat menu when finished
@@ -84,7 +84,7 @@ export class Gnoll extends Monster {
 		}
 	}
 
-	private gnollTease(): void {
+	private gnollTease() {
 		let tease: number = randInt(6);
 		let bonus: number = 0;
 		//Gnoll Tease #1
@@ -118,7 +118,7 @@ export class Gnoll extends Monster {
 		DisplayText("\n");
 	}
 
-	public eAttack(): void {
+	public eAttack() {
 		let damage: number = 0;
 		let attack: number = randInt(6);
 		//return to combat menu when finished
@@ -196,7 +196,7 @@ export class Gnoll extends Monster {
 		}
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (statusAffects.has(StatusAffectType.Stunned)) {
 			if (plural) DisplayText("Your foes are too dazed from your last hit to strike back!");
 			else DisplayText("Your foe is too dazed from your last hit to strike back!");
@@ -338,7 +338,7 @@ export class Gnoll extends Monster {
 	}
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (statusAffects.has(StatusAffectType.PhyllaFight)) {
 			statusAffects.remove("PhyllaFight");
 			game.desert.antsScene.phyllaPCBeatsGnoll();
@@ -347,7 +347,7 @@ export class Gnoll extends Monster {
 		game.plains.gnollScene.defeatHyena();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (statusAffects.has(StatusAffectType.PhyllaFight)) {
 			statusAffects.remove("PhyllaFight");
 			game.desert.antsScene.phyllaGnollBeatsPC();
@@ -382,7 +382,9 @@ export class Gnoll extends Monster {
 this.baseStats.tou = 70;
 this.baseStats.spe = 75;
 this.baseStats.int = 60;
-		initLibSensCor(65, 25, 60);
+		this.baseStats.lib = 65;
+this.baseStats.sens = 25;
+this.baseStats.cor = 60;
 		this.weaponName = "twisted club";
 		this.weaponVerb = "smash";
 		this.weaponAttack = 0;

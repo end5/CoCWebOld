@@ -276,7 +276,7 @@ function determineTeaseChoice(character: Character, monster: Character, bimbo: b
         if (character.statusAffects.has(StatusAffectType.Heat)) choices[TeaseType.BroodMother] += 7;
     }
     // 15 Nipplecunts
-    if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+    if (character.torso.chest.find(BreastRow.FuckableNipples)) {
         choices[TeaseType.Nipplecunts] += 2;
         if (hasVagina) choices[TeaseType.Nipplecunts] += 3;
         if (vaginalWetness >= 3) choices[TeaseType.Nipplecunts]++;
@@ -585,7 +585,7 @@ export class Tease implements CombatAction {
                 DisplayText("You lean forward, letting the well-rounded curves of your " + Desc.Breast.describeAllBreasts(character) + " show to " + target.desc.a + target.desc.short + ".");
                 DisplayText("  You cup them in your palms and lewdly bounce them, putting on a show and giggling the entire time.  An inch at a time, your " + character.inventory.equipment.armor.displayName + " starts to come down, dropping tantalizingly slowly until your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s pop free.");
                 if (character.stats.lust >= 50) {
-                    if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+                    if (character.torso.chest.find(BreastRow.FuckableNipples)) {
                         chance++;
                         DisplayText("  Clear slime leaks from them, making it quite clear that they're more than just nipples.");
                     }
@@ -1061,7 +1061,7 @@ export class Tease implements CombatAction {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+                if (character.torso.chest.find(BreastRow.FuckableNipples)) {
                     bonusChance++;
                     bonusDamage += 2;
                 }

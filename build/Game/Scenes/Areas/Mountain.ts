@@ -7,7 +7,7 @@ export class Mountain {
 	public let minotaurScene:MinotaurScene = new MinotaurScene();
 	public let salon:Salon = new Salon();
 	//Explore Mountain
-	public exploreMountain(): void {
+	public exploreMountain() {
 		player.exploredMountain++;
 		let chooser: number = randInt(4);
 		//Helia monogamy fucks
@@ -124,7 +124,7 @@ export class Mountain {
 					return;
 				}
 				if (player.gender > 0) {
-					DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fucked, " + player.mf("stud", "slut"), true);
+					DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fucked, " + Desc.Gender.mf(player, "stud", "slut"), true);
 					DisplayText(".</i>\"");
 					startCombat(new Goblin());
 					DisplaySprite(24);
@@ -143,7 +143,7 @@ export class Mountain {
 		if (chooser === 1) {
 			DisplaySprite(44);
 			if (!player.statusAffects.has(StatusAffectType.TF2) && player.level <= 1 && player.stats.str <= 40) {
-				if (silly()) {
+				if (User.settings.silly()) {
 					//(Ideally, this should occur the first time the player would normally get an auto-rape encounter with the minotaur. The idea is to give a breather encounter to serve as a warning of how dangerous the mountain is)
 					DisplayText("Crossing over the treacherous mountain paths, you walk past an ominous cave.  The bones and the smell of death convince you to hasten your pace.  However, as you walk by, you hear a deep bellow and a snort as a monstrous man with a bull's head steps out.  With hell in his eyes and a giant ax in his hand, he begins to approach you in clear rage.  As he comes out into the light, you see that he is completely naked and sports a monstrous erection as angry as the minotaur himself, freely leaking a steady stream of pre-cum as he stalks you.\n\n", true);
 					DisplayText("You stumble in your attempt to escape and realize that you are completely helpless.  The minotaur towers over you and heaves his ax for a <i>coup de grace</i>.  As he readies the blow, a monstrous explosion rocks the entire mountainside, causing the bull-man to stumble before he can finish you off. You look around, bewildered, trying to understand this strange new turn of events, and notice a group of maybe half a dozen people approaching from further up the path.  They appear to be a motley crew clad in blue and carrying monstrous weapons.  The tallest man holds a weapon made of multiple rotating tubes, and begins spinning the barrels.  A second later, while screaming in a language you do not understand, a rain of lead begins shredding the minotaur into a cloud of blood and flesh.\n\n");
@@ -181,7 +181,7 @@ export class Mountain {
 					DisplayText("\n\nYou can barely see it from your vantage point, but you can imagine it: the semi-transparent pre-cum dribbling from the minotaur's cumslit, oozing down onto your tongue.  Your entire body shivers at the thought, whether from disgust or desire you aren't sure.  You imagine your lips wrapping around that large equine cock, milking it for all of its delicious cum.  Your body burns hot like the noonday sun at the thought, hot with need, with envy at the cow-girl, but most of all with arousal.");
 
 					DisplayText("\n\nSnapping out of your imaginative reverie, you turn your attention back to the show. You wonder if you could make your way over there and join them, or if you should simply remain here and watch, as you have in the past.");
-					menu();
+					
 					//[Join] [Watch]
 					MainScreen.addButton(0, "Join", joinBeingAMinoCumSlut);
 					MainScreen.addButton(1, "Watch", watchAMinoCumSlut);
@@ -263,7 +263,7 @@ export class Mountain {
 			salon.hairDresser();
 		}
 	}
-	private joinBeingAMinoCumSlut(): void {
+	private joinBeingAMinoCumSlut() {
 		DisplayText().clear();
 		DisplayText("The prospect of getting a huge dose of that fresh minotaur cum is just too much to bear.  Before you realize what's happening, you're moving out of your rocky hiding spot and making your way down to the two bovine creatures, stripping your [armor] as you go.  By the time you reach the two figures, you're as naked as they are.  You shiver softly, whether due to some chill in the air or desperate anticipation, you can't say.");
 		DisplayText("\n\nThe cow-girl is bent over, her hands on a low ledge with the minotaurs hands on either side of her ample ass.  She moans, more like a moo than a human groan, as the minotaur plunges into her quaking depths.  As you step forward, suddenly unsure of yourself, both the bull and the cow turn their sharp gazes on to you.  You feel very small");
@@ -309,8 +309,8 @@ export class Mountain {
 		if (player.torso.vaginas.count > 0) DisplayText("within your womb, knocked up by this manly beast");
 		else DisplayText("within your bowels");
 		DisplayText(".  \"<i>That's a good slut,</i>\" he grunts, pulling his cock off your belly and rubbing the slick, flat head against your awaiting [vagOrAss].  He teases you with the slight contact until you open your mouth to voice your complaints, then he suddenly thrusts inside.  Any words forming on your tongue fly away, replaced by a whine of relief as your hole gets stretched wide by the invading member.");
-		if (player.torso.vaginas.count > 0) player.displayStretchVagina(36, true, true, false);
-		else player.displayStretchButt(36, true, true, false);
+		if (player.torso.vaginas.count > 0) Mod.Vagina.displayStretchVagina(player, 36, true, true, false);
+		else Mod.Butt.displayStretchButt(player, 36, true, true, false);
 
 		DisplayText("\n\n\"<i>Ahh, yeah.  That's some good ");
 		if (player.torso.vaginas.count > 0) DisplayText("cow-pussy");
@@ -392,7 +392,7 @@ export class Mountain {
 		inventory.takeItem(consumables.MINOCUM, Scenes.camp.returnToCampUseOneHour);
 	}
 
-	private watchAMinoCumSlut(): void {
+	private watchAMinoCumSlut() {
 		DisplayText().clear();
 		DisplayText("Deciding not to risk it, you settle back into your nook in the rocks and watch on eagerly.  The cow-girl turns and places her hands on a low ledge, causing her to bend over, her ample ass facing the minotaur.  The minotaur closes the distance between them in a single step.");
 		DisplayText("\n\nShe bellows, almost moaning, as the minotaur grabs her cushiony ass-cheeks with both massive hands.  Her tail raises to expose a glistening wet snatch, its lips already parted with desire.  She moos again as his rapidly hardening bull-cock brushes her crotch. You can't tear your eyes away as he positions himself, his flaring, mushroom-like cock-head eliciting another moan as it pushes against her nether lips.");
@@ -400,11 +400,11 @@ export class Mountain {
 		DisplayText("\n\nThe pair quickly settles into a rhythm, punctuated with numerous grunts, groans, and moans of sexual excess.  To you it's almost a violent assault sure to leave both of them bruised and sore, but the cow-girl's lolling tongue and expression of overwhelming desire tells you otherwise.  She's enjoying every thrust as well as the strokes, gropes, and seemingly painful squeezes the minotaur's powerful hands deliver to her jiggling ass and ponderous tits.  He's little better, his eyes glazed over with lust as he continues banging the fuck-hole he found and all but mauling its owner.");
 		//[Next]
 		player.stats.lust += 10;
-		menu();
+		
 		MainScreen.addButton(0, "Next", watchMinoCumSlutII);
 	}
 
-	private watchMinoCumSlutII(): void {
+	private watchMinoCumSlutII() {
 		DisplayText().clear();
 		DisplayText("They go at it for nearly an hour, oblivious to you watching them, before their intensity heightens as they near orgasm.  The results are almost explosive, both of them crying out as they begin twitching uncontrollably.  Clinging desperately to the cow-girl's ass, the minotaur pumps so much cum into her depths that it begins spurting out.  This accidental lubrication releases his grip and the pair collapse to the ground.  Yet the minotaur isn't finished, his man-milk spraying into the air almost like his still-erect dick is a hose and splattering down onto both of them.");
 		DisplayText("\n\nAs you look at the two cum-covered creatures laying there in their exhausted sex-induced stupors, the minotaur's thick horse-cock now slowly deflating, you realize that you've been touching yourself.  You make yourself stop in disgust.");
@@ -413,7 +413,7 @@ export class Mountain {
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	private continueMinoVoyeurism(): void {
+	private continueMinoVoyeurism() {
 		DisplayText("They go at it for nearly an hour, oblivious to you watching them, before their intensity heightens as they near orgasm. The results are almost explosive, both of them crying out as they begin twitching uncontrollably. Clinging desperately to the cow-girl's ass, the minotaur pumps so much cum into her depths that it begins spurting out. This accidental lubrication releases his grip and the pair collapse to the ground. Yet the minotaur isn't finished, his man-milk spraying into the air almost like his still-erect dick is a hose and splattering down onto both of them.\n\n", true);
 		DisplayText("As you look at the two cum-covered creatures laying their in their exhausted sex-induced stupors, the minotaur's thick horse-cock now slowly deflating, you realize that you've been touching yourself.  You make yourself stop ");
 		//[low corruption]

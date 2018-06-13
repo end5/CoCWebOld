@@ -2,7 +2,7 @@
  * Created by aimozg on 18.01.14.
  */
 export class AbstractSuccubus extends Monster {
-	protected whipAttack(): void {
+	protected whipAttack() {
 		if (statusAffects.has(StatusAffectType.WhipReady)) {
 			//Blind dodge change
 			if (statusAffects.has(StatusAffectType.Blind)) {
@@ -20,7 +20,7 @@ export class AbstractSuccubus extends Monster {
 			}
 			//Whip yo tits!
 			if (temp === 1) {
-				if (player.torso.chest.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText(player.BreastDescriptor.describeAllBreasts(player) + " (9)");
+				if (player.torso.chest.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0) DisplayText(Desc.Breast.describeAllBreasts(player) + " (9)");
 				else DisplayText("chest (9)");
 				player.takeDamage(9);
 				game.dynStats("lus", 4 + int(player.stats.sens / 15));
@@ -32,17 +32,17 @@ export class AbstractSuccubus extends Monster {
 					player.takeDamage(5);
 				}
 				if (player.gender === Gender.MALE) {
-					DisplayText("groin, dealing painful damage to your " + player.CockDescriptor.describeMultiCockShort(player) + ", doubling you over in agony (" + int((player.stats.tou * 2 + 50) / 4) + ")");
+					DisplayText("groin, dealing painful damage to your " + player.Desc.Cock.describeMultiCockShort(player) + ", doubling you over in agony (" + int((player.stats.tou * 2 + 50) / 4) + ")");
 					game.player.stats.lust += -15;
 					player.takeDamage(int((player.maxHP()) / 4));
 				}
 				if (player.gender === Gender.FEMALE) {
-					DisplayText("groin, making your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " sting with pain (-10)");
+					DisplayText("groin, making your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " sting with pain (-10)");
 					player.takeDamage(10);
 					game.player.stats.lust += -8;
 				}
 				if (player.gender === Gender.HERM) {
-					DisplayText("groin, dealing painful damage to your " + player.CockDescriptor.describeMultiCockShort(player) + " and " + player.VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", doubling you over in agony (" + int((player.stats.tou * 2 + 50) / 3) + ")");
+					DisplayText("groin, dealing painful damage to your " + player.Desc.Cock.describeMultiCockShort(player) + " and " + player.Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", doubling you over in agony (" + int((player.stats.tou * 2 + 50) / 3) + ")");
 					game.player.stats.lust += -20;
 					player.takeDamage(int((player.maxHP()) / 3));
 				}
@@ -77,7 +77,7 @@ export class AbstractSuccubus extends Monster {
 	public AbstractSuccubus() {
 	}
 
-	protected kissAttack(): void {
+	protected kissAttack() {
 		//[Kiss of Death Text]
 		DisplayText("The succubus dances forwards, cocking her elbow back for a vicious strike.");
 		//avoid!
@@ -93,7 +93,7 @@ export class AbstractSuccubus extends Monster {
 		combatRoundOver();
 	}
 
-	protected seduceAttack(): void {
+	protected seduceAttack() {
 		let temp: number;
 		//determine which method of teasing you use
 		temp = randInt(3);
@@ -136,7 +136,7 @@ export class AbstractSuccubus extends Monster {
 			if (breastRows.length > 1) {
 				//50 + 10% per breastRow + breastSize%
 				DisplayText(capitalA + short + " caresses " + pronoun2 + " some of her rows of ample chest-flesh before shaking it all from side to side enticingly.");
-				if (lust >= 50) DisplayText(", your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s painfully visible.");
+				if (lust >= 50) DisplayText(", your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s painfully visible.");
 				else DisplayText(".");
 				if (randInt(100) <= (54 + (breastRows.length - 1) * 15 + breastRows[0].rating)) {
 					game.dynStats("lus", randInt(breastRows[0].rating) + breastRows.length * breastRows[0].breasts + 5);

@@ -2,7 +2,7 @@
 // Accepts any type.
 // Can also accept a *single* array of items, in which case it picks from the array instead.
 // This lets you pre-construct the argument, to make things cleaner
-export function randomChoice(...args): any {
+export function randomChoice<T>(...args): T {
     let choice;
     if ((args.length === 1))// && (args[0] is Array))
     {

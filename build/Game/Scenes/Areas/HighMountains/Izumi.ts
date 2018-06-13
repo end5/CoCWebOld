@@ -22,7 +22,9 @@ export class Izumi extends Monster {
 this.baseStats.tou = 90;
 this.baseStats.spe = 90;
 this.baseStats.int = 80;
-		initLibSensCor(30, 25, 15);
+		this.baseStats.lib = 30;
+this.baseStats.sens = 25;
+this.baseStats.cor = 15;
 		this.weaponName = "fist";
 		this.weaponVerb = "punch";
 		this.armorName = "silken kimono";
@@ -38,13 +40,13 @@ this.baseStats.int = 80;
 	}
 
 	// Override won/lost calls
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		this.cleanup();
 		game.highMountains.izumiScenes.touchThatFluffyHorn();
 	}
 
 	// Monster won, not player, gg for descriptive method names
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		Flags.list[FlagEnum.IZUMI_TIMES_LOST_FIGHT]++;
 		if (player.statusAffects.has(StatusAffectType.Titsmother)) {
 			this.cleanup();
@@ -59,7 +61,7 @@ this.baseStats.int = 80;
 	}
 
 	// Override combat AI
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		// Handle chokeslam mechanics
 		if (player.statusAffects.has(StatusAffectType.Chokeslam)) {
 			if (combatDebug) trace("ChokeSlam Rounds to Damage: " + player.statusAffects.get(StatusAffectType.Chokeslam).value1);
@@ -116,7 +118,7 @@ this.baseStats.int = 80;
 	}
 
 	// Remove any lingering effects from the player once combat is over
-	public cleanup(): void {
+	public cleanup() {
 		if (combatDebug) trace("Cleaning up lingering effects...");
 
 		cleanupChokeslam();
@@ -126,7 +128,7 @@ this.baseStats.int = 80;
 
 	// Quick punch at the player
 	// Light damage
-	public straightJab(): void {
+	public straightJab() {
 		DisplayText("Quick as a flash, Izumi lashes out with her free hand, aiming for your head.");
 
 		let damage: number = int((str + 175) - randInt(player.stats.tou) - player.armorDef);
@@ -150,7 +152,7 @@ this.baseStats.int = 80;
 
 	// Roundhouse Kick
 	// Milkd lust increase
-	public roundhouseKick(): void {
+	public roundhouseKick() {
 		DisplayText("Izumi leaps backwards onto one foot, spinning around and unleashing a thundering roundhouse kick.  Luckily, you manage to duck just in time, avoiding what surely would have been a monstrously powerful blow.  Unfortunately, as Izumi’s leg scythes through the air over your head, you find your gaze naturally following the line of her thigh muscles until you’re staring directly up the fluttering folds of Izumi’s increasingly impractical kimono.\n\n");
 
 		if (player.stats.cor >= 50 || player.stats.lib >= 50 || player.stats.sens >= 50) {
@@ -169,7 +171,7 @@ this.baseStats.int = 80;
 
 	// Bind player for 3 turns. If the player doesn't break out in time, they take huge damage.
 	// On escape, Izumi takes some damage
-	public chokeSlam(): void {
+	public chokeSlam() {
 		if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
 			DisplayText("Izumi surges towards you, closing the distance between you within the blink of an eye. You narrowly avoid her crushing grip, twisting away from her grasp at the last moment.  The enormous Oni lets loose a deep, satisfied laugh.");
 		}
@@ -183,7 +185,7 @@ this.baseStats.int = 80;
 	}
 
 	// Struggle against izumi's chokeslam
-	public chokeSlamStruggle(): void {
+	public chokeSlamStruggle() {
 		DisplayText().clear();
 
 		let brokeFree: boolean;
@@ -210,7 +212,7 @@ this.baseStats.int = 80;
 	}
 
 	// OH HEY ITS A THING
-	public chokeSlamWait(): void {
+	public chokeSlamWait() {
 		DisplayText().clear();
 
 		DisplayText("Your feet dangle uselessly in the air as Izumi holds you aloft.  Why bother resisting?  She's just so <i>strong</i>, her fingers wrapped so completely around your neck...");
@@ -227,7 +229,7 @@ this.baseStats.int = 80;
 	}
 
 	// Player fails to escape from the chokeslam, and after 3 rounds gets nailed to the fuckin floor
-	public chokeSlamDamage(): void {
+	public chokeSlamDamage() {
 		DisplayText("With a grunt of effort, Izumi hauls you through the air, her iron-like grip around your throat providing the perfect anchor to propel you towards the ground.  Before you have a chance to react, the Oni drives you into the unforgiving stone lining the floor of the cave.\n\n");
 
 		DisplayText("The hit is extreme enough to leave you dazed for a moment, splayed out across the floor.  When you rouse yourself back to full consciousness a few seconds later, the cave is still echoing with the sound of the impact, a testament to the strength of the Oni - and your resilience.");
@@ -241,7 +243,7 @@ this.baseStats.int = 80;
 	}
 
 	// Player escapes from the chokeslam attack
-	public chokeSlamEscape(): void {
+	public chokeSlamEscape() {
 		if (combatDebug) trace("Escaping from Chokeslam!");
 
 		DisplayText("Scrabbling desperately against her wrist, you narrow your eyes at the Oni woman’s superior expression,");
@@ -260,7 +262,7 @@ this.baseStats.int = 80;
 	}
 
 	// Remove the effect post-combat
-	public cleanupChokeslam(): void {
+	public cleanupChokeslam() {
 		if (player.statusAffects.has(StatusAffectType.Chokeslam)) {
 			trace("Removing chokeslam");
 
@@ -269,7 +271,7 @@ this.baseStats.int = 80;
 	}
 
 	// Groundslam, does damage and slows the player if they don't dodge the hit
-	public groundPound(): void {
+	public groundPound() {
 		DisplayText("Izumi raises one mighty foot and slams it to the ground with a victorious yell.  The ground itself actually shakes below your feet, threatening to knock you off balance.\n\n");
 
 		if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) // TODO: ensure this is correct
@@ -290,7 +292,7 @@ this.baseStats.int = 80;
 	}
 
 	// Remove the effect post-combat, fixup stats
-	public cleanupGroundpound(): void {
+	public cleanupGroundpound() {
 		if (player.statusAffects.has(StatusAffectType.Groundpound)) {
 			// Can't use dynStats to achieve this, as it can give back more speed than we originally took away due to perks
 			player.stats.spe += player.statusAffects.get(StatusAffectType.Groundpound).value2;
@@ -304,7 +306,7 @@ this.baseStats.int = 80;
 
 	// Binding attack, mild lust increase per turn until the player breaks out. Not TOO hard to break out, though.
 	// Attack will be used ONCE, when Izumi reaches ~25% hp.
-	public titSmother(): void {
+	public titSmother() {
 		if (combatDebug) trace("Titsmother attack!");
 
 		// Attack will ALWAYS hit, but be relatively easy to break out of
@@ -319,7 +321,7 @@ this.baseStats.int = 80;
 	}
 
 	// Remove the effect post-combat
-	public cleanupTitsmother(): void {
+	public cleanupTitsmother() {
 		if (player.statusAffects.has(StatusAffectType.Titsmother)) {
 			player.statusAffects.remove("Titsmother");
 			if (combatDebug) trace("Removing Titsmother");
@@ -327,7 +329,7 @@ this.baseStats.int = 80;
 	}
 
 	// Struggle handler for titsmother attack
-	public titSmotherStruggle(): void {
+	public titSmotherStruggle() {
 		if (combatDebug) trace("Titsmother Struggle");
 
 		let brokeFree: boolean;
@@ -374,7 +376,7 @@ this.baseStats.int = 80;
 	}
 
 	// Player breaks free of tiSmother and applies damage to Izumi
-	public titSmotherEscape(): void {
+	public titSmotherEscape() {
 		if (combatDebug) trace("Escaping TitSmother!");
 		DisplayText().clear();
 
@@ -400,7 +402,7 @@ this.baseStats.int = 80;
 	}
 
 	// Wait handler for titsmother attack
-	public titSmotherWait(): void {
+	public titSmotherWait() {
 		DisplayText().clear();
 
 		if (combatDebug) trace("Waiting during TitSmother");

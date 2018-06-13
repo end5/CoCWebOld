@@ -110,9 +110,9 @@ class ImpEndScenes extends EndScenes {
         return false;
     }
 
-    public claimsVictory(howWon: DefeatType, enemy: Character): void { }
-    public criesInDefeat(howLost: DefeatType, enemy: Character): void { }
-    protected beforeEndingScene(howAkbalLost: DefeatType, enemy: Character): void { }
+    public claimsVictory(howWon: DefeatType, enemy: Character) { }
+    public criesInDefeat(howLost: DefeatType, enemy: Character) { }
+    protected beforeEndingScene(howAkbalLost: DefeatType, enemy: Character) { }
 
     public readonly hasVictoryScene = true;
     protected victoryScene(howWon: DefeatType, enemy: Character): NextScreenChoices {

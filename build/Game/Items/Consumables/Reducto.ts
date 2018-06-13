@@ -111,7 +111,7 @@ export class Reducto extends Consumable {
                 firstCock.thickness *= 2 / 3;
             }
             else { // MULTI
-                DisplayText("Your " + Desc.Cock.describeMultiCockShort(character) + " twitch and shrink, each member steadily disappearing into your " + (character.torso.cocks.filter(Cock.HasSheath).length > 0 ? "sheath" : "crotch") + " until they've lost about a third of their old size.");
+                DisplayText("Your " + Desc.Cock.describeMultiCockShort(character) + " twitch and shrink, each member steadily disappearing into your " + (character.torso.cocks.find(Cock.HasSheath) ? "sheath" : "crotch") + " until they've lost about a third of their old size.");
                 for (let index: number = 0; index < character.torso.cocks.count; index++) {
                     character.torso.cocks.get(index).length *= 2 / 3;
                     character.torso.cocks.get(index).thickness *= 2 / 3;

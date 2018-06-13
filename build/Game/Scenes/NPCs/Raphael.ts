@@ -18,15 +18,15 @@
 	//Implementation of TimeAwareInterface
 	public timeChange(): boolean {
 		checkedRussetRogue = 0; //Make sure we test just once in timeChangeLarge
-		if (Flags.list[FlagEnum.RAPHAEL_DRESS_TIMER] > 1 && player.stats.gems >= 5) Flags.list[FlagEnum.RAPHAEL_DRESS_TIMER]--;
-		if (Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER] > 1 && player.stats.gems >= 5) Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER]--;
+		if (Flags.list[FlagEnum.RAPHAEL_DRESS_TIMER] > 1 && player.inventory.gems >= 5) Flags.list[FlagEnum.RAPHAEL_DRESS_TIMER]--;
+		if (Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER] > 1 && player.inventory.gems >= 5) Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER]--;
 		//Fix 'hangs' - PC is at the bottom of the dress countdown
 		if (Flags.list[FlagEnum.RAPHAEL_DRESS_TIMER] === 1 && Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER] === 0 && RaphaelLikes()) Flags.list[FlagEnum.RAPHAEL_DRESS_TIMER] = 4;
 		return false;
 	}
 
 	public timeChangeLarge(): boolean {
-		if (checkedRussetRogue++ === 0 && model.time.hours === 6 && Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER] >= 0 && player.hasKeyItem("Camp - Chest") >= 0 && player.stats.gems >= 5 && player.statusAffects.get(StatusAffectType.TelAdre).value1 >= 1) {
+		if (checkedRussetRogue++ === 0 && model.time.hours === 6 && Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER] >= 0 && player.hasKeyItem("Camp - Chest") >= 0 && player.inventory.gems >= 5 && player.statusAffects.get(StatusAffectType.TelAdre).value1 >= 1) {
 			/*trace("RAPHAEL FINAL COUNTDOWN: " + Flags.list[FlagEnum.RAPHEAL_COUNTDOWN_TIMER]);
 			trace("RAPHAEL MET: " + Flags.list[FlagEnum.RAPHAEL_MET]);
 			trace("RAPHAEL DRESS TIMER: " + Flags.list[FlagEnum.RAPHAEL_DRESS_TIMER]);
@@ -113,7 +113,7 @@
 	//Female PC wakes up. 
 
 	//{First encounter}
-	private meetRaphael(): void {
+	private meetRaphael() {
 		DisplayText().clear();
 		DisplayText("You stir in your sleep, bothered by a noise. It's the familiar creaking of your camp's storage chest, as if you've just opened it up to fill it with freshly found loot. Groaning, you hog your blankets and twist. Nothing to worry about then. You soon drift back into a pleasant dream about all the spoils you've accumulated over the time here. Life is good.\n\n");
 
@@ -132,7 +132,7 @@
 	}
 
 	//~~~ Next Page ~~~
-	private meetRaphaelPtII(): void {
+	private meetRaphaelPtII() {
 		DisplayText().clear();
 		DisplayText("Suddenly, Raphael's features grow soft and surprised as he looks down upon you. You get the feeling he's eyeing you up and catching a peek at your cleavage, but you can't be sure.\n\n");
 
@@ -148,7 +148,7 @@
 	}
 
 	//{When Player chooses Slap/refuse after the first encounter}
-	private RaphaelFirstMeetingSLAP(): void {
+	private RaphaelFirstMeetingSLAP() {
 		DisplayText().clear();
 		DisplayText("With an offended scowl you throw a flat palm across his face. You make sure to catch his nose and sharp snout, sending him a clear message.\n\n");
 
@@ -172,7 +172,7 @@
 	}
 
 	//{When player chooses swoon after the first encounter}
-	private RaphaelFirstMeetingSWOON(): void {
+	private RaphaelFirstMeetingSWOON() {
 		DisplayText().clear();
 		DisplayText("You snicker softly, shift your weight on one leg and blush a little. He's quite the charmer; almost good enough to forgive him for robbing you. The attention he showers you with doesn't leave you cold either.\n\n");
 
@@ -195,7 +195,7 @@
 	}
 
 	//{When you choose the [Talk] option in the first encounter}
-	private RaphaelFirstMeetingTALK(): void {
+	private RaphaelFirstMeetingTALK() {
 		DisplayText().clear();
 
 		DisplayText("You squint your eyes at him, pulling on your arm to wrestle it from his hold. When you remark he stole from you and ask him to return your goods, Raphael simply throws you a vulpine smirk.\n\n");
@@ -213,8 +213,8 @@
 		DisplayText("In a blink of an eye, the red fox jumps back up the wall. \"<i>We will meet again!</i>\" He exclaims in a hushed tone, while slinking over the wall to land on the other side.\n\n");
 
 		//{Optional: Raph makes off with 5 gems)
-		player.stats.gems -= 5;
-		if (player.stats.gems < 0) player.stats.gems = 0;
+		player.inventory.gems -= 5;
+		if (player.inventory.gems < 0) player.inventory.gems = 0;
 		statScreenRefresh();
 
 		return { next: playerMenu };
@@ -223,7 +223,7 @@
 
 	//{Second encounter.} 
 	//Again at bedtime
-	private RaphaelDress(): void {
+	private RaphaelDress() {
 		DisplayText().clear();
 		DisplayText("A small pebble hits the ground near you, waking you up. When a second one hits, you're sure someone is trying to draw your attention.\n\n");
 
@@ -245,16 +245,16 @@
 	}
 
 	//~~~ Next Page ~~~
-	private RaphaelDressPtII(): void {
+	private RaphaelDressPtII() {
 		DisplayText().clear();
 		DisplayText("It's a one piece suit, combining intricate full-body stockings with a graceful corset and an elegant long sleeve, short top jacket sewn in. You try to slip into the unitard and soon figure out you're supposed to do so in the nude, with the tight outfit serving as underwear and overwear both. Made of the finest silk, the feeling is sensual when your naked body slides into the satin lattice and fills out the pliable lacework with your volume. Pulling on the zipper in the back, you seal yourself in and reign the corset tight. It causes the suit to hug and clutch every curve on you with comfortable snugness, bringing out the rounds and the flow of your body. With the incorporated leather corset pressing into your waist, it also forces you to maintain a dignified, elegant posture. It fits like a literal glove, with rings across each of your fingers to pull down its sleeves and leather padding below the stockings of your feet. You can't help but tug the corset's cords one more time to add upon the tightness and an added feeling of secure comfort. Other than that, the fabric is featherlight and you soon notice how some parts do a better job at covering you up than others.\n\n");
 
-		DisplayText("All over your body where the gossamer isn't reinforced with jacket or corset, the density of the delicate velvet web varies. Although the silk hugs across your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and through the crack of your ass as a triple layer that guards against prying eyes, the surface of your hips and legs is clearly seen through the transparent motif of flowers swirling across the lace. The cheeks of your " + ButtDescriptor.describeButt(player) + " feel equally exposed despite the presence of four sweeping rosebranches stitched across them, but at least the jacket trails past your lower back and partly covers your buttocks with its parted tailflaps.");
+		DisplayText("All over your body where the gossamer isn't reinforced with jacket or corset, the density of the delicate velvet web varies. Although the silk hugs across your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " and through the crack of your ass as a triple layer that guards against prying eyes, the surface of your hips and legs is clearly seen through the transparent motif of flowers swirling across the lace. The cheeks of your " + Desc.Butt.describeButt(player) + " feel equally exposed despite the presence of four sweeping rosebranches stitched across them, but at least the jacket trails past your lower back and partly covers your buttocks with its parted tailflaps.");
 		//({If player has tail}
 		if (player.torso.tailType > TailType.NONE) DisplayText("  Your tail peeks out through the cut.");
-		DisplayText("  You still can't help but feel that anyone standing behind you is given a generous glimpse of your ornate ass, however. The same goes for your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + "; cupped, lifted and presented as they are to the outside world by grasping silk. Their ample curve and tender flesh are clearly visible through the red lace. The only thing saving their modesty is the tactical application of a sea of organic patterns across the lower half, with the curl of two roses covering your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s. The ensemble comes with a pair of red stiletto high heels, but you're not sure you're ready for them. Wearing them would only perk up your noticeable posterior even more. That your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " contrast above a slender waist is enough for now. Maybe on special occasions.\n\n");
+		DisplayText("  You still can't help but feel that anyone standing behind you is given a generous glimpse of your ornate ass, however. The same goes for your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + "; cupped, lifted and presented as they are to the outside world by grasping silk. Their ample curve and tender flesh are clearly visible through the red lace. The only thing saving their modesty is the tactical application of a sea of organic patterns across the lower half, with the curl of two roses covering your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s. The ensemble comes with a pair of red stiletto high heels, but you're not sure you're ready for them. Wearing them would only perk up your noticeable posterior even more. That your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " contrast above a slender waist is enough for now. Maybe on special occasions.\n\n");
 
-		DisplayText("You blush as the wind breezes by, and with the exception of the upper jacket, feel like you're wearing nothing at all. This sensation is only aggravated when you can't help but slip a finger across your inner thigh and feel it glide up effortlessly across the textile. It's like you've only become more sensitive for wearing it. Much to your amazement, the triple layer across your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " doesn't provide quite as much protection as you assumed earlier; at least not so much against roving fingers. You find the fabric across your womanhood has a hidden opening to it. Rubbing through it is enough to part the velvet folds and set your finger upon your own. It's not apparent, but anyone aware of this shameful split would have easy access to your depths without even disrobing you. You feel nude.\n\n");
+		DisplayText("You blush as the wind breezes by, and with the exception of the upper jacket, feel like you're wearing nothing at all. This sensation is only aggravated when you can't help but slip a finger across your inner thigh and feel it glide up effortlessly across the textile. It's like you've only become more sensitive for wearing it. Much to your amazement, the triple layer across your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " doesn't provide quite as much protection as you assumed earlier; at least not so much against roving fingers. You find the fabric across your womanhood has a hidden opening to it. Rubbing through it is enough to part the velvet folds and set your finger upon your own. It's not apparent, but anyone aware of this shameful split would have easy access to your depths without even disrobing you. You feel nude.\n\n");
 
 		DisplayText("You stand up straight and look over your body one more time. With this outfit, you could walk into a stately ballroom with as much confidence as you could a seedy burlesque, even though both places would be filled with people turning their heads. At least your blush would match the color of the outfit, while an audience would try to figure out whether you're either a lost duchess or a stray dancer. You're not certain if you want to continue wearing it, although you're sure Raphael would appreciate you for it.  You change back for now - you'll have to decide once you've cleared your head.");
 
@@ -271,7 +271,7 @@
 	~~~*/
 
 
-	private RaphaelEncounterIIDressFollowup(): void {
+	private RaphaelEncounterIIDressFollowup() {
 		//{Encounter two}
 		//{Requirement: PC is wearing High society bodysuit. 
 		//Sequence: When PC wakes up the next day.})
@@ -340,7 +340,7 @@
 	}
 
 	//{Choose [Date] after second encounter}
-	private RaphaelSelectDate(): void {
+	private RaphaelSelectDate() {
 		DisplayText().clear();
 		DisplayText("You smile bashfully, not expecting this sort of gesture from anyone in Mareth. You hardly care about the pendant and you nod at him.\n\n");
 
@@ -351,7 +351,7 @@
 		return { next: RaphaelPicnic };
 	}
 	//{When player chooses [Reject] after second encounter}
-	private RaphaelChooseReject(): void {
+	private RaphaelChooseReject() {
 		DisplayText().clear();
 		DisplayText("You sigh at the fox and shake your head. You're not interested in him or his advances.\n\n");
 
@@ -369,7 +369,7 @@
 	}
 
 	//{When player chooses [Frisk] after second encounter}
-	private RaphaelChooseFrisk(): void {
+	private RaphaelChooseFrisk() {
 		Flags.list[FlagEnum.FUCK_YOU_GOT_MINE_RAPHAEL] = 0;
 		DisplayText().clear();
 		DisplayText("You flash a playful smile and express the desire to get your jewelry back.\n\n");
@@ -433,7 +433,7 @@
 	}
 
 	//[Accept]
-	private friskAcceptChoice(): void {
+	private friskAcceptChoice() {
 		Flags.list[FlagEnum.FUCK_OFF_THEIVING_RAPHAEL] = 1;
 		DisplayText().clear();
 		DisplayText("\"<i>Come on then!</i>\" He proclaims before shooting up the wall, extending you his paw. \"<i>Join me! Together we shall paint the forest russet red!</i>\"\n\n");
@@ -444,7 +444,7 @@
 	}
 
 	//[reject]
-	private friskRejectChoice(): void {
+	private friskRejectChoice() {
 		DisplayText().clear();
 		DisplayText("You scoff, cross your arms and reject the offer by telling Raph your answer from across your shoulder, with your back still turned to him aloofly. Pleased with yourself, you add that he's nothing more than a carnie with an accent and that you won't be needing his help.\n\n");
 
@@ -471,7 +471,7 @@
 	}
 
 	//[Fondle]
-	private friskFondleChoice(): void {
+	private friskFondleChoice() {
 		DisplayText().clear();
 		DisplayText("You gently massage the leathery package. It increases in size until a distinct shape of some length forms above it. When Raphael moves his hips forward appreciatively, you look up, throw him a smile and slip your hand into his pants. He's not wearing any underwear, you notice as you rummage about. Struggling to restrain yourself, you slip past the throbbing meat of his naked cock and dig around his jewels instead, removing the ruby from behind them.\n\n");
 
@@ -488,7 +488,7 @@
 	}
 
 	//[Squeeze]
-	private friskSqueezeChoice(): void {
+	private friskSqueezeChoice() {
 		DisplayText().clear();
 		DisplayText("Vicious and eager to teach him some humility, you dig into the tender package and squeeze hard enough to drive the sharp edges of your pendant into Raphael's jewels. The fox immediately grabs you by the wrist, but this is one trap he isn't wriggling out of. You drive him to his knees while he lets out a high pitched, muffled squeal replete with a blank, agonized expression on his face.\n\n");
 
@@ -508,7 +508,7 @@
 		return { next: playerMenu };
 	}
 
-	private RaphaelPicnic(): void {
+	private RaphaelPicnic() {
 		DisplayText().clear();
 		DisplayText("As Raphael leads you forward by your hand, you ask him where he's taking you. When he leads you deeper into the forest however, he requests you keep quiet with a wink and a smile. You had nearly forgotten about the dangers of Mareth because of your chaperon's boldness, but are reminded of them as Raphael often holds to perk his ears up as if tracking noises. Something about him makes you feel safe however and your confidence isn't misplaced. Even though you walk ahead for almost an hour, you never seem to stumble upon any imps, goblins or giant bees. Raphael often pauses and then decides to head another way as if sensing their presence ahead. For the first time since you got here, you actually manage to enjoy your surroundings, with the Russet Rogue keeping an eye out for danger. Even seeing a giant tentacle beast lurch by beneath gives no cause for concern, when Raphael hides the two of you up a tree and the creature seems oblivious to your presence.\n\n");
 
@@ -522,7 +522,7 @@
 		//~~~ Next page ~~~
 		return { next: RaphaelPicnicII };
 	}
-	private RaphaelPicnicII(): void {
+	private RaphaelPicnicII() {
 		DisplayText().clear();
 		DisplayText("You clear your throat and look at the fox knowingly. A look only returned to him by a coy smile of innocence, while he pours you another glass. You'll indulge him for now...\n\n");
 
@@ -530,7 +530,7 @@
 		//[Discuss] [Skill] [Flirt]
 		MainScreen.simpleChoices(["Fencing", "Thieving", "Flirt", "", ""], [RaphaelPicnicSkill, RaphaelPicnicChooseThieving, null, null, null]);
 	}
-	private RaphaelPicnicEnd(): void {
+	private RaphaelPicnicEnd() {
 		DisplayText().clear();
 		DisplayText("The fox is a thief of more than just gems. The concept of time vanishes around him and before you know it, his antics have entertained you for nearly the entire early morning. Raphael is an amazing time sink. You notice how late it is by way of more light peeking in over the forest's treeline. You should return to the portal. It's not difficult to part with the fox however. Only now do you notice how much more anxious and guarded he has become with the increase in light, frequently looking over his shoulder. When you tell him you should be going, the young man smiles, relieved.\n\n");
 
@@ -558,7 +558,7 @@
 	}
 
 	//{Player chooses [Skill]}
-	private RaphaelPicnicSkill(): void {
+	private RaphaelPicnicSkill() {
 		DisplayText().clear();
 		//{Introduction scene that Plays out only once.}
 		if (Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] === 0) {
@@ -650,7 +650,7 @@
 
 			DisplayText("<i>\"Do not fear ze blade!\"</i> Raphael rolls his voice and holds you close to him, to stare deeply into your eyes.  Because the magic of the moment still lingers, you're paralyzed as he explains. <i>\"Do not fear any blade!\"</i> he reiterates fiercely.  <i>\"To fear the blade is to prepare yourself to get hit by it! Such nonsense will not happen, when you are a fencer like I am, like you will become, señorita! Between us, our skill, we will not mention it!\"</i>\n\n");
 
-			DisplayText("You gasp.  For the first time, Raphael forbids you something with harsh tone.  It's quite the departure.  You hang limply from his grasp, your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " squashed against his chest like dough.\n\n");
+			DisplayText("You gasp.  For the first time, Raphael forbids you something with harsh tone.  It's quite the departure.  You hang limply from his grasp, your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " squashed against his chest like dough.\n\n");
 
 			DisplayText("<i>\"We will treat the blade like we do our dancing partners, our lovers - even when they are held by the lowly hands of our enemies.  We will drift around them like summer blossoms,\"</i> he declares.  <i>\"And even should it hit us,\"</i> he burrs, low and soft, \"<i>we will accept its icy kiss as a part of our performance, temper its exacting touch with a hot dash of our blood.  Drop your guard mademoiselle; relax, for you are untouchable in your grace and beauty.\"</i>\n\n");
 
@@ -673,11 +673,11 @@
 
 			DisplayText("Raphael grabs you by the arm and pulls it further to the side.  He squeezes your wrist, forcing you to loosen your hold on the weapon.  You are startled by the firm pressure behind the gentle grip. You concentrate on his touch and try your best to attune yourself to his changes, but it only causes you to be overwhelmed moreso when the rogue suddenly pushes his body into yours.  You're instantly reminded of how thin your attire is at certain places, when Raphael shoves his fur and leathery garments into you from behind.  In an attempt to do a comprehensive job at posturing you, he moves his hands all over your body, straightening out your arms, moving your legs further apart and making sure your back is arched right.  He tweaks you like an archer would pull back the string of his bow.\n\n");
 
-			DisplayText("<i>\"And most important of all...\"</i>  Raphael places his face beside yours. You can see his snout in the corner of your eyes.  <i>\"...chest forward.\"</i>  Whereupon he slides his paws from your arms down to your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + ".  With more audacity than you expected, Raphael fearlessly cups your bosom, pushing breasts up with the long slender fingers.  You can feel the soft, yet callous cushions of his digits brush through the thin silk top.  He tweaks them, even tugs them forward a little, until the fox is perfectly satisfied you're holding them at the right angle.  <i>\"Hips back...\"</i> he remarks, now driving his fingers downwards.  You shudder when you feel them glide past your lower abs, boldly grabbing you by your " + LowerBodyDescriptor.describeHips(player) + ".  With gentle pressure, he pulls back on your pelvis until you're forced to stick your " + ButtDescriptor.describeButt(player) + " backwards, rubbing into his loins.  The silk at back leaves the cheeks exposed and only now you realize again how bare you are back there, peeking out underneath the jacket with naught but thin stockings to cover.  You can quite clearly feel the bulge in his pants ride into your " + ButtDescriptor.describeButt(player) + ".  Raphael's tail flicks from side to side excitedly, perhaps betraying what the fox himself does not.  He keeps his hold strictly professional and urges you to pay heed to your sword arm.\n\n");
+			DisplayText("<i>\"And most important of all...\"</i>  Raphael places his face beside yours. You can see his snout in the corner of your eyes.  <i>\"...chest forward.\"</i>  Whereupon he slides his paws from your arms down to your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + ".  With more audacity than you expected, Raphael fearlessly cups your bosom, pushing breasts up with the long slender fingers.  You can feel the soft, yet callous cushions of his digits brush through the thin silk top.  He tweaks them, even tugs them forward a little, until the fox is perfectly satisfied you're holding them at the right angle.  <i>\"Hips back...\"</i> he remarks, now driving his fingers downwards.  You shudder when you feel them glide past your lower abs, boldly grabbing you by your " + Desc.Hip.describeHips(player) + ".  With gentle pressure, he pulls back on your pelvis until you're forced to stick your " + Desc.Butt.describeButt(player) + " backwards, rubbing into his loins.  The silk at back leaves the cheeks exposed and only now you realize again how bare you are back there, peeking out underneath the jacket with naught but thin stockings to cover.  You can quite clearly feel the bulge in his pants ride into your " + Desc.Butt.describeButt(player) + ".  Raphael's tail flicks from side to side excitedly, perhaps betraying what the fox himself does not.  He keeps his hold strictly professional and urges you to pay heed to your sword arm.\n\n");
 
 			DisplayText("<i>\"Relish the feel of the blade.\"</i>  He angles your hips back a bit further, until his hot bulge nudges into your perineum.  <i>\"Relax to its weight.  Let it fall easily within your grasp.\"</i>  He holds for a second, before throwing you a rather serious look from the corner of your eye.  \"<i>Can you feel it?</i>\" he asks, blowing an inadvertent, hot breath across your ear.  You roll your eyes back and cave by relaxing.  Instantly, your satin-lined rump parts to swallow the mass he pressed against it.  Raphael's bulge sinks firmly into the crack to throb up against the yawning of both your orifices there.  A meeting of flesh is only withheld by the sensual silk of your panties and the supple deerskin of his pantaloons.\n\n");
 
-			DisplayText("<i>\"I think you have found the proper posture now.\"</i> he comments austerely, holding you by the " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " once more to make sure the angle of your back is correct. You push your rear a bit deeper into the fox's loins without needing to be guided in, enjoying the heat pulsing off the seat upon his manhood and how shamelessly you're grinding into him.  You actually begin to wonder if he himself doesn't notice and you struggle to contain the urge to wiggle around and bring attention to it.\n\n");
+			DisplayText("<i>\"I think you have found the proper posture now.\"</i> he comments austerely, holding you by the " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " once more to make sure the angle of your back is correct. You push your rear a bit deeper into the fox's loins without needing to be guided in, enjoying the heat pulsing off the seat upon his manhood and how shamelessly you're grinding into him.  You actually begin to wonder if he himself doesn't notice and you struggle to contain the urge to wiggle around and bring attention to it.\n\n");
 
 			DisplayText("<i>\"Think you can remember how this feels?\"</i> Raphael asks. Your flustered acknowledgement comes out in the form of a soft groan.\n\n");
 
@@ -706,14 +706,14 @@
 		return { next: RaphaelPicnicEnd };
 	}
 
-	private fenceOfferChangeToDiscuss(): void {
+	private fenceOfferChangeToDiscuss() {
 		DisplayText("You blush, intimidated, and change the subject.\n\n", true);
 		//{Leads to conversation intro}
 		RaphaelPicnicChooseThieving(false);
 	}
 
 	//{Fence leads to the final sex fencing scenes} 
-	private fenceRaphaelSexily(): void {
+	private fenceRaphaelSexily() {
 		DisplayText().clear();
 		//[sexy fencing finale]
 		DisplayText("It's the most beautiful morning yet out on the mossy field - at least, for fencing.  It is a clouded day with perfect overcast.  The fall of light is dispersed and faded, not harsh enough to blind anyone in any direction.  Instead it falls gently upon the dark-green moss in rays of silver gray, shimmering on shoals of opaque pollen and glittering in drifting morning mists.\n\n");
@@ -737,7 +737,7 @@
 		return { next: fenceRaphaelSexilyPtII };
 	}
 
-	private fenceRaphaelSexilyPtII(): void {
+	private fenceRaphaelSexilyPtII() {
 		DisplayText().clear();
 		DisplayText("You're a little embarrassed at how easily the fox outdid you.  When you look up and stare him in the eyes however, Raphael is possessing of fantastic sportsmanship.\n\n");
 
@@ -751,7 +751,7 @@
 
 		DisplayText("<i>\"Well, it just so happens that your opponent was indeed none other than I.  And faced with such unfair odds...\"</i> the fox growls, <i>\"... this would be the perfect opportunity to show you what losing is like against such opposition.\"</i>\n\n");
 
-		DisplayText("You look up and ask him what he means, but the fox's friendly smile is ever-present as he taps you with his sheathed sword.  You fall silent when first he gently nudges it into your ribcage like scoring another few hits.  When he brushes it in circles across your left breast however, it sends a shiver down your spine.  From there he drags it slowly down your body, from rib to rib, past your stomach, until he does no less than slide the sheath all the way between your legs.  Raphael has touched you many times before, but now his predatory smile does not change when he lifts the length into the folds of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  As he stares you down, you realize this has been the most unambiguous gesture yet.  Looking into his deep, emerald eyes sparkling with crafty cunning, you feel how your very essence is held aloft upon his desires.  The ground moves out from under your feet as the sheath digs deeply into your labia.\n\n");
+		DisplayText("You look up and ask him what he means, but the fox's friendly smile is ever-present as he taps you with his sheathed sword.  You fall silent when first he gently nudges it into your ribcage like scoring another few hits.  When he brushes it in circles across your left breast however, it sends a shiver down your spine.  From there he drags it slowly down your body, from rib to rib, past your stomach, until he does no less than slide the sheath all the way between your legs.  Raphael has touched you many times before, but now his predatory smile does not change when he lifts the length into the folds of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  As he stares you down, you realize this has been the most unambiguous gesture yet.  Looking into his deep, emerald eyes sparkling with crafty cunning, you feel how your very essence is held aloft upon his desires.  The ground moves out from under your feet as the sheath digs deeply into your labia.\n\n");
 
 		//{If PC has also reached the intelligence Apex}
 		if (Flags.list[FlagEnum.RAPHAEL_INTELLIGENCE_TRAINING] === 4) {
@@ -780,18 +780,18 @@
 	}
 
 	//{speedsex}
-	private RaphaelPostFenceSex(): void {
+	private RaphaelPostFenceSex() {
 		DisplayText().clear();
-		DisplayText("It's already too late to say no; you open your mouth to receive his agile tongue, accompanied by the slow approach of an inquisitive snout and slow breaths.  An intimate embrace follows as you sink slightly into the maw of his muzzle, to wrestle with his limber tongue.  The angle and pressure of the harsh leather sheath between your flushed lower lips might as well have tipped you into his body as you wrap your arms around his neck.  When Raphael drops the harsh intruder to the ground, his paws begin to roam freely on your body.  You can feel them travel everywhere, these soft hands of a swindler, through the thin silk of your outfit.  When they stop to rest on your " + ButtDescriptor.describeButt(player) + ", he softly fondles your haunches.  You're already lost when he begins to nibble you softly on the neck, sometimes rearing up and whispering things past your ear in a dialect you still can't understand.\n\n");
+		DisplayText("It's already too late to say no; you open your mouth to receive his agile tongue, accompanied by the slow approach of an inquisitive snout and slow breaths.  An intimate embrace follows as you sink slightly into the maw of his muzzle, to wrestle with his limber tongue.  The angle and pressure of the harsh leather sheath between your flushed lower lips might as well have tipped you into his body as you wrap your arms around his neck.  When Raphael drops the harsh intruder to the ground, his paws begin to roam freely on your body.  You can feel them travel everywhere, these soft hands of a swindler, through the thin silk of your outfit.  When they stop to rest on your " + Desc.Butt.describeButt(player) + ", he softly fondles your haunches.  You're already lost when he begins to nibble you softly on the neck, sometimes rearing up and whispering things past your ear in a dialect you still can't understand.\n\n");
 
-		DisplayText("His whiskers feel smooth and soft when passing you by into a position behind you.  You must admit, you like this stance best as he lays his impertinent snout on your shoulder and licks your neck with slow laps.  When he starts to cup your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " with the gentle touch of his vulpine paws, you throw your head into his shoulder, reach up to hold him around your neck and stretch your torso.  It brazenly presents all you have to offer while you arch your spine back, your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " more sensitive to his circling swerves.  When your corset is uncinched and the zipper pulled down enough for the fox to flip the fabric down your tits, the touch of the cushions below his skillful fingers is exquisite.  They have a rough sandy texture - every brush an acute sensation.  Raphael wields it with such finesse however, that they feel like the cat's tongue upon a maiden's skin when he brushes by.  When he pinches your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " between two such pads and flicks it about briskly enough to barely leave an impression on the edge of madness, you feel as though you just climaxed from them.  You shiver when he runs one of those paws down your crotch.  Mercifully, Raphael does not part the silken opening of your suit. Your " + VaginaDescriptor.describeClit(player) + ", sensitive and erect, is spared his unique ministrations.\n\n");
+		DisplayText("His whiskers feel smooth and soft when passing you by into a position behind you.  You must admit, you like this stance best as he lays his impertinent snout on your shoulder and licks your neck with slow laps.  When he starts to cup your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " with the gentle touch of his vulpine paws, you throw your head into his shoulder, reach up to hold him around your neck and stretch your torso.  It brazenly presents all you have to offer while you arch your spine back, your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " more sensitive to his circling swerves.  When your corset is uncinched and the zipper pulled down enough for the fox to flip the fabric down your tits, the touch of the cushions below his skillful fingers is exquisite.  They have a rough sandy texture - every brush an acute sensation.  Raphael wields it with such finesse however, that they feel like the cat's tongue upon a maiden's skin when he brushes by.  When he pinches your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " between two such pads and flicks it about briskly enough to barely leave an impression on the edge of madness, you feel as though you just climaxed from them.  You shiver when he runs one of those paws down your crotch.  Mercifully, Raphael does not part the silken opening of your suit. Your " + Desc.Vagina.describeClit(player) + ", sensitive and erect, is spared his unique ministrations.\n\n");
 
 		DisplayText("What he does do is grab your right leg, at the hollow of your knee, and drag it sideways.  It forces you to stand on one leg with your groin spread.  Luckily, your hold around his neck gives you all the support you need.  There's one other thing giving you support, however; as you look down and gasp, Raphael's vulpine cock is resting in the hollow of your groin, poking through the fly of his pants.  The bright-red, smooth tip stands out between your legs, riding up your womanhood admiringly.  It lacks the mushroom-shaped  crown of human men and, instead, his cock is pointed and tapered, much like the weapons he prefers.  You can also feel a subtle, but noticeable canine bulb at the base throbbing against your sensitive loins.\n\n");
 
-		DisplayText("When Raphael notices your attention, the time seems right for one of his one-liners.  'Do not fear the blade', 'look how the length stands firm upon the hilt', a lecture on the art of parrying, or the like is not forthcoming, however.  The fox says nothing instead and merely smiles knowingly at you from the side, knowing silent action is enough.  With his one remaining free arm, he claws around the silk of your womanhood and does indeed part the subtle opening of your interlapping folds. For a moment you gasp as his hot, slick cock falls freely into the denuded skin of your quaking " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  It shouldn't come as a surprise that he knows of the secret opening in the clothes: he gifted them to you after all, perhaps planning it all along.\n\n");
+		DisplayText("When Raphael notices your attention, the time seems right for one of his one-liners.  'Do not fear the blade', 'look how the length stands firm upon the hilt', a lecture on the art of parrying, or the like is not forthcoming, however.  The fox says nothing instead and merely smiles knowingly at you from the side, knowing silent action is enough.  With his one remaining free arm, he claws around the silk of your womanhood and does indeed part the subtle opening of your interlapping folds. For a moment you gasp as his hot, slick cock falls freely into the denuded skin of your quaking " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  It shouldn't come as a surprise that he knows of the secret opening in the clothes: he gifted them to you after all, perhaps planning it all along.\n\n");
 
 		DisplayText("You tremble as Raphael shifts back, angles his cock into the furrow of your womanhood and takes your moist opening in a single inward incursion.  ");
-		player.displayStretchVagina(12, true);
+		Mod.Vagina.displayStretchVagina(player, 12, true);
 		DisplayText("After that he slowly begins to oscillate into you.  You're turned into a wreck as you hold on for dear life, feeling the russet rogue enter you repeatedly.  His paw continues to trace around your body to tease your tits or bother your lovebud.  Your one remaining foot has long since begun to buckle under the repeated bumps against your g-spot.  Raphael does not have an impressive girth, but he uses it well in rapid plunges into your yielding loins.  He often changes his angle, until not an inch of your loosening walls have been deprived of an pleasurable inner invasion, as he brushes into your walls with deep lunges.\n\n");
 
 		DisplayText("Finally, you can bear it no more with his hot breath across your neck.  Your body convulses limply around his upright impalement, the fox still standing tall and firm.  You try to close your leg or slip down his body, but with two firm hands Raphael holds you in climactic embrace like captured prey.  Only after you howl and rock your hips forth to the involuntary rhythm of orgasm does Raphael allow you to drop to the moss. The dew-dappled meadows feel like salvation, but little do you know that it does not end there.\n\n");
@@ -804,7 +804,7 @@
 
 	}
 
-	private postRaphaelCoitus(): void {
+	private postRaphaelCoitus() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00149] = 1;
 		DisplayText("When you wake up on a bed of soft moss, Raphael has disappeared completely.\n\n");
@@ -833,7 +833,7 @@
 
 
 	//{Player chooses no to sex}
-	private declinePuttingOutForRogues(): void {
+	private declinePuttingOutForRogues() {
 		DisplayText().clear();
 		DisplayText("<i>\"No.\"</i> You shake your head, dropping the atonal monosyllable as if it were the last note in a musical play.\n\n");
 
@@ -876,7 +876,7 @@
 	}
 
 	//{Player chooses [Thieving] while in the picnic}
-	private RaphaelPicnicChooseThieving(newl: boolean = true): void {
+	private RaphaelPicnicChooseThieving(newl: boolean = true) {
 		if (newl === true) DisplayText().clear();
 		//(Introduction; plays out only once)
 		if (Flags.list[FlagEnum.RAPHAEL_INTELLIGENCE_TRAINING] === 0) {
@@ -988,7 +988,7 @@
 	}
 
 	//{High Int picnic ending}
-	private thieveryEnding(): void {
+	private thieveryEnding() {
 		DisplayText().clear();
 		DisplayText("It's a beautiful morning out on the meadows.  The rising sun shines brightly and casts radiant beams of golden light across the clearing.  Dandelion seeds, flower petals and feathers drift by on a strong, but balmy breeze that falls pleasantly across the skin.  The air currents are dry, and amplify both smells and sounds.  On the foregrounds of this brilliant backdrop, Raphael lies on his side with the sun rising in his back.  The warm gusts and luminescent hue appear to set Raphael on fire.  His radiant fur gleams in the sun and dances in the wind.  The fine long hairs of it turn into delicate golden threads near the ends and run off endlessly into the ambient light.  Perhaps he's the trickster that makes the airborne delight flutter by and the hot sun shine today?  The fox himself however is the perfect picture of belonging, at peace within the setting.  He has the top two buttons of his jacket unfastened, allowing the white fur on his chest to spill out in a manly way, only adding to the display.\n\n");
 
@@ -1004,7 +1004,7 @@
 
 		DisplayText("When he moves his lips forward you struggle to not meet them and instead, fall gently on your back.  Lying down below him, he concerns himself with the rest of your body first and slides in over you.  You keep a close eye on the fox as he does, letting him know he won't be getting away with any untoward behavior.\n\n");
 
-		DisplayText("As he kisses you across the leg, the thing you feel most clearly are his whiskers and soft wet nose gliding across your thin silk attire.  He keeps a respectable distance from your groin, skipping past it with a feathery touch.  Instead, his inquisitive snout sniffs past your tummy and " + BreastDescriptor.describeAllBreasts(player) + ".  Meanwhile, you have the opportunity to admire him, his soft fur, his skillful touches and his fine wardrobe.  The sash falls in over your body while the supple brown and red leather gives the graceful body moving in over you a refined quality.  Spending time with him has rubbed off on you.  Only now do you appreciate the value of certain baubles that cling to his leathered threads, thinking like a pickpocket.\n\n");
+		DisplayText("As he kisses you across the leg, the thing you feel most clearly are his whiskers and soft wet nose gliding across your thin silk attire.  He keeps a respectable distance from your groin, skipping past it with a feathery touch.  Instead, his inquisitive snout sniffs past your tummy and " + Desc.Breast.describeAllBreasts(player) + ".  Meanwhile, you have the opportunity to admire him, his soft fur, his skillful touches and his fine wardrobe.  The sash falls in over your body while the supple brown and red leather gives the graceful body moving in over you a refined quality.  Spending time with him has rubbed off on you.  Only now do you appreciate the value of certain baubles that cling to his leathered threads, thinking like a pickpocket.\n\n");
 
 		DisplayText("A brooch that can only be described as priceless decorates the soft silk sash.  ");
 		//({When player has not reached the apex of fencing lessons/Optional: and also has less than 60 speed}
@@ -1012,7 +1012,7 @@
 		//({When player has also reached the apex of fencing lessons
 		else DisplayText("You reach and fondle the magnificent ornament hanging off his hips. With a few nimble flicks of your fingers, you manage to get it off.\n\n");
 
-		DisplayText("Realizing you've allowed yourself to be distracted, you refocus.  Raphael has his paws on your breasts and is about to kiss the top of them.  Throwing him off, you sigh, brush his hands away while raising your own towards your head.  Like this, you stretch out your upper body across the moss, and cross your hands to signify helplessness.  It presents your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " even more invitingly, but you've elegantly dispersed his efforts.  To touch them again on such short notice would be to flaw his otherwise refined lovemaking.  Instead, the fox crawls in over you completely on hands and knees and looks you in the eyes.  He realizes you're still very much in the game and to take you roughly on the moss instead of sweeping you off your feet would be a thing unbecoming of the refined fox.  He needs your consent to win the game.\n\n");
+		DisplayText("Realizing you've allowed yourself to be distracted, you refocus.  Raphael has his paws on your breasts and is about to kiss the top of them.  Throwing him off, you sigh, brush his hands away while raising your own towards your head.  Like this, you stretch out your upper body across the moss, and cross your hands to signify helplessness.  It presents your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " even more invitingly, but you've elegantly dispersed his efforts.  To touch them again on such short notice would be to flaw his otherwise refined lovemaking.  Instead, the fox crawls in over you completely on hands and knees and looks you in the eyes.  He realizes you're still very much in the game and to take you roughly on the moss instead of sweeping you off your feet would be a thing unbecoming of the refined fox.  He needs your consent to win the game.\n\n");
 
 		DisplayText("You're enjoying yourself and so is Raphael, for as long as you keep the illusion up he might manage to woo his way into your pants.  He's so fragile right now.  You're almost literally holding the horny fox's desires and pride in the palm of your hand.  You are in complete control.\n\n");
 
@@ -1030,19 +1030,19 @@
 		//[No] leads up to universal rejection scene
 	}
 	//{Player chooses Yes to Int sex}
-	private RaphaelThieverySmex(): void {
+	private RaphaelThieverySmex() {
 		DisplayText().clear();
 		DisplayText("You need no words.  You place your hand on the back of Raphael's neck and pull his lisping tongue closer to your ears.  After that, you lose yourself to the weight of a man atop you as the fox starts tending to your quivering body.\n\n");
 
-		DisplayText("Finally the fragile tension between you breaks.  Raphael undoes your zipper and roughly pulls your bodysuit down, revealing your " + BreastDescriptor.describeAllBreasts(player) + ". You're stunned; the fine, abrasive texture of his nimble fingers' pads run in eager circles across your sensitive neck, from whence moans have begun to flow. His soft fur brushes across your body as the fox moves downwards.  Gingerly, he puts his maw down on your right breast and suckles once, but in the span of an agonizingly long time.  The " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + " is sucked into his toothy mouth, which he puts down on the nub carefully.  The little points scrape by sensually, before your nipple slips through them.\n\n");
+		DisplayText("Finally the fragile tension between you breaks.  Raphael undoes your zipper and roughly pulls your bodysuit down, revealing your " + Desc.Breast.describeAllBreasts(player) + ". You're stunned; the fine, abrasive texture of his nimble fingers' pads run in eager circles across your sensitive neck, from whence moans have begun to flow. His soft fur brushes across your body as the fox moves downwards.  Gingerly, he puts his maw down on your right breast and suckles once, but in the span of an agonizingly long time.  The " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " is sucked into his toothy mouth, which he puts down on the nub carefully.  The little points scrape by sensually, before your nipple slips through them.\n\n");
 
-		DisplayText("You gasp when he spreads your legs by placing his in between and parting them. When he fondles you down there, fingers rubbing into your flushed  " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", you suddenly feel the wind passing through the hot bare inners of your parted folds.  Raphael has opened the silken opening of your suit. It shouldn't come as a shock.  He gifted them after all, perhaps planning for it all along.  Another surprise follows as you can feel something hot and rigid standing off his body and lying on top of yours. Raphael's vulpine cock is resting in the hollow of your bellybutton, through the fly of his pants.  The bright red, smooth tip rides up your tummy admiringly.  It lacks the mushroom shaped dome that human men have and instead, his cock is pointed and tapered, much like the weapons he prefers.  You can also feel a subtle, but noticeable canine bulb at the base, throbbing against your sensitive loins.\n\n");
+		DisplayText("You gasp when he spreads your legs by placing his in between and parting them. When he fondles you down there, fingers rubbing into your flushed  " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", you suddenly feel the wind passing through the hot bare inners of your parted folds.  Raphael has opened the silken opening of your suit. It shouldn't come as a shock.  He gifted them after all, perhaps planning for it all along.  Another surprise follows as you can feel something hot and rigid standing off his body and lying on top of yours. Raphael's vulpine cock is resting in the hollow of your bellybutton, through the fly of his pants.  The bright red, smooth tip rides up your tummy admiringly.  It lacks the mushroom shaped dome that human men have and instead, his cock is pointed and tapered, much like the weapons he prefers.  You can also feel a subtle, but noticeable canine bulb at the base, throbbing against your sensitive loins.\n\n");
 
 		DisplayText("When he finally lowers himself, positioning himself in front of your opening, you've already welcomed it.  In the time it took him, the wind's soft breeze has passed through and licked by your exposed cunt for long enough.  By now you long to get penetrated by something more substantial and indeed your wish is granted.  When you feel the tip of Raphael's foxy cock trail down your furrow, it hits the spot and he takes your moist opening in a single inward incursion.  ");
-		player.displayStretchVagina(12, true);
-		DisplayText("After that he slowly begins to oscillate into you.  You're turned into a wreck as you hold on for dear life, feeling the russet rogue enter you repeatedly.  His paws grope your tits and pester the " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s by twirling his abrasive hands around them.  With a knowing look upwards, he has also begun to nibble down on your shoulders with his sharp teeth, giving you little lovebites across your neck that make you gasp.  Your body has long since buckled under his luscious fur thanks to the repeated bumps against your g-spot.  Raphael does not have an impressive girth, but he uses it well in rapid plunges into your yielding loins. He often changes his angle, until not an inch of your loosening walls have been deprived of a pleasurable inner indentation, as he brushes into your walls with deep lunges.\n\n");
+		Mod.Vagina.displayStretchVagina(player, 12, true);
+		DisplayText("After that he slowly begins to oscillate into you.  You're turned into a wreck as you hold on for dear life, feeling the russet rogue enter you repeatedly.  His paws grope your tits and pester the " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s by twirling his abrasive hands around them.  With a knowing look upwards, he has also begun to nibble down on your shoulders with his sharp teeth, giving you little lovebites across your neck that make you gasp.  Your body has long since buckled under his luscious fur thanks to the repeated bumps against your g-spot.  Raphael does not have an impressive girth, but he uses it well in rapid plunges into your yielding loins. He often changes his angle, until not an inch of your loosening walls have been deprived of a pleasurable inner indentation, as he brushes into your walls with deep lunges.\n\n");
 
-		DisplayText("Finally, you can bear it no more.  Your body convulses limply below him, the fox still jamming himself in with consistent rhythm.  You raise your legs and clamp him around his hips as Raphael keeps up the motion, rocking into you like a voracious predator.  Only after you howl and pump your hips to the involuntary rhythm of orgasm does Raphael allow you a breather by sitting up, but his penis is still locked into your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ". Little do you guess that it does not end there.\n\n");
+		DisplayText("Finally, you can bear it no more.  Your body convulses limply below him, the fox still jamming himself in with consistent rhythm.  You raise your legs and clamp him around his hips as Raphael keeps up the motion, rocking into you like a voracious predator.  Only after you howl and pump your hips to the involuntary rhythm of orgasm does Raphael allow you a breather by sitting up, but his penis is still locked into your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ". Little do you guess that it does not end there.\n\n");
 
 		DisplayText("With a victorious glint, the fox takes the sash from his hips and, tying either end around your knees, brings your legs towards your chest. He holds them there without any effort on the part of either of you, by putting his chest down on the cloth tied between them and mounting you again, lying on top of you. More deep thrusts follow, this time deep enough for the tip to titilate even your cervix, while the slender knot at his base parts the sensitive entrance a little wider with every bottoming bump into you.\n\n");
 
@@ -1052,7 +1052,7 @@
 		return { next: RaphaelThieverySmexPtII };
 	}
 
-	private RaphaelThieverySmexPtII(): void {
+	private RaphaelThieverySmexPtII() {
 		DisplayText().clear();
 		DisplayText("When you wake up on a bed of soft moss, Raphael has disappeared completely.\n\n");
 
@@ -1080,7 +1080,7 @@
 
 	//OH SHIT ENDGAME SHIT HERE SONS!
 	//[Quicksilver scene]
-	private quiksilverFawkesEndGame(): void {
+	private quiksilverFawkesEndGame() {
 		DisplayText().clear();
 		DisplayText("You wake up to the sound of an ominous cry in the distance, like that of a howling wolf.  It can only mean trouble and you jump out of bed.\n\n");
 
@@ -1115,7 +1115,7 @@
 		return { next: QuiksilverFawkesPtII };
 	}
 
-	private QuiksilverFawkesPtII(): void {
+	private QuiksilverFawkesPtII() {
 		DisplayText().clear();
 		DisplayText("As expected by their howls, they're a pair of wolves! In fact, they're nearly identical. Twin wolves, then. The only way to tell them apart is by noticing how the one who jumped you carries an apologetic expression, while the other one has a solemn, serious frown.  They walk about on hind legs like drifting shadows.  Their coats are of a beautiful dark-silver tinge that grows black in the darkness and argent in the light.  In these mists, they're both: a flowing quicksilver.  The twins both have large bushy tails.  Maybe not as bushy or large as Raphael's, but the two of them still strongly remind you of the stately fox.  The wolves however, hunch. They are also quite a bit bigger, although it's a fact not immediately apparent.  Low on their feet, they keep their noses closer to the ground.  Their upper bodies are broad and strong, and their claws sharp and hind legs agile.  Unlike the fox, they're also completely nude, although their genitals swing obscured between their stalking legs.  The only thing that covers them is a fine mane of rough, disheveled hair across their backs. They're raw and savage.\n\n");
 
@@ -1156,7 +1156,7 @@
 	}
 
 	//{PC chooses to cover for Raphael}
-	private coverForRaphael(): void {
+	private coverForRaphael() {
 		DisplayText().clear();
 		DisplayText("You stare back into the wolf's yellow eyes, keep a stiff back and answer him.  <i>\"I'm not seeing him right now.\"</i>\n\n");
 
@@ -1180,7 +1180,7 @@
 		return { next: coverForRaphaelII };
 	}
 
-	private coverForRaphaelII(): void {
+	private coverForRaphaelII() {
 		DisplayText().clear();
 
 		DisplayText("It doesn't take more than a minute for Raphael to make use of the wolves' departure.  Not even bothering to climb out with dignity, he tips the barrel over as he rushes out of the water.  Like a drowned cat, he climbs out coughing and gasping for air on all fours.\n\n");
@@ -1207,7 +1207,7 @@
 		return { next: playerMenu };
 	}
 	//{PC chooses to betray Raphael}
-	private betrayRaphael(): void {
+	private betrayRaphael() {
 		DisplayText().clear();
 		DisplayText("<i>\"The barrel,\"</i> you admit, the answer slipping from your lips in face of the wolf.\n\n");
 		DisplayText("Skoll, careful not to bare teeth, curls the corners of his lips and smiles at you.  <i>\"Thank you.\"</i>  He whispers a low growl and his eyes sparkle at you.  <i>\"I realize that might have been hard to do, but we will remember.\"</i>  Leaving you with that promise, he joins the other wolf in staring at the waterbarrel.  You feel guilty, but it's compensated by the feeling you might have gained two allies.\n\n");
@@ -1233,7 +1233,7 @@
 	}
 
 	//Intro
-	public orphanageIntro(): void {
+	public orphanageIntro() {
 		DisplayText().clear();
 		if (RaphaelLikes()) {
 			if (Flags.list[FlagEnum.TIMES_ORPHANAGED_WITH_RAPHAEL] === 0) {
@@ -1267,7 +1267,7 @@
 				DisplayText("\n\nYou're still waiting for an answer when he grabs a hidden piece of rope inside the wall and holds you tightly around your waist.  For a moment you wonder what's going on, but it becomes clear when he pulls the rope.  With great speed the rope pulls the both of you upwards, and in the blink of an eye you find yourself gently put down on the roof of the orphanage by the swinging arm of a crane.");
 
 				//~~~ Page ~~~
-				menu();
+				
 				MainScreen.addButton(0, "Next", raphaelIntroPageTwo);
 				Flags.list[FlagEnum.TIMES_ORPHANAGED_WITH_RAPHAEL]++
 			}
@@ -1297,7 +1297,7 @@
 				DisplayText("\n\nYou sit down on the rickety bed. It is barely held up by a wooden frame that gives you splinters just looking at it, and a pile of cinderblocks to support the places where it's been broken already.  It's barely big enough for a single person to sleep in and lies cramped under a slanted roof and sheltered by tails of silky curtains, but what it lacks in size, it makes up for with coziness.  It's filled with down and very soft. The dusty green pillows, dark blue silk spreads and the worn brown furniture surrounding it gives it the appearance of a dive, but the arrangement gorges on the candlelight and feels warm and comfortable.  It smells faintly of a fox's male musk.  It's a bit intimidating, but soothing at the same time.  As the skies outside darken, you can imagine wanting to spend time here if you didn't have a portal to guard.");
 				DisplayText("\n\nIn fact, the only thing in the room that keeps you on alert is the young man taking his seat besides you.  He flashes his trademark mien, one that always manages to somehow confuse and make his intentions crystal clear at the same time.  \"<i>So señorita, what brings you to my humble abode?  Do I dare guess what brings a lady of such indiscriminating taste to visit a scoundrel of sordid repute?</i>\"  He leans in closer and brings his lips to yours, glancing at your eyes with his emerald irises.");
 				//[Talk] [Sex]
-				menu();
+				
 				MainScreen.addButton(0, "Talk", talkWithRedFoxLooksOutHesASpy);
 				MainScreen.addButton(1, "Sex", raphaelOrphanageSexMenu);
 				MainScreen.addButton(4, "Leave", telAdre.telAdreMenu);
@@ -1307,7 +1307,7 @@
 				//When the orphanage is selected on any other time
 				DisplayText("You walk into the alley to the side of the orphanage and look up expectantly, brushing by shady looking teens who enjoy patting you down, but leaving you and your possessions alone otherwise.  They seem to make a game out of it.  It's hard to see if any of the rooms are lit because it's still quite bright outside.  There probably aren't.  Still, you begin to search for the one rope out of many that will hoist you up there by pulling it.  You stay clear of the other ones, not quite sure what they'd do, but half expect them to fire a crossbow bolt or drop an anvil on your head.  Anxious, you grab the right one and hold on tight when you pull it, but oddly enough, nothing happens.  You're sure it's the right one, but something is preventing the system from kicking into gear.  You shake your head and step back in silent admiration.  You're not sure what mechanical marvel is responsible for it, but the orphanage must be decked with all manner of clever contraptions that even manage to factor time into the system.");
 				//[nothing happens]
-				menu();
+				
 				MainScreen.addButton(0, "Back", telAdre.telAdreMenu);
 			}
 		}
@@ -1317,7 +1317,7 @@
 		}
 	}
 
-	private raphaelIntroPageTwo(): void {
+	private raphaelIntroPageTwo() {
 		DisplayText().clear();
 		DisplayText("\"<i>This place isn't really an orphanage, is it?</i>\" you ascertain sagely, still waiting for a reply.");
 		DisplayText("\n\n\"<i>It's what my humble little abode is called by the rest of the city.  I can assure you that it does indeed harbor a majority of the city's orphans, but alas, it has a fair few other functions I must confess.  I had hoped to keep this fact from someone as insightful and perceptive as you, but I should have known better.</i>\"");
@@ -1328,13 +1328,13 @@
 
 		DisplayText("\n\nWhen you wonder what made him equalize your possessions, he winks apologetic.  \"<i>I needed to cool my heels outside the city for a while.  I couldn't stay in the orphanage, nor Tel'Adre with the Quicksilvers breathing down my neck.  It would put too many people at risk.</i>\"  He takes you by the hands and fondles them with his thumbs.  \"<i>The beasts and demons carry little wealth and I remain a thief.  You were the only thing out there allowing me to profess my craft and keep me sane.</i>\"  He kneels before you, staring you in your eyes.  \"<i>And then you saved me, my salvation.</i>\"  He kisses your hand once.");
 
-		menu();
+		
 		MainScreen.addButton(0, "Next", evenMoreRaphaelIntro);
 
 	}
 
 	//Raphael's Shit Expanded
-	private evenMoreRaphaelIntro(): void {
+	private evenMoreRaphaelIntro() {
 		DisplayText().clear();
 		DisplayText("You drift away from the charming rogue, knowing where he would lead you the moment you let him.  You turn your attention towards the rest of the roof and begin to notice what else there is up here.  Through an unsightly hole in the roof you can still trace the golden glow coming from inside.  The burlesque girls - all of them vixens of a crimson red - flicker on-stage like distant dancing flames.  They're so far down that it's hard to see, but the light bleeding through the floorboards beneath your feet does much to illuminate quite another sight, there on the top of the roof and underneath the darkening sky.");
 		DisplayText("\n\nThere's an entire garden up here.  A great many makeshift arbors, broken flowerbeds and dilapidated lattices, bearing the weight of a vast and verdant display of flora, lush enough to no longer need the support.  There's even a certain kind of humidity here that dampens the air, despite the altitude.  Such coolness and moisture is pleasant out here in a desert city.  Many of these dark-green plants are roses, bearing burgundy buds that couldn't be far removed from bursting into full bloom.");
@@ -1351,11 +1351,11 @@
 		DisplayText("\n\nWith one firm swerve, he turns you around to face him again.  \"<i>I have but one wonder mademoiselle...</i>\"  The fox smiles, holds you by the waist, and presses his body closer onto yours.  \"<i>What would such a fair beauty be doing in the seedy part of town, other than brightening the day of a lowly rogue?</i>\"  The russet rogue looms in over you with a develish twinkle in his emerald eyes.  His sharp triangular face and pointy ears are turned towards you inquisitively.");
 
 		//[Kiss] [Goodbye]
-		menu();
+		
 		MainScreen.addButton(0, "Next", kissRaphaelFirstTimeOrphanage);
 	}
 
-	private getTheFuckOutOfDodge(): void {
+	private getTheFuckOutOfDodge() {
 		DisplayText().clear();
 		DisplayText("You politely inform Raphael that you have to go, and though he seems crestfallen, he demurs, \"<i>Very well then, ma chère.  I shall await you in the hours of late evening, in case you change your mind.</i>\"");
 		DisplayText("\n\nWell, that went well.");
@@ -1364,29 +1364,29 @@
 
 	//RaphSex
 	//Sex1
-	private kissRaphaelFirstTimeOrphanage(): void {
+	private kissRaphaelFirstTimeOrphanage() {
 		DisplayText().clear();
-		DisplayText("You drift into Raphael as easily as you would into a pillow.  The young thief leans in over you and begins to devour you softly with gentle tongue and nimble hands.  You are all too eager to reciprocate and let him pass through your mouth and across your back.  You try to wrestle him for control over your tangled tongues, but it turns all too quickly into a metaphor for his swordplay.  All your twirls and wriggles are met by sensuous swirls across areas of your tongue you never even knew you had.  Raphael has instantly turned it into an major erogenous zone.  You give up, but once again the fox does not relent.  He keeps lashing your tongue until you're forced to writhe limply to the rhythm.  When you attempt to imagine what would happen, were he to do the same to your already throbbing " + VaginaDescriptor.describeClit(player) + ", your knees shudder.  When Raphael, just faintly, places his paws on the sides of your spine in just the right way, you nearly climax.  You fall into his waiting hand and he catches you by the neck and lower back.  You're enveloped in a soft sea of groping warmness.  His playful growls carry further into your body than they should.");
+		DisplayText("You drift into Raphael as easily as you would into a pillow.  The young thief leans in over you and begins to devour you softly with gentle tongue and nimble hands.  You are all too eager to reciprocate and let him pass through your mouth and across your back.  You try to wrestle him for control over your tangled tongues, but it turns all too quickly into a metaphor for his swordplay.  All your twirls and wriggles are met by sensuous swirls across areas of your tongue you never even knew you had.  Raphael has instantly turned it into an major erogenous zone.  You give up, but once again the fox does not relent.  He keeps lashing your tongue until you're forced to writhe limply to the rhythm.  When you attempt to imagine what would happen, were he to do the same to your already throbbing " + Desc.Vagina.describeClit(player) + ", your knees shudder.  When Raphael, just faintly, places his paws on the sides of your spine in just the right way, you nearly climax.  You fall into his waiting hand and he catches you by the neck and lower back.  You're enveloped in a soft sea of groping warmness.  His playful growls carry further into your body than they should.");
 		DisplayText("\n\nHe moves you back, further into the garden.  Just before you hit a rose entwined lattice, Raphael takes hold of you and lifts you up, pinning you squarely against it at mid-height.  Slightly startled by the gesture, you spread your arms to find a grip, but discover it to be easy, up against the plants.  The lattice is indeed rotten to the core, and it crumbles at your touch.  The thick, stubborn rosebushes, however, manage to hold your weight.  You quickly find two branches to grasp and your posterior finds a nook to sit upon.  Your legs you wrap around the fox's hips, as the rogue smiles at you with admiration and zeal.");
 		DisplayText("\n\nThere's a brief moment of vulnerability, as he finds an opening into your pants.  As sure as a master thief would find his way into the vault of a city, he quickly opens it.  The thorns at your back do bite while you hang limply between trunk and fox with your privates exposed mid air, but you are soon relieved of your awkward neglect when Raphael tilts his hips and drives deep a much larger implement.  Finally the embrace is whole again as you can feel his pelvis thump in against your netherlips. His bone-hard length has already breached you.");
-		player.displayStretchVagina(5, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, 5, true, true, false);
 
 		DisplayText("\n\nThere's something to be said for his slender and agile size, still clearly felt bottoming inside you.  You're never left waiting for too long.  You quickly settle into the distinctive rhythm, staring Mr. Fox into his eyes with a daring look.  You're willing to suffer the discomfort of the thorns to discover just how good he is now that you're in it for the duration.  You arch your back into the bushes, help to ease him into your passage and feel like the first of Spring's roses held proudly aloft by the gifted gardener.");
 
-		DisplayText("\n\nWhile Raphael might indeed not be the most endowed lover, he is very skilled.  The wicked fox keeps eye contact, often grinning and snarling at you as in an attempt to keep you aware of just what predicament you're in.  He whispers you little words in an indecipherable language, running his paws across your " + ButtDescriptor.describeButt(player) + " or [hips].  Whatever he does bring to bear, he does well.");
+		DisplayText("\n\nWhile Raphael might indeed not be the most endowed lover, he is very skilled.  The wicked fox keeps eye contact, often grinning and snarling at you as in an attempt to keep you aware of just what predicament you're in.  He whispers you little words in an indecipherable language, running his paws across your " + Desc.Butt.describeButt(player) + " or [hips].  Whatever he does bring to bear, he does well.");
 
-		DisplayText("\n\nYou begin to notice how his smooth tip nudges repeatedly into your cervix, massaging you deep from within.  Then you begin to notice how his pelvic bone and the soft fur on top rubs into your " + VaginaDescriptor.describeClit(player) + " at just the right angle.  The sensations are seperate at first, but Raphael keeps the steady rhythm steady enough to concentrate.  When you finally manage to focus and truly enjoy them both, it's like a subtle spark that grows into a relentless bolt of energy.  The pleasurable pinch at your cervix, always followed by the nod on your clitoris.  It builds.");
+		DisplayText("\n\nYou begin to notice how his smooth tip nudges repeatedly into your cervix, massaging you deep from within.  Then you begin to notice how his pelvic bone and the soft fur on top rubs into your " + Desc.Vagina.describeClit(player) + " at just the right angle.  The sensations are seperate at first, but Raphael keeps the steady rhythm steady enough to concentrate.  When you finally manage to focus and truly enjoy them both, it's like a subtle spark that grows into a relentless bolt of energy.  The pleasurable pinch at your cervix, always followed by the nod on your clitoris.  It builds.");
 
 		DisplayText("\n\nFinally, you beg of him to stop as the growing crescendo and steady rhythm becomes too much, not by pulling out, but by jamming into you one last time and simply keeping his wonderful cock in the magic spot for long enough to ride the sensation to a climax.");
 		player.slimeFeed();
 		player.orgasm();
 		player.stats.sens += -1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", followupToFirstTimeOrphanageRaphSex);
 	}
 
 	//After Sex1
-	private followupToFirstTimeOrphanageRaphSex(): void {
+	private followupToFirstTimeOrphanageRaphSex() {
 		DisplayText().clear();
 		//[ Scene after rose garden sex on top of the orphanage roof ]
 		DisplayText("You wake up startled.  The last thing you remember is a sunset rendezvous with the russet rogue upon a rooftop garden of roses, but when you look around you realize you're lying in a foreign bed.  It's an odd room you find yourself in.  It's a small wooden dive, but warmly decorated and enchanted by the playful flicker of candlelight shadows and the haunting undulation of curtains breezing in the wind.  There are pillows on the large bed, silken bedspreads and a worn rug.  A large wardrobe, a distant vanity, a table full of tools and the small creaky bed cast silhouettes in the darkness.  A single candle on the bedstand beside you provides all the light available and casts long shadows across the rough wooden floorboards.  You don't appear to be trapped, however.  The room has no door, but a large window opening leads out into the night sky.  For a moment you're startled by just how late it already is, but not enough to contain your curiosity.");
@@ -1405,12 +1405,12 @@
 
 
 	//Cunnilingus
-	private cunnilingusWithRaphael(): void {
+	private cunnilingusWithRaphael() {
 		DisplayText().clear();
 		DisplayText("Raphael kisses you on the lips for lack of resistance, backs off and then beams like he had an idea.  \"<i>Tonight I'm trying to pull off an especially tough job, so I feel like having sex would throw me off my game, but what is it again I always say about rogues and leaving ladies wanting?</i>\"  He winks, before kissing you on the neck and moving his fingers around and across your back to undo your clothes.  You gasp and start doing the same to him, not adverse to seeing him naked every once in a while.  Undoing the slip-hooks on his jacket, you bare his broad, downy fur chest, while he manages to slip down a now bare back and tries to undo the last of your [armor].  The fox is a good sport when you're already naked, and he allows you to take off his pants.  His bright red fox cock bobs seductively in front of the flawless white fur of his crotch, but it becomes clear that Raphael does not intend to use his fiery rapier this time.  Instead, he lays you down on your back, carefully positioning you with kisses and brushes.  When you're finally down on the bed with legs wide, he lies on his stomach down in front of you and neglects his shaft by smothering it in the silk of the bedspread.  Instead, he slithers forward with his face and throws your inner thighs a few kisses.");
 		DisplayText("\n\n\"<i>This silver tongue of mine...</i>\"  He kisses your [leg].  \"<i>Isn't just for charming...</i>\"  He moves up a little higher.  \"<i>...or forming cheap accents.</i>\"  He rolls his lips up your thigh before pausing and looking you straight in the eye.  \"<i>Let me show you how the red carpet leads to the heavens.</i>\"");
 
-		DisplayText("\n\nWith his paws, Raphael raises up your butt and crotch just a few inches into the air, as if elevating it for a special occasion.  It encourages you to bend your knees and spread your legs, opening yourself up and presenting your womanhood fully.  Lacking all shame and still looking you into the eyes, the fox then does the lewdest thing.  Maintaining eye contact and without blinking, he rolls out his long red tongue and brushes it against your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  The sensation of the bawdy rough thing lapping up your sensitive gash's gathered dew takes you completely by surprise and you let your head fall back and moan.  It feels like he's worshipping you by lapping through the trembling fruit.  At the very zenith of his lashes, he takes extra time to twirl around your " + VaginaDescriptor.describeClit(player) + " in a vortex of swirling tastebuds.");
+		DisplayText("\n\nWith his paws, Raphael raises up your butt and crotch just a few inches into the air, as if elevating it for a special occasion.  It encourages you to bend your knees and spread your legs, opening yourself up and presenting your womanhood fully.  Lacking all shame and still looking you into the eyes, the fox then does the lewdest thing.  Maintaining eye contact and without blinking, he rolls out his long red tongue and brushes it against your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  The sensation of the bawdy rough thing lapping up your sensitive gash's gathered dew takes you completely by surprise and you let your head fall back and moan.  It feels like he's worshipping you by lapping through the trembling fruit.  At the very zenith of his lashes, he takes extra time to twirl around your " + Desc.Vagina.describeClit(player) + " in a vortex of swirling tastebuds.");
 		DisplayText("\n\nHe's good at it.  With every new lap, he sinks a little deeper into your crevasse to partake of the moist delta, parting the trembling lips as he runs through the furrow and ravages your trembling buzzer, sometimes doing all these three things at the same time with the full length of his limber tongue.  It roves, lays along the entire length and falls neatly into place.");
 
 		DisplayText("\n\nAfter five minutes of this, sending you gasping and writhing, you dare to raise your head and look down with a fierce blush.  Raphael is still at it.  He looks up and patiently resumes eye contact, like you're an invitee to the discourse between him and the glistening red, tongue-lashed and dilated femslit before him.  The look he throws you is enough to send you over the edge and you cum hard, ");
@@ -1427,20 +1427,20 @@
 	}
 
 	//Second Raphael variable sex scene: Girl on top:
-	private girlOnTopOfRedFoxesOhMy(): void {
+	private girlOnTopOfRedFoxesOhMy() {
 		DisplayText().clear();
 		DisplayText("The fox has not far to go when he tries to kiss you on the lips.  Bold enough to enter the lion's den, you're assertive enough to not only meet his inquisitive snout head on, but take the initiative by climbing onto the Rogue.  You smile at each other as you grab him by his leather jacket and wrestle for a position on top.  There you sit on his lap, take him by his neck and press the kiss.  You can already feel his vulpine phallus rise up below his leather and in between your bodies.  Raphael's being good however and lets you have your fun. Only when you start plucking at his vest does he return the gesture.  Between your nimble hands and his, clothing is quickly shed and you soon find yourself straddled naked on top the fox's equally bare fur.  Raphael gives himself an easy time at it; now that you've gone this far, the fox simply sits back and leans in against the wall of pillows stacked behind him.  He gives you an expectant stare, like he's eager to see what you've got.");
-		DisplayText("\n\nIt's not hard to figure out what that is.  His bright red cock is already erect and standing in attention up against your ass.  You reach down, fetch it and still marvel at how hard, smooth and slick it feels to the touch.  You play with it for a while by stroking it up and down, teasing the fox.  The pointy tip you run between your leg and trace it through the lips of your nethers before rubbing it around your bothered " + VaginaDescriptor.describeClit(player) + ".  You make the young man mewl with pleasure, his cock more sensitive than you expected.");
+		DisplayText("\n\nIt's not hard to figure out what that is.  His bright red cock is already erect and standing in attention up against your ass.  You reach down, fetch it and still marvel at how hard, smooth and slick it feels to the touch.  You play with it for a while by stroking it up and down, teasing the fox.  The pointy tip you run between your leg and trace it through the lips of your nethers before rubbing it around your bothered " + Desc.Vagina.describeClit(player) + ".  You make the young man mewl with pleasure, his cock more sensitive than you expected.");
 		DisplayText("\n\n\"<i>Uno momento, señorita.</i>\"  Raphael purrs, and with a sly smile, takes out what looks like a thin piece of skin.  \"<i>A latex condom.</i>\"  He tells you.  \"<i>I think neither of us would want you bothered by my spawn.  Normally I slip it on unbeknownst to my lovers, but then again, none of them have been as proactive as you have been now.</i>\"");
 
-		DisplayText("\n\nYou swipe the condom out of the fox's hand and waste no time applying it.  In fact, you manage to do a good job of giving it a sensual part within your lovemaking, which makes you feel all smart.  Between spread legs and right in front of your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", you lay it in within your hand and slowly roll your fist across his cock; giving him a taste of what is to come.  Raphael gasps softly at the sight as you do it. The condom fogs up instantly around his muzzled red bone.");
+		DisplayText("\n\nYou swipe the condom out of the fox's hand and waste no time applying it.  In fact, you manage to do a good job of giving it a sensual part within your lovemaking, which makes you feel all smart.  Between spread legs and right in front of your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", you lay it in within your hand and slowly roll your fist across his cock; giving him a taste of what is to come.  Raphael gasps softly at the sight as you do it. The condom fogs up instantly around his muzzled red bone.");
 
 		DisplayText("\n\nTriumphant, you finally point his tip towards your furls and drag through, towards the waiting hole of your [vagina].  Gently sitting down upon it, it slides in smoothly. Raphael rewards you by finally participating, softly running his velvet paws across your flanks, neck and fondling your [chest] admiringly.  Finally, a little bashful, you throw your head back, letting Raphael have his way with your body as you concentrate and enjoy riding him.");
-		player.displayStretchVagina(5, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, 5, true, true, false);
 
-		DisplayText("\n\nRaphael's cock is something else. It must be the bone running through it that gives it its firmness.  Instead of stuffing yourself with a nondescript roll of meat, you can clearly feel him penetrating you with his well defined and rock-hard shaft.  With the faintest twitch of the hip, you can change its angle and run it through in an entirely different manner and you eagerly start experimenting with what feels best.  Eventually you settle on jutting your ass backwards and pressing the middlemost of his solid length against the front wall of your [vagina] while the tip bottoms out against the back.  The position does not go unnoticed to Raph, and he trails his paws along your " + ButtDescriptor.describeButt(player) + ".  You begin to bounce around on top him, jamming him into you more firmly and more securely with every rut in.  Raphael supports you by either grabbing you by the ass or cupping your tits, playing with them with his sandy paws.  He sinks in heavily, smoothly, with every gulp of your tightening cunt accompanied by a little wet slush around his hard manhood.");
+		DisplayText("\n\nRaphael's cock is something else. It must be the bone running through it that gives it its firmness.  Instead of stuffing yourself with a nondescript roll of meat, you can clearly feel him penetrating you with his well defined and rock-hard shaft.  With the faintest twitch of the hip, you can change its angle and run it through in an entirely different manner and you eagerly start experimenting with what feels best.  Eventually you settle on jutting your ass backwards and pressing the middlemost of his solid length against the front wall of your [vagina] while the tip bottoms out against the back.  The position does not go unnoticed to Raph, and he trails his paws along your " + Desc.Butt.describeButt(player) + ".  You begin to bounce around on top him, jamming him into you more firmly and more securely with every rut in.  Raphael supports you by either grabbing you by the ass or cupping your tits, playing with them with his sandy paws.  He sinks in heavily, smoothly, with every gulp of your tightening cunt accompanied by a little wet slush around his hard manhood.");
 
-		DisplayText("\n\nDesperate for that little bit more, you reach down and start fondeling your " + VaginaDescriptor.describeClit(player) + " too.  Your button brushing in against Raphael's soft white pubes tickles.");
+		DisplayText("\n\nDesperate for that little bit more, you reach down and start fondeling your " + Desc.Vagina.describeClit(player) + " too.  Your button brushing in against Raphael's soft white pubes tickles.");
 
 		DisplayText("\n\nLooking him in the eyes again, you slaver on top of the fox.  Raphael simply lays back, lazily fondles your breasts and ass and looks at you to put in the effort around his cock.  Only after minutes of this, almost driving yourself towards the brink, does Raphael suddenly sit up sharply - an anguished snarl on his face - to hold you in a tight embrace and groan conceitedly.  You can feel his cock jerk up and grow an inch in size, before his passion escapes into your womanhood.  Allowing yourself as well, you follow him with a lazy orgasm and join him in his growl, while he squeezes you on your waist.");
 		player.orgasm();
@@ -1448,7 +1448,7 @@
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Available side by side to having sex: Dialogue scenes.
-	private talkWithRedFoxLooksOutHesASpy(): void {
+	private talkWithRedFoxLooksOutHesASpy() {
 		DisplayText().clear();
 		DisplayText("The rogue is hard to distract and just talk to when he goes after the knots on the back of your dress.  Whatever you want to discuss can surely wait until after you're disrobed.  When you mention demons after trying to bring up the subject, however, Raphael loses the playful glaze in his eyes and turns serious.  Putting the moves on you gets rather awkward when someone mentions a menace motivated by only debauchery.  He tones it down somewhat and instead, focuses on being a good host by meandering through his loft in search of something to drink and two glasses.");
 
@@ -1465,14 +1465,14 @@
 		DisplayText("\n\n\"<i>But what I mean to say, is this: I put value in things such as modesty, dignity, decorum and a sense of style.  I don't think that demons do, or at least not in a way that would preserve these virtues.</i>\"  Raphael clears his throat and dips back into metaphors.  \"<i>I'm not about theft.  I'm about getting into hard to reach places.  I don't care what's in the vault.  Whatever it is, it must be valuable to be there, behind all those intricate traps, delicate locks, ornate guards and cultural heritage.  To finesse my way through all of that?</i>\"");
 
 		DisplayText("\n\nRaphael smirks and turns towards you, leans on one paw and gazes into your eyes.  \"<i>I just can't get enough of tweaking knobs, hitting a lock's sweet spot, or getting my fingers in places where they don't belong, amidst all that splendor.</i>\"");
-		menu();
+		
 		raphaelOrphanageSexMenu();
 		MainScreen.addButton(4, "Leave", Scenes.camp.returnToCampUseOneHour);
 	}
 
 
-	private raphaelOrphanageSexMenu(): void {
-		menu();
+	private raphaelOrphanageSexMenu() {
+		
 		MainScreen.addButton(0, "Cunnilingus", cunnilingusWithRaphael);
 		MainScreen.addButton(1, "Ride Him", girlOnTopOfRedFoxesOhMy);
 		MainScreen.addButton(4, "Leave", telAdre.telAdreMenu);

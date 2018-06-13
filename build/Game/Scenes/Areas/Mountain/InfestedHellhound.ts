@@ -6,7 +6,7 @@
 
 export class InfestedHellhound extends HellHound {
 	//[Extra special attack]
-	private hellHoundWormCannon(): void {
+	private hellHoundWormCannon() {
 		DisplayText("The thing rears up onto its hind legs, revealing its more humanoid stature, and allowing it to use its flexible paws to caress its twinned-penises.  It lurches forwards powerfully, its thickness twitching and flaring as it launches a wave of worm-filled canine cum at you.");
 		DisplayText("\n");
 		if (randInt(2) === 0) {
@@ -14,8 +14,8 @@ export class InfestedHellhound extends HellHound {
 			game.dynStats("lus", 5 + player.stats.lib / 20);
 			DisplayText("Taken off-guard by the unexpected sexual display, you fail to move out of the way, and the wormy jism splatters you from the chest down.");
 			if (player.statusAffects.has(StatusAffectType.Infested) && player.torso.cocks.count > 0) {
-				DisplayText("  The worms inside you begin moving and squirming. A few of your cum-soaked parasites crawl out from your shivering " + CockDescriptor.describeMultiCockShort(player) + " as if attempting to meet the new arrivals.  You desperately want to brush them away, but the pleasure in your crotch is too good to fight, and you find yourself staying your hand as each and every one of the new worms makes it way into your " + CockDescriptor.describeMultiCockShort(player) + ".");
-				if (player.torso.balls.quantity > 0) DisplayText("  Your " + BallsDescriptor.describeBalls(true, true, player) + " grow weightier as the worms settle into their new home, arousing you beyond measure.");
+				DisplayText("  The worms inside you begin moving and squirming. A few of your cum-soaked parasites crawl out from your shivering " + Desc.Cock.describeMultiCockShort(player) + " as if attempting to meet the new arrivals.  You desperately want to brush them away, but the pleasure in your crotch is too good to fight, and you find yourself staying your hand as each and every one of the new worms makes it way into your " + Desc.Cock.describeMultiCockShort(player) + ".");
+				if (player.torso.balls.quantity > 0) DisplayText("  Your " + Desc.Balls.describeBalls(true, true, player) + " grow weightier as the worms settle into their new home, arousing you beyond measure.");
 				else DisplayText("  You can feel them shifting around inside you as they adjust to their new home, arousing you beyond measure.");
 				game.player.stats.lust += 10;
 			}
@@ -32,8 +32,8 @@ export class InfestedHellhound extends HellHound {
 			if (player.statusAffects.has(StatusAffectType.Infested) && player.torso.cocks.count > 0) {
 				if (player.torso.cocks.count > 0) {
 					DisplayText("  Despite avoiding the torrent of infected seed, your own wormy ");
-					if (player.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeBalls(true, true, player));
-					else DisplayText(CockDescriptor.describeMultiCockShort(player));
+					if (player.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, player));
+					else DisplayText(Desc.Cock.describeMultiCockShort(player));
 					DisplayText(" wriggle");
 					if (player.torso.balls.quantity === 0 && player.torso.cocks.count === 1) DisplayText("s");
 					DisplayText(" hotly, expelling a few of your own worms in response along with a dribble of thick pre-cum.   You wonder what it would feel like to let his worms crawl inside you...");
@@ -55,10 +55,10 @@ export class InfestedHellhound extends HellHound {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (hpVictory) {
 			DisplayText("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated, unconscious, and yet still drooling worms.", true);
-			game.cleanupAfterCombat();
+			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		} else {
 			DisplayText("Unable to bear its unnatural arousal, the infested hellhound's flames dim as he stops his attack. The two heads look at you, whining plaintively.  The hellhound slowly pads over to you and nudges its noses at your crotch.  It seems he wishes to pleasure you.\n\n", true);
 			if (player.gender > 0 && player.stats.lust >= 33) {
@@ -67,12 +67,12 @@ export class InfestedHellhound extends HellHound {
 			}
 			else {
 				DisplayText("You turn away, not really turned on enough to be interested in such an offer from such a beast.");
-				game.cleanupAfterCombat();
+				game.return { next: Scenes.camp.returnToCampUseOneHour };
 			}
 		}
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe infested hellhound's heads both grin happily as it advances towards you...");
 			return { next: game.mountain.infestedHellhoundScene.infestedHellhoundLossRape };
@@ -113,7 +113,9 @@ export class InfestedHellhound extends HellHound {
 this.baseStats.tou = 60;
 this.baseStats.spe = 50;
 this.baseStats.int = 1;
-		initLibSensCor(95, 20, 100);
+		this.baseStats.lib = 95;
+this.baseStats.sens = 20;
+this.baseStats.cor = 100;
 		this.weaponName = "claws";
 		this.weaponVerb = "claw";
 		this.weaponAttack = 5;

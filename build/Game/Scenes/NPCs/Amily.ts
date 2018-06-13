@@ -16,7 +16,7 @@ import WeaponName from '../../Items/Weapons/WeaponName';
 import { Utils } from '../../Utilities/Utils';
 
 export class Amily extends Character {
-    override protected performCombatAction(): void {
+    override protected performCombatAction() {
         if (findStatusAffect(StatusAffects.Concentration) < 0 && randInt(4) === 0) amilyConcentration();
         else if (randInt(3) === 0) amilyDartGo();
         else if (randInt(2) === 0) amilyDoubleAttack();
@@ -25,7 +25,7 @@ export class Amily extends Character {
 
     //COMBAT AMILY STUFF
     //(Has regular attack)
-    public amilyAttack(): void {
+    public amilyAttack() {
         let dodged: number = 0;
         let damage: number;
         //return to combat menu when finished
@@ -103,7 +103,7 @@ export class Amily extends Character {
 
     //(Special Attacks)
     //-Double Attack: Same as a normal attack, but hits twice.
-    public amilyDoubleAttack(): void {
+    public amilyDoubleAttack() {
         let dodged: number = 0;
         let damage: number = 0;
         //return to combat menu when finished
@@ -153,7 +153,7 @@ export class Amily extends Character {
     }
 
     //-Poison Dart: Deals speed and str damage to the PC. (Not constant)
-    private amilyDartGo(): void {
+    private amilyDartGo() {
         let dodged: number = 0;
         //Blind dodge change
         if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2) {
@@ -233,7 +233,7 @@ export class Amily extends Character {
     }
 
     //Concentrate: always avoids the next attack. Can be disrupted by tease/seduce.
-    private amilyConcentration(): void {
+    private amilyConcentration() {
         DisplayText("Amily takes a deep breath and attempts to concentrate on your movements.");
         statusAffects.add(StatusAffectType.Concentration, 0, 0, 0, 0);
         game.combatRoundOver();
@@ -241,7 +241,7 @@ export class Amily extends Character {
 
     //(if PC uses tease/seduce after this)
     //Deals big lust increase, despite her resistance.
-    public teased(lustDelta: number): void {
+    public teased(lustDelta: number) {
         if (statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText("Amily flushes hotly; her concentration only makes her pay more attention to your parts!");
             lustDelta += 25 + lustDelta;
@@ -252,7 +252,7 @@ export class Amily extends Character {
         }
     }
 
-    public defeated(hpVictory: boolean): void {
+    public defeated(hpVictory: boolean) {
         game.amilyScene.conquerThatMouseBitch();
     }
 

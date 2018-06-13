@@ -7,7 +7,7 @@ export class Ember extends Monster {
 	//It doesn't make sense to affect Ember's lust due to the nature of the combat, however it IS possible and encouraged to use lust moves when fighting Bimbo or Corrupt Ember.
 
 	//PC shouldn't lose their turn for doing this, unless you want to penalize them Fen.
-	private emberReactsToLustiness(): void {
+	private emberReactsToLustiness() {
 		//(if PC uses any attack designed to increase Ember's lust)
 		DisplayText("The dragon moans, weaving softly from side to side, eyes glazed and tongue lolling at the intimate prospect of sex... but then, to your surprise, " + emberMF("he", "she") + " visibly shakes it off and recomposes " + emberMF("him", "her") + "self, frowning at you.");
 		DisplayText("\n\n\"<i>W-what do you think you're doing!?  I'm not some ordinary monster!  Don't think you can seduce me out of a battle!</i>\"");
@@ -16,10 +16,10 @@ export class Ember extends Monster {
 		gems = 0;
 		XP = 0;
 		HP = 0;
-		game.cleanupAfterCombat();
+		game.return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 	//Ember Attacks:
-	private emberAttack(): void {
+	private emberAttack() {
 		//Basic attack, average damage, average accuracy
 		DisplayText("With a growl, the dragon lashes out in a ferocious splay-fingered slash, " + emberMF("his", "her") + " claws poised to rip into your flesh.  ");
 		//Blind dodge change
@@ -41,7 +41,7 @@ export class Ember extends Monster {
 	}
 
 	//Dragon Breath: Very rare attack, very high damage
-	private embersSupahSpecialDragonBreath(): void {
+	private embersSupahSpecialDragonBreath() {
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(2) === 0) {
 			//Blind Ember: 
 			DisplayText("The blinded dragon tracks you with difficulty as you sprint around the landscape; seeing an opportunity, you strafe around " + emberMF("his", "her") + " side, planting yourself behind a large flat boulder near " + emberMF("him", "her") + " and pelting " + emberMF("him", "her") + " with a small rock.  The scream as the dragon turns the magical conflagration toward you, only to have it hit the rock and blow up in " + emberMF("his", "her") + " face, is quite satisfying.");
@@ -62,7 +62,7 @@ export class Ember extends Monster {
 	}
 
 	//Tailslap: Rare attack, high damage, low accuracy
-	private emberTailSlap(): void {
+	private emberTailSlap() {
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind)) {
 			DisplayText(capitalA + short + " completely misses you with a blind tail-slap!");
@@ -86,7 +86,7 @@ export class Ember extends Monster {
 	}
 
 	//Dragon Force: Tainted Ember only
-	private dragonFarce(): void {
+	private dragonFarce() {
 		//Effect: Stuns the PC for one turn and deals some damage, not much though. (Note: PC's version of this does something different and Ember has no cooldown to use this again. Obviously do not spam or peeps will rage.)
 		//Description:
 		DisplayText("Ember bares " + emberMF("his", "her") + " teeth and releases a deafening roar; a concussive blast of force heads straight for you!");
@@ -103,7 +103,7 @@ export class Ember extends Monster {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (lust >= 40) {
 			emberReactsToLustiness();
 			return;
@@ -121,14 +121,14 @@ export class Ember extends Monster {
 		else emberAttack();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		//Hackers gonna hate. Tested and working as intended.
 		if (hpVictory) game.emberScene.beatEmberSpar();
 		else emberReactsToLustiness();
 	}
 
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.emberScene.loseToEmberSpar();
 	}
 

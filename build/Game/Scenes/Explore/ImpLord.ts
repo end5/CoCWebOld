@@ -9,7 +9,7 @@ import { CharacterDescription } from '../../Character/CharacterDescription';
 import { CharacterType } from '../../Character/CharacterType';
 
 //Special Attack 1
-function impFire(): void {
+function impFire() {
     DisplayText("The imp mutters something to himself. Before you have time to react the demonic creature's hand is filled with a bright red fire that he hurls at you.  The flames lick at your body leaving a painful burn on you torso, as well as an arousing heat in your groin.");
     //[-HP // +Lust(minor)]
     let damage: number = 40 + randInt(10);
@@ -19,7 +19,7 @@ function impFire(): void {
 }
 
 //Heavy Attack
-function impLordHeavyEncounter(): void {
+function impLordHeavyEncounter() {
     let damage: number = int((str + weaponAttack + 20) - randInt(player.stats.tou) - player.armorDef);
     DisplayText("The demonic creature slashes a clawed hand towards your stomach,");
     if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) DisplayText(" but you handily avoid it.");
@@ -33,7 +33,7 @@ function impLordHeavyEncounter(): void {
 }
 
 //Lust Attack
-function impLordLustAttack(): void {
+function impLordLustAttack() {
     DisplayText("Lowering his loincloth the imp reveals his inhumanly thick shaft.  He smirks and licks his lips as he gives his cock a squeeze, milking a few beads of clear pre from the tip.  You shake your head and try to ignore your growing need.");
     //[+Lust]
     game.dynStats("lus", 5 + player.stats.lib / 5 + player.stats.cor / 5);
@@ -41,7 +41,7 @@ function impLordLustAttack(): void {
 }
 
 //Lust and Light Attack
-function impLordLustAttack2(): void {
+function impLordLustAttack2() {
     DisplayText("Reaching into his satchel the devilish creature pulls out a leather riding crop.  He quickly rushes forward, but somehow manages to get behind you.  Before you can react the imp lashes out, striking your [butt] twice with the riding crop.  The strikes leave a slight burning feeling, as well as a strange sense of arousal.");
     let damage: number = 3 + randInt(10);
     damage = player.takeDamage(damage);
@@ -50,16 +50,16 @@ function impLordLustAttack2(): void {
     game.dynStats("lus", 5 + player.stats.sens / 4 + player.stats.cor / 10);
     combatRoundOver();
 }
-function performCombatAction(): void {
+function performCombatAction() {
     let choices: Array = [impFire, impLordLustAttack2, impLordLustAttack, impLordHeavyEncounter, eAttack];
     choices[randInt(choices.length)]();
 }
 
-function defeated(hpVictory: boolean): void {
+function defeated(hpVictory: boolean) {
     game.impScene.defeatImpLord();
 }
 
-function won(hpVictory: boolean, pcCameWorms: boolean): void {
+function won(hpVictory: boolean, pcCameWorms: boolean) {
     game.impScene.loseToAnImpLord();
 }
 

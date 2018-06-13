@@ -3,7 +3,7 @@
  * @author ...
  */
 export class GnollSpearThrower extends Monster {
-	private hyenaPhysicalAttack(): void {
+	private hyenaPhysicalAttack() {
 		let damage: number = 0;
 		//return to combat menu when finished
 		return { next: game.playerMenu };
@@ -73,7 +73,7 @@ export class GnollSpearThrower extends Monster {
 		}
 		else {
 			if (damage < 10) DisplayText("The gnoll runs forward, fury in her dark eyes as twin fists glance off your chest.  The glancing blow sends her off balance and the flashing ivory jaws barely miss your throat.  You push back, stumbling away from the furious hyena. (" + damage + ")");
-			else DisplayText("The gnoll rushes forward, almost too fast to detect before twin fists slam into your torso.  Before you can recover, ivory jaws flash before your eyes and you feel the sharp teeth start to clamp onto the " + player.skinDesc + " of your neck.  Blinding pain causes you to fling yourself backwards, away from the teeth and drawing angry scrapes as you escape the jaws.  You roll away before picking yourself up, the hyena moving confidently towards you as you try to shake off the pain from the blow. (" + damage + ")");
+			else DisplayText("The gnoll rushes forward, almost too fast to detect before twin fists slam into your torso.  Before you can recover, ivory jaws flash before your eyes and you feel the sharp teeth start to clamp onto the " + player.skin.desc + " of your neck.  Blinding pain causes you to fling yourself backwards, away from the teeth and drawing angry scrapes as you escape the jaws.  You roll away before picking yourself up, the hyena moving confidently towards you as you try to shake off the pain from the blow. (" + damage + ")");
 		}
 		if (damage > 0) {
 			if (short === "fetish zealot") {
@@ -94,7 +94,7 @@ export class GnollSpearThrower extends Monster {
 	}
 
 	//<Writers note: I recommend that the javelin have a chance to greatly decrease speed for the remaining battle.  I am writing the flavor text for this event if you choose to include it>
-	private hyenaJavelinAttack(): void {
+	private hyenaJavelinAttack() {
 		let damage: number = 0;
 		let slow: number = 0;
 		//<Hyena Attack 2 – Javelin – Unsuccessful – Dodged>
@@ -149,7 +149,7 @@ export class GnollSpearThrower extends Monster {
 	}
 
 	//<Writer's Note: With the third attack, I intend that the damage be increased based on the breast size of the player.  Thus, the text will vary if the player is flat-chested as indicated by colored text.>
-	private hyenaSnapKicku(): void {
+	private hyenaSnapKicku() {
 		let damage: number = 0;
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(3) < 2) {
@@ -192,7 +192,7 @@ export class GnollSpearThrower extends Monster {
 		combatRoundOver();
 	}
 
-	private hyenaArousalAttack(): void {
+	private hyenaArousalAttack() {
 		//Success = cor+lib > randInt(150)
 		let chance: number = randInt(150);
 		//<Hyena Attack 4 – Arousal Attack – Highly Successful>
@@ -212,7 +212,7 @@ export class GnollSpearThrower extends Monster {
 		combatRoundOver();
 	}
 
-	public eAttack(): void {
+	public eAttack() {
 		let damage: number = 0;
 		//return to combat menu when finished
 		return { next: game.playerMenu };
@@ -277,7 +277,7 @@ export class GnollSpearThrower extends Monster {
 		}
 		else {
 			if (damage < 10) DisplayText("The gnoll runs forward, fury in her dark eyes as twin fists glance off your chest.  The glancing blow sends her off balance and the flashing ivory jaws barely miss your throat.  You push back, stumbling away from the furious hyena. (" + damage + ")");
-			else DisplayText("The gnoll rushes forward, almost too fast to detect before twin fists slam into your torso.  Before you can recover, ivory jaws flash before your eyes and you feel the sharp teeth start to clamp onto the " + player.skinDesc + " of your neck.  Blinding pain causes you to fling yourself backwards, away from the teeth and drawing angry scrapes as you escape the jaws.  You roll away before picking yourself up, the hyena moving confidently towards you as you try to shake off the pain from the blow. (" + damage + ")");
+			else DisplayText("The gnoll rushes forward, almost too fast to detect before twin fists slam into your torso.  Before you can recover, ivory jaws flash before your eyes and you feel the sharp teeth start to clamp onto the " + player.skin.desc + " of your neck.  Blinding pain causes you to fling yourself backwards, away from the teeth and drawing angry scrapes as you escape the jaws.  You roll away before picking yourself up, the hyena moving confidently towards you as you try to shake off the pain from the blow. (" + damage + ")");
 		}
 		if (damage > 0) {
 			if (short === "fetish zealot") {
@@ -297,11 +297,11 @@ export class GnollSpearThrower extends Monster {
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (short === "alpha gnoll") {
 			game.DisplayText().clear();
 			DisplayText("The gnoll alpha is defeated!  You could use her for a quick, willing fuck to sate your lusts before continuing on.  Hell, you could even dose her up with that succubi milk you took from the goblin first - it might make her even hotter.  Do you?");
-			game.menu();
+			game.
 			game.addButton(0, "Fuck", game.urtaQuest.winRapeHyenaPrincess);
 			game.addButton(1, "Succ Milk", game.urtaQuest.useSuccubiMilkOnGnollPrincesses);
 			game.addButton(4, "Leave", game.urtaQuest.urtaNightSleep);
@@ -310,7 +310,7 @@ export class GnollSpearThrower extends Monster {
 		}
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (short === "alpha gnoll") {
 			game.urtaQuest.loseToGnollPrincessAndGetGangBanged();
 		} else if (pcCameWorms) {
@@ -344,7 +344,9 @@ export class GnollSpearThrower extends Monster {
 this.baseStats.tou = 60;
 this.baseStats.spe = 100;
 this.baseStats.int = 50;
-		initLibSensCor(65, 45, 60);
+		this.baseStats.lib = 65;
+this.baseStats.sens = 45;
+this.baseStats.cor = 60;
 		this.weaponName = "teeth";
 		this.weaponVerb = "bite";
 		this.weaponAttack = 0;

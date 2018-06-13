@@ -9,7 +9,7 @@ export class HighMountains {
 	public let izumiScenes:IzumiScene = new IzumiScene();
 
 	//Explore High Mountain
-	public exploreHighMountain(): void {
+	public exploreHighMountain() {
 		Flags.list[FlagEnum.DISCOVERED_HIGH_MOUNTAIN]++;
 		return { next: playerMenu };
 
@@ -104,7 +104,7 @@ export class HighMountains {
 	}
 	//\"<i>Chicken Harpy</i>\" by Jay Gatsby and not Savin he didn't do ANYTHING
 	//Initial Intro
-	public chickenHarpy(): void {
+	public chickenHarpy() {
 		DisplayText().clear();
 		DisplaySprite(90);
 		if (Flags.list[FlagEnum.TIMES_MET_CHICKEN_HARPY] === 0) {
@@ -128,21 +128,21 @@ export class HighMountains {
 		}
 		Flags.list[FlagEnum.TIMES_MET_CHICKEN_HARPY]++;
 		//[Give Two][Give Three]		[Not Really, No]
-		menu();
+		
 		if (player.inventory.items.has(consumables.OVIELIX, 2)) MainScreen.addButton(0, "Give Two", giveTwoOviElix);
 		if (player.inventory.items.has(consumables.OVIELIX, 3)) MainScreen.addButton(1, "Give Three", giveThreeOviElix);
 		MainScreen.addButton(4, "Leave", leaveChickenx);
 	}
 
 	//If Give Two
-	public giveTwoOviElix(): void {
+	public giveTwoOviElix() {
 		DisplayText().clear();
 		DisplaySprite(90);
 		player.inventory.items.consumeItem(consumables.OVIELIX);
 		player.inventory.items.consumeItem(consumables.OVIELIX);
 		DisplayText("You hand over two elixirs, the harpy more than happy to take them from you.  In return, she unties a corner of the sheet atop the cart, allowing you to take a look at her collection of eggs.");
 		//[Black][Blue][Brown][Pink][Purple]
-		menu();
+		
 		MainScreen.addButton(0, "Black", getHarpyEgg, consumables.BLACKEG);
 		MainScreen.addButton(1, "Blue", getHarpyEgg, consumables.BLUEEGG);
 		MainScreen.addButton(2, "Brown", getHarpyEgg, consumables.BROWNEG);
@@ -152,13 +152,13 @@ export class HighMountains {
 	}
 
 	//If Give Three
-	public giveThreeOviElix(): void {
+	public giveThreeOviElix() {
 		DisplayText().clear();
 		DisplaySprite(90);
 		player.inventory.items.consumeItem(consumables.OVIELIX, 3);
 		DisplayText("You hand over three elixirs, the harpy ecstatic over the fact that you're willing to part with them.  In return, she unties a side of the sheet atop the cart, allowing you to take a look at a large collection of her eggs.");
 		//[Black][Blue][Brown][Pink][Purple]
-		menu();
+		
 		MainScreen.addButton(0, "Black", getHarpyEgg, consumables.L_BLKEG);
 		MainScreen.addButton(1, "Blue", getHarpyEgg, consumables.L_BLUEG);
 		MainScreen.addButton(2, "Brown", getHarpyEgg, consumables.L_BRNEG);
@@ -168,7 +168,7 @@ export class HighMountains {
 	}
 
 	//All Text
-	public getHarpyEgg(itype: ItemType): void {
+	public getHarpyEgg(itype: ItemType) {
 		DisplayText().clear();
 		DisplaySprite(90);
 		Flags.list[FlagEnum.EGGS_BOUGHT]++;
@@ -177,7 +177,7 @@ export class HighMountains {
 	}
 
 	//If No
-	public leaveChickenx(): void {
+	public leaveChickenx() {
 		DisplayText().clear();
 		DisplaySprite(90);
 		DisplayText("At the polite decline of her offer, the chicken harpy gives a warm smile before picking her cart back up and continuing along the path through the mountains.");

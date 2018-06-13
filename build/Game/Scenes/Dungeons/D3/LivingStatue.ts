@@ -4,12 +4,12 @@
  * @author Gedan
  */
 export class LivingStatue extends Monster {
-    public defeated(hpVictory: boolean): void {
+    public defeated(hpVictory: boolean) {
         Flags.list[FlagEnum.D3_STATUE_DEFEATED] = 1;
         game.d3.livingStatue.beatUpDaStatue(hpVictory);
     }
 
-    public won(hpVictory: boolean, pcCameWorms: boolean): void {
+    public won(hpVictory: boolean, pcCameWorms: boolean) {
         game.d3.livingStatue.fuckinMarbleOP(hpVictory, pcCameWorms);
     }
 
@@ -23,7 +23,9 @@ export class LivingStatue extends Monster {
         this.baseStats.tou = 80;
         this.baseStats.spe = 25;
         this.baseStats.int = 50;
-        initLibSensCor(10, 10, 100);
+        this.baseStats.lib = 10;
+this.baseStats.sens = 10;
+this.baseStats.cor = 100;
 
         this.lustVuln = 0;
 
@@ -60,7 +62,7 @@ export class LivingStatue extends Monster {
         return true;
     }
 
-    private concussiveBlow(): void {
+    private concussiveBlow() {
         //Maybe replace this with passive stun? TERRIBLE IDEA
         DisplayText("The giant raises his hammer for an obvious downward strike. His marble muscles flex as he swings it downward. You're able to hop out of the way of the clearly telegraphed attack, but nothing could prepare you for the shockwave it emits as it craters the ground.");
 
@@ -82,7 +84,7 @@ export class LivingStatue extends Monster {
         DisplayText(" (" + damage + ")");
     }
 
-    private dirtKick(): void {
+    private dirtKick() {
         DisplayText("The animated sculpture brings its right foot around, dragging it through the gardens at a high enough speed to tear a half score of bushes out by the root. A cloud of shrubbery and dirt washes over you!");
 
         //blind
@@ -96,7 +98,7 @@ export class LivingStatue extends Monster {
         }
     }
 
-    private backhand(): void {
+    private backhand() {
         //Knocks you away and forces you to spend a turn running back to do melee attacks.
         DisplayText("The marble golem's visage twists into a grimace of irritation, and it swings its hand at you in a vicious backhand.");
 
@@ -115,7 +117,7 @@ export class LivingStatue extends Monster {
         }
     }
 
-    private overhandSmash(): void {
+    private overhandSmash() {
         //High damage, lowish accuracy.
         DisplayText("Raising its hammer high overhead, the giant swiftly brings its hammer down in a punishing strike!");
 
@@ -129,7 +131,7 @@ export class LivingStatue extends Monster {
         }
     }
 
-    private disarm(): void {
+    private disarm() {
         DisplayText("The animated statue spins its hammer around, striking at your [weapon] with its haft.");
 
         //Avoid
@@ -146,7 +148,7 @@ export class LivingStatue extends Monster {
         }
     }
 
-    private cycloneStrike(): void {
+    private cycloneStrike() {
         //Difficult to avoid, moderate damage.
         DisplayText("Twisting back, the giant abruptly launches into a circular spin. Its hammer stays low enough to the ground that its circular path is tearing a swath of destruction through the once pristine garden, and it's coming in your direction!");
 
@@ -161,7 +163,7 @@ export class LivingStatue extends Monster {
         }
     }
 
-    override protected performCombatAction(): void {
+    override protected performCombatAction() {
         if (this.HPRatio() < 0.7 && this.findStatusAffect(StatusAffects.KnockedBack) < 0) {
             this.backhand();
         }

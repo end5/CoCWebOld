@@ -2,7 +2,7 @@ export class Minerva extends Monster {
 
 	//Normal Attacks for all Minerva Types
 	//Shark-bite:
-	private minervaBite(): void {
+	private minervaBite() {
 		DisplayText("The siren paces around you in circles, waiting for the right moment to strike.  Unexpectedly quick thanks to her clawed feet, she propels herself toward you at full speed.  Her maw opens wide to chomp on you, showing off multiple rows of glinting, razor-sharp teeth.");
 		let damage: number = int((str + 85) - randInt(player.stats.tou) - player.armorDef);
 		if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
@@ -20,7 +20,7 @@ export class Minerva extends Monster {
 	}
 
 	//Flying kick:
-	private minervaKnowsKungfu(): void {
+	private minervaKnowsKungfu() {
 		DisplayText("The blue beauty flaps her wings and launches herself into the air.  Once she's gained as much altitude as she can, she dive-bombs you, her demon-clawed feet leading the attack.");
 
 		let damage: number = int((str + weaponAttack + 100) - randInt(player.stats.tou) - player.armorDef);
@@ -41,7 +41,7 @@ export class Minerva extends Monster {
 	}
 
 	//Tail-whip
-	private tailWhip(): void {
+	private tailWhip() {
 		let damage: number = int((str + 35) - randInt(player.stats.tou) - player.armorDef);
 
 		DisplayText("She runs at you, holding the weapon like she's about to chop into your side.  You brace yourself, but when she's only a few feet away, she starts to turn her body.");
@@ -62,7 +62,7 @@ export class Minerva extends Monster {
 	}
 
 	//Halberd stab:
-	private minervaUsesHalberdStab(): void {
+	private minervaUsesHalberdStab() {
 		DisplayText("Minerva charges at you, brandishing her halberd's sharp tip toward you.");
 		let damage: number = int((str + weaponAttack) - randInt(player.stats.tou));
 
@@ -81,7 +81,7 @@ export class Minerva extends Monster {
 	}
 
 	//Halberd CHOP:
-	private minervaUsesHalberdCHOP(): void {
+	private minervaUsesHalberdCHOP() {
 		DisplayText("She moves in close, practically right in front of you and raises the halberd.");
 		let damage: number = int((str + 100) - randInt(player.stats.tou) - player.armorDef);
 
@@ -100,7 +100,7 @@ export class Minerva extends Monster {
 	}
 
 	//White Fire
-	private kiteFire(): void {
+	private kiteFire() {
 		DisplayText("The siren holds her hand out, flashing you a cunning smirk and snapping her fingers.  Your entire body is engulfed in white-hot flames, searing flesh and burning your [armor].  The sudden flash of heat and fire elicit panic from deep within you, causing you to cry out and roll on the ground to put the fires out.  The burns aren't too severe, but you know you can't keep getting hit like that!");
 		let damage: number = int(10 + (inte / 3 + randInt(inte / 2)) * 1.5);
 		damage = player.takeDamage(damage);
@@ -110,7 +110,7 @@ export class Minerva extends Monster {
 
 	//Lust Attacks for tainted Minerva
 	//Booty-shorts
-	private bootyShortInYoFaceSon(): void {
+	private bootyShortInYoFaceSon() {
 		DisplayText("The blue beauty turns around and bends over so far that she uses her halberd like a pole to support herself.  She lifts her shark tail up so you can see her short-shorts hugging perfectly against her ample bottom.  Her tail waves to the left and to the right as she does a little booty shake for you.  The siren gives her big ass a nice, hard slap that echoes off the tower walls, and making it jiggle even more.  She quickly turns around to face you, smirking at what she just did.");
 		game.dynStats("lus", 20 + player.stats.lib / 10 + randInt(5));
 		combatRoundOver();
@@ -118,14 +118,14 @@ export class Minerva extends Monster {
 
 	//Lust Attacks for all Minervas
 	//Pole licking
-	private lickDatPole(): void {
+	private lickDatPole() {
 		DisplayText("Minerva stands, holding her halberd straight up next to her as she looks it over with a seductive stare.  Giving you a suggestive look she rolls out a two-foot long tongue from her mouth, licking a good length of the massive weapon, even wrapping her tongue around it a few times.  Suddenly she sucks her tongue back into her mouth and gives you a little smirk, almost to say \"<i>Yeah, I can do that... and more.</i>\"");
 		game.dynStats("lus", 20 + player.stats.lib / 10 + randInt(5));
 		combatRoundOver();
 	}
 
 	//Special attack
-	private sirensSong(): void {
+	private sirensSong() {
 		//The Siren's Song (2-part attack) (Rarely used or when she's desperate aka: Less than 10% hp)
 		//[part 1]
 		if (findStatusAffect(StatusAffects.SirenSong) < 0) {
@@ -147,7 +147,7 @@ export class Minerva extends Monster {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (statusAffects.has(StatusAffectType.SirenSong)) sirensSong();
 		else if (randInt(25) === 0 || (HP < 100 && randInt(2) === 0)) sirensSong();
 		//Else choose randomly!
@@ -164,11 +164,11 @@ export class Minerva extends Monster {
 		}
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.highMountains.minervaScene.beatUpDatSharpie();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.highMountains.minervaScene.loseToMinerva();
 	}
 
@@ -197,7 +197,9 @@ export class Minerva extends Monster {
 this.baseStats.tou = 65;
 this.baseStats.spe = 95;
 this.baseStats.int = 75;
-		initLibSensCor(30, 25, 45);
+		this.baseStats.lib = 30;
+this.baseStats.sens = 25;
+this.baseStats.cor = 45;
 		this.weaponName = "halberd";
 		this.weaponVerb = "slash";
 		this.weaponAttack = 30;

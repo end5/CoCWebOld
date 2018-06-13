@@ -3,6 +3,7 @@ import { InputTextElement } from '../../../Engine/Display/Elements/InputTextElem
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../Body/BreastRow';
 import { Cock } from '../../Body/Cock';
+import { Gender } from '../../Body/GenderIdentity';
 import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
 import { Desc } from '../../Descriptors/Descriptors';

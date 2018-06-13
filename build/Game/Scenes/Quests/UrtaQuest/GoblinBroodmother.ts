@@ -2,16 +2,16 @@
  * Created by aimozg on 18.01.14.
  */
 export class GoblinBroodmother extends Goblin {
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.DisplayText().clear();
 		DisplayText("The goblin broodmother is defeated!  You find a bottle of succubi milk on her.  That stuff is banned in Tel'Adre - and for good reason, but it might come in handy.  You pocket the foul fluid for now.");
 		DisplayText("  You could use her for a quick, willing fuck to sate your lusts before continuing on.  Do you?");
-		game.menu();
+		game.
 		game.addButton(0, "Fuck", game.urtaQuest.winFuckAGoblinBroodmotherAsUrta);
 		game.addButton(4, "Leave", game.urtaQuest.nagaPleaseNagaStoleMyDick);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.urtaQuest.urtaLosesToGoblin();
 	}
 
@@ -38,7 +38,9 @@ export class GoblinBroodmother extends Goblin {
 this.baseStats.tou = 30;
 this.baseStats.spe = 35;
 this.baseStats.int = 100;
-		initLibSensCor(70, 20, 70);
+		this.baseStats.lib = 70;
+this.baseStats.sens = 20;
+this.baseStats.cor = 70;
 		this.weaponName = "fists";
 		this.weaponVerb = "tiny punch";
 		this.weaponAttack = 20;

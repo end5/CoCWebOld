@@ -2,7 +2,7 @@ export class Vala extends Monster {
 	//Vala AI
 
 	//Blood magic?
-	public valaSpecial1(): void {
+	public valaSpecial1() {
 		DisplayText("Vala dabs at one of her wounds and swoons.  Is she actually getting off from the wounds?  Damn she's damaged!  Vala licks the blood from her fingers, winks, and blows pink mist from her mouth.");
 		//Lightly wounded.
 		if (HPRatio() > .7) {
@@ -20,14 +20,14 @@ export class Vala extends Monster {
 		combatRoundOver();
 	}
 	//Milk magic
-	public valaSpecial2(): void {
+	public valaSpecial2() {
 		DisplayText("With a look of ecstasy on her face, Vala throws back her head and squeezes her pillowy chest with her hands, firing gouts of thick faerie milk from her over-sized bosom!  You try to dodge, but she's squirting so much it's impossible to dodge it all, and in no time you're drenched with a thick coating of Vala's milk.");
 		DisplayText("  She releases her breasts, shaking them back and forth for your benefit, and flutters her wings, blowing shiny, glitter-like flakes at you.  They stick to the milk on your skin, leaving you coated in milk and faerie-dust.");
 		DisplayText("\nVala says, \"<i>Now you can be sexy like Vala!</i>\"\n");
 
 		if (statusAffects.has(StatusAffectType.Milk)) {
 			addStatusValue(StatusAffects.Milk, 1, 5);
-			DisplayText("Your " + player.skinDesc + " tingles pleasantly, making you feel sexy and exposed.  Oh no!  It seems each coating of milk and glitter is stronger than the last!");
+			DisplayText("Your " + player.skin.desc + " tingles pleasantly, making you feel sexy and exposed.  Oh no!  It seems each coating of milk and glitter is stronger than the last!");
 		}
 		else {
 			statusAffects.add(StatusAffectType.Milk, 5, 0, 0, 0);
@@ -37,7 +37,7 @@ export class Vala extends Monster {
 		combatRoundOver();
 	}
 	//Masturbation
-	public valaMasturbate(): void {
+	public valaMasturbate() {
 		DisplayText("The mind-fucked faerie spreads her alabaster thighs and dips a finger into the glistening slit between her legs, sliding in and out, only pausing to circle her clit.  She brazenly masturbates, putting on quite the show.  Vala slides another two fingers inside herself and finger-fucks herself hard, moaning and panting lewdly.  Then she pulls them out and asks, \"<i>Did you like that?  Will you fuck Vala now?</i>\"");
 		game.dynStats("lus", 4 + player.stats.cor / 10);
 		combatRoundOver();
@@ -45,7 +45,7 @@ export class Vala extends Monster {
 
 
 	//[Fight dialog]
-	public valaCombatDialogue(): void {
+	public valaCombatDialogue() {
 		if (findStatusAffect(StatusAffects.Vala) < 0) {
 			DisplayText("\"<i>Sluts needs to service the masters!</i>\" the fairy wails, flying high. \"<i>If they are not pleased, Bitch doesn't get any cum!</i>\"");
 			statusAffects.add(StatusAffectType.Vala, 0, 0, 0, 0);
@@ -61,7 +61,7 @@ export class Vala extends Monster {
 		}
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		//VALA SPEAKS!
 		valaCombatDialogue();
 		DisplayText("\n\n");
@@ -74,11 +74,11 @@ export class Vala extends Monster {
 	}
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.fightValaVictory();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foe doesn't seem put off enough to leave...");
 			return { next: game.endLustLoss };
@@ -109,7 +109,9 @@ export class Vala extends Monster {
 this.baseStats.tou = 50;
 this.baseStats.spe = 50;
 this.baseStats.int = 60;
-		initLibSensCor(55, 35, 50);
+		this.baseStats.lib = 55;
+this.baseStats.sens = 35;
+this.baseStats.cor = 50;
 		this.weaponName = "fists";
 		this.weaponVerb = "caresses";
 		this.armorName = "skin";

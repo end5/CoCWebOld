@@ -1,6 +1,6 @@
 ﻿export class SharkGirl extends Monster {
 	//Lust-based attacks:
-	private sharkTease(): void {
+	private sharkTease() {
 		game.DisplaySprite(70);
 		if (randInt(2) === 0) {
 			DisplayText("You charge at the shark girl, prepared to strike again, but stop dead in your tracks when she bends over and wiggles her toned ass towards you. It distracts you long enough for her tail to swing out and smack you to the ground. She coos, \"<i>Aw... You really do like me!</i>\"");
@@ -16,11 +16,11 @@
 		}
 		combatRoundOver();
 	}
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.boat.sharkGirlScene.sharkWinChoices();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foe doesn't seem disgusted enough to leave...");
 			return { next: game.endLustLoss };
@@ -52,7 +52,9 @@
 this.baseStats.tou = 40;
 this.baseStats.spe = 55;
 this.baseStats.int = 42;
-		initLibSensCor(75, 35, 40);
+		this.baseStats.lib = 75;
+this.baseStats.sens = 35;
+this.baseStats.cor = 40;
 		this.weaponName = "shark teeth";
 		this.weaponVerb = "bite";
 		this.weaponAttack = 3;

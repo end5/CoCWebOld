@@ -2,6 +2,7 @@ import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { randInt } from '../../../Engine/Utilities/SMath';
+import { Gender } from '../../Body/GenderIdentity';
 import { RaceScore } from '../../Body/RaceScore';
 import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';

@@ -40,7 +40,7 @@
     }
     //End of Interface Implementation
 
-    public telAdreNiamh(): void {
+    public telAdreNiamh() {
         if (Flags.list[FlagEnum.MET_NIAMH] === 0) {
             DisplayText("\n\nAt a table near the back of the bar sits one of the many curious sights Tel'Adre has to offer: a white-haired, ebony-skinned woman, sporting twitching feline ears and tail.  The curious-looking and mostly human girl sports a pair of form-fitting white leggings and a matching top hat. An unbuttoned leaf-green waistcoat hangs slack around her slender hips, and it doesn't take you long to see the reason for the lack of closure: her ");
             if (model.time.hours <= 8) DisplayText("massive N-cup breasts, spilling over the table");
@@ -72,10 +72,10 @@
     }
 
     //Approach:
-    public approachNiamh(): void {
+    public approachNiamh() {
         DisplayText().clear();
 
-        DisplayText(images.showImage("niamh-approach-in-bar"));
+        DisplayImage(images.showImage("niamh-approach-in-bar"));
         if (randInt(5) === 0 && Flags.list[FlagEnum.MET_NIAMH] > 0 && (player.inventory.items.has(consumables.BIMBOLQ) || player.inventory.items.has(consumables.SUCMILK))) {
             corruptOrBimboNiamhIntro();
             return;
@@ -84,8 +84,8 @@
         if (Flags.list[FlagEnum.MET_NIAMH] > 0) DisplayText("Niamh gives you a friendly, but professional, smile as you draw near.  She smiles and shakes her head knowingly as your gaze inevitably falls to her chest, obviously as full of booze as ever.  Small puddles of alcoholic fluid slowly accumulate from the steady drip of her swollen nipples.  \"<i>Well, hello, consumer - yes, up here - hello, consumer.  Did ye want to try more o' me Black Cat Beer?  Just remember the rules; two bits a glass, treat me gentle, and no sneakin' a drink from 'the tap'.</i>\"");
         else DisplayText("You approach the burdened woman, hailing her politely.  Her ears twitch at the sound, and she sends a crooked smile your way.  \"<i>What can I do ya for?</i>\" she asks somewhat tiredly, the lilt of her words hinting at an accent.  \"<i>Up for a bit o' the brew, perhaps?</i>\"  Your question regarding why she's peddling alcohol dies in your throat as your gaze inevitably drops to her dusky-toned bosom.  As you watch, a small droplet of cloudy golden liquid forms at her engorged teat and splashes into the growing puddle under the nipple.  From the array of top-bearing beer mugs placed within reaching distance on the ground, you begin to put the pieces together.  Is she actually... lactating beer?  You glance back up at her; she smirks knowingly, casually resting her forearms against her expansive breast-flesh and using them to push together and amplify the already-incredible cleavage.  She takes a deep breath, then chants in a singsong voice, \"<i>Black cat beer, two bits a glass.  Get it quick, for it's goin' fast.  Just treat me gentle, or you're in for a slap, and no, you can't have it 'straight from the tap'.</i>\"  After a couple moments, you shrug, figuring stranger things have happened in Mareth.");
 
-        let beer: Function = null;
-        if (player.stats.gems >= 2)
+        let beer;
+        if (player.inventory.gems >= 2)
             beer = getANiamhBeer;
         else DisplayText("\n\n<b>You're too poor for beer.</b>");
         //[Talk] [Get Beer] [Leave]
@@ -93,9 +93,9 @@
     }
 
     //[Get Beer]
-    public getANiamhBeer(): void {
+    public getANiamhBeer() {
         DisplayText().clear();
-        DisplayText(images.showImage("niamh-get-beer"));
+        DisplayImage(images.showImage("niamh-get-beer"));
         DisplayText("\"<i>That'll be two gems,</i>\" she replies.  You hand over the payment, which she holds up to the light and scrutinizes thoroughly.  Satisfied, she drops the things into a sack at her waist.  \"<i>Sorry,</i>\" she mutters. \"<i>I do want to get this damned beer out o' me, but this is still my primary livelihood; I canno' afford to be cheated.  Anyway, here's your mug - you can keep that f'r another two gems; I get 'em cheap.  Go ahead and fill it up, but keep in mind what you're tweakin', right?</i>\"");
         //Feeder
         if (player.perks.has(PerkType.Feeder)) DisplayText("  You understand exactly what she's going through; the weight of a huge pair of breasts, the sensitivity as they engorge with fluids, the near-maddening sensation of the contents sloshing around underneath your straining skin...");
@@ -123,18 +123,18 @@
         DisplayText("sighs in relief, biting her lower lip slightly.");
         //General Ending
         DisplayText("\n\nYou think her breasts may have decreased in size somewhat, but with how massive they are it's hard to tell.  She blushes, trying her hardest to conceal the grinding against her chair.  \"<i>Faith, you're good with yer hands,</i>\" she veritably purrs.  \"<i>Will ye be drinkin' it here or takin' the mug t'go?</i>\"");
-        player.stats.gems -= 2;
+        player.inventory.gems -= 2;
         statScreenRefresh();
         //[Here][To Go]
-        let togo: Function = null;
-        if (player.stats.gems >= 2) togo = blackCatBeerToGo;
+        let togo;
+        if (player.inventory.gems >= 2) togo = blackCatBeerToGo;
         else DisplayText("\n\n<b>You're too poor to buy the mug.</b>");
         Flags.list[FlagEnum.GOT_NIAMH_BEER]++;
         MainScreen.simpleChoices(["Here", "To Go", "", "", ""], [drinkNiamhsBeerInTelAdre, togo, null, null, null]);
     }
 
     //[Here]
-    private drinkNiamhsBeerInTelAdre(): void {
+    private drinkNiamhsBeerInTelAdre() {
         DisplayText().clear();
         if (player.lactationQ() >= 300 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 5 && randInt(2) === 0 && Flags.list[FlagEnum.MET_NIAMH] > 0) {
             DisplayText("\"<i>Skoal!</i>\" you cheer as you down the delicious mug of booze.  The incredibly potent beverage warms you down to your chest and beyond.  The heat of the alcohol trails like fire down into your gut and warms your genitals, causing you to feel more aroused.  The buzz of the beverage makes you light headed, as if thinking had become a little more difficult.");
@@ -191,10 +191,10 @@
     }
 
     //[To Go]
-    private blackCatBeerToGo(): void {
+    private blackCatBeerToGo() {
         DisplayText().clear();
         DisplayText("\"<i>That'll be two more gems, then,</i>\" the girl says.  \"<i>Though, if your hands get any more skillful I might have to pay you to take it,</i>\" she flirts.  You pass over two more gems, and she gratefully bags them and beams you a smile.");
-        player.stats.gems -= 2;
+        player.inventory.gems -= 2;
         statScreenRefresh();
         //both output
         if (model.time.hours <= 15) DisplayText("\n\n\"<i>Thanks for the business, " + player.mfn("laddie", "lassie", "customer") + "!  Remember, Niamh sells her Black Cat Beer every day from 8 until 4.</i>\"  You nod your head in thanks and step away from the table.");
@@ -212,7 +212,7 @@
     }
 
     //Talk
-    private talkToNiamh(): void {
+    private talkToNiamh() {
         DisplayText().clear();
         //(first time only)
         if (Flags.list[FlagEnum.TALKED_NIAMH] === 0) {
@@ -236,13 +236,13 @@
             }
         }
         //[Beer] [Leave]
-        let beer: Function = null;
-        if (player.stats.gems >= 2)
+        let beer;
+        if (player.inventory.gems >= 2)
             beer = getANiamhBeer;
         simpleChoices("Beer", beer, "", null, "", null, "", null, "Leave", Scenes.camp.returnToCampUseOneHour);
     }
     //Leave
-    private leaveNiamh(): void {
+    private leaveNiamh() {
         DisplayText().clear();
         DisplayText("You decide that you don't really want to talk to this strange cat-girl and, as politely as possible, excuse yourself.");
         //Player returns to Wet Bitch menu
@@ -251,7 +251,7 @@
 
     //Black Cat Beer
     //is affected by Black Cat Beer item effects
-    public blackCatBeerEffects(player: Player, clearScreen: boolean = true, newLine: boolean = false): void {
+    public blackCatBeerEffects(player: Player, clearScreen: boolean = true, newLine: boolean = false) {
         if (clearScreen) DisplayText().clear();
         if (newLine) DisplayText("\n\n");
         DisplayText("Uncapping the mug, you swill the stuff down in a single swig, gasping as it burns a fiery trail into your belly.  It's rich and sweet, and damn, but it's strong stuff!");
@@ -278,24 +278,24 @@
     }
 
     //Black Cat Beer Wears Off: This message is displayed eight hours after the last drink.
-    public blackCatBeerExpires(): void {
+    public blackCatBeerExpires() {
         dynStats("spe", 4.5, "int", 4.5, "lib", (-1 * player.statusAffects.get(StatusAffectType.BlackCatBeer).value2));
         player.statusAffects.remove("BlackCatBeer");
         DisplayText("\n<b>The warm, fuzzy feeling finally dissipates, leaving you thinking clearer, focusing better, and less horny.  It was nice while it lasted, but it's also good to be back to normal.  Still, a part of you kind of wants another beer.</b>\n");
     }
 
-    private giveNiamphBimboLiquer(): void {
+    private giveNiamphBimboLiquer() {
         taintNiamh(true);
     }
 
-    private giveNiamphSuccubiMilk(): void {
+    private giveNiamphSuccubiMilk() {
         taintNiamh(false);
     }
 
     //Corruption Option
     //20% chance of Nyam using this as her opening if PC has >= 90 corruption and either item in inventory
     //[corruption chance encounter]
-    private corruptOrBimboNiamhIntro(): void {
+    private corruptOrBimboNiamhIntro() {
         DisplayText().clear();
         DisplayText("\"<i>Heya, favored customer,</i>\" the busty kitty greets as you approach.  \"<i>I have a favor to ask!  My drink's empty, and I get bored of me own brew,</i>\" Niamh explains.  \"<i>Would ya mind fetchin' me somethin', or are ye gonna force me to sample me own goods once more?</i>\"");
 
@@ -308,24 +308,24 @@
 
         DisplayText("\n\n(Editors Note: Succubi Milk Option Currently in beta)\n\n\n");
 
-        menu();
+        
         if (player.inventory.items.has(consumables.BIMBOLQ)) MainScreen.addButton(0, "Bimbo", giveNiamphBimboLiquer);
         if (player.inventory.items.has(consumables.SUCMILK)) MainScreen.addButton(1, "S.Milk", giveNiamphSuccubiMilk);
         MainScreen.addButton(4, "Back", maybeLaterNiamh);
     }
     //[Maybe Later]
-    public maybeLaterNiamh(): void {
+    public maybeLaterNiamh() {
         DisplayText().clear();
         DisplayText("You chuckle nervously and shake your head, citing your ignorance of all things alcoholic.  Niamh sighs resignedly, reaching forward and grabbing one of her elongated nipples.  With practiced ease, she fills her flagon and takes a deep swig of it.  \"<i>Can't blame me for wantin' a change of pace,</i>\" she mutters.  \"<i>Now, would ye like your own glass of Black Cat Beer, or are ya gonna keep starin' at me tits?</i>\"");
-        let beer: Function = null;
-        if (player.stats.gems >= 2) beer = getANiamhBeer;
+        let beer;
+        if (player.inventory.gems >= 2) beer = getANiamhBeer;
         else DisplayText("\n\n<b>You're too poor for beer.</b>");
         //[Talk] [Get Beer] [Leave]
         MainScreen.simpleChoices(["Talk", "Get Beer", "", "", "Leave"], [talkToNiamh, beer, null, null, leaveNiamh]);
     }
 
     //[Succubus Milk] or [Bimbo Liqueur]
-    public taintNiamh(bimbo: boolean = false): void {
+    public taintNiamh(bimbo: boolean = false) {
         DisplayText().clear();
         DisplayText("You grab Niamh's glass and one more and head off, making sure to turn a corner before commandeering an empty table.  Plunking the mugs down in front of you, you mutter to yourself as she moves away.");
         //[if sucmilk]
@@ -339,7 +339,7 @@
         else {
             player.inventory.items.consumeItem(consumables.BIMBOLQ);
             DisplayText("\n\nYou pop the seal of your bottle of Bimbo Liqueur, recoiling at the cloying, spiced scent that paints visions of a slutty slave-girl's slightly spread folds.  With a grimace, you pour the potent stuff evenly into the glasses.  Hefting the mugs, you rise and start towards Niamh.");
-            DisplayText("\n\nHer expression brightens when she notices your approach, and she giggles when she regards the quarter-full mugs of liqueur.  \"<i>What, that's it?</i>\" she quips curiously.  \"<i>This stuff had better pack some punch, " + player.mf("lad", "lass") + ".</i>\"  You assure her that it will knock her socks off.");
+            DisplayText("\n\nHer expression brightens when she notices your approach, and she giggles when she regards the quarter-full mugs of liqueur.  \"<i>What, that's it?</i>\" she quips curiously.  \"<i>This stuff had better pack some punch, " + Desc.Gender.mf(player, "lad", "lass") + ".</i>\"  You assure her that it will knock her socks off.");
             DisplayText("\n\nNiamh reaches for a mug, but you draw it away from her questing hand, instead sinking it into her considerable expanse of cleavage.  A devious grin flits across your features as she subsequently shivers from the cold glass between her fluid-filled bosom.  \"<i>Wh-why you...</i>\" she gasps, quickly snatching the drink and rubbing warmth back into her goosebumped flesh.  \"<i>You scoundrel...</i>\"");
             DisplayText("\n\nYou respond by raising your glass in toast, and she grudgingly complies.  Your mugs clink together, and she wastes no time in downing the cloudy liqueur.  You raise your own drink to your lips and pretend to sip, not wanting anything to do with what's about to happen.  \"<i>Burned pretty good,</i>\" she comments, licking her lips.  \"<i>Say, there...mind if I have a swig o' yours, too?</i>\"  You readily hand the flagon over, marveling at how fast she chugs it.  Niamh gives a happy little burp, and you scoot back a bit in anticipation.");
         }
@@ -366,7 +366,7 @@
     }
 
     //24 hours later, random encounter on the Plains
-    public niamhPostTelAdreMoveOut(): void {
+    public niamhPostTelAdreMoveOut() {
         //Move her into the bazaar
         Flags.list[FlagEnum.NIAMH_MOVED_OUT_COUNTER] = -1;
         DisplayText().clear();
@@ -377,7 +377,7 @@
             DisplayText("hourglass-shaped");
         DisplayText(" Niamh, and it's obvious she's completely hammered.  ");
         if (Flags.list[FlagEnum.NIAMH_STATUS] === 1)
-            DisplayText("\"<i>W'hey there " + player.mf("boyo", "big girl") + ", wanna...g'forrra goooo-gfh...time?</i>\"");
+            DisplayText("\"<i>W'hey there " + Desc.Gender.mf(player, "boyo", "big girl") + ", wanna...g'forrra goooo-gfh...time?</i>\"");
         else
             DisplayText("\"<i>W'heeeey, honey!  I never thought I'd see yaaaagain!</i>\"");
         DisplayText(" she slurs, struggling to stay upright between her impaired motor skills and her absolutely overfilled chest.  \"<i>Aaah've been drinkin' me 'shtash',</i>\" she explains, noticing your gaze.  \"<i>Canno' leddit go'tuh waste!</i>\" You nod your agreement, sneaking a glance behind her to observe the twin trails of ");
@@ -392,13 +392,13 @@
     }
 
     //[no]
-    private niamhCorruptMobileSnackTurnDown(): void {
+    private niamhCorruptMobileSnackTurnDown() {
         DisplayText().clear();
         DisplayText("You turn her down, fabricating a little tale about how you just got done drinking a delicious beverage, and you couldn't possibly have anything more.  She nods sagely, pauses, and loudly belches.  Even in her soused state, she retains some semblance of manners, so she chuckles nervously while moving a hand to her lips.  \"<i>Sorry 'bout tha'...</i>\" she mutters, slinking off.  You have a feeling you'll see her again.");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //[yup]
-    private niamhCorruptedMobileSnackDrinkTime(): void {
+    private niamhCorruptedMobileSnackDrinkTime() {
         DisplayText().clear();
         DisplayText("Of course you do!  You went through the trouble of getting her boobs to their current condition; drinking from the tap is exactly what you had in mind.  A smile brightens Niamh's features, and she plops down heavily on the ground, waving you over to sit next to her.  ");
         //[bimbo version]
@@ -428,14 +428,14 @@
             DisplayText("\n\nFalling?");
             DisplayText("\n\nYou wake with a start, swiftly rolling to your feet and trying to shake the lingering cobwebs out of your head.  You quickly spot Niamh, still kneeling and fixing you with a wry smirk.  \"<i>I got a bit overzealous with the nursing, I suppose,</i>\" she mutters, as close to an apology that you'll probably get from her.  \"<i>After ya went under, ya kept clawing at my tits for a bit, so I had to hop off.  Kept myself busy while you were asleep, at least.</i>\"");
             DisplayText("\n\nGlancing around, you can't help but agree, judging by the lake of ale surrounding you both.  Luckily, her self-entertainment seems to have shrunk her normally-gigantic tits to a more manageable size, and with your assistance, she's soon back on her feet.  \"<i>I heard there was a form of refuge for... well, differently-blessed lassies like meself,</i>\" she says, somewhat drily, patting the top of her huge azure bosom for emphasis.  \"<i>I'm heading there.  Maybe I'll find you there eventually, hey?</i>\"");
-            DisplayText("\n\nShe gives you a little punch in the shoulder, shooting you a wink and walking away.  \"<i>Don't think I forgot about how I got like this,  " + player.mf("boy", "gal") + ", ,</i>\" she yells over her shoulder, stopping you in your tracks as you turn to leave.  Several moments pass before she finally turns around and resumes her departure.");
+            DisplayText("\n\nShe gives you a little punch in the shoulder, shooting you a wink and walking away.  \"<i>Don't think I forgot about how I got like this,  " + Desc.Gender.mf(player, "boy", "gal") + ", ,</i>\" she yells over her shoulder, stopping you in your tracks as you turn to leave.  Several moments pass before she finally turns around and resumes her departure.");
             DisplayText("\n\nJust before you move out of earshot, a last word from Niamh floats to your ears.  You can't be sure, but... did she say... \"<i>Thanks?</i>\"");
             blackCatBeerEffects(player, false, true);
             //[end encounter]*/
         }
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
-    public bimboChampagne(player: Player, clearScreen: boolean, intro: boolean): void {
+    public bimboChampagne(player: Player, clearScreen: boolean, intro: boolean) {
         if (clearScreen) DisplayText().clear();
         if (intro) {
             if ((player.perks.has(PerkType.FutaFaculties) && player.perks.has(PerkType.FutaForm)) || (player.perks.has(PerkType.BimboBody) && player.perks.has(PerkType.BimboBrains))) {
@@ -482,7 +482,7 @@
         }
     }
 
-    public removeBimboChampagne(): void {
+    public removeBimboChampagne() {
         DisplayText("\n<b>Whoah!  Your head is clearing up, and you feel like you can think clearly for the first time in forever.  Niamh sure is packing some potent stuff!  You shake the cobwebs out of your head, glad to once again be less dense than a goblin with a basilisk boyfriend.</b>");
         player.stats.spe += 10;
         player.stats.lib += -1;
@@ -503,7 +503,7 @@
         DisplayText("\n");
     }
 
-    public bazaarNiamh(): void {
+    public bazaarNiamh() {
         DisplayText().clear();
         //Bimbo Niamh:
         if (Flags.list[FlagEnum.NIAMH_STATUS] === 2) {
@@ -528,20 +528,20 @@
         }
         Flags.list[FlagEnum.TIMES_NIAMH_BAZAAR_MET]++;
         //[Bizarre Bazaar, beer purchase, bimbo and corrupted version]
-        let drink: Function = null;
-        if (player.stats.gems >= 2)
+        let drink;
+        if (player.inventory.gems >= 2)
             drink = bazaardNiamhDrink;
         else DisplayText("\n\n<b>You're too poor to get a drink.</b>");
-        let fuck: Function = null;
+        let fuck;
         if (player.torso.cocks.count > 0)
             fuck = bazaarSex;
         simpleChoices("Get A Drink", drink, "Tit-Fuck", fuck, "", null, "", null, "Back", Game.bazaar.enterTheBazaar);
     }
 
     //[bimbo/corrupted beer drink texts]
-    private bazaardNiamhDrink(): void {
+    private bazaardNiamhDrink() {
         DisplayText().clear();
-        player.stats.gems -= 2;
+        player.inventory.gems -= 2;
         DisplayText("Approaching the fallen-from-grace (yet completely content) catgirl, you toss her a couple gems and request a glass of the house drink.");
         //Bimbo:
         if (Flags.list[FlagEnum.NIAMH_STATUS] === 2) {
@@ -556,7 +556,7 @@
         }
     }
     //{If player drinks from the tap:}
-    private drinkFromZeTap(): void {
+    private drinkFromZeTap() {
         DisplayText().clear();
         DisplayText("Your eyes lock onto her large, ever-dribbling nipples, the froth of spilt champagne caked on the table supporting her mammoth breasts, and you know you just have to have it from the source.  You push your way forward and seat yourself on a plush cushion that, from its many tears and suspicious-smelling stains, has seen better days, then grasp the huge boob in front of you, making the ditzy catgirl yowl in anticipation of pleasure.");
         DisplayText("\n\nThe wonderful taste explodes into your mouth as her well-trained teat gushes forth its precious elixir.  Delightfully fizzy, the frothy fluid is a rich, sugary-sweet delicacy, with a strangely gooey texture that just makes it all the yummier to swallow.  You gulp and slurp and suckle, dimly aware that somebody else has taken advantage of Niamh's free nipple.  A strange tingling feeling sweeps through your body; like pins and needles, only wonderfully pleasurable, so much so that you can feel your mind starting to dim.  Desperate for greater pleasure you suck harder and harder, gorging yourself on as much fluid as you can get, as fast as you can make it pour into your mouth - everything seems to fade away into nothing except the wonderful taste of this fizzy booze and your insatiable thirst for more of it.  You just keep drinking and drinking and, like, it just feels better and better - you find your mind totally shutting down...");
@@ -569,7 +569,7 @@
     }
 
     //grabbing Bim Cham in a to-go box
-    private getBimboChampFromNiamh(): void {
+    private getBimboChampFromNiamh() {
         DisplayText().clear();
         DisplayText("You explain your need for a bottle of her champagne; the ditzy kitty takes several moments to register your words, then nods idly.  \"<i>Works fer me!</i>\" she responds, reaching behind her and rummaging in a large burlap bag.  She produces a flask from the sack's depths, unscrewing the cap and attempting to line it up with a nipple.  Try as she might, she just can't quite reach all the way, and with an airy giggle, she passes it to you instead.");
         DisplayText("\n\nWith a resigned sigh, you accept the flask and kneel, flicking both nipples experimentally.  Pressing her elbows against her boobs, Niamh moans, the combination of your stimulation and her pressure beginning a steady trickle of delicious-looking champagne.  The mere smell of the stuff makes you feel a bit dumber!");
@@ -580,7 +580,7 @@
     }
 
     //[Bazaar sex]
-    private bazaarSex(): void {
+    private bazaarSex() {
         let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         let y: number = x + 1;
         DisplayText().clear();
@@ -608,25 +608,25 @@
 
     //[Meet Sean with bimbo champagne in inventory]
     //five bimbo champagne required, takes 24 hours to proc and 500 gems to do.
-    public seanBimboBrewing(): void {
+    public seanBimboBrewing() {
         DisplayText().clear();
         DisplayText("The uncharacteristically gentlemanly incubus raises his eyebrow as you produce an armful of filled flasks and drop them onto his mostly-empty table.  \"<i>I assume you'd like me to do something special with these,</i>\" he quips, somewhat dryly.");
         DisplayText("\n\nYou smirk and explain to him the nature of the contents of the containers, as well as the nature of your visit.");
         DisplayText("\n\nHe picks up one of the flasks and screws off the cap, leaning forward and wafting the drink to his nostrils.  \"<i>Not as potent as the real stuff,</i>\" he confirms, recapping the thing and setting it next to the others.  \"<i>I can do it,</i>\" he decides, \"<i>but it will take a good amount of time and a good amount of effort.  Five hundred gems and I'll have it done by tomorrow.</i>\"");
-        let yep: Function = null;
+        let yep;
         //[Yep][Nope]
-        if (player.stats.gems < 500) DisplayText("<b>\n\nYou're too poor to get Sean to make you bimbo liqueur.</b>");
+        if (player.inventory.gems < 500) DisplayText("<b>\n\nYou're too poor to get Sean to make you bimbo liqueur.</b>");
         else yep = yeahSeanLetsBimbooze;
         simpleChoices("Yep", yep, "", null, "", null, "", null, "Back", Game.incubusShop);
     }
 
     //yeah I got this
-    private yeahSeanLetsBimbooze(): void {
+    private yeahSeanLetsBimbooze() {
         DisplayText().clear();
         DisplayText("\"<i>Perfect!</i>\" he says, moving forward to gather up the flasks.  \"<i>You can go, now.  This is a delicate process, and any mistakes may lead to an outbreak of large-breasted and dim-witted fauna.</i>\"  He pauses, gauging your expression.  \"<i>... Which is <b>not</b> a good thing,</i>\" he adds.  Almost as an afterthought, he extends his hand toward the table, saying, \"<i>I'd like the payment now, if you'd please.</i>\"  You separate out the appropriate number of gems for the demon.  He snatches it up and idly throws it behind him, where you hear a clunk and tinkle as it strikes something and rolls a bit.");
         DisplayText("\n\n\"<i>Now shoo, I must do work!</i>\" he scolds, ushering you out of the cave.  \"<i>Come back tomorrow!</i>\"  Satisfied, you leave his shop.");
         return { next: playerMenu };
-        player.stats.gems -= 500;
+        player.inventory.gems -= 500;
         player.inventory.items.consumeItem(consumables.BIMBOCH);
         player.inventory.items.consumeItem(consumables.BIMBOCH);
         player.inventory.items.consumeItem(consumables.BIMBOCH);
@@ -640,7 +640,7 @@
     //set some kinda sorta flag to allow the 00:00 function to trigger the next scene
 
     //24 hours later
-    public getBimboozeFromSean(): void {
+    public getBimboozeFromSean() {
         DisplayText().clear();
         DisplayText("Sean turns as you enter, managing a thin smile as he regards you.  \"<i>Excellent timing, I have just finished this!</i>\"");
         DisplayText("He scoops a familiar-looking bottle from a tabletop, passing it off to you.  \"<i>Be somewhat careful with this,</i>\" he warns as you take it.  \"<i>The original's deleterious effect on the mind has been duplicated, I assure you.</i>\"\n\n");
@@ -651,7 +651,7 @@
     }
 
     // [LEAVE]
-    private leaveWithBeerTits(): void {
+    private leaveWithBeerTits() {
         DisplayText().clear();
         DisplayText("The offer is tempting but right now you'd much rather deal with your boozy boobs privately.  You take off while trying to keep your [armor] modestly in place over your tits but it's difficult.  Your nipples constantly leak and drip a trail of alcohol all the way back to camp.  Thankfully by the time you arrive the effects seem to have mostly worn off.  Your nipples return to dripping milk, but although they've shrunk back down a bit they don't quite shrink all the way, leaving you with somewhat larger endowments than you had before.");
         player.growTits(2, player.torso.chest.count, false, 2);
@@ -661,13 +661,13 @@
     // [SELL YOUR BOOZE]
     // Non-holidays have small payout of gems proportional to lactation.  Boob rating increases by 1.
     // Holidays have larger payout of gems proportional to lactation.  Boob rating increases by 2.
-    private sellYourBooze(): void {
+    private sellYourBooze() {
         DisplayText().clear();
-        player.stats.gems += 2;
+        player.inventory.gems += 2;
         temp = Math.round(player.lactationQ() / 100);
         if (temp > 40) temp = 40 + randInt(3);
-        player.stats.gems += temp;
-        player.stats.gems = Math.round(player.stats.gems);
+        player.inventory.gems += temp;
+        player.inventory.gems = Math.round(player.inventory.gems);
         statScreenRefresh();
         //If player has only two breasts.
         if (player.torso.chest.count === 1) DisplayText("With a chipper giggle Niamh pulls you closer to the bar.  With both hands she helps you heft your tits up and on to the counter.");
@@ -693,7 +693,7 @@
             DisplayText("\n\nNiamh notices your condition, as does several other patrons in the bar.  ");
             if (player.torso.vaginas.count > 0) DisplayText("You can feel your labia dripping with need.  ");
             if (player.torso.cocks.count > 0) {
-                DisplayText("pre-cum drizzles down your " + CockDescriptor.describeMultiCockShort(player) + " as the need to fuck a pussy grows stronger.  A few wandering hands reveals some apparent interest amongst the folks in the bar in seeing your genitals as active as your nipples.");
+                DisplayText("pre-cum drizzles down your " + Desc.Cock.describeMultiCockShort(player) + " as the need to fuck a pussy grows stronger.  A few wandering hands reveals some apparent interest amongst the folks in the bar in seeing your genitals as active as your nipples.");
             }
             //[FUCK THE BAR] [LEAVE]
             MainScreen.simpleChoices(["Fuck Bar", "", "", "", "Leave"], [barBeerOrgyTits, null, null, null, leaveWithBeerTits]);
@@ -704,7 +704,7 @@
     //===============
     //First Paragraph
     //===============
-    private barBeerOrgyTits(): void {
+    private barBeerOrgyTits() {
         DisplayText().clear();
         //If [player has pussy]
         if (player.torso.vaginas.count > 0) DisplayText("The drooling of your [vagina] gets worse as the constant \"tapping of your kegs\" drives your sense of self-restraint to its limits.  The hands of various drunks start moving more aggressively over your breasts, eventually winding their way down between your thighs.");
@@ -737,7 +737,7 @@
         if (model.time.hours < 15 && Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] > 0 && player.torso.vaginas.count > 0) {
             DisplayText("\n\nA pair of familiar paws grab your ankles and spread your legs wide.  Your labia practically spurt out girl cum in anticipation of what's about to happen.  \"<i>Oh, looks like someone's overly eager.</i>\"  You struggle to look over the mounds of your own tits to see who's standing between your legs.  The familiar sight of an oversized horse-cock waving in the air catches your attention shortly before the grinning smile of Urta comes into view.  \"<i>My, aren't you going to get reamed, lover.</i>\"  No sooner than she says that does the flared head of her cock plunges with a wet squish between your nether lips.  You feel her stretching your entrance apart as her massive horse meat bores into your body.  Blissful screams of pleasure are heard and it isn't until the head of Urta's cock breaks into your womb that you realize it's you that's screaming in ecstasy.");
             if (player.pregnancyIncubation === 0) DisplayText("  Some folks give yelps and cheers when they see the bulge that repeatedly forms in your abdomen each time Urta thrusts herself inside you.");
-            player.displayStretchVagina(60, true, true, false);
+            Mod.Vagina.displayStretchVagina(player, 60, true, true, false);
         }
         //ELSE IF player has pussy and Urta is not in the bar.
         else if (player.torso.vaginas.count > 0) {
@@ -767,7 +767,7 @@
         //===============
         DisplayText("\n\nYour nipples squirt relentlessly while the crowd thickens around you.  Each customer tries to suck off mouthfuls of your delectable " + boozeBoobsType() + ".  Niamh allows her own breasts to rest on top of you, pushed out to the sides so that others may slurp up the beer leaking from her tender nipples as well.  The two of you become a mass of tit flesh spraying alcohol into the waiting mouths of customers.");
         // IF[Character has fuckable nipples]
-        if (player.torso.chest.hasFuckableNipples()) DisplayText("  Eventually some of the randier drunks start whipping out their cocks, and begin pressing the heads against the openings of your nipples.  Within moments you feel your booze bloated breasts being fucked silly by " + num2Text(player.torso.chest.countNipples()) + " hard cocks.  Each thrust causes " + boozeBoobsType() + " to spill out around their shafts.");
+        if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("  Eventually some of the randier drunks start whipping out their cocks, and begin pressing the heads against the openings of your nipples.  Within moments you feel your booze bloated breasts being fucked silly by " + numToCardinalText(player.torso.chest.countNipples()) + " hard cocks.  Each thrust causes " + boozeBoobsType() + " to spill out around their shafts.");
         // ELSE[Character doesn't have fuckable nipples]
         else DisplayText("  Some of the hornier customers start shoving cocks of all shapes and sizes into the moist wet cleavages formed by yours and Niamh's breasts.");
 
@@ -776,7 +776,7 @@
         //===============
         DisplayText("\n\nAltogether the bar fucks you silly.  Your " + boozeBoobsType() + " filled tits jiggle with the relentless sex.  Orgasms run down your spine; quaking your flesh in pleasure as you cum.  Niamh's sweet pussy soaks your face with her own orgasms while others in the bar fill your canyons of cleavage with jizz.");
         //IF [Player has fuckable nipples]
-        if (player.torso.chest.hasFuckableNipples()) DisplayText("  The cocks filling your nipples start pumping hot sperm into your breasts, mixing with your " + boozeBoobsType() + " and causing every nerve ending in your nipples to tingle.  Some of them ejaculate so much that it feels as if your breasts are swelling even larger, almost to the point of bursting before the cum spills out.");
+        if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("  The cocks filling your nipples start pumping hot sperm into your breasts, mixing with your " + boozeBoobsType() + " and causing every nerve ending in your nipples to tingle.  Some of them ejaculate so much that it feels as if your breasts are swelling even larger, almost to the point of bursting before the cum spills out.");
         //IF [Player has cocks]
         if (player.torso.cocks.count > 0) {
             DisplayText("  You feel as if your body is exploding everywhere.  Niamh gags momentarily as her mouth fills with your seed, and you realize your cock");
@@ -801,7 +801,7 @@
             // IF [player has a single cock]
             if (player.torso.cocks.count === 1) DisplayText("  Edryn moans out loud in ecstasy as your [cock] fills her up.");
             // If [player has multiple cocks]
-            else if (player.torso.cocks.count > 1) DisplayText("  The heads of your cocks press in between Edryn's labia causing her to cry out, \"<i>Oh gawd!  How many dicks are y-you f-f-fucking meeee with???</i>\"  Edryn's orgasm cuts her voice off and every muscle in her cunt contracts around your " + CockDescriptor.describeMultiCockShort(player) + ".");
+            else if (player.torso.cocks.count > 1) DisplayText("  The heads of your cocks press in between Edryn's labia causing her to cry out, \"<i>Oh gawd!  How many dicks are y-you f-f-fucking meeee with???</i>\"  Edryn's orgasm cuts her voice off and every muscle in her cunt contracts around your " + Desc.Cock.describeMultiCockShort(player) + ".");
             DisplayText("\n\nAs Edryn's cunt literally sucks you in deeper you feel Urta move up behind you.  As her horse-cock pokes against your pussy lips you realize just before the first thrust what is about to happen.  Tel'Adre's finest guard rams her massive member inside you, making you the center of a fuck sandwich.");
             // IF[player is pregnant]
             if (player.pregnancyIncubation > 0 && player.pregnancyIncubation < 200) DisplayText("  Your pregnant belly presses up against Edryn's ass as both Urta's cock and Edryn's pussy keeps you pinned in place between them.");
@@ -851,7 +851,7 @@
             DisplayText("\n\nFor what seems like forever your body is used as a cum dump and fuck toy.");
             // IF [player has pussy]
             if (player.torso.vaginas.count > 0) DisplayText("  The giant knot of the dog morph finally breaks its way inside causing your pussy to become overstretched.  The pleasurable torture only gets worse as he begins unloading a river of his cum inside you.  It begins squirting out around his cock and soaks both of your thighs in the process.");
-            player.displayStretchVagina(60, true, true, false);
+            Mod.Vagina.displayStretchVagina(player, 60, true, true, false);
 
             DisplayText("  Niamh finally has her fill and dismounts you, but no sooner has her pussy left your face than a determined cock belonging to some sort of cat morph fills your mouth.  Your eyes bug out as it thrusts down your throat.");
             // If [player has pussy]

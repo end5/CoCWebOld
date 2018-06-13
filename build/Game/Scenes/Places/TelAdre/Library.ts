@@ -6,11 +6,11 @@ class Library {
     //const MALI_TAKEN_BLADE: number = 862;
 
     //[Mage's Tower]
-    public visitZeMagesTower(): void {
+    public visitZeMagesTower() {
 
         if (Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] === 0) firstTowerVisit();
         else towerFollowUpVisits();
-        menu();
+        
         if (Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] === 0 || model.time.hours <= 17) {
             MainScreen.addButton(1, "You Okay?", youOkayBuddy);
             if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00175] > 0) MainScreen.addButton(2, "Mali", talkToMali);
@@ -23,7 +23,7 @@ class Library {
 
 
     //(first visit)
-    private firstTowerVisit(): void {
+    private firstTowerVisit() {
         DisplayText().clear();
         DisplayText("You make your way to the largest fixture of the city, the impressive tower in the center.  The large spire could easily hold everyone you know ten times over and still have room to spare.  It is far too large for a city with Tel'adre's population – but then, you reflect, so is Tel'adre itself.");
 
@@ -41,7 +41,7 @@ class Library {
         }
     }
 
-    private towerFollowUpVisits(): void {
+    private towerFollowUpVisits() {
         DisplayText().clear();
         if (Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] === -1) { //Return visits before you meet Quinn. Either you meet him or you continue to go to the library at night like some bibliophile vampire
             if (model.time.hours <= 17) {
@@ -71,7 +71,7 @@ class Library {
         }
     }
 
-    private commonQuinnTroduction(): void {
+    private commonQuinnTroduction() {
         DisplayText(", though he does not seem to be reading it.  Stacks of books sit next to him.  As you close the door, he glances up at you.");
 
         DisplayText("\n\n\"<i>I'm sorry,</i>\" he says with a voice so weary you're surprised he doesn't fall over face-first upon exerting himself by speaking, \"<i>The library is not presently open to visitors, due to defacement and...</i>\"  He pauses, looking at a book next to him covered in an off-white crust.  \"<i>Vandalism.</i>\"  His eyes look twice as tired as his voice sounds, darkened to the point they almost seem bruised.  Pale – no, pallid - and lean to the point where you think you can see his cheekbones.  You're not convinced that this man has all of his health.  \"<i>I'm afraid there is no present estimate as to when we will re-open, as unfortunately no other members of the Covenant are presently able to devote the time to inspect and record the extent of the damages.</i>\"");
@@ -87,14 +87,14 @@ class Library {
     }
 
     //[Study]
-    private studyInTA(): void {
+    private studyInTA() {
         DisplayText().clear();
         //[Study, 6:00-17:00]
         if (model.time.hours <= 17) {
             DisplayText("You ask Quinn if you can use the library to study and learn.");
             DisplayText("\n\n\"<i>I'm afraid that I may have not made myself clear earlier, the library is not presently open,</i>\" Quinn sighs, rubbing his forehead.  \"<i>This means that it is closed, which is the opposite state of open.  While it is in this state its services are unavailable to the general public.  The general public in this particular instance are also the ones directly responsible for the necessity of it closing, leading to further hesitation in the Covenant's willingness to hasten the opening.  Your interest is noted, filed, and considered, but will be regarded as a data point and not the quote unquote voice of the people.</i>\"");
             DisplayText("\n\nQuinn pauses for a few more moments, looking you in the eye thoughtfully before finishing with \"<i>That means no, in case we're unclear.</i>\"");
-            menu();
+            
             MainScreen.addButton(4, "Back", telAdre.telAdreMenu);
         }
         //[Study, 18:00-20:00]
@@ -146,13 +146,13 @@ class Library {
             else if ((player.stats.lib > 75 || player.stats.cor > 75 || player.perks.has(PerkType.BimboBrains) || player.perks.has(PerkType.FutaFaculties) || player.perks.has(PerkType.BroBrains)) && randInt(2) === 0) DisplayText("\n\nYou pick up a book from a table randomly and open it up.  Incredibly disappointed, you soon realize that there are no pictures of people fucking at all.  Reading sucks.  You eventually toss the book aside and resolve to go do something more fun.");
             //OR (history) 
             else DisplayText("\n\nSelecting a book randomly from the scattered tomes, you find a historical text documenting life in Mareth.  It's dreadfully dull, and though you do your best to learn what you can the dry work is putting you to sleep.  Eventually you close the book and accept that you're not going to be learning anything tonight.");
-            menu();
+            
             MainScreen.addButton(0, "Next", Scenes.camp.returnToCampUseOneHour);
         }
     }
 
     //[You OK?]
-    private youOkayBuddy(): void {
+    private youOkayBuddy() {
         DisplayText().clear();
         DisplayText("A bit perturbed by Quinn's countenance and apparent exhaustion you can't help but inquire as to his well-being.");
 
@@ -167,7 +167,7 @@ class Library {
     }
 
     //[Mali]
-    private talkToMali(): void {
+    private talkToMali() {
         DisplayText().clear();
         if (Flags.list[FlagEnum.TIMES_VISITED_MALI] === 0) {
             DisplayText("You mention to Quinn that you're looking to speak with Mali.  \"<i>Ah, Asa Mali, our very own Alissyn del Aliana.</i>\"  Quinn chuckles and rubs his chin.  You think you're talking about the same person.  \"<i>How mysterious that she of all people should have a visitor.  Am I setting up a forbidden tryst?  A secret rendezvous?  Or perhaps, given the nature of her work, something far more... ominous.</i>\"  He looms curiously, but you clear your throat and ask if she's in.  Disappointed, he sighs and gestures up the stairs.  \"<i>Yes, our sylvan sorceress is not that much of a socialite.</i>\"");

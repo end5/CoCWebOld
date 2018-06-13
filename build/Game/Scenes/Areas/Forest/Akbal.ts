@@ -226,10 +226,10 @@ class AkbalEndScenes extends EndScenes {
         return false;
     }
 
-    public claimsVictory(howAkbalWon: DefeatType, enemy: Character): void { }
-    public criesInDefeat(howAkbalLost: DefeatType, enemy: Character): void { }
+    public claimsVictory(howAkbalWon: DefeatType, enemy: Character) { }
+    public criesInDefeat(howAkbalLost: DefeatType, enemy: Character) { }
 
-    protected beforeEndingScene(howAkbalLost: DefeatType, enemy: Character): void { }
+    protected beforeEndingScene(howAkbalLost: DefeatType, enemy: Character) { }
 
     public readonly hasVictoryScene = true;
     protected victoryScene(howAkbalWon: DefeatType, enemy: Character): NextScreenChoices {

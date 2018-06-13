@@ -4,7 +4,7 @@
  */
 export class Shouldra extends Monster {
 
-	private shouldrattack(): void {
+	private shouldrattack() {
 		let damage: number = 0;
 		//return to combat menu when finished
 		return { next: game.playerMenu };
@@ -38,7 +38,7 @@ export class Shouldra extends Monster {
 			//(regular attack 1)
 			if (choice === 0) DisplayText("Ducking in close, the girl thunders a punch against your midsection, leaving a painful sting.");
 			//(regular attack 2)
-			else if (choice === 1) DisplayText("The girl feints a charge, leans back, and snaps a kick against your " + kGAMECLASS.LowerBodyDescriptor.describeHips(player) + ". You stagger, correct your posture, and plunge back into combat.");
+			else if (choice === 1) DisplayText("The girl feints a charge, leans back, and snaps a kick against your " + kGAMECLASS.Desc.Hip.describeHips(player) + ". You stagger, correct your posture, and plunge back into combat.");
 			//(regular attack 3)
 			else if (choice === 2) DisplayText("You momentarily drop your guard as the girl appears to stumble. She rights herself as you step forward and lands a one-two combination against your torso.");
 			DisplayText(" (" + damage + ")");
@@ -55,31 +55,31 @@ export class Shouldra extends Monster {
 	}
 
 	//(lust attack 1)
-	private shouldraLustAttack(): void {
+	private shouldraLustAttack() {
 		if (randInt(2) === 0) DisplayText("The girl spins away from one of your swings, her tunic flaring around her hips. The motion gives you a good view of her firm and moderately large butt. She notices your glance and gives you a little wink.\n");
 		else DisplayText("The girl's feet get tangled on each other and she tumbles to the ground. Before you can capitalize on her slip, she rolls with the impact and comes up smoothly. As she rises, however, you reel back and raise an eyebrow in confusion; are her breasts FILLING the normally-loose tunic? She notices your gaze and smiles, performing a small pirouette on her heel before squaring up to you again. Your confusion only heightens when her torso comes back into view, her breasts back to their normal proportions. A trick of the light, perhaps? You shake your head and try to fall into the rhythm of the fight.\n");
 		game.dynStats("lus", (8 + player.stats.lib / 10));
 		combatRoundOver();
 	}
 	//(magic attack)
-	private shouldraMagicLazers(): void {
+	private shouldraMagicLazers() {
 		let damage: number = player.takeDamage(20 + randInt(10));
 		DisplayText("Falling back a step, the girl raises a hand and casts a small spell. From her fingertips shoot four magic missiles that slam against your skin and cause a surprising amount of discomfort. (" + damage + ")\n");
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		let attack: number = randInt(3);
 		if (attack === 0) shouldrattack();
 		else if (attack === 1) shouldraLustAttack();
 		else shouldraMagicLazers();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.shouldraScene.defeatDannyPhantom();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.shouldraScene.loseToShouldra();
 	}
 

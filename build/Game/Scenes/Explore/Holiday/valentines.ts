@@ -35,7 +35,7 @@ export class Valentines {
 
 
 
-    public crazyVDayShenanigansByVenithil(): void {
+    public crazyVDayShenanigansByVenithil() {
         DisplayText().clear();
         Flags.list[FlagEnum.VALENTINES_EVENT_YEAR] = date.fullYear;
         DisplayText("Moving through the streets of Tel'Adre, you turn your steps towards the Wet Bitch, only to find that there's some odd event going on nearby.  Deciding the town is a safe enough place to let yourself be led astray by curiosity, you decide to investigate a bit closer.");
@@ -50,7 +50,7 @@ export class Valentines {
 
 
         DisplayText("\n\nYou nod to Abby and decide to come closer to the stall.  Pastie, surprisingly sober for once, and only slightly displeased by that fact, it seems, is dancing over the table, also dressed in frilly clothes, apparently meant to act as some sort of cupid, only with fairy wings instead of feathery ones.  You hear the voice of someone pleasantly surprised before you look up to see Scylla smiling at you.  Unlike Abby and Pastie, she kept most of her habit intact, but today, she has forgone her coif and veil, leaving her hair completely exposed, though made up in a way to cover her little horns along with the small embroidery she decided to add.  She has a pink flower in her hair, and also in the space in-between her voluminous chest-mounds, giving you an excuse to glance at it for a moment, and flower-like frills added to the sleeves of her over-filled habit.");
-        DisplayText("\n\n\"<i>[name]!  I had hoped to see you here today! It's certainly a very nice occasion, you know.  You see, where I come from, it's a holiday to celebrate love in all its forms- both for couples and the freshly love-struck.  I'm hoping, with a little help from our humble demonstration, the people of Mareth will adopt it, in time...</i>\" she says, her voice still buoyant with optimism, but a hint of worry in her voice.  It's probably not going exactly as well as she had hoped.  \"<i>Well, in your case, I'm sure you'd have a reason to celebrate it.  Certainly, a brave, valiant " + player.mf("man", "woman") + " like you would have quite a few people interested in them, and maybe someone you'd see as a special person as well!</i>\"  You guess you can see her logic.  After all, it's because you've beaten the Omnibus that she's here in the first place.  You can't say that the random people in Tel'Adre treat you unpleasantly, so maybe you're more popular here than you would've guessed.");
+        DisplayText("\n\n\"<i>[name]!  I had hoped to see you here today! It's certainly a very nice occasion, you know.  You see, where I come from, it's a holiday to celebrate love in all its forms- both for couples and the freshly love-struck.  I'm hoping, with a little help from our humble demonstration, the people of Mareth will adopt it, in time...</i>\" she says, her voice still buoyant with optimism, but a hint of worry in her voice.  It's probably not going exactly as well as she had hoped.  \"<i>Well, in your case, I'm sure you'd have a reason to celebrate it.  Certainly, a brave, valiant " + Desc.Gender.mf(player, "man", "woman") + " like you would have quite a few people interested in them, and maybe someone you'd see as a special person as well!</i>\"  You guess you can see her logic.  After all, it's because you've beaten the Omnibus that she's here in the first place.  You can't say that the random people in Tel'Adre treat you unpleasantly, so maybe you're more popular here than you would've guessed.");
 
         //Corruption 0-33 :
         if (player.stats.cor <= 33) DisplayText("\n\nIt is a rather pleasant thought, that not only a few someones, but a wider public in general appreciates what you've done.");
@@ -68,28 +68,28 @@ export class Valentines {
         //Corruption 16-85 : 
         DisplayText("\n\nWell, you do have more important things to do, and in the world of Mareth, where the corruption is dominant and there's definitely way more sex than romance, such a mission may be doomed to fail anyways, but it is something to consider.  All in all, it comes down to whether you think you have the time for this and whether it even seems worth it.");
         //[Help them][Leave]
-        menu();
+        
         MainScreen.addButton(0, "Help Them", helpValentinesDay);
         MainScreen.addButton(1, "Leave", leaveValentinesDayForever);
     }
 
     //[Help them] :
-    public helpValentinesDay(): void {
+    public helpValentinesDay() {
         DisplayText().clear();
         DisplayText("Deciding to try and improve the overall appreciation of romance and love in possibly the last pure city of Mareth, you smile to Scylla and tell her she can count on you.  Her happy expression makes you forget any doubts you might've had before.");
-        menu();
+        
         MainScreen.addButton(0, "Next", helpValentinesDayII);
     }
 
     //[Leave] :
-    public leaveValentinesDayForever(): void {
+    public leaveValentinesDayForever() {
         DisplayText().clear();
         DisplayText("Ultimately, this is not worth your time.  You wish Scylla good luck, but tell her you won't help her make the holiday more popular in Tel'Adre, as you have other things to do.  Her expression turns sad and she nods in understanding as you turn away and go back into the streets of Tel'Adre.");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     //[next]
-    public helpValentinesDayII(): void {
+    public helpValentinesDayII() {
         DisplayText().clear();
         DisplayText("Deciding to help Scylla out, you take Abylon and head out.  Travelling around the city, splitting up occasionally to cover more ground, the two of you spread the word.  Even the little goblin, who is still wearing her displeasure with more enthusiasm than her lace, seems content with your companionship in this little quest.   You put a few posters around the city, but mostly tell people directly about the event, convincing them to come and participate.  You bustle about, dropping the good message into the gym first, and then, visiting the shopkeepers.");
 
@@ -113,11 +113,11 @@ export class Valentines {
         //else DisplayText("\n\nYou see a flash of said fur as the person with said characteristic moves away from the stall, clearly carrying a confection or two and some other pink, red, or heart-shaped things into the Wet Bitch.");
 
         //[next]
-        menu();
+        
         MainScreen.addButton(0, "Next", helpValentinesDayIII);
     }
 
-    public helpValentinesDayIII(): void {
+    public helpValentinesDayIII() {
         DisplayText().clear();
         DisplayText("You spend the rest of the evening participating in holiday games and showing people around the stall, listening to Scylla giving a talk or two about love and the celebration of it.  All in all, the little popularization of the holiday turned out to be a moderate success, but a success after all thanks to the joint effort of the four of you.");
 
@@ -125,7 +125,7 @@ export class Valentines {
 
         DisplayText("\n\nHow do you want to spend the rest of your evening?");
         //[GoHome][Scylla][Abby][Pastie]
-        menu();
+        
         MainScreen.addButton(0, "Scylla", goVisitScyllaVday);
         MainScreen.addButton(1, "Abby", goVisitAbbyVday);
         if (player.cockThatFits(28) >= 0 || player.torso.vaginas.count > 0) MainScreen.addButton(2, "Pastie", goVisitPastyVDay);
@@ -133,7 +133,7 @@ export class Valentines {
     }
 
     //([Go home])
-    public goHomeFromVDay(): void {
+    public goHomeFromVDay() {
         DisplayText().clear();
         DisplayText("You decide your work here is done, and bid the three girls goodbye.  Scylla in particular seems grateful for your help, locking you in a smooshy hug for a few seconds before letting you go, and again expressing her gratitude for your help.  Well, that last gratitude almost made it worth it, though on the other hand, you find yourself a bit aroused by it...");
         //With no other things to do, you go back to camp to rest.
@@ -143,27 +143,27 @@ export class Valentines {
     }
 
     //([Scylla])
-    public goVisitScyllaVday(): void {
+    public goVisitScyllaVday() {
         DisplayText().clear();
         DisplayText("You say your goodbyes to Abby and Pastie, before asking Scylla if she'd mind you accompanying her when she packs the remaining few things and maybe afterwards.  The nun blushes, playing with a lock of her hair as she answers.  \"<i>My dear [name], you are of course aware that the reason for me even trying to make this celebration more popular is so that people would spend it with ones they love.  As much as I'd appreciate your company, are you sure you'd want to be spending this day with a nun that is already so indebted to you?</i>\"");
 
         DisplayText("\n\nYou tell her you're more than willing to spend more time with her, and help her pack the things that did not get given away, won or sold in the celebration.  After that, she covers the stall and smiles at you. \"<i>I'll be taking these things home tomorrow. How about we just go for a walk now?</i>\"");
-        menu();
+        
         MainScreen.addButton(0, "Next", goVisitScyllaVdayII);
     }
 
     //SCYLLA EVENT
-    public goVisitScyllaVdayII(): void {
+    public goVisitScyllaVdayII() {
         DisplayText().clear();
         DisplayText("Scylla takes you for a longer walk throught the now barely illuminated streets of Tel'Adre, clearly a bit giddy and in a good mood after today's events.  \"<i>Thank you, [name].  Once again, I think I am in your debt.  These are certainly hard times for this world, and many people certainly try to cope by indulging themselves while throwing away the emotional and spiritual sides of things... it's understandable, but it's wrong.  People shouldn't forget how much comfort and happiness one can find in another person, especially through strong emotions and attachments like romantic or familial love,</i>\" she says as you walk through the sunset-illuminated alleys, smiling at you gently, a small rosy blush at her cheeks.  \"<i>The way myself, and I'm sure a few lucky others, find in those like you,</i>\" she says in a whisper that's still easily heard in the near-empty streets of Tel'Adre.");
 
         DisplayText("\n\nYou simply listen to her but also blush at the last line, thanking her for her appreciation of your person. She gives a small laugh at that.  \"<i>Well, certainly, we've had our troubles with my... new way of eating, and I'm sure you didn't always feel like I really appreciated you or treated you with dignity... I'm sorry about that, but I really feel like I depended on you a lot and I know you're a great person,</i>\" she continues, her smile widening and blush slightly deepening with every sentence.  \"<i>You're more special than the others who've helped me, having always recognized my problems and solutions to them first.  You've saved me from a certain fall to the demon's corruption...  And you taste really good, too,</i>\" she says, licking her ruby lips before absent-mindedly noticing what she just said, flushing a deep red.  \"<i>Well, in any case, thanks to your help, this wasn't as much of a strain as I thought.  I feel like I might've really done some things to make this world a slightly better place, and I've certainly seen you do so.  That warms my heart and makes the time spent here worth it,</i>\" she explains, resting a hand on your shoulder before showing you a turn.  \"<i>We could climb that tower there and watch the sunset,</i>\" she says, before explaining, \"<i>I'm certain we're both known enough around the place that the guards won't protest much, after all, it's just watching a sunset.  What do you think, dear?</i>\"  Her soft body bounces a bit under the habit as she stops, her flush receding to the pleasant, rosy color from before, but remaining clearly visible on her alabaster skin.");
         //[next]
-        menu();
+        
         MainScreen.addButton(0, "Next", goVisitScyllaVdayIII);
     }
 
-    public goVisitScyllaVdayIII(): void {
+    public goVisitScyllaVdayIII() {
         DisplayText().clear();
         DisplayText("Indeed, once the guards recognize Scylla and one of them whispers something about you to the other, getting through the tower to the walls of the town isn't much of a challenge at all.  You two climb the stairs of the tower, Scylla's large breasts bouncing tantalizingly in her habit as she holds your hand moving up and up.");
 
@@ -172,7 +172,7 @@ export class Valentines {
         DisplayText("\n\nYou ponder on how you should respond... it seems Scylla got a bit touchy-feely with you on this holiday, and while it certainly feels nice, the very presence of her over-eroticized body is a temptation in and of itself to take advantage of this closeness...");
 
         //What will you do?
-        menu();
+        
         //[Cuddle] [Make out] [Feed her]
         MainScreen.addButton(0, "Cuddle", cuddleWithScyllaVDay);
         MainScreen.addButton(1, "Make Out", makeOutWithScyllaVDay);
@@ -181,7 +181,7 @@ export class Valentines {
 
     //Cuddle]
     //{This option doesn't require any sexual endowments whatsoever}
-    public cuddleWithScyllaVDay(): void {
+    public cuddleWithScyllaVDay() {
         DisplayText().clear();
         DisplayText("Realizing this can be quite a special moment, you gently slide a hand through Scylla's hair, guiding her by the head and towards your own [face].  Slowly, you place a kiss on her soft, ruby lips, allowing your tongue to slip inside and touch hers, which thrashes in her mouth for a moment before wrapping around yours, with Scylla first somewhat whimpering, then almost purring at the contact as the two of you kiss one another.  Her hand also meets the back of your head, pulling you more strongly into the kiss, her lips gently puffing up and encompassing yours with their warmth as your tongues coil around one another, a trickle of mixed saliva escaping your mouths and marking Scylla's habit with wetness.  Rather than break the kiss, Scylla gently decreases the pressure and, very slowly, starts to pull away, her lips first still keeping in light, tantalizing touch with your own before parting.  You start inhaling deeper, the flower in Scylla's hair still giving her a gentle fragrance, her own feminine scent nicely blending with it.  You thank Scylla for the kiss, which causes her to blush, and she answers right back.  \"<i>Thank you too, my dear angel.  For everything.  Saving me, and showing me both the good, pleasant things and the things I needed for survival... a kiss is the least I can give you, I guess.</i>\"");
 
@@ -204,7 +204,7 @@ export class Valentines {
     }
 
     //[Make out]
-    public makeOutWithScyllaVDay(): void {
+    public makeOutWithScyllaVDay() {
         DisplayText().clear();
         //{This option requires a member of essentially any size}
         DisplayText("Before long, the silkiness, warmth, and absolutely astounding curves of Scylla's body, not to mention the sight of her beautiful, full ruby lips, reflecting the light of the setting sun a bit, become a bit too much for you to resist.  You raise a bit, placing one of your hands against Scylla's way-beyond-prominent breast, feeling her start a bit as she turns to you, before you push your own lips against hers.  You hear a small gasp escape her, though you could never guess which pair of lips let it out.  You slip a tongue inside her mouth and she quickly yields, half-sighing as she gently slumps against you, your hand sinking further into her flesh as you can swear the lipple on the breast you're fondling starts sucking on her habit, seeking your fingers.");
@@ -228,12 +228,12 @@ export class Valentines {
 
         DisplayText("\n\nYou're eager to try to steal the first orgasm from the chaste nun without giving in to your own lust too quickly, but the way she's starting to squirm against your painful hardness makes it difficult for you to remain noble.  The sheer volume of the absurdly-endowed woman's cleavage starts to overwhelm you, leaving you gasping short and hot breaths.  As usual - for the tainted nun, anyway - your suckling and nursing has stimulated Scylla's body, her curves swelling to overcompensate for her burgeoning hunger.  Your presence, to say nothing of your own arousal, has left her a bit too eager to get you off as well...");
         //[next]
-        menu();
+        
         MainScreen.addButton(0, "Next", makeOutWithScyllaVDayII);
     }
 
 
-    public makeOutWithScyllaVDayII(): void {
+    public makeOutWithScyllaVDayII() {
         DisplayText().clear();
         DisplayText("Bending at her waist, Scylla kisses you on the forehead as she pulls your body upwards, into the squishy, half-liquid embrace of her mountainous cleavage, and you're at home, encompassed by the warmth and softness.  Her hands fiddle around your waist, disposing of the lower parts of your [armor] quickly as she handles your erection with care, but enthusiasm, stroking you as you drip your precum onto her palms.  It's impossible for either of you to resist anymore and you push forward through the near-literal valley of her cleavage, snuggling up to Scylla and kissing her on the lips.  Her hand, continuously stroking, directs your [cockHead] against the satin skin of her heaving boob, and you shudder at the sensation, being dragged across it, soon, you realize, about to end up wrapped in her breast again, sucked at until you cum.");
 
@@ -262,7 +262,7 @@ export class Valentines {
     }
 
     //[Feed Her!]
-    public feedScyllaVDay(): void {
+    public feedScyllaVDay() {
         //{This option requires a member of Scylla's usual requirements}
         DisplayText().clear();
         //{The PC titfucks Scylla again, and then gets her to suck them off, resulting in two quick orgasm and a big nice load of food for Scylla. How far can you fall to get off? On such a nice day, too!}
@@ -275,16 +275,16 @@ export class Valentines {
 
 
     //([Abby] 
-    public goVisitAbbyVday(): void {
+    public goVisitAbbyVday() {
         DisplayText().clear();
         DisplayText("You wave to Scylla and Pastie as you try to catch up with Abylon, who's already picking up the pace and, by the looks of it, trying to remove her dress.  \"<i>Well, sup.  I'll be going home and changing myself into my usual clothes, if you don't mind.  This entire celebration thingy just shows your people's issues,</i>\" she says, though she doesn't seem entirely untouched by the mood of it...");
         DisplayText("\n\nDeciding to risk it, you ask her if she'd like some company. Abylon turns to you, completely stunned.");
-        menu();
+        
         MainScreen.addButton(0, "Next", goVisitAbby);
     }
 
     //ABYLON EVENT
-    public goVisitAbby(): void {
+    public goVisitAbby() {
         DisplayText().clear();
         DisplayText("\"<i>You... you're kidding, right?  That fatty's words messing with yah head?  I always figured you were somewhat less... messed up in the head than Suck-a-Lot and Always-Drunk.  Was I wrong?</i>\"");
 
@@ -298,7 +298,7 @@ export class Valentines {
 
         DisplayText("\n\nYou explain to her that while you've known Scylla for longer than she has, probably, it's a pretty recent acquaintance.  You managed to free her, amongst other slaves, from a demonic factory and found her in Tel'Adre.  The two of you have... \"<i>helped</i>\" one another in a few ways after that, and been rather friendly since.  You blush a bit, remembering what the \"<i>helping</i>\" has sometimes brought.");
 
-        DisplayText("\n\n\"<i>Ahhh, I see.  " + player.mf("He", "She") + ", the hero, saving a nun from the evil clutches of the demonic overlord!  She says thank you through growin' monstrous curves and providing extra sloppy blowjobs!  Dat right?</i>\"  You giggle a bit at that interpretation, and say it's not really all that far from the truth, although it is cheapening things... as is her previous interpretation of \"<i>Marethian kinkyness</i>\" cheapening love somewhat.  Abby brings a hand to her lips.  \"<i>Well, she does, at least, LOOK like she could do some... stuff... to a cock.</i>\"  She says, blushing, before you detour that train of thought with a question on how she's gotten herself here.");
+        DisplayText("\n\n\"<i>Ahhh, I see.  " + Desc.Gender.mf(player, "He", "She") + ", the hero, saving a nun from the evil clutches of the demonic overlord!  She says thank you through growin' monstrous curves and providing extra sloppy blowjobs!  Dat right?</i>\"  You giggle a bit at that interpretation, and say it's not really all that far from the truth, although it is cheapening things... as is her previous interpretation of \"<i>Marethian kinkyness</i>\" cheapening love somewhat.  Abby brings a hand to her lips.  \"<i>Well, she does, at least, LOOK like she could do some... stuff... to a cock.</i>\"  She says, blushing, before you detour that train of thought with a question on how she's gotten herself here.");
 
         DisplayText("\n\n\"<i>Well, I am the daughter of one of the firstborn corrupt gravidophiliac goblin-sluts of this world, Tamani! As a goblin, I should probably look up to the sluttiness of my mom while hating her guts for stealin' all that cock, but I simply hate her guts, since she's a selfish whore,</i>\" she explains.  \"<i>Same can be applied to most goblins, I guess.  Chasing after cum and pregnancy more than any real satisfaction, day after day,</i>\" she nods to herself.  \"<i>I knew something was wrong about it and have managed to fight off the urges somewhat, escaping \"<i>mommy's</i>\" clutches and moving away from the forest.  Saw a few things, even a farm, though there was a mean-looking guy there, so I stayed away.  I've met a few hunter and scout guys, though.  Nice boys.  Understood me and offered some... relief to these sick urges.  Done my best to avoid changing into an incubator permanently.</i>\" she says, though the amount of plumpness to her butt and her not completely flat chest may point out she's gotten herself pregnant once... or thrice. You don't push the issue.");
         DisplayText("\n\n\"<i>And a girl.  Really nice one, that.  With a cock, of course, I ain't much for that carpet munchin' shit, like most goblins.  A hermaphrodite, people would say.  Still, she called herself a girl, makes sense with the boobs, what else would she call herself?  She showed me my way here.  I guess she saw I'm less crazy than your everyday goblin.  I shagged her and a few guys, but... haven't seen her in a while.  Anyway, I...</i>\" she goes silent for a moment, looking at you, and then the ground.  She seems to try and weigh her words, or even consider saying them. \"<i>... something was a bit wrong about all that.  I mean, sure, getting cock was fun, but... I might've been just like every goblin, just seeing a bit past the get pregnant race and seeking mostly the sexual satisfaction. If that's true, I'm just remotely better than my cumwhore of a mother, so... when a nun invited me to that shitty meeting after seeing me drink my doubts away, I said, what the hell.  You know the rest.</i>\"");
@@ -311,11 +311,11 @@ export class Valentines {
         DisplayText("\n\nShe nods and picks up the pace, and you soon arrive at a rather small, but not bad-looking shack nearby the city's walls.  Abylon invites you in, and you ask her if it's her house.  \"<i>Well... yeah?  I mean... I gotta live somewhere!  Suck-a-lot actually helped me with it, and... Uhh, you see, goblins can have other skills than just suckin' dick and taking creampies.  I'm a bit fit, I know a bit of alchemy, so put the two together, do some making, do some delivery, do a mix of both... I've made a small living.</i>\"");
 
         DisplayText("\n\nNodding, you go in and make yourself at home, before Abylon tugs at your hand and seemingly continues to remove her dress, showing herself to you naked, in all of her small, couple of feet tall \"<i>glory</i>\". \"<i>W-well, time for you to show what you're made of, champ,</i>\" she says, bending around a small table, wiggling her posh bottom at you with a look of certain hunger and restlessness to her eyes.");
-        menu();
+        
         if (player.torso.cocks.count > 0) {
             let x: number = player.cockThatFits(46);
             //([If ([cocksmallest] < 46 cockArea) 
-            if (player.cockArea(x) < 46) {
+            if (x.area < 46) {
                 DisplayText("\n\nYou could certainly go for a dip into that goblin cunt, but, there's also the option of forgoing your pleasure on this special day and using other means to show her a good time.");
                 //<You can both pleasure and fuck her>
                 MainScreen.addButton(1, "Fuck Her", fuckAbbyVDay);
@@ -332,7 +332,7 @@ export class Valentines {
     }
 
     //{FUCK HER}
-    public fuckAbbyVDay(): void {
+    public fuckAbbyVDay() {
         DisplayText().clear();
         let x: number = player.cockThatFits(46);
         if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
@@ -342,9 +342,9 @@ export class Valentines {
 
         DisplayText("\n\nBut, at the end of the day, she's still wet and waiting - her plump rump wiggling against the throbbing thickness resting between her cheeks.  With a crooked smile, you draw back and brace yourself at the goblin paladin's moist lips.  She's no virgin, but the way she blushes and bites her lower lip in anticipation strikes you as positively demure.  Digging your fingers into her yielding hips, you slowly drag the girl onto your [cock], the tip slipping into her viridian folds with lubricated ease.  The proud woman lets out a shuddering moan as you fill the oft-neglected slit with your pulsing girth, her inner walls clenching around you as tight as a lover's embrace.  Resting her chin on the table she's bent over, Abylon closes her eyes, a smile flickering over her face as her hands restlessly toy with her long braid.");
 
-        DisplayText("\n\nTaking your time, you slowly feed inch after inch into your quivering companion, her body remarkably accommodating for one who normally avoids sex.  Her mother's legacy, you suppose.  When you finally bottom out inside of her, Abby picks her legs up and hooks her feet around your waist.  With her flat, unremarkable chest laying atop the small table, she begins to rock back and forth, dragging every fold of her pussy across your " + CockDescriptor.describeCock(player, x) + ".  You match her motions, thrusting slowly at first, before gradually speeding up. Her tight interior suckles at the rod spearing her while the table beneath her rocks back and forth at the rising tempo.  Shifting one palm from her hip to the distended swell of her belly, you use your other hand to gather up a few feet of her hair and coil it around your arm, pulling her head back just enough to let you see the gathering ecstasy flushing her olive cheeks.");
+        DisplayText("\n\nTaking your time, you slowly feed inch after inch into your quivering companion, her body remarkably accommodating for one who normally avoids sex.  Her mother's legacy, you suppose.  When you finally bottom out inside of her, Abby picks her legs up and hooks her feet around your waist.  With her flat, unremarkable chest laying atop the small table, she begins to rock back and forth, dragging every fold of her pussy across your " + Desc.Cock.describeCock(player, x) + ".  You match her motions, thrusting slowly at first, before gradually speeding up. Her tight interior suckles at the rod spearing her while the table beneath her rocks back and forth at the rising tempo.  Shifting one palm from her hip to the distended swell of her belly, you use your other hand to gather up a few feet of her hair and coil it around your arm, pulling her head back just enough to let you see the gathering ecstasy flushing her olive cheeks.");
 
-        DisplayText("\n\nUnable to hold back any further, you pick up your pace, from tender strokes to urgent thrusts, pounding into the goblin paladin with deep, hard motions.  The force of your efforts sends the table toppling to its side, Abylon suspended in the air by her legs tightly wrapped around your back, your hand on her muscled abdomen, and her burnished crimson braid wrapped around your arm.  Clinging to your " + CockDescriptor.describeCock(player, x) + " with single-minded bliss, the goblin girl doesn't even seem to notice the ruckus your love-making is causing.  Impassioned loins united by mutual delight, the cavalier rides her champion until the cold tickle of your climax rushes down your spine and through your core.  With a cry of joy, Abylon tightens the grip of her athletic legs on your [hips] and hugs you close as the first spurt of your cum lances into her belly.  Succumbing to her racial needs, the gallant orgasms from the touch of your seed, her tongue hanging from the side of her mouth as her eyes roll up in her head.  You fill her with your hot loads until the spunk gushes out of her quivering pussy and she weakly mutters a word of thanks to Scylla that you suspect she hadn't meant to say aloud.");
+        DisplayText("\n\nUnable to hold back any further, you pick up your pace, from tender strokes to urgent thrusts, pounding into the goblin paladin with deep, hard motions.  The force of your efforts sends the table toppling to its side, Abylon suspended in the air by her legs tightly wrapped around your back, your hand on her muscled abdomen, and her burnished crimson braid wrapped around your arm.  Clinging to your " + Desc.Cock.describeCock(player, x) + " with single-minded bliss, the goblin girl doesn't even seem to notice the ruckus your love-making is causing.  Impassioned loins united by mutual delight, the cavalier rides her champion until the cold tickle of your climax rushes down your spine and through your core.  With a cry of joy, Abylon tightens the grip of her athletic legs on your [hips] and hugs you close as the first spurt of your cum lances into her belly.  Succumbing to her racial needs, the gallant orgasms from the touch of your seed, her tongue hanging from the side of her mouth as her eyes roll up in her head.  You fill her with your hot loads until the spunk gushes out of her quivering pussy and she weakly mutters a word of thanks to Scylla that you suspect she hadn't meant to say aloud.");
 
         DisplayText("\n\nSated, you disentangle yourself from the clinging girl and lay her into her bed, with a kiss on her sweat-slick forehead.  She absently strokes between her legs, feeling the oozing jizz dribbling out of her stuffed snatch.  Maybe, for her, this is the meaning of the holiday: not just a casual fuck, but taking the time to really savor the body of someone who's important to you.  Even if it isn't love, in the strictest sense, being close to the people who impact your life is reason enough to find joy in your days.  You wish the little paladin a good night and, blowing out her candles, you take your leave.");
 
@@ -360,7 +360,7 @@ export class Valentines {
 
     //{PLEASURE HER}
     //{This option doesn't require any sexual endowments whatsoever}
-    public pleasureAbbyVDay(): void {
+    public pleasureAbbyVDay() {
         DisplayText().clear();
         DisplayText("Quite willing to comply in her desires in ways probably no one else has before, you approach Abylon from behind, wrapping your arms around her waist as you run them along her body.  She's certainly sensitive, shuddering and sighing a bit as your fingers take a dip down her abdomen and towards her female hole.  It spreads eagerly for them, and Abby sighs again.  \"<i>What's wrong?  Well, it's nice that you're preparing me, but...</i>\" you start moving your fingers faster and playing with her clit, as you kiss her neck as well, and she mewls, melting in your arms.  Her vagina is getting increasingly wetter, and you pleasure her skillfully, the little goblin writhing in your arms.  \"<i>Hah... like this... could make me cum, you dumbass!  What, you're suddenly in suck-a-lot's camp?  Where's my... UGHHH!</i>\"  That last sound makes it seem that she's lying a bit, and you prove it by starting to plunge your way about her cunt, stroking both her clit and her insides with your fingers.  She seems to resist continuously but it's definitely not easy on her...  So, rather than continue teasing, you pull away a bit, and she sighs, \"<i>Finally, let's get started,</i>\" before she feels you breathe out onto her wet goblin pussy.  \"<i>Wh...whawhat? You've got issues, come on, you can't eat me out nooaaaghghhH!</i>\"");
 
@@ -389,7 +389,7 @@ export class Valentines {
     }
 
     //([Pastie])
-    public goVisitPastyVDay(): void {
+    public goVisitPastyVDay() {
         DisplayText().clear();
         DisplayText("You lean over the table Pastie is no longer dancing, but rather laying, on, and, conspiratorially, ask her if she'd like to go and get something to drink.");
         DisplayText("\n\n\"<i>Well, I wouldn't mind it, but actually getting it probably won't happen... everything's more or less closed,</i>\" she responds, livening up a little at the mention of drinking.  \"<i>Although, if you do have something with you, I wouldn't mind...</i>\"");
@@ -397,7 +397,7 @@ export class Valentines {
         //Check inventory for Goblin Ale, Black Cat Beer, Bimbo Champagne; failing this, check if PC has female genitalia.
         //[BCBeer] [BimboCham][GoblinAle][vagina]
         if (player.inventory.items.has(consumables.BIMBOCH) || player.inventory.items.has(consumables.BC_BEER) || player.inventory.items.has(consumables.GOB_ALE) || player.torso.vaginas.count > 0) {
-            menu();
+            
             if (player.inventory.items.has(consumables.BIMBOCH)) MainScreen.addButton(0, "BimboCham", pastieValentineIntro, consumables.BIMBOCH.id);
             if (player.inventory.items.has(consumables.BC_BEER)) MainScreen.addButton(1, "B.Cat Beer ", pastieValentineIntro, consumables.BC_BEER.id);
             if (player.inventory.items.has(consumables.GOB_ALE)) MainScreen.addButton(2, "Gob. Ale", pastieValentineIntro, consumables.GOB_ALE.id);
@@ -409,13 +409,13 @@ export class Valentines {
         }
     }
 
-    public pastieValentineIntro(choice: string = ""): void {
+    public pastieValentineIntro(choice: string = "") {
         DisplayText().clear();
         if (choice === "vag") {
             DisplayText("You tell Pastie that indeed, she could get her fix, as you have something you're sure every fairy likes to drink not far away... between your legs.  \"<i>T-that's an... unusual drink proposition...  Umm, and I'm more susceptible to girls than most fairies, so... Ohhh, who am I kidding, that sounds pretty good right now.</i>\"");
             DisplayText("\n\nFollowing you into a back alley, you prepare to get yourself naked and let the fairy get her fix.");
             //((Move straight to pussy scene)) )
-            menu();
+            
             MainScreen.addButton(0, "Next", goForAPushayDivePasty);
         }
         //({Any other drink}. 
@@ -423,13 +423,13 @@ export class Valentines {
             let itype: ItemType = ItemType.lookupItem(choice);
             player.inventory.items.consumeItem(itype, 1);
             DisplayText("You present the drink to Pastie and she flashes you a grin as she flies up and away, leading you into an alley.  \"<i>Well, lemme at it!  A drink sure as hell sounds good right now and none of this seems like it'd be really bad.</i>\"");
-            menu();
-            MainScreen.addButton(0, "Next", Utils.curry(valentineDrinkPastie, itype));
+            
+            MainScreen.addButton(0, "Next", curry(valentineDrinkPastie, itype));
         }
     }
 
     //PASTIE EVENT
-    public valentineDrinkPastie(itype: ItemType): void {
+    public valentineDrinkPastie(itype: ItemType) {
         DisplayText().clear();
         DisplayText("One you're away from any prying eyes, Pastie turns to you and rubs her little fairy hands together, apparently barely able to hold her enthusiasm to finally get a bit drunk.  You're afraid it may not end at one drink, either, and for a moment, wonder about whether this is all right or not...");
         //Corruption 0-20] 
@@ -446,7 +446,7 @@ export class Valentines {
         valentineDayGetPastieDrink(itype);
     }
 
-    public valentineDayGetPastieDrink(itype: ItemType): void {
+    public valentineDayGetPastieDrink(itype: ItemType) {
         //{Black Cat Beer}
         if (itype === consumables.BC_BEER) {
             DisplayText("\n\nPastie suddenly starts running her hands along her body, licking her lips as she does so. \"<i>Odd... Imma bit of a horny drunk, yah know, but thish ish... overkill...</i>\"  The little fairy-drunkard complains as she reaches between her legs and starts fingering herself, while rubbing a nipple.  \"<i>Daaaamnnnn, I'm sooo horny! I need more... to, uhhh, to driiink!</i>\"");
@@ -472,7 +472,7 @@ export class Valentines {
             //[Fuck][RubDick][PussyDive]
             //{Fuck is only present if a character has a cock under 8 cock area, Rub Dick option is present if a character has a member underneath 28 cock area. Pussy Dive is obviously present if a character has a pussy of any kind.}
         }
-        menu();
+        
         if (player.cockThatFits(8) >= 0) MainScreen.addButton(0, "Fuck", fuckPastieForVDay);
         if (player.torso.cocks.count > 0) MainScreen.addButton(1, "RubOnDick", rubPastieOnYourWangDawg);
         if (player.torso.vaginas.count > 0) MainScreen.addButton(2, "Go In Pussy", goForAPushayDivePasty);
@@ -480,15 +480,15 @@ export class Valentines {
 
 
     //[Fuck]
-    public fuckPastieForVDay(): void {
+    public fuckPastieForVDay() {
         DisplayText().clear();
         let x: number = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
-        DisplayText("With a semi-sadistic grin, you watch Pastie saunter towards you, clearly allured by the scent of your genitals.  You stroke your " + CockDescriptor.describeCock(player, x) + ", quickly bringing it to an erection, imagining how tight even this little thing will feel inside Pastie's small, but now unnaturaly stretchable body.");
+        DisplayText("With a semi-sadistic grin, you watch Pastie saunter towards you, clearly allured by the scent of your genitals.  You stroke your " + Desc.Cock.describeCock(player, x) + ", quickly bringing it to an erection, imagining how tight even this little thing will feel inside Pastie's small, but now unnaturaly stretchable body.");
 
-        DisplayText("\n\nBeing able to resist no longer, you grab her little bum and direct her towards your cock, not really hearing whether she's cheering, complaining, or asking you to stop; honestly, you could care less when you press your " + CockDescriptor.describeCock(player, x) + " against the entrance to her diminutive vagina and start pushing.");
-        DisplayText("\n\nAfter a while of fruitless pressing against her little legs, bum, and clit, Pastie finally gives way. Even your " + player.cockHead(x) + " is enough to stretch her already, but there's not much else to do now other than pushing it in deeper.");
+        DisplayText("\n\nBeing able to resist no longer, you grab her little bum and direct her towards your cock, not really hearing whether she's cheering, complaining, or asking you to stop; honestly, you could care less when you press your " + Desc.Cock.describeCock(player, x) + " against the entrance to her diminutive vagina and start pushing.");
+        DisplayText("\n\nAfter a while of fruitless pressing against her little legs, bum, and clit, Pastie finally gives way. Even your " + Desc.Cock.describeCockHead(x) + " is enough to stretch her already, but there's not much else to do now other than pushing it in deeper.");
 
-        DisplayText("\n\nThe tightness of Pastie's confines is amazing, even as her body balloons out to more than twice its usual thickness, stretching and quivering around you, trying to either accommodate your " + CockDescriptor.describeCock(player, x) + " or push it out completely.  It almost borders on painful, but also feels like a divine cum milking machine meant to draw your seed out of you.  You gently press Pastie down and pull her up your erection, essentially using her body as a masturbation aid, moaning all the while...");
+        DisplayText("\n\nThe tightness of Pastie's confines is amazing, even as her body balloons out to more than twice its usual thickness, stretching and quivering around you, trying to either accommodate your " + Desc.Cock.describeCock(player, x) + " or push it out completely.  It almost borders on painful, but also feels like a divine cum milking machine meant to draw your seed out of you.  You gently press Pastie down and pull her up your erection, essentially using her body as a masturbation aid, moaning all the while...");
 
         DisplayText("\n\nThat tight snatch is definitely made to make your cock spurt, and it won't be long, but for now you're enjoying the confines and twitches of a body stretched to beyond its limits only so it could accommodate your cock and cum, licking your lips at the thought.  Yes, you'll definitely give that little fairy bitch a good \"<i>shot</i>\".");
 
@@ -518,7 +518,7 @@ export class Valentines {
     }
 
     //[RubDick]
-    public rubPastieOnYourWangDawg(): void {
+    public rubPastieOnYourWangDawg() {
         DisplayText().clear();
         //Pastie rubs her entire body against the PC's dick, allowing them to cum quicker and give her a cum bath. Too much cum causes her to go ahegao, scream \"<i>itsh a sheeeaaa of driiinkshhh!</i>\", and forces the PC to fish her out of the cum before she drowns.
         //Pastie Valentine option
@@ -533,8 +533,8 @@ export class Valentines {
         DisplayText("\n\nFlushed and panting, Pastie gives up trying to control your pace and goes along with it, wrapping her arms and legs around your [cock biggest] as best she can.  Grinding her petite pussy against the bumps and swells of your engorged length, you're delighted to find that the little lush's cunny is drooling a seemingly endless stream of warm, clear fem-cum.  The lubrication saturates your rod in no time and your pumping grip quickly coats the fairy in her own honey, leaving her glistening as if freshly oiled.  You pull her once more to the sensitive tip of your cockhead, though this time she leans in of her own volition, kissing your peak with ditzy relish, even going so far as to slip her tiny, wet tongue into your urethra.  Satisfied with the renewed, crystal flow gushing from between her legs, you rub her along your shaft with even harder strokes, feeling every curve of her wriggling form.");
 
         DisplayText("\n\nPolishing your mast with the amorous drunk has been fun, but you think you've teased her enough. Raising the tempo of your fey massage, you can feel your release building up just behind your [cock biggest] in a heavy pressure that floods your loins with urgency.  Gritting your teeth, you wrap your other hand around the first and bounce her faster and faster along your meat.  Eager caresses become frantic friction as Pastie feels your flesh swelling against her.");
-        if (player.torso.balls.quantity > 0) DisplayText("  Your [balls] lurch, " + SkinDescriptor.skin(character) + " contracting as liquid passion rises within you.");
-        DisplayText("  Your [ass] clenches in anticipation, heralding your climax, so you slide the fairy up your shaft, pulling free from the grip of her arms and legs, holding the confused girl directly in front of your " + player.CockDescriptor.describeMultiCockShort(player) + " while loosing your grasp to bear her entire, curvaceous form to the open air.  With a shuddering gasp, you erupt your intoxicating cream directly into the fey girl, your orgasm");
+        if (player.torso.balls.quantity > 0) DisplayText("  Your [balls] lurch, " + Desc.Skin.skin(character) + " contracting as liquid passion rises within you.");
+        DisplayText("  Your [ass] clenches in anticipation, heralding your climax, so you slide the fairy up your shaft, pulling free from the grip of her arms and legs, holding the confused girl directly in front of your " + player.Desc.Cock.describeMultiCockShort(player) + " while loosing your grasp to bear her entire, curvaceous form to the open air.  With a shuddering gasp, you erupt your intoxicating cream directly into the fey girl, your orgasm");
         //low cum production:
         if (player.cumQ() < 250) DisplayText(" easily drenching the tiny fairy, in plump pearls up and down her naked flesh.");
         else if (player.cumQ() < 750) DisplayText(" leaving her and the arm you're holding her in dripping with a sticky alabaster lacquer.");
@@ -554,7 +554,7 @@ export class Valentines {
     }
 
     //[Pussy Dive]
-    public goForAPushayDivePasty(): void {
+    public goForAPushayDivePasty() {
         DisplayText().clear();
         DisplayText("With a grin and a lick of your lips, you shed your [armor] and spread your legs for the happily drunk fairy, showing her prize: your [vagina] and the [clit] that accompanies it.  It doesn't take Pastie even a few moments to fly towards you and then aim for that [vagina] in a small slalom in the air.  The lips of your gash feel the touch of little hands and feet, and you shudder in anticipation.  Pastie takes long licks all over your vagina and rubs her entire little body around, before finally starting to slip one or another of her limbs experimentally into your [vagina].  It feels amazing to have such a pretty little thing moving around in there, and soon, your [clit] is shown some love as well as Pastie rubs herself all over it before stuffing her face into your wet pussy.");
 

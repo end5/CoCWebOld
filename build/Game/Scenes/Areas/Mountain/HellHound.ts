@@ -1,5 +1,5 @@
 ﻿export class HellHound extends Monster {
-	protected hellhoundFire(): void {
+	protected hellhoundFire() {
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind)) {
 			DisplayText(capitalA + short + " completely misses you with a wave of dark fire! Thank the gods it's blind!");
@@ -40,7 +40,7 @@
 		}
 		return { next: game.playerMenu };
 	}
-	protected hellhoundScent(): void {
+	protected hellhoundScent() {
 		if (player.statusAffects.has(StatusAffectType.NoFlee)) {
 			if (spe === 100) {
 				hellhoundFire();
@@ -83,7 +83,7 @@
 	}
 
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (hpVictory) {
 			DisplayText("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated and nearly unconscious.", true);
 			//Rape if not naga, turned on, and girl that can fit!
@@ -91,11 +91,11 @@
 				DisplayText("  You find yourself musing that you could probably take advantage of the poor 'doggy'.  Do you fuck it?");
 				game.simpleChoices("Fuck it", game.mountain.hellHoundScene.hellHoundPropahRape, "", null, "", null, "", null, "Leave", game.cleanupAfterCombat);
 			} else {
-				game.cleanupAfterCombat();
+				game.return { next: Scenes.camp.returnToCampUseOneHour };
 			}
 		} else {
 			DisplayText("Unable to bear hurting you anymore, the hellhound's flames dim as he stops his attack. The two heads look at you, whining plaintively.  The hellhound slowly pads over to you and nudges its noses at your crotch.  It seems he wishes to pleasure you.\n\n", true);
-			let temp2: Function = null;
+			let temp2;
 			if (player.gender > 0 && player.stats.lust >= 33) {
 				DisplayText("You realize your desires aren't quite sated.  You could let it please you");
 				//Rape if not naga, turned on, and girl that can fit!
@@ -108,12 +108,12 @@
 			}
 			else {
 				DisplayText("You turn away, not really turned on enough to be interested in such an offer.");
-				game.cleanupAfterCombat();
+				game.return { next: Scenes.camp.returnToCampUseOneHour };
 			}
 		}
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe hellhound snorts and leaves you to your fate.");
 			return { next: game.cleanupAfterCombat };
@@ -154,7 +154,9 @@
 this.baseStats.tou = 60;
 this.baseStats.spe = 40;
 this.baseStats.int = 1;
-		initLibSensCor(95, 20, 100);
+		this.baseStats.lib = 95;
+this.baseStats.sens = 20;
+this.baseStats.cor = 100;
 		this.weaponName = "claws";
 		this.weaponVerb = "claw";
 		this.weaponAttack = 10;

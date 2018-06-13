@@ -187,7 +187,7 @@ function rapeSatyr(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Satyr);
     const biggestCocks = character.torso.cocks.sort(Cock.LargestCockArea);
-    const x = biggestCocks[0];
+    const x = sort(Cock.LargestCockArea)[0];
 
     // (Low Corruption)
     if (character.stats.cor < 33) DisplayText("For a moment you hesitate... taking someone from behind without their consent seems wrong... but then again you doubt a satyr would pass on the opportunity if you were in his position.");
@@ -248,7 +248,7 @@ function dontRepeatFuckSatyr(character: Character): NextScreenChoices {
 // [=Again=]
 function secondSatyrFuck(character: Character): NextScreenChoices {
     const biggestCocks = character.torso.cocks.sort(Cock.LargestCockArea);
-    const x = biggestCocks[0];
+    const x = sort(Cock.LargestCockArea)[0];
     DisplayText().clear();
     DisplayText("There's no harm in using the helpless goat once more... This time though, you decide you'll use his mouth.  With a yank on his horns, you forcefully dislodge him from the breast-plant and force him to his knees, turning his head towards you; he doesn't put up much resistance and when you present your erect shaft to him, he licks his lips in excitement and latches onto your " + Desc.Cock.describeCock(character, x) + ".\n\n");
 

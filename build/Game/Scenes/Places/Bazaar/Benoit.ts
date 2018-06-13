@@ -340,7 +340,7 @@ private benoitSellMenu():void {
 	let sellMod: number = 3;
 	if (Flags.list[FlagEnum.BENOIT_EGGS] > 0 || Flags.list[FlagEnum.BENOIT_STATUS] != 0) sellMod = 2;
 	DisplayText("\n\n<b><u>Benoit" + benoitMF("", "e") + "'s Estimates</u></b>");
-	menu();
+	
 	let totalItems: number = 0;
 	for (let slot: number = 0; slot < 5; slot++) {
 		if (player.itemSlots[slot].quantity > 0 && int(player.itemSlots[slot].itype.value / sellMod) >= 1) {
@@ -363,7 +363,7 @@ private benoitTransactBuy(slot: number = 1):void {
 	if(slot === 1) itype = ItemType.lookupItem(Flags.list[FlagEnum.BENOIT_1]);
 	else if(slot === 2) itype = ItemType.lookupItem(Flags.list[FlagEnum.BENOIT_2]);
 	else itype = ItemType.lookupItem(Flags.list[FlagEnum.BENOIT_3]);
-	if(player.stats.gems < int(buyMod * itype.value)) {
+	if(player.inventory.gems < int(buyMod * itype.value)) {
 		DisplayText("You consider making a purchase, but you lack the gems to go through with it.");
 		return { next: benoitsBuyMenu };
 		return;
@@ -373,7 +373,7 @@ private benoitTransactBuy(slot: number = 1):void {
 	//(+3 Affection)
 	benoitAffection(3);
 	
-	player.stats.gems -= int(buyMod * itype.value);
+	player.inventory.gems -= int(buyMod * itype.value);
 	statScreenRefresh();
 	inventory.takeItem(itype, benoitsBuyMenu);
 }
@@ -383,7 +383,7 @@ private benoitSellTransact(slot: number, sellMod: number):void {
 	if (benoitLover()) 
 		DisplayText("Benoit" + benoitMF("", "e") + " gives your object the briefest of goings-over with " + benoitMF("his", "her") + " fingers before stowing it away and handing over your gem reward with a trusting smile.");
 	else DisplayText("Following a painstaking examination of what you've given him with his hands and nose, Benoit grudgingly accepts it and carefully counts out your reward.");
-	player.stats.gems += int(player.itemSlots[slot].itype.value / sellMod);
+	player.inventory.gems += int(player.itemSlots[slot].itype.value / sellMod);
 	player.itemSlots[slot].removeOneItem();
 	statScreenRefresh();
 	//(+1 Affection)
@@ -401,9 +401,9 @@ private benoitSellAllTransact(totalItems: number, sellMod: number):void {
 		}
 	}
 	if (benoitLover()) 
-		DisplayText("Benoit" + benoitMF("", "e") + " gives your objects the briefest of goings-over with " + benoitMF("his", "her") + " fingers before stowing them away and handing over your " + num2Text(itemValue) + " gem reward with a trusting smile.");
-	else DisplayText("Following a painstaking examination of the items you've given him with his hands and nose, Benoit grudgingly accepts them and carefully counts out your " + num2Text(itemValue) + " gem reward.");
-	player.stats.gems += itemValue;
+		DisplayText("Benoit" + benoitMF("", "e") + " gives your objects the briefest of goings-over with " + benoitMF("his", "her") + " fingers before stowing them away and handing over your " + numToCardinalText(itemValue) + " gem reward with a trusting smile.");
+	else DisplayText("Following a painstaking examination of the items you've given him with his hands and nose, Benoit grudgingly accepts them and carefully counts out your " + numToCardinalText(itemValue) + " gem reward.");
+	player.inventory.gems += itemValue;
 	statScreenRefresh();
 	//(+1 Affection per item)
 	benoitAffection(totalItems);
@@ -521,7 +521,7 @@ private talkToBenoit():void {
 		{
 			DisplayText("\n\nYou ask if she's had any thoughts on that front. \"<i>Well, I do 'ave zis one customer 'oo seems very kind.  And 'oo knows me a great deal better zan anyone else around 'ere,</i>\" Benoite mumbles, twiddling her fingers.  \"<i>But zis person 'as already done a great deal for me, so I don't know if... per'aps zis is asking too much. I will find someone though, never fear.  As I said before...</i>” Benoite points two fingers at her blind eyes and then at the stall entrance.  There’s a distinct gleam in those cloudy grey depths you think would scare the hell out of most things with a penis. “<i>I ‘ave a purpose now.</i>");
 
-			menu();
+			
 			doYesNo(femoitFirstTimeYes, femoitFirstTimeNo);
 		}
 
@@ -607,7 +607,7 @@ private talkToBenoit():void {
 		else if(choice === 7) {
 			DisplayText("You ask if " + benoitMF("he","she") + "'s ever had any trouble with the demons who frequent the Bazaar.");
 			DisplayText("\n\n\"<i>Not really,</i>\" " + benoitMF("he","she") + " replies.  \"<i>I don't like zem, but zey are my main source of income.  Zey are always coming in here to sell zeir fluids.  The truth is it's worthless - I pour most of ze disgusting stuff away.  But it is worth paying for zeir custom because zey are always buying many more potions.  It isn't a good demon party unless you 'ave sprouted two new dicks and four new nipples for it, apparently.  Always one of zem is asking if zey can 'do ze dinosaur' as way of payment.  I 'ate zem so much.</i>\"");
-			if(silly()) DisplayText("\n\nThe basilisk rubs Pierre behind the ear as " + benoitMF("he","she") + " thinks.  \"<i>I did once get a group of demons coming in ere, asking me what 'cheese omelette' is in basilisk.  When I told zem, zey ran away laughing, shouting 'Zat is all you can say! Zat is all you can say!'</i>\"  " + benoitMF("He","She") + " shrugs, irritated.  \"<i>Arseholes.</i>\"");
+			if(User.settings.silly()) DisplayText("\n\nThe basilisk rubs Pierre behind the ear as " + benoitMF("he","she") + " thinks.  \"<i>I did once get a group of demons coming in ere, asking me what 'cheese omelette' is in basilisk.  When I told zem, zey ran away laughing, shouting 'Zat is all you can say! Zat is all you can say!'</i>\"  " + benoitMF("He","She") + " shrugs, irritated.  \"<i>Arseholes.</i>\"");
 		}
 		else if(choice === 8) {
 			DisplayText("You ask " + benoitMF("Benoit","Benoite") + " what results when basilisks mate with harpies.");
@@ -744,7 +744,7 @@ private eggySuggest():void {
 		if(player.inHeat) DisplayText("  By now your vagina is practically gushing, your bodies' own deep seated pheromone need stoked to blazing heights by the basilisk's gentle, painstaking exploration of your body.  You cannot stop thrusting yourself against his soaked hand, announcing how badly you want this with heavy moans.");
 			
 		DisplayText("\n\nThe scent of your arousal is in the air and as Benoit breathes it in his own breath comes heavier.  His erection bulges in his long johns and you decide it's time for you to take charge; you back up, butting him insistently with your powerful body until you have him pinned against a space upon the opposite wall.  You watch him over your shoulder as he unbuckles himself and lets his trousers fall.  Stoked by the pheromones simmering off your body, his long, thin purple erection is straining and he arches his back and opens his mouth as you flare your [butt] and press yourself against it.  You know just from looking at his intense arousal you're going to have to go slow to stop him from shooting his bolt straight away; with a wicked smile your partner can't see, you suppose such is your effect on him it may not even matter if he does.  Still, as he lays his hands upon your flanks, and you lean back with a sigh and slowly slide his length into your moistened [vagina] as gently as you can.");
-		player.displayStretchVagina(12,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 12,true,true,false);
 		DisplayText("\n\nBenoit's dick is incredibly smooth and you move down onto it with incredible, slick ease.  Rather than burying yourself onto it straight away you stop with only a third of it in your wet depths and slowly bring it out of you, dipping yourself slowly.  You stop with his sensitive head just inside and work your [hips] around deliberately, sighing as it rotates slowly around your slick walls.  Benoit moans dryly and you feel his body tense; immediately you stop your movements and wait, only gradually beginning to gyrate and thrust again when he has calmed down.  You slide more of him into you when you bend forwards again, this time leaving only his base outside of you; you sigh as you feel him creeping further into your moist depths.  He makes a bestial noise and tries to thrust himself into you and upon you; tutting mockingly, you pull yourself away from him and stop moving until, with what is evidently a huge force of will, the basilisk calms himself, backs himself against the wall and allows you to work him.");
 		
 		//[Small capacity: 
@@ -796,7 +796,7 @@ private eggySuggest():void {
 		
 		DisplayText("\n\nThe scent of your arousal is in the air and as Benoit inhales it, his own breath comes heavier.  His erection bulges in his long johns and you decide it's time for you to take charge; you push him against the wall, unbuckle him and let his trousers fall.  Stoked by the pheromones simmering off your body, his long, thin, purple erection is straining and he arches his back and opens his mouth as you lay a hand on it.  You know just from looking at his straining prick you're going to have to go slow for him not to shoot his bolt straight away; with a wicked smile your partner can't see, you suppose that such is your body's effect on him it may not even matter if he does.  As lost as the horny lizan is to the haze of his pleasure, you remind him of reality the best way you know how, guiding his hands to your [hips] and with a sigh, slowly sliding his length into your moistened [vagina] with as much grace as your eagerness can stand.");
 
-		player.displayStretchVagina(14,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 14,true,true,false);
 		
 		DisplayText("\n\nBenoit's dick is incredibly smooth and you move down onto it with slick ease.  Rather than burying yourself onto it straight away, you stop with only a third of it in your wet depths and bring it out of you, dipping yourself slowly.  You stop with his sensitive head just inside and work your thighs around deliberately, sighing as it rotates around your slick walls.  Benoit moans and you feel his body tense; immediately you halt your movements and wait, only gradually beginning to gyrate and thrust again when he has calmed down.  You slide more inside when you bend forwards again, this time leaving only his base outside of you; a sigh rolls from you as you feel him creeping further into your moist depths.  He makes a bestial noise and tries to thrust himself into you and upon you; tutting mockingly, you pull yourself away from him and stop moving until, with what is evidently a huge force of will, the basilisk calms himself, backs himself against the wall and allows you to work him.");
 		
@@ -814,7 +814,7 @@ private eggySuggest():void {
 		if(player.torso.cocks.count > 0) {
 			if(!player.torso.hips.legs.isTaur()) DisplayText("  Stuck between your two burning bodies, y");
 			else DisplayText("Y");
-			DisplayText("our " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " spurts in sympathy to your female high, soaking ");
+			DisplayText("our " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " spurts in sympathy to your female high, soaking ");
 			if(!player.torso.hips.legs.isTaur()) DisplayText("both of you");
 			else DisplayText("the dry dirt");
 			DisplayText(" with white.");
@@ -879,7 +879,7 @@ private repeatSexWithBenoitLetHim():void {
 		DisplayText("\n\nBenoit surges forwards, grasps you by the [butt], turns and pinions you to the wall.  Your laughs turn to gasps as with an almost pained growl, Benoit thrusts himself straight into your moist twat.  You can only clutch at the wall of the wagon as he begins to fuck you with abandon, pushing your human front forwards as he levers your [hips] upwards with each thrust.  He is clumsy with lust as well as blind, uncaring of anything but the need to clench your body and hilt himself in your depths, unable to take hold of himself with your pussy juices coating his nose and burning an unstoppable path to his brain.  His pheromone driven callousness and the discomfort of the wood against your hands ");
 		if(player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) DisplayText("and [fullChest] ");
 		DisplayText("augments the roughness of the fuck and you find yourself getting carried along with it, thrusting your powerful rump back against the basilisk and clenching him deeper into you, delighting in his firm, dense mass pounding into you.  Your [vagina] dribbles juices around his impatient, straining dick, practically foaming as his smooth length rubs forcefully all along your sensitive tunnel.");
-		player.displayStretchVagina(14,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 14,true,true,false);
 		
 		DisplayText("\n\nThe rough sex knocks the breath and sense out of you and you are dizzy with it by the time you reach your high, gasping and making guttural noises as Benoit's thumping makes your pussy clench and spasm around him.  He joins in with a thick, breathless growl, and you feel surge after surge of cum flood your depths with warmth.  After you have finished thrashing against each other you stay where you are, gathering your breath on each other.  It takes you a while to realize he hasn't gone soft, and is still embedded firmly within you; your mixed fluids are dripping down your thighs and your musk is still in the air.  He grins at you and gives you a tiny thrust, making you bite your lip; ejaculating seems to have only taken the slightest edge off the rut you've induced in him.  “You did not sink you would get away zat easily, did you?” he growls softly.");
 
@@ -897,7 +897,7 @@ private repeatSexWithBenoitLetHim():void {
 		DisplayText("\n\n“Zat was... wow,” he manages.  With his dick wrung of every last drop of his seed you can see he is returning to himself, and his hand around your waist is cautious. “Was zat... all right for you? I do not know if... I get zese smells in my 'ead and zen...” You answer him by kissing him on the cheek and saying with teasing huskiness that it was good, but maybe next time he shouldn't hold back so much.  He grins at this.  You spend a bit more time cuddling whilst recovering from the intense fuck, before finally clambering to your feet.  Your final act before dressing and taking your leave is to faintly brush your scent across Benoit's nose again, telling him you expect him to be ready and primed the next time this naughty girl pays a visit.  He doesn't respond- maybe he is still privately ashamed about losing his cool over you- but you can tell by the lines of his face and the way his head moves unconsciously to follow your path out of his shop that him not being aroused by you isn't something you're ever going to have to worry about.");
 	}
 	else {
-		DisplayText("For the moment you don't do anything; you simply stand back and let his hands slowly move across your frame.  One of his hands comes to rest upon your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "; as he gently teases and kneads the soft, sensitive flesh his other hand drift downwards, across your belly, around over the crack of your [butt] then down to cup your behind.  Although he is familiar with your frame by now, Benoit never seems to stop being enthralled by your body; there is an unconscious frown of concentration on his face as his smooth hands move across your warm skin, as if he were mapping you in his mind's eye.");
+		DisplayText("For the moment you don't do anything; you simply stand back and let his hands slowly move across your frame.  One of his hands comes to rest upon your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "; as he gently teases and kneads the soft, sensitive flesh his other hand drift downwards, across your belly, around over the crack of your [butt] then down to cup your behind.  Although he is familiar with your frame by now, Benoit never seems to stop being enthralled by your body; there is an unconscious frown of concentration on his face as his smooth hands move across your warm skin, as if he were mapping you in his mind's eye.");
 		
 		DisplayText("\n\nThis slow, gentle pressure is all very well, but you can't help but wonder if you can't awaken something a bit more bestial in the timid basilisk.  The thought of making him lose his self-control over you causes you to grin, unseen, and tenderly but firmly you put your hands on his claws and tell him to stop.  He looks at you in puzzlement as you shift your bodies around, your hands sliding over his shoulders and chest as you change position so that it is you with your back to the wall.  He begins to move his hands again and you tut mockingly, telling him to be still for now.  Smiling, you begin to give him some of his own treatment; your hands drift softly over his tight, smooth flesh, working down his washboard stomach until they reach his long johns.  You slowly unbuckle them and let them fall, releasing his long, thin erection.  With one hand you circle the base gently; even touching this least sensitive part of his dick makes him grunt with need, the thump of his heart reverberating through his scales, and he involuntarily thrusts forwards, trying to get more of your hand upon him.  Again, you tell him to be still.  You continue to almost-masturbate him, your one hand rubbing the very base of his cock and the slit from which it thrusts, whilst with the other you reach down and touch your own slickening [vagina].  You moan exaggeratedly as you dip first one finger and then two into your honey pot, gently frigging your [clit] until you are in full spate, dripping your fluids onto the packed earth beneath you.  Benoit is clenching his pointed teeth, trembling slightly like a pipe about to burst, as you lift your coated fingers up and smear your essence over his incredibly receptive nostrils.  His tail thrashes fitfully as you continue to torment his dick, just barely touching his purple tip before returning to his base.  All he can smell is your own arousal as you begin to talk huskily, saying you've been a naughty girl playing in the mountains, you've teased and mocked and run away from every creature you've found but now a big bad basilisk has got you cornered, and what is the big bad basilisk going to do now it's got this naughty girl all to itself...?");
 		
@@ -913,7 +913,7 @@ private repeatSexWithBenoitLetHim():void {
 		DisplayText("\n\nWhen he slides into you he does so with virtually no resistance whatsoever; the two of you have turned your pussy into an inviting, gooey sleeve.  ");
 		if(player.vaginalCapacity() < 30) DisplayText("You don't mind; your tight sex is a perfect fit for his smooth, thin dick, and you work with him as he thrusts, pulling and pushing your walls in time with his length, your lubrication allowing him to quickly increase the tempo until the two of you are once again bucking against each other gleefully, your fluids spattering against each other.");
 		else DisplayText("Although he is long, he barely even touches the sides of your encompassing twat.  The sensation isn't great for you until he really starts to go to town, ramming into you with all he's got, beating a wet staccato against your [butt].  You send a hand roaming back around and begin to finger your [clit] as he sheaths himself in you, his fluids running down your fingers as you work your slick, bulging pleasure button with increasing delight.");
-		player.displayStretchVagina(10,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 10,true,true,false);
 		DisplayText("  The difference in the position makes his dick bend into you at an angle, stroking a neglected spot which soon has you gasping with need.  Benoit is not as maddened as he was the first time, and he has the composure to draw himself out; he slows himself down and then back up again, fucking you magisterially, withdrawing himself almost completely before slamming firmly back in, stopping whilst hilted in you until you beg and moan for him to continue.  You give yourself up to the dominant rut you've awoken in him, thrusting back into him as you are fucked up to a second ecstatic height and then a third; everything disappearing underneath a timeless red haze, of being on your hands and knees with your [butt] in the air and being given what a female animal needs.");
 		
 		DisplayText("\n\nWhen Benoit finally cums he sounds almost pained; his aching cock delivers another load into your already packed womb, semen dribbling and spurting onto the floor.  You work his dick for as long as you can until it finally droops out of your abused cunt.  Finally you crawl into a sitting position and cuddle into the basilisk, who pools onto the floor and responds tentatively.");
@@ -950,7 +950,7 @@ private repeatBenoitFuckTakeCharge():void {
 		else DisplayText("You slide back down onto him, cooing this time as your groin meets his muscular thighs with a wet kiss, your sex swallowing his cock whole.  You begin to ride him hard and slow, bending his cock upwards to push at your sensitive walls, waves of pleasure starting to flow through you.");
 		
 		DisplayText("\n\nYou keep at this slow ride for what feels like hours, stopping and starting, pulling and pushing deliberately to keep the basilisk you have backed into a corner under your control.  The pace of the fuck is clearly agonising for Benoit; he pants, tenses and gasps to the wet movement of your [vagina], his face and chest red with extreme arousal, but he lets you stay in control, eventually unable to do anything but lie back and let you have your way with him.");
-		player.displayStretchVagina(14,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 14,true,true,false);
 		//[Lactation: 
 		if(player.lactationQ() >= 50) DisplayText("  The slow, sensual sex is enough for you to begin to bead milk from your sensitive [nipples]; you moan as the flow intensifies until you are instinctively kneading your [chest], spurting your sweet, warm fluids onto the floor.  Benoit starts in genuine amazement at the sound.  “Mammals are so damn weird,” he mutters, making you giggle.");
 		
@@ -963,7 +963,7 @@ private repeatBenoitFuckTakeCharge():void {
 		DisplayText("\n\n“I am not really sure what I did to deserve you,” says Benoit eventually, his voice barely above a raspy murmur in his throat.  You give him a playful dig in the ribs and say you're only in it for the counter sceptic.  He grins and the two of you get up, get dressed, and go your separate ways.");
 	}
 	else {
-		DisplayText("For the moment you don't do anything; you simply stand back and let his hands slowly move across your frame.  One of his hands comes to rest upon your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "; as he gently teases and kneads the soft, sensitive flesh his other hand drift downwards, across your belly, around over the crack of your [butt] then down to cup your behind.  Although he is familiar with your frame by now Benoit never seems to stop being enthralled by your body; there is an unconscious frown of concentration on his face as his smooth hands move across your warm skin, as if he were mapping you in his mind's eye.");
+		DisplayText("For the moment you don't do anything; you simply stand back and let his hands slowly move across your frame.  One of his hands comes to rest upon your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "; as he gently teases and kneads the soft, sensitive flesh his other hand drift downwards, across your belly, around over the crack of your [butt] then down to cup your behind.  Although he is familiar with your frame by now Benoit never seems to stop being enthralled by your body; there is an unconscious frown of concentration on his face as his smooth hands move across your warm skin, as if he were mapping you in his mind's eye.");
 		
 		if(player.torso.cocks.count > 0) DisplayText("\n\nHis hands travel downwards until, with a small grin, he finds what he knows is there.  He wraps his dry, smooth grasp around your semi-erect cock and moves it up and down, rubbing and coiling you until you are straining.  You decide it's time to do some feeling yourself; you grasp and pinch at his tight, supple behind through his trousers, making him gasp as you move into him.");
 		
@@ -972,7 +972,7 @@ private repeatBenoitFuckTakeCharge():void {
 		if(player.inHeat) DisplayText("  By now your vagina is practically gushing, your body's own deep-seated pheromone need stoked to blazing heights by the basilisk's gentle, painstaking exploration.  You cannot stop yourself thrusting against his soaked hand, announcing how badly you want this with heavy moans.");
 		
 		DisplayText("\n\nThe scent of your arousal is in the air and as Benoit inhales it, his own breath comes heavier.  His erection bulges in his long johns and you decide it's time for you to take charge; you push him against the wall, unbuckle him and let his trousers fall.  Stoked by the pheromones simmering off your body, his long, thin, purple erection is straining and he arches his back and opens his mouth as you lay a hand on it.  You know just from looking at his straining prick you're going to have to go slow for him not to shoot his bolt straight away; with a wicked smile your partner can't see, you suppose that such is your body's effect on him it may not even matter if he does.  Still, as you once again lay his hands upon you, brace him against the wall and, with a sigh, slowly slide his length into your moistened [vagina], it is as gently as your eagerness can stand.");
-		player.displayStretchVagina(10,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 10,true,true,false);
 
 		DisplayText("\n\nBenoit's dick is incredibly smooth and you move down onto it with slick ease.  Rather than burying yourself onto it straight away, you stop with only a third of it in your wet depths and bring it out of you, dipping yourself slowly.  You stop with his sensitive head just inside and work your [hips] around deliberately, sighing as it rotates around your slick walls.  Benoit moans and you feel his body tense; immediately you halt your movements and wait, only gradually beginning to gyrate and thrust again when he has calmed down.  You slide more inside when you bend forwards again, this time leaving only his base outside of you; a sigh rolls from you as you feel him creeping further into your moist depths.  He makes a bestial noise and tries to thrust himself into you and upon you; tutting mockingly, you pull yourself away from him and stop moving until, with what is evidently a huge force of will, the basilisk calms himself, backs himself against the wall and allows you to work him.");
 		
@@ -994,7 +994,7 @@ private repeatBenoitFuckTakeCharge():void {
 			//[(not horse)
 			if(!player.torso.hips.legs.isTaur()) DisplayText("  Stuck between your two burning bodies, y");
 			else DisplayText("Y");
-			DisplayText("our " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " spurts in sympathy to your female high, soaking ");
+			DisplayText("our " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " spurts in sympathy to your female high, soaking ");
 			if(!player.torso.hips.legs.isTaur()) DisplayText("both of you");
 			else DisplayText("the dry dirt");
 			DisplayText(" with white.");
@@ -1081,7 +1081,7 @@ private suggestSexAfterBasiWombed(later:boolean = true):void {
 		DisplayText("\n\nThe basilisk needs no further invitation.  In a moment he is upon you, his tight, muscled chest pressed against your [chest], his flat stomach rubbing over your own fertile belly and the head of his dick pushed against your moist lips.");
 		if(player.torso.cocks.count > 0) DisplayText("  He deliberately rubs himself up and down your body, and the [cock] trapped between your warm bodies quickly hardens against the warm, smooth friction.");
 		DisplayText("  Despite his blindness, he slides straight into your moist depths, making you coo as his hard, smooth spur glides across your sensitive walls, slowly bringing himself out before thrusting himself in again, working more and more of his length into you.  Never quite able to control himself around your body, it's obvious in the strain in his face and the raggedness of his breath against your skin that he is exercising every restraint he has not to fuck you into the ground; he pushes his dick upwards with each return thrust to bump deliberately against your [clit], sending irresistible spasms of pleasure chiming through you.  Pushed inexorably upwards you curl an arm around his neck, kiss his nose and grit your teeth, then whisper into his ear to stop holding back.  Benoit pauses for a moment to gather his breath, hilted entirely in your wet cunt, then hooks his hips around yours, entrapping you around his body, before beginning to fuck your softened, ripe body like a jackhammer.  He pounds into you with everything he's got, clenching you as your gushing [vagina] deliriously spatters fluids across your entwined bodies.  Lost in rut now, Benoit licks your face with his long tongue, the soft, sticky pressure against your reddened cheeks only seeming to make the contrasting sensation of his long prick taking you deep even more overwhelming.");
-		player.displayStretchVagina(14,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 14,true,true,false);
 		
 		DisplayText("\n\nYou cannot stop yourself from screaming as your orgasm hits, your pussy clenching and wringing Benoit's smooth dick as he continues to slam himself into you until he can take your milking no longer and cums in sympathy, clutching you as he fountains thick, warm cum into your fertile depths.  Having your lower body held in place like this makes your orgasm all the more overpowering; you wriggle futilely against the basilisk's strong legs, unable to thrash away the unbearable pleasure.");
 		
@@ -1099,7 +1099,7 @@ private suggestSexAfterBasiWombed(later:boolean = true):void {
 		//[Herm:
 		if(player.torso.cocks.count > 0) DisplayText("  He deliberately moves his hand over [oneCock] before trapping it in his warm grasp.   It quickly hardens against his warm, smooth friction.");
 		DisplayText("  Used to your body now despite his blindness, he slides straight into your moist depths, making you coo as his hard, smooth spur glides across your sensitive walls, slowly bringing himself out before thrusting himself in again, working more and more of his long length into you.   Never quite able to control himself around your body, it's obvious in the strain of the muscles pressed against you and the raggedness of his breath upon your skin that he is exercising every restraint he has not to fuck you into the ground; he pushes his dick downwards with each return thrust to bump deliberately against your [clit], sending irresistible spasms of pleasure chiming through you.  You slowly move forwards until your arms are braced against the wall, before gritting over your shoulder to him to stop holding back.  Benoit pauses for a moment to gather his breath, hilted entirely in your wet cunt, then hooks his strong arms around your back end, entrapping you around his body, before beginning to fuck your softened, ripe body like a jackhammer.  He pounds into you with everything he's got, clenching you as your gushing [vagina] deliriously spatters fluids across your entwined bodies."); 
-		player.displayStretchVagina(14,true,true,false);
+		Mod.Vagina.displayStretchVagina(player, 14,true,true,false);
 
 		DisplayText("\n\nYou cannot stop yourself from screaming as your orgasm hits, your pussy clenching and wringing Benoit's smooth dick as he continues to slam himself into you until he cannot take your milking any longer and cums in sympathy, clutching you as he fountains thick, warm cum into your fertile depths.  Having your lower body held in place like this makes your orgasm all the more overpowering; you wriggle futilely against the basilisk's strong legs, unable to thrash away the unbearable pleasure.");
 		
@@ -1143,7 +1143,7 @@ public popOutBenoitEggs():void {
 	if(player.torso.cocks.count > 0) DisplayText(" and a downpour of semen");
 	DisplayText(".");
 	
-	DisplayText("\n\nWhen you find yourself able to stand, you examine what it is you have birthed: " + num2Text(Math.floor(player.totalFertility() / 10)) + " large, jade-colored eggs, the unmistakable shape of reptile eggs.  You pick one up and hold it gently against your ear; inside, you can hear a little heart, beating strong and quick; Benoit's child and yours.  You place the egg back down and gather them all up, moving them closer to the campfire to warm while you recover from your exertions.");
+	DisplayText("\n\nWhen you find yourself able to stand, you examine what it is you have birthed: " + numToCardinalText(Math.floor(player.totalFertility() / 10)) + " large, jade-colored eggs, the unmistakable shape of reptile eggs.  You pick one up and hold it gently against your ear; inside, you can hear a little heart, beating strong and quick; Benoit's child and yours.  You place the egg back down and gather them all up, moving them closer to the campfire to warm while you recover from your exertions.");
 	
 	DisplayText("\n\nWhen the light of day breaks, you gather your newly laid clutch and set off for Benoit's shop.  The blind basilisk is asleep when you arrive, forcing you to bang loudly on his door to wake him up.");
 
@@ -1256,7 +1256,7 @@ public benoitFeminise():void
 		Flags.list[FlagEnum.FEMOIT_NEXTDAY_EVENT] = this.Game.model.time.days + 1;
 		Flags.list[FlagEnum.FEMOIT_NEXTDAY_EVENT_DONE] = 1;
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 }
@@ -1276,7 +1276,7 @@ public femoitNextDayEvent():void
 	
 	DisplayText("\n\nShe leans across the counter, her smile fading.  \"<i> Seriously, [name], you 'ave done my people a service I cannot repay.  I can lay eggs, zere can be more female basilisks, away from Lethice and 'er thugs.  All zis time I 'ave been trading potions, I could 'ave done it myself, and I never did.  Per'aps I sought I was too much a man or somesing.  Pah!  I was a coward, a cringing coward.  You forced me to decide, and because of zat, my people 'ave a chance.  Sank you. </i>\"");
 	
-	DisplayText("\n\nShe sounds slightly choked, and stops for a moment. \"<i> It is very, very little, but for you I buy and sell sings at zeir true value.  If zere is anysing I can do for you, ever, please just say. </i >\"  You are slightly embarrassed by her effusiveness and mumble something along the lines of it being all her doing.  Perhaps aware of this, Benoite sits back down, hatches her fingers and smiles at you primly.  \"<i> Now... is " + player.mf("sir", "madam") + " buying or selling? </i>\" ");
+	DisplayText("\n\nShe sounds slightly choked, and stops for a moment. \"<i> It is very, very little, but for you I buy and sell sings at zeir true value.  If zere is anysing I can do for you, ever, please just say. </i >\"  You are slightly embarrassed by her effusiveness and mumble something along the lines of it being all her doing.  Perhaps aware of this, Benoite sits back down, hatches her fingers and smiles at you primly.  \"<i> Now... is " + Desc.Gender.mf(player, "sir", "madam") + " buying or selling? </i>\" ");
 
 	//[Benoite buys at same rate Oswald does and sells at a 33% discount]
 }
@@ -1289,7 +1289,7 @@ public femoitFirstTimeNo():void
 	DisplayText("You let her down as kindly as you can.");
 	DisplayText("\n\n“<i>No, you are right,</i>” she says in a casual tone, although the color is still very high in her scales. “<i>It would be way too weird zat, wouldn’t it? I will find someone though, never fear.  As I said before...</i>” Benoite points two fingers at her blind eyes and then at the stall entrance.  There’s a distinct gleam in those cloudy grey depths you think would scare the hell out of most things with a penis. “<i>I ‘ave a purpose now.</i>”");
 	DisplayText("\n\nCatching a subtle tone of dissapointment in Benoite's voice, you bid her a quick farewell and head back to camp, deciding to give her some time to recover.");
-	menu();
+	
 	return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
@@ -1318,16 +1318,16 @@ public femoitFirstTimeYes():void
 	else DisplayText("\n\nHer warm fingers travel over your body, brushing over your face, your belly, your [hips]; you feel as though you're being read like a book.  \"<i>You 'umans are so squishy, fuzzy and 'ot,</i>\" she giggles huskily. \"<i>'Ow can you stand it?</i>\"");
 
 	DisplayText("\n\nBenoite's hands travel down your torso until, with a sharp intake of breath, she touches your [cock].  After a pause, she slowly wraps her dry, smooth grasp around your semi-erect cock and moves it up and down, rubbing and coiling you until you are straining.");
-	if (player.biggestCockLength() <= 10) DisplayText("  Although this is evidently an uncanny experience for her, she does manage a cocky smile as her hand moves around your sex.  \"<i>Mine was bigger,</i>\" she teases.  You reward her cheek by doing some feeling yourself, grasping her large, supple behind, making her squeak as you move into her.");
+	if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length <= 10) DisplayText("  Although this is evidently an uncanny experience for her, she does manage a cocky smile as her hand moves around your sex.  \"<i>Mine was bigger,</i>\" she teases.  You reward her cheek by doing some feeling yourself, grasping her large, supple behind, making her squeak as you move into her.");
 	else DisplayText("  This is evidently an uncanny experience for her, the alien nature of it deepening as her hands moves around your sex. \"<i>'Oly Gods, [name]; you are a monster,</i>\" she says thickly.  You smile and decide it's time to do some feeling yourself; you grasp her large, supple behind, making her squeak as you move into her.");
 
 	DisplayText("\n\nThe scent of your arousal is in the air and as Benoite inhales it in her own breath comes heavier.  Still grasping her butt, you spread her hips to reveal her genital slit, gleaming with wetness.  Bracing her against the wall, you press your [cock] against her ready sex.  \"<i>Please be gentle,</i>\" says a husky, nervous voice below you.  You respond by slowly pushing open her lips and sliding your head into her warmth.");
 
 	DisplayText("Benoite's pussy is virginally tight and you go as slowly as you can, lightly moving your hips as you work more of your length in.  Sharp claws grasp your back as you feel resistance that gives as you push more of yourself in; blood trickles down your shaft to drip onto the floor.  You keep working her slowly, withdrawing almost completely before sinking yourself in, using your head on the outward pull to tease at the clit hidden in her folds.  Benoite seems almost frozen by what's happening; she simply clutches at your back, breathing heavily and allowing you to do all the work.  You don't mind; whatever her mind is thinking her body is responding to your methodical treatment, her lips widening and slick moisture oiling your dick as you press into that tight, graspingly tight tunnel.");
-	if (player.biggestCockLength() < 15 && player.torso.balls.quantity === 0) DisplayText("  Eventually you manage to hilt yourself entirely in her depths, your stomach pressing against her own tight belly.");
-	else if (player.biggestCockLength() < 15 && player.torso.balls.quantity > 0) DisplayText("  Eventually you manage to hilt yourself in her depths, your [balls] pressing into her sex as your stomach bumps into her own tight belly.");
-	else if (player.biggestCockLength() >= 15 && player.torso.balls.quantity === 0) DisplayText("  Eventually you manage to bottom out, your dick pressed against her cervix.");
-	else if (player.biggestCockLength() >= 15 && player.torso.balls.quantity > 0) DisplayText("  Eventually you manage to bottom out, your dick pressed against her cervix, your [balls] swinging heavily below your shaft.");
+	if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 15 && player.torso.balls.quantity === 0) DisplayText("  Eventually you manage to hilt yourself entirely in her depths, your stomach pressing against her own tight belly.");
+	else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 15 && player.torso.balls.quantity > 0) DisplayText("  Eventually you manage to hilt yourself in her depths, your [balls] pressing into her sex as your stomach bumps into her own tight belly.");
+	else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length >= 15 && player.torso.balls.quantity === 0) DisplayText("  Eventually you manage to bottom out, your dick pressed against her cervix.");
+	else if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length >= 15 && player.torso.balls.quantity > 0) DisplayText("  Eventually you manage to bottom out, your dick pressed against her cervix, your [balls] swinging heavily below your shaft.");
 	DisplayText("  Staying like that for a moment, you slowly withdraw almost all of the way out before pushing all the way in again, continuing the process, your grunts melding with Benoite's soft moans at the almost-agonizingly slow sex, exercising all the self-restraint you have not to begin pounding away at the basilisk's deliciously tight cunt.  Occasionally you pause at the deepest moment, waiting for your blood to cool down and letting Benoite get used to the sensation of being fully stuffed by you.");
 
 	DisplayText("\n\nSlowly, eventually, Benoite gets into it, her frozen limbs thawing to your loving, careful movement.  Beginning to pant, she moves her powerful hips with you, trying to draw your dick further into her.  Gratefully you begin to pick up the pace, thrusting into her with increasing force.  Her claws grip your back painfully as she pushes herself into you, the soft leather of her chest bumps squeezing into your [fullChest].");
@@ -1343,7 +1343,7 @@ public femoitFirstTimeYes():void
 	DisplayText("\n\n\"<i>Sank you for zat, [name],</i>\" she says huskily. \"<i>Of course, I will need you to do zat again if it doesn't take.  And again, once ze first clutch is done.  Basically we will be doing zis a lot.  Purely for ze purpose of procreation, you understand.</i>\"  Grinning, you lead her back inside the shop and after squeezing her hand, take your leave.");
 
 	player.orgasm();
-	menu();
+	
 	return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
@@ -1362,7 +1362,7 @@ public femoitSexIntro():void
  		DisplayText("\n\nYou cup her large, supple behind and push into her wet opening, sighing as you reach a comfortable depth before slowly sliding in and out.  Benoite's hands move over you, reminding herself of you with dry, smooth pressure as you find a slow, silky rhythm.  The basilisk arches her back and moans hoarsely as you push more and more of your wick into her depths; she moves with you, wriggling her body to gently work your [cock] this way and that to enhance your sensation.");
 
 		DisplayText("\n\n");
- 		if (player.biggestCockLength() < 15) DisplayText("Soon you are hilting yourself in her depths, making her gasp as you slap into her.");
+ 		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 15) DisplayText("Soon you are hilting yourself in her depths, making her gasp as you slap into her.");
  		else DisplayText("Soon you are bottoming out in her, making her gasp as your hulking length spreads her wide.");
  		DisplayText("  You quickly pick up the pace as you enter rut, thrusting into your basilisk lover with red-flecked abandon, her powerful thighs working with yours to make each return plunge into her warm depths more gratifying than the last.");
 		
@@ -1384,7 +1384,7 @@ public femoitSexIntro():void
 		benoitKnockUp();
 		player.orgasm();
 	}
-	else if (benoitRegularPreggers() && (!player.torso.hips.legs.isTaur() || (player.torso.hips.legs.isTaur() && (player.tallness * (5/6) < player.torso.cocks.list[player.longestCock()].cockLength))))
+	else if (benoitRegularPreggers() && (!player.torso.hips.legs.isTaur() || (player.torso.hips.legs.isTaur() && (player.tallness * (5/6) < player.torso.cocks.sort(Cock.LongestCocks)[0].length))))
 	{
 		DisplayText().clear();
 		DisplayText("Once you are both in the usual spot, neither of you waste any time undressing.  The pregnant basilisk stands there, staring blindly at you, and waiting for you to make the first move, tongue occasionally flicking past her lips to nervously wet them.");
@@ -1393,7 +1393,7 @@ public femoitSexIntro():void
 
 		DisplayText("\n\n\"<i>Enough foreplay; I sought zat we were going to fuck?</i>\" she playfully reprimands, and you smirk and nod your head, knowing guiltily that she can't see it.  Nimbly you skip around behind her, catching her tail and rubbing it affectionately against your cheek, then tell her to find something sturdy to support her; you want her to kneel down against it.");
 
-		DisplayText("\n\n\"<i>So, zat is what you 'ave in mind?  Kinky " + player.mf("boy","girl") +"...</i>\" Benoite replies.  Her long tongue flickers out to dart across your other cheek, and then she carefully lowers herself to the ground, making herself comfortable and groaning softly with relief. \"<i>I must say, zat is much more better on my poor feet... all zese eggs are 'eavy, you know?</i>\"");
+		DisplayText("\n\n\"<i>So, zat is what you 'ave in mind?  Kinky " + Desc.Gender.mf(player, "boy","girl") +"...</i>\" Benoite replies.  Her long tongue flickers out to dart across your other cheek, and then she carefully lowers herself to the ground, making herself comfortable and groaning softly with relief. \"<i>I must say, zat is much more better on my poor feet... all zese eggs are 'eavy, you know?</i>\"");
 
 		DisplayText("\n\nYou cup her buttocks, squeezing the delightfully full, feminine globes, and promise her that she'll forget all about the weight of her eggs soon enough.");
 
@@ -1402,7 +1402,7 @@ public femoitSexIntro():void
 		DisplayText("\n\n\"<i>Enough with ze teasing, put ze damn thing in already!</i>\" she barks at you.  She lifts one hand off of the ground and begins to rub and squeeze her chest in frustrated pleasure.");
 
 		DisplayText("\n\nDeciding you've had enough foreplay, you take a moment to properly position yourself and begin sliding gently into her cool, silky depths, trying to keep calm even as you work yourself deeper and deeper inside her.");
-		if (player.biggestCockLength() < 15) DisplayText("  Soon you are hilting yourself in her depths, making her gasp as you slap into her.");
+		if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 15) DisplayText("  Soon you are hilting yourself in her depths, making her gasp as you slap into her.");
 		else DisplayText("  Soon you are bottoming out in her, making her gasp as your hulking length spreads her wide.");
 
 		DisplayText("\n\nYou take a momentary pause to properly reposition yourself, placing your hands on Benoite's butt for assistance in balancing and causing her to place her free hand back on the ground, and then you begin to thrust. She groans and gasps as you slide yourself back and forth inside her, doing her best to meet your thrusts with her own, egg-laden belly sliding back and forth across the floor, the stimulation on her stretched, sensitive scales adding to her pleasure, her tail beating a tattoo of lust against your back.");
@@ -1414,7 +1414,7 @@ public femoitSexIntro():void
 
 		DisplayText("\n\nNow it is your turn to slump down in a spent state, though you retain enough control to avoid adding any more weight to your already heavy lover.  The two of you remain there in the backgroom, gathering up your strength, letting the musk of your carnal pleasure roll over your still forms.");
 
-		DisplayText("\n\nBenoite stirs first.  \"<i>Mmm... I guess being so pregnant is not such a bad sing if it means we can have sex like zis...</i>\" she murmurs, though it's quite obvious she intends for you to hear her. With a groan of effort, she heaves herself back upright.  \"<i>Come back and see me any time, lover-"+ player.mf("boy","girl") +",</i>\" she tells you.  \"<i>But don't sink zat you need me to be pregnant to give me a good time, okay?</i>\"  Benoite smirks, striding across the floor and giving you a hand up before delicately flicking her tongue across your lips in a reptilian kiss.");
+		DisplayText("\n\nBenoite stirs first.  \"<i>Mmm... I guess being so pregnant is not such a bad sing if it means we can have sex like zis...</i>\" she murmurs, though it's quite obvious she intends for you to hear her. With a groan of effort, she heaves herself back upright.  \"<i>Come back and see me any time, lover-"+ Desc.Gender.mf(player, "boy","girl") +",</i>\" she tells you.  \"<i>But don't sink zat you need me to be pregnant to give me a good time, okay?</i>\"  Benoite smirks, striding across the floor and giving you a hand up before delicately flicking her tongue across your lips in a reptilian kiss.");
 
 		DisplayText("\n\nYou redress yourself, give the trader a hand getting back to the front of the shop without knocking anything over - she may be familiar with her shop, but her distended belly still gives her problems - and then head back to camp.");
 		player.orgasm();
@@ -1458,7 +1458,7 @@ public femoitSexIntro():void
 
 			DisplayText("\n\nYou hold onto her swollen stomach as you maneuver your cock up under her ass, seeking her feminine orifice. After a few moments, you find yourself properly aligned and begin to gently push yourself in, being careful and patient to ensure that you are not hurting your lover in her most delicate of conditions.  She gasps and sighs as you reach a comfortable depth inside her dripping cunt; too heavy to really move herself, she must submissively take each and every thrust and release as you slide yourself in and out, working yourself progressively deeper inside of her.");
 
-			if (player.biggestCockLength() < 15) DisplayText("\n\nSoon you are hilting yourself in her depths, making her gasp as you slap into her.");
+			if (player.torso.cocks.sort(Cock.LargestCockArea)[0].length < 15) DisplayText("\n\nSoon you are hilting yourself in her depths, making her gasp as you slap into her.");
 			else DisplayText("\n\nSoon you are bottoming out in her, making her gasp as your hulking length spreads her wide.");
 
 			DisplayText("\n\nWith a surprising amount of languidness, you gently rock yourself back and forth inside of her, slowly drawing yourself out and then sliding back inside.  The basilisk's belly leaves her at your mercy, and you take full advantage of that, playing with her small nipples (after all, what other purpose do they have besides being used for her pleasure?) and stroking her belly.  She hisses and coos, but remains immobile; living proof of your virility, your sheer masculine potency.  Your hands cannot reach far enough to encompass all of her belly, so heavy is she with your offspring, and this merely spurs your pride and your arousal.  Only the need to avoid injuring her or her precious cargo keeps you from rutting her like a wild animal... though her desperate cries as she begs you to go faster, to do it harder, help quench the urges.  She is yours, totally and utterly, and you will have her as you want her.");
@@ -1477,7 +1477,7 @@ public femoitSexIntro():void
 		}
 	}
 
-	menu();
+	
 	return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
@@ -1523,7 +1523,7 @@ public femoitBirths():void
 		DisplayText("\n\n\"<i>At least basilisks - Oh! - lay eggs!</i>\" she pants.  \"<i>It iz easier zan trying to push out a baby...</i>\" she winces as another contraction visibly ripples across her belly. \"<i>It still 'urts like 'ell, though.</i>\"");
 
 		DisplayText("\n\nYou encourage her to breathe deeply, to try and focus on pushing in time with the contractions.  Benoite groans but does as you instruct, and within moments she is gritting her teeth as the unmistakable form of an egg bulges from her pussy");
-		if (silly()) DisplayText(".  It's shaped like a complex rhomboidal polygon with 15 sides.");
+		if (User.settings.silly()) DisplayText(".  It's shaped like a complex rhomboidal polygon with 15 sides.");
 		else DisplayText(", the smoothly curved peak of a jade egg beginning to crest.");
 		DisplayText("  With a strangled cry of orgasm tinged with pained relief, Benoite pushes it from her passage into your hands. Slick with juices, the egg makes for quite a handful and you find yourself struggling to safely cradle it within your grasp. You quickly place it into the makeshift next at her feet.");
 
@@ -1533,19 +1533,19 @@ public femoitBirths():void
 
 			if (benoitRegularPreggers())
 			{
-				DisplayText("\n\nHer labors are over quickly; the clutch isn't that big, and her muscles are already well prepared.  Soon, she's squatting over a pile of" + num2Text(Flags.list[FlagEnum.FEMOIT_EGGS]) + " eggs.");
+				DisplayText("\n\nHer labors are over quickly; the clutch isn't that big, and her muscles are already well prepared.  Soon, she's squatting over a pile of" + numToCardinalText(Flags.list[FlagEnum.FEMOIT_EGGS]) + " eggs.");
 			}
 			else if (benoitHeavyPreggers())
 			{
-				DisplayText("\n\nThanks to the shape of her eggs and the fact she's already properly dilated, the rest of the clutch comes relatively quickly.  It's a pretty decent brood of children, you feel; "+ num2Text(Flags.list[FlagEnum.FEMOIT_EGGS]) +" eggs, all told.");
+				DisplayText("\n\nThanks to the shape of her eggs and the fact she's already properly dilated, the rest of the clutch comes relatively quickly.  It's a pretty decent brood of children, you feel; "+ numToCardinalText(Flags.list[FlagEnum.FEMOIT_EGGS]) +" eggs, all told.");
 			}
 			else if (benoitVeryHeavyPreggers())
 			{
-				DisplayText("\n\nYou're glad that giving birth is easier for Benoite than it would be for a mammal, as she needs all the help she can get.  Her huge stomach proves that she wasn't merely putting on weight as egg after egg pushes out of her stretched cunt.  By the time she's flat as a board again, you've counted her offspring; " + num2Text(Flags.list[FlagEnum.FEMOIT_EGGS]) + " eggs, each with a baby basilisk still growing inside it.");
+				DisplayText("\n\nYou're glad that giving birth is easier for Benoite than it would be for a mammal, as she needs all the help she can get.  Her huge stomach proves that she wasn't merely putting on weight as egg after egg pushes out of her stretched cunt.  By the time she's flat as a board again, you've counted her offspring; " + numToCardinalText(Flags.list[FlagEnum.FEMOIT_EGGS]) + " eggs, each with a baby basilisk still growing inside it.");
 			}
 			else if (benoitExtremePreggers())
 			{
-				DisplayText("\n\nBenoite groans and moans like she's dying, but somehow finds the strength to soldier on as egg after egg after egg slides from her well-stuffed womb.  For a moment you wonder just how many she's got in there, but the cascade finally comes to an end; with a great deal of relief on both your parts.  While Benoite gasps for breath from her labors, you busy yourself counting your brood... "+ num2Text(Flags.list[FlagEnum.FEMOIT_EGGS]) +" eggs!")
+				DisplayText("\n\nBenoite groans and moans like she's dying, but somehow finds the strength to soldier on as egg after egg after egg slides from her well-stuffed womb.  For a moment you wonder just how many she's got in there, but the cascade finally comes to an end; with a great deal of relief on both your parts.  While Benoite gasps for breath from her labors, you busy yourself counting your brood... "+ numToCardinalText(Flags.list[FlagEnum.FEMOIT_EGGS]) +" eggs!")
 			}
 		}
 
@@ -1570,7 +1570,7 @@ public femoitBirths():void
 
 		clearBenoitPreggers();
 
-		menu();
+		
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 }

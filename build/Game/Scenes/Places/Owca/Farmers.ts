@@ -1,16 +1,16 @@
 export class Farmers extends Monster {
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		statusAffects.add(StatusAffectType.Attacks, 4, 0, 0, 0);
 		eAttack();
 		combatRoundOver();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.owca.beatUpOwca();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.owca.loseToOwca();
 	}
 
@@ -42,7 +42,9 @@ export class Farmers extends Monster {
 this.baseStats.tou = 50;
 this.baseStats.spe = 99;
 this.baseStats.int = 99;
-		initLibSensCor(35, 35, 20);
+		this.baseStats.lib = 35;
+this.baseStats.sens = 35;
+this.baseStats.cor = 20;
 		this.weaponName = "pitchforks";
 		this.weaponVerb = "stab";
 		this.armorName = "chitin";

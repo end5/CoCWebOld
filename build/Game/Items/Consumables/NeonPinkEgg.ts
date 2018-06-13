@@ -133,7 +133,7 @@ export class NeonPinkEgg extends Consumable {
             else {
                 character.stats.sens += 15;
                 DisplayText("Every movement of your body seems to bring heightened waves of sensation that make you woozy.  Your " + character.inventory.equipment.armor.displayName + " rubs your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s deliciously");
-                if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+                if (character.torso.chest.find(BreastRow.FuckableNipples)) {
                     DisplayText(", sticking to the ");
                     if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 2) DisplayText("milk-leaking nipple-twats");
                     else DisplayText("slippery nipple-twats");

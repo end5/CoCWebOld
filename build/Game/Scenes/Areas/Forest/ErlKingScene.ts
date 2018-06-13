@@ -546,7 +546,7 @@ function surrenderToTheHounds(character: Character): NextScreenChoices {
     DisplayText("<b>The Master sounds his horn, and your ears perk up.  Astride his horse, he gallops off into the fog-haunted woods, and, like the rest of the Hounds, you follow.</b>\n\n");
     return { next: Menus.GameOver };
 
-    // 			menu();
+    // 			
     // 			return { next: 5025 }; // Find out the gameover shits
 }
 

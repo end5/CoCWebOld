@@ -6,6 +6,7 @@ import { Creature } from '../Body/Creature';
 import { LegType } from '../Body/Legs';
 import { Tail, TailType } from '../Body/Tail';
 import { CombatContainer } from '../Combat/CombatContainer';
+import { CombatParty } from '../Combat/CombatParty';
 import { CharacterInventory } from '../Inventory/CharacterInventory';
 import { generateUUID } from '../Utilities/Uuid';
 
@@ -146,5 +147,9 @@ export abstract class Character extends Creature implements ISerializable<Charac
 
     public milked() {
 
+    }
+
+    public get party(): Character[] {
+        return undefined;
     }
 }

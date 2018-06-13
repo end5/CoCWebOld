@@ -12,7 +12,7 @@ class Ifris {
     }
 
     //2-Approach and Greeting-
-    public approachIfris(): void {
+    public approachIfris() {
         DisplaySprite(28);
         DisplayText().clear();
         if (Flags.list[FlagEnum.MET_IFRIS] === 0) {
@@ -47,7 +47,7 @@ class Ifris {
         simpleChoices("Work Out", workOutForIfris, "Join Me?", askIfrisToJoinYou, "", null, "", null, "Leave", telAdre.gymDesc);
     }
     //3a-PC responds they want to work out-
-    private workOutForIfris(): void {
+    private workOutForIfris() {
         DisplaySprite(28);
         DisplayText().clear();
         if (player.fatigue > 70) {
@@ -64,7 +64,7 @@ class Ifris {
         MainScreen.simpleChoices(["Work Out", "Show Off", "", "", ""], [liftWhileIfrisWatches, showOffForIfris, null, null, null]);
     }
     //3b-PC asks if she'd like to join them-
-    private askIfrisToJoinYou(): void {
+    private askIfrisToJoinYou() {
         DisplaySprite(28);
         DisplayText().clear();
         if (player.fatigue > 70) {
@@ -82,13 +82,13 @@ class Ifris {
     }
 
     //4a-PC does a modest work out-
-    private liftWhileIfrisWatches(): void {
+    private liftWhileIfrisWatches() {
         DisplaySprite(28);
         Flags.list[FlagEnum.IFRIS_SHOWED_OFF]++;
         DisplayText().clear();
         if (Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0) {
             DisplayText("The centauress working the door walks up to collect her fee, and you drop 10 gems for an hour workout into her hand.\n\n");
-            player.stats.gems -= 10;
+            player.inventory.gems -= 10;
             statScreenRefresh();
         }
         DisplayText("You set the machine to a weight that you know won't be too much for you and lay back on the bench. You feel her eyes on your form, a little shiver running down your spine as she openly admires you as you take a grip on the handlebars and push. It's not long before you've worked up a nice sweat, your muscles burning, but you can't shake that distracted feeling as she gazes at you so appreciatively.\n\n");
@@ -107,14 +107,14 @@ class Ifris {
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
     //4b-PC decides to show off, possible strength requirement?-
-    private showOffForIfris(): void {
+    private showOffForIfris() {
         DisplaySprite(28);
         Flags.list[FlagEnum.IFRIS_SHOWED_OFF]++;
         fatigue(30);
         DisplayText().clear();
         if (Flags.list[FlagEnum.LIFETIME_GYM_MEMBER] === 0) {
             DisplayText("The centauress working the door walks up to collect her fee, and you drop 10 gems for an hour workout into her hand.\n\n");
-            player.stats.gems -= 10;
+            player.inventory.gems -= 10;
             statScreenRefresh();
         }
         DisplayText("You look at the settings on the machine for a moment before deciding to give the red cutie something to really remember. You set the bar on the bottom rung, rubbing your hands together a few times in preparation as you lay on the bench. Her red eyes go a little wide, slender black eyebrows lifting on her smooth forehead as she watches you. You can't help but feel as though she's almost rooting for you, the way she does a cute little hop and clasps her hands together...\n\n");
@@ -180,7 +180,7 @@ class Ifris {
 
                 DisplayText("Pleased with her effect on you thus far, her gaze shifts to your face while her lovely mouth parts, the heat of her breath much greater than a normal human by several degrees.  It washes over your cock in heavy, moist puffs. With a little teasing flick of her wet tongue over the tip of your shaft, she takes it into her mouth, suckling gently. The devil's mouth is so wet, so delightfully hot, her cheeks hollowing out almost instantly as she sucks hard on that pulsing tip. Slowly she descends, thick cock-pillows smoothly gliding down your shaft as she takes more and more into her mouth. There isn't even a pause as you hit the back of her throat and she keeps going, eyes narrowing in lust as she gazes at your expression when her lips meet your crotch in the most intimate kiss you can imagine.\n\n");
 
-                DisplayText("Suddenly it seems she loses her patience for teasing, much to your delight, and the hard, long pull on your cock as she pulls back is like heaven, her cheeks caved inward. She descends quickly, all but face-fucking herself on your rod again and again, lewd, wet squelching rising up from her stuffed throat. It isn't long before you're groaning in ecstasy, wishing you had the strength to grip her head, make her slow down so you can draw it out and enjoy it, but all too soon the pleasure is rushing up to meet you, your " + BallsDescriptor.describeBalls(true, true, player) + " tightening, even as she cups ");
+                DisplayText("Suddenly it seems she loses her patience for teasing, much to your delight, and the hard, long pull on your cock as she pulls back is like heaven, her cheeks caved inward. She descends quickly, all but face-fucking herself on your rod again and again, lewd, wet squelching rising up from her stuffed throat. It isn't long before you're groaning in ecstasy, wishing you had the strength to grip her head, make her slow down so you can draw it out and enjoy it, but all too soon the pleasure is rushing up to meet you, your " + Desc.Balls.describeBalls(true, true, player) + " tightening, even as she cups ");
                 if (player.torso.balls.quantity > 0) DisplayText("them and gently squeezes the sack.\n\n");
                 else if (player.torso.vaginas.count > 0) DisplayText("your lower lips and gently squeezes.\n\n");
                 else DisplayText("your taint and gently squeezes.\n\n");
@@ -189,20 +189,20 @@ class Ifris {
             }
             //5a-Repeat oral scene, male/herm-
             else {
-                DisplayText("Ifris all but squeals in delight as you tell her you're totally up for smashing that record, a wide grin spreading her thick lips, briefly worrying you when you see those sharp teeth of hers... but then you remind yourself how good she is with them, as you lay back onto the bench, gripping the bars above you. The devil girl doesn't even wait this time, tugging your bottoms down right away to get at your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + ". She sits upon your " + LegDescriptor.describeLegs(player) + ", her posh butt so nice and soft against you as she waits for you to begin.\n\n");
+                DisplayText("Ifris all but squeals in delight as you tell her you're totally up for smashing that record, a wide grin spreading her thick lips, briefly worrying you when you see those sharp teeth of hers... but then you remind yourself how good she is with them, as you lay back onto the bench, gripping the bars above you. The devil girl doesn't even wait this time, tugging your bottoms down right away to get at your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ". She sits upon your " + Desc.Leg.describeLegs(player) + ", her posh butt so nice and soft against you as she waits for you to begin.\n\n");
 
                 DisplayText("The moment you lift the weight for the first time, she bends down, rubbing her smooth cheek against your half-turgid member");
-                if (player.torso.balls.quantity > 0) DisplayText(", her hand cupping your " + BallsDescriptor.describeBalls(true, true, player));
-                DisplayText(". Smiling, she watches you carefully, her tongue sliding out of her lips, laving up the underside of the shaft, urging it on its final steps to full hardness. She groans in desire as she takes your " + player.cockHead() + " into her mouth once again, pulling a moan from you with her first, hard suckle upon your sensitive tip; it seems she doesn't want to tease anymore.\n\n");
+                if (player.torso.balls.quantity > 0) DisplayText(", her hand cupping your " + Desc.Balls.describeBalls(true, true, player));
+                DisplayText(". Smiling, she watches you carefully, her tongue sliding out of her lips, laving up the underside of the shaft, urging it on its final steps to full hardness. She groans in desire as she takes your " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " into her mouth once again, pulling a moan from you with her first, hard suckle upon your sensitive tip; it seems she doesn't want to tease anymore.\n\n");
 
                 DisplayText("The sexy little dark-haired devil takes your dick to the ");
-                if (player.torso.cocks.hasSheath()) DisplayText("sheath");
+                if (player.torso.cocks.find(Cock.HasSheath)) DisplayText("sheath");
                 else DisplayText("base");
-                DisplayText(" in her throat once again, holding there until you push the weight up, sliding up the length with your movement, and then back down as you lower, encouraging your exercise with the pleasure of her sweet mouth. Knowing you can't keep it up forever though, she merely urges you to do better before giving in, her hand gripping the base of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " tightly as her head starts to bob purposefully up and down your massive length.\n\n");
+                DisplayText(" in her throat once again, holding there until you push the weight up, sliding up the length with your movement, and then back down as you lower, encouraging your exercise with the pleasure of her sweet mouth. Knowing you can't keep it up forever though, she merely urges you to do better before giving in, her hand gripping the base of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " tightly as her head starts to bob purposefully up and down your massive length.\n\n");
 
-                DisplayText("With your strength spent, your lips dry from your constant moans, and your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " throbbing so wonderfully, Ifris smiles around your shaft as she feels your orgasm closing in. She doesn't stop this time, still bobbing along your shaft, tongue mercilessly undulating against the underside, as your peak rushes to meet you. She swallows those spurts of cum expertly, pulling back between each one to catch a burst in her mouth and taste it, and then shoving you back down her throat to swallow the next, alternating in an erotic rhythm until you're spent.\n\n");
+                DisplayText("With your strength spent, your lips dry from your constant moans, and your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " throbbing so wonderfully, Ifris smiles around your shaft as she feels your orgasm closing in. She doesn't stop this time, still bobbing along your shaft, tongue mercilessly undulating against the underside, as your peak rushes to meet you. She swallows those spurts of cum expertly, pulling back between each one to catch a burst in her mouth and taste it, and then shoving you back down her throat to swallow the next, alternating in an erotic rhythm until you're spent.\n\n");
 
-                DisplayText("With that slow, almost painfully-hard suckle, she pops from the " + player.cockHead() + " of your " + CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " out and sucks in a deep breath, giggling and leaning down to kiss you.  She murmurs, \"<i>You do better each time, darling. I'll see you again I hope.</i>\"  With that, she's leaving you again, all but skipping out the door, that wetness trickling down her long, red legs...");
+                DisplayText("With that slow, almost painfully-hard suckle, she pops from the " + (Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " out and sucks in a deep breath, giggling and leaning down to kiss you.  She murmurs, \"<i>You do better each time, darling. I'll see you again I hope.</i>\"  With that, she's leaving you again, all but skipping out the door, that wetness trickling down her long, red legs...");
             }
             Flags.list[FlagEnum.TIMES_FUCKED_IFRIS_BLOWJOB]++;
         }
@@ -230,12 +230,12 @@ class Ifris {
             else {
                 DisplayText("Ifris all but squeals in delight as you tell her you're totally up for smashing that record, a wide grin spreading her thick lips, briefly worrying you when you see those sharp teeth of hers... but then you remind yourself how good she is with them, as you lay back onto the bench, gripping the bars above you. The devil girl doesn't even wait this time, leaning up to give your cheek a little peck as she pulls your " + Desc.Breast.describeChest(character) + " free of your top.\n\n");
 
-                DisplayText("She leans in before you've started, peppering your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s and ");
+                DisplayText("She leans in before you've started, peppering your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s and ");
                 if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) DisplayText("breasts");
                 else DisplayText("chest");
-                DisplayText(" with soft kisses, teasing the nubs to hardness with flicks of her tongue. You eagerly lift your " + LegDescriptor.describeLegs(player) + " as she slides down, pulling your bottoms away to expose your moistening cunt to her hungry gaze.  Urging your " + LegDescriptor.describeLegs(player) + " apart, she crawls between them, tail swaying behind her as she waits for you to begin. You comply with her wishes, eager to feel the pleasure of her mouth more than the burn of your exercise, and you're not left wanting.\n\n");
+                DisplayText(" with soft kisses, teasing the nubs to hardness with flicks of her tongue. You eagerly lift your " + Desc.Leg.describeLegs(player) + " as she slides down, pulling your bottoms away to expose your moistening cunt to her hungry gaze.  Urging your " + Desc.Leg.describeLegs(player) + " apart, she crawls between them, tail swaying behind her as she waits for you to begin. You comply with her wishes, eager to feel the pleasure of her mouth more than the burn of your exercise, and you're not left wanting.\n\n");
 
-                DisplayText("With the first push, that long devil-tongue slides up along your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", not teasing, but firmly lapping between the lips, spreading them slightly as she tastes you. With a pretty little moan, Ifris laves her tongue up your pussy over and over again as you pump your iron, enjoying your flavor, but knowing you'll need more to really get you going. Two fingers spread your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " open as her lips seal over your " + VaginaDescriptor.describeClit(player) + ", suckling it gingerly, tongue swirling over it. Her fingers pump into you nice and quickly, your pleasureful reward for... well, you don't quite understand why this gets her excited, nor do you care.\n\n");
+                DisplayText("With the first push, that long devil-tongue slides up along your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ", not teasing, but firmly lapping between the lips, spreading them slightly as she tastes you. With a pretty little moan, Ifris laves her tongue up your pussy over and over again as you pump your iron, enjoying your flavor, but knowing you'll need more to really get you going. Two fingers spread your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " open as her lips seal over your " + Desc.Vagina.describeClit(player) + ", suckling it gingerly, tongue swirling over it. Her fingers pump into you nice and quickly, your pleasureful reward for... well, you don't quite understand why this gets her excited, nor do you care.\n\n");
 
                 DisplayText("That tongue joins her fingers in spreading your cunt, making you cry out in pleasure and surprise, leaving the weights unattended as you arch hard. Your orgasm rips through you, making your body shudder under the intensity as she laps up and suckles down your release eagerly, her ministrations softening, slowing to draw out your orgasm and let you enjoy it. As you come down, she slowly rises up, giving you another of those lecherous, devious grins before climbing off you.\n\n");
 
@@ -254,21 +254,21 @@ class Ifris {
     }
 
     //Ifrs double-penetrates herself on you while you work out.
-    private ifrisDP(): void {
+    private ifrisDP() {
         DisplayText("You set the machine to an impressive weight that you're sure you can handle and set to work, your muscles rippling and tightening as they repeatedly raise and lower the weight for the demonic-looking woman's amusement.  Feeling Ifris' glowing, crimson visage devouring in your workout, you push yourself harder, working up a sheen of sweat that drips from your body.  Your arms haven't yet begun to burn, but deep inside your chest, your heart is beating faster, either from the oiled gym-junky's gaze or the constant, heavy lifting - perhaps both.\n\n");
         DisplayText("With the first set finished, you lower the bar until the weight is released from your well-developed musculature.  The demonic beauty is leaning down, over your " + Desc.Breast.describeChest(character) + ", drinking in every sweat-slicked part of you.  With her breasts wobbling dangerously, her glossy, dark lips slowly part to blow you a kiss.  Then, the onyx pillows open to purr, \"<i>Mmmm... marvelous work darling.</i>\"  She leans a little lower, letting her slick breasts rub over the crotch of your " + player.inventory.equipment.armor.displayName + " as she asks, \"<i>Do you think... you could lift more?  Enough to truly handle anything the world might throw at you?</i>\"  Ifris trails her fingers over your " + player.inventory.equipment.armor.displayName + ", slowly undoing the equipment with each enunciated syllable.\n\n");
 
-        DisplayText("Spurred on by the crimson cutie's urgings, you set the machine a bit higher and set your mind to lifting, trusting her to follow through on her teases.  You flex and strain, hefting the heavier weight higher and higher, until you've completely raised it.  As soon as you reach that glorious apex, your coverings fall away to expose your " + CockDescriptor.describeMultiCockShort(player) + " to the musky gym air.  They pulsate, slowly filling with blood while you hold the bulky weights aloft.  You gradually bring the machine back down, exhaling a moan of relief once Ifris takes two of your half-swollen shafts in her hands, feeling the flesh filling out between her hot, oiled fingers.\n\n");
+        DisplayText("Spurred on by the crimson cutie's urgings, you set the machine a bit higher and set your mind to lifting, trusting her to follow through on her teases.  You flex and strain, hefting the heavier weight higher and higher, until you've completely raised it.  As soon as you reach that glorious apex, your coverings fall away to expose your " + Desc.Cock.describeMultiCockShort(player) + " to the musky gym air.  They pulsate, slowly filling with blood while you hold the bulky weights aloft.  You gradually bring the machine back down, exhaling a moan of relief once Ifris takes two of your half-swollen shafts in her hands, feeling the flesh filling out between her hot, oiled fingers.\n\n");
 
-        DisplayText("\"<i>Mmmm... don't stop darling.  You're... more than a handful.  Just keep lifting, and I'll take care of everything down here,</i>\" promises the sultry voice of your companion.  Nodding in understanding, you return to the task you've been given - putting on a show in exchange for sexual pleasure.  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " fill, to the muscle-focused demon's delight, getting coos of pleased surprise as they fully engorge.  She strokes them slowly, letting the tightening dick-flesh slide through her oily grip a few times to make sure you're absolutely ready, always stopping the moment you start to hesitate in your assigned workout.\n\n");
+        DisplayText("\"<i>Mmmm... don't stop darling.  You're... more than a handful.  Just keep lifting, and I'll take care of everything down here,</i>\" promises the sultry voice of your companion.  Nodding in understanding, you return to the task you've been given - putting on a show in exchange for sexual pleasure.  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " fill, to the muscle-focused demon's delight, getting coos of pleased surprise as they fully engorge.  She strokes them slowly, letting the tightening dick-flesh slide through her oily grip a few times to make sure you're absolutely ready, always stopping the moment you start to hesitate in your assigned workout.\n\n");
 
         DisplayText("After five big pushes, the hands disappear, but only long enough for her light, toned body to climb atop your own, the oiled thighs sliding up your sweat-glazed form towards your groin.  Ifris coos, \"<i>Mmm... keep at it, my darling.  Fitness is its own reward...</i>\"\n\n");
 
-        DisplayText("You gasp at the pleasant sensation of her moist swimsuit against " + Desc.Cock.describeMultiCockSimpleEach(character) + " and start to push yourself, straining harder, grunting as you begin to feel the onset of fatigue.  Just before the next lift, Ifris squeezes two of your " + CockDescriptor.describeMultiCockShort(player) + ", angling them straight up.  You pause in confusion a moment, until you feel wet lips on one and tight, oiled skin squeezing the other.  Like you've been charged by lightning, energy fills your body, and you push yourself to keep going.  As the bar rises, Ifris' pussy and asshole lower, squeezing the two lucky dicks in her hot, clenching innards.  Holding that position, you struggle to control your muscles and adjust to the exquisite pleasure.  The bar lowers slowly, but Ifris' holes levitate in the same motion, coming just up off your sensitive, hungry shafts.\n\n");
+        DisplayText("You gasp at the pleasant sensation of her moist swimsuit against " + Desc.Cock.describeMultiCockSimpleEach(character) + " and start to push yourself, straining harder, grunting as you begin to feel the onset of fatigue.  Just before the next lift, Ifris squeezes two of your " + Desc.Cock.describeMultiCockShort(player) + ", angling them straight up.  You pause in confusion a moment, until you feel wet lips on one and tight, oiled skin squeezing the other.  Like you've been charged by lightning, energy fills your body, and you push yourself to keep going.  As the bar rises, Ifris' pussy and asshole lower, squeezing the two lucky dicks in her hot, clenching innards.  Holding that position, you struggle to control your muscles and adjust to the exquisite pleasure.  The bar lowers slowly, but Ifris' holes levitate in the same motion, coming just up off your sensitive, hungry shafts.\n\n");
 
         DisplayText("The demonic-looking woman's tortuous orifices keep you hard, battling through the tide of pleasure so that you can keep lifting, and in return receive even more sensation.  Your arms are starting to feel sore, and lifting such enormous quantities of mass is getting harder and harder.  Ifris still seems pleased with your progress, and she murmurs words of encouragement.  \"<i>So... strong... mmmhmmm, go on.  You can do it.</i>\"  Her pussy squeezes and ripples around the main dick while her sphincter clamps tight on the other, massaging you to compensate for the slower speeds.  Droplets of sweat drip onto you, mingling with your own exhausted beads and falling to the floor, both of you soaked with the stink of exercise and sex.\n\n");
 
-        DisplayText("Ifris leans down and twines her arms around your shoulders, resting her head in the nape of your neck, her dark tongue licking the salt from you " + SkinDescriptor.skin(character) + ".  Your whole body is shaking, trapped between the desire to cave in to the crimson beauty's body and the need to support the machine's tremendous load.  Hot and trembling, your arms feel like they're melting into weak, burning rubber.  Ifris senses this, and she says, \"<i>Set it down and release... release for me, darling.</i>\"\n\n");
+        DisplayText("Ifris leans down and twines her arms around your shoulders, resting her head in the nape of your neck, her dark tongue licking the salt from you " + Desc.Skin.skin(character) + ".  Your whole body is shaking, trapped between the desire to cave in to the crimson beauty's body and the need to support the machine's tremendous load.  Hot and trembling, your arms feel like they're melting into weak, burning rubber.  Ifris senses this, and she says, \"<i>Set it down and release... release for me, darling.</i>\"\n\n");
 
         DisplayText("You set the machine's bar back in place, letting your worn-out limbs go slack across Ifris's body, your hands coming to rest on her tight, squeezable butt.  The two slick holes start a whole new wave of contractations, and without the distraction of the weights, you're unable to resist.  ");
         //(Knotting - req's 2 dogdicks!)
@@ -293,7 +293,7 @@ class Ifris {
         else if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) >= 2)).length {
             DisplayText("Both your plant-like pricks explode inside Ifris, the purplish tips swelling up inside her to disproportionate sizes.  A moment later, the vine-dicks explode out twin pillars of ropey seed, painting her inner walls with spunk.  ");
             if (player.cumQ() >= 1000) DisplayText("She groans and moans as she's filled, her body distending to deal with the unholy amount of seed your cocks can spew.  ");
-            DisplayText("At the same time, both tentacle-shafts curl and piston, winding around in other in the space between your bodies, curling and thrusting to rub every inch of your sensitive, prehensile shafts against Ifris' pussy-walls.  You shake and shudder, feeling more like a tentacle beast than a " + player.mf("man", "woman") + ".  ");
+            DisplayText("At the same time, both tentacle-shafts curl and piston, winding around in other in the space between your bodies, curling and thrusting to rub every inch of your sensitive, prehensile shafts against Ifris' pussy-walls.  You shake and shudder, feeling more like a tentacle beast than a " + Desc.Gender.mf(player, "man", "woman") + ".  ");
         }
         //(Anemone - stinging funtimes)
         else if (player.torso.cocks.filter(Cock.FilterType(CockType.ANEMONE) >= 2)).length {

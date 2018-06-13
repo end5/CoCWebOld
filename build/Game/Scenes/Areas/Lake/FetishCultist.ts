@@ -6,7 +6,7 @@
 	private static const NOBLES_CLOTHING: string = "noble's clothing";
 	private static const PERVY_NUNS_CLOTHING: string = "pervy nun's clothing";
 
-	public combatRoundUpdate(): void {
+	public combatRoundUpdate() {
 		super.combatRoundUpdate();
 		let changed: boolean = false;
 		//Fetish Cultist Update
@@ -59,7 +59,7 @@
 
 	private static const FETISHY_OUTFIT: string = "fetishy outfit";
 
-	private cultistRaisePlayerLust(): void {
+	private cultistRaisePlayerLust() {
 		//Two text variants!
 		if (randInt(2) === 0) {
 			if (armorName === PERVY_NUNS_CLOTHING) DisplayText("She suddenly stops chanting and spreads her legs, opening her loose pussy wide with one hand while moaning like a whore.  She toys with her breasts and fondles one of her nipples with her other hand.\n\nDespite yourself,  you can't help but be aroused by the scene.");
@@ -77,7 +77,7 @@
 			return { next: game.endLustLoss };
 		else return { next: game.combatMenu };
 	}
-	private cultistLustTransfer(): void {
+	private cultistLustTransfer() {
 		if (lust <= 30 || randInt(2) === 0) {
 			DisplayText("Her eyes glaze over, ");
 			if (player.stats.cor < 40) DisplayText("and you're almost afraid to know ");
@@ -88,11 +88,11 @@
 		else {
 			DisplayText("Her eyes glaze over and you feel your mind suddenly becoming filled with a blur of every sexual perversion you could possibly think of, and then some.");
 			if (player.torso.vaginas.count > 0) {
-				DisplayText("  You feel your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " soaking itself in a sudden burst");
-				if (player.torso.cocks.count > 0) DisplayText(", while a sudden influx of pre-cum blurts out and streams down your " + player.CockDescriptor.describeMultiCockShort(player) + ", painfully hardened by a vast amount of blood rushing to your groin");
+				DisplayText("  You feel your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " soaking itself in a sudden burst");
+				if (player.torso.cocks.count > 0) DisplayText(", while a sudden influx of pre-cum blurts out and streams down your " + player.Desc.Cock.describeMultiCockShort(player) + ", painfully hardened by a vast amount of blood rushing to your groin");
 				DisplayText(".");
 			}
-			else if (player.torso.cocks.count > 0) DisplayText("  A sudden influx of pre-cum blurts out and streams down your " + player.CockDescriptor.describeMultiCockShort(player) + ", painfully hardened by a vast amount of blood rushing to your groin.");
+			else if (player.torso.cocks.count > 0) DisplayText("  A sudden influx of pre-cum blurts out and streams down your " + player.Desc.Cock.describeMultiCockShort(player) + ", painfully hardened by a vast amount of blood rushing to your groin.");
 			if (player.gender === Gender.NONE) DisplayText("  Your genderless body is suddenly filled by a perverted warmth.");
 			DisplayText("\n\nYou notice that the young woman seems to have calmed down some.");
 			game.dynStats("lus", (lust / 3 * (1 + player.stats.cor / 300)));
@@ -105,8 +105,8 @@
 	}
 
 
-	public defeated(hpVictory: boolean): void {
-		let temp2: Function = null;
+	public defeated(hpVictory: boolean) {
+		let temp2;
 		if (player.statusAffects.has(StatusAffectType.Feeder)) temp2 = game.lake.fetishCultistScene.fetishCultistHasAMilkFetish;
 		if (hpVictory) {
 			DisplayText("Hurt too much to continue controlling her powers, the cultist collapses helplessly.", true);
@@ -122,11 +122,11 @@
 				DisplayText("  She looks like she might take some of your milk if you offered it to her.  What do you do?");
 				game.simpleChoices("B. Feed", temp2, "", null, "", null, "", null, "Leave", game.cleanupAfterCombat);
 			}
-			else game.cleanupAfterCombat();
+			else game.return { next: Scenes.camp.returnToCampUseOneHour };
 		}
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (hpVictory) {
 			super.won(hpVictory, pcCameWorms);
 		} else {
@@ -137,7 +137,7 @@
 		}
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		randomChoice(special1, special2)();
 	}
 
@@ -162,7 +162,9 @@
 this.baseStats.tou = 25;
 this.baseStats.spe = 30;
 this.baseStats.int = 1;
-		initLibSensCor(75, 80, 90);
+		this.baseStats.lib = 75;
+this.baseStats.sens = 80;
+this.baseStats.cor = 90;
 		this.weaponName = "whip";
 		this.weaponVerb = "whip-crack";
 		this.armorName = FETISHY_OUTFIT;

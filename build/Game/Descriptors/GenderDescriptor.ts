@@ -33,7 +33,7 @@ export function mf(character: Character, male: string, female: string) {
         if (character.torso.vaginas.count > 0)
             return female;
         else {
-            if (character.torso.chest.filter(BreastRow.FemaleBreasts).length > 0)
+            if (character.torso.chest.find(BreastRow.FemaleBreasts))
                 return female;
             else
                 return male;

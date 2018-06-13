@@ -9,7 +9,7 @@ export class Lake {
 	public let kaiju:Kaiju = new Kaiju();
 	public let swordInStone:SwordInStone = new SwordInStone();
 	//Explore Lake
-	public exploreLake(): void {
+	public exploreLake() {
 		//Increment exploration count
 		player.exploredLake++;
 		if (kGAMECLASS.poniesYN()) return;
@@ -27,7 +27,7 @@ export class Lake {
 		if (randInt(100) < 25 && player.pregnancyIncubation > 1 && player.pregnancyType === PregnancyType.OVIELIXIR_EGGS) {
 			DisplayText().clear();
 			DisplayText("While wandering along the lakeshore, you spy beautiful colored lights swirling under the surface.  You lean over cautiously, and leap back as they flash free of the lake's liquid without making a splash.  The colored lights spin in a circle, surrounding you.  You wonder how you are to fight light, but they stop moving and hover in place around you.  There are numerous colors: Blue, Pink, White, Black, Purple, and Brown.  They appear to be waiting for something; perhaps you could touch one of them?");
-			menu();
+			
 			MainScreen.addButton(0, "Blue", eggChoose, 2);
 			MainScreen.addButton(1, "Pink", eggChoose, 3);
 			MainScreen.addButton(2, "White", eggChoose, 4);
@@ -108,7 +108,7 @@ export class Lake {
 		//Chance of dick-dragging! 10% + 10% per two foot up to 30%
 		else if (select === 8) {
 			//True sets to use lake scene!
-			kGAMECLASS.forest.bigJunkForestScene(true);
+			Scenes.forest.bigJunkForestScene(true);
 		}
 		else if (select === 4) {
 			//Chance of seeing ooze convert goo!
@@ -242,7 +242,7 @@ export class Lake {
 		}
 	}
 
-	private findLakeLoot(): void {
+	private findLakeLoot() {
 		DisplayText().clear();
 		if (randInt(2) === 0) {
 			DisplayText("You find a long and oddly flared vial half-buried in the sand.  Written across the middle band of the vial is a single word: 'Equinum'.\n");
@@ -254,7 +254,7 @@ export class Lake {
 		}
 	}
 
-	private eggChoose(eggType: number): void {
+	private eggChoose(eggType: number) {
 		DisplayText().clear();
 		DisplayText("You reach out and touch the ");
 		switch (eggType) {
@@ -270,14 +270,14 @@ export class Lake {
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
-	private eggChooseEscape(): void {
+	private eggChooseEscape() {
 		DisplayText().clear();
 		DisplayText("You throw yourself into a roll and take off, leaving the ring of lights hovering in the distance behind you.");
 		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//Just want to do a quick Ottergirl event submission after you mentioned it!
-	private ottahGirl(): void {
+	private ottahGirl() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.MET_OTTERGIRL]++;
 		//First Time
@@ -295,11 +295,11 @@ export class Lake {
 
 			DisplayText("\n\nYou can't help your eyebrow from quirking upwards.  What did she say?");
 
-			DisplayText("\n\n\"<i>Fish'n'fuck,</i>\" she replies, simply.  \"<i>I fish, you fuck. Ya ain't dense, are you " + player.mf("boy", "girl") + "?</i>\"");
+			DisplayText("\n\n\"<i>Fish'n'fuck,</i>\" she replies, simply.  \"<i>I fish, you fuck. Ya ain't dense, are you " + Desc.Gender.mf(player, "boy", "girl") + "?</i>\"");
 
 			DisplayText("\n\nThat's it?  She doesn't even know you and she's just offering it up like that?");
 			//Silly Mode:
-			if (silly()) DisplayText("  No tragic backstory to go through? No annoying combat encounter? Just meet and fuck?  My god, what has this world come to?");
+			if (User.settings.silly()) DisplayText("  No tragic backstory to go through? No annoying combat encounter? Just meet and fuck?  My god, what has this world come to?");
 			DisplayText("  You don't even know her name!");
 
 			DisplayText("\n\n\"<i>Name's Callu.  Don't worry darlin', I don't plan on stickin' nothin' where it don't belong,</i>\" her soft voice chimes, \"<i>Unlike damn near everything else around here.</i>\"");
@@ -318,7 +318,7 @@ export class Lake {
 
 			//[Facesitting] [Fuck Her] [Fish] [Skedaddle]
 		}
-		menu();
+		
 		if (player.stats.lust < 33) DisplayText("\n\nYou aren't aroused enough to fuck her.");
 		else {
 			//(If cocksize above 48")
@@ -333,7 +333,7 @@ export class Lake {
 	}
 
 	//For Dicks
-	private ottergirlLikesDongs(): void {
+	private ottergirlLikesDongs() {
 		DisplayText().clear();
 		DisplayText("The moment you agree, a sly smile spreads across her face.  She jams the end of her fishing pole into the sand like a post, to prevent it from going anywhere, and stands up.  There's no tease, no ceremony as she strips out of her bikini bottoms and tosses them aside.  Her newly revealed mound has only the barest tuft of pubic hair, a little wisp of blonde hair amongst the sparse brown fur.");
 
@@ -363,7 +363,7 @@ export class Lake {
 		else DisplayText("\n\n\"<i>Whoa nellie,</i>\" she says, her eyes going wide as they feast upon your giant cock.  \"<i>That.  That right there, darlin', is one grade-A trouser snake.  I've seen centaurs that'd look like geldings next to you.</i>\"");
 		DisplayText("  She leisurely stretches out across your stomach and chest, letting her cunt come to rest right in front of your face.");
 
-		DisplayText("\n\nYou feel slender but powerful fingers wrap around your cock, followed shortly after by a pair of lips. They encircle your " + player.cockHead(x) + " and suck, creating a delightful tingling sensation that travels down your cock and into your core.");
+		DisplayText("\n\nYou feel slender but powerful fingers wrap around your cock, followed shortly after by a pair of lips. They encircle your " + Desc.Cock.describeCockHead(x) + " and suck, creating a delightful tingling sensation that travels down your cock and into your core.");
 
 		DisplayText("\n\n\"<i>Hey darlin', better get to lickin', we want this ");
 		//{(lil dicks)
@@ -371,7 +371,7 @@ export class Lake {
 		else DisplayText("bad boy");
 		DisplayText(" to slip right in, don't we?</i>\"  Callu murrs back at you.  You most certainly do, so you lean your head forward ever-so-slightly, extending your tongue and lapping at her delicate pussy lips.  In no time at all they become puffy and flushed, blossoming outwards like a perverse flower.  You run your tongue up and down each and every fold, occasionally stopping to flick over her rapidly hardening clitoris.");
 
-		DisplayText("\n\nLikewise, her tongue and lips dance over your " + CockDescriptor.describeCock(player, x) + " like a trio of dancers. They spin, twist, hop and tease, ensuring that no inch is left untouched.");
+		DisplayText("\n\nLikewise, her tongue and lips dance over your " + Desc.Cock.describeCock(player, x) + " like a trio of dancers. They spin, twist, hop and tease, ensuring that no inch is left untouched.");
 		DisplayText("  She pays particularly close attention ");
 
 
@@ -391,7 +391,7 @@ export class Lake {
 		else DisplayText("ass");
 		DisplayText(" as they dribble down and form a small puddle between your [legs].");
 
-		DisplayText("\n\nAfter several minutes of this, Callu relinquishes her hold on your member and says, \"<i>Mm, I reckon that'll work just fine.</i>\"  She sits up and positions herself over your " + CockDescriptor.describeCock(player, x) + ".  Slowly she lowers herself, first taking your " + player.cockHead(x) + ".  Her cunt, slick and aroused as it is, offers no resistance despite its tightness.  Its walls pulse and quiver around you, as though the otter has complete control over it.  Inch by inch she sinks down further, ");
+		DisplayText("\n\nAfter several minutes of this, Callu relinquishes her hold on your member and says, \"<i>Mm, I reckon that'll work just fine.</i>\"  She sits up and positions herself over your " + Desc.Cock.describeCock(player, x) + ".  Slowly she lowers herself, first taking your " + Desc.Cock.describeCockHead(x) + ".  Her cunt, slick and aroused as it is, offers no resistance despite its tightness.  Its walls pulse and quiver around you, as though the otter has complete control over it.  Inch by inch she sinks down further, ");
 		//(dicks 10" or less)
 		if (player.torso.cocks.get(x).length < 10) DisplayText("until she comes to rest on your lap");
 		//(10"-24")
@@ -403,11 +403,11 @@ export class Lake {
 		if (player.torso.cocks.get(x).thickness >= 3) DisplayText("impressive ");
 		DisplayText("girth within her she settles down on your lap, stretching her legs out before retrieving her fishing rod.  \"<i>Now don't you go movin' about, darlin',</i>\" Callu says over her shoulder.  \"<i>Don't wanna go scarin' the fish away.  I'll let ya go after I catch a few good ones.</i>\"");
 
-		DisplayText("\n\nSurprisingly, you can still feel a throbbing around your " + CockDescriptor.describeCock(player, x) + ", reaffirming your belief that she can somehow control the muscles buried within her abdomen.  Even as you lay stock-still on the sandy beach, you feel the sensation of thrusting, as though you were actively fucking this little slut sitting atop you.  The feeling is extremely pleasant, not to mention a little hypnotic.  You reach your hands up to grasp Callu's hips lightly.  She doesn't seem to mind, though as you start squeezing her in time with your phantom thrusts a quick swat to your hand lets you know that you're crossing an unspoken boundary.");
+		DisplayText("\n\nSurprisingly, you can still feel a throbbing around your " + Desc.Cock.describeCock(player, x) + ", reaffirming your belief that she can somehow control the muscles buried within her abdomen.  Even as you lay stock-still on the sandy beach, you feel the sensation of thrusting, as though you were actively fucking this little slut sitting atop you.  The feeling is extremely pleasant, not to mention a little hypnotic.  You reach your hands up to grasp Callu's hips lightly.  She doesn't seem to mind, though as you start squeezing her in time with your phantom thrusts a quick swat to your hand lets you know that you're crossing an unspoken boundary.");
 
 		DisplayText("\n\nWith nothing else to do, you close your eyes and relax.  The rhythmic pulsing of this otter-girl's tight pussy seems to deepen your relaxation, though your dick remains as hard as it's ever been. Minutes pass, and the thrusting sensation doesn't appear to be dying down.");
 
-		DisplayText("\n\nA sudden, strange high-pitched sound suddenly rings out and your head bolts upright, only to see Callu reeling in a fish.  She looks it over, nods once to herself and tucks it away in an ice chest cleverly buried under the sand right next to the two of you.  Afterwards she stands up, letting your dick fall out of her.  Your " + CockDescriptor.describeCock(player, x) + " feels strange, and uncomfortably naked somehow, especially as a cool wind blows over its saliva and femcum-covered skin.");
+		DisplayText("\n\nA sudden, strange high-pitched sound suddenly rings out and your head bolts upright, only to see Callu reeling in a fish.  She looks it over, nods once to herself and tucks it away in an ice chest cleverly buried under the sand right next to the two of you.  Afterwards she stands up, letting your dick fall out of her.  Your " + Desc.Cock.describeCock(player, x) + " feels strange, and uncomfortably naked somehow, especially as a cool wind blows over its saliva and femcum-covered skin.");
 
 		DisplayText("\n\nIt doesn't have to suffer long, at least, as Callu casts a new line and positions herself over your cock once more. Inch by delicious inch sinks into her, making you shiver all over.  However, this time she doesn't sit all the way down.  Instead she straddles your waist, standing on the balls of her feet.  The now-familiar pulsing returns, but in addition she gyrates her hips, circling them around and around.  With each rotation it feels as though your cock is being squeezed tighter and tighter, but this time you can't simply relax and close your eyes, not with that captivating bubble butt swaying in front of your face.");
 
@@ -442,7 +442,7 @@ export class Lake {
 	}
 
 	//For Chicks
-	private ottersForGals(): void {
+	private ottersForGals() {
 		DisplayText().clear();
 		DisplayText("The moment you agree, a sly smile spreads across her face.  She jams the end of her fishing pole into the sand like a post, to prevent it from going anywhere, and stands up.  There's no tease, no ceremony as she strips out of her bikini bottoms and tosses them aside.  Her newly revealed mound has only the barest tuft of pubic hair, a little wisp of blonde hair amongst the sparse brown fur.");
 
@@ -477,7 +477,7 @@ export class Lake {
 		DisplayText(".  Her lips are like magic as they go, sucking and lavishing your entire crotch with delightful attention.  You find your entire body shivering with pleasure as she attends to you, your body quickly heating up as her tongue presses all of your buttons.  Everything from your fingertips down to your toes tingles and shudders under Callu's ministrations, leaving you squirming and undulating on her face, a deeply satisfied growl rising in your throat.");
 
 		DisplayText("\n\nGrabbing hold of your [nipples], you start playing with them while Callu does her thing.  Your fingers deftly tweak and tease them, knowing all the right techniques to really get you going.  ");
-		if (player.torso.chest.hasFuckableNipples()) DisplayText("You even slip a finger or two inside, stretching your nipple-cunts out with deliciously pleasurable results.  ");
+		if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("You even slip a finger or two inside, stretching your nipple-cunts out with deliciously pleasurable results.  ");
 		DisplayText("Combined with Callu's tender tongue ");
 		if (player.torso.vaginas.count > 0) DisplayText("paying lip service to your wet cunt");
 		else DisplayText("doing a cave dive in your rear");
@@ -500,7 +500,7 @@ export class Lake {
 	}
 
 	//For Pansies
-	private avoidZeOtterPussy(): void {
+	private avoidZeOtterPussy() {
 		DisplayText().clear();
 		DisplayText("You shake your head and explain you can't.  She simply shrugs, \"<i>Ain't no skin off my back.</i>\"");
 
@@ -509,7 +509,7 @@ export class Lake {
 	}
 
 	//For Fatties
-	private getSomeFishYaFatty(): void {
+	private getSomeFishYaFatty() {
 		DisplayText().clear();
 		DisplayText("You tell Callu you're a little more interested in the fish than the fuck, at least for today.  She shrugs once before jamming the end of her fishing pole into the sand like a post and turning towards her pack.");
 

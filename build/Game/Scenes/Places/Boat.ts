@@ -6,7 +6,7 @@ import DisplayText from '../../display/DisplayText';
 class Boat extends AbstractLakeContent {
     public let sharkGirlScene: SharkGirlScene = new SharkGirlScene();
     public let marae: Marae = new Marae();
-    public discoverBoat(): void {
+    public discoverBoat() {
         player.statusAffects.add(StatusAffectType.BoatDiscovery, 0, 0, 0, 0);
         DisplayText().clear();
         DisplayText("You journey around the lake, seeking demons to fight");
@@ -15,7 +15,7 @@ class Boat extends AbstractLakeContent {
         DisplayText("<b>You have discovered the lake boat!</b>\n(You may return and use the boat to explore the lake's interior by using the 'places' menu.)");
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
-    public boatExplore(): void {
+    public boatExplore() {
         //Helia monogamy fucks
         if (Flags.list[FlagEnum.PC_PROMISED_HEL_MONOGAMY_FUCKS] === 1 && Flags.list[FlagEnum.HEL_RAPED_TODAY] === 0 && randInt(10) === 0 && player.gender > 0 && !kGAMECLASS.helScene.followerHel()) {
             kGAMECLASS.helScene.helSexualAmbush();

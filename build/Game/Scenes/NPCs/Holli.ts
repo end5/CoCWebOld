@@ -18,7 +18,7 @@ export class Holli extends Monster {
 
 	//attack noun: lash
 	//Failing to Escape -Z
-	public escapeFailWithHolli(): void {
+	public escapeFailWithHolli() {
 		DisplayText().clear();
 		DisplayText("You ");
 		if (player.canFly()) DisplayText("beat your wings and ");
@@ -32,7 +32,7 @@ export class Holli extends Monster {
 	}
 
 	//End of Round, if no Jojo Fire -Z
-	public holliBonusHealing(): void {
+	public holliBonusHealing() {
 		//(monster hp < 100%)
 		if (findStatusAffect(StatusAffects.HolliBurning) < 0) {
 			if (HPRatio() < 1 && HP > 1) {
@@ -83,7 +83,7 @@ export class Holli extends Monster {
 	}
 
 	//if player uses whitefire/firebreath successfully, suppress these, go to 'Fire Lit' EOR events, and output additional line after the attack:
-	public lightHolliOnFireMagically(): void {
+	public lightHolliOnFireMagically() {
 		if (statusAffects.has(StatusAffectType.JojoIsAssisting)) {
 			if (findStatusAffect(StatusAffects.HolliBurning) < 0) {
 				DisplayText("The magical fire effectively ignites a wide swath of Jojo's tinder, and the demon howls in rage.  Seeing this, Jojo drops the burning torch he carries and turns back toward the forest to fetch more tinder.\n\n");
@@ -94,7 +94,7 @@ export class Holli extends Monster {
 
 	//Monster Specials -Z
 	//fuckin' Jumanji flower darts -Z
-	private fuckinJamanjiFlowerDarts(): void {
+	private fuckinJamanjiFlowerDarts() {
 		DisplayText("A blossom opens up on a high branch of the tree, revealing an evil-looking eye surrounded by vicious spines.  With a gesture, " + short + " fires several at you!");
 
 		//Blinded - no hit penalty
@@ -119,7 +119,7 @@ export class Holli extends Monster {
 	}
 
 	//constrict -Z
-	private holliConstrictAttack(): void {
+	private holliConstrictAttack() {
 		DisplayText("A forest of thick roots bursts from the ground and several lash toward your [legs], trying to ensnare you!");
 		//Blinded - hit penalty, but not 100%
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(6) === 0) {
@@ -142,7 +142,7 @@ export class Holli extends Monster {
 		combatRoundOver();
 	}
 
-	public struggleOutOfHolli(): void {
+	public struggleOutOfHolli() {
 		DisplayText().clear();
 		//Boost odds of success. Round 3 guaranteed.
 		player.statusAffects.get(StatusAffectType.HolliConstrict).value1 = 9;
@@ -167,7 +167,7 @@ export class Holli extends Monster {
 		combatRoundOver();
 	}
 
-	public waitForHolliConstrict(newScreen: boolean = true): void {
+	public waitForHolliConstrict(newScreen: boolean = true) {
 		if (newScreen) DisplayText().clear();
 		DisplayText("The ominous roseate shaft hovers over you, and its owner strokes the base lewdly, moaning.  \"<i>Oooh, gonna... cum!</i>\" she shrieks.  As a low moan escapes her, the stalk bloats and begins to spill milky-white sap into your mouth!  Held rigid, you're eventually forced to swallow just to breathe; the sap slides into your stomach and warmth radiates to your midsection and groin, making you feel flushed and hot.  Holli sighs in satisfaction, evidently more relaxed after her climax.");
 		//lower monster lust by medium-lots and apply med sens-based lust damage
@@ -179,7 +179,7 @@ export class Holli extends Monster {
 
 	//heal -Z
 	//used if monster HP < some level
-	private healHolli(): void {
+	private healHolli() {
 		DisplayText().clear();
 		DisplayText("The bark splits part way and the woman's mouth suddenly explodes with color, her lips folding out into a rather yonic-looking orchid.  Copious white-tinted sap oozes from the bloom, coating her bark and healing the lesions.  Petals rustle as she speaks wetly through it.  \"<i>Your efforts are nothing!  Throw yourself on my mercy; be my slave and do my bidding!</i>\"");
 		//heal some fuckin' hp
@@ -187,7 +187,7 @@ export class Holli extends Monster {
 		combatRoundOver();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (HP < 50 && randInt(2) === 0) healHolli();
 		else if (randInt(4) === 0 && !player.statusAffects.has(StatusAffectType.HolliConstrict)) holliConstrictAttack();
 		else if (randInt(2) === 0) fuckinJamanjiFlowerDarts();
@@ -195,16 +195,16 @@ export class Holli extends Monster {
 		holliBonusHealing();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.holliScene.defeatHolli();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.holliScene.enjoyYourBadEndBIYAAAATCH();
 	}
 
 
-	public teased(lustDelta: number): void {
+	public teased(lustDelta: number) {
 		if (statusAffects.has(StatusAffectType.HolliBurning)) {
 			DisplayText("Holli doesn't even seem to notice, so concerned is she with defeating you before the mounting bonfire causes her any more pain.");
 			lustDelta = 0;

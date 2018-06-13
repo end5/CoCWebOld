@@ -8,7 +8,7 @@
 	//dump it out altogether. It'd cause severe damage, 
 	//in the 150 region if you don't wise up.*
 
-	protected harpyUberCharge(): void {
+	protected harpyUberCharge() {
 		//(Harpy special attack 1, part one)
 		if (findStatusAffect(StatusAffects.Uber) < 0) {
 			statusAffects.add(StatusAffectType.Uber, 0, 0, 0, 0);
@@ -33,14 +33,14 @@
 	}
 
 	//(Harpy special attack 2, lust increase)
-	protected harpyTease(): void {
+	protected harpyTease() {
 		DisplayText("The harpy charges at you carelessly, her body striking you with the full weight of her motherly hips.  The pair of you go crashing backwards onto the ground.  You grapple with her weighty ass, trying your best not to think dirty thoughts, but the way she's maniacally flapping and writhing her curvy body against you makes it impossible! After a brief, groping wrestle on the ground, she pushes you away and takes flight again.");
 		game.dynStats("lus", (12 + randInt(player.stats.sens / 5)));
 		combatRoundOver();
 	}
 
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		let select: number = 1;
 		if (statusAffects.has(StatusAffectType.Uber)) {
 			harpyUberCharge();
@@ -49,12 +49,12 @@
 		super.performCombatAction();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.highMountains.harpyScene.harpyVictoryuuuuu();
 	}
 
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nYour foe doesn't seem disgusted enough to leave...");
 			return { next: game.endLustLoss };
@@ -63,11 +63,11 @@
 		}
 	}
 
-	override protected outputPlayerDodged(dodge: number): void {
+	override protected outputPlayerDodged(dodge: number) {
 		DisplayText("With another deranged cry the harpy dives at you, swinging her razor-sharp talons through the air with the grace of a ballerina. Your quick reflexes allow you to dodge every vicious slash she makes at you.\n");
 	}
 
-	public outputAttack(damage: number): void {
+	public outputAttack(damage: number) {
 		if (damage <= 0) {
 			DisplayText("The harpy dives at you with her foot-talons, but you deflect the attack, grasp onto her leg, and swing her through the air, tossing her away from you before she has a chance to right herself.");
 		} else {
@@ -102,7 +102,9 @@
 this.baseStats.tou = 40;
 this.baseStats.spe = 90;
 this.baseStats.int = 40;
-		initLibSensCor(70, 30, 80);
+		this.baseStats.lib = 70;
+this.baseStats.sens = 30;
+this.baseStats.cor = 80;
 		this.weaponName = "talons";
 		this.weaponVerb = "slashing talons";
 		this.weaponAttack = 15;

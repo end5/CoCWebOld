@@ -28,7 +28,9 @@ export class HermCentaur extends Monster {
 this.baseStats.tou = 100;
 this.baseStats.spe = 65;
 this.baseStats.int = 65;
-		initLibSensCor(85, 40, 100);
+		this.baseStats.lib = 85;
+this.baseStats.sens = 40;
+this.baseStats.cor = 100;
 
 		this.weaponName = "fists";
 		this.weaponAttack = 1;
@@ -47,11 +49,11 @@ this.baseStats.int = 65;
 		this.checkMonster();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		game.d3.hermCentaur.beatThePony(hpVictory);
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		game.d3.hermCentaur.inSovietCoCPonyRidesYou(hpVictory, pcCameWorms);
 	}
 
@@ -70,7 +72,7 @@ this.baseStats.int = 65;
 
 	private let _hypnoCockUses: number = 0;
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		_arouseCooldown--;
 
 		// Priority use
@@ -89,10 +91,10 @@ this.baseStats.int = 65;
 		combatRoundOver();
 	}
 
-	private feminineMusk(): void {
+	private feminineMusk() {
 		DisplayText("Turning about, the demonic centauress lifts her tail to reveal the slimy, lubricated lips of her puffy, black horse-cunt.  She arches her human body back to lie on her back, an incredible show of flexibility, allowing you to view the silhouette of her jutting nipples her tail lazily fans her corruption-enhanced pheromones in your direction.  The air temperature seems to spike by a few degrees as the fan of biological lust washes over you.  Fragrant female moisture seems to seep into your very pores, and in spite of your desire to win out, ");
 
-		if (player.stats.lust <= 50) DisplayText(" your " + SkinDescriptor.skin(character) + " grows feverishly hot.");
+		if (player.stats.lust <= 50) DisplayText(" your " + Desc.Skin.skin(character) + " grows feverishly hot.");
 		else {
 			DisplayText(" blood rushes to your loins, invigorating");
 			if (player.torso.cocks.count > 0) DisplayText(" [eachCock] with the desire to plunge inside that juicy-hot hole.");
@@ -103,7 +105,7 @@ this.baseStats.int = 65;
 		game.dynStats("lus+", 8 + (player.stats.lib / 10) + (player.stats.sens / 10));
 	}
 
-	private aphrodisiacSquirt(): void {
+	private aphrodisiacSquirt() {
 		DisplayText("The centaur grabs her heavy tits and casually squeezes the prodding, hard nipples that cap them.  A trickle of rose moisture trickles out, dripping down the underside of her bust to glisten wetly in the light.  Spellbound for the moment, you look on in wonder at the display of demonic lactations.  A faint sweetness lingers in the air, and you lick your lips without meaning to.  Then, she squeezes down to spray a torrent of pink-tinged breastmilk directly at you, splitting into so many forks of fluid that you have no hope to dodge.");
 
 		game.dynStats("lus+", 8 + (player.stats.lib / 10) + (player.stats.sens / 10));
@@ -125,7 +127,7 @@ this.baseStats.int = 65;
 			DisplayText(". It's getting harder to think straight with all this desire welling up inside you.  It isn't for a few moments that you realize you tongue is hanging out and drooling all over youself.  Gods, you want to fuck!");
 		}
 		else if (player.stats.lust < 90) {
-			DisplayText("\n\nPanting feverishly, you try to ignore the blush-colored downfall, but it's a futile gesture.  It makes your " + player.skinFurScales() + " burn hot, wicking inside you with devilish efficiency to stoke the fires of your lust beyond normal limits.");
+			DisplayText("\n\nPanting feverishly, you try to ignore the blush-colored downfall, but it's a futile gesture.  It makes your " + Desc.Skin.skinFurScales(player) + " burn hot, wicking inside you with devilish efficiency to stoke the fires of your lust beyond normal limits.");
 			if (player.torso.cocks.count > 0) DisplayText("  Pre begins to dribble from your hot-and-ready cum-slit, eager to pour out in a deluge of sperm.");
 			else if (player.torso.vaginas.count > 0) DisplayText("  A flood of sopping moisture dribbles down your [legs], the proof of your unholy desire to breed.");
 			DisplayText(" You NEED to fuck soon.  You can barely contain yourself!");
@@ -135,7 +137,7 @@ this.baseStats.int = 65;
 
 	}
 
-	private arouseSpellCharge(): void {
+	private arouseSpellCharge() {
 		// one turn charge-up, can be interrupted by tease
 		DisplayText("The centauress closes her eyes for a moment, then opens them.  Her eyes have gone completely, solidly black.  She's chanting low, though you see her dick bobbing beneath her in time with the mysterious utterances, leaking pre-cum.  You've got to stop her!");
 		if (player.stats.int > 80) DisplayText("  A tease attack would likely be the most effective method of attack.");
@@ -145,7 +147,7 @@ this.baseStats.int = 65;
 		_arouseCooldown = 7;
 	}
 
-	private arouseSpellCast(): void {
+	private arouseSpellCast() {
 		_chargingArouse = false;
 		_lustAtChargeStart = -1;
 
@@ -161,7 +163,7 @@ this.baseStats.int = 65;
 		}
 	}
 
-	private hypnoCock(): void {
+	private hypnoCock() {
 		_hypnoCockUses++;
 
 		if (_hypnoCockUses === 1) {
@@ -187,7 +189,7 @@ this.baseStats.int = 65;
 		else {
 			game.dynStats("lus+", 20 + 2 * _hypnoCockUses + 2 + randInt((player.stats.lib / 10) + (player.stats.sens / 10)));
 
-			DisplayText("Down it bobs, slowly hanging lower and lower... SMACK!  Up it goes, taking your bedazzled eyes along for the ride.  \"<i>That's a good " + player.mf("boy", "girl") + ",</i>\" the dick's director whispers, \"<i>Just follow the tempo and let it fill your mind, oozing inside you with each thump.</i>\"");
+			DisplayText("Down it bobs, slowly hanging lower and lower... SMACK!  Up it goes, taking your bedazzled eyes along for the ride.  \"<i>That's a good " + Desc.Gender.mf(player, "boy", "girl") + ",</i>\" the dick's director whispers, \"<i>Just follow the tempo and let it fill your mind, oozing inside you with each thump.</i>\"");
 			DisplayText("\n\nFuck!  She's right, it's getting awfully hard to think about anything else.  You fixate further on the cock, unwilling or unable to look away.");
 			DisplayText("\n\n\"<i>It's so easy to just watch and let your thoughts leak out of your head?</i>\" the voice asks.");
 			DisplayText("\n\nYou nod.");
@@ -204,7 +206,7 @@ this.baseStats.int = 65;
 		}
 	}
 
-	private gottaCum(): void {
+	private gottaCum() {
 		_usedGottaCum = true;
 		DisplayText("Sighing, the demoness gives you a lust glare and idly stomps at the ground with a hoof.  \"<i>Stop turning-unf-on you... you stupid... sexy...ungh, DAMNIT!</i>\" she protests, her rigid cock, slapping her belly while streamers of lady-jizz drip down the gleaming orbs that fill her black-skinned ballsack.  The centaur paws at her tits with unrepentant lust, tugging her large, hard nipples mercilessly while her hind legs stutter around, probably only moving in order to grind the thick, female lips together that much harder.");
 
@@ -218,7 +220,7 @@ this.baseStats.int = 65;
 		game.player.stats.lust += 15;
 	}
 
-	private healUp(): void {
+	private healUp() {
 		_usedHeal = true;
 
 		DisplayText("Wiping a drop of blood from her wounds, the demon frowns in irritation.  \"<i>Do you have any idea how hard healing spells are to pull off when you're thinking about plowing a champion from behind?</i>\"  Her eyes flutter closed in concentration while sexual fluids run unimpeded from her mixed genitals.  At the same time, her wounds close up, covered with freshly grown horsehair or pale pink skin.  A few moments later, she wobbles slightly and mutters, \"<i>All better... hopefully you don't manage that twice.  I doubt I could pull it off again.  Then again, you'll likely be hilted on my dick or tongue-deep in my snatch by then, won't you?</i>\"");

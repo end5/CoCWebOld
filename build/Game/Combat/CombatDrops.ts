@@ -2,10 +2,8 @@ import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
-import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
-import { ItemStack } from '../Inventory/ItemStack';
-import { ArmorName } from '../Items/Armors/ArmorName';
+import { EquipSlot } from '../Inventory/EquipSlot';
 import { ConsumableName } from '../Items/Consumables/ConsumableName';
 import { Item } from '../Items/Item';
 import { ItemFactory } from '../Items/ItemFactory';
@@ -18,8 +16,9 @@ import { isEaster } from '../Utilities/Dates';
 
 export class CombatDrops {
     public static awardPlayer(character: Character, enemy: Character): NextScreenChoices {
-        if (character.inventory.equipment.cockSocks.hasCockSock(CockSockName.Gilded)) {
-            const cockIndex = character.inventory.equipment.cockSocks.indexOfCockSock(CockSockName.Gilded);
+        const gildedCockSock = character.inventory.equipment.cockSocks.find(EquipSlot.FilterName(CockSockName.Gilded));
+        if (gildedCockSock) {
+            const cockIndex = character.inventory.equipment.cockSocks.indexOf(gildedCockSock);
             enemy.inventory.gems += enemy.inventory.gems * 0.15 + 5 * character.torso.cocks.get(cockIndex).length;
         }
         enemy.combat.rewards.onReward();

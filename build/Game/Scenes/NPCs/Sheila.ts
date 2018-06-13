@@ -7,7 +7,7 @@ export class Sheila extends Monster {
 	-overall, weaker but faster than other shit on the plains*/
 
 	//special 1: frog punch (med-high damage, slightly lower accuracy than reg attack, deals minor concussion which adds 5-10 pts fatigue, may stun pc and prevent attack, misses while blinded or misfires on pcs under 3'6")
-	private sheilaFrogPunch(): void {
+	private sheilaFrogPunch() {
 		let damage: number = 0;
 		spe -= 30;
 		//Midget misfire (if PC < 3'6"):
@@ -48,7 +48,7 @@ export class Sheila extends Monster {
 	}
 
 	//special 2: flying kick rabbit punch (high damage, much lower accuracy than reg attack, deals concussion which adds 10-15 pts fatigue, may stun pc and prevent attack)
-	private sheilaFlyingKick(): void {
+	private sheilaFlyingKick() {
 		let damage: number = 0;
 		spe -= 60;
 		//Miss:
@@ -93,7 +93,7 @@ export class Sheila extends Monster {
 
 	//Demon Sheila Combat - Special Attacks
 	//1: Suspicious Glint (int-based hit chance)
-	private suspiciousGlint(): void {
+	private suspiciousGlint() {
 		if (statusAffects.has(StatusAffectType.Blind) && randInt(2) === 0) {
 			DisplayText("Sheila's blind eyes glint suspiciously as she focuses her power, trying to send her fantasy to anything caught in their stare.  It seems to work - the rock next to you vibrates a little.");
 		}
@@ -128,7 +128,7 @@ export class Sheila extends Monster {
 	}
 
 	//2: Tittymonster
-	private tittyMonsterAttack(): void {
+	private tittyMonsterAttack() {
 		DisplayText("Sheila giggles and strokes her " + game.sheilaScene.sheilaCup() + " breasts, trying to entice you.");
 		//results, no new pg
 		//[(sheila corruption < 20; 'miss')
@@ -147,7 +147,7 @@ export class Sheila extends Monster {
 	}
 
 	//3: Splash (spd-based hit chance)
-	private splashAttackLookOutShellEvolveIntoGyrados(): void {
+	private splashAttackLookOutShellEvolveIntoGyrados() {
 		DisplayText("Sheila waits patiently, staring at you and stroking her dark, spaded tail with its opposite.  A line of the always-oozing oil falls from the slit, pooling in the smooth brown coil; she unwinds it rapidly, flinging the liquid at your face playfully.  ");
 		//results, no new PG
 		//Hit:
@@ -163,7 +163,7 @@ export class Sheila extends Monster {
 	}
 	//4: Sit 'n Pout
 	//should only be used after turn 4 or 5
-	private sitAndPout(): void {
+	private sitAndPout() {
 		DisplayText("Sheila frowns at you, then plops down on the grass, staring at her feet.  \"<i>Fine.  You win, mate.  I don't feel like arguing anymore, so... just please yourself, I guess.  The best part about a lovers' quarrel is the make-up sex anyway...</i>\" she says, spreading her legs hopefully.  The pout turns to a very faint smile under her bangs.");
 		gems = 0;
 		XP = 0;
@@ -172,7 +172,7 @@ export class Sheila extends Monster {
 		//(if PC lust < 30)
 		if (player.stats.lust < 33) {
 			DisplayText("\n\nYou're not that interested, though; Sheila harrumphs as you pass her by and leave.");
-			cleanupAfterCombat();
+			return { next: Scenes.camp.returnToCampUseOneHour };
 			return;
 		}
 		combatRoundOver();
@@ -181,7 +181,7 @@ export class Sheila extends Monster {
 
 	//5: Lick 'Em and Stick 'Em (int-based hit chance)
 	//replaces any calls for Suspicious Glint if PC is blinded by Splash
-	private lickEmAndStickEm(): void {
+	private lickEmAndStickEm() {
 		DisplayText("Sheila's voice gets closer, becoming disarmingly apologetic as you scrub furiously at your face in darkness.  \"<i>Oh, my.  I didn't mean to get that in your eyes... let me help clean you up, love.</i>\"  Your face is gently gripped between her hands and pulled down, then the demon begins passing her tongue over you affectionately, wiping the fluid away with long, ticklish licks as you wait for the other shoe to fall.");
 		DisplayText("\"<i>All better,</i>\" Sheila announces.  With her thumb, she gingerly pushes one eyelid up before you can pull away, proving her claim - and causing you to look right into her own glowing, purple iris.  A fantasy invades your mind, one where ");
 		if (player.torso.cocks.count > 0) DisplayText("[oneCock] fucks Sheila to the base while her tail snakes around and penetrates your [vagOrAss]");
@@ -206,16 +206,16 @@ export class Sheila extends Monster {
 
 	//6: "Pressure Points"
 	//replaces any calls for Tittymonster if PC is blinded by Splash
-	private pressurePointsAttack(): void {
+	private pressurePointsAttack() {
 		DisplayText("For a moment, all goes quiet, save for a soft rustle.\n\n");
 		//results, no new pg
 		//[(sheila corruption < 100; hit, 'light damage')]
 		if (game.sheilaScene.sheilaCorruption() < 100) {
-			DisplayText("The silence is broken with a giggle as the demon catches you in an embrace, pressing her " + game.sheilaScene.sheilaCup() + " breasts into you.  You shiver as she drags the perky nipples over your " + player.skinFurScales() + ", but push her away.");
+			DisplayText("The silence is broken with a giggle as the demon catches you in an embrace, pressing her " + game.sheilaScene.sheilaCup() + " breasts into you.  You shiver as she drags the perky nipples over your " + Desc.Skin.skinFurScales(player) + ", but push her away.");
 			game.dynStats("lus", 15 + player.stats.sens / 20 + player.stats.lib / 20);
 		}
 		else if (game.sheilaScene.sheilaCorruption() < 300) {
-			DisplayText("A sigh ends the silence as your body is partially enfolded in the hot valley of an aroused Sheila's cleavage. As the demon grabs you and pushes her tits into you, the skin-on-" + player.skinFurScales() + " contact makes you shiver, and your attempts to get free meet with some resistance... or rather, a lack of resistance, as the soft, yielding breast flesh quivers and heats to your touch without moving the demon overmuch.  You accidentally brush her nipples several times before you can escape, unleashing horny moans from Sheila that linger in your mind.");
+			DisplayText("A sigh ends the silence as your body is partially enfolded in the hot valley of an aroused Sheila's cleavage. As the demon grabs you and pushes her tits into you, the skin-on-" + Desc.Skin.skinFurScales(player) + " contact makes you shiver, and your attempts to get free meet with some resistance... or rather, a lack of resistance, as the soft, yielding breast flesh quivers and heats to your touch without moving the demon overmuch.  You accidentally brush her nipples several times before you can escape, unleashing horny moans from Sheila that linger in your mind.");
 			game.dynStats("lus", 25 + player.stats.sens / 20 + player.stats.lib / 20);
 		}
 		else {//; miss)
@@ -226,7 +226,7 @@ export class Sheila extends Monster {
 	}
 
 
-	private demonSheilaAI(): void {
+	private demonSheilaAI() {
 		//Count up till give up!
 		if (findStatusAffect(StatusAffects.Counter) < 0) statusAffects.add(StatusAffectType.Counter, 0, 0, 0, 0);
 		addStatusValue(StatusAffects.Counter, 1, 1);
@@ -248,7 +248,7 @@ export class Sheila extends Monster {
 		choices[randInt(choices.length)]();
 	}
 
-	override protected performCombatAction(): void {
+	override protected performCombatAction() {
 		if (game.Flags.list[FlagEnum.SHEILA_DEMON] === 1) {
 			demonSheilaAI();
 			return;
@@ -258,12 +258,12 @@ export class Sheila extends Monster {
 		else sheilaFrogPunch();
 	}
 
-	public defeated(hpVictory: boolean): void {
+	public defeated(hpVictory: boolean) {
 		if (game.Flags.list[FlagEnum.SHEILA_DEMON] === 1) game.sheilaScene.beatUpDemonSheila();
 		else game.sheilaScene.sheilaGotWhomped();
 	}
 
-	public won(hpVictory: boolean, pcCameWorms: boolean): void {
+	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (game.Flags.list[FlagEnum.SHEILA_DEMON] === 1) game.sheilaScene.loseToSheila();
 		else game.sheilaScene.getBeatUpBySheila();
 	}

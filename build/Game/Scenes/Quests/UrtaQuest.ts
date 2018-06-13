@@ -54,7 +54,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 	//Revelations Talk(C)*
 	//Requires Lover Urta
-	public talkWithUrtaAboutFamFam(): void {
+	public talkWithUrtaAboutFamFam() {
 		DisplayText().clear();
 		DisplayText("Urta recoils at the topic, but then visibly steels herself, nodding her head.  \"<i>All right... they're really not very pleasant topics, but you and I...  I owe you a lot, " + player.short + ".  You're the most special person in my life.  So, I guess I can tell you what my so-called family was like.</i>\"  She looks down at the table, staring miserably at her latest drink.  \"<i>Obviously, I didn't hatch from a stone egg or something like that, but I never really had a family.  My mother died when I was just a baby and my father hated my guts because of it.</i>\"");
 
@@ -81,14 +81,14 @@ export class UrtaQuest extends NPCAwareContent {
 		Flags.list[FlagEnum.URTA_QUEST_STATUS] = .5;
 		//Insert PC options here
 		//[Comfort Her] [Yeesh][Who Cares]
-		menu();
+		
 		MainScreen.addButton(0, "Comfort Her", comfortUrtaAfterFamFamTalk);
 		MainScreen.addButton(1, "Yeesh", yeeshUrtaAfterFamFamTalk);
 		MainScreen.addButton(2, "Who Cares", whoCaresUrtaAfterFamFamTalk);
 	}
 
 	//Comfort Her(C)*
-	private comfortUrtaAfterFamFamTalk(): void {
+	private comfortUrtaAfterFamFamTalk() {
 		DisplayText().clear();
 		DisplayText("You lean over the table and take Urta's hands in your own.  Her downy fur ruffles as you give her a comforting squeeze, the tension oozing from her body at your touch.  Urta sniffles a little and wipes her moistened cheek on her shoulder, muttering, \"<i>Oh, " + player.short + ", you're too good for me.</i>\"  She pulls back and gives you a knowing smile.  \"<i>You don't have to worry, really.  You turned this down on her luck lush into a happy woman.</i>\"");
 
@@ -106,7 +106,7 @@ export class UrtaQuest extends NPCAwareContent {
 	}
 
 	//Yeesh(C)*
-	private yeeshUrtaAfterFamFamTalk(): void {
+	private yeeshUrtaAfterFamFamTalk() {
 		DisplayText().clear();
 		DisplayText("You loudly exhale, \"<i>Yeesh,</i>\" with a bemused expression.");
 		DisplayText("\n\nUrta's tail raises up behind her, bristling and bushy.  She indignantly declares, \"<i>Well fuck you, " + player.short + "!  I just bared the scars of my youth to you, and all you can do is respond with this callous bullshit?</i>\"");
@@ -125,7 +125,7 @@ export class UrtaQuest extends NPCAwareContent {
 	}
 
 	//Who Cares(C)*
-	private whoCaresUrtaAfterFamFamTalk(): void {
+	private whoCaresUrtaAfterFamFamTalk() {
 		DisplayText().clear();
 		DisplayText("\"<i>Who cares?</i>\" you ask, without a hint of compassion.");
 		DisplayText("\n\nUrta stiffens, tail rising up behind her, gone bushy with anger.  \"<i>WHAT?</I>\"");
@@ -140,7 +140,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 	//Infertility Discussion(C)*
 	//Requires PC have discussed family with her previously.
-	public infertilityQuestions(): void {
+	public infertilityQuestions() {
 		DisplayText().clear();
 		DisplayText("You ask her about her infertility - specifically, how someone could be infertile AND unable to use transformative items without adverse effects.  Urta stirs her drink before shrugging noncommittally.");
 		DisplayText("\n\n\"<i>I don't know. Hell,  I've never even heard of anyone having a reaction like mine before,</i>\" Urta says.  \"<i>Sure, there's plenty of folks who react poorly, but in those cases, nothing happens.  On the flipside, I've heard of folks completely changing species from a single uncooked canine pepper.  There's even a few foxtaurs prowling around - centaurs that got into foxberries with unexpected results.  None of those are anything like me - nobody takes one thing and has a wildly different and opposite reaction.  And being infertile? I don't think anyone younger than fifty besides me is infertile in this whole gods'-damned city.</i>\"");
@@ -155,12 +155,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\n\"<i>I suppose it wouldn't hurt to try, huh?</i>\" Urta asks.  A mischievous grin spreads across her face, and she says, \"<i>You want me to be fertile that badly, don't you?  Are you wanting to suck down a load of spunk so virile you can smell it?  Or do you want my pussy so ready for babies that a single drop of cum will have my belly round and my tits leaking?</i>\"  She shudders.  \"<i>Damn, that's a nice thought...  Do you really think I should look into it?</i>\"");
 		DisplayText("\n\n(<b>Encouraging her to visit the Covenant will begin a segment where you play as Urta for a time, and saving will be disabled.  It is recommended you decline and save first if you have not saved in some time.</b>)");
-		menu();
+		
 		MainScreen.addButton(0, "Look Into It", startUrtaQuest);
 		MainScreen.addButton(1, "Maybe Later", Scenes.camp.returnToCampUseOneHour);
 	}
 
-	private resetToPC(): void {
+	private resetToPC() {
 		player = player2;
 		player.itemSlot1 = urtaQItems1;
 		player.itemSlot2 = urtaQItems2;
@@ -175,7 +175,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 
 	//Urta Appearance Screen(C)*
-	public startUrtaQuest(): void {
+	public startUrtaQuest() {
 		DisplayText().clear();
 		trace("Cloning PC's items")
 		// *SERIALIZE* out the players current Player object + items
@@ -199,7 +199,7 @@ export class UrtaQuest extends NPCAwareContent {
 		player.torso.neck.head.hair.length = 12;
 		player.skin.type = SkinType.FUR;
 		player.skinAdj = "silky";
-		player.skinDesc = "fur";
+		player.skin.desc = "fur";
 		player.createBreastRow();
 		player.torso.chest.get(0).rating = 7;
 		player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = .75;
@@ -235,7 +235,7 @@ export class UrtaQuest extends NPCAwareContent {
 		player.stats.sens = 50;
 		player.stats.cor = 30;
 		player.stats.lust = 55;
-		player.stats.gems = 183;
+		player.inventory.gems = 183;
 		player.level = 15;
 		player.teaseLevel = 4;
 		player.stats.HP = player.maxHP();
@@ -278,12 +278,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nYou are currently garbed for work in your usual stud-reinforced leather jerkin, though you go without suitable groin protection due to your cock interfering with efforts to wear normal pants.  An armored leather skirt provides a decent stand to protect your lower body, though as you erect, your maleness has a habit of lifting it out of the way and leaving you vulnerable.  When you desire modesty, you wrap your cock against your leg with your tail.  You are also carrying your favorite halberd; it's not fancy looking, but it's strong, sharp, and well-maintained.  The weaponsmith does good work.");
 
-		menu();
+		
 		MainScreen.addButton(0, "Next", towerOfTheCovanant);
 	}
 
 	//The Tower of the Covenant(C)*
-	private towerOfTheCovanant(): void {
+	private towerOfTheCovanant() {
 		DisplayText().clear();
 		DisplayText("You get up to leave the table, nervously wrapping your tail down your leg, even though " + player2.short + " helped you overcome that timid habit long ago.  You tell " + player2.mf("him", "her") + " that " + player2.mf("he", "she") + " can't follow.  To bring " + player2.mf("him", "her") + " into the tower would require countless tests for what should only take a few brief moments if you go alone.  Secretly, you wish " + player2.mf("he", "she") + " could come with you and hold you tight, to comfort you through this nerve wracking ordeal.  Lifting your chin, you marshal your courage and walk out, wiggling your bottom in " + player2.short + "'s direction to remind " + player2.mf("him", "her") + " what " + player2.mf("he", "she") + "'ll be claiming tonight if a solution can be found.");
 
@@ -306,11 +306,11 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nThe centaur coughs, \"<i>Here, Urta,</i>\" stirring you from your thoughts.  It seems you've reached Gul's chamber already.  There's nothing to do but go on in...");
 
 		//[NEXT]
-		menu();
+		
 		MainScreen.addButton(0, "Next", towerOfTheCovenantII);
 	}
 
-	private towerOfTheCovenantII(): void {
+	private towerOfTheCovenantII() {
 		DisplayText().clear();
 		DisplayText("You step inside the dimly lit chamber and close the door behind you.  Opposite, Gul's frail form rocks in a chair nearly as ancient as he is.  His body is shrouded with voluminous robes that conceal much of his frail body from you, but it is his head that catches your attention.  Milky, sightless orbs stare back at you.  The reason for the lack of lighting becomes clear in that moment - Gul has gone completely, utterly blind since your last meeting.");
 
@@ -358,7 +358,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nYou give him a kiss on the nose and head for the door, equal parts excited and terrified by the opportunity you've been given.  Now, before you leave on your search you should visit " + player2.short + ".  You could tell " + player2.mf("him", "her") + " everything, or you could simply spend an evening with " + player2.mf("him", "her") + " without letting " + player2.mf("him", "her") + " know the danger you're about to get into.  Though, Gul did urge you to make haste, maybe it would be best for everyone if you embarked sooner and returned to " + player2.short + " healthy.");
 		//[?Get a Drink][Visit Truth] [Visit] [Embark]
-		menu();
+		
 
 		// The description of the getHelBangedAsUrta scene seems to specify that it should only be available to players
 		// at fuckbuddy status with Firebutt.
@@ -373,7 +373,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 	//Savin Contriboots to UrtaQuest: Get Wrekt by Hel, Miko, and Mai. (Or, Needs More Foursomes)
 	//{Before embarking on the Quest for Getting a God out of My Dick, add a [Get a Drink] option before leaving Tel'Adre. Must be Fuckbuddies with Hel.}
-	private getHelBangedAsUrta(): void {
+	private getHelBangedAsUrta() {
 		DisplayText().clear();
 		DisplayText("Before you head out, you decide to grab some liquid fortitude at your favorite watering hole. You make your way down to the Wet Bitch, squinting as your eyes adjust to the deep shadows of Tel'Adre's seediest - and sexiest - bar. You slip in, grabbing a stool at the bar; when your drink comes, you toss your gear aside like a physical weight off your shoulders, sighing heavily as you bring the hefty stein up to your lips. The cool beer goes down quickly, washing away your worries about the upcoming quest, and the recent revelations you've been given. Your mind wanders to " + player2.short + ", wondering if " + player2.mf("he", "she") + "'s set you on the right course...");
 
@@ -402,27 +402,27 @@ export class UrtaQuest extends NPCAwareContent {
 		player.stats.resisted += false;
 		Flags.list[FlagEnum.URTA_MET_HEL] = 1;
 		//[Head Out] [Get \"<i>Help</i>\"]
-		menu();
+		
 		MainScreen.addButton(0, "Head Out", leaveB4HelFucksUrta);
 		MainScreen.addButton(1, "Get \"Help\"", fuckHelAndKitsunesAsUrta);
 	}
 
 	//Head Out
-	private leaveB4HelFucksUrta(): void {
+	private leaveB4HelFucksUrta() {
 		DisplayText().clear();
 		DisplayText("As quickly as you can, you blather out some excuse and grab your gear, trying to cover your huge erection as you run toward the door, blurting an awkward thanks over your shoulder for the drink...");
 		DisplayText("\n\n\"<i>Uh, bye!</i>\" Mai calls out, waving. \"<i>See you again some time?</i>\"");
 		//{Continue with UrtaQuest}
 		DisplayText("\n\nDo you embark now, visit " + player2.short + ", or visit " + player2.mf("him", "her") + " and tell everything?");
 		//[Visit] [Visit Truth][Embark]
-		menu();
+		
 		MainScreen.addButton(1, "Visit", visitPCPreUrtaQuest, false);
 		MainScreen.addButton(2, "Visit Truth", visitPCPreUrtaQuest, true);
 		MainScreen.addButton(3, "Embark", runIntoAGoblin);
 	}
 
 	//Get \"<i>Help</i>\"
-	private fuckHelAndKitsunesAsUrta(): void {
+	private fuckHelAndKitsunesAsUrta() {
 		DisplayText().clear();
 		DisplayText("You decide to stick around.  The redhead, at least, is a friend of " + player2.short + ", and the way the three are talking, they all seem... loose.  Maybe they can offer you the release you now need.  They're responsible for this, after all, you reason as you lustily say \"<i>I've got a little friend under the table who wants to say hello.  Maybe you girls can help him get some release, hmm? I promise, I'll be real good to you, too.</i>\"  The fox-girls look to Helia, little tents perking up under their skirts.  The salamander licks her lips and grins, motioning for you to follow her.");
 
@@ -469,12 +469,12 @@ export class UrtaQuest extends NPCAwareContent {
 		model.time.days++;
 		//Advance to next day, jump to leaving text
 		//{Resume UrtaQUEST!}
-		menu();
+		
 		MainScreen.addButton(0, "Next", runIntoAGoblin);
 	}
 
 	//Last Rendezvous with PC - Intro + Sex Menu(C)*
-	private visitPCPreUrtaQuest(truth: boolean): void {
+	private visitPCPreUrtaQuest(truth: boolean) {
 		DisplayText().clear();
 		DisplayText("You set out for " + player2.short + "'s camp, known to you thanks to the amazing efforts of your scouts.  Behind you, the tower slowly shrinks, less imposing now that you've finished that step on your journey.   Ahead lies uncertainty and struggle.  You know you'll likely wind up fighting the corrupted denizens of the lost regions of Mareth in your travels, and it's likely at least a demon or two will get in your way.  Still, as you exit the city gates, you give your home a forlorn gaze.  At least there's one bright patch ahead - your lover's camp.");
 		DisplayText("\n\nThe sun has set by the time you get there, but the darkness conceals your movements thanks to your natural fur color.  ");
@@ -506,7 +506,7 @@ export class UrtaQuest extends NPCAwareContent {
 		}
 		//[SEX OPTIONS GO HURRRR]
 		//Snuggle, put cock in cocked PC ass, ride PC cock vaginally, Fuck Girlvag with yer dick, maybe a sixtynine?
-		menu();
+		
 		MainScreen.addButton(0, "Cuddle", snuggleWithUrta, truth);
 		//Put Urta dick in girl PC's vag(C)*
 		if (player2.count > 0)
@@ -523,11 +523,11 @@ export class UrtaQuest extends NPCAwareContent {
 
 	//Last Rendezvous with PC - Sex(C)*
 	//Put Urta dick in the PC's asshole [Cocked PCs](C)*
-	private urtaPutsHerDickInPCsWithDicks(truth: boolean): void {
+	private urtaPutsHerDickInPCsWithDicks(truth: boolean) {
 		DisplayText().clear();
 		DisplayText("You push " + player2.short + " down onto the ground, glad that " + player2.mf("he", "she") + "'s not wearing " + player2.mf("his", "her") + " gear right now.  Unfortunately, you've still got to get out of yours, an action made all the more difficult by the heat welling up in your groin.  Your rebellious cock is already half-stiff, lifting the hem of your armored skirt away from your thighs.  Fingers scrabbling, you struggle with your chestpiece's bindings.  Your nipples stiffen, scraping against the inside of it while you fight to remove it.  You straddle " + player2.short + "'s waist to hold " + player2.mf("him", "her") + " down while you work the bothersome, restraining material free, practically grinding your semi-rigid dick against " + player2.mf("his", "hers") + " in excitement.  " + player2.mf("His", "Her") + " hands begin aiding you in your task, allowing your tightly compressed breasts to finally, happily breathe.   They jiggle as they flop free, and to your delight, " + player2.short + "'s eyes lock on them.");
-		DisplayText("\n\nGrabbing hold of " + player2.mf("his", "her") + " head, you pull " + player2.short + "'s lips to one of your puckered nipples.  " + player2.mf("He", "She") + " swallows it immediately, grabbing hold of your tits to squeeze and fondle them, openly enjoying the fruits of your womanly shape.  Tingles of electric enjoyment fire from your unrestrained areola when " + player2.mf("he", "she") + " squeezes down on the other with " + player2.mf("his", "her") + " fingers, expertly twisting the little nub around to give you the maximum pleasure.  In no time flat, you're humping " + player2.mf("his", "her") + " " + player2.CockDescriptor.describeCock(player, player2.torso.cocks.sort(Cock.LargestCockArea)[0]) + " openly, letting " + player2.mf("him", "her") + " guide your motions with deft, controlling touches to your onyx nipples.  Your pre-cum bubbles out unhindered, the thick gobs swaying and splattering on " + player2.mf("his", "her") + " belly and rigid tool, quickly lubricating the phallic embrace into a sticky, hot mess.");
-		DisplayText("\n\n" + player2.short + " releases your tender tits after a few particularly sloppy thrusts.  You can feel " + player2.mf("his", "her") + " " + player2.CockDescriptor.describeCock(player, player2.torso.cocks.sort(Cock.LargestCockArea)[0]) + " releasing some of its own pre-cum onto your cock's thick spooge-vein, and " + player2.mf("his", "her") + " hands fall to grab at the blanket below, unintentionally clenching at the waves of pleasure you're giving " + player2.mf("him", "her") + ".  You bend now, onto all fours");
+		DisplayText("\n\nGrabbing hold of " + player2.mf("his", "her") + " head, you pull " + player2.short + "'s lips to one of your puckered nipples.  " + player2.mf("He", "She") + " swallows it immediately, grabbing hold of your tits to squeeze and fondle them, openly enjoying the fruits of your womanly shape.  Tingles of electric enjoyment fire from your unrestrained areola when " + player2.mf("he", "she") + " squeezes down on the other with " + player2.mf("his", "her") + " fingers, expertly twisting the little nub around to give you the maximum pleasure.  In no time flat, you're humping " + player2.mf("his", "her") + " " + player2.Desc.Cock.describeCock(player, player2.torso.cocks.sort(Cock.LargestCockArea)[0]) + " openly, letting " + player2.mf("him", "her") + " guide your motions with deft, controlling touches to your onyx nipples.  Your pre-cum bubbles out unhindered, the thick gobs swaying and splattering on " + player2.mf("his", "her") + " belly and rigid tool, quickly lubricating the phallic embrace into a sticky, hot mess.");
+		DisplayText("\n\n" + player2.short + " releases your tender tits after a few particularly sloppy thrusts.  You can feel " + player2.mf("his", "her") + " " + player2.Desc.Cock.describeCock(player, player2.torso.cocks.sort(Cock.LargestCockArea)[0]) + " releasing some of its own pre-cum onto your cock's thick spooge-vein, and " + player2.mf("his", "her") + " hands fall to grab at the blanket below, unintentionally clenching at the waves of pleasure you're giving " + player2.mf("him", "her") + ".  You bend now, onto all fours");
 		if (player2.tallness < 60) DisplayText(" and let your tits hang over " + player2.mf("his", "her") + " " + player2.face());
 		else if (player2.tallness < 76) DisplayText(" and let your tits swing between you");
 		else if (player2.tallness < 84) DisplayText(" and let your tits smash into " + player2.mf("his", "her"));
@@ -576,13 +576,13 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\n" + player2.short + " pulls you down for another kiss, and you lose yourself to it, never going completely soft - as if you could in " + player2.mf("his", "her") + " presence.  You close your eyes and let sleep claim you, cuddled together, basking in the heady smell of your combined pleasure.");
 		player.orgasm();
 		player.stats.sens += -2;
-		menu();
+		
 		//To morning after fuck departure
 		MainScreen.addButton(0, "Next", morningAfterCampVisitEmbark, truth);
 	}
 
 	//PC blows Urta(C)*
-	private pcBlowsUrtasDong(truth: boolean): void {
+	private pcBlowsUrtasDong(truth: boolean) {
 		DisplayText().clear();
 		DisplayText("You ogle your lover's naked form, admiring " + player2.mf("his", "her") + " beauty.  When your eyes fixate upon " + player2.mf("his", "her") + " sweet kissing lips... mmm, you'd really like to feel those wrapped around your aching dick...  Mustering your courage, you embrace your partner, and gently but insistently push " + player2.mf("him", "her") + " to the ground.  Leaning over to " + player2.mf("his", "her") + " ear, you say, in a stage whisper, \"<i>You have such a pretty mouth, and my cock's aching so bad... will you kiss it better?</i>\"  You blush, as much from the corniness of your line as from embarrassment at what you're asking " + player2.mf("him", "her") + " to do.");
 
@@ -617,19 +617,19 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nYou yawn loudly, feeling tired now.  You promptly make yourself comfortable lying on " + player2.short + "'s belly, and kiss " + player2.mf("him", "her") + " on the nose.  \"<i>Night, " + player2.short + "; sleep well.</i>\"  You say, then close your eyes and allow yourself to drift off to sleep, happily using " + player2.mf("him", "her") + " as a full-body pillow.");
 		player.orgasm();
 		player.stats.sens += -2;
-		menu();
+		
 		MainScreen.addButton(0, "Next", morningAfterCampVisitEmbark, truth);
 	}
 
 	//Put a PC dick in Urta's vag(C)*
-	private putAPCDickInUrtaCoochies(truth: boolean): void {
+	private putAPCDickInUrtaCoochies(truth: boolean) {
 		DisplayText().clear();
 		let x: number = player2.cockThatFits(urta.urtaCapacity());
 		DisplayText("You push " + player2.short + " down onto the ground, glad that " + player2.mf("he", "she") + "'s not wearing " + player2.mf("his", "her") + " gear right now.  Unfortunately, you've still got to get out of yours, an action made all that more difficult by the heat welling up in your groin.  Your rebellious cock is already half-stiff, lifting the hem of your armored skirt away from your thighs.  Fingers scrabbling, you struggle with your chestpiece's bindings.  Your nipples stiffen, scraping against the inside of it while you fight with to remove it.  You straddle " + player2.short + "'s waist to hold " + player2.mf("him", "her") + " down while you work the bothersome, restraining material free, practically grinding your semi-rigid dick against " + player2.mf("his", "hers") + " in excitement.  " + player2.mf("His", "Her") + " hands begin aiding you in your task, allowing your tightly compressed breasts to finally, happily breathe.");
 
 		DisplayText("\n\nYour cock throbs in tune with your heartbeat, each pulsation causing a thick gobbet of anticipatory precum to splat wetly onto your lover's belly, but you aren't in the mood to indulge it this time.  If you're risking the possibility of never returning to your lover's arms again, then you want to remind yourself yet again of the first man ");
 		if (player2.gender === Gender.HERM) DisplayText("...well, close enough... ");
-		DisplayText("to ever fuck you like a woman.  Grabbing " + player2.mf("his", "her") + " face, you pull " + player2.mf("him", "her") + " into a deep, passionate kiss, unthinkingly grinding your dripping cock and steadily-wettening gash into " + player2.mf("his", "her") + " belly and rubbing your own pebbly onyx nipples against " + player2.mf("his", "her") + " nipples.  " + player2.mf("His", "Her") + " own " + player2.CockDescriptor.describeCock(player, x) + " begins to drool precum");
+		DisplayText("to ever fuck you like a woman.  Grabbing " + player2.mf("his", "her") + " face, you pull " + player2.mf("him", "her") + " into a deep, passionate kiss, unthinkingly grinding your dripping cock and steadily-wettening gash into " + player2.mf("his", "her") + " belly and rubbing your own pebbly onyx nipples against " + player2.mf("his", "her") + " nipples.  " + player2.mf("His", "Her") + " own " + player2.Desc.Cock.describeCock(player, x) + " begins to drool precum");
 		if (player2.count > 0) DisplayText(", her cunt dripping wetly onto the ground from the stimulus");
 		DisplayText(", the fluid rolling down its length to puddle with yours on " + player2.mf("his", "her") + " belly and filling your writhing, passionate embrace with hot, sticky sweetness.");
 
@@ -642,7 +642,7 @@ export class UrtaQuest extends NPCAwareContent {
 			else DisplayText("octapedal");
 			DisplayText(" partner to mount you - encouragement " + player2.mf("he", "she") + " doesn't really need that much of.  Forelegs draping themselves over your shoulders, there is a little awkwardness as the two of you try to position " + player2.mf("his", "her") + " cock inside of you, but it doesn't take that much experimentation before it slides inside you.");
 
-			DisplayText("\n\nYou can't resist moaning like a slut as the pleasure of being filled by " + player.mf("his", "her") + " dick washes through you like a flood of honey-sweet warmth; while you've tried to fill your empty nights with too many toys to be virgin-tight by any means, being filled by the first cock to ever penetrate you for real is still too overwhelming.  Your toy-trained cunt eagerly clamps down on the intruder, squeezing " + player2.mf("his", "her") + " dick until you hear your partner moan with pain-tinted pleasure at being held so tight by your love-tunnel.");
+			DisplayText("\n\nYou can't resist moaning like a slut as the pleasure of being filled by " + Desc.Gender.mf(player, "his", "her") + " dick washes through you like a flood of honey-sweet warmth; while you've tried to fill your empty nights with too many toys to be virgin-tight by any means, being filled by the first cock to ever penetrate you for real is still too overwhelming.  Your toy-trained cunt eagerly clamps down on the intruder, squeezing " + player2.mf("his", "her") + " dick until you hear your partner moan with pain-tinted pleasure at being held so tight by your love-tunnel.");
 
 			DisplayText("\n\nYou loosen up the bare minimum, and " + player2.mf("he", "she") + " takes that as encouragement to start bucking back and forth, slowly pulling " + player2.mf("his", "her") + " cock out of your sopping-wet tunnel and then, just when it's aching to be filled again, forcefully shoving back into you, making your balls and tits bounce and jiggle with each stroke.  Instinctively, your well-trained netherlips ripple and squeeze around the fuckstick currently pistoning in and out of you; knowing that he can't see you in this position, you make no secret of the husky moans and eager whimpers " + player2.mf("his", "her") + " machinations are wringing from you.  You feel like such a whore, carrying on on this fashion... but, Marae's sweet tits, it turns you on so!  Your cock bobs up and down from your motions and the weight of your lover slapping into you, its head flaring wider and wider in arousal as precum drips in a steady splat-splat-splat onto the ground.  Awkwardly supporting yourself on just three limbs, you start trying to jerk yourself off whilst your tauric lover fucks you senseless, smearing your own fluids up and down the sensitive skin of your shaft in sloppy wet strokes.  This is certainly a whole new experience compared to fucking Edryn.");
 
@@ -707,12 +707,12 @@ export class UrtaQuest extends NPCAwareContent {
 		}
 		player.orgasm();
 		player.stats.sens += -2;
-		menu();
+		
 		MainScreen.addButton(0, "Next", morningAfterCampVisitEmbark, truth);
 	}
 
 	//Put Urta dick in girl PC's vag(C)*
-	private putUrtasWangInPCsCunt(truth: boolean): void {
+	private putUrtasWangInPCsCunt(truth: boolean) {
 		DisplayText().clear();
 		DisplayText("You push " + player2.short + " down on her back, a task made all the more difficult by your growing arousal.  Thankfully, she's not wearing her usual " + player2.armorName + ".  Instead, her form is bared to your probing fingertips, pliant and exposed.  You cannot help but dip a finger into her moist delta, parting the oozing veil to enjoy the view of her ");
 		if (player.torso.vaginas.get(0).vaginaType != 5) DisplayText("pink, ");
@@ -793,12 +793,12 @@ export class UrtaQuest extends NPCAwareContent {
 		}
 		player.orgasm();
 		player.stats.sens += -2;
-		menu();
+		
 		MainScreen.addButton(0, "Next", morningAfterCampVisitEmbark, truth);
 	}
 
 	//Snuggle(C)*
-	private snuggleWithUrta(truth: boolean): void {
+	private snuggleWithUrta(truth: boolean) {
 		DisplayText().clear();
 		DisplayText("You think it over and decide that, for once, you'd like to focus more on love and less on lust.  \"<i>Well... I'd really just like to have a snuggle with you, " + player2.short + " - if that's alright?</i>\"  You ask quietly, tail instinctively wagging in an effort to be endearing.  Your lover nods " + player2.mf("his", "her") + " head and answers in the positive, opening " + player2.mf("his", "her") + " arms for further effect.  You waste no time and eagerly sidle into " + player2.mf("his", "her") + " arms.");
 		//[If PC Centaur or Drider:
@@ -828,11 +828,11 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nTo your own surprise, you find your eyes growing heavier and heavier.  But you don't want to let your " + player2.short + " go yet... besides, may as well start searching from here in the morning, right?  So, you and " + player2.short + " carefully lay yourselves back down and quietly drift off to sleep, still holding fast to each other as you do.  The last sounds you hear for the night are your lover breathing, accompanied by the beating of " + player2.mf("his", "her") + " heart, and you idly hope that " + player2.mf("he", "she") + " can hear the same sounds from you...");
 		player.stats.lust += 14;
-		menu();
+		
 		MainScreen.addButton(0, "Next", morningAfterCampVisitEmbark, truth);
 	}
 	//Embark(C)*
-	private morningAfterCampVisitEmbark(truth: boolean): void {
+	private morningAfterCampVisitEmbark(truth: boolean) {
 		DisplayText().clear();
 		model.time.days++;
 		statScreenRefresh();
@@ -853,14 +853,14 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText(player2.short + " nods, and you leave " + player2.mf("him", "her") + " behind.  You keep glancing over your shoulder as you leave, praying silently to any god who'll listen that you return safely to your lover.");
 
-		menu();
+		
 		MainScreen.addButton(0, "Next", runIntoAGoblin, true);
 	}
 
 
 	//Goblin Encounter(C)*
 	//Intro(C)*
-	public runIntoAGoblin(camped: boolean = false): void {
+	public runIntoAGoblin(camped: boolean = false) {
 		DisplayText().clear();
 		if (camped) {
 			DisplayText("Holding the pendant in front of you, you set off in a random direction from the camp, hoping it will give you some kind of sign.  A couple times, you could swear it flickered with an inner light, but the passing luminance could just be a reflection of the omnipresent sun.  You wipe the sweat from your brow and turn around, a little confused as to how you should progress.");
@@ -876,7 +876,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 
 	//Urta Wins(C)*
-	public winFuckAGoblinBroodmotherAsUrta(): void {
+	public winFuckAGoblinBroodmotherAsUrta() {
 		DisplayText().clear();
 		DisplayText("You greedily eye the ");
 		if (monster.stats.HP < 1) DisplayText("submissive");
@@ -911,12 +911,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nStupid goblin.  This whole fight was pointless.  Now that she's defeated, you focus on following the trinket again; you've got to find that shrine.");
 		player.orgasm();
-		menu();
+		
 		MainScreen.addButton(0, "Next", nagaPleaseNagaStoleMyDick);
 	}
 
 	//Urta Loses(C)*
-	public urtaLosesToGoblin(): void {
+	public urtaLosesToGoblin() {
 		DisplayText().clear();
 		//Urta bad end, written by Kinathis... Buckle up for the worst writing you have ever seen!....Okay lets do this! Raaaaa!!! o-o What did i get myself into...
 		//Loss by lust intro(C)*
@@ -967,11 +967,11 @@ export class UrtaQuest extends NPCAwareContent {
 
 		player.orgasm();
 		//[next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", loseToGoblinsPartIIAsUrta);
 	}
 
-	private loseToGoblinsPartIIAsUrta(): void {
+	private loseToGoblinsPartIIAsUrta() {
 		DisplayText().clear();
 		DisplayText("<b>Hours, and many orgasms later...</b>");
 		DisplayText("\nSitting there before your pouting angry wife, you watch as she paces back and forth in front of you.  After having learned of your sterility, she was none too pleased with you.  She's clearly disappointed that her virile stud was shooting blanks and all that thick, creamy cum was just for show.  \"<i>So let me get this straight; you're completely sterile, but you know where you have to go to get your virility back,</i>\" she mutters as she looks at you, hands on her wide, childbearing hips, great globs of spent horse-spunk still dripping from between her legs.");
@@ -981,11 +981,11 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nWhen you finally let go of her, the goblin is blushing wildly, clearly not intending to get so wrapped up in making out with you.  \"<i>W-well... let's get moving shall we, but first...</i>\" Pulling a collar out from one of her pouches, she clasps it around your neck and tugs on the attached leash to lead you along.");
 		//[Next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", loseToGoblinsPartIIIAsUrta);
 	}
 
-	private loseToGoblinsPartIIIAsUrta(): void {
+	private loseToGoblinsPartIIIAsUrta() {
 		DisplayText().clear();
 		DisplayText("<b>Several days later...</b>");
 
@@ -996,23 +996,23 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nWith the god gone, it's just you and your goblin lover.  The golden-skinned woman already grins in anticipation of what's to come.  Without waiting a minute, she grabs you and yanks you away from this creepy place, leading you to a more secluded area before pulling you into a deep, tongue filled kiss.  \"<i>I've waited so long for this - get out of those clothes right now.  I can't wait to make a big batch of daughters with you,</i>\" she says before unbuckling the belts holding back her massive breasts.  The huge I-Cup orbs spill forth like a mass of yellow Jell-O.  \"<i>Get over here and fuck your perfect, fertile little wife full of slutty little goblins right now!</i>\" she demands as she presses her curvy body against yours.  Just thinking of plowing and knocking up your wife's hot, sodden cunt is enough to bring you to full attention, your newly invigorated stallion more than ready to fill her belly with more daughters than she could ever want...");
 
 		//[next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", loseToGoblinsPartIVAsUrta);
 	}
 
 
-	private loseToGoblinsPartIVAsUrta(): void {
+	private loseToGoblinsPartIVAsUrta() {
 		DisplayText().clear();
 		DisplayText("<b>Several hours later...</b>");
 		DisplayText("\nSweaty, plastered in cum, and laying in a puddle of spent horsy-foxy seed, you hold onto the curvy spunk-stuffed body of your voluptuous, goblin wife.  The saffron-skinned woman lets out soft pleasured coos as she clings to you.  The poor stuffed girl completely fucked herself out after the seemingly endless sexfest. In the heat of your passionate romp, your lover starts another round of slow, sensuous cock worship, slowly stroking and licking every inch of your musky stallion and huge, breeder balls.  The soaking-wet girl sucks and stimulates your aching, well-fucked stallion-prick. Your fat bloated beast stays sandwiched between her mountainous mammaries until you cum for what very well could have been the fifth or sixth time.  Even after so many messy, sperm-squirting orgasms, you still unleash a veritable torrent of spunk so thick it paints your lover's body pure white with your new virility.  With her so drenched in sweat and cum it's hard to see the goblin underneath, but you know your faithful, loving wife doesn't mind.  In fact, it seems that getting drenched in your spunk just turns her on even more.");
 
 		DisplayText("\n\nWiping a great, thick glob from her face, your buttercup goblin snuggles her cum-stuffed belly against yours before smiling at you, her hands sliding around you before planting a kiss on your lips.  \"<i>Mmmm... I love you, my wonderful virile stud,</i>\" she purrs to you before reaching down to fondle your rising mustang once again.  Despite her dubious intentions and having brainwashed you, it seems you found the love and acceptance you always wanted.  No doubt you will be the father of a great many daughters in the months to come.   If only you could remember your old lover's name...");
 		Flags.list[FlagEnum.URTA_GOBLIN_SLAVE] = 1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaGameOver);
 	}
 
-	private urtaGameOver(): void {
+	private urtaGameOver() {
 		DisplayText().clear();
 		DisplayText("<b>Urta has been lost to her fate...  Meanwhile, back at camp...</b>");
 		Game.inCombat = false;
@@ -1048,7 +1048,7 @@ export class UrtaQuest extends NPCAwareContent {
 	//Metabolize: Convert HP into fatigue
 	//Second Wind: Regain 50% HP and lose 50 lust.  Once per fight.
 
-	public urtaSpecials(): void {
+	public urtaSpecials() {
 		//Gone	menuLoc = 3;
 		if (Game.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value2 === 5) {
 			DisplayText().clear();
@@ -1056,7 +1056,7 @@ export class UrtaQuest extends NPCAwareContent {
 			Game.enemyAI();
 			return;
 		}
-		menu();
+		
 		MainScreen.addButton(0, "Combo", urtaComboAttack);
 		MainScreen.addButton(1, "Vault", urtaVaultAttack);
 		MainScreen.addButton(2, "Sidewinder", urtaSidewinder);
@@ -1066,7 +1066,7 @@ export class UrtaQuest extends NPCAwareContent {
 		MainScreen.addButton(9, "Back", Game.combatMenu, false);
 	}
 
-	private urtaMetabolize(): void {
+	private urtaMetabolize() {
 		DisplayText().clear();
 		let damage: number = player.takeDamage(Math.round(player.maxHP() / 10));
 		DisplayText("You work your body as hard as you can, restoring your fatigue at the cost of health. (" + damage + ")\nRestored 20 fatigue!\n\n");
@@ -1074,13 +1074,13 @@ export class UrtaQuest extends NPCAwareContent {
 		kGAMECLASS.enemyAI();
 	}
 
-	private urtaSecondWind(): void {
+	private urtaSecondWind() {
 		DisplayText().clear();
 		if (monster.statusAffects.has(StatusAffectType.UrtaSecondWinded)) {
 			DisplayText("You've already pushed yourself as hard as you can!");
 			//Gone		menuLoc = 3;
 			//		return { next: Game.combatMenu };
-			menu();
+			
 			MainScreen.addButton(0, "Next", kGAMECLASS.combatMenu, false);
 			return;
 		}
@@ -1093,14 +1093,14 @@ export class UrtaQuest extends NPCAwareContent {
 	}
 
 	//Combo: 3x attack, higher miss chance, guaranteed hit vs blind
-	private urtaComboAttack(): void {
+	private urtaComboAttack() {
 		if (!player.statusAffects.has(StatusAffectType.Attacks)) {
 			DisplayText().clear();
 			if (player.fatigue + 25 > 100) {
 				DisplayText("You are too fatigued to use that attack!");
 				//Gone			menuLoc = 3;
 				//			return { next: Game.combatMenu };
-				menu();
+				
 				MainScreen.addButton(0, "Next", kGAMECLASS.combatMenu, false);
 				return;
 			}
@@ -1216,13 +1216,13 @@ export class UrtaQuest extends NPCAwareContent {
 	}
 
 	//Dirt Kick
-	private urtaDirtKick(): void {
+	private urtaDirtKick() {
 		DisplayText().clear();
 		if (player.fatigue + 5 > 100) {
 			DisplayText("You are too fatigued to use that ability!");
 			//Gone		menuLoc = 3;
 			//		return { next: Game.combatMenu };
-			menu();
+			
 			MainScreen.addButton(0, "Next", kGAMECLASS.combatMenu, false);
 			return;
 		}
@@ -1249,13 +1249,13 @@ export class UrtaQuest extends NPCAwareContent {
 	}
 
 	//SideWinder: 70% damage + stun chance
-	private urtaSidewinder(): void {
+	private urtaSidewinder() {
 		DisplayText().clear();
 		if (player.fatigue + 10 > 100) {
 			DisplayText("You are too fatigued to use that attack!");
 			//Gone		menuLoc = 3;
 			//		return { next: Game.combatMenu };
-			menu();
+			
 			MainScreen.addButton(0, "Next", kGAMECLASS.combatMenu, false);
 			return;
 		}
@@ -1364,13 +1364,13 @@ export class UrtaQuest extends NPCAwareContent {
 
 
 	//Vault: Use the halberd to support her weight and deliver a high power kick to the enemy, deals 15% more damage. If the enemy is stunned, auto-critical. This is like the move she uses during the fight against the wolf in that scene at Tel'Adre.
-	private urtaVaultAttack(): void {
+	private urtaVaultAttack() {
 		DisplayText().clear();
 		if (player.fatigue + 20 > 100) {
 			DisplayText("You are too fatigued to use that attack!");
 			//Gone		menuLoc = 3;
 			//		return { next: Game.combatMenu };
-			menu();
+			
 			MainScreen.addButton(0, "Next", kGAMECLASS.combatMenu, false);
 			return;
 		}
@@ -1483,7 +1483,7 @@ export class UrtaQuest extends NPCAwareContent {
 	//Male Naga Encounter
 	//Has a hypno lust raising attack.
 	//Immune to tease, focuses on eyes so much that he doesn't notice poses.
-	public nagaPleaseNagaStoleMyDick(): void {
+	public nagaPleaseNagaStoleMyDick() {
 		DisplayText().clear();
 		//Encounter Intro
 		DisplayText("You pick your way through the forest, intent on following the vague directions the talisman gives you... sheesh, this is like the children's game of hotter-colder you used to see the other kids playing when you were a little kit.  You push irritably through a dense cluster of brush; the damn thing would lead you off the beaten path, now wouldn't it?");
@@ -1515,7 +1515,7 @@ export class UrtaQuest extends NPCAwareContent {
 	//Blinds for 3 turns.
 
 	//Urta Wins*
-	public urtaBeatsUpSiriusRadio(): void {
+	public urtaBeatsUpSiriusRadio() {
 		//Beaten via Lust:
 		if (monster.lust >= 99) DisplayText("The naga's hands begin pumping his erect prick as his eyes grow hazier and hazier, the lids slowly sliding shut across them.  He arches his back and lets a cry of defiance and pleasure as he explosively splurts cum onto the ground at your feet, then quietly collapses onto his own coils, murmuring softly.  You wait, but it looks like he's fallen asleep... sheesh.");
 		//Beaten via HP:
@@ -1524,21 +1524,21 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nYou take a deep breath, cursing your rotten luck for running into this guy.  You consider just leaving him there at the mercy of whatever creature happens to find him next, but on the other hand, perhaps you could make use of the naga to relieve your own lust... he's out cold now, so you wouldn't have to worry about his hypnotic gaze.");
 
 		//[Rape][Leave]
-		menu();
+		
 		MainScreen.addButton(0, "Fuck Him", urtaWinFucksSirius);
 		MainScreen.addButton(1, "Leave", leaveSiriusBehind);
 	}
 
 	//[=Leave=]
-	private leaveSiriusBehind(): void {
+	private leaveSiriusBehind() {
 		DisplayText().clear();
 		DisplayText("You decide that he's just not worth your time and leave to continue your journey.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", gnollAlphaBitchIntro);
 	}
 
 	//[=Rape=]
-	private urtaWinFucksSirius(): void {
+	private urtaWinFucksSirius() {
 		DisplayText().clear();
 		DisplayText("You carefully remove your clothes and place them aside, then start to examine the naga's body, looking to see the possibilities for getting off.  Not particularly liking the idea of using his tailtip as a dildo, and given that he's unconscious you can hardly expect him to give you oral, you instead make your way to his groin.  There, his penis is retracted inside a strangely vaginal-like slit.  Great.  Is there anything you can actually do with this jerk?");
 
@@ -1589,10 +1589,10 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nSirius coughs pathetically, spitting a small gob of seed in the process.  Then he licks his lips and looks up, only to meet your hungry stare.  \"<i>Why are you looking at me like that?  No... oh nononononono... Wa - GH!</i>\"  You cram his mouth full again, already humping his face as if your life depends on it... mmm, his throat feels so good wrapped around your cock...");
 		dynStats("lus=", 100, "resisted", false);
 		//Next Page button to trigger scene finish
-		menu();
+		
 		MainScreen.addButton(0, "Next", fuckSiriusRadioII);
 	}
-	private fuckSiriusRadioII(): void {
+	private fuckSiriusRadioII() {
 		DisplayText().clear();
 		DisplayText("\"<i>Oof... ugh... just... just one more... yeah!</i>\"  You gasp, moan, and shudder as your cock explodes yet again in your lover's mouth.  The snake-man is sprawled on the ground, supporting a belly like a centauress full-term with twins, and doesn't stir as you finally go limp and pull out of his mouth, drooling cum all over his face.");
 
@@ -1604,12 +1604,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nAs you walk away, following the pendant once again, you hope that " + player2.short + " will understand why you fucked a stranger like that... maybe if you promise to give " + player2.mf("him", "her") + " oral with as much enthusiasm as that naga gave you, " + player2.mf("he", "she") + "'ll be more understanding?  Mmm... you kind of hope " + player2.mf("he", "she") + " agrees, actually; you can already taste " + player2.mf("him", "her") + " on your tongue...");
 		player.orgasm();
-		menu();
+		
 		MainScreen.addButton(0, "Next", gnollAlphaBitchIntro);
 	}
 
 	//Urta Loses*
-	public urtaLosesToSirriusSnakeRadio(): void {
+	public urtaLosesToSirriusSnakeRadio() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.URTA_BECOMES_SNAKE_SLAVE] = 1;
 		//Loss by HP:
@@ -1683,11 +1683,11 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nYou dutifully follow your master... as happy as you could be.");
 
-		menu();
+		
 		MainScreen.addButton(0, "Next", siriusSatelliteRadioOwnsYouII);
 	}
 
-	private siriusSatelliteRadioOwnsYouII(): void {
+	private siriusSatelliteRadioOwnsYouII() {
 		DisplayText().clear();
 		DisplayText("You yawn loudly as you wake up, stretching yourself to get the cricks out of your joints.  Your bed is a little cramped, but then, the cave you live under doesn't have much room.  It's quite comfy, really.  You hop out of bed and reach for the apron that always hangs next to it; your master has assigned chores for you to do.  He's already up and about, as always, but that just makes it easier for you to make his bed and then start cleaning.");
 
@@ -1706,12 +1706,12 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nAs he begins to pound in and out of you, your balls and tits jiggling from the impact, you smile with glee.  After he cums inside of you, it'll be time for breakfast, and then maybe master will let you cum... or maybe he'll make you wait until the next day like that other time?  You feel yourself getting even more turned on at the thought.  You've never been happier.");
 
 		//{Bad End and all its effects applied here.}
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaGameOver);
 	}
 
 	//Gnoll Alpha Encounter*
-	private gnollAlphaBitchIntro(): void {
+	private gnollAlphaBitchIntro() {
 		DisplayText().clear();
 		//Intro*
 		DisplayText("The last two fights were wearying, but you still feel pretty good. Perhaps best of all, as your last defeated challenger fades into the distance, you become aware of the pendant glowing fairly brightly.  You must be headed in the right direction!  Setting off at a trot, you pick up your pace, covering great distance in the blink of an eye, eyes never leaving the rapidly approaching horizon.  Focus is key to travel in the uninhabited sections of Mareth, as you well know, but it also allows you to move with swiftness surpassing the fastest animal.");
@@ -1736,7 +1736,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 	//Urta Wins*
 	//Standard Win Rape Fuck*
-	public winRapeHyenaPrincess(): void {
+	public winRapeHyenaPrincess() {
 		DisplayText().clear();
 		DisplayText("Laughing at the Amazonian princess, you unbuckle your skirt, not even bothering to shed your armor.  Sure, your hard onyx nipples are digging into the inner lining of your leather breastplate, but it's just another pleasant sensation feeding your arousal.  In the back of your mind, you hope " + player2.short + " won't mind this indiscretion - you can't afford to go wandering around unsated in a place like this.  If a succubus found you all alone and turned on, you might actually fall for her tricks, resistant as you are.  You pray that " + player2.mf("he", "she") + "'ll understand.");
 
@@ -1770,12 +1770,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nThe only answer you get is a blissful, \"<i>Oooohhhhhh...</i>\"");
 		player.orgasm();
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaNightSleep);
 	}
 
 	//[Succubus Milk] (Or, how we CAN have nice things with a little persistence!)
-	public useSuccubiMilkOnGnollPrincesses(): void {
+	public useSuccubiMilkOnGnollPrincesses() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.SUCCUBI_MILKED_GNOLL_PRINCESS] = 1;
 		DisplayText("As you wonder what to do with the defeated furry bitch, you manage to suppress your lusty urges long enough to pull the single milk-white vial off your belt, one of the most common illegal imports you've had to bust in all your years in the Tel'Adre Guard: Succubi's Milk.  Part of you shivers at what you're about to do, but another part of you is very... very excited.  Knowing full well what this potent concoction does to the body, you decide you'd like a plumper, juicier pair of tits to play with when you fuck her.  Pinning the slut down with your foot-pad, you pop the cork.  The smell immediately assaults your senses, sending a shudder up your spine.  Grinning, you hold it up to your nose and give it a long, drawn-out sniff, savoring the nearly alcoholic odor.  The gnoll's breath catches in her throat. She desperately tries to scramble away, but you catch her by the snout, yanking her up into a sitting position.");
@@ -1840,14 +1840,14 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nThe gnoll's eyes cross as you slide her off your spent shaft, and a fountain of cum erupts from her ass, sliding down the length of her bitch-cock towards the dirt.  With your lust sated and your dick slowly drooping downward, you feel a little ashamed of what you did.  You deflowered this poor girl's asshole, and worse, you loved every second of it.  Picking a nearby thistle bloom, you tuck it into her hair.  Then, before you grab your skirt and leave, you give her unresisting lips a slow smooch.  \"<i>I'm sorry,</i>\" you whisper as you depart, leaving her wallowing in a sea of seed.  The only answer you get is a blissful, \"<i>Oooohhhhhh...</i>\"");
 
 		player.orgasm();
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaNightSleep);
 	}
 
 
 	//Urta Loses*
 	//Lose Via Lust (Bonus Scene in Intro!)* ✓
-	public loseToGnollPrincessAndGetGangBanged(): void {
+	public loseToGnollPrincessAndGetGangBanged() {
 		DisplayText().clear();
 		Flags.list[FlagEnum.URTA_TAKEN_BY_GNOLLS] = 1;
 		if (player.stats.lust > 99) {
@@ -1888,12 +1888,12 @@ export class UrtaQuest extends NPCAwareContent {
 			DisplayText("\n\nIt comes down, and everything goes black...");
 		}
 		//[To Loss Epilogue]
-		menu();
+		
 		MainScreen.addButton(0, "Next", loseToGnollAsUrtaEpilogue);
 	}
 
 	//[To Loss Epilogue]'
-	private loseToGnollAsUrtaEpilogue(): void {
+	private loseToGnollAsUrtaEpilogue() {
 		DisplayText().clear();
 		//Loss Epilogue✓
 		//[HP]
@@ -1976,11 +1976,11 @@ export class UrtaQuest extends NPCAwareContent {
 		player.stats.sens += 100;
 		player.stats.cor += 20;
 		//[Next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", loseToGnollAsUrtaEpilogueBAM);
 	}
 
-	private loseToGnollAsUrtaEpilogueBAM(): void {
+	private loseToGnollAsUrtaEpilogueBAM() {
 		DisplayText().clear();
 		DisplayText("Ouch!  Something smacks your face, and it fucking hurts!  You look up, seeing a strong, spotted paw pulling away, trailing a web of spooge in its wake.");
 
@@ -2011,24 +2011,24 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nYour queen slumps back, carrying you with her, and you dribble a few last, wasted squirts over your shoulders onto her nice, fat tits.  She nips your ear and whispers, \"<i>Good girl,</i>\" again, gently lifting you off her while she recovers.  Her whole body twitches as you're withdrawn, her clit huge and over-sensitive still, but once you're off, she rises, only breathing a little heavily.  Her once-taut belly shows the cum-bulge better than your own, and you look on with undisguised envy as the mob closes in around you once more.");
 
 		DisplayText("\n\nYou smile when your holes are filled again - you'll get that yummy gnoll-cum inside you soon.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaGameOver);
 	}
 
 	//The First Night Sleep*
-	public urtaNightSleep(): void {
+	public urtaNightSleep() {
 		DisplayText().clear();
 		DisplayText("The sun is low in the sky by the time you finish your third encounter of the day.  It's time to find shelter.  The temple will have to wait until tomorrow.  You travel quite a distance, far enough that the gnoll's tribe should have trouble finding you if they search.  You pull out your blanket, making your camp in a concealing depression close to the edge of a forest.  There's no one to take an evening's watch for you, so you'll have to rely on concealment to get by.");
 
 		DisplayText("\n\nAs you settle down for a night's sleep, you consider your armor.  It's starting to chafe a little.  Wearing it to bed would be uncomfortable, likely giving you a restless sleep, but it might also give you a fighting chance if something comes after you.  Do you want to sleep naked and rest better at some risk, or do you want to sleep in your armor, safer, but tossing and turning?");
 
-		menu();
+		
 		MainScreen.addButton(0, "SleepNaked", urtaSleepsNaked);
 		MainScreen.addButton(1, "Wear Armor", urtaSleepsArmored);
 	}
 
 	//Armor Sleep*
-	private urtaSleepsArmored(): void {
+	private urtaSleepsArmored() {
 		DisplayText().clear();
 		model.time.days++;
 		DisplayText("You go to sleep wearing your armor.  It turns out to have been a good idea when you're woken by tentacles probing at your chest-plate, seeking to undo the numerous straps holding it in place.  You roll to the side and easily squeeze out of the slippery tendrils.  Your hand falls on your halberd with practiced ease, hefting its reassuring weight in your hands as you spring up off your paws.");
@@ -2041,23 +2041,23 @@ export class UrtaQuest extends NPCAwareContent {
 		HPChange(.5 * player.maxHP(), false);
 		fatigue(-50);
 		player.orgasm();
-		menu();
+		
 		MainScreen.addButton(0, "Next", introSuccubiAndMinotaur);
 	}
 	//Sleep Naked - Nocturnal Tentacle Beast Fuck*
-	private urtaSleepsNaked(): void {
+	private urtaSleepsNaked() {
 		//NOT PLANNED AS A FIGHT
 		DisplayText().clear();
 		DisplayText("You bed down for the night, languidly removing your armor and stretching in the pale moonlight.  The cool air feels wonderful on your skin, particularly after being bound up in that restricting armor all day.  You yawn and wrap yourself up in a blanket, swifly falling asleep in the soft grasses at the edges of the plains, comforted by the gentle hooting of the owls in the woods to the west.");
 		HPChange(player.maxHP(), false);
 		fatigue(-100);
 		player.stats.lust += 10;
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaGetsTentaRaped);
 	}
 
 	//[Next]
-	private urtaGetsTentaRaped(): void {
+	private urtaGetsTentaRaped() {
 		DisplayText().clear();
 		DisplayText("In your dreams, you're dancing with " + player2.short + " at your favorite bar, the bounty of your newly restored genitals bulging between your bodies.  You feel yourself growing warm at the closeness of your lover's body, already aroused and ready for another coupling.  Inhaling deeply, you savor the scent of mixed lust - sweet, so sweet. It makes you a little dizzy to be honest, and you stumble, letting " + player2.short + " catch you.  Mmmm, so warm.  A tongue enters your mouth, dripping more sweet scent onto your palette.  You swallow involuntarily, compulsively, as that oral organ penetrates so deeply into your throat.");
 		DisplayText("\n\nWait...  " + player2.short + " doesn't smell (or taste) like that.  You're still fucking horny, though!  Waking, you stretch and go to yawn, but all that escapes your mouth is a muffled, \"<i>Mmmph!</i>\"");
@@ -2089,13 +2089,13 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nFrom the sensations washing through your body, you'd think that you would have cum by now.  It's like your threshold for pleasure has been raised far beyond the natural.  The pleasure has you rocking your hips against the numerous dicks as they ravage your holes.  You're so close... you just need a little bit more.  The huge orange tentacle catches your eye - it's at least as big as a dozen of the others, and you've no doubt that pulling it into your twat and letting your cunt gorge on its magical juices would get you off like a rocket.  Of course, while you get the feeling that the green goop would prevent it from perma-gaping, there's no way something like that won't have a permanent effect.  Do you ride the little tentacles to orgasm, or take the giant orange one inside it, and let it baste your twat with pussy-elasticizing fluids?");
 		//[Tentacles] [Big Orange]
-		menu();
+		
 		MainScreen.addButton(0, "Tentacles", urtaFinishesWithTentacles);
 		MainScreen.addButton(1, "Big Orange", urtaFinishesWithBigOrange);
 	}
 
 	//Big Orange Tentacle Finisher*
-	private urtaFinishesWithBigOrange(): void {
+	private urtaFinishesWithBigOrange() {
 		DisplayText().clear();
 		DisplayText("Greedy for more, you stretch up to the giant, fat prick and grab hold.  As soon as you do, all the other tentacles quiver, shaking slightly.  The entire surface is already slick and well lubricated, and as soon as you begin to touch it, glowing green drops as big as teacups begin to drip from the massive, dilated cum-hole.  You marvel at the sheer, absurd size of the thing as you guide it down to your waiting nethers.  The three braided vine-cocks withdraw without your intervention to make room for this virile monstrosity.  Your black-lipped sex folds closed once empty, though it does drip with some of the milky plant-seed that already leaked inside you.");
 		DisplayText("\n\nYou pant in anticipation as you draw the distended dong right up to your entrance, the head easily as big as your unstretched lips.  An electric tingle radiates through your vulva at first contact, and the bulbous tendril shivers with it, caught up in the same erotic energy as your eager pussy.  An explosion of warmth goes off against your nether-lips, spreading them with liquid weight, green goo slowly inundating your passage as it exits your chosen dildo.  You caress the top of the glans, then circle below, just under the top, to that wonderfully sensitive spot.  The answering flow is so thick that most of it splatters into your fur, but you still intake a full blast of it into your quim.");
@@ -2120,12 +2120,12 @@ export class UrtaQuest extends NPCAwareContent {
 		player.orgasm();
 		player.stats.lib += 1;
 		player.stats.sens += 2;
-		menu();
+		
 		MainScreen.addButton(0, "Next", introSuccubiAndMinotaur);
 	}
 
 	//Choose Regular Tentacles*
-	private urtaFinishesWithTentacles(): void {
+	private urtaFinishesWithTentacles() {
 		DisplayText().clear();
 		DisplayText("Sighing, you pinch your nipples as your ride the dozens of tentacles, letting them completely envelop your body.  The lips that have teased your cock all this time sluggishly shift position, pressing back against your tip and slowly opening.  With sloth-like slowness, those soft lips encircle the fat, flat head of your horse-dick.  As the tight seal drifts down your length, you get your first taste of the mouth's interior.  The whole of the tentacle seems hollow and lubricated with some internal moisture.  Most interestingly of all, the walls are covered with wiggly little cilia, thousands of them.  Your over-aroused member is caressed and tickled from sheath to tip, buttoned up in the moist confines of the tentacle while it's plump and juicy lips are smacking against your balls.");
 
@@ -2135,12 +2135,12 @@ export class UrtaQuest extends NPCAwareContent {
 		player.orgasm();
 		player.stats.lib += 1;
 		player.stats.sens += 1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", introSuccubiAndMinotaur);
 	}
 
 	//Mino & Succubi Intro*
-	private introSuccubiAndMinotaur(): void {
+	private introSuccubiAndMinotaur() {
 		DisplayText().clear();
 		DisplayText("After getting and departing your makeshift camp, the pendant begins to glow again.  It flickers dully, then goes dark.  Damn!  You turn and change direction, and thankfully, the light returns.  You can see forest ahead, and you advance, your path lit by the strengthening glow of Gul's magical amulet.");
 		DisplayText("\n\nIn seconds, you're advancing through the dim forest, ignoring the gnarled oaks on either side, pendant in one hand, halberd in the other.  Each time the light dims, you change direction until the glow is restored.  Progress is slow, and twice you have to adjust your course to avoid tentacle beasts or worse, but you're confident that Taoth's old shrine is close by.  The air itself changes as you plunge deeper into the dark woods, becoming sinister and sickly sweet, thick with the cloying odor of corrupted plantlife and sexual juices.  Dick-shaped tentacles dangle from some of the trees.  Sometimes, they even grab at you, but you skillfully strike, severing them every time.");
@@ -2186,7 +2186,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 
 	//Urta submits to the minotaur - Alternate Loss via wait or cock press*
-	public urtaSubmitsToMinotaurBadEnd(): void {
+	public urtaSubmitsToMinotaurBadEnd() {
 		DisplayText().clear();
 		DisplayText("You mouth opens, drooling with hunger that you know only the sexy beast across from you can sate.");
 		if (monster.statusAffects.has(StatusAffectType.MinotaurEntangled)) DisplayText("   Seeing the fire in your eyes change from a determined glare to a lusty look, the minotaur pulls you over, carefully unwinding the chain from around you, so as not to damage you.");
@@ -2220,10 +2220,10 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nIdly, your hands grope at your expanding middle, wondering just how full you're going to get.  He's such a big, big boy, and so virile!  You close your eyes and drift off, cradling your sperm-engorged abdomen in your hand.");
 
 		//[Next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", submissiveMinoUrtaBadEndPtII);
 	}
-	private submissiveMinoUrtaBadEndPtII(): void {
+	private submissiveMinoUrtaBadEndPtII() {
 		DisplayText().clear();
 		DisplayText("You wake up feeling so blissfully bloated and utterly full.  Memories of your encounter with the minotaur come streaming back.  You submitted to the beast, and it felt... it felt goood.  Your cunny clenches at the memory, and your rigid, oozing pole pulses needily below.  You burp, tasting the salty leavings in the back of your throat for the first time.  That was good!  Gradually, you become aware of a gentle forward and back motion, making your distended gut slosh and your tits sway pendulously.");
 
@@ -2249,11 +2249,11 @@ export class UrtaQuest extends NPCAwareContent {
 		player.orgasm();
 
 		//[Next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", submissiveMinoUrtaBadEndPtIII);
 	}
 
-	private submissiveMinoUrtaBadEndPtIII(): void {
+	private submissiveMinoUrtaBadEndPtIII() {
 		DisplayText().clear();
 		DisplayText("Naked save for the silver spiked colar around your throat, you dutifully follow your master and mistress.  Your cock bobs in front of you, tumescent and ready, but so long denied that you've grown accustomed to the ever-present lust your superiors incite in you.  One thing you can't get used to is the craving for Fido's cum.  You did learn his name is actually Krott, but to say such aloud would earn you a rather unpleasant whipping from your Mistress, and not the kind that leaves you smiling.  Regardless, your head is nauseatingly clear right now, and you'd do anything just to crawl under his loincloth and slurp down the tiniest fraction of his ballsack's bounty.");
 
@@ -2284,12 +2284,12 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nYou return to the temple with your Mistress and Master, followed by a trail of a half dozen sheep-slaves.  They're every bit as meek as you'd expect, and their milk is delightful.  Unfortunately, you find yourself needing to drink from Fido and Mistress more often to make the nightmares go away.  It's easier to forget.");
 		//{Bad end or Urta removed from game as appropriate}
 		Flags.list[FlagEnum.URTA_MINO_AND_SUCCUBI_SLAVE] = 1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaGameOver);
 	}
 
 	//Urta Win Rapes Minotaur*
-	public winRapeAMinoLordAsUrta(): void {
+	public winRapeAMinoLordAsUrta() {
 		DisplayText().clear();
 		DisplayText("Exulting in your victory, you quickly undress, barely paying heed to the ");
 		if (monster.lust > 99) DisplayText("lusty");
@@ -2334,12 +2334,12 @@ export class UrtaQuest extends NPCAwareContent {
 		Flags.list[FlagEnum.URTA_RAPED_MINO_LORD] = 1;
 		//[End combat, queue post encounter]
 		player.orgasm();
-		menu();
+		
 		MainScreen.addButton(0, "Next", beatMinoLordOnToSuccubi);
 	}
 
 	//Urta Loses Minotaur
-	public urtaLosesToMinotaurRoughVersion(): void {
+	public urtaLosesToMinotaurRoughVersion() {
 		DisplayText().clear();
 		DisplayText("You collapse to your knees, too ");
 		if (player.stats.HP < 1) DisplayText("battered and bruised");
@@ -2382,11 +2382,11 @@ export class UrtaQuest extends NPCAwareContent {
 		player.stats.lib += 50;
 		player.stats.sens += 50;
 		Flags.list[FlagEnum.URTA_IS_VULQUINE_MENACE] = 1;
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaSheHulkPartII);
 	}
 
-	private urtaSheHulkPartII(): void {
+	private urtaSheHulkPartII() {
 		DisplayText().clear();
 		DisplayText("<i>\"My my, aren't you an interesting creature... wouldn't you be interested in becoming my pet?  You would be above that sorry excuse of a brute and get all the cock and milk you could ever want,</i>\"  she smiles seductively at you, getting up from her seated position.  \"<i>I want to take a look at that fascinating body of yours.  Wouldn't submitting be better than fighting?  You'll get to taste this perfect body of mine,</i>\" she says, shifting into a seductive pose, showing off the wide, voluptuous curves of her body.  Unfortunately for her, her words go right over your head; the only thoughts in your mind are how you're going to fuck and breed this curvy whore into a perfect little cocksleeve.");
 		DisplayText("\n\nPulling her whip up, the succubus snaps it like a lion tamer, grinning as you recoil from a strike on your cheek.  You growl and lunge at your prey, disregarding her whips as nothing more than weak little bug bites against your brutal new form.  The sneaky demon is fast, however, quickly jumping out of the way as you barrel into the pillar she had been sitting on.  You recover quickly - too quickly for her.  Reaching up, you grab ahold of the succubus' soft, womanly leg and pull her back down.  Your curvaceous prey lands right on your belly, letting out a groan of dismay, her face planted right onto one of the flat, pre-soaked flares that crown your cocks.  The poor demon's face is completely caked in your new pheromone-packed fluids, more powerful than even that of the minotaur lord.  The much desired demon proves unable to even fight against the scent and taste that floods her nose and mouth.");
@@ -2403,13 +2403,13 @@ export class UrtaQuest extends NPCAwareContent {
 		player.orgasm();
 		player.stats.lib += 50;
 		player.stats.sens += 50;
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaGameOver);
 	}
 
 
 	//Post-Encounter*
-	public beatMinoLordOnToSuccubi(): void {
+	public beatMinoLordOnToSuccubi() {
 		DisplayText().clear();
 		DisplayText("The succubus claps slowly as she gets up from her perch on a ruined column.  \"<i>I'm impressed.</i>\"  She says, stepping in the light as she walks towards you.  You gasp, this succubus looks like a cow!");
 		DisplayText("\n\nShe is tall, standing at about seven feet high, and her hugely voluptuous form makes you blush.  She has breasts three times the size of her head, tipped with a cluster of four obscene, teat-like nipples, each one leaking milk down her huge mounds.   Her hips flare out into an exaggerated hourglass shape, and a long tail tipped with a fleshy spade waves across her spankable butt.  A small cowbell is tied at the base of the spade with a cute little ribbon.  Wide, cow-like horns, easily appropriate for a minotaur, rise from her head, and she flicks cow-like ears to either side whilst sashaying from side to side on her demonic, high-heeled feet.  Her skin is a vibrant purple with splotches of shiny black here and there, including one large spot covering her right eye.");
@@ -2445,7 +2445,7 @@ export class UrtaQuest extends NPCAwareContent {
 	//Aphrodisiac Milk Spray*
 
 	//Tick Message:
-	public milkyUrtaTic(): void {
+	public milkyUrtaTic() {
 		DisplayText("Your body heats up with the effects of the succubus-cow milk...  ");
 		if (player.stats.lust < 50) DisplayText("Thankfully it hasn't become too distracting yet.");
 		else if (player.stats.lust < 75) DisplayText("You don't know how much longer you'll be able to withstand the effects of the milk.");
@@ -2461,7 +2461,7 @@ export class UrtaQuest extends NPCAwareContent {
 	//magic-Enhanced Seduce
 
 	//Urta Wins*
-	public urtaBeatsUpCowcubi(): void {
+	public urtaBeatsUpCowcubi() {
 		DisplayText().clear();
 		//HP:
 		if (monster.stats.HP < 1) {
@@ -2482,21 +2482,21 @@ export class UrtaQuest extends NPCAwareContent {
 		player.stats.lust += 40;
 		player.stats.resisted += false;
 		//[Leave] [Fuck]
-		menu();
+		
 		MainScreen.addButton(0, "Fuck", fuckTheCowCubi);
 		MainScreen.addButton(1, "Leave", leaveTheCowCubi);
 	}
 
 	//[=Leave=]
-	private leaveTheCowCubi(): void {
+	private leaveTheCowCubi() {
 		DisplayText().clear();
 		DisplayText("Your fingers tighten on the shaft of your halberd and suddenly you bring it whipping around, the blunt end slamming into the side of the succubus-cow's head.  As her eyes roll up in her head and she collapses unconscious onto the ground, you spit to the side.  \"<i>Be glad I didn't use the sharp end, monster.</i>\"  With that, you continue on into the depths of the shrine... oh, if only " + player2.short + " was here; you'd happily fuck " + player2.mf("him", "her") + " senseless right now...  Still, it's something to look forward to once you're done inside.");
-		menu();
+		
 		MainScreen.addButton(0, "Go Inside", enteringTaothsShrine);
 	}
 
 	//[=Rape=]
-	private fuckTheCowCubi(): void {
+	private fuckTheCowCubi() {
 		DisplayText().clear();
 		DisplayText("\"<i>Come on girl, strip down so I can see what you're hiding under that leather skirt of yours.  Besides, we both know you want me, I can see that tent,</i>\" she laughs, licking her lips seductively.");
 
@@ -2545,12 +2545,12 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nYou empty the bulk of your cum into the demonic slut, then pull out, spraying her ass and legs with the last few spurts of jizz.  \"<i>Hah!  Is that it?</i>\"  The demon crows, but gets no further; you grab your halberd and bring it crashing down, blunt-end first, into the back of her skull, leaving her unconscious.");
 
 		DisplayText("\n\nYou look at her, sprawled there, and your face falls, shame burning in your belly.  What kind of woman are you?  Bad enough to sleep around on your lover, but with a demon?  Are you really that incapable of controlling yourself?  Feeling miserable, trying to justify your actions and vowing that Taoth will be removed from you if it's the last thing you do, you pull your clothes back on and start heading into the shrine, anxious to be free of him at last.");
-		menu();
+		
 		MainScreen.addButton(0, "Move On", enteringTaothsShrine);
 	}
 
 	//Urta Loses*
-	public urtaLosesToCowCubi(): void {
+	public urtaLosesToCowCubi() {
 		DisplayText().clear();
 		DisplayText("Sinking to your knees, ");
 		if (player.stats.HP < 1) DisplayText("you struggle futilely to rise.  Your arms are shaking and bloody.  It's just too hard.  Your muscles just won't respond, and you fall flat on your face, unable to get up.  The succubus laughs at your plight, and places both her hands on your head.  You struggle, but you're too wounded to wiggle free.  Her magic begins to pulse through your brain, thrumming erotically through your consciousness.  Your heart begins to beat faster and faster, blood rushing to your extremities.  You moan, rigidly, exquisitely hard, your member rising through the soft moss below.  You might have been resistant to her magic at a distance, but nothing could protect you from this.  You NEED to fuck.");
@@ -2609,12 +2609,12 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\n\"<i>Oh, you are such a good bitch!  Now, I know why you're here, so why don't we get you inside, and corrupt that filthy, nasty spirit inside of you into obedience alongside you.</i>\"  Her hand tenderly scratches behind your ear as she coos, \"<i>Such a very good girl you are...</i>\"");
 		DisplayText("\n\nShuddering with pleasure, your eyes cross as you pad after her, thighs rubbing your squishy, soaked nether-lips together.");
 		//[END]
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaGameOver);
 	}
 
 	//The Old Shrine*
-	private enteringTaothsShrine(): void {
+	private enteringTaothsShrine() {
 		DisplayText().clear();
 		DisplayText("You advance cautiously into the shrine's interior, wary of ambush by other demonic residents.  The interior of the shrine proves that there was battle here, easily before you were born.  Corpses reduced to yellowing bones by the passage of the time are scattered everywhere, discarded or broken weapons and mangled armor showing how hard the fighting must have been to hold this sacred place.  Most of the corpses are quite clearly those of your people, with vulpine skulls, bestial leg-bones and the distinctive vertebrae bones showing what must have been beautiful fluffy tails in life.  Other skeletons, however, are surprisingly human-like, though they invariably bear the bones of at least one and sometimes more tails - you finally figure out that they must have been kitsunes in life.  You spare a moment to contemplate the old theory that your two races are related, but then dismiss it; you're not here for science, you're here to make contact with the \"<i>god-ghost</i>\" haunting your body.");
 
@@ -2630,12 +2630,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\n\"<i>I wake...</i>\"");
 		//Next Page, go to Dead Gods Dreaming
-		menu();
+		
 		MainScreen.addButton(0, "Next", deadGodsDreaming);
 	}
 
 	//Dead Gods Dreaming*
-	private deadGodsDreaming(): void {
+	private deadGodsDreaming() {
 		DisplayText().clear();
 		DisplayText("Your eyes spring open and you stare in dumbfounded shock at the statue as it starts to move, joints flexing with the awful sound of stone grating on stone.  Carved eyelids open to reveal flames of myriad colors, ever-shifting before your eyes.  \"<i>Welcome, vessel.  It is time that we spoke.</i>\"");
 
@@ -2673,12 +2673,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nAbsently licking drool from your lips, you stagger upright and, using your halberd for support, start loping home from the shrine.  In your wake you leave a slug-like trail of sexual lubricants, too focused on finding and fucking your lover to care about the glistening slime caking your dick and plastering your inner thighs.");
 		//Revert to PC control and change page to Urta Arrives At Camp
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaArrivesAtCampForFukks);
 		resetToPC();
 	}
 	//Urta Arrives at Camp
-	private urtaArrivesAtCampForFukks(): void {
+	private urtaArrivesAtCampForFukks() {
 		DisplayText().clear();
 		DisplayText("<b><u>Meanwhile, back at camp...</u></b>");
 		DisplayText("\n\nAs you are getting ready to set out for another day in Mareth, you find yourself surprised with an unusual encounter at the very boundaries of your camp.  It's Urta!  She's come back at last... and boy, she's a mess; her eyes roll wildly in her head, until she sees you and fixes on you like a starving fox on a fat hen; her cock thrusts wildly before her, precum bubbling over its tip and splatting wetly into the dust before her, femcum drooling out of her gash like water and plastering her legs with shiny wetness.  The fox breaks into a run until she skids to a halt in front of you, panting with lust and exertion.");
@@ -2698,7 +2698,7 @@ export class UrtaQuest extends NPCAwareContent {
 			if(player.cockThatFits(urtaCapacity()) < 0) DisplayText("  A shame you're too big to fit inside her.");
 		}*/
 		//Genderless PCs auto-select the Edryn option, KnockUrta requires PC has penis, KnockMe requires PC has vagina
-		menu();
+		
 		//[KnockUrta] [KnockMe] [Edryn]
 		if (player.torso.cocks.count > 0) MainScreen.addButton(0, "KnockUrta", knockUpUrtaWithGodChild);
 		if (player.torso.vaginas.count > 0) MainScreen.addButton(1, "KnockMe", getKnockedUpWithGodChild);
@@ -2706,7 +2706,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 	}
 	//PC Knocks Up Urta with God Child*
-	private knockUpUrtaWithGodChild(): void {
+	private knockUpUrtaWithGodChild() {
 		DisplayText().clear();
 		let x: number = player.cockThatFits(urta.urtaCapacity());
 		if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
@@ -2717,21 +2717,21 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nYou feel wetness dripping in the middle of your [fullChest] and over [eachCock], the twin streams of sex-lube just pouring out of Urta like water from a broken dam.  Her green eyes pin you under their overly intense weight, searching you.  She holds herself like that, grinding her fat, flared cockhead along your middle, smearing her plush vulva and sweaty nutsack against");
 		if (player.torso.cocks.count === 1) DisplayText(" your own");
 		else DisplayText(" [oneCock]");
-		DisplayText(".  The nub of her clit is a diamond-hard button that drags across your sensitive " + SkinDescriptor.skin(character) + ", aggressively smashed into your genitals.  Still, somehow, she seems to be holding back, probing you with some last vestige of sanity for your consent.");
+		DisplayText(".  The nub of her clit is a diamond-hard button that drags across your sensitive " + Desc.Skin.skin(character) + ", aggressively smashed into your genitals.  Still, somehow, she seems to be holding back, probing you with some last vestige of sanity for your consent.");
 
-		DisplayText("\n\nSighing, you figure you may as well lie back and enjoy it, and you push your tongue back against hers, letting her set the fevered, frenzied pace but along for the ride regardless.  She picks up on the change in your attitude and shifts, a soft-fingered grip snaring [oneCock] and lifting it up, pressing it into the slick wetness between her thighs.  You gasp, muffled by her overwhelmingly intense french-kiss, the fox-girl's puffy black lips smothering your own in warm, wet affection.  Likewise, the onyx opening of her vagina yields against your " + CockDescriptor.describeCock(player, x) + ", clinging tightly around your girth as they swallow the first few inches of you.  Already, you can feel her inner walls massaging your tender erection towards orgasm.  They squeeze and tug on your " + player.cockHead(x) + " powerfully while small squirts of fox-lube drizzle down to your [sheath].  The fox drives herself the rest of the way down onto you.  Her hips hit yours with a loud smack, splattering her moisture down your [legs].");
+		DisplayText("\n\nSighing, you figure you may as well lie back and enjoy it, and you push your tongue back against hers, letting her set the fevered, frenzied pace but along for the ride regardless.  She picks up on the change in your attitude and shifts, a soft-fingered grip snaring [oneCock] and lifting it up, pressing it into the slick wetness between her thighs.  You gasp, muffled by her overwhelmingly intense french-kiss, the fox-girl's puffy black lips smothering your own in warm, wet affection.  Likewise, the onyx opening of her vagina yields against your " + Desc.Cock.describeCock(player, x) + ", clinging tightly around your girth as they swallow the first few inches of you.  Already, you can feel her inner walls massaging your tender erection towards orgasm.  They squeeze and tug on your " + Desc.Cock.describeCockHead(x) + " powerfully while small squirts of fox-lube drizzle down to your [sheath].  The fox drives herself the rest of the way down onto you.  Her hips hit yours with a loud smack, splattering her moisture down your [legs].");
 
-		DisplayText("\n\nFinally, Urta breaks the kiss, panting for air as she begins to buck and rock atop you.  Your " + CockDescriptor.describeCock(player, x) + " shivers against the squeezing pressures the frenzied fox is forcing upon you, and already you can feel yourself trickling and leaking into her sodden vice.  Both of your bodies have become absolutely drenched in sticky, musky horse-pre");
+		DisplayText("\n\nFinally, Urta breaks the kiss, panting for air as she begins to buck and rock atop you.  Your " + Desc.Cock.describeCock(player, x) + " shivers against the squeezing pressures the frenzied fox is forcing upon you, and already you can feel yourself trickling and leaking into her sodden vice.  Both of your bodies have become absolutely drenched in sticky, musky horse-pre");
 		if (player.torso.cocks.count > 1) DisplayText(", the mess made worse by your multiple-cocked virility.  There's so much that the clear juices roll off you to either side, puddling in your blankets below");
 		DisplayText(".  Her nipples dig into yours");
-		if (player.torso.chest.hasFuckableNipples()) {
+		if (player.torso.chest.find(BreastRow.FuckableNipples)) {
 			DisplayText(", kissing into the ");
 			if (player.lactationQ() > 50) DisplayText("milky, ");
 			DisplayText("wet holes on your tits, drawing fresh gasps of delight from your overwhelmed brain");
 		}
 		else DisplayText(", shooting tingling excitement through your nubs as you grind against each other");
 		DisplayText(".  Urta's artless humping would be cringeworthy if she weren't so incredibly wet or overly tight.");
-		DisplayText("\n\nThe confused girl begins to moan, howl even, yipping wildly as she bottoms out again and again, slathering your loins in her honeyed, female syrup.  She shudders, lost to lust, and the clingy, clenching hole gives a tremendous squeeze around your " + CockDescriptor.describeCock(player, x) + ".  Urta babbles, \"<i>So good... so good...</i>\" over and over, her eyes rolling wildly.  You grab hold of her cushiony, furry behind like a drowning man holding on to a life raft while the pleasure mounts within you, seeming to bubble out of your very balls.  \"<i>Cumcumcumcum!</i>\" the vixen chants, milking you desperately.  You do just that, squirting out a nice, thick load for the her greedy pussy to drink down.  The runny girl-cum that's oozing over your ");
+		DisplayText("\n\nThe confused girl begins to moan, howl even, yipping wildly as she bottoms out again and again, slathering your loins in her honeyed, female syrup.  She shudders, lost to lust, and the clingy, clenching hole gives a tremendous squeeze around your " + Desc.Cock.describeCock(player, x) + ".  Urta babbles, \"<i>So good... so good...</i>\" over and over, her eyes rolling wildly.  You grab hold of her cushiony, furry behind like a drowning man holding on to a life raft while the pleasure mounts within you, seeming to bubble out of your very balls.  \"<i>Cumcumcumcum!</i>\" the vixen chants, milking you desperately.  You do just that, squirting out a nice, thick load for the her greedy pussy to drink down.  The runny girl-cum that's oozing over your ");
 		if (player.torso.balls.quantity > 0) DisplayText("[sack]");
 		else DisplayText("taint");
 		DisplayText(" tints off-white from your liquid, squirting out of her tunnel faster than ever when she climaxes with you");
@@ -2744,11 +2744,11 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nUrta rides you through at least three more orgasms, though you soon lose count, conscious only of the increasingly urgent motions she makes atop you.  Eventually, even the sex can't keep your beleaguered body awake, and you slump into unconsciousness, your only company the 'squish-squish-squish' of your joined genitals.");
 		player.orgasm();
 		player.stats.sens += -2;
-		menu();
+		
 		MainScreen.addButton(0, "Next", postFuckUrtaUp);
 	}
 	//Post-Sex Epilogue*
-	private postFuckUrtaUp(): void {
+	private postFuckUrtaUp() {
 		DisplayText().clear();
 		DisplayText("When you wake, any queries you might have about Urta's \"<i>quest</i>\" having worked are instantly answered.  The snoring vixen beside you already looks very pregnant; it's a good thing that she went to bed naked, because you don't want to think about how she would have swollen up like she has whilst still in her leather jerkin.  The bulge wobbles slightly as she inhales and exhales and you wonder how you're going to wake her up.");
 
@@ -2761,14 +2761,14 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("and set off into the wasteland in the direction of Tel'Adre.  Urta needs to stop and rest on several occasions, weighed down by her sudden and highly advanced pregnancy, but she soldiers on without complaint, taking whatever support you give to her.  You can feel the strange god-child kicking incessantly inside her belly as you walk together.");
 
 		DisplayText("\n\nBefore you know it, the two of you are being waved through the gates.  Edryn boggles at the sight of her friend swollen up with pregnancy, but doesn't protest as you assist Urta in clambering up onto the centauress' back. Together, the two of you manage to haul the unnaturally gravid fox to the Covenant's tower.  Countless guards have to be addressed at each step of the journey, but eventually, you're both brought to a comfortable chamber and allowed to rest... when the mages aren't busily probing Urta with magic, that is.  Urta has you stay by her side the entire time, and you do your best to continue supporting her, not leaving even when she falls asleep on your shoulder, completely tuckered out.  You snuggle up against her once the mages finally agree to let you snooze with her, under the vigilant eyes of your guards.  Rest comes surprisingly easy, despite the tensions of your present situation, and you drift off wondering how long it will take Urta to give birth.");
-		menu();
+		
 		MainScreen.addButton(0, "Next", preggedUrtaWithGodChildEpilogue);
 		model.time.days++;
 		model.time.hours = 7;
 	}
 
 	//Pregged Urta With God-child epilogue:*
-	private preggedUrtaWithGodChildEpilogue(): void {
+	private preggedUrtaWithGodChildEpilogue() {
 		DisplayText().clear();
 		DisplayText("You wake to cries of pain, emanating from the swollen vixen next to you as she clutches your shoulders desperately from the pangs of labor.  Loudly, you yell, \"<i>It's coming!</i>\" which launches the room into a flurry of activity.  Urta's water breaks, gushing from out from under her balls and soaking the floor ahead of her with the clear, amniotic fluids.  One contraction after another begins to hit her, causing her no small amount of pain as her body begins to prepare for the coming birth.");
 
@@ -2800,7 +2800,7 @@ export class UrtaQuest extends NPCAwareContent {
 	}
 
 	//Urta Knocks Up PC with God Child
-	private getKnockedUpWithGodChild(): void {
+	private getKnockedUpWithGodChild() {
 		DisplayText().clear();
 		DisplayText("Smiling coyly, you remove your [armor] and crawl into your bed, beckoning for the lust-crazed fox to follow.  You trust her, and you're more than willing to let her put a nice little bun in your");
 		if (player.isPregnant() && player.pregnancyIncubation < 150) DisplayText(" already filled");
@@ -2815,13 +2815,13 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nThe rutting prick-vixen thrusts so hard that the momentum carries her closer, and in her almost drunken haste, she tumbles head over heels.  With a ");
 		if (player.torso.vaginas.get(0).wetness >= 4) DisplayText("wet ");
-		DisplayText("squish, she lands nose-deep in your vagina, immediately licking at it and tickling you with her smooth, slippery tongue.  \"<i>Mmmmm,</i>\" she purrs as she suckles your [clit].  Inching upward, the dripping wet fox-girl licks higher and higher, her tongue smearing across the " + player.skinFurScales() + " that covers your ");
+		DisplayText("squish, she lands nose-deep in your vagina, immediately licking at it and tickling you with her smooth, slippery tongue.  \"<i>Mmmmm,</i>\" she purrs as she suckles your [clit].  Inching upward, the dripping wet fox-girl licks higher and higher, her tongue smearing across the " + Desc.Skin.skinFurScales(player) + " that covers your ");
 		if (player.pregnancyIncubation > 0 && player.pregnancyIncubation < 150) DisplayText("rounded ");
 		DisplayText("belly.  Urta's rigid onyx nipples tickle your [legs] as they drag upward, each immensely erect and engorged, just a little pebbly in texture.  She reaches your [chest], kissing up the ");
 		if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 1) DisplayText("soft curve");
 		else DisplayText("flat muscles");
 		DisplayText(" until she hits your [nipple].  ");
-		if (player.torso.chest.hasFuckableNipples()) DisplayText("Her tongue plunges inside, savoring the feminine lubricants");
+		if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("Her tongue plunges inside, savoring the feminine lubricants");
 		else DisplayText("Her tongue plays across the surface, the heat of her breath shooting tingles up your spine");
 		DisplayText(".  The further she climbs, the further up your [legs] you can feel her stallion-cock rising, a trail of clear pre-cum in its wake.");
 
@@ -2831,7 +2831,7 @@ export class UrtaQuest extends NPCAwareContent {
 		if (player.vaginalCapacity() < 60) DisplayText("a little painfully");
 		else DisplayText("deliciously");
 		DisplayText(".  Her hands roam over the rest of your body with unrestrained ardor, groping and squeezing, pulling and tweaking.   Meanwhile, her hips smack against your own, smushing her sheath up against your puffy lips, her steamy sex dripping girl-lube down the back of her balls into a thick puddle on your blanket.  SLAP!  The sweaty nutsack slaps loud enough to be heard all over as Urta crudely fucks you, humping you artlessly, her hips beating out a confused, staccato rhythm.");
-		player.displayStretchVagina(60, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, 60, true, true, false);
 
 		DisplayText("\n\nYou hold on to her waist for support, teeth clacking against each other with each bone-jarring, cunt-filling rut.  Urta's gone absolutely wild!  Her copious, ever-dripping pre is pouring out of your abused, cock-gaped slit, unimpeded by the girthy horse-cock that enters and exits, so fast it might as well be a blur.  Helpless under the onslaught, you moan");
 		if (player.torso.cocks.count > 0) {
@@ -2896,7 +2896,7 @@ export class UrtaQuest extends NPCAwareContent {
 		else if (player.torso.hips.legs.isTaur()) DisplayText(", though getting down on your hands and forelegs is a bit challenging for you");
 		else DisplayText(", [face] buried in your blankets soaked with Urta's musky fluid");
 		DisplayText(".");
-		DisplayText("\n\nFrom behind, the hot, familiar head of your lover's member pierces your womanly view.  It slides through your slick, cum-soaked passage with ease, butting right up against your cervix as it bottoms out again.  Urta kneads the " + player.skinFurScales() + " on your [butt], happily beginning to hump you all over again.  The wet squishes are much louder, wetter, and noisier than ever before.  Voraciously, the fox-girl pounds you, a brutal, wet fuck that sends leftover cum, pre and girlish lube splattering everywhere.  Your blankets, if they weren't already, are now ruined, soaked in an inch-deep puddle of sex.");
+		DisplayText("\n\nFrom behind, the hot, familiar head of your lover's member pierces your womanly view.  It slides through your slick, cum-soaked passage with ease, butting right up against your cervix as it bottoms out again.  Urta kneads the " + Desc.Skin.skinFurScales(player) + " on your [butt], happily beginning to hump you all over again.  The wet squishes are much louder, wetter, and noisier than ever before.  Voraciously, the fox-girl pounds you, a brutal, wet fuck that sends leftover cum, pre and girlish lube splattering everywhere.  Your blankets, if they weren't already, are now ruined, soaked in an inch-deep puddle of sex.");
 
 		DisplayText("\n\nWhen her massive shaft bottoms out again, it scrapes across your g-spot in just the right way, and the fireworks going off in your [vagina] push you so far past the point of orgasm that your muscles seize.  ");
 		if (player.torso.vaginas.get(0).wetness >= 5) DisplayText("Lady-spunk showers out of your spasming twat, glazing Urta's bouncy ballsack with your lusty liquid.");
@@ -2912,12 +2912,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\n\"<i>Sweet dreams,</i>\" a breathy voice whispers in your ear, just before it begins to kiss you again...");
 		//[Next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", getKnockedUpUrtaEpilogue);
 	}
 
 	//Post-Sex Epilogue*
-	private getKnockedUpUrtaEpilogue(): void {
+	private getKnockedUpUrtaEpilogue() {
 		DisplayText().clear();
 		DisplayText("When you wake, you're ");
 		if (player.pregnancyIncubation > 0 && player.pregnancyIncubation < 150) DisplayText("much more ");
@@ -2929,18 +2929,18 @@ export class UrtaQuest extends NPCAwareContent {
 		DisplayText("\n\nUrta begins belting on her gear, and you do the same - well, what still fits anyway.  For added protection, your well-endowed lover shrouds you in a blanket, and taking your hand, she begins to lead you toward Tel'Adre.  A few times you have to rest, tired and aching, feeling like your [feet] have swollen up.  Urta is always there with a kind word and a nervous smile, looping her arm under your own for support.  The journey is uneventful, save for the incessant kicking in your middle.");
 		DisplayText("\n\nBefore you know it, you're being waved through the gates.  Urta puts you up on Edryn's back, and together the two of them haul you to the Covenant's tower.  Countless guards have to be addressed at each step of the journey, but eventually, you're brought to a comfortable chamber and allowed to rest... when the mages aren't probing you with magic that is.  Urta stays by your side the entire time, never leaving, not even when she falls asleep on your shoulder, completely tuckered out.  You snuggle up against her and snooze with her, under the vigilant eyes of your guards.  If you weren't so hormonal and tired, you might have had a hard time falling asleep.  Instead, rest comes easily.");
 		//[Next]
-		menu();
+		
 		MainScreen.addButton(0, "Next", getKnockedUpByUrtaEpilogueII);
 		model.time.days++;
 		model.time.hours = 7;
 	}
 	//Urta & Pregged PC  With God-child epilogue:
-	private getKnockedUpByUrtaEpilogueII(): void {
+	private getKnockedUpByUrtaEpilogueII() {
 		DisplayText().clear();
 		DisplayText("You wake to pangs of labor, an unmistakable, forceful pushing emanating from within you.  Loudly, you yell, \"<i>It's coming!</i>\" which launches the room into a flurry of activity.  Your water breaks, gushing from your [vagina] and soaking the floor ahead of you with the clear, amniotic fluids.  One contraction after another begins to hit you, causing you no small amount of pain as your cervix dilates, preparing to disgorge the new life within you.");
 
 		DisplayText("\n\nUnfortunately for you, even with your labor's rapid onset, it takes its sweet time getting there.  For nearly five hours, you're kept waiting, clenching Urta's hand for support whenever the pain becomes too much.  The time passes with agonizing slowness, though the room fills with more and more of the wizards as your labor drags on.  Soft blankets and pillows are gathered, to protect the child when it exits your body, and thankfully, you begin to feel it moving, travelling down your canal as your body compels you to push, to squeeze as hard as you've ever tried.  Then, with a tremendous, sucking, wrenching changing of pleasure, it slips free.");
-		player.displayStretchVagina(40, true, true, false);
+		Mod.Vagina.displayStretchVagina(player, 40, true, true, false);
 
 		DisplayText("\n\nSlick with birthing fluids, a ball of fur, skin, and bones rolls out onto gathered blankets.  Exhaustion tries to claim you, but you pull yourself up on your forearms and squint at it, wondering just what everybody is so excited about - it looks little and messy, like any other newborn.  It strikes you as odd that you feel no motherly affection for the little bundle.");
 
@@ -2970,7 +2970,7 @@ export class UrtaQuest extends NPCAwareContent {
 	}
 
 	//Urta Goes to Knock Up Edryn with God Child*
-	private urtaAndEdrynGodChild(): void {
+	private urtaAndEdrynGodChild() {
 		DisplayText().clear();
 		DisplayText("Urta shudders from head to toe, barely able to restrain herself around you.  \"<i>Oooooh... uh... okay, then.  I'll come back... when... when it's time, okay?</i>\" she titters, almost drunkenly, already prancing off towards the desert.  The lusty vixen looks over her shoulder at you as she jogs off, a trail of lubricant spattering in her wake, her tongue lolling wildly as her eye-humps you.  After a long moment, she looks away, perhaps unable to bear gazing on you any longer.  You hope everything turns out okay...");
 		//[Urta and Edryn disabled until birth event]
@@ -2984,7 +2984,7 @@ export class UrtaQuest extends NPCAwareContent {
 
 
 	//Urta & Edryn God-child epilogue:*
-	public urtaAndEdrynGodChildEpilogue(): void {
+	public urtaAndEdrynGodChildEpilogue() {
 		DisplayText("\nA fast-moving figure appears in the distance, kicking up a cloud of dust and sand behind it.  Before you know it, the blur skids to a stop in your camp - it's Urta!  She's decked out in full battle gear, armored leather, halberd, and all.");
 
 		DisplayText("\n\n\"<i>Hey... " + player.short + "... damn...</i>\" she says, doubling over with her hands on her knees, \"<i>Just gotta catch... my breath...</i>\"  She huffs and puffs, tongue flaring as she pants to recover.  What's the hurry?  Did something happen with that 'Taoth' spirit she was rambling about the other day?  You put your hand on her shoulder and let her lean against you.");
@@ -2992,12 +2992,12 @@ export class UrtaQuest extends NPCAwareContent {
 
 		DisplayText("\n\nYou pull free of her grip and move along with her.  If Urta had a god inside her... well, damn...  That's a little much to take in right now.  She's right though, this isn't something you want to miss!");
 		DisplayText("\n\nTel'Adre's gates loom ahead before long, and you're lead deep into the city, to the tower where Edryn is in labor...");
-		menu();
+		
 		MainScreen.addButton(0, "Next", urtaAndEdrynGodChildEpilogueII);
 	}
 
 	//[Next]
-	private urtaAndEdrynGodChildEpilogueII(): void {
+	private urtaAndEdrynGodChildEpilogueII() {
 		DisplayText().clear();
 		DisplayText("As the double doors open, you hear a painful moan from the ");
 		//{pre-pregnant }

@@ -3,7 +3,7 @@
  */
 export class BrigidScene {
 	//Brigid the Jailer -- PC Victorious
-	public pcDefeatsBrigid(): void {
+	public pcDefeatsBrigid() {
 		DisplayText().clear();
 		DisplayText("The harpy jailer collapses, ");
 		if (monster.lust > 99) DisplayText("too turned on");
@@ -11,17 +11,17 @@ export class BrigidScene {
 		DisplayText(" to continue the fight.  You quickly snatch the keys from inside her shield, and hook them onto your own belt.");
 		//(New Key Item: Harpy Key A)
 		player.createKeyItem("Harpy Key A", 0, 0, 0, 0);
-		cleanupAfterCombat();
+		return { next: Scenes.camp.returnToCampUseOneHour };
 		Flags.list[FlagEnum.HEL_BRIGID_DEFEATED] = 1;
 	}
 
 	//Brigid the Jailer -- PC Defeated
-	public pcDefeatedByBrigid(): void {
+	public pcDefeatedByBrigid() {
 		DisplayText().clear();
 		if (Flags.list[FlagEnum.HEL_HARPY_QUEEN_DEFEATED] === 0) {
 			DisplayText("\"<i>Tsk tsk tsk,</i>\" the harpy jailer croons, looming over you as you slump to the ground. \"<i>You shouldn't have messed with me, bitch!</i>\" she snaps, giving you a rough kick to the side. \"<i>Now, let's see what Mother has to say about this...</i>\"");
 			//(Go to \"<i>Harpy Breeding Slut</i>\" Bad End)
-			menu();
+			
 			MainScreen.addButton(0, "Next", Game.harpyQueenBeatsUpPCBadEnd, true);
 		}
 		else {
@@ -40,7 +40,7 @@ export class BrigidScene {
 	}
 
 	//--Next--
-	private brigitPostQueenDeathBadEndII(): void {
+	private brigitPostQueenDeathBadEndII() {
 		DisplayText().clear();
 		//[(if M, U, or visibly pregnant F/H)
 		if (player.gender <= 1 || player.pregnancyIncubation > 0) {
@@ -68,7 +68,7 @@ export class BrigidScene {
 			DisplayText("\n\nKiri strokes your prick with her body vigorously, pushing you toward your limit and keeping up appearances even as she whispers to you.  \"<i>Please, [name]... just endure it for now.  I'll think of a way to get you out of here, I promise.</i>\"  She shifts her hips downward, engulfing your shaft again, and rolls her head passionately as her cheeks flush.  \"<i>I-it may be a while, though,</i>\" she says, kissing your chest.  \"<i>I - ah! I'm not very much by myself, so... the only thing I can do is make lots of loyal, strong daughters with your seed... s-someday there'll be enough to make a break for it!  J-just hold on and... and... fertilize me!  </i>Fertilize me<i>, [name]!</i>\"");
 
 			DisplayText("\n\nThe harpy's eyes roll back in her head as she moans and sinks down one last time in orgasm, sucking at your cock with her vagina; your throbbing prick obeys, ejaculating a load of semen into the open-mouthed bird-girl.  \"<i>Ohh god,</i>\" Kiri gasps, \"<i>YES!  Cover my eggs in your sticky cum!  Fill me up!</i>\"");
-			if (player.torso.cocks.count > 1 || player.cumQ() > 1000) DisplayText("  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " holds forth for a while, until Kiri's ass, pussy, and tailfeathers are soaked with oozing, white cum.");
+			if (player.torso.cocks.count > 1 || player.cumQ() > 1000) DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player, true) + " holds forth for a while, until Kiri's ass, pussy, and tailfeathers are soaked with oozing, white cum.");
 			DisplayText("  Next to you, the salamander on the other table climaxes as well, dumping a load into Hel that sizzles when it leaks onto his fiery, iron-bound tail.  Your former lover squirms and shivers as the scalding-hot load fills her cunt, and her own prick twitches weakly, depositing a small string of bubbling jism on the stone table.");
 
 			DisplayText("\n\n\"<i>Oh dad... Hel... I'm sorry,</i>\" Kiri whimpers, unable to pull her eyes away from them as your cock dribbles the last of your seed into her.  The bound man's single eye widens as he hears the name of his partner, and his face deforms with rage as a roar pours out of him with enough volume to shake the room.  Kiri buries her face in your [chest] and shudders as the prisoner bellows his frustration; Hel simply looks left and right, confused and anxious as the echoing roar dies off; Brigid pushes her toy pussy away and rises from her stool.");
@@ -82,9 +82,9 @@ export class BrigidScene {
 		//(else if not visibly pregnant F or H)
 		else {
 			//hymen check]
-			player.displayStretchVagina(15, false, false, false);
+			Mod.Vagina.displayStretchVagina(player, 15, false, false, false);
 			DisplayText("The heat in your [vagina] is the first thing to stir you.  Your eyes open painfully, fluttering with each soft pulse of your head; it feels like an imp was set loose inside, covering your brain with thick jizz, but eventually you manage to focus and look down.  What greets you is the sight of ");
-			if (player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeMultiCockSimpleOne(player) + " bobbing up and down, drooling pre-cum, as ");
+			if (player.torso.cocks.count > 0) DisplayText(Desc.Cock.describeMultiCockSimpleOne(player) + " bobbing up and down, drooling pre-cum, as ");
 			DisplayText("your red, sore pussy is pounded viciously by a thick cock dotted with scales.  Below it dangles a pair of swollen balls, bouncing as the shaft is thrust into you; with an inkling of understanding, you look back to confirm your suspicion.  Sure enough, you're mounted atop the table-bound salamander from before, who grunts as he pushes into you.  The hot cock, hotter than your body, slides in with a sizzle, and some of your juices roll down the shaft, only to evaporate when they hit the salamander's flaming, iron-bound tail.  Your own limbs are chained to the table via a massive iron ring and Brigid stands in front of you, watching you expectantly; behind her are arranged a score of assorted harpies and surviving phoenixes in various stages of coitus.");
 
 			DisplayText("\n\nIt takes you a while to realize that the gasps you're hearing aren't all coming from you and the rabble; you turn your head to the table next to you, upon which is strapped Hel.  The woman is restrained much the same way as your salamander, except her legs are spread wide open, displaying her pussy for all to see, and an additional iron mask completely covers her face.  Atop Hel sits Kiri, the little orange-feathered harpy from before, grinding her feathery pelvis into Hel's.  \"<i>S-sorry dad; [name],</i>\" Kiri says, wincing as she notices your stare.  \"<i>Just... try to... t-to hold on!</i>\"  She reclines and pulls away from Hel, and for the first time you can see what she's grinding on; a small, orange-scaled dick is jutting fron Hel's crotch!  Kiri moans as she stirs her pussy with it, throwing her hips upward to reveal that she, too, sports a brand-new, oozing penis.");
@@ -97,7 +97,7 @@ export class BrigidScene {
 
 			DisplayText("\n\nThe dick in you twitches and a flood of painful warmth in your own womb tenses your body; you slide partway off of the shaft in agony, and you can see the man's wrists straining against his bonds, trying to break free so he can pull you back down.  He roars in frustration as you expose more than half of his cock to the air trying to get away from the intensely hot seed, but there's not enough slack in your bonds, and he finishes inside you, leaving your [face] tear-stained and pinched.  Brigid takes your chin in her hands.");
 
-			DisplayText("\n\n\"<i>Aww, didn't come yet?  Too bad.  There's only one use for a trash " + player.race() + " like you, anyway,</i>\" your jailer coos sweetly, caressing your " + SkinDescriptor.skin(character) + ".  \"<i>You're going to make me more salamanders, so... better luck next time!</i>\"  She unfastens your chains from the loop on the table, violently dragging you clear and covering your [butt] in the scalding seed pouring out of you.  \"<i>I don't care what you bitches do with this one,</i>\" Brigid says, yanking you toward the ongoing harpy orgy, \"<i>just don't ruin her.  That breeding stock on the table won't last much longer once we start to make up for the soldiers we lost, and we might be able to get a replacement out of her womb.  And don't fucking bother me, I need to go over mom's notes and figure out how she was making the phoenixes!</i>\"");
+			DisplayText("\n\n\"<i>Aww, didn't come yet?  Too bad.  There's only one use for a trash " + player.race() + " like you, anyway,</i>\" your jailer coos sweetly, caressing your " + Desc.Skin.skin(character) + ".  \"<i>You're going to make me more salamanders, so... better luck next time!</i>\"  She unfastens your chains from the loop on the table, violently dragging you clear and covering your [butt] in the scalding seed pouring out of you.  \"<i>I don't care what you bitches do with this one,</i>\" Brigid says, yanking you toward the ongoing harpy orgy, \"<i>just don't ruin her.  That breeding stock on the table won't last much longer once we start to make up for the soldiers we lost, and we might be able to get a replacement out of her womb.  And don't fucking bother me, I need to go over mom's notes and figure out how she was making the phoenixes!</i>\"");
 
 			DisplayText("\n\nWith a shove from the pink-haired jailer, you're tumbled into a pair of lovers; the phoenix stops groping the harpy's tits to wrap her arm around you and pull you to the floor, and no sooner are you laid down than the harpy's stretched, semen-stuffed pussy is atop your mouth, grinding into your face and drooling warm phoenix seed down your throat");
 			if (player.torso.cocks.count > 0) DisplayText(" as the phoenix's cunt slides onto your [cock smallest]");
