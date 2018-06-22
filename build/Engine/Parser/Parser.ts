@@ -42,7 +42,7 @@ Conditional statements:
     or = |
 
     Block = "[" Statement|Condition|Expression|Factor|Unary|Number|Boolean|String "]"
-    Statement = "if" "(" Condition ")" Number|Boolean|String "|" Number|Boolean|String
+    Statement = "if" "(" Condition|Boolean ")" Unary|Boolean|String "|" Unary|Boolean|String
     Condition = Expression|Boolean|String ["=="|"="|"!="|"<"|">"|"<="|">="] Expression|Boolean|String
     Expression = Factor {["+"|"-"] Factor}
     Factor = Unary {["*"|"/"] Unary}
@@ -51,316 +51,350 @@ Conditional statements:
     Boolean = ["true"|"false"]
     String = [\w\d\s.\"\']+
 */
-
-class Parser {
-    private curIndex: number;
+export class Parser {
+    private offset: number;
+    private currIndex: number = 0;
     private str: string;
-    private hasFailed: boolean;
-    private failedMessage: string;
-
-    public parse(str: string): string {
-        this.str = str;
-        this.curIndex = 0;
-        this.hasFailed = false;
-        const result = this.block();
-        if (this.hasFailed) {
-            return this.failedMessage;
-        }
-        return "" + result;
-    }
+    private parserResult;
+    private expectedList: string[];
+    private deepestFailIndex: number;
 
     private endStr(): boolean {
-        return this.curIndex < this.str.length;
+        return this.currIndex >= this.str.length;
     }
 
-    private stringCheck(str: string): boolean {
-        if (this.str.substr(this.curIndex, str.length) === str) {
-            this.curIndex += str.length;
+    private peek(str: string, ignoreCase?: boolean): boolean {
+        return ignoreCase ? this.str.slice(this.currIndex, this.currIndex + str.length).toLowerCase() === str.toLowerCase() : this.str.startsWith(str, this.currIndex);
+    }
+
+    private check(str: string, ignoreCase?: boolean): boolean {
+        if (this.peek(str, ignoreCase)) {
+            this.currIndex += str.length;
             return true;
         }
+        this.expect(str);
         return false;
     }
 
-    private failed(startIndex: number) {
-        this.hasFailed = true;
-        this.failedMessage = "Parsing has failed at position " + this.curIndex;
-        this.curIndex = startIndex;
+    private expect(str: string) {
+        if (this.currIndex < this.deepestFailIndex) return;
+
+        if (this.currIndex > this.deepestFailIndex) {
+            this.deepestFailIndex = this.currIndex;
+            this.expectedList = [];
+        }
+
+        this.expectedList.push(str);
     }
 
-    public block(): any {
-        const startIndex = this.curIndex;
-        let result: any;
-        while (this.endStr() && this.str.charAt(this.curIndex) !== "[") {
-            this.curIndex++;
-        }
-        if (this.str.charAt(this.curIndex) === "[") {
-            this.curIndex++;
-            this.whitespace();
-            result = this.statement();
-            if (this.hasFailed) {
-                this.hasFailed = false;
-                result = this.condition();
-                if (this.hasFailed) {
-                    this.hasFailed = false;
-                    result = this.expression();
-                    if (this.hasFailed) {
-                        this.hasFailed = false;
-                        result = this.factor();
-                        if (this.hasFailed) {
-                            this.hasFailed = false;
-                            result = this.unary();
-                            if (this.hasFailed) {
-                                this.hasFailed = false;
-                                result = this.number();
-                                if (this.hasFailed) {
-                                    this.hasFailed = false;
-                                    result = this.boolean();
-                                    if (this.hasFailed) {
-                                        this.hasFailed = false;
-                                        result = this.string();
-                                        if (this.hasFailed) {
-                                            this.failed(startIndex);
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+    public parse(str: string): string {
+        let startIndex: number;
+        let matchIndex = 0;
+        let result = "";
+        this.offset = 0;
+        this.currIndex = 0;
+        this.str = str;
+        this.expectedList = [];
+        this.parserResult = "";
+        this.deepestFailIndex = 0;
+        while (matchIndex < str.length) {
+            startIndex = matchIndex;
+            matchIndex = str.indexOf("[", matchIndex);
+            if (matchIndex === -1) {
+                return str;
+            }
+            else {
+                result += str.slice(startIndex, matchIndex);
+                this.currIndex = matchIndex;
+                this.offset = matchIndex;
+                if (!this.block()) {
+                    return result + "<" + this.parserResult + "> Error at " + (this.deepestFailIndex - this.offset) + " Expected " + this.expectedList
+                        .filter((value, index, self) => self.indexOf(value) === index)
+                        .reduce((prev, curr, index, self) => prev + curr.toString() + (index !== self.length - 1 ? ", " : ""), "");
                 }
+                result += this.parserResult;
+                matchIndex = this.currIndex;
             }
-        }
-        if (this.str.charAt(this.curIndex) === "]") {
-            this.curIndex++;
-            return result;
-        }
-        else {
-            this.failed(startIndex);
-            return;
-        }
-    }
-
-    public statement(): boolean | number | string {
-        this.whitespace();
-        const startIndex = this.curIndex;
-        let condition: boolean;
-        let trueVal: boolean | number | string;
-        let falseVal: boolean | number | string;
-        //    Statement = "if" "(" Condition ")" Number|Boolean|String "|" Number|Boolean|String
-        if (!this.stringCheck("if")) {
-            this.failed(startIndex);
-            return;
-        }
-        this.whitespace();
-        if (!this.stringCheck("(")) {
-            this.failed(startIndex);
-            return;
-        }
-        condition = this.condition();
-        if (this.hasFailed) {
-            this.failed(startIndex);
-            return;
-        }
-        this.whitespace();
-        if (!this.stringCheck(")")) {
-            this.failed(startIndex);
-            return;
-        }
-        trueVal = this.number();
-        if (this.hasFailed) {
-            this.hasFailed = false;
-            trueVal = this.boolean();
-            if (this.hasFailed) {
-                this.hasFailed = false;
-                trueVal = this.string();
-                if (this.hasFailed) {
-                    this.failed(startIndex);
-                    return;
-                }
-            }
-        }
-        this.whitespace();
-        if (this.stringCheck("|")) {
-            falseVal = this.number();
-            if (this.hasFailed) {
-                this.hasFailed = false;
-                falseVal = this.boolean();
-                if (this.hasFailed) {
-                    this.hasFailed = false;
-                    falseVal = this.string();
-                    if (this.hasFailed) {
-                        this.failed(startIndex);
-                        return;
-                    }
-                }
-            }
-        }
-        else falseVal = "";
-        return condition ? trueVal : falseVal;
-    }
-
-    public condition(): boolean {
-        this.whitespace();
-        const startIndex = this.curIndex;
-        let opStored: string;
-        let rval: boolean | number | string;
-        let lval: boolean | number | string;
-        let result: boolean;
-
-        lval = this.expression();
-        if (this.hasFailed) {
-            this.hasFailed = false;
-            lval = this.boolean();
-            if (this.hasFailed) {
-                this.hasFailed = false;
-                lval = this.string();
-                if (this.hasFailed) { this.failed(startIndex); return; }
-            }
-        }
-        this.whitespace();
-        const ops = ["==", "=", "!=", "<", ">", "<=", ">="];
-        for (const op of ops) {
-            if (this.str.substr(this.curIndex, op.length) === op) {
-                this.curIndex += op.length;
-                opStored = op;
-                break;
-            }
-        }
-        if (!opStored) {
-            this.failed(startIndex);
-            return;
-        }
-        rval = this.expression();
-        if (this.hasFailed) {
-            this.hasFailed = false;
-            rval = this.boolean();
-            if (this.hasFailed) {
-                this.hasFailed = false;
-                rval = this.string();
-                if (this.hasFailed) { this.failed(startIndex); return; }
-            }
-        }
-
-        switch (opStored) {
-            case "==": { result = lval === rval; break; }
-            case "=": { result = lval === rval; break; }
-            case "!=": { result = lval !== rval; break; }
-            case "<": { result = lval < rval; break; }
-            case ">": { result = lval > rval; break; }
-            case "<=": { result = lval <= rval; break; }
-            case ">=": { result = lval >= rval; break; }
         }
         return result;
     }
 
-    public expression(): number {
+    public block(): boolean {
+        const startIndex = this.currIndex;
+        if (!this.check("[")) {
+            this.currIndex = startIndex;
+            return false;
+        }
+
         this.whitespace();
-        const startIndex = this.curIndex;
-        const head = this.factor();
-        let factor: number;
-        let op: string;
-        if (!this.hasFailed) {
-            let result = head;
-            while (this.endStr() && !this.hasFailed) {
+        if (this.statement() || this.condition() || this.expression() || this.factor() || this.unary() || this.number() || this.boolean() || this.string()) {
+            if (this.check("]"))
+                return true;
+            else {
+                this.currIndex = startIndex;
+                return false;
+            }
+        }
+        else {
+            this.currIndex = startIndex;
+            return false;
+        }
+    }
+
+    public statement(): boolean {
+        let condition: boolean;
+        let trueVal: boolean | number | string;
+        // If no false value, default to empty string
+        let falseVal: boolean | number | string = "";
+        const startIndex = this.currIndex;
+
+        this.whitespace();
+        if (!this.check("if")) {
+            this.currIndex = startIndex;
+            return false;
+        }
+
+        this.whitespace();
+
+        if (!this.check("(")) {
+            this.currIndex = startIndex;
+            return false;
+        }
+
+        if (this.condition() || this.boolean()) {
+            condition = this.parserResult;
+
+            this.whitespace();
+
+            if (!this.check(")")) {
+                this.currIndex = startIndex;
+                return false;
+            }
+
+            if (this.unary() || this.boolean() || this.string()) {
+                trueVal = this.parserResult;
                 this.whitespace();
-                if (this.stringCheck("+"))
+                if (this.check("|")) {
+                    if (this.unary() || this.boolean() || this.string()) {
+                        falseVal = this.parserResult;
+                        return true;
+                    }
+                    else {
+                        this.currIndex = startIndex;
+                        return false;
+                    }
+                }
+                this.parserResult = condition ? trueVal : falseVal;
+                return true;
+            }
+            else {
+                this.currIndex = startIndex;
+                return false;
+            }
+        }
+        else {
+            this.currIndex = startIndex;
+            return false;
+        }
+    }
+
+    public condition(): boolean {
+        let opStored: string;
+        let rval: boolean | number | string;
+        let lval: boolean | number | string;
+        const startIndex = this.currIndex;
+
+        this.whitespace();
+        if (this.expression() || this.boolean() || this.string()) {
+            lval = this.parserResult;
+            this.whitespace();
+            const ops = ["==", "=", "!=", "<", ">", "<=", ">="];
+            for (const op of ops) {
+                if (this.check(op)) {
+                    opStored = op;
+                    break;
+                }
+            }
+
+            if (!opStored) {
+                this.currIndex = startIndex;
+                return false;
+            }
+
+            if (this.unary() || this.boolean() || this.string()) {
+                rval = this.parserResult;
+                switch (opStored) {
+                    case "==": { this.parserResult = lval === rval; break; }
+                    case "=": { this.parserResult = lval === rval; break; }
+                    case "!=": { this.parserResult = lval !== rval; break; }
+                    case "<": { this.parserResult = lval < rval; break; }
+                    case ">": { this.parserResult = lval > rval; break; }
+                    case "<=": { this.parserResult = lval <= rval; break; }
+                    case ">=": { this.parserResult = lval >= rval; break; }
+                }
+                return true;
+            }
+            else {
+                this.currIndex = startIndex;
+                return false;
+            }
+        }
+        else {
+            this.currIndex = startIndex;
+            return false;
+        }
+
+    }
+
+    public expression(): boolean {
+        let value;
+        let op: string;
+        const startIndex = this.currIndex;
+
+        this.whitespace();
+        if (this.factor()) {
+            value = this.parserResult;
+
+            do {
+                op = "";
+                if (this.check("+"))
                     op = "+";
-                else if (this.stringCheck("-"))
+                else if (this.check("-"))
                     op = "-";
-                else break;
-                factor = this.factor();
-                if (!this.hasFailed) {
-                    if (op === "+")
-                        result += factor;
-                    else if (op === "-")
-                        result -= factor;
+                else
+                    break;
+
+                if (op === "+" || op === "-") {
+                    if (this.factor()) {
+                        if (op === "+")
+                            value += this.parserResult;
+                        if (op === "-")
+                            value -= this.parserResult;
+                    }
+                    else {
+                        this.currIndex = startIndex;
+                        return false;
+                    }
                 }
-                else { this.failed(startIndex); return; }
-            }
-            return result;
+            } while (op !== "");
+            this.parserResult = value;
+            return true;
+        }
+        else {
+            this.currIndex = startIndex;
+            return false;
         }
     }
 
-    public factor(): number {
-        this.whitespace();
-        const startIndex = this.curIndex;
-        const head = this.unary();
-        let unary: number;
+    public factor(): boolean {
+        let value;
         let op: string;
-        if (!this.hasFailed) {
-            let result = head;
-            while (this.endStr() && !this.hasFailed) {
-                this.whitespace();
-                if (this.stringCheck("*"))
+        const startIndex = this.currIndex;
+
+        this.whitespace();
+        if (this.unary()) {
+            value = this.parserResult;
+
+            do {
+                op = "";
+                if (this.check("*"))
                     op = "*";
-                else if (this.stringCheck("/"))
+                else if (this.check("/"))
                     op = "/";
-                else break;
-                unary = this.unary();
-                if (!this.hasFailed) {
-                    if (op === "*")
-                        result *= unary;
-                    else if (op === "/")
-                        result /= unary;
+                else
+                    break;
+
+                if (op === "*" || op === "/") {
+                    if (this.unary()) {
+                        if (op === "*")
+                            value *= this.parserResult;
+                        if (op === "/")
+                            value /= this.parserResult;
+                    }
+                    else {
+                        this.currIndex = startIndex;
+                        return false;
+                    }
                 }
-                else { this.failed(startIndex); return; }
-            }
-            return result;
+            } while (op !== "");
+            this.parserResult = value;
+            return true;
+        }
+        else {
+            this.currIndex = startIndex;
+            return false;
         }
     }
 
-    public unary(): number {
+    public unary(): boolean {
+        const startIndex = this.currIndex;
+
         this.whitespace();
-        if (this.str.charAt(this.curIndex) === "-") {
-            this.curIndex++;
-            return -this.number();
+        if (this.check("-")) {
+            if (this.number()) {
+                this.parserResult = -this.parserResult;
+                return true;
+            }
+            else {
+                this.currIndex = startIndex;
+                return false;
+            }
         }
-        return this.number();
+        else return this.number();
     }
 
     public boolean(): boolean {
         this.whitespace();
-        const startIndex = this.curIndex;
-        if (this.str.substr(this.curIndex, 4).toLowerCase() === "true") {
-            this.curIndex += 4;
+        if (this.check("true", true)) {
+            this.parserResult = true;
             return true;
         }
-        else if (this.str.substr(this.curIndex, 5).toLowerCase() === "false") {
-            this.curIndex += 5;
+        else if (this.check("false", true)) {
+            this.parserResult = false;
+            return true;
+        }
+        else return false;
+    }
+
+    public string(): boolean {
+        const startIndex = this.currIndex;
+        this.whitespace();
+        if (/[\s\w\d]/.test(this.str.charAt(this.currIndex))) {
+            this.currIndex++;
+            while (!this.endStr() && /[\s\w\d]/.test(this.str.charAt(this.currIndex))) {
+                this.currIndex++;
+            }
+            this.parserResult = this.str.substring(startIndex, this.currIndex).trimRight();
+            return true;
+        }
+        else {
+            this.currIndex = startIndex;
+            this.expect("string");
             return false;
         }
-        else this.failed(startIndex);
     }
 
-    public string(): string {
+    public number(): boolean {
+        const startIndex = this.currIndex;
         this.whitespace();
-        const startIndex = this.curIndex;
-        if (/[\s\w\d]/.test(this.str.charAt(this.curIndex))) {
-            this.curIndex++;
-            while (this.endStr() && /[\s\w\d]/.test(this.str.charAt(this.curIndex))) {
-                this.curIndex++;
+        if (/[\d]/.test(this.str.charAt(this.currIndex))) {
+            this.currIndex++;
+            while (!this.endStr() && /[\d]/.test(this.str.charAt(this.currIndex))) {
+                this.currIndex++;
             }
-            return this.str.substring(startIndex, this.curIndex).trimRight();
+            this.parserResult = +(this.str.substring(startIndex, this.currIndex));
+            return true;
         }
-        else this.failed(startIndex);
-    }
-
-    public number(): number {
-        this.whitespace();
-        const startIndex = this.curIndex;
-        if (/[\d]/.test(this.str.charAt(this.curIndex))) {
-            this.curIndex++;
-            while (this.endStr() && /[\d]/.test(this.str.charAt(this.curIndex))) {
-                this.curIndex++;
-            }
-            return +(this.str.substring(startIndex, this.curIndex));
+        else {
+            this.currIndex = startIndex;
+            this.expect("number");
+            return false;
         }
-        else this.failed(startIndex);
     }
 
     public whitespace(): void {
-        while (this.endStr() && /[ \t\n\r]/.test(this.str.charAt(this.curIndex))) {
-            this.curIndex++;
+        while (!this.endStr() && /[ \t\n\r]/.test(this.str.charAt(this.currIndex))) {
+            this.currIndex++;
         }
     }
 }
