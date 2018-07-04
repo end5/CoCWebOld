@@ -1,67 +1,33 @@
 /*
-Parser Syntax:
+	definition		=
+	concatenation	,
+	alternation		|
+	optional		[ ... ]
+	repetition		{ ... }
+	grouping		( ... )
+    terminal string	" ... "
+    regex           \/ ... \/
 
-// Querying simple PC stat nouns:
-    [noun]
-
-Conditional statements:
-// Simple if statement:
-    [if (condition) OUTPUT_IF_TRUE]
-// If-Else statement
-    [if (condition) OUTPUT_IF_TRUE | OUTPUT_IF_FALSE]
-    // Note - Implicit else indicated by presence of the "|"
-
-// Object aspect descriptions
-    [object aspect]
-    // gets the description of aspect "aspect" of object/NPC/PC "object"
-    // Eventually, I want this to be able to use introspection to access class attributes directly
-    // Maybe even manipulate them, though I haven't thought that out much at the moment.
-
-// Gender Pronoun Weirdness:
-// PRONOUNS: The parser uses Elverson/Spivak Pronouns specifically to allow characters to be written with non-specific genders.
-// http://en.wikipedia.org/wiki/Spivak_pronoun
-//
-// Cheat Table:
-//           | Subject    | Object       | Possessive Adjective | Possessive Pronoun | Reflexive         |
-// Agendered | ey laughs  | I hugged em  | eir heart warmed     | that is eirs       | ey loves emself   |
-// Masculine | he laughs  | I hugged him | his heart warmed     | that is his        | he loves himself  |
-// Feminine  | she laughs | I hugged her | her heart warmed     | that is hers       | she loves herself |
-
-[screen (SCREEN_NAME) | screen text]
-    // creates a new screen/page.
-
-[button (SCREEN_NAME) | button_text]
-    // Creates a button which jumps to SCREEN_NAME when clicked
-
+	Block       = {[String] , ["[" , _ , Statement|Condition|Expression|Lookup|String , _ ,"]"] , [String]}
+	Statement   = ["if" , _ , "(" , _ , Condition , _ , ")" , Block , ["|" , Block]]
+	Condition   = Boolean | (Expression|Lookup|String , "=="|"="|"!="|"<"|">"|"<="|">=" , Expression|Lookup|String)
+    Expression  = _ , Factor , {"+"|"-" , _ , Factor}
+    Factor      = _ , Unary , {_ , "*"|"/" , _ , Unary}
+    Unary       = _ , ["-"] , _ , Number
+    Number      = _ , \/[\d]+\/
+    Boolean     = _ , "true"|"false"
+    Lookup      = _ , object
+    String      = \/[\w\d\s.?!-\"\']+\/
+	_           = \/[ \t\n\r]*\/
 */
 
-/*
-    required = []
-    optional = ()
-    optional repeating = {}
-    or = |
-
-    Block = "[" Statement|Condition|Expression|Factor|Unary|Number|Boolean|String "]"
-    Statement = "if" "(" Condition|Boolean ")" Unary|Boolean|String "|" Unary|Boolean|String
-    Condition = Expression|Boolean|String ["=="|"="|"!="|"<"|">"|"<="|">="] Expression|Boolean|String
-    Expression = Factor {["+"|"-"] Factor}
-    Factor = Unary {["*"|"/"] Unary}
-    Unary = ("-") Number
-    Number = [0-9]+
-    Boolean = ["true"|"false"]
-    String = [\w\d\s.\"\']+
-*/
 export class Parser {
-    private offset: number;
     private currIndex: number = 0;
     private str: string;
     private parserResult;
     private expectedList: string[];
     private deepestFailIndex: number;
-
-    private endStr(): boolean {
-        return this.currIndex >= this.str.length;
-    }
+    private resultStack: string[];
 
     private peek(str: string, ignoreCase?: boolean): boolean {
         return ignoreCase ? this.str.slice(this.currIndex, this.currIndex + str.length).toLowerCase() === str.toLowerCase() : this.str.startsWith(str, this.currIndex);
@@ -76,69 +42,72 @@ export class Parser {
         return false;
     }
 
-    private expect(str: string) {
+    private expect(str: string | string[]) {
         if (this.currIndex < this.deepestFailIndex) return;
 
         if (this.currIndex > this.deepestFailIndex) {
             this.deepestFailIndex = this.currIndex;
             this.expectedList = [];
         }
+        if (Array.isArray(str))
+            this.expectedList = this.expectedList.concat(str);
+        else
+            this.expectedList.push(str);
+    }
 
-        this.expectedList.push(str);
+    private nest() {
+        this.resultStack.push(this.parserResult);
+        this.parserResult = "";
     }
 
     public parse(str: string): string {
-        let startIndex: number;
-        let matchIndex = 0;
-        let result = "";
-        this.offset = 0;
         this.currIndex = 0;
         this.str = str;
         this.expectedList = [];
         this.parserResult = "";
         this.deepestFailIndex = 0;
-        while (matchIndex < str.length) {
-            startIndex = matchIndex;
-            matchIndex = str.indexOf("[", matchIndex);
-            if (matchIndex === -1) {
-                return str;
-            }
-            else {
-                result += str.slice(startIndex, matchIndex);
-                this.currIndex = matchIndex;
-                this.offset = matchIndex;
-                if (!this.block()) {
-                    return result + "<" + this.parserResult + "> Error at " + (this.deepestFailIndex - this.offset) + " Expected " + this.expectedList
+        this.resultStack = [];
+        let result = "";
+        do {
+            if (!this.block()) {
+                return this.resultStack.reduce((prev, curr) => prev + curr) +
+                    "<" + this.parserResult + "> Error at " + this.deepestFailIndex + ":[" + (this.deepestFailIndex - this.currIndex) + "]" +
+                    " Expected " + this.expectedList
                         .filter((value, index, self) => self.indexOf(value) === index)
                         .reduce((prev, curr, index, self) => prev + curr.toString() + (index !== self.length - 1 ? ", " : ""), "");
-                }
-                result += this.parserResult;
-                matchIndex = this.currIndex;
             }
-        }
+            this.resultStack = [];
+            result += this.parserResult;
+        } while (this.currIndex <= this.str.length - 1);
         return result;
     }
 
     public block(): boolean {
         const startIndex = this.currIndex;
-        if (!this.check("[")) {
-            this.currIndex = startIndex;
-            return false;
-        }
-
-        this.whitespace();
-        if (this.statement() || this.condition() || this.expression() || this.factor() || this.unary() || this.number() || this.boolean() || this.string()) {
-            if (this.check("]"))
-                return true;
+        let result = "";
+        if (this.string())
+            result += this.parserResult;
+        if (this.check("[")) {
+            this.nest();
+            this.whitespace();
+            if (this.statement() || this.condition() || this.expression() || this.lookup() || this.block()) {
+                if (this.check("]")) {
+                    result += this.parserResult;
+                }
+                else {
+                    this.currIndex = startIndex;
+                    return false;
+                }
+            }
             else {
                 this.currIndex = startIndex;
                 return false;
             }
         }
-        else {
-            this.currIndex = startIndex;
-            return false;
-        }
+        if (this.string())
+            result += this.parserResult;
+        this.parserResult = result;
+        return true;
     }
 
     public statement(): boolean {
@@ -161,7 +130,7 @@ export class Parser {
             return false;
         }
 
-        if (this.condition() || this.boolean()) {
+        if (this.condition()) {
             condition = this.parserResult;
 
             this.whitespace();
@@ -171,12 +140,13 @@ export class Parser {
                 return false;
             }
 
-            if (this.unary() || this.boolean() || this.string()) {
+            if (this.block()) {
                 trueVal = this.parserResult;
                 this.whitespace();
                 if (this.check("|")) {
-                    if (this.unary() || this.boolean() || this.string()) {
+                    if (this.block()) {
                         falseVal = this.parserResult;
+                        this.parserResult = condition ? trueVal : falseVal;
                         return true;
                     }
                     else {
@@ -205,34 +175,40 @@ export class Parser {
         const startIndex = this.currIndex;
 
         this.whitespace();
-        if (this.expression() || this.boolean() || this.string()) {
-            lval = this.parserResult;
-            this.whitespace();
-            const ops = ["==", "=", "!=", "<", ">", "<=", ">="];
-            for (const op of ops) {
-                if (this.check(op)) {
-                    opStored = op;
-                    break;
+        if (!this.boolean()) {
+            if (this.expression() || this.lookup() || this.string()) {
+                lval = this.parserResult;
+                this.whitespace();
+                const ops = ["==", "=", "!=", "<", ">", "<=", ">="];
+                for (const op of ops) {
+                    if (this.check(op)) {
+                        opStored = op;
+                        break;
+                    }
                 }
-            }
 
-            if (!opStored) {
-                this.currIndex = startIndex;
-                return false;
-            }
-
-            if (this.unary() || this.boolean() || this.string()) {
-                rval = this.parserResult;
-                switch (opStored) {
-                    case "==": { this.parserResult = lval === rval; break; }
-                    case "=": { this.parserResult = lval === rval; break; }
-                    case "!=": { this.parserResult = lval !== rval; break; }
-                    case "<": { this.parserResult = lval < rval; break; }
-                    case ">": { this.parserResult = lval > rval; break; }
-                    case "<=": { this.parserResult = lval <= rval; break; }
-                    case ">=": { this.parserResult = lval >= rval; break; }
+                if (!opStored) {
+                    this.currIndex = startIndex;
+                    return false;
                 }
-                return true;
+
+                if (this.expression() || this.lookup() || this.string()) {
+                    rval = this.parserResult;
+                    switch (opStored) {
+                        case "==": { this.parserResult = lval === rval; break; }
+                        case "=": { this.parserResult = lval === rval; break; }
+                        case "!=": { this.parserResult = lval !== rval; break; }
+                        case "<": { this.parserResult = lval < rval; break; }
+                        case ">": { this.parserResult = lval > rval; break; }
+                        case "<=": { this.parserResult = lval <= rval; break; }
+                        case ">=": { this.parserResult = lval >= rval; break; }
+                    }
+                    return true;
+                }
+                else {
+                    this.currIndex = startIndex;
+                    return false;
+                }
             }
             else {
                 this.currIndex = startIndex;
@@ -240,10 +216,8 @@ export class Parser {
             }
         }
         else {
-            this.currIndex = startIndex;
-            return false;
+            return true;
         }
-
     }
 
     public expression(): boolean {
@@ -356,15 +330,45 @@ export class Parser {
         else return false;
     }
 
-    public string(): boolean {
+    public lookup(): boolean {
         const startIndex = this.currIndex;
+
         this.whitespace();
-        if (/[\s\w\d]/.test(this.str.charAt(this.currIndex))) {
-            this.currIndex++;
-            while (!this.endStr() && /[\s\w\d]/.test(this.str.charAt(this.currIndex))) {
-                this.currIndex++;
+        let layer: object | (() => number | boolean | string) = {};
+        let queue = Object.keys(layer);
+        let key;
+        while (queue.length > 0) {
+            key = queue.pop();
+            if (this.check(key)) {
+                layer = layer[key];
+                if (!this.check(".")) {
+                    if (typeof layer === "function")
+                        this.parserResult = layer();
+                    else
+                        this.parserResult = layer;
+                    return true;
+                }
+                else {
+                    queue = Object.keys(layer);
+                }
             }
-            this.parserResult = this.str.substring(startIndex, this.currIndex).trimRight();
+            else {
+                this.expect(key);
+            }
+        }
+
+        this.currIndex = startIndex;
+        return false;
+    }
+
+    public string(): boolean {
+        let result = "";
+        const startIndex = this.currIndex;
+        const match = /[\s\w\d,.?!\-\'\"]+/.exec(this.str.substring(this.currIndex));
+        if (match && match.index === 0) {
+            this.currIndex += match[0].length;
+            result += match[0];
+            this.parserResult = result;
             return true;
         }
         else {
@@ -375,26 +379,23 @@ export class Parser {
     }
 
     public number(): boolean {
-        const startIndex = this.currIndex;
         this.whitespace();
-        if (/[\d]/.test(this.str.charAt(this.currIndex))) {
-            this.currIndex++;
-            while (!this.endStr() && /[\d]/.test(this.str.charAt(this.currIndex))) {
-                this.currIndex++;
-            }
-            this.parserResult = +(this.str.substring(startIndex, this.currIndex));
+        const match = /[\d]+/.exec(this.str.substring(this.currIndex));
+        if (match && match.index === 0) {
+            this.currIndex += match[0].length;
+            this.parserResult = +(match[0]);
             return true;
         }
         else {
-            this.currIndex = startIndex;
             this.expect("number");
             return false;
         }
     }
 
     public whitespace(): void {
-        while (!this.endStr() && /[ \t\n\r]/.test(this.str.charAt(this.currIndex))) {
-            this.currIndex++;
+        const match = /[ \t\n\r]+/.exec(this.str.substring(this.currIndex));
+        if (match && match.index === 0) {
+            this.currIndex += match[0].length;
         }
     }
 }
