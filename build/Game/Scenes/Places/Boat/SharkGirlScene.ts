@@ -77,14 +77,14 @@ Sex Life: The shark girls treat sex like a game or a sport, constantly battling 
             DisplayText("  Do you have your way with her or leave?");
             let dildo: Function = (player.hasKeyItem("Deluxe Dildo") >= 0 ? Game.sharkGirlGetsDildoed : null);
             if (player.gender === Gender.MALE)
-                simpleChoices("Use Dick", sharkgirlDickFuck, "Pussy w/69", null, "Dildo Rape", dildo, "", null, "Leave", cleanupAfterCombat);
+                simpleChoices("Use Dick", sharkgirlDickFuck, "Pussy w/69", null, "Dildo Rape", dildo, "", null, "Leave", Scenes.camp.returnToCampUseOneHour);
             else if (player.gender === Gender.FEMALE) {
-                MainScreen.simpleChoices(["Yes", "", "Dildo Rape", "", "Leave"], [sharkgirlSixtyNine, null, dildo, null, cleanupAfterCombat]);
+                MainScreen.simpleChoices(["Yes", "", "Dildo Rape", "", "Leave"], [sharkgirlSixtyNine, null, dildo, null, Scenes.camp.returnToCampUseOneHour]);
             }
             else if (player.gender === Gender.HERM) {
                 if (player.torso.hips.legs.isNaga())
-                    MainScreen.simpleChoices(["Use Dick", "Pussy Oral", "Dildo Rape", "", "Leave"], [sharkgirlDickFuck, sharkgirlSixtyNine, dildo, null, cleanupAfterCombat]);
-                else simpleChoices("Use Dick", sharkgirlDickFuck, "Pussy w/69", sharkgirlSixtyNine, "Dildo Rape", dildo, "", null, "Leave", cleanupAfterCombat);
+                    MainScreen.simpleChoices(["Use Dick", "Pussy Oral", "Dildo Rape", "", "Leave"], [sharkgirlDickFuck, sharkgirlSixtyNine, dildo, null, Scenes.camp.returnToCampUseOneHour]);
+                else simpleChoices("Use Dick", sharkgirlDickFuck, "Pussy w/69", sharkgirlSixtyNine, "Dildo Rape", dildo, "", null, "Leave", Scenes.camp.returnToCampUseOneHour);
             }
         }
         else return { next: Scenes.camp.returnToCampUseOneHour };

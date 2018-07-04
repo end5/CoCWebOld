@@ -139,7 +139,7 @@ function breakZeChains(character: Character): NextScreenChoices {
     const textElement = new InputTextElement();
     DisplayText().appendElement(textElement);
     textElement.text = "";
-    return { next: (char: Character) => nameZeGargoyle(char, textElement) };
+    return { next: { func: nameZeGargoyle, args: [textElement] } };
 }
 
 function nameZeGargoyle(character: Character, textElement: InputTextElement): NextScreenChoices {
@@ -149,7 +149,7 @@ function nameZeGargoyle(character: Character, textElement: InputTextElement): Ne
         DisplayText().clear();
         DisplayText("<b>You must name her.</b>");
         textElement.text = "";
-        return { next: (char: Character) => nameZeGargoyle(char, textElement) };
+        return { next: { func: nameZeGargoyle, args: [textElement] } };
     }
     gargoyleFlags.name = textElement.text;
     DisplayText().clear();

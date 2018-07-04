@@ -626,7 +626,7 @@
 		choices("Gangbang", victoryAllThePenetrationsMinotaurGangBang,
 			"Tit-Fuck", titFuck, "Nipple-Fuck", nipFuck,
 			"Get Licked", createCallBackFunction(forceMinitaurToGiveOral, 0),
-			"Get Sucked", getSuck, "Discipline", disciplineEldestMinotaurSon, "", null, "", null, "", null, "Leave", cleanupAfterCombat);
+			"Get Sucked", getSuck, "Discipline", disciplineEldestMinotaurSon, "", null, "", null, "", null, "Leave", Scenes.camp.returnToCampUseOneHour);
 	}
 	//*[Victory Tit-Fuck] (for only the fattest of fat bitch titties) 
 	private victoryMinotaurGangTitFuck() {
@@ -1143,7 +1143,7 @@
 
 		DisplayText("Finished with your son, you push him on his back.  You have had enough of him, for now... If he dares to ambush you again, then you will be more than happy to discipline him again.  After getting dressed, you proceed to walk away.  Your last image of your son is the image of him futilely masturbating, but his cock is too thick and too numb for him to truly get off.  Profoundly amused, you leave the mountains and return to camp.");
 		player.orgasm();
-		return { next: cleanupAfterCombat };
+		return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 }
 }

@@ -608,7 +608,7 @@ export class CeraphScene extends NPCAwareContent {
 
 	public winRapeChoices() {
 		//FOLLOWER CHANCE:
-		let leave: Function = cleanupAfterCombat;
+		let leave: Function = Scenes.camp.returnToCampUseOneHour;
 		if (!Game.inCombat) {
 			//Load ceraph and set up win conditions
 			startCombat(new Ceraph());
@@ -646,9 +646,9 @@ export class CeraphScene extends NPCAwareContent {
 
 			simpleChoices("Fuck Her", dicking, "Ride Her", cunting, "FuckHerAss", buttsmexing, "B.Titfuck", bikiniTits, "Leave", leave);
 			/*
-			 if(player.gender === Gender.MALE) MainScreen.doYesNo(maleFuckCeraphsPussy,cleanupAfterCombat);
-			 if(player.gender === Gender.FEMALE) MainScreen.doYesNo(rideCeraphsCockLikeaBAWSSexclamation11eleven,cleanupAfterCombat);
-			 if(player.gender === Gender.HERM) simpleChoices("Fuck Her",maleFuckCeraphsPussy,"Ride Her",rideCeraphsCockLikeaBAWSSexclamation11eleven,"",0,"",0,"Leave",cleanupAfterCombat);
+			 if(player.gender === Gender.MALE) MainScreen.doYesNo(maleFuckCeraphsPussy,Scenes.camp.returnToCampUseOneHour);
+			 if(player.gender === Gender.FEMALE) MainScreen.doYesNo(rideCeraphsCockLikeaBAWSSexclamation11eleven,Scenes.camp.returnToCampUseOneHour);
+			 if(player.gender === Gender.HERM) simpleChoices("Fuck Her",maleFuckCeraphsPussy,"Ride Her",rideCeraphsCockLikeaBAWSSexclamation11eleven,"",0,"",0,"Leave",Scenes.camp.returnToCampUseOneHour);
 			 */
 		}
 		else {
@@ -797,7 +797,7 @@ export class CeraphScene extends NPCAwareContent {
 		}
 		DisplayText("(Do you accept Ceraph's Offer?)");
 		//Y/N – remove 1 fetish level or +10 gems
-		doYesNo(ceraphsNiceOffer, cleanupAfterCombat);
+		doYesNo(ceraphsNiceOffer, Scenes.camp.returnToCampUseOneHour);
 		player.orgasm();
 		player.stats.lib += 3;
 		player.stats.sens += 3;

@@ -4,7 +4,7 @@
  */
 
 
-export class Minotaur extends Monster {
+export class Minotaur extends Character {
 	public let hasAxe:boolean;
 
 

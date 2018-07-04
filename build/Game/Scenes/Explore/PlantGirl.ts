@@ -507,7 +507,7 @@ else if (character.tallness < 72) DisplayText("raises her face to yours ");
         DisplayText().clear();
         DisplayText("The thought of getting a blowjob from this rather attractive... um... plant lady excites you greatly, springing your flaccid maleness from it's slumber.  Before the plant woman's very eyes, [eachCock] expands like heated metal; only in a much more dramatic and erotic fashion.");
         // (if cock(s) are 3-24 inches:)
-        if (character.longestCockLength() < 24) {
+        if (character.torso.cocks.sort(Cock.LongestCocks)[0].length < 24) {
             DisplayText("  Now staring her straight in the eyes, your ");
             DisplayText(Desc.Cock.describeMultiCockShort(character) + " stare");
             if (character.torso.cocks.count === 1) DisplayText("s");
@@ -825,7 +825,7 @@ else if (character.tallness < 72) DisplayText("raises her face to yours ");
             DisplayText("\n\nNot to be outdone by a cheater, you stick your own finger in her twat and move it in a circular fashion along with your girl jizz-coated tongue.  Howling in uncontainable passion, she arcs her head back and whimpers furiously before diving back against your clit, rubbing her tongue and face with absolute abandon, driving to make you cum before her. Your orgasm is approaching! “No!”, your voice rings out in your head.");
 
             // (if long tongued:
-            if (character.torso.neck.head.face.tongueType > TongueType.HUMAN) DisplayText("\n\nDeciding that you have had enough, you dart the entire length of your tongue into her, pressing hard against her cervix as you try to cram it all in.  Her moans change from dominant and content pleasure to ones of sheer surprise and violation, causing her to stop abruptly and cry out in denial at your show stopping play.  With a series of fierce groans, the plant woman screams in ecstasy, bringing forth a series of trembling in her vaginal muscles.  Her quivering bounces your tongue around in her nether regions like a leaf in the air.");
+            if (character.torso.neck.head.face.tongue.type > TongueType.HUMAN) DisplayText("\n\nDeciding that you have had enough, you dart the entire length of your tongue into her, pressing hard against her cervix as you try to cram it all in.  Her moans change from dominant and content pleasure to ones of sheer surprise and violation, causing her to stop abruptly and cry out in denial at your show stopping play.  With a series of fierce groans, the plant woman screams in ecstasy, bringing forth a series of trembling in her vaginal muscles.  Her quivering bounces your tongue around in her nether regions like a leaf in the air.");
 
             // (otherwise:
             else DisplayText("\n\nTaking your other hand, you desperately grab her clit lip and fumble it around between your fingers.  Both your bodies twitch violently and orgasm simultaneously, producing a chorus of thunderous moaning from both of you as you spray each other with your lady juices.");
@@ -1247,7 +1247,7 @@ else if (character.tallness < 72) DisplayText("raises her face to yours ");
         DisplayText(".  The plant-like creature begins to moan like a cheap whore as you dig your fingers into her sex, and you drop her on your lap again.  She moans out in pleasure and pain as you do this again and again.  Eventually, you're able to break her in and begin to brutally ass-fuck this abomination of fauna.  responds by bucking against you, surrendering herself to your will and your ravaging of her incredibly tight hole.  “And here you were putting up a fight to get your own way you cheap, easy whore,” you vilely taunt the plant woman as she moans uncontrollably.");
 
         // (If long tongued:
-        if (character.torso.neck.head.face.tongueType > TongueType.HUMAN) {
+        if (character.torso.neck.head.face.tongue.type > TongueType.HUMAN) {
             DisplayText("\n\nThe sight of her perky, average breasts entices your tongue to want to fool around with them, and with energetic gusto, your long tongue darts out of your mouth.  Lowering your head under her left arm, you lash your tongue out at her right nipple, seizing it in your wet, humid grip.  Grabbing at your hair, the plant woman presses your head against the side of her body while taking a firm hold of her breast, squeezing it to allow you better access to her perked up teat.  Without hesitation, you lick and lap at her nipple, trapping it in a flurry of frenzied lashes from your tongue.");
             // (Continue to Orgasm)
         }

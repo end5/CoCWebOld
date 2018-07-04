@@ -1,4 +1,4 @@
-export class ChameleonGirl extends Monster {
+export class ChameleonGirl extends Character {
 
     public chameleonTongueAttack() {
         this.weaponName = "tongue";

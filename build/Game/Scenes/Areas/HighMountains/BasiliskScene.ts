@@ -65,7 +65,7 @@ export class BasiliskScene {
 		if (player.stats.lust >= 33 && player.gender > 0) {
 			DisplayText("  Certain that the creature won't dare try and turn its eyes on you again, you take your time to look the tall reptile over directly for the first time.  Perhaps you could use it to satisfy your baser urges. If so, what part of it do you choose?");
 			//[Tongue][Ass]
-			MainScreen.simpleChoices(["Tongue", "Ass", "", "Lay Eggs", "Leave"], [tongueBasiliskSmex, evil, null, eggs, cleanupAfterCombat]);
+			MainScreen.simpleChoices(["Tongue", "Ass", "", "Lay Eggs", "Leave"], [tongueBasiliskSmex, evil, null, eggs, Scenes.camp.returnToCampUseOneHour]);
 		}
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}

@@ -2,7 +2,7 @@
  * ...
  * @author Gedan
  */
-export class HermCentaur extends Monster {
+export class HermCentaur extends Character {
 
 	public HermCentaur() {
 		this.a = "the ";

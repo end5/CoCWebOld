@@ -1,4 +1,4 @@
-export class Helspawn extends Monster {
+export class Helspawn extends Character {
 
 	public doAI() {
 		let choices: Array = [];

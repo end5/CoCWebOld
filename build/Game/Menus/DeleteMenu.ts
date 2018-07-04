@@ -2,7 +2,7 @@ import { Menus } from './Menus';
 import { displaySaves, saveSlotChoices } from './SaveDisplay';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { SaveManager } from '../../Engine/Save/SaveManager';
-import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
 
 export function display(): NextScreenChoices {
     DisplayText("Slot,  Race,  Sex,  Game Days Played");
@@ -13,7 +13,7 @@ export function display(): NextScreenChoices {
     return saveSlotChoices(confirmDelete, Menus.Data);
 }
 
-function confirmDelete(slotNumber: number): ClickFunction {
+function confirmDelete(slotNumber: number): ClickOption {
     return () => {
         DisplayText().clear();
         DisplayText("You are about to delete the following save: ");

@@ -2,12 +2,17 @@ import { User } from './User';
 import { StatType } from '../Engine/Display/Elements/StatsPanelObserver';
 import { MainScreen } from '../Engine/Display/MainScreen';
 
-export type ClickFunction = (activeCharacter?: any, event?: Event) => NextScreenChoices;
-export interface ScreenChoice extends Array<string | ClickFunction> { 0: string; 1: ClickFunction; }
+export type ClickFunction = (activeCharacter?: any, ...args: any[]) => NextScreenChoices;
+export interface ClickObject {
+    func: ClickOption;
+    args: any[];
+}
+export type ClickOption = ClickFunction | ClickObject;
+export interface ScreenChoice extends Array<string | ClickOption> { 0: string; 1: ClickOption; }
 export interface NextScreenChoices {
-    yes?: ClickFunction;
-    no?: ClickFunction;
-    next?: ClickFunction;
+    yes?: ClickOption;
+    no?: ClickOption;
+    next?: ClickOption;
     choices?: ScreenChoice[];
     persistantChoices?: ScreenChoice[];
 }
@@ -34,16 +39,26 @@ function updateStats() {
 const previousScreens: string[] = [];
 let nextScreens: string[] = [];
 
-export function clickFuncWrapper(clickFunc: ClickFunction): (event: Event) => void {
+export function clickFuncWrapper(clickFunc: ClickOption): (event: Event) => void {
     if (clickFunc) {
-        nextScreens.push(clickFunc.name);
-        return (event) => {
-            previousScreens.push(clickFunc.name);
-            nextScreens = [];
-            displayNextScreenChoices(clickFunc(User.char, event));
-        };
+        if (typeof clickFunc === "function") {
+            nextScreens.push(clickFunc.name);
+            return (event) => {
+                previousScreens.push(clickFunc.name);
+                nextScreens = [];
+                displayNextScreenChoices(clickFunc(User.char, event));
+            };
+        }
+        else {
+            nextScreens.push(clickFunc.func.name);
+            return (event) => {
+                previousScreens.push(clickFunc.func.name);
+                nextScreens = [];
+                displayNextScreenChoices(clickFunc.func.apply(clickFunc.func, ([User.char] as any[]).concat(clickFunc.args).concat(event)));
+            };
+        }
     }
-    else return undefined;
+    return undefined;
 }
 
 function displayChoices(choices: ScreenChoice[], persistantChoices?: ScreenChoice[]) {
@@ -51,17 +66,21 @@ function displayChoices(choices: ScreenChoice[], persistantChoices?: ScreenChoic
     if (choices.length + fixedCount <= MainScreen.NUM_BOT_BUTTONS) {
         MainScreen.hideBottomButtons();
         for (let index = 0; index < choices.length; index++) {
-            MainScreen.getBottomButton(index).modify(choices[index][0], clickFuncWrapper(choices[index][1]));
-            if (choices[index][0] === "")
-                MainScreen.getBottomButton(index).hide();
+            if (Array.isArray(choices[index])) {
+                MainScreen.getBottomButton(index).modify(choices[index][0], clickFuncWrapper(choices[index][1]));
+                if (choices[index][0] === "")
+                    MainScreen.getBottomButton(index).hide();
+            }
         }
         if (fixedCount > 0) {
             const startingIndex = MainScreen.NUM_BOT_BUTTONS - fixedCount;
             for (let botButtonIndex = startingIndex; botButtonIndex < MainScreen.NUM_BOT_BUTTONS; botButtonIndex++) {
                 const fixedIndex = botButtonIndex - startingIndex;
-                MainScreen.getBottomButton(botButtonIndex).modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
-                if (persistantChoices[fixedIndex][0] === "")
-                    MainScreen.getBottomButton(botButtonIndex).hide();
+                if (Array.isArray(persistantChoices[fixedIndex])) {
+                    MainScreen.getBottomButton(botButtonIndex).modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
+                    if (persistantChoices[fixedIndex][0] === "")
+                        MainScreen.getBottomButton(botButtonIndex).hide();
+                }
             }
         }
     }
@@ -112,12 +131,12 @@ function displayPage(startingIndex: number, choices: ScreenChoice[], persistantC
     }
 }
 
-function doNext(func: ClickFunction) {
+function doNext(func: ClickOption) {
     MainScreen.hideBottomButtons();
     MainScreen.getBottomButton(MainScreen.NEXT_BUTTON_ID).modify("Next", clickFuncWrapper(func));
 }
 
-function doYesNo(yesFunc: ClickFunction, noFunc: ClickFunction) {
+function doYesNo(yesFunc: ClickOption, noFunc: ClickOption) {
     MainScreen.hideBottomButtons();
     MainScreen.getBottomButton(MainScreen.YES_BUTTON_ID).modify("Yes", clickFuncWrapper(yesFunc));
     MainScreen.getBottomButton(MainScreen.NO_BUTTON_ID).modify("No", clickFuncWrapper(noFunc));

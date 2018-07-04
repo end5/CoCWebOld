@@ -1,5 +1,5 @@
 ﻿
-export class SandWitch extends Monster {
+export class SandWitch extends Character {
 
 
 	public defeated(hpVictory: boolean) {

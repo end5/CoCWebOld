@@ -28,7 +28,7 @@ public fapArenaGOOOO():void {
 
 	DisplayText("The waiting line advances and you finally end up in front of the tent's entrance guarded by a surprisingly tall goblin.  She looks at you with assessing eyes, suddenly grabs your crotch with her left hand, rubs it for a second, and says, ");
 	//[if dick size < 8 inches] 
-	if(player.longestCockLength() < 8) {
+	if(player.torso.cocks.sort(Cock.LongestCocks)[0].length < 8) {
 		DisplayText("\"<i>I'm afraid you aren't well-endowed enough to take part in our sessions.  Please come back when ");
 		if(player.torso.cocks.count <= 0) DisplayText("you have a cock.");
 		else DisplayText("your cock is sufficiently long.");

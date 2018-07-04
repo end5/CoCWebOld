@@ -44,7 +44,7 @@ export class HermCentaurScenes {
 		Flags.list[FlagEnum.D3_CENTAUR_DEFEATED] = CENTAUR_KILLED;
 
 		
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	private letHerGo() {
@@ -53,7 +53,7 @@ export class HermCentaurScenes {
 		Flags.list[FlagEnum.D3_CENTAUR_DEFEATED] = CENTAUR_RELEASED;
 
 		
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	private maleFuckHer() {
@@ -100,7 +100,7 @@ export class HermCentaurScenes {
 		player.orgasm();
 		dynStats("cor+", 5);
 
-		cleanupAfterCombat(Game.d3.resumeFromFight)
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight)
 	}
 
 	private const HORZGOG: number = 0;
@@ -224,7 +224,7 @@ export class HermCentaurScenes {
 		dynStats("cor+", 5);
 		player.knockUp(PregnancyType.IMP, PregnancyType.INCUBATION_IMP);
 		
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	public inSovietCoCPonyRidesYou(hpVictory: boolean, pcCameWorms: boolean) {
@@ -375,7 +375,7 @@ export class HermCentaurScenes {
 		if (player.torso.balls.quantity > 0) DisplayText(" [balls] feel fit to burst!");
 		else DisplayText(" manhood feels swollen to bursting!");
 		DisplayText("  Realizing the only way out will be with your tongue, you open wide");
-		if (player.torso.neck.head.face.tongueType != 0) DisplayText(" and uncoil your inhuman length to spear");
+		if (player.torso.neck.head.face.tongue.type != 0) DisplayText(" and uncoil your inhuman length to spear");
 		else DisplayText(" and begin to lap");
 		DisplayText(" at her inhuman entrance.  She whinnies in delight, grinding her clydesdale-sized bulk back and forth on your face as you start to get into her eating her out.");
 

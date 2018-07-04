@@ -1,4 +1,4 @@
-export class Brigid extends Monster {
+export class Brigid extends Character {
 
 	//Attack One: Hot Poker, Right Up Your Ass!
 	private brigidPoke() {

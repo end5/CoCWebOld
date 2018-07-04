@@ -870,7 +870,7 @@ DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player) + " pulsates and
         Flags.list[FlagEnum.OWCA_ANGER_DISABLED] = 1;
         // To main owca menu
         if (Game.inCombat)
-            cleanupAfterCombat(gangbangVillageStuff);
+            Scenes.camp.returnToCampUseOneHour(gangbangVillageStuff);
         else return { next: gangbangVillageStuff };
     }
     // Option: Leave (Z)
@@ -953,7 +953,7 @@ DisplayText("  " + Desc.Cock.describeMultiCockSimpleOne(player) + " pulsates and
         if (player.gender > 0 && player.stats.lust >= 33) fuck = rapeZeVapula;
         let enslave;
         if (player.gender > 0 && player.stats.cor >= 66) enslave = enslaveVapulaWithYourWang;
-        MainScreen.simpleChoices(["Disband", "EnslaveVapula", "JustFuckEm", "", "Skip Out"], [disbandHorde, enslave, fuck, null, cleanupAfterCombat]);
+        MainScreen.simpleChoices(["Disband", "EnslaveVapula", "JustFuckEm", "", "Skip Out"], [disbandHorde, enslave, fuck, null, Scenes.camp.returnToCampUseOneHour]);
     }
     // Option: Disband (Z)
     private disbandHorde() {

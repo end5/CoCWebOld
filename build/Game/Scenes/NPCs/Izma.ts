@@ -3,7 +3,7 @@
  * ...
  * @author ...
  */
-export class Izma extends Monster {
+export class Izma extends Character {
 
 	//[Special Attacks]
 	private IzmaSpecials1() {

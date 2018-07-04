@@ -17,7 +17,7 @@ import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { ArmorName } from '../../Items/Armors/ArmorName';
 import { Menus } from '../../Menus/Menus';
 import { Mod } from '../../Modifiers/Modifiers';
-import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
+import { ClickObject, ClickOption, NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { ImpGang } from '../Camp/ImpGang';
 import { lustyMaidenPaizuri } from '../Items/LustyMaidensArmor';
@@ -43,15 +43,15 @@ export function impVictory(character: Character, imp: Character): NextScreenChoi
     }
     const choices = [].fill(["", undefined], 0, 5);
     if (character.stats.lust > 33) {
-        let maleRape: ClickFunction;
+        let maleRape: ClickOption;
         if (character.torso.cocks.count > 0) {
             if (character.torso.cocks.filter(Cock.CockThatFits(imp.analCapacity())))
                 DisplayText("\n\n<b>You're too big to rape an imp with " + Desc.Cock.describeMultiCockSimpleEach(character) + ".</b>");
-            else maleRape = (char) => (character.torso.hips.legs.isTaur() ? centaurOnImpStart(character, imp) : rapeImpWithDick(character, imp));
+            else maleRape = character.torso.hips.legs.isTaur() ? { func: centaurOnImpStart, args: [imp] } : { func: rapeImpWithDick, args: [imp] };
         }
         if (character.torso.vaginas.count > 0) {
             if (character.torso.hips.legs.isTaur()) {
-                maleRape = (char) => centaurOnImpStart(character, imp);
+                maleRape = { func: centaurOnImpStart, args: [imp] };
                 choices[1] = ["Group Vaginal", centaurGirlOnImps];
             }
             else {
@@ -281,7 +281,7 @@ function centaurOnImpStart(character: Character, imp: Character): NextScreenChoi
     else if (character.torso.vaginas.count > 0 && cocksThatFit.length < 0) return centaurOnImpFemale(character, imp);
     else {
         DisplayText("Do you focus on your maleness or girl-parts?");
-        return { choices: [["Male", () => centaurOnImpMale(character, imp, true)], ["Female", () => centaurOnImpFemale(character, imp, true)]] };
+        return { choices: [["Male", { func: centaurOnImpMale, args: [imp, true] }], ["Female", { func: centaurOnImpFemale, args: [imp, true] }]] };
     }
 }
 

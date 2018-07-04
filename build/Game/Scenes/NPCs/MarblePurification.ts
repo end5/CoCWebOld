@@ -692,7 +692,7 @@ export class MarblePurification extends NPCAwareContent {
 		DisplayText().clear();
 		DisplayText("Clara straddles your head with her legs and looks down at you.  \"<i>Now you’re going to lick me until I’m satisfied.  Also, don’t you dare doo anything unless I tell you to, got it?</i>\"  She doesn’t wait for a response.  \"<i>Goood, now let's get started.</i>\"  The cow-girl promptly drops her snatch onto your face.");
 		//if (PC has a long tongue)
-		if (player.torso.head.face.tongueType > 0) {
+		if (player.torso.head.face.tongue.type > 0) {
 			//PC tentatively probes Clara’s insides, and she is very surprised at just how much tongue they have.  She orders them to stop, and just use the tip to lick her labia and clit.
 			DisplayText("\n\n\"<i>Lick my hole, stick yourself way inside!</i>\" Clara orders.  You tentatively push your " + tongueDescript() + " into the entrance of the slit that has been roughly lowered onto your face.  You soon find your goal and begin the process of filling her with your great lengths of inhuman mouth muscle.  Clara gasps in surprise and quickly exclaims, \"<i>What are you dooing?!  What is that?  Stop!</i>\"  You do as requested and remove your appendage from her depths.  The cow-girl pants for a moment then speaks again, \"<i>Okay, that’s a bit much to start with.  Uh, I didn’t think your tongue would be that long!  Now, let’s try again.  Using just the tip of your tongue, lick me.</i>\"");
 			//Spend some time with the PC licking Clara while she gives orders and directions while the PC hears the results of their work.  Clara then orgasms.

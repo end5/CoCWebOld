@@ -635,82 +635,82 @@
 		let changed: boolean = false;
 		if (player.armor === armors.BEEARMR) {
 			DisplayText("The silken loin-cloth of your chitin armor cinches up, tightening against your groin until it displays the prominent bulge of your demon-possessed dick clearly.");
-			player.modArmorName = "crotch-hugging sexy black chitin armor-plating";
+			player.inventory.equipment.armorDescMod = "crotch-hugging sexy black chitin armor-plating";
 			changed = true;
 		}
 		else if (player.armor === armors.GELARMR) {
 			DisplayText("The green gel-plate protecting your groin thins and presses tightly against you, molding around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " in an incredibly lewd way.");
-			player.modArmorName = "crotch-hugging glistening gel-armor plates";
+			player.inventory.equipment.armorDescMod = "crotch-hugging glistening gel-armor plates";
 			changed = true;
 		}
 		else if (player.armor === armors.LEATHRA) {
 			DisplayText("Your leather armor shifts, pressing tightly against your upper " + Desc.Leg.describeLegs(player) + " and molding itself around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to prominently display it.");
-			player.modArmorName = "crotch-hugging leather armor segments";
+			player.inventory.equipment.armorDescMod = "crotch-hugging leather armor segments";
 			changed = true;
 		}
 		else if (player.armor === armors.INDECST) {
 			DisplayText("The chainmail bikini of your indecent steel armor rearranges and bends its interlocking rings to best shape itself around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", leaving very little else to the imagination.");
-			player.modArmorName = "crotch-hugging practically indecent steel armor";
+			player.inventory.equipment.armorDescMod = "crotch-hugging practically indecent steel armor";
 			changed = true;
 		}
 		else if (player.armor === armors.R_BDYST) {
 			DisplayText("The thin, transparent material of your red bodysuit begins to firmly press against your groin, perfectly shaping to your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and every last one of its nubs and nodules.");
-			player.modArmorName = "crotch-hugging red, high-society bodysuit";
+			player.inventory.equipment.armorDescMod = "crotch-hugging red, high-society bodysuit";
 			changed = true;
 		}
 		else if (player.armor === armors.SSARMOR) {
 			DisplayText("The fine silk that makes up your armor suddenly undoes itself around your crotch, exposing your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to the open air. The thin strands in the air begin to re-weave themselves around your enormous member, forming a prominent new addition to your protection.");
-			player.modArmorName = "crotch-hugging spider-silk armor";
+			player.inventory.equipment.armorDescMod = "crotch-hugging spider-silk armor";
 			changed = true;
 		}
 		else if (player.armor === armors.S_SWMWR) {
 			DisplayText("The miniscule piece of swimwear that doubles as a tent to your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " begins to grow and encapsulate it, molding itself perfectly to your manhood.");
-			player.modArmorName = "crotch-hugging slutty swimwear";
+			player.inventory.equipment.armorDescMod = "crotch-hugging slutty swimwear";
 			changed = true;
 		}
 		else if (player.armor === armors.FULLCHN) {
 			DisplayText("You\'re taken by surprise as the binds of your chainmail begin to flatten and rearrange themselves, doing their best to match the curves of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and make its presence known.");
-			player.modArmorName = "crotch-hugging full-body chainmail";
+			player.inventory.equipment.armorDescMod = "crotch-hugging full-body chainmail";
 			changed = true;
 		}
 		else if (player.armor === armors.CHBIKNI) {
 			DisplayText("Your chainmail bikini rearranges and bends its interlocking rings to best shape itself around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", leaving very little else to the imagination.");
-			player.modArmorName = "crotch-hugging revealing chainmail bikini";
+			player.inventory.equipment.armorDescMod = "crotch-hugging revealing chainmail bikini";
 			changed = true;
 		}
 		else if (player.armor === armors.FULLPLT) {
 			DisplayText("You begin to clench your fists as your steel platemail heats up around your " + Desc.Leg.describeLegs(player) + " and crotch. Slowly it begins to press itself against your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and match its every feature.");
-			player.modArmorName = "crotch-hugging full platemail";
+			player.inventory.equipment.armorDescMod = "crotch-hugging full platemail";
 			changed = true;
 		}
 		else if (player.armor === armors.SCALEML) {
 			DisplayText("The steel scales that make up your armor begin to flap wildly around your crotch. They bend and shift as they attempt to match the profile of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".");
-			player.modArmorName = "crotch-hugging scale-mail armor";
+			player.inventory.equipment.armorDescMod = "crotch-hugging scale-mail armor";
 			changed = true;
 		}
 		else if (player.armor === armors.LTHRROB) {
 			DisplayText("Your leather armor shifts, pressing tightly against your upper " + Desc.Leg.describeLegs(player) + " and molding itself around your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " to prominently display it through your robes.");
-			player.modArmorName = "crotch-hugging black leather armor surrounded by voluminous robes";
+			player.inventory.equipment.armorDescMod = "crotch-hugging black leather armor surrounded by voluminous robes";
 			changed = true;
 		}
 		else if (player.armor === armors.RBBRCLT) {
 			DisplayText("You begin to feel your rubber outfit compressing itself against your upper " + Desc.Leg.describeLegs(player) + " and " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", eliminating any pockets of air or wrinkles that may have existed before.");
-			player.modArmorName = "crotch-hugging rubber fetish clothes";
+			player.inventory.equipment.armorDescMod = "crotch-hugging rubber fetish clothes";
 			changed = true;
 		}
 		else if (player.armor === armors.ADVCLTH) {
 			DisplayText("The layer beneath your tunic begins to compress against your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", highlighting every curve and nodule while lifting your package to be clearly visible beneath your outer layers.");
-			player.modArmorName = "crotch-hugging green adventurer's clothes";
+			player.inventory.equipment.armorDescMod = "crotch-hugging green adventurer's clothes";
 			changed = true;
 		}
 		else if (player.armor === armors.OVERALL) {
 			DisplayText("The denim of your overalls begins to press tightly against your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", molding itself around your member and its every facet.");
-			player.modArmorName = "crotch-hugging white shirt and overalls";
+			player.inventory.equipment.armorDescMod = "crotch-hugging white shirt and overalls";
 			changed = true;
 		}
 		else if (player.armor === armors.C_CLOTH) {
 			DisplayText("Your clothing shifts, tightening up about your crotch until every curve and nodule of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " is visible through the fabric.");
-			player.modArmorName = "crotch-hugging clothes";
+			player.inventory.equipment.armorDescMod = "crotch-hugging clothes";
 			changed = true;
 		}
 		if (player.stats.cor < 33) DisplayText("  You cringe and blush bright crimson, raging against the demon inside you and wishing he would stop tormenting you!");

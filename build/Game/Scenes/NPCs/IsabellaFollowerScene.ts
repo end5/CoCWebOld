@@ -644,7 +644,7 @@ Optional Morning Oral for small-membered males*/
 		DisplayText("After toying with her for a while, you decide to bring your other tentacle dicks into the game; with expert precision, you move your " + Desc.Cock.describeCock(player, t3) + " to her face.  Moaning under your gentle ministrations, she doesn't even notice the protruding mammoth about to lodge inside her drooling mouth. With a ferocious thrust you slam it all the way between her pulpy lips. Her sighs of pleasure are abruptly muffled as you block her windpipe with vegetal dickflesh. You start ramming your meat up and down her throat, its raw musk making her dizzy.  She tries to accommodate the monster stretching her mouth by moving her tongue around your erect " + Desc.Cock.describeCock(player, t3) + ", squeezing it there and there, fondling your veins and milking your urethra of your pre-cum. You groan from the tongue-teasing and start filling her stomach with oozing fluid; the intimate contact makes her squirm a little more under the almost unbearable arousal. She's doing an expert job with her mouth, and her throat feels so good, so tender...  You try to stuff more of your " + Desc.Cock.describeCock(player, t3) + " inside her, always wanting more pleasure; the additional pressure almost sends her over the edge as she eagerly gobbles your vegetal rod.\n\n");
 
 		//[if demon tongue]
-		if (player.torso.head.face.tongueType === TongueType.DEMONIC || player.torso.head.face.tongueType === TongueType.SNAKE || player.torso.head.face.tongueType === TongueType.DRACONIC) {
+		if (player.torso.head.face.tongue.type === TongueType.DEMONIC || player.torso.head.face.tongue.type === TongueType.SNAKE || player.torso.head.face.tongue.type === TongueType.DRACONIC) {
 			DisplayText("Using your long, extensible tongue, you decide to take a lick at her body.  Your tongue darts forward and gently locates her supple tits; you bring Isabelle closer with your vigorous tentacle dicks and start suckling at her breasts, drinking drops of her tasty milk one at a time.  Your constant stimulations arouse her more and more, and soon her nipples are releasing a regular trickle of her essence. You mercilessly drink her, probing your tongue around either of her udders as if to dig deeper to the source of this wonderful ambrosia. You keep gulping milk until you reach satiation, and then you drink some more. It's sweet, savory and invigorating; you could feed off her breasts for days.  You suckle her until her body shakes from the steady tactile provocation, before darting your tongue back.\n\n");
 			//end d-tongue inset
 		}
@@ -1058,7 +1058,7 @@ Optional Morning Oral for small-membered males*/
 			}
 			//both cases, flavor text
 			//[Male/herm: if penis <18 inches & testicles smaller than however long in diameter a baseball is]
-			if (player.torso.cocks.count > 0 && player.longestCockLength() < 18) {
+			if (player.torso.cocks.count > 0 && player.torso.cocks.sort(Cock.LongestCocks)[0].length < 18) {
 				DisplayText("  A pressure builds in your crotch, at first subtle, then incredibly obnoxious to the point where you're forced to undo the lower portion of your " + player.inventory.equipment.armor.displayName + " to seek some sort of relief.  Your shock is total as you stare at your former " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", now measuring at least 18 inches long – a condition that Isabella has already noticed and is clearly formulating a gripe about.");
 				if (player.torso.balls.quantity < 0) DisplayText("  Two testicles fall into a scrotum near the base of your enlarged meat, already swelling into baseball-sized balls o' fun.");
 				else if (player.torso.balls.size < 4) DisplayText("  Your testicles engorge in the transformative powers of the cow-girl's violent reaction to the Pro Bova, growing to baseball-sized in short order.");
@@ -1088,7 +1088,7 @@ Optional Morning Oral for small-membered males*/
 				if (isabellaAccent()) DisplayText("Nein nein nein nein, zis von't do at all!");
 				else DisplayText("No, no! This is awful!");
 				DisplayText("</i>\" she cries as she approaches, eyes locked on your oversized genitalia.");
-				if (player.longestCockLength() < 18) {
+				if (player.torso.cocks.sort(Cock.LongestCocks)[0].length < 18) {
 					if (isabellaAccent()) DisplayText("  \"<i>Zis did not have to be any bigger!  Vhat a tragedy! Your poor little wiener!</i>\"");
 					else DisplayText("  \"<i>This did not have to be any bigger!  What a tragedy! Your poor little wiener!</i>\"");
 					DisplayText("  You raise an eyebrow at her selective worry, indicating just how cow-like you've become.  ");
@@ -1116,7 +1116,7 @@ Optional Morning Oral for small-membered males*/
 			DisplayText("She rewards you by freeing one of her arms and wrapping it around your head, pulling you in between her gleaming ebony melons.  Shaking about and wrapping your head in a marshmallowy shroud of comfort, Isabella continues to force burps out, not content until all of the gas is gone.  She pulls you out of your fleshy prison after the oral venting subsides, dragging you down to the ground with her as her gassy magic begins to take hold.\n\n");
 
 			//if meets any requirements for cow-y TF
-			if (player.hips.legs.type != LegType.HOOFED || player.torso.head.horns <= 0 || player.torso.head.hornType != HornType.COW_MINOTAUR || player.torso.head.earType != EarType.COW || player.torso.tailType != TailType.COW || (player.torso.cocks.count > 0 && player.longestCockLength() < 18)) {
+			if (player.hips.legs.type != LegType.HOOFED || player.torso.head.horns <= 0 || player.torso.head.hornType != HornType.COW_MINOTAUR || player.torso.head.earType != EarType.COW || player.torso.tailType != TailType.COW || (player.torso.cocks.count > 0 && player.torso.cocks.sort(Cock.LongestCocks)[0].length < 18)) {
 				DisplayText("You're not surprised when you take the now-familiar cow-" + Desc.Gender.mf(player, "boy", "girl") + " form, ");
 				if ((player.torso.cocks.count <= 0 || randInt(2) === 0) && player.torso.vaginas.count > 0) DisplayText("Isabella beaming with eagerness at your sloshing and swelling bosom.\n\n");
 				else if (player.torso.cocks.count > 0) DisplayText("Isabella not able to keep a little frustration from her face as your dick grows to enviable size.\n\n");

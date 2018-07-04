@@ -326,9 +326,9 @@ export class Mountain {
 		DisplayText("\n\nA giggle comes from your side, as you see the cow-girl is back up onto her knees, having recovered from her exalted orgasm.  She crawls forward, kneeling just over your head and leaning in to kiss her minotaur lover.  The two whisper sweet nothings to each other, too vague and indistinct to hear, but it doesn't matter.  All you can focus on is the dick lodged firmly inside of you... that, and the soaking cunt of the cow-girl just inches from your face.  Alabaster droplets drip down her legs, one even landing on your lips.  Before you can stop yourself, you lick them clean, savoring the taste of the second-hand cum.");
 
 		DisplayText("\n\nSome part of your mind voices a complaint at what comes next, a voice that's quickly squelched inside the addiction-fueled haze of your brain.  You pull your head upwards and extend your tongue, slurping a large glob of cum from the cow-girl's snatch.  There's a surprised yelp from above you, followed by a coo of pleasure.  To your surprise, the cow-girl actually lowers her cunt down onto your face, giggling madly, filling your nostrils with the scent of her muff, with the scent of recent sex.  Not letting this opportunity go to waste, you repay her actions from earlier, slipping your ");
-		if (player.torso.neck.head.face.tongueType === TongueType.SNAKE) DisplayText("serpentine ");
-		else if (player.torso.neck.head.face.tongueType === TongueType.DEMONIC) DisplayText("demonic ");
-		else if (player.torso.neck.head.face.tongueType === TongueType.DRACONIC) DisplayText("draconic ");
+		if (player.torso.neck.head.face.tongue.type === TongueType.SNAKE) DisplayText("serpentine ");
+		else if (player.torso.neck.head.face.tongue.type === TongueType.DEMONIC) DisplayText("demonic ");
+		else if (player.torso.neck.head.face.tongue.type === TongueType.DRACONIC) DisplayText("draconic ");
 		DisplayText("tongue inside her, eagerly licking out and guzzling down the remnants of the minotaur's present.");
 
 		DisplayText("\n\nThe minotaur, for his part, is in no rush to give you a cream pie of your own. His thrusts are slow and deliberate, with a rhythm that has you writhing with pleasure.  The three of you moan together like some kind of erotic pyramid.  The bull's assault on your ");

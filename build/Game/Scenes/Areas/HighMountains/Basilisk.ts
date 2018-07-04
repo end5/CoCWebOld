@@ -2,7 +2,7 @@
  * ...
  * @author ...
  */
-export class Basilisk extends Monster {
+export class Basilisk extends Character {
 
 	public static function basiliskSpeed(player:Player, amount:number = 0):void {
 		if(player.stats.spe - amount < 1) {

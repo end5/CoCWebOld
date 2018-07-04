@@ -132,7 +132,7 @@
 		//[Medium lust increase] 
 
 		//[If the PC has a snake tongue]
-		if (player.torso.head.face.tongueType === TongueType.SNAKE) DisplayText("You instinctively taste the air, and Urta suddenly seems utterly delicious. ");
+		if (player.torso.head.face.tongue.type === TongueType.SNAKE) DisplayText("You instinctively taste the air, and Urta suddenly seems utterly delicious. ");
 		//Rut: 
 		if (player.inRut && player.torso.cocks.count > 0) DisplayText("Your " + Desc.Cock.describeMultiCockShort(player) + " hardens in your pants as you still force yourself to leave.");
 		//[Medium lust increase]

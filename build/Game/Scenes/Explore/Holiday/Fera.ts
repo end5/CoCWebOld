@@ -312,17 +312,17 @@ player.stats.cor += 1;
         DisplayText("You dazedly stagger forward, putting one [foot] after another on the supple flesh of the gigantic, color-swirling petal that leads to your goal: the plush, nectar-leaking lips at the center of the bloom.  With each plodding movement, the hues become more vibrant, the intoxicating scent becomes thicker, and the less well-reasoned your thoughts become, shutting down in the avalanche of sensory overload.  Soon, your thoughts are little more than: <i>Scent. Sex. Horny. Fuck.</i>");
         DisplayText("\n\nWith a slight stumble, you work your way out of your [armor], not stopping your plodding advance in the slightest and never letting the flower's core out of your sight, if you can help it.  Those lips seem to be pursing ever so slightly, beckoning you to slip something inside them... something hard and throbbing, aching to unload.  You shudder as you walk, slipping on a stream of leaking nectar and falling down onto your hands, but this doesn't impede your progress.  You continue to climb up, hand over hand, dragging yourself up until the 'floor' levels and you're about to smash yourself face-first into the flower's plump, mouth-like pillows.");
         DisplayText("\n\nYou drag yourself up onto your [feet] just as the stamen react to your presence, lashing out with snake-like swiftness to encircle your arms and [legs], binding them up in slippery stalks such that you can barely move.  Luckily, you're close enough that you can still do what you came here to do: fuck this flower.  You lunge your [hips] forward, slamming your crotch towards the huge, multi-hued lips, ");
-        if (player.longestCockLength() >= 20) {
+        if (player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 20) {
             DisplayText("easily ramming your huge endowment");
             if (player.torso.cocks.count > 1) DisplayText("s");
             DisplayText(" straight into the erotic-looking mouth");
         }
-        else if (player.longestCockLength() >= 8) {
+        else if (player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 8) {
             DisplayText("slipping your large endowments");
             if (player.torso.cocks.count > 1) DisplayText("s");
             DisplayText(" right into the erotic-looking mouth");
         }
-        else if (player.longestCockLength() >= 4) {
+        else if (player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 4) {
             DisplayText("easing the top hal");
             if (player.torso.cocks.count > 1) DisplayText("ves");
             else DisplayText("f");

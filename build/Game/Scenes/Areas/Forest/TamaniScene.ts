@@ -148,7 +148,7 @@
         DisplayText("  You NEED to fuck her pussy full – NOW.\n\n");
         // (FITS)
         if (character.torso.cocks.get(0).area <= 90) {
-            DisplayText("Tamani breaks the kiss and gives you a coy smile as she shimmies down your body, dropping her moist cunt onto your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + "'s " + character.cockHead() + ".  She swings her hips in a little circle, teasing you with her moist entrance as your drug-enhanced pre-cum bubbles and drools around her lips, mixing with her own copious fluids as it flows down your length");
+            DisplayText("Tamani breaks the kiss and gives you a coy smile as she shimmies down your body, dropping her moist cunt onto your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + "'s " + Desc.Cock.describeCockHead() + ".  She swings her hips in a little circle, teasing you with her moist entrance as your drug-enhanced pre-cum bubbles and drools around her lips, mixing with her own copious fluids as it flows down your length");
             if (character.torso.balls.quantity > 0) DisplayText(" and drips from your " + Desc.Balls.describeBalls(true, true, character));
             DisplayText(".  She stops and teases, \"<i>Ready to stuff me full of your cream?  I just KNOW I'll get pregnant from such a purrfect mate.</i>\"\n\n");
             DisplayText("Tamani doesn't wait for an answer – she pauses until you're about to reply, then drops her weight down, fully impaling herself and turning the beginnings of your reply into a babbled moan.  She plants her feet on your thighs and her arms around your back and begins bouncing up and down rapidly, squeezing and contracting, milking your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " in her tight wet walls the entire time. Your inner abdominal muscles begin clenching and squeezing, sending a wave of heat through your groin as your baby-batter begins its journey towards the goblin's womb.\n\n");
@@ -353,7 +353,7 @@
             DisplayText("She gets down on all fours, crawling up your legs until her gloss-covered lips reach your " + Desc.Cock.describeMultiCockShort(character) + ".   Warm wetness slides along your length as the gobbo-slut gets you slick and wet with her saliva.   It has quite the effect on you, turning your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " into a hard trembling pleasure-center.  You sigh, enjoying the attention but more than ready to release your pent-up sexual need into the willing girl.\n\n");
             // (fits)
             if (character.torso.cocks.get(0).area <= 90) {
-                DisplayText("Tamani turns about, dragging her wet gash across you and giving you a nice view of her plump butt-cheeks.  The soft skin of her palms squeezes around you as she lifts you up, positioning your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " against her womanhood.   She grinds against your " + character.cockHead() + ", her folds slowly parting to take you.  Slowly, inch after inch of dickflesh sinks into her amazingly elastic yet tight pussy.  ");
+                DisplayText("Tamani turns about, dragging her wet gash across you and giving you a nice view of her plump butt-cheeks.  The soft skin of her palms squeezes around you as she lifts you up, positioning your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " against her womanhood.   She grinds against your " + Desc.Cock.describeCockHead() + ", her folds slowly parting to take you.  Slowly, inch after inch of dickflesh sinks into her amazingly elastic yet tight pussy.  ");
                 if (character.torso.cocks.get(0).length >= 12) DisplayText("Her body visibly stretches around you, and you silently thank whatever gods or demons adapted goblins to be able to fulfill this role.  ");
                 DisplayText("Moaning like a whore, she easily slips the rest of the way down, bottoming out her sopping-wet fuck-tunnel.\n\n");
                 DisplayText("You gasp in pain and surprise as Tamani pinches and tugs ");
@@ -398,7 +398,7 @@
                 DisplayText("Tamani turns about, dragging her wet gash across you and giving you a nice view of her plump butt-cheeks.  She looks over her shoulder and sucks on one of her lacquered fingernails, looking equal parts mischievous and sexy.   You rock your hips under her until she gives your ");
                 if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character));
                 else DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)));
-                DisplayText(" a rough slap.  Whimpering, you still your rebellious hips and allow her to play you like the world's most sensitive fiddle.  Tamani pulls your " + character.cockHead() + " up and rocks herself against it, openly moaning as you dribble pre into her sopping gash.\n\n");
+                DisplayText(" a rough slap.  Whimpering, you still your rebellious hips and allow her to play you like the world's most sensitive fiddle.  Tamani pulls your " + Desc.Cock.describeCockHead() + " up and rocks herself against it, openly moaning as you dribble pre into her sopping gash.\n\n");
                 DisplayText("\"<i>Oooh, you're too big for little ol' me,</i>\" moans the goblin, easing back a bit, \"<i>but I have something that might make you cum just as hard.   I'll just make sure to catch all your cum with my cunny!</i>\"    She pulls out a hot-pink dildo and gives it a lick.  You watch in horror as a drop of thick fluid leaks from the tip.  No doubt Tamani intends for you to take take the entire thing in one way or another.\n\n");
                 DisplayText("You pout, protesting meekly as she ");
                 if (character.torso.balls.quantity > 0) DisplayText("lifts up your " + Desc.Balls.describeBalls(true, true, character));
@@ -482,7 +482,7 @@
         if (character.stats.cor > 50) DisplayText("blushing hotly and doing your best to look like a submissive toy.\n\n");
         else DisplayText("blushing in shame and embarrassment, but meaning every word.\n\n");
 
-        DisplayText("She takes the empty bottle and presses it against your " + character.cockHead() + ", caressing your length with loving affection with her free hand as she replies, \"<i>Not exactly what I told you to say, but it DID sound heartfelt.  Let's let out all that backed up cum now, hrmmm?</i>\"   Her free hand touches the ring and you feel the pressure relax a bit - still tight enough to keep you beyond-hard, but loose enough for you to cum.  She strokes and squeezes as your blocked orgasms slowly flow into the bottle, smiling as it thickens and begins spurting as pleasure overtakes you.  You hold yourself on all fours, red-assed and submissive as your goblin mistress milks you of the last of your cum.");
+        DisplayText("She takes the empty bottle and presses it against your " + Desc.Cock.describeCockHead() + ", caressing your length with loving affection with her free hand as she replies, \"<i>Not exactly what I told you to say, but it DID sound heartfelt.  Let's let out all that backed up cum now, hrmmm?</i>\"   Her free hand touches the ring and you feel the pressure relax a bit - still tight enough to keep you beyond-hard, but loose enough for you to cum.  She strokes and squeezes as your blocked orgasms slowly flow into the bottle, smiling as it thickens and begins spurting as pleasure overtakes you.  You hold yourself on all fours, red-assed and submissive as your goblin mistress milks you of the last of your cum.");
         if (character.cumQ() >= 250) DisplayText("  The bottle quickly overflows, but Tamani happily sets it aside and slides her own cunt under you, letting you pump the rest of your seed into her fertile womb.");
         if (character.cumQ() >= 500) DisplayText("  She coos happily when you still manage to pump enough jism into her to bloat her belly, but even with your impressive fertility, the orgasm has to end.");
         DisplayText("\n\n");
@@ -622,7 +622,7 @@
             DisplayText("\"<i>Sorry " + Desc.Gender.mf(character, "stud", "lover") + ", you're just too big and <b>hard</b> for me.   Don't worry, I'll help you unload everything straight into my sweet cunt,</i>\" she apologizes, ");
             if (character.torso.balls.quantity > 0) DisplayText("massaging your balls with her feet");
             else DisplayText("jacking the base of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " with her feet");
-            DisplayText(" while her hands caress and tease you.   Tamani pulls herself downwards, pressing the " + character.cockHead() + " partway up her drooling box.  She grinds hard against your cock-head, nearly driving you mad with pleasure.  She grabs her " + tamaniChest() + " and squeezes, splattering you with a thick coating of milk before returning to jacking you off with her feet and hands.\n\n");
+            DisplayText(" while her hands caress and tease you.   Tamani pulls herself downwards, pressing the " + Desc.Cock.describeCockHead() + " partway up her drooling box.  She grinds hard against your cock-head, nearly driving you mad with pleasure.  She grabs her " + tamaniChest() + " and squeezes, splattering you with a thick coating of milk before returning to jacking you off with her feet and hands.\n\n");
 
             DisplayText("You cum with near-painful intensity.  Tamani is actually pushed back a bit by your first blast, getting splattered from her chest down as jizz tries to escape her suddenly fluid-filled cunt.  She lunges forwards, grinding her pregnancy-bloated body against your pole, using her arms and legs like tight cock-rings.  Her gash and hard little clit spread her fragrant wetness as she orgasms with you, feeling each wave of your spunk pass underneath her.   With no receptacle, you end up drenched in a puddle of the stuff.  While it does eventually end, your sore body is a clear indication that some drug in her lipstick probably helped you push out such a ludicrous volume.\n\n");
 
@@ -722,7 +722,7 @@
         if (primary >= 0) {
             DisplayText("Tamani is completely right.  You grab her ass, feeling your fingers sink in to her supple flesh as you pull her back towards your ");
             if (cocks > 0) DisplayText("main ");
-            DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  Her warmth spreads over your " + character.cockHead(primary) + " slowly, making you twitch and drip inside her, lubricating her already dripping channel with even more slick fluids.  With a mighty heave you push inside her, feeling yourself penetrating deep inside her, directly into her fertile womb.  Tamani rubs your " + Desc.Leg.describeLegs(character) + " with her hands, giving you a massage as you bottom out against her, feeling her juices stain your ");
+            DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  Her warmth spreads over your " + Desc.Cock.describeCockHead(primary) + " slowly, making you twitch and drip inside her, lubricating her already dripping channel with even more slick fluids.  With a mighty heave you push inside her, feeling yourself penetrating deep inside her, directly into her fertile womb.  Tamani rubs your " + Desc.Leg.describeLegs(character) + " with her hands, giving you a massage as you bottom out against her, feeling her juices stain your ");
             if (character.torso.cocks.find(Cock.HasSheath)) DisplayText("sheath");
             else DisplayText("crotch");
             DisplayText("\n\n");
@@ -734,7 +734,7 @@
                 DisplayText("She moans and pulls your " + Desc.Cock.describeCock(character, secondary) + " into her mouth, running her tongue around the tip and sliding her palm along the underside.");
             }
             else DisplayText("She moans and pants, babbling about how good you are to her the whole time.");
-            DisplayText("  You don't stop until your " + character.cockHead(primary) + " is the only thing inside her.\n\n");
+            DisplayText("  You don't stop until your " + Desc.Cock.describeCockHead(primary) + " is the only thing inside her.\n\n");
 
             DisplayText("  The second thrust is even better than the first.  It's slippery, hot, and passionate, and the idea of slowing down or stopping for any reason is inconceivable.  Tamani pants with each thrust, pawing at her bouncing breasts, grabbing one by the nipple with a free hand and moaning loudly");
             if (cocks > 0) DisplayText(" around your " + Desc.Cock.describeCock(character, secondary));
@@ -791,7 +791,7 @@
         else {
             DisplayText("Tamani is completely right.  You grab her ass, feeling your fingers sink in to her supple flesh as you pull her back towards your ");
             if (cocks > 1) DisplayText("main ");
-            DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  Her warmth spreads over the " + character.cockHead() + " of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", but will go no further.  You tug harder on her bouncing backside, but you're simply too large to fit inside your wife's beautiful pussy.  She turns around and places a small hand ");
+            DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  Her warmth spreads over the " + Desc.Cock.describeCockHead() + " of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", but will go no further.  You tug harder on her bouncing backside, but you're simply too large to fit inside your wife's beautiful pussy.  She turns around and places a small hand ");
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("on your chest ");
             else DisplayText("between your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " ");
             DisplayText(" and commands, \"<i>Stop, you're just too big of a man for Tamani to do it the old fashioned way.</i>\"\n\n");

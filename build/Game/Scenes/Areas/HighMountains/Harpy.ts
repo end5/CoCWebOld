@@ -1,4 +1,4 @@
-﻿export class Harpy extends Monster {
+﻿export class Harpy extends Character {
 
 	//*Note, special attack one is an idea based on Ceraph.
 	//About the attack that raises your Lust to 100 if you 

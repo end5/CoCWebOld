@@ -1,4 +1,4 @@
-﻿export class HellHound extends Monster {
+﻿export class HellHound extends Character {
 	protected hellhoundFire() {
 		//Blind dodge change
 		if (statusAffects.has(StatusAffectType.Blind)) {
@@ -89,7 +89,7 @@
 			//Rape if not naga, turned on, and girl that can fit!
 			if (player.torso.vaginas.count > 0 && player.stats.lust >= 33 && !player.torso.hips.legs.isNaga()) {
 				DisplayText("  You find yourself musing that you could probably take advantage of the poor 'doggy'.  Do you fuck it?");
-				game.simpleChoices("Fuck it", game.mountain.hellHoundScene.hellHoundPropahRape, "", null, "", null, "", null, "Leave", game.cleanupAfterCombat);
+				game.simpleChoices("Fuck it", game.mountain.hellHoundScene.hellHoundPropahRape, "", null, "", null, "", null, "Leave", game.Scenes.camp.returnToCampUseOneHour);
 			} else {
 				game.return { next: Scenes.camp.returnToCampUseOneHour };
 			}
@@ -104,7 +104,7 @@
 					temp2 = game.mountain.hellHoundScene.hellHoundPropahRape;
 				}
 				DisplayText(".  What do you do?");
-				game.simpleChoices("Lick", game.mountain.hellHoundScene.hellHoundGetsRaped, "Fuck", temp2, "", null, "", null, "Leave", game.cleanupAfterCombat);
+				game.simpleChoices("Lick", game.mountain.hellHoundScene.hellHoundGetsRaped, "Fuck", temp2, "", null, "", null, "Leave", game.Scenes.camp.returnToCampUseOneHour);
 			}
 			else {
 				DisplayText("You turn away, not really turned on enough to be interested in such an offer.");
@@ -116,7 +116,7 @@
 	public won(hpVictory: boolean, pcCameWorms: boolean) {
 		if (pcCameWorms) {
 			DisplayText("\n\nThe hellhound snorts and leaves you to your fate.");
-			return { next: game.cleanupAfterCombat };
+			return { next: game.Scenes.camp.returnToCampUseOneHour };
 		} else {
 			game.mountain.hellHoundScene.hellhoundRapesPlayer();
 		}

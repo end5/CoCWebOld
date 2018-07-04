@@ -148,7 +148,7 @@ export class AnemoneScene extends BaseContent implements TimeAwareInterface {
 			let bikiniTits;
 			if (player.torso.vaginas.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && player.armor is LustyMaidensArmor) bikiniTits = (player.armor as LustyMaidensArmor).lustyMaidenPaizuri;
 			choices("Your Ass", victoryButtholeRape, "Your Cock", cockRape, "Your Vagina", vaginaRape, "Her Butt", anal, "Lay Egg", eggs,
-				"", null, "", null, "", null, "B.Titfuck", bikiniTits, "Leave", cleanupAfterCombat);
+				"", null, "", null, "", null, "B.Titfuck", bikiniTits, "Leave", Scenes.camp.returnToCampUseOneHour);
 		}
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}

@@ -1,5 +1,5 @@
 ﻿
-export class Marble extends Monster {
+export class Marble extends Character {
 	private marbleSpecialAttackOne() {
 		//Special1: Heavy overhead swing, high chance of being avoided with evasion, does heavy damage if it hits.
 		let damage: number = 0;

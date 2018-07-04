@@ -96,7 +96,7 @@
 			urethralPen = null;
 			bj = null;
 		}
-		choices("Use Cock", dickRape, "Use Vagina", cuntRape, "Use Both", hermRape, "TentacleDick", tentaRape, "UrethraFuck", urethralPen, "Get Filled", filled, tempText, temp, "MakeHimSuck", bj, feedposit, temp2, "Leave", cleanupAfterCombat);
+		choices("Use Cock", dickRape, "Use Vagina", cuntRape, "Use Both", hermRape, "TentacleDick", tentaRape, "UrethraFuck", urethralPen, "Get Filled", filled, tempText, temp, "MakeHimSuck", bj, feedposit, temp2, "Leave", Scenes.camp.returnToCampUseOneHour);
 
 		if (x < 0 && player.torso.cocks.count > 0) DisplayText("\nSadly, you're too well endowed to penetrate the minotaur.");
 		if (player.gender === Gender.HERM && player.torso.hips.legs.isTaur()) DisplayText("\nIf you had a different body type you might be able to penetrate him while taking him, but as a centaur that's not an option.");

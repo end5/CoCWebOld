@@ -154,9 +154,9 @@ export class GnollSpearThrowerScene {
 		if (player.torso.cocks.count > 0) penor = hyenaVictoryRapeFellatio;
 		if (player.stats.lust >= 33 && player.gender > 0) {
 			DisplayText("\n\nUsing the hyena to get off would be easy.  What do you do?");
-			MainScreen.simpleChoices(["Get BJ", "Get Licked", "", "", "Leave"], [penor, vagoo, null, null, cleanupAfterCombat]);
+			MainScreen.simpleChoices(["Get BJ", "Get Licked", "", "", "Leave"], [penor, vagoo, null, null, Scenes.camp.returnToCampUseOneHour]);
 		}
-		else return { next: cleanupAfterCombat };
+		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}
 
 	//<Hyena Defeat - Fellatio>

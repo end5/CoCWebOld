@@ -260,7 +260,7 @@ export function gobboAssassinRapeIntro(player: Character, goblin: Character): Ne
         if (feeder) DisplayText("your nipples ache with the desire to feed her your milk.  Do you feed her milk or leave?</b>");
         else DisplayText("your abdomen aches with the desire to impregnate her full of insect eggs.  Do you?</b>");
         return { choices: [["Feed", feeder], ["Lay Eggs", eggs]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
-        // doYesNo(feeder,cleanupAfterCombat);
+        // doYesNo(feeder,Scenes.camp.returnToCampUseOneHour);
     }
     else {
         // trace("falling through gobboAssassinRapeIntro");

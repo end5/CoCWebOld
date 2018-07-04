@@ -1,4 +1,4 @@
-﻿export class SharkGirl extends Monster {
+﻿export class SharkGirl extends Character {
 	//Lust-based attacks:
 	private sharkTease() {
 		game.DisplaySprite(70);

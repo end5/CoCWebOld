@@ -893,7 +893,7 @@
 		DisplayText(", pushing your torso so hard it sinks an inch or two into mud that reeks of Isabella's sex-juices.  You lie there, immobilized and defeated while you're forcibly raped, used like a small, disposable dildo.\n\n");
 
 		DisplayText("The cow-girl lets some of the pressure off in order to tweak one of your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s, but as you gasp, her tongue is forced into your mouth, smothering your ");
-		if (player.torso.head.face.tongueType === TongueType.HUMAN) DisplayText("smaller");
+		if (player.torso.head.face.tongue.type === TongueType.HUMAN) DisplayText("smaller");
 		else DisplayText("longer");
 		DisplayText(" one with the slippery smoothness of her cow-like organ.  It slides over the top, curls around squeezing, and then it's underneath yours, beckoning you to venture past Isabella's naturally darker lips.  Her fingers find her way into your hair, pulling on it to keep you exactly where she wants you, like a dog on a leash.  You groan helplessly into her mouth, your voice melding with her frenzied moans as she splatters mud, milk, and girl-cum from each thigh-jiggling impact.\n\n");
 
@@ -985,7 +985,7 @@
 			if (player.torso.cocks.list[player.shortestCockIndex()].cockLength < 9 && player.stats.lust >= 33) smallTitFuck = tinyVictoryTittyFuckingFuntimesWithMilk;
 		}
 		choices("Lactation69", lactation, "Buttsex", buttsex, "Sixty-Nine", sixtyNine, "Vaginal", vaginalSex, "Big Titfuck", bigTitFuck,
-			"Small Titfuck", smallTitFuck, "", null, "", null, "", null, "Leave", cleanupAfterCombat);
+			"Small Titfuck", smallTitFuck, "", null, "", null, "", null, "Leave", Scenes.camp.returnToCampUseOneHour);
 	}
 	//[LACTATION 69]
 	public victoryLactation69() {

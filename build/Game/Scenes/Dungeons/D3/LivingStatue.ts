@@ -3,7 +3,7 @@
  * ...
  * @author Gedan
  */
-export class LivingStatue extends Monster {
+export class LivingStatue extends Character {
     public defeated(hpVictory: boolean) {
         Flags.list[FlagEnum.D3_STATUE_DEFEATED] = 1;
         game.d3.livingStatue.beatUpDaStatue(hpVictory);

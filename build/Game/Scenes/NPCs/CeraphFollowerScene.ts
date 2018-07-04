@@ -198,9 +198,9 @@ export class CeraphFollowerScene extends NPCAwareContent {
 			if (player.torso.vaginas.count > 0) cunting = ceraphScene.rideCeraphsCockLikeaBAWSSexclamation11eleven;
 
 
-			MainScreen.simpleChoices(["Collar Her", "Fuck Her", "Ride Her", "FuckHerAss", "Leave"], [collarCeraph, dicking, cunting, buttsmexing, cleanupAfterCombat]);
+			MainScreen.simpleChoices(["Collar Her", "Fuck Her", "Ride Her", "FuckHerAss", "Leave"], [collarCeraph, dicking, cunting, buttsmexing, Scenes.camp.returnToCampUseOneHour]);
 		}
-		else MainScreen.simpleChoices(["Collar Her", "", "", "", "Leave"], [collarCeraph, null, null, null, cleanupAfterCombat]);
+		else MainScreen.simpleChoices(["Collar Her", "", "", "", "Leave"], [collarCeraph, null, null, null, Scenes.camp.returnToCampUseOneHour]);
 	}
 
 	//Collar Ceraph After 4th Defeat + Rape: (Zeddited)
@@ -256,7 +256,7 @@ export class CeraphFollowerScene extends NPCAwareContent {
 			}
 			let cunting;
 			if (player.torso.vaginas.count > 0) cunting = ceraphScene.rideCeraphsCockLikeaBAWSSexclamation11eleven;
-			MainScreen.simpleChoices(["Fuck Her", "Ride Her", "FuckHerAss", "", "Leave"], [dicking, cunting, buttsmexing, null, cleanupAfterCombat]);
+			MainScreen.simpleChoices(["Fuck Her", "Ride Her", "FuckHerAss", "", "Leave"], [dicking, cunting, buttsmexing, null, Scenes.camp.returnToCampUseOneHour]);
 		}
 		else {
 			DisplayText("  You don't really have the equipment to.  Oh well.");
@@ -292,7 +292,7 @@ export class CeraphFollowerScene extends NPCAwareContent {
 			}
 			let cunting;
 			if (player.torso.vaginas.count > 0) cunting = ceraphScene.rideCeraphsCockLikeaBAWSSexclamation11eleven;
-			MainScreen.simpleChoices(["Fuck Her", "Ride Her", "FuckHerAss", "", "Leave"], [dicking, cunting, buttsmexing, null, cleanupAfterCombat]);
+			MainScreen.simpleChoices(["Fuck Her", "Ride Her", "FuckHerAss", "", "Leave"], [dicking, cunting, buttsmexing, null, Scenes.camp.returnToCampUseOneHour]);
 		}
 		else {
 			DisplayText("  You don't really have the equipment to.  Oh well.");

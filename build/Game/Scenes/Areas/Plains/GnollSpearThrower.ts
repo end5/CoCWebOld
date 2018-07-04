@@ -2,7 +2,7 @@
  * ...
  * @author ...
  */
-export class GnollSpearThrower extends Monster {
+export class GnollSpearThrower extends Character {
 	private hyenaPhysicalAttack() {
 		let damage: number = 0;
 		//return to combat menu when finished

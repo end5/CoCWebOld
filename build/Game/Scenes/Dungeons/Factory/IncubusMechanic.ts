@@ -1,5 +1,5 @@
 
-export class IncubusMechanic extends Monster {
+export class IncubusMechanic extends Character {
 
 	public defeated(hpVictory: boolean) {
 		if (Flags.list[FlagEnum.D3_DISCOVERED] === 0) {
@@ -17,13 +17,13 @@ export class IncubusMechanic extends Monster {
 		else DisplayText("You smile in satisfaction as the " + short + " collapses, masturbating happily.");
 		if (player.gender === Gender.NONE) {
 			DisplayText("  Now would be the perfect opportunity to test his demonic tool...\n\nHow do you want to handle him?");
-			game.simpleChoices("Anally", game.incubusVictoryRapeBackdoor, "Orally", game.incubusVictoryService, "", null, "", null, "Leave", game.cleanupAfterCombat);
+			game.simpleChoices("Anally", game.incubusVictoryRapeBackdoor, "Orally", game.incubusVictoryService, "", null, "", null, "Leave", game.Scenes.camp.returnToCampUseOneHour);
 		}
 		else {
 			game.player.stats.lust += 1;
 			if (hpVictory) {
 				DisplayText("  Now would be the perfect opportunity to put his tool to use...\n\nWhat do you do, rape him, service him, or let him take you anally?");
-				game.simpleChoices("Rape", game.incubusVictoryRapeSex, "Service Him", game.incubusVictoryService, "Anal", game.incubusVictoryRapeBackdoor, "", null, "Nothing", game.cleanupAfterCombat);
+				game.simpleChoices("Rape", game.incubusVictoryRapeSex, "Service Him", game.incubusVictoryService, "Anal", game.incubusVictoryRapeBackdoor, "", null, "Nothing", game.Scenes.camp.returnToCampUseOneHour);
 			}
 			else {
 				DisplayText("  Now would be the perfect opportunity to put his tool to use...\n\nWhat do you do?");
@@ -31,7 +31,7 @@ export class IncubusMechanic extends Monster {
 				if (player.torso.vaginas.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && player.inventory.equipment.armor.displayName === "lusty maiden's armor") {
 					titfuck = game.createCallBackFunction2((player.armor as LustyMaidensArmor).lustyMaidenPaizuri, player, this);
 				}
-				game.simpleChoices("Rape", game.incubusVictoryRapeSex, "Service Him", game.incubusVictoryService, "Anal", game.incubusVictoryRapeBackdoor, "B.Titfuck", titfuck, "Nothing", game.cleanupAfterCombat);
+				game.simpleChoices("Rape", game.incubusVictoryRapeSex, "Service Him", game.incubusVictoryService, "Anal", game.incubusVictoryRapeBackdoor, "B.Titfuck", titfuck, "Nothing", game.Scenes.camp.returnToCampUseOneHour);
 			}
 		}
 	}

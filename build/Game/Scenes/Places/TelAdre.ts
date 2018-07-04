@@ -1247,7 +1247,7 @@ class TelAdre {
         if(player.torso.cocks.count > 0 && player.statusAffects.has(StatusAffectType.DungeonShutDown)) {
             //Scylla repeat
             //big dick!
-            if(player.longestCockLength() >= 12) {
+            if(player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 12) {
                 if(Flags.list[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] === 0) {
                     DisplayText("\n\nThere is one nun sitting in a corner booth who catches your eye.  She sits straight-backed against the dark, wood chair, her thin waist accentuating the supple curve of her breasts. She's dressed in a black robe that looks a few sizes too small for her hips and wears a black and white cloth over her head.");
                     misc1 = scylla.talkToScylla;

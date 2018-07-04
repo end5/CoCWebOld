@@ -24,7 +24,7 @@ import { ItemType } from '../../../Items/ItemType';
 import { MaterialName } from '../../../Items/Materials/MaterialName';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { ClickFunction, NextScreenChoices } from '../../../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { numToCardinalText } from '../../../Utilities/NumToText';
 import { Scenes } from '../../Scenes';
@@ -713,7 +713,7 @@ function beeSexForCocksPart2(character: Character): NextScreenChoices {
     else DisplayText("torrent");
     DisplayText(" of cum from the tip of your " + Desc.Cock.describeCock(character, giantCock) + ".  Since the bee was at the top of her ride up and down your member, she catches your load full in the face.\n\n");
     DisplayText("Your first orgasm does nothing to stop the handmaiden’s relentless pumping of your member, and her honey makes sure you’re ready to go again right away.  In fact, it only encourages her.  Next up, she starts to use her long tongue to lick at your fluids around the tip, and eventually slips it into the slit to taste your pre as it comes out.  At the same time, she continues to pump her body against one side of your shaft while letting her arms play across the other side.  This doesn’t let up for hours as she continues to pump you and bring out orgasm after orgasm.\n\n");
-    DisplayText("Eventually the bee’s energy runs out and she lets go of your towering cock while panting.  <i>“You really are zzzomething, you know that?”</i>  she says while reaching down and extracting the bottle from her honeypot.  She puts a cork in the bottle while you feel your member" + (character.torso.cocks.count > 1 ? "s" : "") + " finally start to " + (character.torso.cocks.count === 1 && giantCock.find(Cock.HasSheath) ? "retract into its sheath" : "go flaccid") + ".  <i>“");
+    DisplayText("Eventually the bee’s energy runs out and she lets go of your towering cock while panting.  <i>“You really are zzzomething, you know that?”</i>  she says while reaching down and extracting the bottle from her honeypot.  She puts a cork in the bottle while you feel your member" + (character.torso.cocks.count > 1 ? "s" : "") + " finally start to " + (character.torso.cocks.count === 1 && giantCock.hasSheath() ? "retract into its sheath" : "go flaccid") + ".  <i>“");
     if (character.torso.cocks.get(0).type === CockType.BEE) {
         DisplayText("You know the deal by now,");
     }
@@ -1344,13 +1344,13 @@ export function rapeTheBeeGirl(character: Character): NextScreenChoices {
     DisplayText("bee-girl with a devilish smile painted across your face.\n\nHow will you take her?\n\n");
 
     // OPTIONS HERE!
-    let naga: ClickFunction;
-    let multiCock: ClickFunction;
-    let cock: ClickFunction;
-    let vagina: ClickFunction;
-    let herm: ClickFunction;
-    let gentleman: ClickFunction;
-    let eggs: ClickFunction;
+    let naga: ClickOption;
+    let multiCock: ClickOption;
+    let cock: ClickOption;
+    let vagina: ClickOption;
+    let herm: ClickOption;
+    let gentleman: ClickOption;
+    let eggs: ClickOption;
     if (character.canOvipositSpider() && (character.torso.neck.head.face.type === FaceType.SNAKE_FANGS || character.torso.neck.head.face.type === FaceType.SPIDER_FANGS)) {
         eggs = layEggsInABeeSpiderLike;
         DisplayText("(You could dose her with venom and lay YOUR eggs in her.)\n");

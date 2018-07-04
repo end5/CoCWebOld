@@ -1,5 +1,5 @@
 
-export class Sheila extends Monster {
+export class Sheila extends Character {
 
 	/*
 	so it's come to a [Fight] - combat before demon Sheila:

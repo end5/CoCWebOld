@@ -1,3 +1,8 @@
+export interface TamanisDaughtersFlags {
+    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS;
+    TAMANI_NUMBER_OF_DAUGHTERS;
+}
+
 export class TamanisDaughters extends Goblin {
     private midRoundMadness() {
         let selector: number = randInt(4);

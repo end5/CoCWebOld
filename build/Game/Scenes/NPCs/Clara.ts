@@ -1,4 +1,4 @@
-﻿export class Clara extends Monster {
+﻿export class Clara extends Character {
 	private notMurbleEnjoysTheLacticAcid() {
 		//Clara drinks her own milk to recover health and give a minor lust gain to the PC
 		DisplayText("Clara suddenly starts roughly manhandling her tit, noisily stuffing it into her mouth and starting to suck and slobber. Frothy milk quickly stains her mouth and she releases her breast, letting it fall back down. She belches and takes a stance to defend herself again; you can see the injuries you’ve inflicted actually fading as the healing power of her milk fills her.");

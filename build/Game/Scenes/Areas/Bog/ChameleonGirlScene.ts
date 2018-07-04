@@ -1,9 +1,14 @@
 import { DisplaySprite } from '../../../../Engine/Display/DisplaySprite';
 import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
+import { randInt } from '../../../../Engine/Utilities/SMath';
+import { Cock } from '../../../Body/Cock';
 import { Gender } from '../../../Body/GenderIdentity';
 import { Character } from '../../../Character/Character';
+import { Desc } from '../../../Descriptors/Descriptors';
+import { Mod } from '../../../Modifiers/Modifiers';
 import { NextScreenChoices } from '../../../ScreenDisplay';
+import { Scenes } from '../../Scenes';
 
 /**
  * Created by aimozg on 03.01.14.
@@ -83,7 +88,7 @@ export class ChameleonGirlScene {
 
     // Herm Loss (Z edited)
     private loseToChameleonWithCockAnBallsAnCunt(player: Character): NextScreenChoices {
-        const x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
+        const largestCock = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         DisplaySprite(SpriteName.Chameleon);
         DisplayText("\n\n\"<i>Hah! You didn't think you could beat me in </i>my<i> bog, did you?</i>\" the haughty chameleon laughs. She stalks towards you, swaying her wide hips in an exaggerated imitation of a dominatrix, shedding her spare clothing as she approaches.  She stops and stands before you, trying her best to look intimidating.  Wondering what exactly she has planned for you, you await your fate.  From the worried look in her eyes, you can tell she has no idea what she's doing.");
 
@@ -101,10 +106,10 @@ export class ChameleonGirlScene {
 
         DisplayText("\n\nThe weight lifts from your chest, but you're kept where you are by what's filling you.  The chameleon girl slides her foot down your belly, dragging her dull claws lightly over your skin.  Her ankle bumps into the hard shaft of your prick, and she lifts her foot, balancing herself in practiced form on the other.  She chuckles quietly and bites her fingertip, teasing along your aching cock with her sole.  Its skin is smooth, and feels like thick, supple leather when she grips you with it.  You can tell from her flexibility that her feet are made for gripping and climbing trees, and she easily finds a hold on your cock.  Thankfully taking care to keep her claws out of the way, she begins to jerk you off with her foot, sliding the whole sole up and down");
         // [if(cockarea <40)
-        if (x.area < 40) DisplayText(" and occasionally lifting it to take the shaft between two dexterous toes and work it more delicately");
+        if (largestCock.area < 40) DisplayText(" and occasionally lifting it to take the shaft between two dexterous toes and work it more delicately");
         DisplayText(".  She blushes as she watches your breaths turn to pants from the pleasure.");
 
-        DisplayText("\n\nThe feelings of being filled and having your " + Desc.Cock.describeCock(player, x) + " serviced by her foot are just too good, and you quickly reach orgasm, spattering her foot and shin with your hot cum.  Her face is red as she tries to maintain her composure, and her entire body is starting to grow flush with barely contained excitement.  She softly rubs your semen into your softening man-meat as you recover from your orgasm, looking at it almost blankly and smiling.  After a moment she snaps herself out of her reverie, remembering that she was supposed to be punishing you but obviously too aroused to do much.  \"<i>Um, yeah! And you, uhh, better not come back!</i>\"  She rushes off back into the trees, presumably to masturbate somewhere where you won't notice.  You shake your head at the girl's antics, dress yourself, and head back to camp.");
+        DisplayText("\n\nThe feelings of being filled and having your " + Desc.Cock.describeCock(player, largestCock) + " serviced by her foot are just too good, and you quickly reach orgasm, spattering her foot and shin with your hot cum.  Her face is red as she tries to maintain her composure, and her entire body is starting to grow flush with barely contained excitement.  She softly rubs your semen into your softening man-meat as you recover from your orgasm, looking at it almost blankly and smiling.  After a moment she snaps herself out of her reverie, remembering that she was supposed to be punishing you but obviously too aroused to do much.  \"<i>Um, yeah! And you, uhh, better not come back!</i>\"  She rushes off back into the trees, presumably to masturbate somewhere where you won't notice.  You shake your head at the girl's antics, dress yourself, and head back to camp.");
 
         // send player back to camp, reset hours since cum, remove gems and add time
         player.orgasm();
@@ -190,7 +195,7 @@ export class ChameleonGirlScene {
         // let PC use item
         if ((player.inventory.items.has(consumables.SUCMILK) || player.inventory.items.has(consumables.P_S_MLK)) && player.torso.cocks.count > 0) item = useAnItemOnTheChamcham;
         else if (player.inventory.items.has(consumables.SENSDRF) && (player.inventory.items.has(consumables.L_DRAFT) || player.inventory.items.has(consumables.F_DRAFT))) item = useAnItemOnTheChamcham;
-        return { choices: [["Use Dick", dick], ["Use Pussy", pussy], ["Herm Style", herm], ["Use Item", item], ["Leave", cleanupAfterCombat]] };
+        return { choices: [["Use Dick", dick], ["Use Pussy", pussy], ["Herm Style", herm], ["Use Item", item], ["Leave", Scenes.camp.returnToCampUseOneHour]] };
     }
 
     // -Herm Victory (Z edited)

@@ -1,4 +1,4 @@
-export class HarpyQueen extends Monster {
+export class HarpyQueen extends Character {
 
 	override protected performCombatAction() {
 		game.harpyQueenAI();

@@ -1,4 +1,4 @@
-﻿export class Jojo extends Monster {
+﻿export class Jojo extends Character {
 
 	public defeated(hpVictory: boolean) {
 		game.jojoScene.defeatedJojo(hpVictory);

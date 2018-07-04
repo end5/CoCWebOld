@@ -6,11 +6,11 @@ export class SecretarialSuccubus extends AbstractSuccubus {
 			if (hpVictory) {
 				DisplayText("You smile in satisfaction as the " + short + " collapses, unable to continue fighting.  Now would be the perfect opportunity to taste the fruits of her sex-ready form...\n\nDo you rape her?", true);
 				game.player.stats.lust += 1;
-				game.simpleChoices("Yes", game.succubusVictoryRape, "Dildo Rape", dildo, "", null, "", null, "No", game.cleanupAfterCombat);
+				game.simpleChoices("Yes", game.succubusVictoryRape, "Dildo Rape", dildo, "", null, "", null, "No", game.Scenes.camp.returnToCampUseOneHour);
 			} else if (player.stats.lust >= 33) {
 				DisplayText("You smile in satisfaction as the " + short + " gives up on fighting you and starts masturbating, begging for you to fuck her.  Now would be the perfect opportunity to taste the fruits of her sex-ready form...\n\nDo you fuck her?", true);
 				game.player.stats.lust += 1;
-				game.simpleChoices("Yes", game.succubusVictoryRape, "Dildo Rape", dildo, "", null, "", null, "No", game.cleanupAfterCombat);
+				game.simpleChoices("Yes", game.succubusVictoryRape, "Dildo Rape", dildo, "", null, "", null, "No", game.Scenes.camp.returnToCampUseOneHour);
 			} else {
 				game.finishCombat();
 			}

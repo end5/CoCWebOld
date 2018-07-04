@@ -625,12 +625,12 @@
 		if (player.hasKeyItem("Deluxe Dildo") >= 0) temp2 = Game.sandwitchGetsDildoed;
 		let shouldra;
 		if (kGAMECLASS.shouldraFollower.followerShouldra() && player.gender > 0) shouldra = kGAMECLASS.shouldraFollower.sandWitchGetsGhostly;
-		//doYesNo(sandwitchRaped, cleanupAfterCombat);
+		//doYesNo(sandwitchRaped, Scenes.camp.returnToCampUseOneHour);
 		let ovi;
 		if (player.gender > 0 && player.canOviposit()) ovi = ovipositSandWitches;
 
 		choices("Yes", sandwitchRaped, "Dildo Rape", temp2, "Use 3i@-", temp3, "Use Shouldra", shouldra, "Lay Eggs", ovi,
-			"Taunt Her", sandwitchSpanking, "", null, "", null, "", null, "Leave", cleanupAfterCombat);
+			"Taunt Her", sandwitchSpanking, "", null, "", null, "", null, "Leave", Scenes.camp.returnToCampUseOneHour);
 	}
 
 	//This is a bonus scene for those who are playing Corruption of Champions with Silly Mode activated and defeat the Sand Witch by dropping her hit points and have the option of having their way with her. A special third(?) option appears that begins the encounter. The idea is that it breaks the 4th wall and gives the player the impression that they've stumbled upon a glitchy, incomplete scene. As a special note to anyone who does coding: all code tags (anything like \" + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + \" but not my usual {code brackets} for example) are meant to be printed in game exactly as they were written on this document, pushing the idea that the player \"broke the game\".

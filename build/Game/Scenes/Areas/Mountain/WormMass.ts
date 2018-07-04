@@ -1,4 +1,4 @@
-﻿export class WormMass extends Monster {
+﻿export class WormMass extends Character {
 
 
 	override protected performCombatAction() {

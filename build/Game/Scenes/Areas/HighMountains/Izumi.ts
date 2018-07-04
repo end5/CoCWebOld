@@ -1,4 +1,4 @@
-export class Izumi extends Monster {
+export class Izumi extends Character {
 	// Set trace outout for this classes' content.
 	private let combatDebug:boolean = true;
 

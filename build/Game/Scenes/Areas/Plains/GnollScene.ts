@@ -102,26 +102,26 @@ export class GnollScene {
 				if (player.cockThatFits(monster.vaginalCapacity()) != -1) dickDownClit = dickDownGnollClit;
 				DisplayText("  The gnoll is at your mercy.  What will you do with her?");
 				//[DickDownClit] [DickInAss] [SuckHerClit] [Leave]
-				MainScreen.simpleChoices(["DickDownClit", "DickInAss", "SuckHerClit", "", "Leave"], [dickDownClit, dickInGnollAss, suckGnollClit, null, cleanupAfterCombat]);
+				MainScreen.simpleChoices(["DickDownClit", "DickInAss", "SuckHerClit", "", "Leave"], [dickDownClit, dickInGnollAss, suckGnollClit, null, Scenes.camp.returnToCampUseOneHour]);
 			}
 			//(if cockTotal>0 AND vaginas=1)
 			else if (player.gender === Gender.HERM) {
 				if (player.cockThatFits(monster.vaginalCapacity()) != -1) dickDownClit = dickDownGnollClit;
 				DisplayText("  The gnoll is at your mercy.  What will you do with her?");
 				//[DickDownClit] [DickInAss] [SuckHerClit] [TakeHerClit] [Leave]
-				MainScreen.simpleChoices(["DickDownClit", "DickInAss", "SuckHerClit", "TakeHerClit", "Leave"], [dickDownClit, dickInGnollAss, suckGnollClit, takeGnollClit, cleanupAfterCombat]);
+				MainScreen.simpleChoices(["DickDownClit", "DickInAss", "SuckHerClit", "TakeHerClit", "Leave"], [dickDownClit, dickInGnollAss, suckGnollClit, takeGnollClit, Scenes.camp.returnToCampUseOneHour]);
 			}
 			//(if cockTotal=0 AND vaginas=1)
 			else if (player.gender === Gender.FEMALE) {
 				DisplayText("  The gnoll is at your mercy.  What will you do with her?");
 				//[SuckHerClit] [TakeHerClit] [Leave]
-				MainScreen.simpleChoices(["SuckHerClit", "TakeHerClit", "", "", "Leave"], [suckGnollClit, takeGnollClit, null, null, cleanupAfterCombat]);
+				MainScreen.simpleChoices(["SuckHerClit", "TakeHerClit", "", "", "Leave"], [suckGnollClit, takeGnollClit, null, null, Scenes.camp.returnToCampUseOneHour]);
 			}
 			//(if cockTotal=0 AND vaginas=0)
 			else {
 				DisplayText("  The gnoll is at your mercy.  What will you do with her?");
 				//[SuckHerClit] [Leave]
-				MainScreen.simpleChoices(["SuckHerClit", "", "", "", "Leave"], [suckGnollClit, null, null, null, cleanupAfterCombat]);
+				MainScreen.simpleChoices(["SuckHerClit", "", "", "", "Leave"], [suckGnollClit, null, null, null, Scenes.camp.returnToCampUseOneHour]);
 			}
 		}
 		else return { next: Scenes.camp.returnToCampUseOneHour };

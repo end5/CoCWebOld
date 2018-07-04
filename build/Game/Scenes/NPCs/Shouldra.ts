@@ -2,7 +2,7 @@
  * ...
  * @author ...
  */
-export class Shouldra extends Monster {
+export class Shouldra extends Character {
 
 	private shouldrattack() {
 		let damage: number = 0;

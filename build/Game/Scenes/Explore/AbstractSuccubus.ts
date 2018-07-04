@@ -1,7 +1,7 @@
 /**
  * Created by aimozg on 18.01.14.
  */
-export class AbstractSuccubus extends Monster {
+export class AbstractSuccubus extends Character {
 	protected whipAttack() {
 		if (statusAffects.has(StatusAffectType.WhipReady)) {
 			//Blind dodge change

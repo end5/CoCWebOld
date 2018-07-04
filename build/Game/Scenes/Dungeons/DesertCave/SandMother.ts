@@ -1,4 +1,4 @@
-export class SandMother extends Monster {
+export class SandMother extends Character {
 
 	public defeated(hpVictory: boolean) {
 		game.defeatTheSandMother();

@@ -1,4 +1,4 @@
-export class OmnibusOverseer extends Monster {
+export class OmnibusOverseer extends Character {
 
 	public defeated(hpVictory: boolean) {
 		game.omnibusVictoryEvent();

@@ -3,7 +3,7 @@
  * ...
  * @author ...
  */
-export class MinotaurMob extends Monster {
+export class MinotaurMob extends Character {
 	private precumTease() {
 		let teased: boolean = false;
 		let damage: number = 0;

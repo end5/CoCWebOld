@@ -1,4 +1,4 @@
-﻿export class ImpHorde extends Monster {
+﻿export class ImpHorde extends Character {
 
 
 	override protected performCombatAction() {

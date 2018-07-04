@@ -983,11 +983,11 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nSmiling mischievously, you reach for the can and squirt some cream over her sensitive black nipples.  The vixen giggles and wriggles in place, \"<i>It feels like clouds tickling over my nipples,</i>\" she laughs.  It's evidently pleasurable in other ways, too; you can see precum beginning to distend the head of her condom out of the corner of your eye.  You begin spreading the cream over her breasts, just like her belly.  \"<i>Hey, now, what are you doing?  This is supposed to be a <b>belly</b> rub, lover,</i>\" Urta playfully scolds you, tail wagging all the same.");
 
 		DisplayText("\n\nYou throw her a fake apology and tell her you'll clean it all up.  Then, you proceed to let your ");
-		if (player.torso.head.face.tongueType === TongueType.SNAKE) DisplayText("forked ");
-		else if (player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("demonic ");
-		else if (player.torso.head.face.tongueType === TongueType.DRACONIC) DisplayText("draconic ");
+		if (player.torso.head.face.tongue.type === TongueType.SNAKE) DisplayText("forked ");
+		else if (player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("demonic ");
+		else if (player.torso.head.face.tongue.type === TongueType.DRACONIC) DisplayText("draconic ");
 		DisplayText("tongue hang and begin licking the cream off her breasts");
-		if (player.torso.head.face.tongueType > TongueType.HUMAN) DisplayText(", a task that is made far easier due to your tongue's ability to stretch to a surprising length");
+		if (player.torso.head.face.tongue.type > TongueType.HUMAN) DisplayText(", a task that is made far easier due to your tongue's ability to stretch to a surprising length");
 		DisplayText(".  You make sure to pay extra attention to her cream covered nubs.");
 
 		DisplayText("\n\nUrta wiggles in pleasure at the stimulus, precum slowly bubbling into her condom, \"<i>[name], you're supposed to be rubbing me down, not eating me up!</i>\"  She laughs.  You quickly snatch the bottle in your hands and aim the lid at Urta's lips, covering them with cream.  Urta barely has time to react and by the time she gets over the shock, you're already laughing at her.  She looks like a rabid fox.");
@@ -1153,11 +1153,11 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("\n\nUrta gently lays herself down on the bed, shuffling over so that you have ample room to join her, then smiles and carefully lifts up her breasts in clear invitation to you.");
 
 		DisplayText("\n\nYou waste no time, settling yourself beside her and grabbing the offered breasts.  You note that a few droplets seem to have escaped and formed a thin stream of white, which you promptly lick off with your ");
-		if (player.torso.head.face.tongueType === TongueType.SNAKE) DisplayText("forked ");
-		else if (player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("demonic ");
-		else if (player.torso.head.face.tongueType === TongueType.DRACONIC) DisplayText("draconic ");
+		if (player.torso.head.face.tongue.type === TongueType.SNAKE) DisplayText("forked ");
+		else if (player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("demonic ");
+		else if (player.torso.head.face.tongue.type === TongueType.DRACONIC) DisplayText("draconic ");
 		DisplayText("tongue.  Urta lets out a sigh of pleasure, yipping softly as your tongue tantalizes her over-sensitive black nipples.  Noticing that she seemed to enjoy the licking you keep doing so, slathering her soft mounds in a thin layer of saliva, alternating between breasts.");
-		if (player.torso.head.face.tongueType > TongueType.HUMAN) DisplayText("  Every few licks you coil your tongue around one of her nipples and gently pull at it, milking a thin strand of white goodness straight on your tongue, much to the fox-herm's delight.");
+		if (player.torso.head.face.tongue.type > TongueType.HUMAN) DisplayText("  Every few licks you coil your tongue around one of her nipples and gently pull at it, milking a thin strand of white goodness straight on your tongue, much to the fox-herm's delight.");
 
 		DisplayText("\n\nUrta shivers and moans, but then looks at you, \"<i>As nice as this may feel, it's not really getting them any emptier, you know,</i>\" she points out.");
 
@@ -1493,9 +1493,9 @@ export class UrtaPregs extends NPCAwareContent {
 		DisplayText("  You gaze at her questioningly.  \"<i>I woke up before you and went and... shall we say cleaned myself up a little,</i>\" she replies, flicking her ears in the direction of the shower.");
 
 		DisplayText("\n\nYou smile at her then draw her into another kiss, planting your lips to hers and invading her mouth with your ");
-		if (player.torso.head.face.tongueType === TongueType.SNAKE) DisplayText("forked ");
-		else if (player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("demonic ");
-		else if (player.torso.head.face.tongueType === TongueType.DRACONIC) DisplayText("draconic ");
+		if (player.torso.head.face.tongue.type === TongueType.SNAKE) DisplayText("forked ");
+		else if (player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("demonic ");
+		else if (player.torso.head.face.tongue.type === TongueType.DRACONIC) DisplayText("draconic ");
 		DisplayText("tongue.  She yips in surprise, then moans as she eagerly sinks into your embrace, kissing you back with equal passion.  She suddenly breaks it, looking apologetic.  \"<i>Sorry, [name], but if we keep that up, I'll be wanting another round, and I have things to do.</i>\"  She pats your face apologetically and shifts herself, somewhat clumsily, out of the bed, gathering her clothes and starting to dress herself.");
 		DisplayText("\n\nTaking that as your cue, you do likewise, and the two of you go your separate ways after locking the apartment up behind you.");
 		player.stats.lib += -.5;

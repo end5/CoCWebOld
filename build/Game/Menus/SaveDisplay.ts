@@ -6,9 +6,9 @@ import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedLis
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Gender } from '../Body/GenderIdentity';
 import { SaveFile } from '../SaveFile';
-import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
 
-export function saveSlotChoices(saveSlotCallback: (index: number) => ClickFunction, prevMenu: ClickFunction): NextScreenChoices {
+export function saveSlotChoices(saveSlotCallback: (index: number) => ClickOption, prevMenu: ClickOption): NextScreenChoices {
     const choices = [];
     for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
         choices.push(["Slot " + index.toString(), saveSlotCallback(index)]);

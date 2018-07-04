@@ -1,4 +1,4 @@
-﻿export class DemonPack extends Monster {
+﻿export class DemonPack extends Character {
 
 
 	override protected performCombatAction() {
@@ -21,7 +21,7 @@
 			game.return { next: Scenes.camp.returnToCampUseOneHour };
 		} else {
 			DisplayText("  Do you rape them?", true);
-			game.doYesNo(rapeDemons, game.cleanupAfterCombat);
+			game.doYesNo(rapeDemons, game.Scenes.camp.returnToCampUseOneHour);
 		}
 	}
 

@@ -991,7 +991,7 @@
 
 		DisplayText("\n\nNow ready to give her your full attention, you dive in, your lips pressing against her nethers as your tongue slides in, giving her a perverted tongue filled kiss.  Your teasing tongue slides in deep and pleasures her inner walls, licking and lapping at every sensitive surface it can reach.  As you lick, you can clearly feel the squirming cilia that cover the quivering depths of her cunt, the little squirming things tickling your tongue as you lick.  ");
 		//Dragon/Demon tongue
-		if (player.torso.neck.head.face.tongueType === TongueType.DEMONIC || player.torso.neck.head.face.tongueType === TongueType.DRACONIC) DisplayText("Your deliciously long tongue slithers deeper and deeper, reaching sensitive walls and nerves that only the deepest penetrations would reach.  The deep licking makes Minerva shudder and let out a long drawn out moan, \"<i>O-oh!  Your tongue is so... licking me so deep...</i>\"");
+		if (player.torso.neck.head.face.tongue.type === TongueType.DEMONIC || player.torso.neck.head.face.tongue.type === TongueType.DRACONIC) DisplayText("Your deliciously long tongue slithers deeper and deeper, reaching sensitive walls and nerves that only the deepest penetrations would reach.  The deep licking makes Minerva shudder and let out a long drawn out moan, \"<i>O-oh!  Your tongue is so... licking me so deep...</i>\"");
 		DisplayText("  The intimate vaginal kiss is working wonders for the siren.  Her sweet, slick juices leak over your tongue, giving you plenty of the peachy flavor that you crave.  As you tongue your lover's pussy and tease her clit, your hands work her thick, pulsating cock, pre-cum slowly coating your hands and making it easy for you to squeeze tighter and stroke her faster.");
 
 		DisplayText("\n\nNot wanting her to cum too soon, you pull your mouth back from her tight, cilia-filled snatch, drawing a disappointed moan from Minerva, clearly missing having your tongue inside her.  Licking your lips, you can still taste her delightful juices.  With your face so close to her genitals and her so close to orgasm, you have a few options to push her over.  Dig back into her creamy cunt, or give her needy, swollen balls some attention.");
@@ -1029,7 +1029,7 @@
 
 		DisplayText("\n\nThe intense sexual crescendo leaves her panting and sweaty as she struggles to stay up, her entire body shaking like jelly.  \"<i>Oh... oh, [name], that was amazing.  Gods... I came so hard, from both my dick and cunt...  You're amazing, you know that, hun?  Look at all that seed you made me waste,</i>\" she says, looking back at you with a playful grin.  Minerva loosens the hold her tail has on you, giving you the chance to pull back from her juicy nethers");
 		//if demonic tongue:
-		if (player.torso.neck.head.face.tongueType === TongueType.DEMONIC) DisplayText(", your perversely prehensile tongue slowly retracting from her quivering quim, rubbing and teasing as it comes out and nearly sending the overly sensitive herm into another climax");
+		if (player.torso.neck.head.face.tongue.type === TongueType.DEMONIC) DisplayText(", your perversely prehensile tongue slowly retracting from her quivering quim, rubbing and teasing as it comes out and nearly sending the overly sensitive herm into another climax");
 		DisplayText(".");
 
 		DisplayText("\n\nWith you now released from her grasp, Minerva lets out a sigh and slumps to her side, narrowly missing the thick pool of white splooge on the ground.  Her chest rising and falling as she pants, a big smile on her face showing how pleased she is, you can't help but feel a sense of pride at seeing how you were able to satisfy your lover.  Even as tired as she is, Minerva keeps a playful grin on her lips, her surprisingly dexterous shark tail being used to yank you down on top of her.");
@@ -1288,7 +1288,7 @@
 			DisplayText("\n\n\"<i>W-well... don't worry, Minerva is going to take care of you, just tell me how you want it, all right?</i>\" she says earnestly, clearly intending to finish what she started and help you with your battle induced lust.");
 			//Take PC to sex menu
 			minervaSexMenu(false);
-			MainScreen.addButton(9, "Leave", cleanupAfterCombat);
+			MainScreen.addButton(9, "Leave", Scenes.camp.returnToCampUseOneHour);
 		}
 	}
 
@@ -1308,7 +1308,7 @@
 			DisplayText("Your final move finishes the horny siren, her shorts bulging obscenely and soaked with her arousal.  Falling to her knees, Minerva desperately grabs hold of her shorts, yanking them from her curvy hips, letting out a gasp of relief and a moan of need.  Between the lusty herm's legs stands her painfully hard cock, all sixteen thick inches throbbing with desperate need, her thighs soaked in womanly juices.  Minerva's hands grab hold of her cock, stroking herself as she slips a pair of fingers into her quivering, slippery quim.  \"<i>Oh, [name], p-please... ohhh... look what you've done.  So mean, getting me so horny like this,</i>\" she says before letting out a long moan.");
 			DisplayText("\n\nShe's looking up at you with her debilitating lust clear in her eyes.  \"<i>W-well... think you could help little old me with this...  Just tell me what to do, I need it so badly.</i>\"");
 			minervaSexMenu(false);
-			MainScreen.addButton(9, "Leave", cleanupAfterCombat);
+			MainScreen.addButton(9, "Leave", Scenes.camp.returnToCampUseOneHour);
 		}
 	}
 

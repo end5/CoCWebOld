@@ -63,7 +63,7 @@ export class InfestedHellhound extends HellHound {
 			DisplayText("Unable to bear its unnatural arousal, the infested hellhound's flames dim as he stops his attack. The two heads look at you, whining plaintively.  The hellhound slowly pads over to you and nudges its noses at your crotch.  It seems he wishes to pleasure you.\n\n", true);
 			if (player.gender > 0 && player.stats.lust >= 33) {
 				DisplayText("You realize your desires aren't quite sated.  You could let it please you.  Do you?");
-				game.simpleChoices("Fuck it", game.mountain.hellHoundScene.hellHoundGetsRaped, "", null, "", null, "", null, "Leave", game.cleanupAfterCombat);
+				game.simpleChoices("Fuck it", game.mountain.hellHoundScene.hellHoundGetsRaped, "", null, "", null, "", null, "Leave", game.Scenes.camp.returnToCampUseOneHour);
 			}
 			else {
 				DisplayText("You turn away, not really turned on enough to be interested in such an offer from such a beast.");

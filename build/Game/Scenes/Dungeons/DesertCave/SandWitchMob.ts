@@ -1,4 +1,4 @@
-export class SandWitchMob extends Monster {
+export class SandWitchMob extends Character {
 
 	override protected performCombatAction() {
 		game.sandWitchMobAI();

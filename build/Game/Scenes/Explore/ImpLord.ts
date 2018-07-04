@@ -1,4 +1,5 @@
-﻿import { randInt } from '../../../Engine/Utilities/SMath';
+﻿import { DisplayText } from '../../../Engine/display/DisplayText';
+import { randInt } from '../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../Body/BreastRow';
 import { ButtLooseness, ButtRating, ButtWetness } from '../../Body/Butt';
 import { Cock, CockType } from '../../Body/Cock';
@@ -8,17 +9,17 @@ import { Character } from '../../Character/Character';
 import { CharacterDescription } from '../../Character/CharacterDescription';
 import { CharacterType } from '../../Character/CharacterType';
 
-//Special Attack 1
+// Special Attack 1
 function impFire() {
     DisplayText("The imp mutters something to himself. Before you have time to react the demonic creature's hand is filled with a bright red fire that he hurls at you.  The flames lick at your body leaving a painful burn on you torso, as well as an arousing heat in your groin.");
-    //[-HP // +Lust(minor)]
+    // [-HP // +Lust(minor)]
     let damage: number = 40 + randInt(10);
     player.takeDamage(damage);
     game.dynStats("lus", 20 + player.stats.cor / 10);
     combatRoundOver();
 }
 
-//Heavy Attack
+// Heavy Attack
 function impLordHeavyEncounter() {
     let damage: number = int((str + weaponAttack + 20) - randInt(player.stats.tou) - player.armorDef);
     DisplayText("The demonic creature slashes a clawed hand towards your stomach,");
@@ -32,26 +33,26 @@ function impLordHeavyEncounter() {
     combatRoundOver();
 }
 
-//Lust Attack
+// Lust Attack
 function impLordLustAttack() {
     DisplayText("Lowering his loincloth the imp reveals his inhumanly thick shaft.  He smirks and licks his lips as he gives his cock a squeeze, milking a few beads of clear pre from the tip.  You shake your head and try to ignore your growing need.");
-    //[+Lust]
+    // [+Lust]
     game.dynStats("lus", 5 + player.stats.lib / 5 + player.stats.cor / 5);
     combatRoundOver();
 }
 
-//Lust and Light Attack
+// Lust and Light Attack
 function impLordLustAttack2() {
     DisplayText("Reaching into his satchel the devilish creature pulls out a leather riding crop.  He quickly rushes forward, but somehow manages to get behind you.  Before you can react the imp lashes out, striking your [butt] twice with the riding crop.  The strikes leave a slight burning feeling, as well as a strange sense of arousal.");
     let damage: number = 3 + randInt(10);
     damage = player.takeDamage(damage);
     DisplayText(" (" + damage + ")");
-    //[-HP(minor) // +Lust]
+    // [-HP(minor) // +Lust]
     game.dynStats("lus", 5 + player.stats.sens / 4 + player.stats.cor / 10);
     combatRoundOver();
 }
 function performCombatAction() {
-    let choices: Array = [impFire, impLordLustAttack2, impLordLustAttack, impLordHeavyEncounter, eAttack];
+    const choices: Array = [impFire, impLordLustAttack2, impLordLustAttack, impLordHeavyEncounter, eAttack];
     choices[randInt(choices.length)]();
 }
 
@@ -108,4 +109,3 @@ export class ImpLord extends Character {
         checkMonster();
     }
 }
-

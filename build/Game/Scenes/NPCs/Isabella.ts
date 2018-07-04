@@ -1,4 +1,4 @@
-export class Isabella extends Monster {
+export class Isabella extends Character {
 
 	//IZZY AI:
 

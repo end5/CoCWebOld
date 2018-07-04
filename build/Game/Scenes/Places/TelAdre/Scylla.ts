@@ -29,12 +29,12 @@
         if (model.time.totalTime === scyllaLastActionSelectionTime) return; //Only choose action once per visit to the bar
         scyllaLastActionSelectionTime = model.time.totalTime;
         scyllaAction = SCYLLA_NOT_PRESENT;
-        if (player.statusAffects.has(StatusAffectType.DungeonShutDown) && (player.torso.cocks.count <= 0 || player.longestCockLength() < 12) && flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] === 0) {
+        if (player.statusAffects.has(StatusAffectType.DungeonShutDown) && (player.torso.cocks.count <= 0 || player.torso.cocks.sort(Cock.LongestCocks)[0].length < 12) && flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] === 0) {
             scyllaAction = SCYLLA_ACTION_FIRST_TALK;
             return;
         }
         if (player.torso.cocks.count > 0 && player.statusAffects.has(StatusAffectType.DungeonShutDown)) {
-            if (player.longestCockLength() >= 12) {
+            if (player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 12) {
                 if (flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] === 0) {
                     scyllaAction = SCYLLA_ACTION_FIRST_TALK;
                     return;
@@ -77,7 +77,7 @@
             if (telAdre.katherine.needIntroductionFromScylla()) return;
             if (randInt(3) === 0) scyllaAction = SCYLLA_ACTION_FUCKING_URTA; //And after all that there's still just a 1/3 chance it will happen
             //Yay, Foursomes! - unless you're Scylla special
-            if (randInt(2) === 0 && flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] >= 3 && player.hasKeyItem("Opal Ring") < 0 && kGAMECLASS.urta.urtaAtBar() && player.longestCockLength() >= 8 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00143] > 0) scyllaAction = SCYLLA_ACTION_FURRY_FOURSOME;
+            if (randInt(2) === 0 && flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] >= 3 && player.hasKeyItem("Opal Ring") < 0 && kGAMECLASS.urta.urtaAtBar() && player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 8 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00143] > 0) scyllaAction = SCYLLA_ACTION_FURRY_FOURSOME;
         }
     }
 
@@ -89,7 +89,7 @@
         DisplayText("You approach the busty stranger as her dark, curly black hair falls over her eyes.  She seems to be staring at the cup of coffee she's clutching. As she pours pale cream into it, her tongue absently licks the generous bulge of her scarlet, O-shaped lips. She notices the motion and shakes her head harshly, slamming the cream down too hard and shattering the ceramic. Milky white fluid splatters across her face and she utters a gasp that you think is only half surprise. Was it your imagination, or did that sound a little orgasmic? It might be a good idea to introduce yourself and help her clean up the mess.\n\n");
 
         // New modified intro
-        if (player.torso.cocks.count <= 0 || player.longestCockLength() < 12) {
+        if (player.torso.cocks.count <= 0 || player.torso.cocks.sort(Cock.LongestCocks)[0].length < 12) {
             if (flags[FlagEnum.SCYLLA_SMALLCOCK_INTRO] === 0) {
                 DisplayText("You step up to the woman and introduce yourself, noticing that the white and black hat she wears is covering tiny bulges in her skull.  Brushing her jet hair from her eyes, she follows your glance and blushes a deep purple hue. Pulling the cowl back, she reveals the twin nub-like horns that mark demonic taint. Apologizing for the scene she caused with the cup, she mumbles an introduction, getting as far as to explain that she is a nun before losing the thread entirely- evidently distracted by some inner turmoil. Following her gaze, you see that she’s staring at some of the other patrons- men whose massive members are visible through the knee-length bulge in their pant legs. You try to get her attention again, but she’s lost in a private world, her breath quick and shallow. Troublesome. If you want to keep her attention for any length of time, apparently you’ll need a monster cock swinging from your hips. You leave the size queen and go back to your soup.\n\n");
                 flags[FlagEnum.SCYLLA_SMALLCOCK_INTRO] = 1;
@@ -1463,7 +1463,7 @@
         else DisplayText("\n\nYou invite the girls to prepare themselves, reading their faces as they regard you with trepidation.  Stepping toward them, your tentacles slide through the air to stroke each girls' body, coiling your desire around their weakening resistance.  One caresses the supple pout of Scylla's lips, the scent of your bubbling pre-cum wafting into her nostrils and binding the nun to you as surely as if you'd locked a steel collar around her throat.  Another brushes against Abby's belly, sliding under her segmented armor.  The goblin gasps as the heat of your seed seeps through her boiled leather all the way into her flesh, igniting the dormant need of her over-fertile womb.  Pastie struggles weakly, but you simply slide the cock teasing Scylla's inflated lips to the fairy, pressing the member across her lithe body, pinning her in place with the girth of your meat, muffling the sole, tiny voice of opposition.  It's adorable that she thinks she gets a choice in the matter.");
 
         //[Cocks under 5' long:
-        if (player.longestCockLength() < 60) {
+        if (player.torso.cocks.sort(Cock.LongestCocks)[0].length < 60) {
             DisplayText("\n\nScylla meets your gaze, her pure, sapphire eyes peering through her long, elegant lashes.  She opens her mouth once more to speak, perhaps to try to dissuade you from giving into temptation, perhaps to ask if she could be first.  The words die on her lips as the seething thirst inside her boils up, dulling the clarity of her eyes with a decidedly impure hunger.  She whispers a prayer and you can feel your body reacting to the nun's lustful desire, her corrupted supplications flowing across your flesh like sanctified oil.  [EachCock] pulse as blood surges through their lengths, growing longer and thicker with every heartbeat.  They expand and swell until each is at least five feet long, resembling true tentacles more than the simple cocks they once were.  You marvel at the famished depravity of the holy woman, but you must admit, her charity seems boundless.");
             //[Next]
         }

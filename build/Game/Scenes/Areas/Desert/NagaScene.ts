@@ -673,17 +673,17 @@
 		if (player.stats.lust >= 33) {
 			DisplayText("Your body aches for further satisfaction - do you rape the snake woman?");
 			if (player.hips.legs.type === LegType.GOO) {
-				if (player.gender === Gender.NONE) MainScreen.simpleChoices(["Yes", "Gooey Rape", "Lay Eggs", "", "Leave"], [nagaVictoryGenderless, gooNagaRape, eggs, null, cleanupAfterCombat]);
-				if (player.gender === Gender.MALE) MainScreen.simpleChoices(["Yes", "Gooey Rape", "Lay Eggs", "", "Leave"], [nagaVictoryMale, gooNagaRape, eggs, null, cleanupAfterCombat]);
-				if (player.gender === Gender.FEMALE) MainScreen.simpleChoices(["Yes", "Gooey Rape", "Lay Eggs", "", "Leave"], [nagaVictoryFemale, gooNagaRape, eggs, null, cleanupAfterCombat]);
-				if (player.gender === Gender.HERM) MainScreen.simpleChoices(["As Male", "As Female", "Gooey Rape", "Lay Eggs", "Leave"], [nagaVictoryMale, nagaVictoryFemale, gooNagaRape, eggs, cleanupAfterCombat]);
+				if (player.gender === Gender.NONE) MainScreen.simpleChoices(["Yes", "Gooey Rape", "Lay Eggs", "", "Leave"], [nagaVictoryGenderless, gooNagaRape, eggs, null, Scenes.camp.returnToCampUseOneHour]);
+				if (player.gender === Gender.MALE) MainScreen.simpleChoices(["Yes", "Gooey Rape", "Lay Eggs", "", "Leave"], [nagaVictoryMale, gooNagaRape, eggs, null, Scenes.camp.returnToCampUseOneHour]);
+				if (player.gender === Gender.FEMALE) MainScreen.simpleChoices(["Yes", "Gooey Rape", "Lay Eggs", "", "Leave"], [nagaVictoryFemale, gooNagaRape, eggs, null, Scenes.camp.returnToCampUseOneHour]);
+				if (player.gender === Gender.HERM) MainScreen.simpleChoices(["As Male", "As Female", "Gooey Rape", "Lay Eggs", "Leave"], [nagaVictoryMale, nagaVictoryFemale, gooNagaRape, eggs, Scenes.camp.returnToCampUseOneHour]);
 				return;
 			}
 			else {
-				if (player.gender === Gender.NONE) MainScreen.simpleChoices(["Yes", "", "", "Lay Eggs", "No"], [nagaVictoryGenderless, null, null, eggs, cleanupAfterCombat]);
-				if (player.gender === Gender.MALE) MainScreen.simpleChoices(["Yes", "", "", "Lay Eggs", "No"], [nagaVictoryMale, null, null, eggs, cleanupAfterCombat]);
-				if (player.gender === Gender.FEMALE) MainScreen.simpleChoices(["Yes", "", "", "Lay Eggs", "Leave"], [nagaVictoryFemale, null, null, eggs, cleanupAfterCombat]);
-				if (player.gender === Gender.HERM) MainScreen.simpleChoices(["As Male", "As Female", "", "Lay Eggs", "Leave"], [nagaVictoryMale, nagaVictoryFemale, null, eggs, cleanupAfterCombat]);
+				if (player.gender === Gender.NONE) MainScreen.simpleChoices(["Yes", "", "", "Lay Eggs", "No"], [nagaVictoryGenderless, null, null, eggs, Scenes.camp.returnToCampUseOneHour]);
+				if (player.gender === Gender.MALE) MainScreen.simpleChoices(["Yes", "", "", "Lay Eggs", "No"], [nagaVictoryMale, null, null, eggs, Scenes.camp.returnToCampUseOneHour]);
+				if (player.gender === Gender.FEMALE) MainScreen.simpleChoices(["Yes", "", "", "Lay Eggs", "Leave"], [nagaVictoryFemale, null, null, eggs, Scenes.camp.returnToCampUseOneHour]);
+				if (player.gender === Gender.HERM) MainScreen.simpleChoices(["As Male", "As Female", "", "Lay Eggs", "Leave"], [nagaVictoryMale, nagaVictoryFemale, null, eggs, Scenes.camp.returnToCampUseOneHour]);
 				return;
 			}
 		}

@@ -7,7 +7,7 @@ import { CharacterType } from '../../Character/CharacterType';
 import { ConsumableName } from '../../Items/Consumables/ConsumableName';
 import { ItemFactory } from '../../Items/ItemFactory';
 import { ItemType } from '../../Items/ItemType';
-import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Scenes } from '../Scenes';
 
@@ -57,7 +57,7 @@ export function lumiLabChoices(character: Character): NextScreenChoices {
     else {
         DisplayText("Once more, you step into Lumi's lab.  She's still working on her experiments. Before you even have a chance to call out to her, she has already pivoted to watch you.  In a flash her apron hits the floor and she is standing on her desk, asking, \"<i>Stho, what can Lumi the Aochomist Extwaordinaire do fo you today?</i>\"");
     }
-    let enhance: ClickFunction;
+    let enhance: ClickOption;
     if (canEnhance(character))
         enhance = lumiEnhance;
     return { choices: [["Shop", lumiShop], ["Enhance", enhance], ["", undefined], ["", undefined], ["Leave", Scenes.camp.returnToCampUseOneHour]] };
@@ -87,7 +87,7 @@ function lumiLustDraftPitch(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You point at the bottle filled with bubble-gum pink fluid.\n\n\"<i>De lust dwaft? Always a favowite, with it you nevar have to worwy about not bein weady for sexy time; one of my fiwst creations. 15 gems each.</i>\"\n\n");
     DisplayText("Will you buy the lust draft?");
-    return { yes: (character: Character) => lumiPurchase(character, ConsumableName.LustDraft), no: lumiShop };
+    return { yes: { func: lumiPurchase, args: [ConsumableName.LustDraft] }, no: lumiShop };
 }
 // Goblin Ale
 function lumiPitchGobboAle() {
@@ -95,7 +95,7 @@ function lumiPitchGobboAle() {
     DisplayText().clear();
     DisplayText("You point at the flagon. \"<i>Oh? Oh thats Lumi's... actually no, dat tispsy stuff for 20 gems. You'll like if you want to be like Lumi. Do you like it?</i>\"\n\n");
     DisplayText("Will you buy the goblin ale?");
-    return { yes: (character: Character) => lumiPurchase(character, ConsumableName.GoblinAle), no: lumiShop };
+    return { yes: { func: lumiPurchase, args: [ConsumableName.GoblinAle] }, no: lumiShop };
 }
 // Ovi Elixir
 function lumiPitchOviElixer() {
@@ -103,7 +103,7 @@ function lumiPitchOviElixer() {
     DisplayText().clear();
     DisplayText("You point at the curious hexagonal bottle. \"<i>De Oviposar Elixir? Made baithsed on da giant bee's special stuff dey give deir queen. It will help make de burfing go faster, an if you dwink it while you awen pweggy, iw will give you some eggs to burf later. More dwinks, eqwals more and biggar eggs. Lumi charges 45 gems for each dose.</i>\"\n\n");
     DisplayText("Will you buy the Ovi Elixir?");
-    return { yes: (character: Character) => lumiPurchase(character, ConsumableName.OvipositionElixir), no: lumiShop };
+    return { yes: { func: lumiPurchase, args: [ConsumableName.OvipositionElixir] }, no: lumiShop };
 }
 
 function lumiPurchase(character: Character, itype: string): NextScreenChoices {
@@ -155,28 +155,28 @@ export function lumiEnhance(character: Character): NextScreenChoices {
     const buttonFunc = [];
     character.inventory.items.has(ConsumableName.FoxBerry);
 
-    let fox: ClickFunction;
+    let fox: ClickOption;
     if (character.inventory.items.has(ConsumableName.FoxBerry))
         fox = lumiEnhanceFox;
-    let laBova: ClickFunction;
+    let laBova: ClickOption;
     if (character.inventory.items.has(ConsumableName.LaBova))
         laBova = lumiEnhanceLaBova;
-    let succuDelight: ClickFunction;
+    let succuDelight: ClickOption;
     if (character.inventory.items.has(ConsumableName.SuccubisDelight))
         succuDelight = lumiEnhanceSDelight;
-    let oviElix: ClickFunction;
+    let oviElix: ClickOption;
     if (character.inventory.items.has(ConsumableName.OvipositionElixir))
         oviElix = lumiEnhanceOviElix;
-    let lustDraft: ClickFunction;
+    let lustDraft: ClickOption;
     if (character.inventory.items.has(ConsumableName.LustDraft))
         lustDraft = lumiEnhanceDraft;
-    let seed: ClickFunction;
+    let seed: ClickOption;
     if (character.inventory.items.has(ConsumableName.GoldenSeed))
         seed = lumiEnhanceGoldenSeed;
-    let kanga: ClickFunction;
+    let kanga: ClickOption;
     if (character.inventory.items.has(ConsumableName.KangaFruit))
         kanga = lumiEnhanceKanga;
-    let kitsune: ClickFunction;
+    let kitsune: ClickOption;
     if (character.inventory.items.has(ConsumableName.FoxJewel))
         kitsune = lumiEnhanceFoxJewel;
     DisplayText().clear();

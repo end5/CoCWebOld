@@ -1,4 +1,4 @@
-export class Kiha extends Monster {
+export class Kiha extends Character {
 	private kihaTimeWaster() {
 		game.DisplaySprite(72);
 		DisplayText("She supports the axe on a shoulder, cracking her neck and arching her back to stretch herself, giving you an unintended show.  ");

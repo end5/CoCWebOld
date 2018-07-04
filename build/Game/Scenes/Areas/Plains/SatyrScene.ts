@@ -234,7 +234,7 @@ export class SatyrScene {
 		}
 		let bikiniTits;
 		if (player.torso.vaginas.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && player.armor === armors.LMARMOR) bikiniTits = (player.armor as LustyMaidensArmor).lustyMaidenPaizuri;
-		simpleChoices("FuckHisButt", butt, "Ride Face", faces, "B.Titfuck", bikiniTits, "", null, "Leave", cleanupAfterCombat);
+		simpleChoices("FuckHisButt", butt, "Ride Face", faces, "B.Titfuck", bikiniTits, "", null, "Leave", Scenes.camp.returnToCampUseOneHour);
 	}
 	//Female (Z)
 	private femaleTakesAdvantageOfSatyr() {

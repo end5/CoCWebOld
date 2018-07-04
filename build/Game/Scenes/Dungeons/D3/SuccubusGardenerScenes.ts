@@ -161,7 +161,7 @@ export class SuccubusGardenerScenes {
 		Flags.list[FlagEnum.D3_GARDENER_DEFEATED] = GARDENER_KILLED;
 
 		
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	private leaveHer() {
@@ -171,7 +171,7 @@ export class SuccubusGardenerScenes {
 		Flags.list[FlagEnum.D3_GARDENER_DEFEATED] = GARDENER_LEFT;
 
 		
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	public surrenderToTheGardener(hpVictory: boolean = false) {

@@ -1,4 +1,4 @@
-export class JeanClaude extends Monster {
+export class JeanClaude extends Character {
 	private doubleAttack() {
 		DisplayText("The monstrous basilisk suddenly lunges forward, snarling wordlessly as he swings his cutlass at you twice, the blows of a savage yet expert swordsman.\n\n");
 		statusAffects.set(new StatusAffect("Attacks", 2, 0, 0, 0));

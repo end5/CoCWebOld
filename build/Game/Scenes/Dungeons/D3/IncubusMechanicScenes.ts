@@ -196,7 +196,7 @@ export class IncubusMechanicScenes {
 		Flags.list[FlagEnum.D3_MECHANIC_FIGHT_RESULT] = MECHANIC_KILLED;
 		DisplayText().clear();
 		DisplayText("He proves blessedly easy to kill, and you roll the body off the cliffs to avoid alerting any of Lethice's other ilk.");
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	private letMechanicGo(hpVictory: boolean) {
@@ -211,7 +211,7 @@ export class IncubusMechanicScenes {
 
 		DisplayText("\n\nThe incubus mechanic flies away for good, though you can’t can say whether he will wreak havoc or live quietly.");
 
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	private buttfuckTheMechanic(hpVictory: boolean) {
@@ -302,7 +302,7 @@ export class IncubusMechanicScenes {
 		player.orgasm();
 		dynStats("cor+", 5);
 
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	private const MECHANIC_DEMON_COCK: number = 0;
@@ -475,7 +475,7 @@ export class IncubusMechanicScenes {
 		player.orgasm();
 		dynStats("cor+", 5);
 
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	public mechanicFuckedYouUp(hpVictory: boolean, pcCameWorms: boolean) {

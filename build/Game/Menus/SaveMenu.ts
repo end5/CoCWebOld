@@ -4,7 +4,7 @@ import { DisplayText } from '../../Engine/display/DisplayText';
 import { InputTextElement } from '../../Engine/Display/Elements/InputTextElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { generateSave, SaveFile } from '../SaveFile';
-import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
 import { User } from '../User';
 
 export function display(): NextScreenChoices {
@@ -25,7 +25,7 @@ export function display(): NextScreenChoices {
     return saveSlotChoices(createSaveFuncCallback(generateSave(notesInputElement.text)), Menus.Data);
 }
 
-function createSaveFuncCallback(save: SaveFile): (index: number) => ClickFunction {
+function createSaveFuncCallback(save: SaveFile): (index: number) => ClickOption {
     return (index: number) => {
         return () => {
             if (SaveManager.has(index))

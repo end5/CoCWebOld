@@ -1022,7 +1022,7 @@ export class HelFollower extends NPCAwareContent {
 		}
 		if (player.stats.lust < 33) DisplayText("\n\n<b>You aren't turned on enough for sex right now.</b>");
 		if (Game.inCombat)
-			MainScreen.addButton(9, "Leave", cleanupAfterCombat);
+			MainScreen.addButton(9, "Leave", Scenes.camp.returnToCampUseOneHour);
 		else MainScreen.addButton(9, "Back", heliaFollowerMenu);
 	}
 

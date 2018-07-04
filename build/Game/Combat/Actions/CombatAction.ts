@@ -1,5 +1,5 @@
 import { Character } from '../../Character/Character';
-import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../../ScreenDisplay';
 
 export interface CombatAction {
     /**

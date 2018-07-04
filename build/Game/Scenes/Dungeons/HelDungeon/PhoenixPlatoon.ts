@@ -1,4 +1,4 @@
-export class PhoenixPlatoon extends Monster {
+export class PhoenixPlatoon extends Character {
 
 	override protected performCombatAction() {
 		game.phoenixPlatoonAI();

@@ -1,4 +1,4 @@
-﻿export class Ceraph extends Monster {
+﻿export class Ceraph extends Character {
 
     //[IN COMBAT SPECIALS]
     //[SPECIAL 1] – Ubercharge!

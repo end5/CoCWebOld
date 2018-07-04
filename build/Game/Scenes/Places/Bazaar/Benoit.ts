@@ -735,7 +735,7 @@ private eggySuggest():void {
 		if(player.gender === Gender.HERM) {
 			DisplayText("\n\nHis hands travel down your behind until, with a sharp intake of breath, he touches [oneCock].  “Aren't you just full of surprises,” he says dryly.  After a pause, he slowly wraps his dry, smooth grasp around your semi-erect cock and moves it up and down, rubbing and coiling you until you are straining.");
 			//[cock 10 inches or less: 
-			if(player.longestCockLength() <= 10) DisplayText("  Although this is evidently an uncanny experience for him, he does manage a cocky smile as his hand moves around your male sex. “Mine is bigger,” he teases.  Unable to reward his cheek from where he is, you simply snort and shuffle your hooves, impatient now with need.");
+			if(player.torso.cocks.sort(Cock.LongestCocks)[0].length <= 10) DisplayText("  Although this is evidently an uncanny experience for him, he does manage a cocky smile as his hand moves around your male sex. “Mine is bigger,” he teases.  Unable to reward his cheek from where he is, you simply snort and shuffle your hooves, impatient now with need.");
 			//[cock  >10 inches: 
 			else DisplayText("  This is evidently an uncanny experience for him, the alien nature of it deepening as his hands moves around your male sex. “Oly Gods [name], you are a monster,” he says thickly.  You smile and stamp your hooves, impatient now with need.");
 		}

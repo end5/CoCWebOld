@@ -3005,10 +3005,10 @@ export class AmilyScene extends NPCAwareContent implements TimeAwareInterface {
 		DisplayText("Amily gasps in delight at the sensation of being surrounded by your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ". \"<i>Oh, yes, " + player.short + ", please!</i>\" she cries, clearly happy.\n\n");
 
 		//(If player is herm with "self-titfuck" cock:
-		if (player.longestCockLength() >= 18) {
+		if (player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 18) {
 			DisplayText("Amily grabs hold of your " + Desc.Cock.describeCock(player, player.longestCock()) + ", eagerly cramming it between her " + amilyTits() + ", mashing them together and running them up and down against your " + Desc.Cock.describeCock(player, player.longestCock()) + ", surrounding it with warm, soft, velvety flesh.");
 			//(If player has "autofellatio" cock:
-			if (player.longestCockLength() >= 22) DisplayText("  She then starts to lick and kiss the tip, sucking on it, playing with its slit with her tongue, smothering it with oral affection.");
+			if (player.torso.cocks.sort(Cock.LongestCocks)[0].length >= 22) DisplayText("  She then starts to lick and kiss the tip, sucking on it, playing with its slit with her tongue, smothering it with oral affection.");
 			DisplayText("\n\n");
 		}
 		//(If player is herm:

@@ -925,7 +925,7 @@
 		}
 		if (dickRape != null || cuntFuck != null || clitFuck != null || bimbo != null) {
 			DisplayText("  What do you do to her?");
-			MainScreen.simpleChoices(["Use Dick", "Scissor", "Fuck wClit", "Bimbo Her", "Leave"], [dickRape, cuntFuck, clitFuck, bimbo, cleanupAfterCombat]);
+			MainScreen.simpleChoices(["Use Dick", "Scissor", "Fuck wClit", "Bimbo Her", "Leave"], [dickRape, cuntFuck, clitFuck, bimbo, Scenes.camp.returnToCampUseOneHour]);
 		}
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}

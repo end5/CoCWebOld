@@ -1,4 +1,4 @@
-export class Farmers extends Monster {
+export class Farmers extends Character {
 
 	override protected performCombatAction() {
 		statusAffects.add(StatusAffectType.Attacks, 4, 0, 0, 0);

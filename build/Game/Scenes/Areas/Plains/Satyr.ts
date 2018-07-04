@@ -1,4 +1,4 @@
-export class Satyr extends Monster {
+export class Satyr extends Character {
 	//Attacks (Z)
 	private satyrAttack() {
 		DisplayText("The satyr swings at you with one knuckled fist.  ");

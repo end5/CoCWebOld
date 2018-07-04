@@ -1,4 +1,4 @@
-export class Vala extends Monster {
+export class Vala extends Character {
 	//Vala AI
 
 	//Blood magic?

@@ -563,7 +563,7 @@ export class MarbleScene extends NPCAwareContent implements TimeAwareInterface {
 		//Options, rape in room, milk (Spy's submission - not included yet) and, don't rape.
 		let feed;
 		if (player.perks.has(PerkType.Feeder) || player.lactationQ() > 200) feed = forceFeedMarble;
-		MainScreen.simpleChoices(["Feed Her", "RapeInRoom", "", "", "Leave"], [feed, rapeMarbleInHerRoom, null, null, cleanupAfterCombat]);
+		MainScreen.simpleChoices(["Feed Her", "RapeInRoom", "", "", "Leave"], [feed, rapeMarbleInHerRoom, null, null, Scenes.camp.returnToCampUseOneHour]);
 	}
 	internal function marbleFightLose() {
 		DisplaySprite(41);
@@ -3773,9 +3773,9 @@ export class MarbleScene extends NPCAwareContent implements TimeAwareInterface {
 		if (player.stats.cor > 70) {
 			DisplayText("\n\nYou certainly don't mind the proof of your prowess marking your lower body like this, but you can think of something better to do with it.  In fact, you slowly move the tail towards your lips.");
 			//(Normal or Snake tongue) 
-			if (player.torso.head.face.tongueType === TongueType.SNAKE || player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("  Your tongue runs along the length of the end of your tail, tasting both Marble's feminine secretions and her semen.  She gives you a smoldering gaze as you lick her juices up.  You grin at her.");
+			if (player.torso.head.face.tongue.type === TongueType.SNAKE || player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("  Your tongue runs along the length of the end of your tail, tasting both Marble's feminine secretions and her semen.  She gives you a smoldering gaze as you lick her juices up.  You grin at her.");
 			//(Demon Tongue) 
-			if (player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("  You decide to put on a show for Marble, moving your tail as you drop out a large piece of your inhumanly long tongue, licking up her secretions sensuously while staring at her.  She quickly blushes under your gaze.");
+			if (player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("  You decide to put on a show for Marble, moving your tail as you drop out a large piece of your inhumanly long tongue, licking up her secretions sensuously while staring at her.  She quickly blushes under your gaze.");
 			DisplayText("\n\n\"<i>Sweetie, you wouldn't be trying to make me horny all over again, would you?</i>\"");
 			DisplayText("\n\n\"<i>Well... certainly, when you're not in the mood, repeating this would be very nice.  I hope we can both have fun together next time, though... Thank you, sweetie.</i>\"");
 			player.slimeFeed();
@@ -3902,7 +3902,7 @@ export class MarbleScene extends NPCAwareContent implements TimeAwareInterface {
 
 		DisplayText("[pg]With a flourish, you remove your [armor] and do a little sweep over your " + Desc.Cock.describeCock(player, x) + ", asking her if everything is to her needs.");
 
-		if ((player.perks.has(PerkType.BulgeArmor) || player.modArmorName === "backless female teacher's clothes" || player.modArmorName === "bridle bit and saddle set" || player.modArmorName === "headdress, necklaces, and many body-chains" || player.modArmorName === "bondage patient clothes" || player.modArmorName === "crotch-revealing clothes" || player.modArmorName === "cute servant's clothes" || player.modArmorName === "maid's clothes" || player.modArmorName === "servant's clothes") && player.torso.cocks.count > 0) {
+		if ((player.perks.has(PerkType.BulgeArmor) || player.inventory.equipment.armorDescMod === "backless female teacher's clothes" || player.inventory.equipment.armorDescMod === "bridle bit and saddle set" || player.inventory.equipment.armorDescMod === "headdress, necklaces, and many body-chains" || player.inventory.equipment.armorDescMod === "bondage patient clothes" || player.inventory.equipment.armorDescMod === "crotch-revealing clothes" || player.inventory.equipment.armorDescMod === "cute servant's clothes" || player.inventory.equipment.armorDescMod === "maid's clothes" || player.inventory.equipment.armorDescMod === "servant's clothes") && player.torso.cocks.count > 0) {
 			DisplayText("[pg]\"<i>I appreciate the little show, but I could already see you just fine.  Come closer so I can get a better idea.</i>\"");
 		}
 		else DisplayText("[pg]\"<i>Hmm, yes, I think that will work.  Come closer so I can make a more thorough inspection.</i>\"");
@@ -4222,7 +4222,7 @@ export class MarbleScene extends NPCAwareContent implements TimeAwareInterface {
 			DisplayText("[pg]\"<i>Alright, let's put that rude tongue of yours to a much better job.  Lick me.</i>\"");
 
 			DisplayText("[pg]You do as you're bid and get an approving smile in response.  Digging deeper inside her, you feel under her folds and plunge into her depths.  ");
-			if (player.torso.head.face.tongueType > TongueType.HUMAN) DisplayText("You take full advantage of your inhumanly long tongue to fill her up, running across her passage all the way to the entrance to her womb and then back to her lower lips.");
+			if (player.torso.head.face.tongue.type > TongueType.HUMAN) DisplayText("You take full advantage of your inhumanly long tongue to fill her up, running across her passage all the way to the entrance to her womb and then back to her lower lips.");
 			else DisplayText("You send your tongue as far into her passage as it will go and wriggle around her lower lips, trying to please your aggressive bovine lover to the best of your abilities.");
 		}
 		else {

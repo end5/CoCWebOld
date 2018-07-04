@@ -83,7 +83,7 @@ export class Tamani extends Goblin {
             if (!game.forest.tamaniScene.pregnancy.isPregnant && player.canOvipositSpider()) {
                 temp2 = game.forest.tamaniScene.tamaniBeaten;
             }
-            game.simpleChoices("Fuck", game.forest.tamaniScene.tamaniSexWon, "Buttfuck", temp, "", null, "Lay Eggs", temp2, "Leave", game.cleanupAfterCombat);
+            game.simpleChoices("Fuck", game.forest.tamaniScene.tamaniSexWon, "Buttfuck", temp, "", null, "Lay Eggs", temp2, "Leave", game.Scenes.camp.returnToCampUseOneHour);
         }
         else game.return { next: Scenes.camp.returnToCampUseOneHour };
     }

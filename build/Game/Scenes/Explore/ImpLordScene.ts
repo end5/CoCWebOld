@@ -1,3 +1,4 @@
+import { ImpLord } from './ImpLord';
 import { DisplayImage } from '../../../Engine/Display/DisplayImage';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
@@ -8,8 +9,11 @@ import { LegType } from '../../Body/Legs';
 import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
 import { Desc } from '../../Descriptors/Descriptors';
+import { PerkType } from '../../Effects/PerkType';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { NextScreenChoices } from '../../ScreenDisplay';
+import { returnToCampUseOneHour } from '../Camp';
 import { Scenes } from '../Scenes';
 
 // IMP LORD
@@ -38,19 +42,19 @@ export function defeatImpLord(character: Character, imp: Character): NextScreenC
         return { choices, persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
     }
 }
-export function loseToAnImpLord(character: Character): NextScreenChoices {
+export function loseToAnImpLord(character: Character, imp: Character): NextScreenChoices {
     DisplayText().clear();
-    if (character.torso.vaginas.count > 0 && (character.gender === Gender.FEMALE || randInt(2) === 0)) getRapedAsAGirl();
-    else if (character.torso.cocks.count > 0) loseToImpLord();
+    if (character.torso.vaginas.count > 0 && (character.gender === Gender.FEMALE || randInt(2) === 0)) getRapedAsAGirl(character, imp);
+    else if (character.torso.cocks.count > 0) loseToImpLord(character);
     else {
         DisplayText("Taking a look at your defeated form, the imp lord snarls, \"<i>Useless,</i>\" before kicking you in the head, knocking you out cold.");
-        character.takeDamage(9999);
+        character.stats.HP = 0;
         return { next: Scenes.camp.returnToCampUseOneHour };
     }
 }
 
 // Rape
-function sexAnImpLord(character: Character): NextScreenChoices {
+function sexAnImpLord(character: Character, imp: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You grin evilly and walk towards the defeated corrupted creature.  He doesn't take notice of you even though you're only inches away from him.  You remove your [armor] slowly, enjoying the show the imp is giving you.  But soon it's time for you to have fun too.");
     // (No line break)
@@ -58,15 +62,15 @@ function sexAnImpLord(character: Character): NextScreenChoices {
     if (!character.torso.hips.legs.isTaur()) DisplayText("  You grab his hands, removing them from his " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + ". This gets his attention immediately, and you grin widely, pinning him to the ground.");
     else DisplayText("  You place one of your front hooves on his chest, knocking him onto his back.  He attempts to get back up, but you apply more pressure to his thick, manly chest, until he gasps.  The imp gets the idea quickly and stops masturbating, all of his focus now on you.");
 
-
     // Continues in, Male Anal, Female Vaginal, or Breastfeed
-    MainScreen.addButton(9, "Leave", cleanupAfterCombat);
+    const choices = [];
     if (character.stats.lust >= 33) {
-        if (character.torso.cocks.count > 0 && character.torso.cocks.filter(Cock.CockThatFits(imp.analCapacity())).length >= 0) MainScreen.addButton(0, "FuckHisAss", impLordBumPlug);
-        if (character.torso.cocks.count > 0) MainScreen.addButton(1, "Get Blown", getBlownByAnImpLord);
-        if (character.torso.vaginas.count > 0) MainScreen.addButton(2, "Ride Cock", femaleVagRape);
-        if (character.perks.has(PerkType.Feeder)) MainScreen.addButton(3, "Breastfeed", feederBreastfeedRape);
+        if (character.torso.cocks.count > 0 && character.torso.cocks.filter(Cock.CockThatFits(imp.analCapacity())).length >= 0) choices[0] = ["FuckHisAss", impLordBumPlug];
+        if (character.torso.cocks.count > 0) choices[1] = ["Get Blown", getBlownByAnImpLord];
+        if (character.torso.vaginas.count > 0) choices[2] = ["Ride Cock", femaleVagRape];
+        if (character.perks.has(PerkType.Feeder)) choices[3] = ["Breastfeed", feederBreastfeedRape];
     }
+    return { choices, persistantChoices: [["Leave", returnToCampUseOneHour]] };
 }
 
 // MALE ANAL
@@ -80,7 +84,7 @@ function impLordBumPlug(character: Character, imp: Character): NextScreenChoices
     if (character.tallness < 72) {
         DisplayText("  You give a powerful shove and push the imp to his knees.");
     }
-    DisplayText("  You pull the imp's head towards your [hips], forcing his lips against the base of your " + Desc.Cock.describeCock(character, cockThatFits) + ".  The imp quickly gets the idea and begins to lick and suckle at your " + character.cockHead(cockThatFits) + " expertly.");
+    DisplayText("  You pull the imp's head towards your [hips], forcing his lips against the base of your " + Desc.Cock.describeCock(character, cockThatFits) + ".  The imp quickly gets the idea and begins to lick and suckle at your " + Desc.Cock.describeCockHead(cockThatFits) + " expertly.");
 
     DisplayText("\n\nYou pet the top of his smooth head encouragingly, his tongue quickly soaking your length in saliva.  With little encouragement, the imp begins to take your " + Desc.Cock.describeCock(character, cockThatFits) + " into his mouth, focusing on milking the head of its delicious precum.  You soon remember what you'd intended to do with the little cock slut, and push him away from your length.  You could swear the imp whimpered in response to this, which makes you grin.");
 
@@ -284,14 +288,14 @@ export function feederBreastfeedRape(character: Character, imp: Character): Next
         character.stats.cor += 1;
     }
     // You've now been milked, reset the timer for that
-    character.addStatusValue(StatusAffects.Feeder, 1, 1);
-    character.changeStatusValue(StatusAffects.Feeder, 2, 0);
+    character.statusAffects.get(StatusAffectType.Feeder).value1 += 1;
+    character.statusAffects.get(StatusAffectType.Feeder).value2 = 0;
     Mod.Breast.boostLactation(character, 0.1);
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // MALE LOSE
-function loseToImpLord(character: Character): NextScreenChoices {
+function loseToImpLord(character: Character, imp: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayImage(images.showImage("implord-loss-male"));
     DisplayText("Unable to control your lust you fall to the ground, remove your " + character.inventory.equipment.armor.displayName + " and begin masturbating furiously.  The powerful imp saunters over to you smirking evilly as he towers over your fallen form. You look up at him nervously.  He grabs your chin with one of his clawed hands, while the other digs through his satchel.  He pulls out a vial filled with glowing green liquid, and pops the cork stopper off with his thumb. Before you can react, the demon forces open your mouth and pours the liquid in.  Instinct reacts faster than logic and you swallow the substance as it's poured down your throat.");
@@ -315,7 +319,7 @@ function loseToImpLord(character: Character): NextScreenChoices {
     DisplayText("\n\nThe imp finally backs off from his brutal attack on your sensitive backside.  Whatever was in that vial has made your body incredibly sensitive... each caress feels like an orgasm, and each scratch feels like a stab wound.  You hope that's the only effect of the green liquid, but don't get much chance to ponder it as you feel the muscular demon press the head of his " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + " against your [asshole].");
 
     DisplayText("\n\nYou whimper in fear as you look back towards the devilish imp behind you.  He simply grins at you in response as he thrusts forward.  You yell out in pain as the " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + " forces its way into your [asshole].  You try to struggle away, but the imp gives you a very rough slap on the ass.  He then roughly grabs your [hips], making sure to dig his claws in just enough to deter you from struggling.");
-    character.displayStretchButt(imp.torso.cocks.get(0).area, true, true, false);
+    Mod.Butt.displayStretchButt(character, imp.torso.cocks.get(0).area, true, true, false);
 
     DisplayText("\n\nThough the entry was rough, the imp's thrusts are incredibly gentle.  He carefully thrusts in and out of your [asshole], and even begins licking and delicately kissing your back.  The horrible stretching of your [asshole] is still incredibly painful, but made tolerable by the contrasting caresses.  You quickly lose track of time as the pain and pleasure spark across your overly sensitive body.  The imp continues to be oddly affectionate now that you've fully submitted to his will.  He even releases his painful, clawed grip on your [hips].");
 
@@ -363,7 +367,7 @@ function getRapedAsAGirl(character: Character, imp: Character): NextScreenChoice
     DisplayText(", draping his " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + " across your wet crotch.  You groan, and unintentionally thrust against the magnificent tool between your legs.  The imp chuckles evilly as you coat his " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + " in your girl juice, but he doesn't wait long before he slowly presses his head down against your [vagina].  His head slowly spreads your lips; the pleasure is unmistakable, and forces a loud moan from your lips.");
 
     DisplayText("\n\nWith a soft pop, the " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + " pops into your [vagina], and both of you moan in unison, the demon beginning to thrust wildly into you.  His hips pumps back and forth into you.  The loud slapping sound of flesh on flesh echoes around you, drowning out the grunts of the vicious demon above you.");
-    Mod.Vagina.displayStretchVagina(imp.torso.cocks.get(0).area, true, true, false);
+    Mod.Vagina.displayStretchVagina(character, imp.torso.cocks.get(0).area, true, true, false);
 
     DisplayText("\n\nYou mewl softly as you're viciously fucked by the beast above you.  It doesn't take long before your [vagina] clenches tightly around the " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + " as you orgasm.  You scream in pleasure as your inner walls begin to milk the imp's " + Desc.Cock.describeCockShort(imp.torso.cocks.get(0)) + " of its seed.  The imp quickly succumbs and cums, his swollen balls tightening up against his crotch.  The hot jizz continues to pump into you for what feels like several painfully long minutes, until your belly bulges slightly, and your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " begins to leak the white demonic fluid.");
 

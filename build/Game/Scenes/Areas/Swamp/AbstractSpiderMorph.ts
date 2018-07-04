@@ -2,7 +2,7 @@
  * Created by aimozg on 03.01.14.
  */
 
-export class AbstractSpiderMorph extends Monster {
+export class AbstractSpiderMorph extends Character {
 	override protected performCombatAction() {
 		if (player.stats.spe >= 2 && randInt(2) === 0) {
 			spiderMorphWebAttack();

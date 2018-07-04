@@ -164,7 +164,7 @@
 			DisplayText("\n\nBefore you go, you take in the helpless body of your would-be ambusher.  What do you do?");
 
 			choices("Naga3Some", nagaThreeSome, "UseYourCock", putYourDickInIt, "RideVaginal", rideDatSantTrap, "Handjob", useSandTarpsHand, "", null,
-				"", null, "", null, "", null, "B.Titfuck", bikiniTits, "Leave", cleanupAfterCombat);
+				"", null, "", null, "", null, "B.Titfuck", bikiniTits, "Leave", Scenes.camp.returnToCampUseOneHour);
 		}
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}

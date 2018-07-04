@@ -108,7 +108,7 @@ export class Goblin extends Character {
         } else if (pcCameWorms) {
             DisplayText("\n\nThe goblin's eyes go wide and she turns to leave, no longer interested in you.");
             player.orgasm();
-            return { next: game.cleanupAfterCombat };
+            return { next: game.Scenes.camp.returnToCampUseOneHour };
         } else {
             game.goblinScene.goblinRapesPlayer();
         }

@@ -37,7 +37,7 @@ export class HarpyScene {
 			DisplayText("  What do you do to her?");
 
 			choices("Anal", anal, "Oral", WinOnHarpyAndOralRape, "Pussy", pussy, "Scissor", scissor, "Lay Eggs", eggs,
-				"Clit Fuck", clitFuck, "", null, "", null, "", null, "Nothing", cleanupAfterCombat);
+				"Clit Fuck", clitFuck, "", null, "", null, "", null, "Nothing", Scenes.camp.returnToCampUseOneHour);
 		}
 		//Not horny?  Iz over
 		else return { next: Scenes.camp.returnToCampUseOneHour };

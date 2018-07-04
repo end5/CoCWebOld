@@ -2,7 +2,7 @@
  * ...
  * @author ...
  */
-export class Gnoll extends Monster {
+export class Gnoll extends Character {
 
 	//Gnoll Description
 	private gnollAttackText() {

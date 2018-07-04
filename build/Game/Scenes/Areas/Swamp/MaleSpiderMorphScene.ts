@@ -58,7 +58,7 @@ export class MaleSpiderMorphScene {
 		if (player.gender > 0 && player.stats.lust >= 33) {
 			DisplayText("\n\nWhat do you do?");
 			//[CHOICES]
-			simpleChoices("Mount", mount, "FuckHisButt", buttfuck, "Frot", frot, "B.Titfuck", bikiniTits, "Leave", cleanupAfterCombat);
+			simpleChoices("Mount", mount, "FuckHisButt", buttfuck, "Frot", frot, "B.Titfuck", bikiniTits, "Leave", Scenes.camp.returnToCampUseOneHour);
 		}
 		else return { next: Scenes.camp.returnToCampUseOneHour };
 	}

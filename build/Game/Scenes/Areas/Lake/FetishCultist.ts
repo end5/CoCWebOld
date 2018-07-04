@@ -1,4 +1,4 @@
-﻿export class FetishCultist extends Monster {
+﻿export class FetishCultist extends Character {
 
 	private static const NAUGHTY_NURSES_UNIFORM: string = "naughty nurse's uniform";
 	private static const TEACHERS_OUTFIT: string = "teacher's outfit";
@@ -115,12 +115,12 @@
 		}
 		if (player.stats.lust >= 33 && player.gender > 0) {
 			DisplayText("  You realize she'd make a perfect receptacle for your lusts.  Do you have your way with her?");
-			game.simpleChoices("Sex", game.lake.fetishCultistScene.playerRapesCultist, "", null, "", null, "B. Feed", temp2, "Leave", game.cleanupAfterCombat);
+			game.simpleChoices("Sex", game.lake.fetishCultistScene.playerRapesCultist, "", null, "", null, "B. Feed", temp2, "Leave", game.Scenes.camp.returnToCampUseOneHour);
 		}
 		else {
 			if (temp2 != null) {
 				DisplayText("  She looks like she might take some of your milk if you offered it to her.  What do you do?");
-				game.simpleChoices("B. Feed", temp2, "", null, "", null, "", null, "Leave", game.cleanupAfterCombat);
+				game.simpleChoices("B. Feed", temp2, "", null, "", null, "", null, "Leave", game.Scenes.camp.returnToCampUseOneHour);
 			}
 			else game.return { next: Scenes.camp.returnToCampUseOneHour };
 		}

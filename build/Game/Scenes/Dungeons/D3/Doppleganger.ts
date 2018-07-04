@@ -2,7 +2,7 @@
  * ...
  * @author Gedan
  */
-export class Doppleganger extends Monster {
+export class Doppleganger extends Character {
 	private let _roundCount: number = 0;
 
 	public mirrorAttack(damage: number) {

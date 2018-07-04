@@ -7,7 +7,7 @@
 // of the game leads the compiler to not know if setDescriptionForPlantPot() is available, therefore resulting in an error
 
 
-export class EncapsulationPod extends Monster {
+export class EncapsulationPod extends Character {
 
 	override protected performCombatAction() {
 		game.encapsulationPodAI();

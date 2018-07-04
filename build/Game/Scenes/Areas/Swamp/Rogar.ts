@@ -617,7 +617,7 @@
 		DisplayText("Pulling back off of Ro'gar's face, you feel your entire body twitch in anticipation.  You press your " + Desc.Hip.describeHips(player) + " against his muscled ass, lining your aroused member up against his tight rear while your hands grope over the firm muscled cheeks, spreading them apart eagerly.\n\n");
 
 		//[((If biggest cock is less than 4 inches))
-		if (player.longestCockLength() < 4) {
+		if (player.torso.cocks.sort(Cock.LongestCocks)[0].length < 4) {
 			DisplayText("\"<i>Yer serious?</i>\" Ro'gar asks with a quirked eyebrow.  You blink as he suddenly gets up to stare you in the eyes.  \"<i>Not to be rude, " + player.short + ", but I ain't gonna feel nothin'.</i>\"  You can't help but feel a little offended, saying something about motions of large bodies of water.  Ro'gar doesn't seem convinced as he buries his forehead in a palm.  \"<i>Listen, this ain't a really good time for this.  I'm already losin' my mojo.  You come back another time, okay?</i>\"  With that, you are ushered out as politely as possible.  You can't help but feel a little embarrassed as you walk the city streets like this is some sort of walk of shame.");
 			return { next: Scenes.camp.returnToCampUseOneHour };
 			return;		//end if too small

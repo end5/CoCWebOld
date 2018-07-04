@@ -111,7 +111,7 @@ export function loseKitsuneImpFight(): NextScreenChoices {
     DisplayText("The woman from earlier bends low over you, smiling bemusedly.  Before your eyes, her face, body, and clothing all begin to shift form.  Clad in a set of loose, revealing robes, she brushes her " + hairColor + " hair out of her face, reaching up to straighten out her large triangular fox ears.  Six lustrous, bushy tails sway from side to side behind her, drawing your gaze hypnotically, and a generous layer of ornate tattoos follow the curves of her body.\n\n");
     DisplayText("\"<i>My, my, you're kind of a pushover, aren't you?</i>\"  she remarks, grinning precociously.  \"<i>Well, hopefully you make for a better snack than you do a bodyguard.</i>\"");
     // -> Go to standard kitsune loss scenes
-    return { next: (char) => loseToKitsunes(kitsuneNpc, char) };
+    return { next: { func: loseToKitsunes, args: [kitsuneNpc] } };
 }
 
 // Win:
@@ -153,7 +153,7 @@ export function winKitsuneImpFight(character: Character): NextScreenChoices {
     else {
         DisplayText("Her touch sends involuntary tingles down your spine, and you are drawn ever deeper into her eyes.  She trails a finger along your chin, slipping away from you and beckoning for you to follow her.  Your " + Desc.Leg.describeLegs(character) + " move with a mind of their own, dragging you along after her as she leads you down a winding path into the darkness.");
         // -> Go to "She leads you deeper and deeper into..."
-        return { next: (char: Character) => mansion(char, true, true) };
+        return { next: { func: mansion, args: [true, true] } };
     }
 }
 
@@ -252,9 +252,7 @@ function talkAfterResistingKitsunellusion(character: Character): NextScreenChoic
     DisplayText("Self-preservation battles with curiosity " + ((character.stats.lust > 50) ? "and lust " : "") + "as you consider her offer, " + ((character.stats.lib < 50) ? "weighing your chances against the possible dangers." : "eying the voluptuous curves that fill out her robes."));
 
     // [Follow { mansion(willing = true) }] [Leave]
-    const follow = (char: Character) => mansion(char, true, false);
-    const leave = (char: Character) => leaveKitsune(char, true);
-    return { choices: [["Follow", follow]], persistantChoices: [["Leave", leave]] };
+    return { choices: [["Follow", { func: mansion, args: [true, false] }]], persistantChoices: [["Leave", { func: leaveKitsune, args: [true] }]] };
 }
 
 // [Leave] (C)
@@ -312,7 +310,7 @@ function mansion(character: Character, willing: boolean, firstTime: boolean = fa
     DisplayText("The three ladies close in around you, running their hands over your body and giggling lightly.  You find yourself practically floating among their many tails, drunk on the promise of pleasure as they lead you through the foyer.  They sit you down in front of a long table with a spectacularly opulent spread, and before long you are having your fill of delicacies the likes of which you never dared to dream about.\n\n");
     DisplayText("Your cup never remains empty for long, as one of the sisters is always quick to arrive with a fresh decanter.  The strong alcohol burns your throat as it goes down, and it does not take much before your head is swimming.  You have grown so tipsy by now that you don't even register as the girls usher you out of the dining room, only noticing your change of scenery as you feel yourself being pulled down into a warm pool of water.\n\n");
     // next
-    return { next: (char: Character) => nonTentaclePCMansion(char, willing) };
+    return { next: { func: nonTentaclePCMansion, args: [willing] } };
 }
 
 // NON-TENTACLE PC SCENES:
@@ -325,8 +323,8 @@ function nonTentaclePCMansion(character: Character, willing: boolean): NextScree
         return { next: tentacleKitsuneWingWangs };
     }
     else {
-        if (character.torso.cocks.count > 0) return { next: (char: Character) => kitsuneMaleOrHermMansion(character, willing) };
-        else return { next: (char: Character) => kitsuneFemaleOrGenderless(character, willing) };
+        if (character.torso.cocks.count > 0) return { next: { func: kitsuneMaleOrHermMansion, args: [willing] } };
+        else return { next: { func: kitsuneFemaleOrGenderless, args: [willing] } };
     }
 }
 
@@ -346,12 +344,12 @@ function kitsuneMaleOrHermMansion(character: Character, willing: boolean): NextS
         DisplayText("<b>How do you respond?</b>");
         // display choices:
         // ["Let Her" ] ["Shove Her" ]
-        const letHer = (char: Character) => kitSuneLetHerMansion(character, willing);
-        const shoveHer = (char: Character) => kitsuneShoveHerMansion(character, willing);
+        const letHer = { func: kitSuneLetHerMansion, args: [willing] };
+        const shoveHer = { func: kitsuneShoveHerMansion, args: [willing] };
         return { choices: [["Let Her", letHer], ["Shove Her", shoveHer]] };
     }
     else {
-        return { next: (char: Character) => kitSuneLetHerMansion(character, true) };
+        return { next: { func: kitSuneLetHerMansion, args: [true] } };
     }
 }
 
@@ -531,12 +529,12 @@ function kitsuneFemaleOrGenderless(character: Character, willing: boolean): Next
         DisplayText("<b>How do you respond?</b>");
         // display choices:
         // ["Let Her" = letHer() ] ["Shove Her" = shoveHer() ]
-        const letHer = (char: Character) => kitsunesGenderlessLetHer(char, willing);
-        const shoveHer = (char: Character) => kitsunesGenderlessShoverHer(char, willing);
+        const letHer = { func: kitsunesGenderlessLetHer, args: [willing] };
+        const shoveHer = { func: kitsunesGenderlessShoverHer, args: [willing] };
         return { choices: [["Let Her", letHer], ["Shove Her", shoveHer]] };
     }
     else {
-        return { next: (char: Character) => kitsunesGenderlessLetHer(char, true) };
+        return { next: { func: kitsunesGenderlessLetHer, args: [true] } };
     }
 }
 
@@ -558,7 +556,7 @@ function kitsunesGenderlessLetHer(character: Character, willing: boolean): NextS
 
     DisplayText("The base of the redhead's shaft swells with a vast load, backing up just behind her sister's tongue.  She pumps into your " + ((character.gender >= 2) ? Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) : Desc.Butt.describeButthole(character.torso.butt)) + " once, twice, thrice more before the black-haired girl releases the tension around the base, though whether by choice or due to the furious orgasm roaring through her loins, it is hard to tell.  You have only a split-second to muse on the subject before a tingling glut of seed comes rushing into your " + ((character.gender === Gender.FEMALE) ? "womb" : "intestines") + ", sending you into a shivering fit.  Saliva and sexual fluids flow in rivers, the blonde's soaked cunt drenching your face as her pussy quivers and squeezes around your tongue.  The ravenette begins to rise upward, lifted by your expanding abdomen as she twitches in ecstasy, the blonde's tails deeply embedded in her holes.\n\n");
     DisplayText("Passionate moans from all four of you fill the air as you ride the waves of pleasure, finally collapsing together in ecstasy after what feels like ages.  Each twitching tremble of your muscles sees you a bit more fatigued, your eyelids feeling as though they weigh a thousand pounds each." + ((character.gender === Gender.HERM) ? "  A flood of seed begins to spill from your abused pussy, gushing over the redhead's groin and spreading into the water.  The flow is soon stemmed by the introduction of the black-haired girl's tongue, plush lips pressed against your cunt as she hungrily sucks down the outpouring of semen.  She gulps loudly and gluttonously, spreading your lips with her thumbs and swallowing every last delicious salty morsel, her stomach swelling and quivering as your own overfull abdomen begins to deflate in equal measure." : "") + "  Hands resting on your" + ((character.gender === Gender.NONE) ? " swollen" : " deflating") + " belly, you begin to succumb to exhaustion, your strength fading as you are overcome with an uncommon weariness.\n\n");
-    return { next: (char: Character) => genderlessKitsuneStillHungry(char, willing) };
+    return { next: { func: genderlessKitsuneStillHungry, args: [willing] } };
 } // end letHer()
 
 // fomerly shoveHer()
@@ -589,7 +587,7 @@ function kitsunesGenderlessShoverHer(character: Character, willing: boolean): Ne
         DisplayText("\n\nThe four of you ride out the waves of pleasure for what seems like an eternity, groaning and grinding against each other in ecstasy.  Cooling flames crackle across your bare body as you are tossed to and fro in a sea of tails and flesh, the air filling with the sounds and smells of climactic release.  Finally, at long last, the pleasure begins to ebb, and you collapse along with the three girls, slumping forward onto the blonde's chest in exhaustion.\n\n");
         DisplayText("Each residual twitch and spasm of your muscles leaves you feeling more fatigued than ever, strength slipping away from you with each spasm and your eyelids growing heavy with an uncommon weariness.\n\n");
     }
-    return { next: (char: Character) => genderlessKitsuneStillHungry(char, willing) };
+    return { next: { func: genderlessKitsuneStillHungry, args: [willing] } };
 } // end shoveHer()
 
 // formerly stillHungry()
@@ -757,7 +755,7 @@ function fightSomeKitsunes(character: Character): NextScreenChoices {
     return CombatManager.beginBattle(character, [], [new Kitsune(hairColor)]);
 }
 
-export function loseToKitsunes(kitsune: Kitsune, character: Character): NextScreenChoices {
+export function loseToKitsunes(character: Character, kitsune: Character): NextScreenChoices {
     const scene = [];
     // [LOSE FIGHT]
     // Shared Scenes
@@ -1164,14 +1162,14 @@ export function defeatTheKitsunes(character: Character, display: boolean = true)
             choices.push(["RideHerCock", rideDatRedheadKitsuneCockIntoTheSkyDiamonds]);
         }
         if (kitsuneFlags.redheadIsFuta > 0 && character.torso.vaginas.count > 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && character.inventory.equipment.armor.displayName === "lusty maiden's armor") {
-            choices.push(["B.Titfuck", (char: Character) => lustyMaidenPaizuri(char, kitsuneNpc)]);
+            choices.push(["B.Titfuck", { func: lustyMaidenPaizuri, args: [kitsuneNpc] }]);
         }
     }
     // [Feeder]
     if (character.perks.has(PerkType.Feeder)) {
         choices.push(["Breastfeed", feederTheKitsunes]);
     }
-    return { choices, persistantChoices: [["Leave", (char) => leaveKitsune(char)]] };
+    return { choices, persistantChoices: [["Leave", leaveKitsune]] };
 }
 
 // Shared Scenes

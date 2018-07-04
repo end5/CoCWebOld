@@ -1,4 +1,4 @@
-export class MinotaurLord extends Monster {
+export class MinotaurLord extends Character {
 
 	override protected performCombatAction() {
 		if (HP < 300 && statusAffects.get(StatusAffectType.MinoMilk).value1 < 4) minotaurDrankMalk();

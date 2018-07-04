@@ -28,7 +28,7 @@ import { Armor } from '../../../Items/Armors/Armor';
 import { ArmorName } from '../../../Items/Armors/ArmorName';
 import { Weapon } from '../../../Items/Weapons/Weapon';
 import { WeaponName } from '../../../Items/Weapons/WeaponName';
-import { ClickFunction, NextScreenChoices } from '../../../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { Scenes } from '../../Scenes';
 
@@ -89,7 +89,7 @@ class BeeGirlEndScenes extends EndScenes {
         }
     }
 
-    private leaveAfterDefeating(howYouLost: DefeatType): ClickFunction {
+    private leaveAfterDefeating(howYouLost: DefeatType): ClickOption {
         return () => {
             if (howYouLost === DefeatType.HP) {
                 (User.flags.get(CharacterType.BeeGirl) as BeeGirlFlags).combatWinsWithoutRape++; // This only happens if you beat her up and then don't rape her

@@ -1,4 +1,4 @@
-﻿export class Naga extends Monster {
+﻿export class Naga extends Character {
 
 	//2a)  Ability -  Poison Bite - poisons player
 	protected nagaPoisonBiteAttack() {
@@ -79,7 +79,7 @@
 		if (pcCameWorms) {
 			DisplayText("\n\nThe naga's eyes go wide and she turns to leave, no longer interested in you.");
 			player.orgasm();
-			return { next: game.cleanupAfterCombat };
+			return { next: game.Scenes.camp.returnToCampUseOneHour };
 		} else {
 			game.desert.nagaScene.nagaFUCKSJOOOOOO();
 		}

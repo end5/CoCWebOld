@@ -12,7 +12,7 @@ import { Item } from '../Items/Item';
 import { ItemFactory } from '../Items/ItemFactory';
 import { ItemType } from '../Items/ItemType';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
-import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
 
 export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     private itemSlots: List<ItemStack<T>> = new List();
@@ -50,7 +50,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * @param itemsToAdd List of ItemStack to be added.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public addList(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction): NextScreenChoices {
+    public addList(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickOption): NextScreenChoices {
         return displayCharInventoryFull(characterAddingItems, this.addItems(itemsToAdd), nextMenu);
     }
 
@@ -62,11 +62,11 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * @param itemName The item name.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickFunction): NextScreenChoices {
+    public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickOption): NextScreenChoices {
         return this.addList(characterAddingItems, [ItemFactory.create(itemType, itemName)], nextMenu);
     }
 
-    public add(characterAddingItems: Character, item: Item, nextMenu: ClickFunction): NextScreenChoices {
+    public add(characterAddingItems: Character, item: Item, nextMenu: ClickOption): NextScreenChoices {
         return this.addList(characterAddingItems, [new ItemStack<Item>(item, 1)], nextMenu);
     }
     /**

@@ -65,7 +65,7 @@
 		}
 		//Ghostgirl madness
 		if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00365] > 0) {
-			if (player.torso.cocks.count > 1 || player.torso.head.face.type != FaceType.HUMAN || player.hips.legs.type != LegType.HUMAN || player.torso.tailType > TailType.NONE || player.torso.head.horns > 0 || player.stats.cor > 15 || player.longestCockLength() > 10 || player.tallness < 65 || player.tallness > 78 || player.torso.vaginas.count > 0)
+			if (player.torso.cocks.count > 1 || player.torso.head.face.type != FaceType.HUMAN || player.hips.legs.type != LegType.HUMAN || player.torso.tailType > TailType.NONE || player.torso.head.horns > 0 || player.stats.cor > 15 || player.torso.cocks.sort(Cock.LongestCocks)[0].length > 10 || player.tallness < 65 || player.tallness > 78 || player.torso.vaginas.count > 0)
 				Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00365] = 0;
 			else {
 				Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00365]--;
@@ -85,7 +85,7 @@
 		DisplayText().clear();
 		if (silly() && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00366] === 0) {
 			//NO MUTANTS ALLOWED
-			if (player.torso.cocks.count > 1 || player.torso.head.face.type != FaceType.HUMAN || player.hips.legs.type != LegType.HUMAN || player.torso.tailType > TailType.NONE || player.torso.head.horns > 0 || player.stats.cor > 15 || player.longestCockLength() > 10 || player.tallness < 65 || player.tallness > 78 || player.torso.vaginas.count > 0) { }
+			if (player.torso.cocks.count > 1 || player.torso.head.face.type != FaceType.HUMAN || player.hips.legs.type != LegType.HUMAN || player.torso.tailType > TailType.NONE || player.torso.head.horns > 0 || player.stats.cor > 15 || player.torso.cocks.sort(Cock.LongestCocks)[0].length > 10 || player.tallness < 65 || player.tallness > 78 || player.torso.vaginas.count > 0) { }
 			else {
 				superCoolPaladinSexStuffDudeGasmJizzMonkies();
 				return;

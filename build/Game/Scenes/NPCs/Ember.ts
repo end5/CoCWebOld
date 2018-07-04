@@ -1,4 +1,4 @@
-export class Ember extends Monster {
+export class Ember extends Character {
 	private emberMF(male: string, female: string): string {
 		return game.emberScene.emberMF(male, female);
 	}

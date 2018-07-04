@@ -1,4 +1,4 @@
-export class Kelt extends Monster {
+export class Kelt extends Character {
 	//Trample - once every five turns
 	private keltTramplesJoo() {
 		DisplayText("Before you know what's what, Kelt is galloping toward you, kicking up a cloud of dust in his wake.  He's trying to trample you!  ");

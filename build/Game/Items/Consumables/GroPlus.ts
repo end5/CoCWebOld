@@ -8,7 +8,7 @@ import { Character } from '../../Character/Character';
 import { Desc } from '../../Descriptors/Descriptors';
 import { Menus } from '../../Menus/Menus';
 import { Mod } from '../../Modifiers/Modifiers';
-import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../../ScreenDisplay';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
 
@@ -22,11 +22,11 @@ export class GroPlus extends Consumable {
     }
 
     public use(character: Character): NextScreenChoices {
-        const gpBalls: ClickFunction = (character.torso.balls.quantity > 0 ? this.growPlusBalls : undefined);
-        const gpBreasts: ClickFunction = (character.torso.chest.count > 0 ? this.growPlusBreasts : undefined);
-        const gpClit: ClickFunction = (character.torso.vaginas.count > 0 ? this.growPlusClit : undefined);
-        const gpCock: ClickFunction = (character.torso.cocks.count > 0 ? this.growPlusCock : undefined);
-        const gpNipples: ClickFunction = (character.torso.chest.countNipples() > 0 ? this.growPlusNipples : undefined);
+        const gpBalls: ClickOption = (character.torso.balls.quantity > 0 ? this.growPlusBalls : undefined);
+        const gpBreasts: ClickOption = (character.torso.chest.count > 0 ? this.growPlusBreasts : undefined);
+        const gpClit: ClickOption = (character.torso.vaginas.count > 0 ? this.growPlusClit : undefined);
+        const gpCock: ClickOption = (character.torso.cocks.count > 0 ? this.growPlusCock : undefined);
+        const gpNipples: ClickOption = (character.torso.chest.countNipples() > 0 ? this.growPlusNipples : undefined);
         DisplayText().clear();
         DisplayText("You ponder the needle in your hand knowing it will enlarge the injection site.  What part of your body will you use it on?  ");
         return {

@@ -179,7 +179,7 @@ replaced with `itype === library.THATITM` where `library` is item library (see b
 
     * `ComfortableUnderclothes`, `Fists`, and `GooArmor` that return `null`
     * `ComfortableClothes` that return `this` but if the clothes were transformed into others by fetish cultists/zealots
-        (which is done by `player.modArmorName`), displays message of them turning into comfortable clothes.
+        (which is done by `player.inventory.equipment.armorDescMod`), displays message of them turning into comfortable clothes.
     * Urta's `LeatherArmorSegments` turns into default leather armor on unequip.
 
     You cannot instantiate `Equipable`, instead, you should use one of the subclasses:

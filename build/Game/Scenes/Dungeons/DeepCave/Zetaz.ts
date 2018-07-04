@@ -1,4 +1,4 @@
-export class Zetaz extends Monster {
+export class Zetaz extends Character {
 
 
 	public doAI() {

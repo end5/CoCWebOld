@@ -36,7 +36,7 @@ export class LivingStatueScenes {
 
 		player.createKeyItem("Stone Statue Lethicite", 0, 0, 0, 0);
 
-		cleanupAfterCombat(Game.d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(Game.d3.resumeFromFight);
 	}
 
 	public fuckinMarbleOP(hpVictory: boolean, pcCameWorms: boolean) {

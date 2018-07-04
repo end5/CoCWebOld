@@ -1,12 +1,16 @@
-﻿import { DisplaySprite } from '../../../../Engine/Display/DisplaySprite';
+﻿import { TamanisDaughtersFlags } from './TamanisDaughters';
+import { DisplaySprite } from '../../../../Engine/Display/DisplaySprite';
 import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
 import { randInt } from '../../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../../Body/BreastRow';
 import { Cock, CockType } from '../../../Body/Cock';
 import { Character } from '../../../Character/Character';
+import { CharacterType } from '../../../Character/CharacterType';
 import { Desc } from '../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
+import { NextScreenChoices } from '../../../ScreenDisplay';
+import { User } from '../../../User';
 import { numToCardinalText } from '../../../Utilities/NumToText';
 import { Scenes } from '../../Scenes';
 
@@ -43,11 +47,11 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
     // 	Number of Daughters – Capped at 19 if PC has not yet encountered them yet.
     // "Tamani" v2
     // 	Times Encountered – 0 → infinity
-    // Flags.list[FlagEnum.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS]
+    // User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_ENCOUNTED_TAMANIS_DAUGHTERS
     // 	Tamani Hypno Level – increases by 1 for each hypno event.  1-4 slight lust raises, 5-9 medium lust raises, 10-19 super high lust raises, 20+ high chance of autorape with special scene.
-    // Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED]
+    // User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED
     // 	Daughter Preg Counter – they will not return until this countdown timer is 0.  Same length as Tamani's incubation – approx 1 week.
-    // Flags.list[FlagEnum.TAMANI_DAUGHTER_PREGGO_COUNTDOWN]
+    // User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTER_PREGGO_COUNTDOWN
     // Tamani's Daughters – Tracked every birthing.  High cum production characters will produce more //Tamani babies and thus grow the mob (and achieve bad-end) faster.
     // Tamani's Daughters first arrive after #12 is born.
     // Tamani's Daughters encounter is expanded after #20
@@ -66,17 +70,17 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         pregnancy.pregnancyAdvance(); // Preg should be 7*24, ends at 0 to -48 --> 9*24, ends at 0
         trace("\nTamani's Daughters time change: Time is " + model.time.hours + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
         if (pregnancy.isPregnant && pregnancy.incubation === 0) {
-            Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] += Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT];
-            Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT] = 0;
+            User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS += User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT;
+            User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT = 0;
             pregnancy.knockUpForce(); // Clear Pregnancy
         }
         // Put a cap on daughters if they havent been met yet.
-        if (Flags.list[FlagEnum.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS] === 0 && Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] > 30) {
-            Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] = 30;
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_ENCOUNTED_TAMANIS_DAUGHTERS === 0 && User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS > 30) {
+            User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS = 30;
         }
         // Lower daughter population by 1 every fourth day once population gets high
-        if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] > 40 && model.time.hours > 23 && model.time.days % 4 === 0) {
-            Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS]--;
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS > 40 && model.time.hours > 23 && model.time.days % 4 === 0) {
+            User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS--;
         }
         return false;
     }
@@ -94,28 +98,27 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
     // 41 –60 E
     // 30+ - F mother fucker!
     private tdCup(): string {
-        if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 20) return "C";
-        else if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 30) return "D";
-        else if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 40) return "DD";
-        else if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 50) return "E";
-        else if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 60) return "EE";
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS < 20) return "C";
+        else if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS < 30) return "D";
+        else if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS < 40) return "DD";
+        else if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS < 50) return "E";
+        else if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS < 60) return "EE";
         return "F";
     }
 
     // ENCOUNTER:
-    public encounterTamanisDaughters(character: Character) {
+    public encounterTamanisDaughters(character: Character): NextScreenChoices {
         DisplaySprite(SpriteName.Tamani_Daughters);
-        Flags.list[FlagEnum.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS]++;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_ENCOUNTED_TAMANIS_DAUGHTERS++;
         DisplayText().clear();
-        const tamaniDaughterCount = numToCardinalText(Math.floor(Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] / 4));
-        if (Flags.list[FlagEnum.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS] > 0 && randInt(10) === 0) {
+        const tamaniDaughterCount = numToCardinalText(Math.floor(User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS / 4));
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_ENCOUNTED_TAMANIS_DAUGHTERS > 0 && randInt(10) === 0) {
             tamaniPresent = true;
             DisplayText("While roaming along, you find your path ahead blocked by " + tamaniDaughterCount + " goblins.  At the forefront of the mob is Tamani");
-            if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] >= 10) DisplayText(", your wife");
+            if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED >= 10) DisplayText(", your wife");
             DisplayText(".  You realize now that the other goblins must be your daughters.  Another crowd of small women emerges from the bushes, closing in a ring around you, preventing any chance of escape.  The largest of the younger goblin-women steps forwards, her " + this.tdCup() + " breasts jiggling, barely contained by the bondage ropes she has tied around herself.  She stops once she's next to her mother and Tamani explains, \"<i>I just can't keep their aching cunts at home anymore!  They're fertile adults now and they're wanting to get some experience with real dicks.  I figured you wouldn't mind helping them out a little.</i>\"\n\nWhat do you do? (Fight them off, Fuck them willingly, Let them fuck you)");
             // [Fuck Them] [Let Them] [Fight]
-            MainScreen.simpleChoices(["Fight", "Fuck Them", "Let Them"], [this.fightTamanisDaughters, this.fuckYoDaughtersHomie, this.legTamanisDaughtersRAEPYou]);
-            return;
+            return { choices: [["Fight", this.fightTamanisDaughters], ["Fuck Them", this.fuckYoDaughtersHomie], ["Let Them", this.legTamanisDaughtersRAEPYou]] };
         }
         tamaniPresent = false;
         DisplayText("While roaming along, you find your path ahead blocked by ");
@@ -124,14 +127,14 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         else DisplayText("draw your weapon ");
         DisplayText("and glance around evaluating your options.   Another crowd of small women emerges from the bushes, closing in a ring around you, preventing any chance of escape.  The largest of the goblin-women steps forwards, her " + this.tdCup() + "-breasts jiggling, barely contained by the bondage ropes she has tied around herself.\n\n");
         // first time
-        if (Flags.list[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS] === 0) {
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_FUCKED_TAMANIS_DAUGHTERS === 0) {
             DisplayText("She calls out, \"<i>We're tired of getting leftovers, so we're coming to the source.  Are you going to give us what we want?</i>\"\n\n");
             // [Fuck them] [Fight] [Play Dumb]
-            MainScreen.simpleChoices(["Fight", "Fuck Them", "Play Dumb", "Let Them"], [this.fightTamanisDaughters, this.fuckYoDaughtersHomie, this.playDumbToTamanisDaughters, this.legTamanisDaughtersRAEPYou]);
+            return { choices: [["Fight", this.fightTamanisDaughters], ["Fuck Them", this.fuckYoDaughtersHomie], ["Play Dumb", this.playDumbToTamanisDaughters], ["Let Them", this.legTamanisDaughtersRAEPYou]] };
         }
         else {
             DisplayText("She calls out, \"<i>We came back for more cream!  Come on, let's fuck again!</i>\"\n\nIt doesn't look like 'no' is a word they understand.  What do you do?</i>");
-            MainScreen.simpleChoices(["Fight", "Fuck Them", "Let Them"], [this.fightTamanisDaughters, this.fuckYoDaughtersHomie, this.legTamanisDaughtersRAEPYou]);
+            return { choices: [["Fight", this.fightTamanisDaughters], ["Fuck Them", this.fuckYoDaughtersHomie], ["Let Them", this.legTamanisDaughtersRAEPYou]] };
         }
     }
 
@@ -144,13 +147,13 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         // approx 33% chance at 0 int, going up the smarter you are.
         if (character.stats.int / 2 + 25 > randInt(75)) {
             DisplayText("The leader looks you up and down for a moment.  Her face slowly contorts to puzzlement, then rage, \"<i>Tammi you ditz!  I thought you said this was his trail?  Come on girls, we've got a dad to hunt.</i>\"\n\n");
-            if (Flags.list[FlagEnum.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS] > 1) DisplayText("They really must not be paying much attention to what you look like.");
+            if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_ENCOUNTED_TAMANIS_DAUGHTERS > 1) DisplayText("They really must not be paying much attention to what you look like.");
             return { next: Scenes.camp.returnToCampUseOneHour };
             return;
         }
 
         DisplayText("The leader stamps her foot in a fit of rage.  It would be more imposing if she wasn't three feet tall... Her eyes lock onto your crotch and she says, \"<i>Last chance.   We're getting our ");
-        if (Flags.list[FlagEnum.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS] === 1) DisplayText("first ");
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_ENCOUNTED_TAMANIS_DAUGHTERS === 1) DisplayText("first ");
         DisplayText("litters one way or another!</i>\"\n\n");
 
         // [Fuck them] [Fight] [Let them have their way with you]
@@ -184,9 +187,9 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
     // [Fuck them]
     private fuckYoDaughtersHomie(character: Character) {
         DisplaySprite(SpriteName.Tamani_Daughters);
-        Flags.list[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_FUCKED_TAMANIS_DAUGHTERS++;
         const cocks: number = character.torso.cocks.count;
-        const daughters: number = int(Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] / 2);
+        const daughters: number = int(User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS / 2);
 
         DisplayText().clear();
         DisplayText("You shrug out of your " + character.inventory.equipment.armor.displayName + " and grab hold of ");
@@ -296,14 +299,14 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         else {
             DisplayText("You pick a random girl from the crowd, and the others crowd around, jealous of your chosen cock-sleeve.   Her cries of excitement rapidly turn to pain when you try to push in though.  She's just too small, even for a goblin.  You set her down, disappointed, but then she lies down in the grass and spreads her legs wide.  She says, \"<i>Since you're too big for us, how about we take turns lining up on the ground while some of us suck out your sticky goop?</i>\"\n\n");
 
-            DisplayText("The idea sounds great to you.  Two of the horny sluts are already climbing forwards while their sisters lay out, pulling their vulva apart and toying with their tiny green clits.  They must be twins, because aside from their wildly different hair, their features are identical.  The paired cock-sluts both kiss your swollen " + character.cockHead() + ", then drag their lips and tongues over your length.  At first they're working in sync, but as their efforts intensify they slowly get out of rhythm, until they're each slobbering over a different part of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".\n\n");
+            DisplayText("The idea sounds great to you.  Two of the horny sluts are already climbing forwards while their sisters lay out, pulling their vulva apart and toying with their tiny green clits.  They must be twins, because aside from their wildly different hair, their features are identical.  The paired cock-sluts both kiss your swollen " + Desc.Cock.describeCockHead() + ", then drag their lips and tongues over your length.  At first they're working in sync, but as their efforts intensify they slowly get out of rhythm, until they're each slobbering over a different part of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".\n\n");
 
             if (tamaniPresent) {
                 DisplayText("Tamani steps up and reaches into a pouch.  As she withdraws her hand, you get your first glimpse of her cargo.  It appears to be a massive double-ended dildo, pink and floppy.  One end is shaped like a canine, with a huge knot, while the other ends in the flared tip of a horse-cock.  Tamani grunts as she spears herself with the pointed canine side, even forcing the massive dildo's knot inside.  She releases the dildo and the horse-half bobbles imposingly in front of her, dripping pink fluids.  She grins up at you saying, \"<i>If my daughters are going to claim all your cream, I'm going to make sure you don't hold back.  You saw the knot on this thing, didn't you?  Well, it's filled with aphrodisiacs, so when I cum and clamp down on it, you'll be forced to squirt every ounce of seed into my girls.</i>\"\n\n");
 
                 DisplayText("She disappears behind you and you cringe, knowing this will probably be at least slightly uncomfortable.  ");
                 if (character.tallness > 48) DisplayText("You can hear her climbing up on something behind you, in order to get to the right height.  ");
-                DisplayText("Your expression of disdain is ruined when one of the sluts stretches wide and slurps your " + character.cockHead() + " into her mouth.  Her tongue feels like heaven as it slides over your tip, and her sister works the shaft, jerking the spit-lubed monster off with fast strokes.   Your enjoyment is interrupted by a sudden intrusion at your backdoor.  The rubbery flared horse-toy presses against your " + Desc.Butt.describeButthole(character.torso.butt) + ", dribbling a little bit of its strange lubricants into your backdoor as Tamani pushes it forward.   Tiny hands grab your " + Desc.Butt.describeButt(character) + " as it's pushed forward, and you have no choice but to relax and allow it inside.\n\n");
+                DisplayText("Your expression of disdain is ruined when one of the sluts stretches wide and slurps your " + Desc.Cock.describeCockHead() + " into her mouth.  Her tongue feels like heaven as it slides over your tip, and her sister works the shaft, jerking the spit-lubed monster off with fast strokes.   Your enjoyment is interrupted by a sudden intrusion at your backdoor.  The rubbery flared horse-toy presses against your " + Desc.Butt.describeButthole(character.torso.butt) + ", dribbling a little bit of its strange lubricants into your backdoor as Tamani pushes it forward.   Tiny hands grab your " + Desc.Butt.describeButt(character) + " as it's pushed forward, and you have no choice but to relax and allow it inside.\n\n");
 
                 DisplayText("Half the head slips inside you, then the other, and in no time Tamani is slowly forcing it inside you.  It hurts just a little, enough to make your hips swivel forwards in a futile attempt at escape.  The goblin on your cock nearly chokes from the sudden change, though her sister gives you a wicked grin and strokes harder.  A flash of warmth squirts inside you in time with a moan from Tamani, and suddenly your body is exploding with pleasure.\n\n");
 
@@ -368,9 +371,9 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
     // [Let them]
     private legTamanisDaughtersRAEPYou(character: Character) {
         DisplaySprite(SpriteName.Tamani_Daughters);
-        Flags.list[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_FUCKED_TAMANIS_DAUGHTERS++;
         const cocks: number = character.torso.cocks.count;
-        const daughters: number = int(Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] / 2);
+        const daughters: number = int(User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS / 2);
         // Find a dick that fits
         const primary: number = character.cockThatFits(50);
 
@@ -436,7 +439,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 if (character.torso.balls.quantity > 0) DisplayText("balls");
                 else DisplayText("groin");
                 DisplayText(" churning with lust and desire, ready to give life to another batch of daughters for your mistress.  ");
-                if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] < 10) DisplayText("'Wait... wife... mistress?' your mind wonders, rejecting the foreign thoughts.  You look up at Tamani, confused for a moment");
+                if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED < 10) DisplayText("'Wait... wife... mistress?' your mind wonders, rejecting the foreign thoughts.  You look up at Tamani, confused for a moment");
                 else DisplayText("Yes, that sounds so right – Tamani is your wife, and it's your husbandly duty to keep her pregnant.  You dwell on that for a moment");
                 DisplayText(", until an orgasm wracks your body and derails your train of thought, drowning it in a sea of pleasure.\n\n");
 
@@ -448,7 +451,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 else DisplayText("the massive group of goblins is on top of you, drugging and raping you over and over until you've had dozens of orgasms and licked off nearly as many cream-bloated sluts.");
                 DisplayText("  As you lie there, drugged and drained, your daughters form up in a line and kiss you, one after another, each whispering pleasantries like, \"<i>Thanks dad,</i>\" or \"<i>Yummy cum daddy,</i>\" before flouncing off, sloshing into the woods.");
                 // increase hypno value
-                Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED]++;
+                User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED++;
                 // preggo up tamani
                 Scenes.forest.tamaniScene.tamaniKnockUp();
             }
@@ -529,7 +532,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 }
                 DisplayText("\n\n");
 
-                DisplayText("She pivots around, placing her drooling, wet gash against your " + character.cockHead() + " and begins vigorously jerking you off.   Her ass bounces hypnotically on your ");
+                DisplayText("She pivots around, placing her drooling, wet gash against your " + Desc.Cock.describeCockHead() + " and begins vigorously jerking you off.   Her ass bounces hypnotically on your ");
                 if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
                 else DisplayText(Desc.Breast.describeAllBreasts(character));
                 DisplayText(", sending a fresh surge of arousal through your " + Desc.Cock.describeMultiCockShort(character) + ".   Another one of the girls leans down between your " + Desc.Leg.describeLegs(character) + " licking your ");
@@ -577,7 +580,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 else DisplayText("Each of y");
                 DisplayText("our " + Desc.Cock.describeMultiCockShort(character) + " is now rock solid and beading pre-cum at the tip.  ");
                 // (single)
-                if (cocks === 1) DisplayText("The purple-lipped cock-slut grabs your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " and makes a show of smearing the slippery fluid over your shaft, lubricating it as she jacks you off.  Her warm lips form a tight seal on your " + character.cockHead() + " as the young goblin begins lapping at your pre-cum as she sucks it from your urethra.   It feels heavenly, and your " + Desc.Hip.describeHips(character) + " pump weakly into the air in an instinctive bid to enhance the sensation.");
+                if (cocks === 1) DisplayText("The purple-lipped cock-slut grabs your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " and makes a show of smearing the slippery fluid over your shaft, lubricating it as she jacks you off.  Her warm lips form a tight seal on your " + Desc.Cock.describeCockHead() + " as the young goblin begins lapping at your pre-cum as she sucks it from your urethra.   It feels heavenly, and your " + Desc.Hip.describeHips(character) + " pump weakly into the air in an instinctive bid to enhance the sensation.");
                 // (multiple)
                 else {
                     DisplayText("The purple-lipped cock-slut grabs hold of one of your " + Desc.Cock.describeMultiCockShort(character) + " and makes a show of smearing the slippering fluid over the shaft, lubricating it as she begins to jack you off.  Her sisters, taking the cue, step over the other sated sluts and grab hold of your " + Desc.Cock.describeCock(character, 1) + ", fondling it lovingly.  ");
@@ -609,7 +612,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 DisplayText("You sigh into the fragrant pussy, the warm air-flow turning the slippery box a dripping fountain of orgasm.   The walls clamp around your tongue, squeezing it from base to tip in a milking motion you've become intimately acquainted with.   A high pitched shriek of pleasure rises, then cuts off.  You blink away a sudden burst of light as the orgasming girl is ripped from your questing tongue, revealing the crowd of sultry bodies and Tamani's knowing smirk.\n\n");
 
                 DisplayText("\"<i>Mother always said you had to keep your men on a tight leash, and boy was she ever right – you've been cheating on Tamani!  With your own daughters!</i>\" exclaims your ");
-                if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] >= 10) DisplayText("wife");
+                if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED >= 10) DisplayText("wife");
                 else DisplayText("\"wife\"");
                 DisplayText(" in mock indignation.   She taps her chin for a moment, ignoring her daughters as they continue to lick and stroke ");
                 if (cocks) DisplayText("each of ");
@@ -627,7 +630,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 else DisplayText("there's a TON of you here so you'll need to move quick if you each want a turn");
                 DisplayText(",</i>\" commands the goblin mother.\n\n");
 
-                DisplayText("Her words are downright prophetic.  Churning, bubbling warmth floods your crotch with need as you look on, moaning.  Your back arches and your eyes cross in an involuntary reaction to your drug-induced orgasm.  Grunting, you twitch as the goblins line up, the eldest daughter grabbing home of your flexing " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " as it begins to erupt.  Strangely, it isn't the pulsing, squirting orgasms you're used to.  Instead, a steady stream of cum washes out over the girl's abdomen as she lines up, eventually grinding her wet pussy against your straining urethra.  She giggles with lewd pleasure, grinding against your swollen " + character.cockHead() + " as her womb is pumped full of semen.  Her belly quickly rounds out, and she's forced to step away, leaving you to soak your belly while the next of your daughters gets in position.\n\n");
+                DisplayText("Her words are downright prophetic.  Churning, bubbling warmth floods your crotch with need as you look on, moaning.  Your back arches and your eyes cross in an involuntary reaction to your drug-induced orgasm.  Grunting, you twitch as the goblins line up, the eldest daughter grabbing home of your flexing " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " as it begins to erupt.  Strangely, it isn't the pulsing, squirting orgasms you're used to.  Instead, a steady stream of cum washes out over the girl's abdomen as she lines up, eventually grinding her wet pussy against your straining urethra.  She giggles with lewd pleasure, grinding against your swollen " + Desc.Cock.describeCockHead() + " as her womb is pumped full of semen.  Her belly quickly rounds out, and she's forced to step away, leaving you to soak your belly while the next of your daughters gets in position.\n\n");
 
                 // (MULTI)
                 if (cocks > 2) {
@@ -662,7 +665,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                     DisplayText(".  The perverse scene seems to feed you even more pleasure, and you feel your orgasm increase in intensity, thickening the flow of cum.\n\n");
                 }
 
-                DisplayText("The next slut grabs your " + character.cockHead() + " with both hands as she straddles you, pinching it tightly enough to make you wince.  The flow of white goo is pinched off, backing up painfully as she gets in position.  Just when you're about to cry, she's in position, and releases her too-tight grip.   Your body rewards the slut for her pain with a blast of seed so powerful it nearly blows her off your midsection, splattering out around her lips.  She holds on through an orgasm as you fill her depths with even more of your creamy load.  Surprisingly, she manages to take even more than her older sister, staying on until she looks a few months pregnant.  She staggers off, sloshing wetly while seed drips between her thighs.\n\n");
+                DisplayText("The next slut grabs your " + Desc.Cock.describeCockHead() + " with both hands as she straddles you, pinching it tightly enough to make you wince.  The flow of white goo is pinched off, backing up painfully as she gets in position.  Just when you're about to cry, she's in position, and releases her too-tight grip.   Your body rewards the slut for her pain with a blast of seed so powerful it nearly blows her off your midsection, splattering out around her lips.  She holds on through an orgasm as you fill her depths with even more of your creamy load.  Surprisingly, she manages to take even more than her older sister, staying on until she looks a few months pregnant.  She staggers off, sloshing wetly while seed drips between her thighs.\n\n");
 
                 DisplayText("While you continue to fertilize the slutty goblin girls, Tamani is nice enough to remove your gag.  Sadly, you're too drunk with pleasure and Tamani's chemicals to do anything but pant and drool, but it was a nice gesture.  ");
                 // (SMALL CROWD:
@@ -673,19 +676,19 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 else DisplayText("The massive crowd is forced to carefully ration your semen, bountiful though it is.   Tamani doesn't even let the girls get completely filled, instead forcing each of them to only get a few cunt-filling moments of your orgasm.  Those who've already had a turn hang around, scooping up the sperm-filled fluid that's leaking out and shoveling it into their baby-craving bodies.  The whole time you're kept locked in incredible climax.  If you had any capacity for reason you'd probably feel more like a tool than " + Desc.Gender.mf(character, "man", "woman") + ", but the synapses of your brain are too busy firing off about how good it feels to think.  By the time the last girl gets her turn, your orgasm has trailed off to a weak flow, so she stays on until the drugs finally wear off.\n\n");
 
                 DisplayText("The soon-to-be-pregnant goblins stagger off, a bit bow-legged and generously glazed with semen.  You come down from your high, panting weakly and trembling.  Tamani wraps her arms around your head, cradling you deep into her incredible bust.  The soft skin completely envelops you in breast-flesh as her sweet, fruity scent fills your lungs with every breath.  ");
-                if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] > 10) DisplayText("She's the best wife ever.  You nuzzle deep into her cleavage, sighing happily.");
-                else if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] > 5) DisplayText("She really is a great wife... wait, wife? You shrug away the thought and enjoy slowly motorboating her breasts.");
+                if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED > 10) DisplayText("She's the best wife ever.  You nuzzle deep into her cleavage, sighing happily.");
+                else if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED > 5) DisplayText("She really is a great wife... wait, wife? You shrug away the thought and enjoy slowly motorboating her breasts.");
                 else DisplayText("She really isn't that bad to you, is she?  You sigh and nuzzle against her jiggly love-pillows.");
                 DisplayText("  Eventually she pulls you back and kisses you on the lips.\n\n");
 
                 DisplayText("Tamani offers you a canteen, and you readily accept it, thirsty after such a physics-shattering orgasm.  The water is cold and satisfying.  You gulp it down in record time, chugging and guzzling until the container empties.  Satisfied, you lie back down.  The pleasure is short-lived, short-circuited by the realization that the water you just drank had a tangy after-taste.  You try to glare at ");
-                if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] > 10) DisplayText("your wife");
+                if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED > 10) DisplayText("your wife");
                 else DisplayText("Tamani");
                 DisplayText(" in anger, but your head feels all numb, and looking over at her makes the world spin dizzily.\n\n");
 
                 DisplayText("Pink haze crowds away your thoughts as your glare melts away into dopey confusion.  Tamani giggles and says, \"<i>");
                 // (Done before)
-                if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] > 0) DisplayText("Don't you remember the last time we did this?  Of course not.</i>\"  Your hot goblin wife gestures at your suddenly swollen and erect " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", and continues, \"<i>Your dick remembers my special potion though.  Now, let's get back to teaching that wonderful cum-spout of yours how to behave around its wife and mistress.</i>\"\n\n");
+                if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED > 0) DisplayText("Don't you remember the last time we did this?  Of course not.</i>\"  Your hot goblin wife gestures at your suddenly swollen and erect " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", and continues, \"<i>Your dick remembers my special potion though.  Now, let's get back to teaching that wonderful cum-spout of yours how to behave around its wife and mistress.</i>\"\n\n");
                 // (Not Done Before)
                 else DisplayText("I mixed a special potion in that drink.   It shuts down all those pesky thoughts so you'll listen to your wonderful wife and let her tell you how to think and feel.</i>\"  She strokes your partially softened " + Desc.Cock.nounCock(CockType.HUMAN) + ", giggling as it hardens for her, \"<i>You won't remember what Tamani tells you once it wears off, but your dick won't ever forget.</i>\"\n\n");
 
@@ -699,7 +702,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 if (character.torso.balls.quantity > 0) DisplayText("balls");
                 else DisplayText("groin");
                 DisplayText(" churning with lust and desire, ready to give life to another batch of daughters for your mistress.  ");
-                if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] < 10) DisplayText("'Wait... wife... mistress?' your mind wonders, rejecting the foreign thoughts.  You look up at Tamani, confused for a moment");
+                if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED < 10) DisplayText("'Wait... wife... mistress?' your mind wonders, rejecting the foreign thoughts.  You look up at Tamani, confused for a moment");
                 else DisplayText("Yes, that sounds so right – Tamani is your wife, and it's your husbandly duty to keep her pregnant.  You dwell on that for a moment");
                 DisplayText(", until an orgasm wracks your body and derails your train of thought, drowning it in a sea of pleasure.  She moans and slides down, pressing her entrance against your urethra as your internal muscles clench, pumping thick spurts into the goblin's womb.  A new-found sense of satisfaction and pleasure spreads through you.  It feels so good to knock Tamani up that your orgasm drags on forever, until you feel empty and exhausted.   Looking back, you realize just how much more pleasurable her box is in comparison to the other holes you've tasting in your travels, even her daughter's.  As Tamani rises up off of you, dripping with cum, the memories of everything but the sex slowly slip away, leaving behind happiness and anticipation of your next chance to fill her.\n\n");
 
@@ -707,7 +710,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
                 // knock up tamani chance
                 Scenes.forest.tamaniScene.tamaniKnockUp();
                 // increase hypno value
-                Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED]++;
+                User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED++;
             }
         }
         // knock bitches up, slight libido gain, slight strength/toughness loss.
@@ -722,12 +725,12 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
     // [Lose Combat, Get Your Dick DRAINED]
     private tamaniDaughtersCombatLossDrain(character: Character) {
         DisplaySprite(SpriteName.Tamani_Daughters);
-        Flags.list[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_FUCKED_TAMANIS_DAUGHTERS++;
         DisplayText().clear();
 
         // Vars
         const cocks: number = character.torso.cocks.count;
-        const daughters: number = int(Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] / 2);
+        const daughters: number = int(User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_NUMBER_OF_DAUGHTERS / 2);
 
         DisplayText("Your efforts to resist were in vain – there's simply too many of your slutty daughters to fight off.  The crowd flows over your ");
         if (character.stats.HP < 1) DisplayText("defeated");
@@ -759,7 +762,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         }
 
         DisplayText("A goblin with lustrous blue hair pulls a lever on the side of the chair, shifting your position to further expose you.  She assures, ");
-        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00058] === 0) DisplayText("\"<i>Stop worrying.  I invented this while I was waiting on mom to bring me back more of your cum, just in case we ever got our hands on you.  I promise, after you've had a taste of my chair you'll never want to leave.</i>\"\n\n");
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).UNKNOWN_FLAG_NUMBER_00058 === 0) DisplayText("\"<i>Stop worrying.  I invented this while I was waiting on mom to bring me back more of your cum, just in case we ever got our hands on you.  I promise, after you've had a taste of my chair you'll never want to leave.</i>\"\n\n");
         else DisplayText("\"<i>Stop worrying!  We both know you love my little love-seat.  Just lie back and you'll be cumming too hard to care before long.</i>\"\n\n");
 
         DisplayText("You hear a commotion to the side and crane your head to watch.  There's a crowd of the girls clustered around a machine.   It's about the size of a large dresser or cabinet, only instead of holding clothes it's covered in knobs, levers, and various mechanical dials.  A goblin with light blue, almost silvery hair looks back at you and blows you a kiss while she pulls a lever.  A mechanical whirring noise fills the room, emanating from the ceiling.  You tilt your head back and look up, and see a massive metal bulb descending from the ceiling.\n\n");
@@ -787,12 +790,12 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         DisplayText("Unable to fight back in any way, you shrug and begin suckling the purplish nipple, tasting the creamy goblin milk as it easily fills your mouth.  You gulp it down, slowly relaxing between the mechanized cock-sucking and gentle breast-feeding.  Your daughter was right, it's almost like paradise. Unfortunately, the pleasure is interrupted by something probing at your backside.  Unable to look with your mouth full of delicious tit, you can only gurgle and dribble in protest as a lubricated tube is inserted into your " + Desc.Butt.describeButthole(character.torso.butt) + ".\n\n");
 
         DisplayText("The familiar voice of the machine's inventor whispers, \"<i>");
-        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00058] === 0) DisplayText("Time for your medicine!  We need you to cum enough for each of us, and maybe have a little left over to play with, so suck up the medicine, okay?  Just relax and let it fill you so that you give us all that yummy cummy!</i>\"\n\n");
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).UNKNOWN_FLAG_NUMBER_00058 === 0) DisplayText("Time for your medicine!  We need you to cum enough for each of us, and maybe have a little left over to play with, so suck up the medicine, okay?  Just relax and let it fill you so that you give us all that yummy cummy!</i>\"\n\n");
         else DisplayText("Relax Dad, we're just giving you your cummy medicine.  I know you're a sexy, virile " + Desc.Gender.mf(character, "stud", "slut") + "and all, but take your medicine and you'll have more than enough cum for us!</i>\"\n\n");
 
         DisplayText("You blush, ");
         // EXHIBITIONISTZ
-        if (Flags.list[FlagEnum.PC_FETISH] > 0) DisplayText("unimaginably turned on by being used and abused by such machinery in front of an audience of your own horny children.");
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).PC_FETISH > 0) DisplayText("unimaginably turned on by being used and abused by such machinery in front of an audience of your own horny children.");
         else if (character.stats.cor > 60) DisplayText("turned on by being milked in such an obscene way.");
         else DisplayText("horrified at the situation but unable to resist arousal as you're constantly sucked and pleasured.");
         DisplayText("\n\n");
@@ -825,11 +828,11 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         DisplayText("Trapped in a constant orgasm by cruel machinery and a steady flow of specially tailored drugs, you start to smile uncontrollably.  True, you're utterly incapable of thinking by this point, but your body and mind are too pleased with the situation not to grin.  The situation in the corner of the scene repeats over and over as your daughters enjoy your 'milk'.  After they've had their fill they fall on each other, filling the room with orgiastic moans as any sense of order is blown away by a tide of female lust.\n\n");
 
         //// Chance of tamani saving you
-        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00058] < 4) {
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).UNKNOWN_FLAG_NUMBER_00058 < 4) {
             DisplayText("You lose consciousness a few hours into the ordeal, still cumming with no sign of stopping, your body sustained by the fluids pouring into your backside.  The dreams are a constant barrage of sexual situations, flitting between various incongruous orgasmic acts.  Were you capable of comprehending your situation, you probably wouldn't even want to wake up.  Alas, the pleasure does end, and you settle into a deeper slumber.  A gentle rocking and the exhaustion of your crotch keep you snoring soundly for hours.\n\n");
 
             DisplayText("When you do wake, you find yourself alone in a forest clearing, with a note taped to your face:\n\n");
-            if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00058] === 0) {
+            if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).UNKNOWN_FLAG_NUMBER_00058 === 0) {
                 DisplayText("<i>   " + Desc.Gender.mf(character, "Husband", "Baby") + ",\n");
                 DisplayText("      Do you have any idea how hard it is for Tamani to drag you out here all by herself?  If you weren't my favorite breeder, I would've let my daughters keep you.  Next time stand up to the little twats or Tamani might look the other way while you're being milked!\n\n");
                 DisplayText("   Hugs & cums,\n");
@@ -849,7 +852,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
             return { next: tamaniDaughtersBadEndChoice };
         }
         // Needz variable to track how many times PC has been 'chaired'
-        Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00058]++;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).UNKNOWN_FLAG_NUMBER_00058++;
         // moar daughters, increment 'times milked' by the daughters.
         knockUpDaughters();
         // boost cum production slightly.
@@ -925,7 +928,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
     private loseToDaughtersWithTamaniThere(character: Character) {
         DisplaySprite(SpriteName.Tamani_Daughters);
         DisplayText().clear();
-        Flags.list[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TIMES_FUCKED_TAMANIS_DAUGHTERS++;
         // Find a dick that fits
         const primary: number = character.cockThatFits(50);
 
@@ -942,7 +945,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         DisplayText(" and says, \"<i>Now husband, you've let your daughters beat you fair and square, so now it's time to take your medicine and give them their reward for becoming so strong.</i>\"\n\n");
 
         DisplayText("The potion's bottle becomes a plug for your mouth as Tamani forces your mouth open.  She tips it back and massages your throat with one hand, forcing you to gulp down the fluid.  ");
-        if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] < 2) DisplayText("It tastes syrupy-sweet");
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED < 2) DisplayText("It tastes syrupy-sweet");
         else DisplayText("It has a familiar taste that you can't quite place");
         DisplayText(" and nearly makes you gag, but Tamani makes sure you drink down every drop.  An immediate numbness spreads through your body, starting at your fingertips.  It slowly crawls up your arms and then starts at your " + Desc.Leg.describeFeet(character) + " as well.  In no time it's hard to move, and it becomes hard to think.  Your mind feels almost like its full of cotton-candy, with fuzzy pink stuff constantly getting in the way of your thoughts.\n\n");
 
@@ -951,7 +954,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         DisplayText("She reaches into your " + character.inventory.equipment.armor.displayName + " to rub ");
         if (character.torso.cocks.count > 1) DisplayText("one of ");
         DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + ", casually stroking the hard member as she pivots around to explain, \"<i>You get so hard for Mistress Tamani, don't you?  ");
-        if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] > 10) DisplayText("Your body must remember how much it loves being my pussy-hungry husband.");
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED > 10) DisplayText("Your body must remember how much it loves being my pussy-hungry husband.");
         else DisplayText("That's because your body knows how hot and moist Tamani's pussy is and how much you want to service it.");
         DisplayText("</i>\"\n\n");
 
@@ -960,7 +963,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         DisplayText("Her hand starts stroking you faster and her juices start to drip down the sides of your torso");
         if (character.skin.type === SkinType.FUR) DisplayText(", matting your " + character.torso.neck.head.hair.color + " fur");
         DisplayText(" as she continues ");
-        if (Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED] < 10) DisplayText("filling your mind with truths");
+        if (User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED < 10) DisplayText("filling your mind with truths");
         else DisplayText("reinforcing your image of yourself as an obedient husband");
         DisplayText(", \"<i>It feels so good to service your wife's aching pussy and fill it full of cum.  Your cock knows it and wants it so much that any time you see your wife, Tamani, you'll get so hard and hot for her that you'll forget about anything but worshipping her cunt, won't you?</i>\"\n\n");
 
@@ -1023,7 +1026,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         // Chance of tamani pregnancy, chance of daughter preggers
         knockUpDaughters();
         Scenes.forest.tamaniScene.tamaniKnockUp();
-        Flags.list[FlagEnum.TAMANI_TIMES_HYPNOTISED]++;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_TIMES_HYPNOTISED++;
         // daughter countdown reset.
         character.orgasm();
         dynStats("str", -.5, "int", -.5, "lib", 1, "sen", 1, "cor", 1);
@@ -1035,17 +1038,17 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
         if (pregnancy.isPregnant) return;
         pregnancy.knockUpForce(PregnancyType.PLAYER, 216); // Nine day long pregnancy, just like mom
         // Determine how many kids...
-        Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT] = 2;
+        User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT = 2;
         const cum: number = character.cumQ();
         // Breeder perk is awesome
-        if (character.perks.has(PerkType.MaraesGiftStud)) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT] += 3;
-        if (cum >= 50 && randInt(2) === 0) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT]++;
-        if (cum >= 100 && randInt(2) === 0) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT]++;
-        if (cum >= 200 && randInt(2) === 0) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT]++;
-        if (cum >= 300 && randInt(2) === 0) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT]++;
-        if (cum >= 400 && randInt(2) === 0) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT]++;
-        if (cum >= 500 && randInt(2) === 0) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT]++;
-        if (cum >= 600 && randInt(2) === 0) Flags.list[FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_COUNT]++;
+        if (character.perks.has(PerkType.MaraesGiftStud)) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT += 3;
+        if (cum >= 50 && randInt(2) === 0) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
+        if (cum >= 100 && randInt(2) === 0) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
+        if (cum >= 200 && randInt(2) === 0) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
+        if (cum >= 300 && randInt(2) === 0) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
+        if (cum >= 400 && randInt(2) === 0) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
+        if (cum >= 500 && randInt(2) === 0) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
+        if (cum >= 600 && randInt(2) === 0) User.flags.get<TamanisDaughtersFlags>(CharacterType.TamaniDaughters).TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
     }
 
     public combatWinAgainstDaughters(character: Character) {
@@ -1055,7 +1058,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
             DisplayText("You smile in satisfaction as " + monster.a + monster.short + " collapses, unable to continue fighting.");
             if (character.stats.lust >= 33 && character.torso.cocks.count > 0) {
                 DisplayText("In spite of their injuries, they do try to present their bodies in as lewd a way as possible.  You could still fuck them, but things might get out of hand...\n\nDo you fuck them?");
-                doYesNo(fuckYoDaughtersHomie, cleanupAfterCombat);
+                doYesNo(fuckYoDaughtersHomie, Scenes.camp.returnToCampUseOneHour);
             }
             else return { next: Scenes.camp.returnToCampUseOneHour };
             return;
@@ -1065,7 +1068,7 @@ export class TamainsDaughtersScene implements TimeAwareInterface {
             character.stats.lust += 5;
             if (character.stats.lust >= 33 && character.torso.cocks.count > 0) {
                 DisplayText("You could still fuck them, but things might get out of hand...\n\nDo you fuck them?");
-                doYesNo(fuckYoDaughtersHomie, cleanupAfterCombat);
+                doYesNo(fuckYoDaughtersHomie, Scenes.camp.returnToCampUseOneHour);
             }
             else return { next: Scenes.camp.returnToCampUseOneHour };
             return;

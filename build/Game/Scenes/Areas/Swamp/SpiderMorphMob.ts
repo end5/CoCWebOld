@@ -1,4 +1,4 @@
-export class SpiderMorphMob extends Monster {
+export class SpiderMorphMob extends Character {
 	//==============================
 	// SPOIDAH HORDE COMBAT SHIZZLE HERE!
 	//==============================

@@ -7,6 +7,7 @@ import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
 import { randInt } from '../../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../../Body/BreastRow';
 import { Cock, CockType } from '../../../Body/Cock';
+import { Gender } from '../../../Body/GenderIdentity';
 import { LegType } from '../../../Body/Legs';
 import { IncubationTime, Pregnancy, PregnancyType } from '../../../Body/Pregnancy/Pregnancy';
 import { Character } from '../../../Character/Character';
@@ -18,7 +19,7 @@ import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { ArmorName } from '../../../Items/Armors/ArmorName';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { ClickFunction, NextScreenChoices } from '../../../ScreenDisplay';
+import { ClickObject, ClickOption, NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { lustyMaidenPaizuri } from '../../Items/LustyMaidensArmor';
 import { Scenes } from '../../Scenes';
@@ -72,16 +73,16 @@ export function akbalDefeated(character: Character, hpVictory: boolean): NextScr
         DisplayText("Akbal falls to the ground, unable to go on. Yet a growl still rumbles in his chest, and you quickly recognize the submissive gesture when he bows his head, his cat belly hugging the ground.  His body begins shifting, and soon he has a vaguely humanoid form. You assume this is the form he uses for sex, as his lust is out of control.\n\n");
         if (character.stats.lust >= 33 && character.gender > 0) {
             DisplayText("You walk around Akbal's beaten and lust crazed form with a smile on your face. The demon's growl continues as he awaits your judgment.");
-            let vagoo: ClickFunction;
-            let vagooLick: ClickFunction;
-            let buttFuck: ClickFunction;
-            let bikiniTits: ClickFunction;
+            let vagoo: ClickOption;
+            let vagooLick: ClickOption;
+            let buttFuck: ClickOption;
+            let bikiniTits: ClickObject;
             if (character.torso.vaginas.count > 0) {
                 vagoo = girlsRapeAkbal;
                 vagooLick = rapeAkbalForcedFemaleOral;
             }
             if (character.torso.vaginas.count > 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && character.inventory.equipment.armor.name === ArmorName.LustyMaidensArmor) {
-                bikiniTits = (char: Character) => lustyMaidenPaizuri(char, akbal);
+                bikiniTits = { func: lustyMaidenPaizuri, args: [akbal] };
             }
             if (character.torso.cocks.count > 0)
                 buttFuck = rapeAkbal;

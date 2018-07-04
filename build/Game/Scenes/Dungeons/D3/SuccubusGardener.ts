@@ -2,7 +2,7 @@
  * ...
  * @author Gedan
  */
-export class SuccubusGardener extends Monster {
+export class SuccubusGardener extends Character {
 
 	public SuccubusGardener() {
 		this.a = "the ";

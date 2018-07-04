@@ -652,7 +652,7 @@
 			if (player.torso.cocks.count > 2) DisplayText("s are");
 			else DisplayText(" is");
 			DisplayText(" spasming ");
-			if (player.longestCockLength() <= 12) DisplayText("on the greedy green slut's belly");
+			if (player.torso.cocks.sort(Cock.LongestCocks)[0].length <= 12) DisplayText("on the greedy green slut's belly");
 			else DisplayText("in the milk-stained valley between her tits, absolutely buried in squishy-soft breast");
 			DisplayText(", jizzing in wild spurts.  The cum mixes with all the goblin-cream into a sticky-slick morass that paints Lynnette white.");
 		}

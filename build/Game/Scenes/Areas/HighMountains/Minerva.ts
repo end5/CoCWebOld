@@ -1,4 +1,4 @@
-export class Minerva extends Monster {
+export class Minerva extends Character {
 
 	//Normal Attacks for all Minerva Types
 	//Shark-bite:

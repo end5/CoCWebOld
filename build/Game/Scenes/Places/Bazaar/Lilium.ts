@@ -94,7 +94,7 @@ private payForLilium():void {
 	let buttFuck:Function = null;
 	let nippleFuck:Function = null;
 	let rideHer:Function = null;
-	if(player.torso.cocks.count > 0 && player.torso.neck.head.face.tongueType >= TongueType.DEMONIC) buttFuck = buttFuckTongueJeorb;
+	if(player.torso.cocks.count > 0 && player.torso.neck.head.face.tongue.type >= TongueType.DEMONIC) buttFuck = buttFuckTongueJeorb;
 	if(player.torso.cocks.count > 0) nippleFuck = liliumNippleFuck;
 	if(player.torso.vaginas.count > 0) rideHer = liliumDickRidah;
 	simpleChoices("Buttfuck", buttFuck, "Ride Her", rideHer, "Nipple-Fuck", nippleFuck, "", null, "", null);
@@ -177,7 +177,7 @@ private liliumDickRidah():void {
 	if(player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) {
 		DisplayText("You turn your attention to your own " + Desc.Breast.describeAllBreasts(player) + " and how they bounce from the force of your vigorous fucking, supporting the weight of your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " with your hands as you continue to ride Lilium's cock.");
 		//(if demonic tongue)
-		if(player.torso.neck.head.face.tongueType === TongueType.DEMONIC) DisplayText("  Letting your demonic tongue extend out from between your lips, you wrap it around one " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " and gently squeeze, sending an electric thrill that flows to your core and back out to the tips of your fingers.");
+		if(player.torso.neck.head.face.tongue.type === TongueType.DEMONIC) DisplayText("  Letting your demonic tongue extend out from between your lips, you wrap it around one " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " and gently squeeze, sending an electric thrill that flows to your core and back out to the tips of your fingers.");
 		//(else if no demonic tongue)
 		else DisplayText("  You begin to squeeze your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + " between two fingers, sending an electric thrill that flows to your core and back out to the tips of your fingers.");
 		//(if lactating a little)

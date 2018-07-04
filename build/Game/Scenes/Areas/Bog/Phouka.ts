@@ -1,7 +1,7 @@
 ﻿/**
  * Created by K.Quesom 11.06.14
  */
-export class Phouka extends Monster {
+export class Phouka extends Character {
 	protected phoukaFightAttack() {
 		let damage: number;
 		//Only the bunny, goat and horse forms make physical attacks

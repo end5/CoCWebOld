@@ -859,7 +859,7 @@ class KeltScene {
         DisplaySprite(35);
         DisplayText().clear();
         //If naga folks
-        if (player.torso.neck.head.face.type === FaceType.SNAKE_FANGS && player.torso.neck.head.face.tongueType === TongueType.SNAKE && player.hips.legs.type === LegType.NAGA) {
+        if (player.torso.neck.head.face.type === FaceType.SNAKE_FANGS && player.torso.neck.head.face.tongue.type === TongueType.SNAKE && player.hips.legs.type === LegType.NAGA) {
             DisplayImage(images.showImage("kelt-farm-naga-subkelt"));
             DisplayText("Feigning a coy smile, you lick your lips with your forked tongue and beckon Kelt towards you.  The foolish stud trots over to you saying \"<i>That's more like it, worm.  Maybe when I'm done with your mouth, I'll let you have my dick in your ass, too.</i>\"  His sheath ripples and swells as his thick member begins to slowly droop out from the folded skin, hanging towards the ground.  It continues growing as he comes closer and closer, until it finally begins to grow rigid and arc towards your face.  You feel a moment of self-doubt as you breathe in his wonderful scent - wouldn't it be better, safer to just give in?  No, says a cold, reptile voice in your head.  You are the predator here and he, arrogant prey, has stepped into your trap.  Make him pay.  Make him know where his place in the world is.\r\r");
 

@@ -168,7 +168,7 @@ export class DopplegangerScenes {
 		DisplayText("\n\n<b>(Key Item Acquired: Laybans!)</b>");
 
 		player.orgasm();
-		cleanupAfterCombat(d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(d3.resumeFromFight);
 	}
 
 	public killYourself() {

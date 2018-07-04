@@ -3,7 +3,7 @@ import { Character } from '../../Character/Character';
 import { Inventory } from '../../Inventory/Inventory';
 import { ItemStack } from '../../Inventory/ItemStack';
 import { Item } from '../../Items/Item';
-import { ClickFunction, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
+import { ClickOption, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { User } from '../../User';
 
 /* better inventory system
@@ -38,7 +38,7 @@ type ReverseAction = () => void;
 interface AddItemsRequest<T extends Item> {
     character: Character;
     itemList: ItemStack<T>[];
-    menuToDisplayUponFinish: ClickFunction;
+    menuToDisplayUponFinish: ClickOption;
     otherInventory: Inventory<T>;
     reverseActionFunc: ReverseAction;
 }
@@ -73,7 +73,7 @@ export function displayCharInventory(character: Character, persistantChoices: Sc
  * @param character The character inspecting the inventory.
  * @param prevMenu The menu to return to by pressing Back.
  */
-export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction): NextScreenChoices {
+export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickOption): NextScreenChoices {
     const choices = [];
     const invTakingFrom = inventory;
     const invAddingTo = character.inventory.items;
@@ -97,7 +97,7 @@ export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, ch
     return { choices, persistantChoices: [["Put", () => inventoryPut(inventory, character, prevMenu)], ["Back", prevMenu]] };
 }
 
-function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction): NextScreenChoices {
+function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickOption): NextScreenChoices {
     const choices = [];
     const buttonFunc = [];
     const invTakingFrom = character.inventory.items;
@@ -141,7 +141,7 @@ function createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpIte
  * @param itemsToAdd The items that cannot be added to the characters inventory.
  * @param nextMenu The menu to go to once the decision is made.
  */
-export function displayCharInventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction): NextScreenChoices {
+export function displayCharInventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickOption): NextScreenChoices {
     if (itemsToAdd.length > 0) {
         const request = createAddItemsRequest(character, itemsToAdd, nextMenu);
         invFull(request);
@@ -179,7 +179,7 @@ function invFull<T extends Item>(request: AddItemsRequest<T>): NextScreenChoices
     }
 }
 
-function discardFromInventory<T extends Item>(request: AddItemsRequest<T>, slotInInv: ItemStack<T>, itemToAdd: ItemStack<T>): ClickFunction {
+function discardFromInventory<T extends Item>(request: AddItemsRequest<T>, slotInInv: ItemStack<T>, itemToAdd: ItemStack<T>): ClickOption {
     return () => {
         if (slotInInv.item === itemToAdd.item)
             DisplayText("You discard " + itemToAdd.item.desc.longName + " from the stack to make room for the new one.");
@@ -194,7 +194,7 @@ function discardFromInventory<T extends Item>(request: AddItemsRequest<T>, slotI
     };
 }
 
-function createAddItemsRequest<T extends Item>(character: Character, itemStackList: ItemStack<T>[], prevMenu: ClickFunction, otherInventory?: Inventory<T>): AddItemsRequest<T> {
+function createAddItemsRequest<T extends Item>(character: Character, itemStackList: ItemStack<T>[], prevMenu: ClickOption, otherInventory?: Inventory<T>): AddItemsRequest<T> {
     return {
         character,
         itemList: itemStackList,
@@ -204,7 +204,7 @@ function createAddItemsRequest<T extends Item>(character: Character, itemStackLi
     };
 }
 
-function putBack<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
+function putBack<T extends Item>(request: AddItemsRequest<T>): ClickOption {
     return () => {
         request.reverseActionFunc();
         request.reverseActionFunc = undefined;
@@ -212,7 +212,7 @@ function putBack<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
     };
 }
 
-function useNow<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
+function useNow<T extends Item>(request: AddItemsRequest<T>): ClickOption {
     return () => {
         const itemToAdd = request.itemList[0];
         if (itemToAdd.item.canUse(request.character)) {
@@ -224,7 +224,7 @@ function useNow<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
     };
 }
 
-function abandon<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
+function abandon<T extends Item>(request: AddItemsRequest<T>): ClickOption {
     return () => {
         return destroyItem(request);
     };

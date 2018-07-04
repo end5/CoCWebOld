@@ -1,4 +1,4 @@
-﻿export class SandTrap extends Monster {
+﻿export class SandTrap extends Character {
 	//Wait:
 	public sandTrapWait() {
 		DisplayText().clear();

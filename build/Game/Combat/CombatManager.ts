@@ -5,7 +5,7 @@ import { List } from '../../Engine/Utilities/List';
 import { Character } from '../Character/Character';
 import { CombatEffectType } from '../Effects/CombatEffectType';
 import { Item } from '../Items/Item';
-import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
+import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
 
 class CombatManager {
     public readonly itemsOnFloor: List<Item> = new List();
@@ -19,7 +19,7 @@ class CombatManager {
         return !!this.encounter && !!this.encounter.performTurnEnd;
     }
 
-    private get nextRound(): ClickFunction {
+    private get nextRound(): ClickOption {
         return () => {
             if (this.encounter) {
                 return this.encounter.performRound();

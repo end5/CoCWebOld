@@ -3881,7 +3881,7 @@
 		DisplayImage(images.showImage("urta-home-female-fucked"));
 		DisplayText("Lazily discarding the latex, you caress Urta's stocking-clad leg and coyly climb into bed.  She starts to reciprocate your affections, but you push her arm away, instructing, \"<i>Let me... let me have this.</i>\"");
 		DisplayText("\n\nGingerly holding the beast between her thighs, you take a moment to admire the texture, the forgiving sponginess of the stiffening flesh and its smooth surface, broken only by a collection of pulsating veins and a thick ring that splits the middle.  You squeeze the musky fur of her snatch and pull it down, revealing another inch or two of moist dick for you to tease; Urta shivers at your touches on her sensitive flesh.  Looking up to meet her gaze, you bend down with glacial slowness, eventually laying the flat of your ");
-		if (player.torso.head.face.tongueType > TongueType.HUMAN) DisplayText("prodigious ");
+		if (player.torso.head.face.tongue.type > TongueType.HUMAN) DisplayText("prodigious ");
 		DisplayText("tongue upon her turgid mass.  Lewdly, you kiss the underside, worshipping it with your lips as you trail moist affection up the horse-cock's gradual arch.  You nibble on her medial ring when you find it, lashing it with your tongue as you stop to harass her nerves.  Then, without warning, you resume your upward travels, watching the fox whimper and shake as your tongue tantalizes her equine member.");
 		DisplayText("\n\nUrta's hips silently work, trembling slightly each time they start to lift up.  Of course, you force them down into stillness and return to lubricating the horse-like length before you.  Her tip flares a little as you near it, pulsing with pleasure at every idle oral affection you plant.  You stretch your jaw to fully encompass her tip, taking it into your mouth and looking up at the herm.  Her eyes are closed, her mouth open and panting.  Hanging to the side, Urta's tongue pulsates in time with her unrestrained panting.  You circle her urethra with your tongue and smile around the throbbing dick when a salty drop of pre-cum lands on your tongue.");
 		DisplayText("\n\nYou release Urta from your oral embrace, laying her rod back down on her soft fur with great care.  Whining, she tries to grab your head and pull you back in place, but you twist to the side and slap her searching hands away, sliding up her body to hold them above her head.  You pin them to the headboard, leering over your prize with ardor, your [vagina] heavy with lust and equally wet.");
@@ -4932,9 +4932,9 @@
 			DisplayText(", your pussy is as wet as it's ever been, constantly leaking juices that run down your legs, pooling on the floor.");
 		}
 		DisplayText("  You swirl your tongue around Urta's flare, paying homage to the horsecocked goddess.  Lapping at the slit for a moment, you slip your ");
-		if (player.torso.head.face.tongueType === TongueType.SNAKE) DisplayText("serpentine ");
-		else if (player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("demonic ");
-		else if (player.torso.head.face.tongueType === TongueType.DRACONIC) DisplayText("draconic ");
+		if (player.torso.head.face.tongue.type === TongueType.SNAKE) DisplayText("serpentine ");
+		else if (player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("demonic ");
+		else if (player.torso.head.face.tongue.type === TongueType.DRACONIC) DisplayText("draconic ");
 		DisplayText("tongue along the vixen's thick cumvein, which pulses lightly.  Urta groans and runs a hand through your " + Desc.Head.describeHair(player) + ", gripping it solidly.  You can't help as you're forced further onto the warm rod.");
 
 		DisplayText("\n\nUrta's flare presses against the back of your throat for a moment before slipping down into your throat, bringing a groan up from your core.  The vibrations seem to please your lover, who shudders, and forces her massive cock further down your throat.  It's slightly uncomfortable, but it brings you such a thrill to know the kind of bliss you're giving your Owner.  You bob your head up and down, letting the cock penetrate your throat deeper with every thrust.  Urta's legs stiffen, and her breaths get quicker while the cock buried in your gullet twitches wildly. Clearly not wanting to cum in your mouth, she pulls out, leaving your maw with a wet <b>pop</b>, and aims her cock downwards... right towards the doggy bowl.");
@@ -4944,9 +4944,9 @@
 		DisplayText("\n\n\"<i>Mmm, by Marae that felt good...</i>\"  Urta stretches out for a moment and then quirks an eyebrow at you over her deflating member.  \"<i>Well, what are you waiting for?  There's your reward,</i>\" she nudges the dog bowl with a fishnet-clad, semen-splattered paw.  \"<i>Eat it all up, pet... you want to be a good puppy, don't you?</i>\"");
 
 		DisplayText("\n\nYou gulp loudly.  You do want to be a good pet, so you lower your head down to the bowl and extend your ");
-		if (player.torso.head.face.tongueType === TongueType.SNAKE) DisplayText("serpentine ");
-		else if (player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("demonic ");
-		else if (player.torso.head.face.tongueType === TongueType.DRACONIC) DisplayText("draconic ");
+		if (player.torso.head.face.tongue.type === TongueType.SNAKE) DisplayText("serpentine ");
+		else if (player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("demonic ");
+		else if (player.torso.head.face.tongue.type === TongueType.DRACONIC) DisplayText("draconic ");
 		DisplayText("tongue, lapping at the top layer and swallowing it down.  It's still warm, and quite salty with a bit of a sweet tang to it.  You quickly dive back into your 'reward', using your tongue as a spoon to consume every last drop in the bowl.  While you're busy doing that, Urta slides off the bed and takes up a position behind your body, ass high into the air, showing off all her goods.  The fox raises a paw, smearing some of her cum along your ");
 		if (player.torso.cocks.count > 0) DisplayText("shaft ");
 		if (player.gender === Gender.HERM) DisplayText(" and ");

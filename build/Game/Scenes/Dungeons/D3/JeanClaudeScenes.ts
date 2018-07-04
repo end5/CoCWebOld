@@ -182,7 +182,7 @@ export class JeanClaudeScenes {
 
 		Flags.list[FlagEnum.D3_BASILISKS_REMOVED_FROM_MAGPIE_HALL] = 1;
 
-		cleanupAfterCombat(d3.resumeFromFight);
+		Scenes.camp.returnToCampUseOneHour(d3.resumeFromFight);
 
 	}
 

@@ -1817,10 +1817,10 @@
 			DisplayText("[pg]Pinning her arms to the cold ground, you move your head down to her supple breast, gently flicking the little stubs of her nipples with your tongue.");
 
 			//PC has a demon/snake tongue: 
-			if (player.torso.head.face.tongueType === TongueType.SNAKE || player.torso.head.face.tongueType === TongueType.DEMONIC) {
+			if (player.torso.head.face.tongue.type === TongueType.SNAKE || player.torso.head.face.tongue.type === TongueType.DEMONIC) {
 				DisplayText("[pg]Kiha initially reacts with titillation, then a sense of perverted violation as you wrap the hardening nub with your mouth muscle, ");
 				//Demon: 
-				if (player.torso.head.face.tongueType === TongueType.DEMONIC) DisplayText("taking to her pointed mammary like a boa to prey as you lather up each teat separately.  The hot-tempered dragon girl squirms, completely at your mercy while you have your fun.");
+				if (player.torso.head.face.tongue.type === TongueType.DEMONIC) DisplayText("taking to her pointed mammary like a boa to prey as you lather up each teat separately.  The hot-tempered dragon girl squirms, completely at your mercy while you have your fun.");
 				//Snake: 
 				else DisplayText("stimulating the soft, nubby flesh with your forked tongue, hissing for effect as you do it.  Imagine the look on her face if you worked that little bugger over her clit; she'd go berserk!  But she hasn't earned that yet; what you want to hear is her begging for a good dicking first.");
 			}

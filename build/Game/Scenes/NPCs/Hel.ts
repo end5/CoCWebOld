@@ -1,5 +1,5 @@
 
-export class Hel extends Monster {
+export class Hel extends Character {
 
 	private helAttack() {
 		let damage: number;
