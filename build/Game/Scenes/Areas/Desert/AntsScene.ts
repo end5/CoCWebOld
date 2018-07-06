@@ -4,9 +4,10 @@ import { Cock, CockType } from '../../../Body/Cock';
 import { Gender } from '../../../Body/GenderIdentity';
 import { IncubationTime, Pregnancy, PregnancyType } from '../../../Body/Pregnancy/Pregnancy';
 import { TongueType } from '../../../Body/Tongue';
+import { Vagina, VaginaLooseness } from '../../../Body/Vagina';
 import { Character } from '../../../Character/Character';
-import { CharacterType } from '../../../Character/CharacterType';
 import { Desc } from '../../../Descriptors/Descriptors';
+import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { ITimeAware } from '../../../ITimeAware';
 import { Mod } from '../../../Modifiers/Modifiers';
@@ -15,53 +16,19 @@ import { TimeManager } from '../../../TimeManager';
 import { User } from '../../../User';
 import { FlagType } from '../../../Utilities/FlagType';
 import { Scenes } from '../../Scenes';
+import { Time } from '../../../Utilities/Time';
+import { DemonPack } from './DemonPack';
+import { CombatManager } from '../../../Combat/CombatManager';
+import { TentacleBeast } from '../Forest/TentacleBeast';
+import { Minotaur } from '../Mountain/Minotaur';
+import { Menus } from '../../../Menus/Menus';
+import { BreastRow } from '../../../Body/BreastRow';
+import { DisplayImage } from '../../../../Engine/Display/DisplayImage';
+import { ImageName } from '../../../../Engine/Display/Images/ImageName';
 
 /**
  * Created by aimozg on 05.01.14.
  */
-
-export interface PhyllaFlags {
-    ANTS_PC_FAILED_PHYLLA: number;
-    ANT_COLONY_KEPT_HIDDEN: number;
-    PC_READY_FOR_ANT_COLONY_CHALLENGE: number;
-    PHYLLA_SAVED: number;
-    MET_ANT_ARENA: number;
-    ANT_ARENA_WINS: number;
-    ANT_ARENA_LOSSES: number;
-    ANTS_PC_BEAT_GNOLL: number;
-    ANTS_PC_LOST_TO_GNOLL: number;
-    MET_ANT_ARENA_GNOLL: number;
-
-    PHYLLA_CAPACITY: number;
-    ANT_KIDS: number;
-    ANT_WAIFU: number;
-    PHYLLA_STAY_HOME: number;
-
-    PHYLLA_CAMP_VISITS: number;
-    DAYS_PHYLLA_IN_CAMP: number;
-    PHYLLA_EGG_LAYING: number;
-
-    PHYLLA_BLOWJOBS: number;
-    TALKED_WITH_PHYLLA_ABOUT_HISTORY: number;
-    TIMES_LINKED_BJ_SUCK: number;
-    PHYLLA_FUCKS: number;
-    TIMES_CORRUPT_MALE_ANT_ORGY: number;
-    TIMES_CORRUPT_FEMALE_ANT_ORGY: number;
-    PHYLLA_TIMES_DRIDER_EGG_LAYED: number;
-    DAYS_PHYLLA_HAS_SPENT_BIRTHING: number;
-    ANTS_BIRTHED_FROM_LICKING: number;
-    PHYLLA_COOLDOWN: number;
-    TIMES_EGG_IMPREGNATING_PHYLLA: number;
-    PHYLLA_DRIDER_INCUBATION: number;
-    PHYLLA_DRIDER_BABIES_COUNT: number;
-    PHYLLA_INHERITED_KNOWLEDGE: number;
-    PHYLLA_IZMA_TALK: number;
-
-    DIDNT_FUCK_PHYLLA_ON_RECRUITMENT: number;
-
-    PHYLLA_GEMS_HUNTED_TODAY: number;
-}
-
 //  ANTS_PC_FAILED_PHYLLA: number = 467;
 //  ANT_COLONY_KEPT_HIDDEN: number = 468;
 //  PC_READY_FOR_ANT_COLONY_CHALLENGE: number = 469;
@@ -100,16 +67,59 @@ export interface PhyllaFlags {
 
 //  DIDNT_FUCK_PHYLLA_ON_RECRUITMENT: number = 925;
 
-class PhyllaTimeObject implements ITimeAware {
-    public pregnancy = new Pregnancy(User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_VAGINAL_PREGNANCY_TYPE, IncubationTime.PHYLLA_DRIDER_INCUBATION);
+export interface PhyllaFlags {
+    ANTS_PC_FAILED_PHYLLA: number;
+    ANT_COLONY_KEPT_HIDDEN: number;
+    PC_READY_FOR_ANT_COLONY_CHALLENGE: number;
+    PHYLLA_SAVED: number;
+    MET_ANT_ARENA: number;
+    ANT_ARENA_WINS: number;
+    ANT_ARENA_LOSSES: number;
+    ANTS_PC_BEAT_GNOLL: number;
+    ANTS_PC_LOST_TO_GNOLL: number;
+    MET_ANT_ARENA_GNOLL: number;
+
+    PHYLLA_CAPACITY: number;
+    ANT_KIDS: number;
+    ANT_WAIFU: number;
+    PHYLLA_STAY_HOME: number;
+
+    PHYLLA_CAMP_VISITS: number;
+    DAYS_PHYLLA_IN_CAMP: number;
+    PHYLLA_EGG_LAYING: number;
+
+    PHYLLA_BLOWJOBS: number;
+    TALKED_WITH_PHYLLA_ABOUT_HISTORY: number;
+    TIMES_LINKED_BJ_SUCK: number;
+    PHYLLA_FUCKS: number;
+    TIMES_CORRUPT_MALE_ANT_ORGY: number;
+    TIMES_CORRUPT_FEMALE_ANT_ORGY: number;
+    PHYLLA_TIMES_DRIDER_EGG_LAYED: number;
+    DAYS_PHYLLA_HAS_SPENT_BIRTHING: number;
+    ANTS_BIRTHED_FROM_LICKING: number;
+    PHYLLA_COOLDOWN: number;
+    TIMES_EGG_IMPREGNATING_PHYLLA: number;
+    PHYLLA_VAGINAL_PREGNANCY_TYPE: PregnancyType;
+    PHYLLA_DRIDER_INCUBATION: IncubationTime;
+    PHYLLA_DRIDER_BABIES_COUNT: number;
+    PHYLLA_INHERITED_KNOWLEDGE: number;
+    PHYLLA_IZMA_TALK: number;
+
+    DIDNT_FUCK_PHYLLA_ON_RECRUITMENT: number;
+
+    PHYLLA_GEMS_HUNTED_TODAY: number;
+}
+
+const phyllaFlags = User.flags.get<PhyllaFlags>(FlagType.Phylla);
+
+class PhyllaPregnancy implements ITimeAware {
     public timeChange(): boolean {
-        pregnancy.pregnancyAdvance();
-        trace("\nPhylla time change: Time is " + model.time.hours + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0 && randInt(5) === 0 && User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS < 5000) User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS++;
-        if (model.time.hours > 23) {
-            if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) User.flags.get<PhyllaFlags>(FlagType.Phylla).DAYS_PHYLLA_HAS_SPENT_BIRTHING++;
-            if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_GEMS_HUNTED_TODAY > 0) User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_GEMS_HUNTED_TODAY = 0;
-            if (phyllaWaifu()) User.flags.get<PhyllaFlags>(FlagType.Phylla).DAYS_PHYLLA_IN_CAMP++;
+        phyllaFlags.PHYLLA_DRIDER_INCUBATION = phyllaFlags.PHYLLA_DRIDER_INCUBATION - 1 < 0 ? 0 : phyllaFlags.PHYLLA_DRIDER_INCUBATION--;
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0 && randInt(5) === 0 && phyllaFlags.ANT_KIDS < 5000) phyllaFlags.ANT_KIDS++;
+        if (Time.hour > 23) {
+            if (phyllaFlags.PHYLLA_EGG_LAYING > 0) phyllaFlags.DAYS_PHYLLA_HAS_SPENT_BIRTHING++;
+            if (phyllaFlags.PHYLLA_GEMS_HUNTED_TODAY > 0) phyllaFlags.PHYLLA_GEMS_HUNTED_TODAY = 0;
+            if (phyllaWaifu()) phyllaFlags.DAYS_PHYLLA_IN_CAMP++;
         }
         return false;
     }
@@ -118,33 +128,36 @@ class PhyllaTimeObject implements ITimeAware {
         return false;
     }
 }
+TimeManager.add(new PhyllaPregnancy());
 
-TimeManager.add(new PhyllaTimeObject());
-
-export function phyllaWaifu(): boolean {
-    return User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_WAIFU > 0;
+function pregWithDriderBabies(): boolean {
+    return !!phyllaFlags.PHYLLA_VAGINAL_PREGNANCY_TYPE;
 }
 
-export function antColonyEncounter(player: Character) {
-    // WAIFU GET!
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS - User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES >= 2 && User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS >= 4 && player.gender > 0) {
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_STAY_HOME > 0) bumpIntoTheAntColonyAfterStayHomePhylla();
-        else antGirlGoodEnd(player);
-    }
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PC_READY_FOR_ANT_COLONY_CHALLENGE === 1)
-        antColonyChallenge(player);
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_SAVED === 1)
-        enterTheColony(player);
-    else firstAntColonyEncounter(player);
+export function phyllaWaifu(): boolean {
+    return phyllaFlags.ANT_WAIFU > 0;
 }
 
 function phyllaCapacity(): number {
-    return User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_CAPACITY;
+    return phyllaFlags.PHYLLA_CAPACITY;
+}
+
+export function antColonyEncounter(player: Character): NextScreenChoices {
+    // WAIFU GET!
+    if (phyllaFlags.ANT_ARENA_WINS - phyllaFlags.ANT_ARENA_LOSSES >= 2 && phyllaFlags.ANT_ARENA_WINS >= 4 && player.gender > 0) {
+        if (phyllaFlags.PHYLLA_STAY_HOME > 0) return bumpIntoTheAntColonyAfterStayHomePhylla();
+        else return antGirlGoodEnd(player);
+    }
+    else if (phyllaFlags.PC_READY_FOR_ANT_COLONY_CHALLENGE === 1)
+        return antColonyChallenge(player);
+    else if (phyllaFlags.PHYLLA_SAVED === 1)
+        return enterTheColony(player);
+    else return firstAntColonyEncounter(player);
 }
 
 // First Encounter
 // [Explore Desert]
-function firstAntColonyEncounter(player: Character) {
+function firstAntColonyEncounter(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("While traversing an unfamiliar part of this desert wasteland, ");
     if (player.stats.cor > 75 && player.stats.lust > 50) DisplayText(" looking for something to slake your unquenchable lusts, ");
@@ -164,8 +177,8 @@ function firstAntColonyEncounter(player: Character) {
 }
 
 // ►[Keep Hidden]
-function keepHidden(player: Character) {
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_COLONY_KEPT_HIDDEN = 1;
+function keepHidden(player: Character): NextScreenChoices {
+    phyllaFlags.ANT_COLONY_KEPT_HIDDEN = 1;
     // If Male/Female/Herm and Corruption & Libido Under 40 OR If Unsexed Leads to - If Under 40
     // If Male/[Use Dick - Herm] and Corruption & Libido Over 41 Leads to - If Over 41 - Male
     // If Female/[Use Vagina - Herm] and Corruption & Libido Over 41 Leads to - If  Over 41 - Female
@@ -179,13 +192,13 @@ function keepHidden(player: Character) {
     }
     // ►(If Over 41 - Male)
     else if (player.torso.cocks.count > 0) {
-        DisplayImage(images.showImage("ants-desert-male-firstencounter"));
+        DisplayImage(ImageName.ants_desert_male_firstencounter);
         DisplayText("You know exactly what's going to happen once the demons 'subdue' their prey.  The growing throbbing in your loins begs for release, and you quickly and quietly take off your " + player.inventory.equipment.armor.displayName + ", making sure the demons don't notice you.  You might as well watch the show as you're not gonna be able to leave unnoticed until the demons are done anyways.");
         DisplayText("\n\nWatching from your hiding spot you start to stroke your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".");
         // Start Dick Size Check
         const largestCock = player.torso.cocks.sort(Cock.LargestCockArea)[0];
         // If player can auto-fallatio:
-        if (largestCock.length >= 20) DisplayText("  Licking the head of your [cock " + (largestCock + 1) + "] in anticipation of what's to come only adds to your growing lust.");
+        if (largestCock.length >= 20) DisplayText("  Licking the head of your [cock " + (player.torso.cocks.indexOf(largestCock) + 1) + "] in anticipation of what's to come only adds to your growing lust.");
         // If player cock size tiny:
         else if (largestCock.area < 6) DisplayText("  Though your cock isn't the most impressive, it's 'got it where it counts' and you intend to make the most of it.  You lovingly tease yourself until you're fully erect; running your fingers down the ridge causes a bead of pre-cum to form on your tip.");
         // If player cock size normal:
@@ -222,7 +235,7 @@ function keepHidden(player: Character) {
     }
     // ►If Over 41 - Female
     else {
-        DisplayImage(images.showImage("ants-desert-female-firstencounter"));
+        DisplayImage(ImageName.ants_desert_female_firstencounter);
         DisplayText("Watching from your hiding spot, you consider what's going to happen and feel your pussy immediately moisten.  Your practiced hands move with deftness, slipping into your [armor].");
         DisplayText("\n\nFeeling your heat through your [armor], you quickly and quietly strip, every now and then glancing down to make sure you're not seen.  Once you're completely nude, you find a nice vantage point to view the impending rape.  By the time you've gotten yourself ready, you realize the demons have already started.");
         DisplayText("\n\nRunning your hands over your breasts, you pinch your [nipple] and give a soft coo, careful to keep your voice down.  Alas, your body's reactions start to overwhelm your senses and you slowly begin to forget that you're even trying to hide.");
@@ -251,19 +264,21 @@ function keepHidden(player: Character) {
 }
 
 // ►[Play Hero]
-function playHero() {
+function playHero(player: Character): NextScreenChoices {
     DisplayText().clear();
     // ►Introduction to Combat
     DisplayText("As the demons bear down on the ant-girl, you burst from your hiding place, raising your [weapon] to the air and uttering an impressive war cry.  Nobody, ant or otherwise, is getting raped if you have any say in the matter!");
     DisplayText("\n\nYou are now fighting demons!");
-    startCombat(new DemonPack());
-    monster.statusAffects.add(StatusAffectType.PhyllaFight, 0, 0, 0, 0);
-    return { next: playerMenu };
+    const demonPack = new DemonPack();
+    demonPack.statusAffects.add(StatusAffectType.PhyllaFight, 0, 0, 0, 0);
+    return CombatManager.beginBattle(player, [], [demonPack]);
+    // startCombat(new DemonPack());
+    // return { next: Menus.Player };
 }
 
 // ►Console ant-morph
 // After whuppin' demons!
-function consolePhylla(player: Character) {
+function consolePhylla(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("As the demons flee over the dunes, you gather your thoughts and survey the chaotic scene.  The woman you saved has taken refuge under the ruined cart, trying to conceal herself.  Her upper torso, at least, is 'hidden' inside it, but her large abdomen and black legs jut outward, giving away her poor attempts at stealth.  ");
     if (player.stats.lib >= 50) DisplayText("After taking an eyeful of her smooth, enticing pussy, revealed in her current position by the inadequacies of her loincloth, y");
@@ -276,13 +291,13 @@ function consolePhylla(player: Character) {
     DisplayText("\n\nIt's as if your mind is being assaulted by memories that are not your own.  You see a large hill deep in the desert and an extensive network of dark caves.  Day flashes to night in your mind as you see silhouetted figures emerging from the hill and one stalking off into the wilderness.  When these last images fade from your mind, you feel a tug on your consciousness, as though you are trying very hard to recall a memory you had forgotten long ago. The tug quickly becomes a pull and within seconds you feel your own memories conjured up. The most important moments of your life are brought to the forefront of your mind's eye: flashes of your home, friends, and family; your mission and entry into this land; your humble campsite and the variety of monsters you've defeated; each is pulled from your mind in turn.  This sudden transfer of information is almost too much for you to handle, and right as you're about to pass out the ant-girl breaks the kiss.");
     DisplayText("\n\nYou stagger backwards and almost fall over completely, but the ant manages to catch you. Though she herself is thin, her four arms are surprisingly strong; they do little to help the disorientation, even so.  The world spins round and round as you struggle to shake off your vertigo and the girl lowers you to the ground.  Once your thoughts are collected enough to at least sit up unassisted, you find your new friend standing in front of you with a huge smile.  You feel an odd kinship from her, as though you've known her your whole life.  That can't be right; you shake your head again trying to clear your mind.  The female... ant-morph breaks into a sprint away from you and the cart, before you can ask her what just happened.  You would attempt to pursue, but she's very quick and you can yet hardly stand upright.  She leaves you surrounded by useless trinkets in a barren part of the desert and completely stunned as to what just transpired.  Although, looking around, you think you have a better idea of where you might be in the desert - you may even know how to find that large anthill you saw when the ant-morph kissed you.  Unconsciously you whisper a name quietly under your breath as you picture the scene: \"<i>Phylla...</i>\"");
     DisplayText("\n\nYou exhale a loud sigh.  This land is still full of surprises, even after all you've seen.");
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_SAVED = 1;
+    phyllaFlags.PHYLLA_SAVED = 1;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [Enter The Colony]
 // (Explore the Desert)
-function enterTheColony(player: Character) {
+function enterTheColony(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Wandering in the desert with your new, strangely eidetic memory, it's not long until you come across the large anthill.  If it hadn't been for the visions that were projected into your mind, you'd never have guessed anything like it could be hidden in such a harsh environment.  As you approach the hill, you get the familiar feeling you're being watched.");
     DisplayText("\n\nNearing the crest, you're taken by surprise as three large ants burst out of the sand via a cleverly-concealed trapdoor.  They're much bigger than the girl you saved but seem just as muscular and, except for their large almond shaped eyes and smaller noses, appear roughly human.  They have narrow jaw lines and much sharper cheek structures, making for very masculine faces.  Where the female's abdomen was skin-toned and seemed to have large angular plates, these ants have completely smooth black abdomens.  Two of them hold makeshift spears with obsidian tips in all four hands, while the other is using a very old and very blunt short sword.  These two quickly surround you, holding you at spear-point. The one with the short sword steps forward, almost pressing his face into yours as he sniffs you.  Over his shoulder, the spear-carrying ant in front of you makes a series of clicking noises to the others.  They appear annoyed, but lower their weapons.  All three walk over to the trapdoor and the two spear-bearing ants lift it.  The one with the short sword beckons you to follow him as he descends.");
@@ -303,18 +318,18 @@ function enterTheColony(player: Character) {
     DisplayText("\n\n\"<i>When you're ready, make your way to the arena.  Good luck; I believe you will need it.</i>\"");
     DisplayText("\n\nThe ant queen gives you a dismissive wave with one of her larger arms, giving you reason to think her good will is anything but.  As you turn to leave, your eye catches Phylla's and she shyly smiles at you.  Her mother sees this and delivers a final, cryptic warning.  \"<i>One last thing before you depart, 'Champion'.  Should you fail, the consequences, for you, will be... dire.</i>\"");
     DisplayText("\n\nAs you mull over this ominous message, your guide reappears and leads you back through the maze of tunnels, to the exit of the colony.  You leave the anthill behind and head to camp, considering your best course of action.");
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PC_READY_FOR_ANT_COLONY_CHALLENGE = 1;
+    phyllaFlags.PC_READY_FOR_ANT_COLONY_CHALLENGE = 1;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // The Challenges
-function antColonyChallenge(player: Character) {
+function antColonyChallenge(player: Character): NextScreenChoices {
     DisplayText().clear();
     // (Random Encounter in the Desert)
     // Leads to - Introduction First Time
     // Leads to - Introduction Subsequent Times
     // Introduction First Time
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).MET_ANT_ARENA === 0) {
+    if (phyllaFlags.MET_ANT_ARENA === 0) {
         DisplayText("Unbidden, your feet return you to the anthill from before; a soldier peers from under a trapdoor at you when you arrive, then swings it open wide and beckons you to descend.  As you enter the colony, you find that only one path is lit with the bioluminescent fungus, leading you down a predetermined route.  Even with the low light, it's still hard to see exactly where you're going, and you find yourself holding your hands out, like a blinded man, to make sure you don't walk into a wall.  You can hear scurrying and unintelligible chattering echoing from darkened hallways as you descend deeper into the colony.  Just as you convince yourself you've taken a wrong turn and consider turning around, you stumble onto a sharp curve in the path.  Bright light issues from beyond it.");
         DisplayText("\n\nYou guard your eyes and turn the corner.  As your pupils adjust you realized you've walked into yet another huge cavern that's been hollowed out by the ants.  The entire ceiling is covered with a huge patch of fungus, making it almost as bright as high noon.  Your eyes widen as you see an underground auditorium!  Though it appears to have been recently adapted to serve as a colosseum, the fixtures of the oval arena seem to be carved out of the very bedrock of the desert.  Looking up reveals a honeycomb-like series of stands and tunnels leading higher and higher.  This colosseum could easily fit hundreds of people, if not thousands.  As you step out into the cavern, you are greeted by a thin male ant-morph holding a clipboard in two hands and black charcoal sticks in the others. Glancing down to the clipboard you see many words - names, presumably - and all of them seem to have lines through them.  Two of them even have crude skulls next to them!  The last name on the list happens to be yours.  He notices you attempting to read the other names on his list and he pulls the clipboard to his chest.");
         DisplayText("\n\n\"<i>You mind?!  Can't imagine what the Princess sees in you,</i>\" he mutters, more to himself than to you.  He pauses to look you up and down.  Judging skill based on appearance seems to be common for this race.");
@@ -326,7 +341,7 @@ function antColonyChallenge(player: Character) {
         else if (player.stats.int > 50) DisplayText("\n\nYou make a witty quip about how he might be making puppy eyes at someone who saved him from a horde of giant demon cocks, too, but he doesn't receive it well.");
         DisplayText("  After a moment he looks down and scribbles something on his chart.");
         DisplayText("\n\n\"<i>So, we're ready to start when you are.</i>\"");
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).MET_ANT_ARENA++;
+        phyllaFlags.MET_ANT_ARENA++;
     }
     // Introduction Subsequent Times
     else {
@@ -338,127 +353,122 @@ function antColonyChallenge(player: Character) {
 }
 
 // ►[Leave]
-function leaveAntColony() {
+function leaveAntColony(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Deciding to better prepare yourself first, you inform the thin fight manager that you will return later.  You leave the colony, heading back to camp.");
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function antColiseumFight() {
+function antColiseumFight(player: Character): NextScreenChoices {
     DisplayText().clear();
     // ►[Fight #1]
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS + User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES === 0) {
+    let monster: Character;
+    if (phyllaFlags.ANT_ARENA_WINS + phyllaFlags.ANT_ARENA_LOSSES === 0) {
         // (Tentacle Beast - Intro)
         DisplayText("You tell the fight manager you're ready.  He nods and leads you down into one of the two staging areas of the arena.  You watch through the bars as the stadium fills quickly.  Although pretty much every ant face looks identical to you, the larger ones who are clearly warriors stand in stark contrast with the smaller ones that must be the workers - or maybe they're just younger; you can't tell.  Watching them gather for the impending fight, you confirm the suspicion you formed when you first saw the queen's chamber: every ant-morph except the princess and the queen is male!  Gazing out into the crowd you spot the two royal personages sitting in a special area that appears to be reserved for them.  The shy princess's gaze nervously drifts toward your room and for a moment your eyes meet.");
         DisplayText("\n\nAs you raise a hand to wave, you're stopped as you hear the sounds of a shambling and banging from across the arena.  A large silhouetted beast is poked and prodded into the staging area across from you. You narrow your eyes, trying to get a glimpse of your opponent. As you do, the gates of the staging areas drop and a very angry and enraged tentacle beast thrashes out into the center of the arena.");
         DisplayText("\n\nYou're fighting a tentacle beast!");
-        startCombat(new TentacleBeast());
-        monster.statusAffects.add(StatusAffectType.NoLoot, 0, 0, 0, 0);
+        monster = new TentacleBeast();
     }
     // ►[Fight #2]
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS + User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES === 1) {
+    else if (phyllaFlags.ANT_ARENA_WINS + phyllaFlags.ANT_ARENA_LOSSES === 1) {
         // ►(Minotaur - Intro)
         DisplayText("When you arrive in the colosseum, you tell the fight manager you're ready; he nods and leads you down into one of the two staging areas for the arena.  You watch through the bars as the stadium fills almost to capacity, still resistant to the idea of so many ants living right under the sands; there must be hundreds.  Gazing out into the cheering crowd, you spot the royal family sitting in their reserved area.  The princess waves at you excitedly with two of her arms, but her mother grabs them and lowers them.  Chylla herself looks as regal and reserved as ever.  You catch the queen smiling at you, but there's something wicked behind the smile.  Before you can contemplate what it might be, the gates raise on both sides of the colosseum and you are pushed out.");
         DisplayText("\n\nYou're now fighting a minotaur and it's wielding a Giant Axe!  You quickly put two and two together and realize Chylla has set you up by arming the minotaur!  You brace yourself as the beastman charges you, roaring wildly.");
-        startCombat(new Minotaur(true));
-        monster.statusAffects.add(StatusAffectType.NoLoot, 0, 0, 0, 0);
+        monster = new Minotaur();
     }
     // ►[Fight #3]
     else {
         // (Gnoll - Intro)
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).MET_ANT_ARENA_GNOLL === 0) DisplayText("With due ceremony, the manager leads you down to one of the staging areas for the arena.  You watch through the bars as the stadium fills far past capacity.  There must be a thousand ants here... maybe even the whole colony.  Gazing out into the crowd, you pick out the royal seating and in it, Princess Phylla.  The princess is in much finer attire than you're used to seeing - her chest is actually covered by a fine red and blue dress and her hair is combed, framing her face nicely.  Her mother is nowhere to be seen, and you can tell that Phylla is taking full advantage.  She waves and cheers for you just like the crowd is and, perhaps by her orchestration, you hear the crowd pick up a chant in your name.  Seeing Phylla chant with them makes you feel invigorated.  As the gates raise, you charge out into the center of the arena, roaring your finest battle cry; your opponent is taken somewhat aback but finds resolve and braces for your charge.");
+        if (phyllaFlags.MET_ANT_ARENA_GNOLL === 0) DisplayText("With due ceremony, the manager leads you down to one of the staging areas for the arena.  You watch through the bars as the stadium fills far past capacity.  There must be a thousand ants here... maybe even the whole colony.  Gazing out into the crowd, you pick out the royal seating and in it, Princess Phylla.  The princess is in much finer attire than you're used to seeing - her chest is actually covered by a fine red and blue dress and her hair is combed, framing her face nicely.  Her mother is nowhere to be seen, and you can tell that Phylla is taking full advantage.  She waves and cheers for you just like the crowd is and, perhaps by her orchestration, you hear the crowd pick up a chant in your name.  Seeing Phylla chant with them makes you feel invigorated.  As the gates raise, you charge out into the center of the arena, roaring your finest battle cry; your opponent is taken somewhat aback but finds resolve and braces for your charge.");
         // ►(Gnoll - Intro Repeat - for people that lost once)
         else DisplayText("You move through the network of tunnels and caves and come to the colosseum once more.  You are greeted by the event manager and he ushers you down to one of the staging areas for the arena.  The noise intensifies as the colosseum fills to the brim with spectators; Phylla herself is up in her box waving to you.  You look across the arena floor and the gnoll at the other side of the arena seems just as excited to fight as you are.  The gates open and you charge each other!");
         DisplayText("\n\nYou're fighting a gnoll!");
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).MET_ANT_ARENA_GNOLL++;
-        startCombat(new Gnoll());
-        monster.statusAffects.add(StatusAffectType.NoLoot, 0, 0, 0, 0);
+        phyllaFlags.MET_ANT_ARENA_GNOLL++;
+        monster = new Gnoll();
     }
+    monster.statusAffects.add(StatusAffectType.NoLoot, 0, 0, 0, 0);
     monster.statusAffects.add(StatusAffectType.PhyllaFight, 0, 0, 0, 0);
-    return { next: playerMenu };
+    return CombatManager.beginBattle(player, [], [monster]);
 }
 
 // (Tentacle Beast - Win) Standard Tentacle Beast Win Scene. (Again we're going to need to adapt the ending so the PC does not go back to camp.)
-export function phyllaTentacleDefeat() {
+export function phyllaTentacleDefeat(player: Character): NextScreenChoices {
     DisplayText("\n\nAs you leave the arena, you are met by Princess Phylla and a large group of warrior ants; the princess is looking at the ground and twiddling her lower set of thumbs.  As you clear your throat to announce yourself she jumps and makes a strange noise that sounds like a mix between a click and 'EEP!'.  She blushes and looks at the ground again, searching for something to say.");
     DisplayText("\n\n\"<i>I'm happy you won,</i>\" she finally manages, more to the rocky earth than to you.  \"<i>Let me help you recover, I mean, if you want...</i>\"");
     DisplayText("\n\nYou give her a nod and she sets to work. She nervously dresses your wounds by using some strange paste and strips of cloth.  You try to make small talk but find it awkward under heavy guard.  Clearly you're still not welcome here.  Once Phylla's done, all but one of the guards disappear with her into the tunnels.");
     DisplayText("\n\nYou recognize the remaining guard as the guide from your first time here. At least, so you think - the only distinguishing factor is the old rusty blade he holds.  He waits patiently as you redress, then leads you out of the colony.");
     // (Player Recovers 10 Fatigue)
-    fatigue(10);
+    player.stats.fatigue -= 10;
     // (+1 Win Score)
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS++;
+    phyllaFlags.ANT_ARENA_WINS++;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // ►(Tentacle Beast - Loss) Standard Tentacle Beast Loss Scene.
-export function phyllaTentaclePCLoss() {
+export function phyllaTentaclePCLoss(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("After your defeat in the arena, you set off to leave but are stopped.  Princess Phylla is standing with a troupe of armed guards by the exit, holding a vial of clear liquid.  She doesn't look like she wants to give it to you but she extends it to you all the same.");
     DisplayText("\n\n\"<i>You lost... so you have to drink this.  I mean... I'm sorry.</i>\"");
     DisplayText("\n\nYou look at the vial inquisitively but the warriors don't look like they're going to budge until you consume the liquid.  You uncork the bottle and drink the whole thing, like a shot.  Remarkably it doesn't taste like anything.  The clear liquid is a little more viscous than water, but doesn't have much else in the way of texture.  Though you were expecting something awful to happen to you, you don't even feel any different.  As you hand back the empty bottle, the guards part to let you leave.  Although, oddly, you find yourself not really wanting to, you shake your head and return to camp.");
     // (+1 Loss Score)
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES > 3) {
-        antastrophyBadEnd();
-        return;
+    phyllaFlags.ANT_ARENA_LOSSES++;
+    if (phyllaFlags.ANT_ARENA_LOSSES > 3) {
+        return antastrophyBadEnd();
     }
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // ►(Minotaur- Win)
-export function phyllaBeatAMino() {
+export function phyllaBeatAMino(player: Character): NextScreenChoices {
     DisplayText("As you exit the arena, amidst the cheers and roars of the crowd, you are met by Princess Phylla and slightly fewer guards than the last time.  She sees you coming and her face lights up, then runs over to you and starts doting over you. You smile and let her do her thing.  Once she's done, she looks deep into your eyes.");
     DisplayText("\n\n\"<i>I... I w-was wondering... I mean...</i>\"  She raises her head to yours and just as you assume she's about to kiss you, one of the guards grunts loudly, interrupting the moment.  He then motions her to follow him into the tunnels.");
     DisplayText("\n\nYou hear someone else clear their throat behind you, and turn to see your guide, his trusty rusty blade at his side.  He simply shows you to the exit of the arena before turning and walking away.  Apparently he trusts you enough to see yourself out?  You follow the lit tunnel back to the surface.");
     // (Player Recovers 10 Fatigue)
-    fatigue(10);
+    player.stats.fatigue -= 10;
     // (+1 Win Score)
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS++;
+    phyllaFlags.ANT_ARENA_WINS++;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // ►(Minotaur- Loss)
-export function phyllaPCLostToMino() {
+export function phyllaPCLostToMino(): NextScreenChoices {
     DisplayText("After your staggering defeat and subsequent humiliation in the arena two guards approach you as you try to leave.  One of them holds out a small vial.  Princess Phylla is off in the corner of the room crying, and you try to move closer to her but one of the guards steps in front of you.  \"<i>Drink!</i>\" he commands, uncorking the vial.");
     DisplayText("\n\nIt's strange... you don't care for the idea of being commanded by an ant, but you find yourself indifferent now that you smell the liquid.  You drink the whole thing in one go; it has no taste or texture and afterwards you don't feel any different.  The guards tell you to leave again, though you don't really want to.  Looking around you, you muse that you would be completely contented with staying underground here for a while... maybe forever, if you had to!  One of the guards, however, pushes you towards the exit, causing you to stumble a bit until you catch yourself.  Before you leave, you glance at where Princess Phylla was watching you, but she's already been removed by the other dutiful guards.  You head up the path to the surface, and from there back to camp.");
     // (+1 Loss Score)
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES > 3) {
-        antastrophyBadEnd();
-        return;
+    phyllaFlags.ANT_ARENA_LOSSES++;
+    if (phyllaFlags.ANT_ARENA_LOSSES > 3) {
+        return antastrophyBadEnd();
     }
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-export function phyllaPCBeatsGnoll(player: Character) {
+export function phyllaPCBeatsGnoll(player: Character): NextScreenChoices {
     DisplayText().clear();
     // ►(Gnoll - Win First Time)
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANTS_PC_BEAT_GNOLL === 0) {
+    if (phyllaFlags.ANTS_PC_BEAT_GNOLL === 0) {
         DisplayText("As you stand over your defeated opponent and the red mist of combat fades, you finally become conscious of the crowd.  Everyone is cheering, and some are even throwing gems into the arena at your feet.  You hold your [weapon] up to the sky proudly, only making them erupt in greater roars and whistles.  As you make your way out, Phylla greets you, doting over every cut and scrape, as maternal as always.  You smile and let her do her thing.  The usual guards don't seem to be around, but you suppose they're lurking just out of sight.");
         DisplayText("\n\n\"<i>You're the most amazing champion I've ever met,</i>\" the girl says.  \"<i>I mean, not that I've met many; you're actually the first.  Er, the first I've ever talked to...</i>\"  She seems to stumble around the words - you're not sure if she's just shy or if she's unused to speaking; both, maybe.  Clearly she doesn't have a chance to talk with outsiders often.");
         DisplayText("\n\nGingerly, you raise a finger and put it to her lips, shushing her, then flash her a wink and a grin.  She blushes slightly and returns the smile.  There's no time for more than that, as two guards arrive; one to reclaim her and the other - your rust-wielding guide - to escort you out.");
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).ANTS_PC_BEAT_GNOLL++;
+        phyllaFlags.ANTS_PC_BEAT_GNOLL++;
     }
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS - User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES >= 2 && User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS >= 3 && player.gender > 0) {
-        Game.inCombat = false;
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS++;
-        antGirlGoodEnd(player);
-        return;
+    else if (phyllaFlags.ANT_ARENA_WINS - phyllaFlags.ANT_ARENA_LOSSES >= 2 && phyllaFlags.ANT_ARENA_WINS >= 3 && player.gender > 0) {
+        phyllaFlags.ANT_ARENA_WINS++;
+        return antGirlGoodEnd(player);
     }
     // ►(Gnoll - Win Repeat) Standard Gnoll Win Scene. +
     else {
         DisplayText("This isn't the first time you've accomplished this, but it still brings the crowd to their feet.  You simply stand in the center of the arena, taking it all in.  Phylla makes her way to you, blushing as the rowdy audience follows her with catcalls and demands for her to give her champion a kiss.  She tends to you as always and, when she's done, takes your hand in hers and looks at you expectantly.  You smile at her, brushing the hair from her face with your other hand; she colors deeply at the contact as two guards appear to lead you both off.  Having no more reason to stay, you allow your guide to return you to the surface.");
     }
     // (+1 Win Score)
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_WINS++;
+    phyllaFlags.ANT_ARENA_WINS++;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-export function phyllaGnollBeatsPC() {
+export function phyllaGnollBeatsPC(): NextScreenChoices {
     // ►(Gnoll - Loss First Time) Standard Gnoll Loss Scene. +
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANTS_PC_LOST_TO_GNOLL === 0) {
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).ANTS_PC_LOST_TO_GNOLL++;
+    if (phyllaFlags.ANTS_PC_LOST_TO_GNOLL === 0) {
+        phyllaFlags.ANTS_PC_LOST_TO_GNOLL++;
         DisplayText("You lie on the arena floor, listening to the crowd boo you and cheer the gnoll.  After enough time to recover yourself, you stand up and start to head to the exit.  Four guards block the way and one of them presents you with a vial of mysterious clear liquid, motioning for you to drink.  They appear disinclined to let you leave without doing so, and as you peer down into the uncorked vial, a strange tingle in the back of your head tells you not to worry.  You drink it in one gulp and the guards tell you to leave.  You are completely oblivious of Phylla crying to herself as you stroll past her.");
     }
     // ►(Gnoll - Loss Repeat)
@@ -467,15 +477,15 @@ export function phyllaGnollBeatsPC() {
         DisplayText("\n\nYou quickly grab the vial and drink its contents, irritated at being crowded by the ants.  After drinking it however, the feeling lessens somewhat.  You look at the vial absently, then shake your head.  The guards move aside and you step past them; you look around a bit for Phylla but don't see her.  Not having any reason to stay, you return to the surface.");
     }
     // (+1 Loss Score)
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_ARENA_LOSSES > 3) {
+    phyllaFlags.ANT_ARENA_LOSSES++;
+    if (phyllaFlags.ANT_ARENA_LOSSES > 3) {
         antastrophyBadEnd();
         return;
     }
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function antastrophyBadEnd() {
+function antastrophyBadEnd(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("As you go to leave the arena queen Chylla and four bodyguards approach you.");
     DisplayText("\n\n\"<i>Come with me, it's time you join our colony.</i>\" Chylla states dismissively.  You want to leave but at the same time, the idea of being underground helping the colony grow is something you never considered to be an option.");
@@ -492,14 +502,14 @@ function antastrophyBadEnd() {
 
     DisplayText("\n\n<b>Epilogue</b>\n");
     DisplayText("You live out the rest of your days in blissful ignorance, helping the colony in any way you can. Mostly you're used as an experimental sex toy. They force you to drink an uncountable number of different potions and elixirs. Eventually you start to beg for more as your mind and body crave the sexual liquids. Oftentimes Chylla even puts you in the arena, sometimes to pleasure yourself in front of the whole colony or calling upon you to service as many males as you can please at once. Sometimes you're a male, sometimes you're a female, and sometimes both. Your mind becomes completely consumed with pleasing the colony in any way you can. You never get to see the outside world or Phylla again, but you don't care. You're busy pleasing every cock placed in front of you. As long as you're helping the colony grow and become strong, nothing else matters to you.");
-    Game.gameOver();
+    return { next: Menus.GameOver };
 }
 
 // Good End
 // Good End / Waifu Content
-function antGirlGoodEnd(player: Character) {
+function antGirlGoodEnd(player: Character): NextScreenChoices {
     DisplayText().clear();
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_CAPACITY = 50;
+    phyllaFlags.PHYLLA_CAPACITY = 50;
     DisplayText("As you turn to leave, something is different; the crowd seems unusually silent. Phylla swiftly climbs down from her seat and jumps into the arena.  You glance warily at the gnoll but it's already being dragged out.  Phylla runs to you, and gives you a massive hug, wrapping all four of her arms around you and squeezing as hard as she can.  Her open display of affection leaves you more than a little shocked, given the creaking and soft cracking of bone in your body.  Interlocking her fingers with yours, she turns and raises your hands in the air, proclaiming your victory to every ant in the colony.  The awed crowd suddenly erupts, filling the stadium with cheers for your victory.  She turns towards the exit and tugs on your sleeve.");
     DisplayText("\n\nPhylla drags you blindly through myriads of unlit tunnels until you reach the Queen's chamber, where Chylla seems to be awaiting you. Though, something is different than the last time you saw her; she's dressed just as regally as Phylla is, but it appears more...  formal.");
     DisplayText("\n\n\"<i>Phylla seems to have been right about you. You are as smart as you are strong.  Though I had my doubts, you are truly something special.  You have my blessing to start your own colony with Phylla, should you choose to.</i>\" Chylla turns to her daughter and nods some kind of silent message.  You're not sure if the Ant-Queen has really warmed up to you, or she's just saying it because she must in her role as Queen, bestowing a great honor on someone she detests.  Whatever the reason, Phylla seems ecstatic about what's to come next.");
@@ -520,11 +530,11 @@ function antGirlGoodEnd(player: Character) {
 }
 
 // ►Male Continuation
-function gigititigitigitigitigityAntGirl(player: Character) {
+function gigititigitigitigitigityAntGirl(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Sporting a painfully obvious tent, your body betrays its desire for sexual gratification and it causes Phylla to smile with interest.  \"<i>I-I didn't think I had that ability to... to...  I mean I'm not like you, so I thought...</i>\" she begins, but trails off as she takes in the rough, obscured shape given off by your bulge.");
-    let cockThatFits = player.cockThatFits(phyllaCapacity());
-    if (cockThatFits < 0) cockThatFits = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
+    let cockThatFits = player.torso.cocks.find(Cock.CockThatFits(phyllaCapacity()));
+    if (!cockThatFits) cockThatFits = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
     // ***Dick(s) size less than 36 inches:
     if (cockThatFits.area < 36) {
         DisplayText("\n\nHer delicate face wears an expression of utmost curiosity.  She seems to be interested in your outline but unsure of what to do with it. As if she's never... then you recall her saying it's her first time; she's a virgin!");
@@ -578,7 +588,7 @@ function gigititigitigitigitigityAntGirl(player: Character) {
 
     // If PC has dick(s) that will fit: Jump to - Regular Male Scene Continuation
     if (cockThatFits.area <= phyllaCapacity()) {
-        return { next: malePhyllaContinuation };
+        return { next: { func: malePhyllaContinuation, args: [cockThatFits] } };
     }
     // If PC has dick(s) that won't fit: Jump to - Cunnilingus Scene Continuation
     else {
@@ -586,7 +596,7 @@ function gigititigitigitigitigityAntGirl(player: Character) {
     }
 }
 
-function malePhyllaContinuation(player: Character) {
+function malePhyllaContinuation(player: Character, cockThatFits: Cock): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Phylla stares down at your " + Desc.Cock.describeMultiCockShort(player) + " and starts nervously rubbing her hands together.  \"<i>It's my first time... I mean, I hope it isn't going to be bad for you...</i>\" she says, before trailing off; uncertain of her sexual prowess.");
     // Corruption less than 75:
@@ -614,15 +624,15 @@ function malePhyllaContinuation(player: Character) {
     DisplayText("\n\nLying against the assortment of cushions she's fashioned into a bed, Phylla glances back at you eagerly; her amateurish sexual demeanor and giddiness shine through her like light through pitch darkness.  She seems somewhat aware of this, but not as much as before; with her mind and body wholly consumed by lust, she longs only for your voice, your touch, and your inevitable penetration of her quivering form.");
 
     DisplayText("\n\nTrembling ever so slightly, her dripping ");
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("nipples and ");
+    if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("nipples and ");
     DisplayText("wet vagina betray her timidness.  You move up along the bedding and brush your " + player.skin.desc + " against her own tender flesh.  Finally, you come to rest in the perfect position for penetration, Phylla looking over her shoulder at you with longing eyes and eager lips.  As you slide your tongue inside her mouth, you feel her twitch at the foreign sensation.  Closing her eyes, Phylla instantly melts like butter as your tongue finds hers of its own volition; clearly a turn for the better for you.  Phylla finally relaxes her legs and spreads them apart; the foreign sense of humid heat from her genitals registering as it warms your nethers.");
     // (Radar note:
     // Because Phylla is a virgin, I wouldn't go past 2 inches total width for two dick penetration; you're taking her virginity, so that will be painful enough.
     // @FEN: Please note the following coding calls for two dicks that are less than two inches in total width.)
-    DisplayText("\n\nSimply dragging your " + Desc.Cock.describeCock(player, x) + " along the entrance her of moist pussy causes her to moan and wiggle under you. Parting her pink little lips with the head of your cock, you finally hit the sweet spot for penetration. With ");
+    DisplayText("\n\nSimply dragging your " + Desc.Cock.describeCock(player, cockThatFits) + " along the entrance her of moist pussy causes her to moan and wiggle under you. Parting her pink little lips with the head of your cock, you finally hit the sweet spot for penetration. With ");
     if (player.stats.cor < 75) DisplayText("a gentle amount of force, ");
     else DisplayText("an uncaring, brutish amount of force, ");
-    DisplayText("you push past the tight opening of Phylla's folds.  You hear Phylla inhale sharply as she stretches to accommodate your width. In what seems to be a prolonged amount of time, you finally manage to ease the head of your " + Desc.Cock.describeCock(player, x) + " into her.  The act takes a loud and pained turn as Phylla moans and shifts in obvious discomfort.  You feel her squeeze her vaginal walls tightly around your cock as her considerable strength almost cuts off blood flow.  After a moment, Phylla realizes how much pressure she's exerting and her body relaxes, realizing the potential for injuring her partner.  Sighing heavily, she moves her hips down to take even more of you in. As you slide further in, her eyes flash with pain as she bites down on her lip, it becomes glaringly clear that something has yielded inside of Phylla.");
+    DisplayText("you push past the tight opening of Phylla's folds.  You hear Phylla inhale sharply as she stretches to accommodate your width. In what seems to be a prolonged amount of time, you finally manage to ease the head of your " + Desc.Cock.describeCock(player, cockThatFits) + " into her.  The act takes a loud and pained turn as Phylla moans and shifts in obvious discomfort.  You feel her squeeze her vaginal walls tightly around your cock as her considerable strength almost cuts off blood flow.  After a moment, Phylla realizes how much pressure she's exerting and her body relaxes, realizing the potential for injuring her partner.  Sighing heavily, she moves her hips down to take even more of you in. As you slide further in, her eyes flash with pain as she bites down on her lip, it becomes glaringly clear that something has yielded inside of Phylla.");
     DisplayText("\n\n<b>You have taken Phylla's virginity!</b>");
     // Corruption less than 75:
     if (player.stats.cor < 75) DisplayText("\n\nHolding yourself still, you stare down at Phylla and inquire as to whether she is okay.");
@@ -637,10 +647,10 @@ function malePhyllaContinuation(player: Character) {
 }
 
 // PURE ENDING!
-function phyllaFirstTimePureBabiesFuckEnding(player: Character) {
+function phyllaFirstTimePureBabiesFuckEnding(player: Character): NextScreenChoices {
     DisplayText().clear();
-    let cockThatFits = player.cockThatFits(phyllaCapacity());
-    if (cockThatFits < 0) cockThatFits = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
+    let cockThatFits = player.torso.cocks.find(Cock.CockThatFits(phyllaCapacity()));
+    if (!cockThatFits) cockThatFits = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
     DisplayText("For a while, you allow Phylla to slowly adapt to your presence inside of her and the stretching of her vaginal walls; something she reacts to with soft moans of pleasurable appreciation.  She wears her obvious discomfort at being forcefully stretched by your " + Desc.Cock.describeCock(player, cockThatFits) + ", but you see she can hardly complain as her body cradles yours in an attempt to keep you where you are.  Once you feel she's comfortable you start slowly pumping away at her, gradually building your own rut.");
     DisplayText("\n\nYou feel the smaller set of her hands move between your [legs] and start to fondle your ");
     if (player.torso.balls.quantity > 0) DisplayText("[balls]");
@@ -670,7 +680,7 @@ function phyllaFirstTimePureBabiesFuckEnding(player: Character) {
             // Persuasion failure:
             DisplayText("\n\nPhylla ponders for a moment and shakes her head.  \"<i>I'm sorry [name], I'm not comfortable with that right now.");
             // (If player has already impregnated Phylla:
-            if (pregnancy.isPregnant) DisplayText("  I just can't hold anything else inside me. I'm sorry! Please don't be mad... I mean I will!  Just a-after... this batch...");
+            if (pregWithDriderBabies()) DisplayText("  I just can't hold anything else inside me. I'm sorry! Please don't be mad... I mean I will!  Just a-after... this batch...");
             // (If player has not impregnated: I mean...I just don't feel comfortable with that right now...
             DisplayText("</i>\"\n\n\"<i>Maybe later though...</i>\"");
             // End of persuasion failure
@@ -686,14 +696,17 @@ function phyllaFirstTimePureBabiesFuckEnding(player: Character) {
             DisplayText("\n\nShe squints and braces for the inevitable egg forcing its way into her, gasping as the oval mass finally makes contact and works its way into her.  You can feel the egg as it makes it way into Phylla, stretching her pussy out to accommodate future deposits as the frontrunner hits her cervix, and manages it to make its way inside.");
             DisplayText("\n\n\"<i>UGH! It hurts... a little~ feels so strange... I-mea~ good!</i>\" she cries out.");
             DisplayText("\n\nYou comfort her while telling her that you have a few more on the way; something that causes Phylla to beam with pride at the thought of being filled with so much new life that she will eventually birth.  Egg after egg slides into Phylla, causing her stomach to bulge bigger and bigger with your brood as you stuff more into her.  At last, the final egg is laid inside of Phylla, and with a loud pop, you  retract your ovipositor from her love hole;  you know it'll recover in time.  Phylla rubs her belly and gleams with delight, filled with her lover's future children that will help the colony to grow strong.");
-            player.dumpEggs();
-            if (!pregnancy.isPregnant) pregnancy.knockUpForce(PregnancyType.DRIDER_EGGS, 8 * 24); // Supposed to be eight days, not eight hours
+            player.pregnancy.ovipositor.dumpEggs();
+            if (!pregWithDriderBabies()) {
+                phyllaFlags.PHYLLA_VAGINAL_PREGNANCY_TYPE = PregnancyType.DRIDER_EGGS;
+                phyllaFlags.PHYLLA_DRIDER_INCUBATION = 8 * 24;
+            } // Supposed to be eight days, not eight hours
         }
         // (End Drider Continuation)
     }
     DisplayText("\n\nThe link fades not long after you both have settled down, and Phylla hums her approval as she kisses your neck lovingly.  You smile back, but never knew how strong one's maternal instincts could really be.  Hearing primal drives that are not your own was almost deafening.  Yet, you can't help but feel an appreciation for such an understanding that has been shown to you.");
     // PC has other waifus:
-    if (camp.loversCount() > 1) DisplayText("\n\nSo this is what your other lovers must feel.");
+    if (Scenes.camp.loversCount() > 1) DisplayText("\n\nSo this is what your other lovers must feel.");
     DisplayText("\n\nYou drift off to sleep not long after, while Phylla demonstrates her appreciation for the intimacy you two just shared, kissing your body and rubbing you sensually as you doze off.");
     player.orgasm();
 
@@ -701,15 +714,15 @@ function phyllaFirstTimePureBabiesFuckEnding(player: Character) {
 }
 
 // Corruption greater than 75 (Corrupt Ending):
-function phyllaCorruptMascEnding(player: Character) {
+function phyllaCorruptMascEnding(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("For a few moments longer, you pump yourself hard against her rump in an attempt to \"break\" your new fucktoy in.  Once you're satisfied that she will be able to handle what is to come, you take to sliding yourself along against her fuckhole as you grab her by the hair.  The backside of her abdomen grinds along your ");
     if (player.tallness >= 72) DisplayText("chest");
     else DisplayText("belly");
     DisplayText(", but it will only serve to help you.  You will need a brace for what you're about to pull and her rigid abdomen will do just fine.  Phylla makes a confused noise, glancing over her shoulder with a look of concern growing on her face.");
     DisplayText("\n\n\"<i>W-What are you doing?</i>\" she asks nervously. \"<i>This isn't how I imag~</i>\"");
-    let cockThatFits = player.cockThatFits(phyllaCapacity());
-    if (cockThatFits < 0) cockThatFits = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
+    let cockThatFits = player.torso.cocks.find(Cock.CockThatFits(phyllaCapacity()));
+    if (!cockThatFits) cockThatFits = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
 
     DisplayText("\n\nWithout letting her finish, you plunge your " + Desc.Cock.describeCock(player, cockThatFits) + " into her, causing her to yell out in sheer surprise and discomfort.  \"<i>This is how <b>I</b> mate!</i>\" you inform her, telling her that she won't EVER forget her first time with you.  Her mouth goes open slightly before your subsequent gyrations put an end to whatever she was going to sputter out.  Smirking like a mad jester at the position you have Phylla in, you begin to work your hips as you dominate her from behind.  You hear your ");
     if (player.torso.balls.quantity === 0) DisplayText("thighs");
@@ -719,9 +732,10 @@ function phyllaCorruptMascEnding(player: Character) {
     if (player.torso.hips.legs.isGoo()) DisplayText("  Perhaps the poor dear could use some tender attention, you ponder to yourself.  Reducing the solidity of your body, you work her abdomen deep into your sticky, goopy body, re-solidifying once she's firmly in there and lowering your hands down to her nipples, pinching them hard as you continue your pumping of her rump.");
     DisplayText("\n\nPoor Phylla can only grasp at her cushions as she struggles to maintain her comfort.  The brutish drilling of her pussy forces her to lift her rear further and further towards an acute angle. Try as she might, her efforts are no match for your barbaric tactics as you pound her love hole into oblivion.  All her attempts at maintaining a comfortable position quickly evaporate, and she resigns herself to being roughly taken from behind.  You watch as she buries her head into her cushions to muffle her howls of painful ecstasy.");
     // PC has more than one cock that is suitable:
-    let nextCockThatFits = player.cockThatFits2(phyllaCapacity());
-    if (player.torso.cocks.count < 2) nextCockThatFits = -1;
-    if (nextCockThatFits >= 0) {
+    const cocksThatFit = player.torso.cocks.filter(Cock.CocksThatFit(phyllaCapacity()));
+    let nextCockThatFits: Cock;
+    if (cocksThatFit.length > 1) nextCockThatFits = cocksThatFit[1];
+    if (nextCockThatFits) {
         DisplayText("\n\nIntent on increasing your own pleasures, you decide to work ");
         if (player.torso.cocks.count > 2) DisplayText("one of your free cocks");
         else DisplayText("your free cock");
@@ -734,14 +748,14 @@ function phyllaCorruptMascEnding(player: Character) {
         }
     }
     DisplayText("\n\nYou maintain your vice-like pressure on her abdomen as you press onward, forcing your member");
-    if (nextCockThatFits >= 0) DisplayText("s");
+    if (nextCockThatFits) DisplayText("s");
     DisplayText(" deep within her.  You further your power and control over Phylla, in a way that seems to convey to Phylla to let it all out, don't hold back, to have her completely resign herself to you.  The unconscious move unleashes a loud series of lust-filled gibberish from Phylla.  You feel her body fold to your will as she abandons her shyness and restraint, mashing her rump against you with the intent to rut along with you like two primal animals intertwined in savage mating.  You can't see it, but you taste her hunger to be bred; you can feel and visualize her attractive, beet red little face wearing her passion as she clenches her teeth, your instincts and consciousness completely taking her over and commanding her to hump and fuck your cock until she gets what her cunt hungers for.");
     DisplayText("\n\nThe minutes that follow are hard for either of you to accurately remember.  The sweating of your bodies as they grind against each other.  The smell of your coupling filling the air...  Phylla moaning out like a cheap whore who's getting paid in gold bars... the increasing noisy crescendo of flesh as you rapt, your pelvis against her pussy.  All of it is but a murky blur of fierce, barbaric lust before the final release.  As you near orgasm, you can hear something in your head... something foreign... something warning Phylla that you will lead to her downfall.  Pleading with her to get away from your corruptive taint...  the instantaneous cockblocking voice of concern is quickly drowned out in a loud series of unmuffled wails and moans as Phylla nears climax.  You ignore the strange pleas but you aren't sure if she heard it or was she was the one thinking it.  The distraction gone, you continue thrusting wildly against her.");
     DisplayText("\n\nWith a roar that would cause even gods to notice, you explode into her.  Your cock");
     if (player.torso.cocks.count > 1) DisplayText("s twitch, ");
     else DisplayText(" twitches, ");
     DisplayText("ushering forth your corrupted seed into her womb");
-    if (nextCockThatFits >= 0) DisplayText(" and her ass.");
+    if (nextCockThatFits) DisplayText(" and her ass.");
     else DisplayText(", and onto the bedspread below.");
     DisplayText("  As her pulsing cunt works to suck the semen out of your ");
     if (player.torso.balls.quantity > 0) DisplayText("balls");
@@ -760,7 +774,7 @@ function phyllaCorruptMascEnding(player: Character) {
 }
 
 // Cunnilingus Scene: (Triggered if PC does NOT have a dick that is suitable for vaginal sex with Phylla.)
-function cuntmuffinLingusPhyllaDickBig(player: Character) {
+function cuntmuffinLingusPhyllaDickBig(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Sadly, as you gaze down at your " + Desc.Cock.describeMultiCockShort(player) + ", you realize that trying to penetrate Phylla with your freakishly large prick");
     if (player.torso.cocks.count > 1) DisplayText("s");
@@ -817,16 +831,16 @@ function cuntmuffinLingusPhyllaDickBig(player: Character) {
     DisplayText(" down?  I mean, I'm not complaining!  But I... just... I mean... you... inside me,</i>\" she shyly remarks, obviously wanting something more... traditional.");
     // (Player lust increases to 100)
     player.stats.lustNoResist = 100;
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).DIDNT_FUCK_PHYLLA_ON_RECRUITMENT = 1;
+    phyllaFlags.DIDNT_FUCK_PHYLLA_ON_RECRUITMENT = 1;
     // Where the fuck is this going?
 
     return { next: waifuQuestOver };
 }
 
 // ►Female Continuation
-function femalePhyllaFirstFuckGooooo(player: Character) {
+function femalePhyllaFirstFuckGooooo(player: Character): NextScreenChoices {
     DisplayText().clear();
-    DisplayText("Eager to get to some good old fashion fun, you direct your thoughts to Phylla, telling her to 'remove her clothing'.  After all of the pieces of her royal attire are removed, she closes in and rubs her naked body against yours.  Her fingers move fluidly as she slowly traces her ever hardening nipples along your chest and along the ridges of your back, sending a sensual chill up and down your spine.  Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s harden in response, and with surprising speed she shifts her body downward and locks her mouth around your nipple, firmly suckling at your hardened areola.");
+    DisplayText("Eager to get to some good old fashion fun, you direct your thoughts to Phylla, telling her to 'remove her clothing'.  After all of the pieces of her royal attire are removed, she closes in and rubs her naked body against yours.  Her fingers move fluidly as she slowly traces her ever hardening nipples along your chest and along the ridges of your back, sending a sensual chill up and down your spine.  Your " + Desc.Breast.describeNipple(player, player.torso.chest.get(0)) + "s harden in response, and with surprising speed she shifts her body downward and locks her mouth around your nipple, firmly suckling at your hardened areola.");
     // If PC Lactating:
     if (player.lactationQ() > 250) DisplayText("\n\nYou can feel her suck some of the milk from your breasts, slating her weak thirst in the process as she becomes immensely aroused at the sensation of \"nursing\" from her lover's " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + ".  Weird... you can taste the nutritious warmth of your nectar as it flows down her throat and into her stomach.  Drinking and tasting one's own breast milk could definitely weird someone out, but the foreignness of the act is an odd turn-on for you, and you let her continue to suckle.");
 
@@ -860,13 +874,11 @@ function girlFiller(player: Character): NextScreenChoices {
     DisplayText("\"<i>I-I've... never,</i>\" she stammers, but you just want her to experience this before she ruins the moment.");
     DisplayText("\n\nRocking your hips you see the exact reaction you expected as Phylla moans into the air, arching her back and instinctively rocking her hips into yours.");
 
-    return {
-        next: { func: scissorContinue, args: [true] }
-    };
+    return { next: { func: scissorContinue, args: [true] } };
 }
 
 // If PC Herm/Has (a) cock(s):
-function femalePhyllaFirstTimePlusCock(player: Character) {
+function femalePhyllaFirstTimePlusCock(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You coo at the prospect of finally allowing your tongue to go to town on her, but right as you're considering what to do you feel something enter you, causing you to let out a surprised moan.  Looking down, you expect to see her mouth still firmly planted on your clit; instead, the chitinous lover's fingers has begun to penetrate your pussy, while her other free arm");
     DisplayText(" has taken");
@@ -880,7 +892,7 @@ function femalePhyllaFirstTimePlusCock(player: Character) {
     DisplayText("\n\nThen a sudden image, and sensation of shock fires into your mind;  Her whole body seems to tense up and with a sudden hip grinding pulse, she orgasms; moaning so loud it seems to echo off the walls.  Well toned legs squeeze tightly against your head, and then relax with a hearty groan as she squirts her girl cum all over you. Your hand and face are utterly drenched with her warm love juices and you try to drink up what you can... but there's just too much!");
     DisplayText("\n\nShe rolls off of you in a state of absolute euphoria. You sit up on your elbows and make eye contact with her for a moment, causing her to giggle as she admires her comedic handiwork.  Of course, the once shy Ant Morph now eyes your own drooling pussy.  She looks as though she's about to continue stimulating you, but then you think of a better idea.  It's time you take control.");
     // (If dick(s) (is/are) huge, length unknown - Jump to - Dick(s) too Big)
-    if (player.smallestCockArea() > phyllaCapacity()) {
+    if (player.torso.cocks.sort(Cock.SmallestCockArea)[0].area > phyllaCapacity()) {
         // Dicks too Big:
         DisplayText("\n\nDespite your best efforts to try and get into a comfortable position to scissor, your painfully erect  " + Desc.Cock.describeMultiCockShort(player) + " prevent you from doing so, given that they are now compressed against the ceiling.  While the display of rainbows is pretty to watch on your " + Desc.Cock.describeMultiCockShort(player) + ", the crushing pain and the unyielding nature of your " + Desc.Cock.describeMultiCockShort(player) + " is too much.  ");
 
@@ -904,7 +916,7 @@ function femalePhyllaFirstTimePlusCock(player: Character) {
     // (If applicable transitions to - Freakishly huge dick(s))
     // (If not applicable transition to - Scissoring w/ Dick(s))
     // Freakishly huge dick(s):
-    if (player.smallestCockArea() > phyllaCapacity()) {
+    if (player.torso.cocks.sort(Cock.SmallestCockArea)[0].area > phyllaCapacity()) {
         DisplayText("\n\nYou start rocking your hips and your pussies kiss, fluids mixing harmoniously together as shots of pleasure pass through both of you.  Her clit seems to penetrate further and further into yours with every push, and though it's not enough to fully enter you, the sensation on the inside sends wave after wave of euphoric bliss over the both of you.");
         // (Leads to - Scissoring w/ Dick(s))
     }
@@ -914,41 +926,43 @@ function femalePhyllaFirstTimePlusCock(player: Character) {
     else {
         DisplayText("\n\n[EachCock] hungers for attention, having been let go by Phylla when you shifted into a scissoring position.  Reaching down to start taking care of yourself; Phylla interrupts you abruptly.  \"<i>Oh, I'm sorry! I mean... I forgot... just feels... so gooood,</i>\" she coos between moans of ecstasy.  After a moment she seems to forget as waves of pleasure wash over her.  You make a playful throat clearing noise and gesture to your " + Desc.Cock.describeMultiCockShort(player) + ".  Phylla quickly snaps back into reality and takes hold of ");
         // Tentacle dick check
-        if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length > 0) {
+        const tentacleCock = player.torso.cocks.find(Cock.FilterType(CockType.TENTACLE));
+        if (tentacleCock && tentacleCock.length > 0) {
             // PC has (a) Tentacle dick(s):
             DisplayText("your tentacle dick");
-            if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length > 1) DisplayText("s");
+            if (tentacleCock.length > 1) DisplayText("s");
             DisplayText(".  Clearly she's never seen anything like it before as she doesn't know what to do.  Laughing, you tell Phylla she doesn't need to do anything except hold still.  You snake your tentacle cock");
-            if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length > 1) DisplayText("s");
+            if (tentacleCock.length > 1) DisplayText("s");
             DisplayText(" up her body, making sure to caress her most tender places on their way.  She screams out loudly in shock only to realize what happened when she looks down.  \"<i>God, you scared me!</i>\" she yells, embarrassed that she got frightened half to death by your dick");
-            if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length > 1) DisplayText("s");
+            if (tentacleCock.length > 1) DisplayText("s");
             DisplayText(".  Laughing at her display, you motion to your prick");
-            if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length > 1) DisplayText("s and wiggle them ");
+            if (tentacleCock.length > 1) DisplayText("s and wiggle them ");
             else DisplayText(" and wiggle it ");
             DisplayText("in front of her, like a worm to a bird in her face.  \"<i>Aw, does someone need some attention?</i>\" Phylla teases, taking ");
             // PC has:
             // one tentacle dick:
-            if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length === 1) DisplayText("your cock into her mouth as she continues to rock her hips into yours.");
+            if (tentacleCock.length === 1) DisplayText("your cock into her mouth as she continues to rock her hips into yours.");
             // two:
-            else if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length === 2) DisplayText("your cocks into her mouth and between her breasts as she continues to rock her hips into yours.");
+            else if (tentacleCock.length === 2) DisplayText("your cocks into her mouth and between her breasts as she continues to rock her hips into yours.");
             else DisplayText("your cocks into her mouth, between her breasts, and along her body.  The ones on her body tightly wrap around her insectile joints, using her muscular curves to get you off.");
             // End TD check; if TD's are present, ignore non-TD check and, below, and skip to scissoring continuation.
         }
         else {
             // PC has one/two dick(s) not exceeding 4 inches in width total:
-            if (player.torso.cocks.count === 2 && (player.cockArea(player.smallestCockIndex2()) + player.cockArea(player.torso.cocks.sort(Cock.SmallestCockArea)[0]) <= phyllaCapacity()))
+            const sortedSmallestCocks = player.torso.cocks.sort(Cock.SmallestCockArea);
+            if (player.torso.cocks.count === 2 && sortedSmallestCocks[0].area + sortedSmallestCocks[1].area <= phyllaCapacity())
                 DisplayText("two of your " + Desc.Cock.describeMultiCockShort(player) + ", stroking them apologetically as she scissors you.  You feel her almost insatiable appetite for all parts of your body.  You feel Phylla's mind slowly becoming lost in pleasure.");
             // TODO: "player.torso.cocks.list[player.torso.cocks.sort(Cock.SmallestCockArea)[0]] < 4" changed to cockLength. Not sure if it is the appropriate attribute.
-            else if (player.torso.cocks.sort(Cock.SmallestCockArea)[0].length < 4) DisplayText("your " + Desc.Cock.describeCock(player, player.torso.cocks.sort(Cock.SmallestCockArea)[0]) + ", stroking it apologetically as she scissors you.  You feel her almost insatiable appetite for all parts of your body.  You feel Phylla's mind slowly becoming lost in pleasure.");
+            else if (sortedSmallestCocks[0].length < 4) DisplayText("your " + Desc.Cock.describeCock(player, sortedSmallestCocks[0]) + ", stroking it apologetically as she scissors you.  You feel her almost insatiable appetite for all parts of your body.  You feel Phylla's mind slowly becoming lost in pleasure.");
             // PC only has a dick(s) that('s) (are) more than 4 inches in width:
-            else DisplayText("your " + Desc.Cock.describeCock(player, player.torso.cocks.sort(Cock.SmallestCockArea)[0]) + ", but she simply can't fit any number of her hands around the entirety of your glans; instead, she takes to caressing the head of your " + Desc.Cock.describeCock(player, player.torso.cocks.sort(Cock.LargestCockArea)[0]) + ".");
+            else DisplayText("your " + Desc.Cock.describeCock(player, sortedSmallestCocks[0]) + ", but she simply can't fit any number of her hands around the entirety of your glans; instead, she takes to caressing the head of your " + Desc.Cock.describeCock(player, player.torso.cocks.sort(Cock.LargestCockArea)[0]) + ".");
             // (Leads to - Scissoring Continuation)
         }
     }
-    scissorContinue(player, undefined, false);
+    return scissorContinue(player, false);
 }
 
-function scissorContinue(player: Character, event?: Event, clear: boolean): NextScreenChoices {
+function scissorContinue(player: Character, clear: boolean): NextScreenChoices {
     if (clear) DisplayText().clear();
     else DisplayText("\n\n");
     // Scissoring Continuation
@@ -972,7 +986,7 @@ function getAntWaifuYoShit(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You smile at her and tell her you would love for her to join you at your camp.  Her face brightens like the sun and she quickly gathers the very few possessions she owns - mostly clothing, the pillows, and some jewelry.  Together you promptly leave the colony and head back to camp.");
     DisplayText("\n\n(<b>Phylla has moved in!  She can be found in the lovers tab!</b>)");
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_WAIFU = 1;
+    phyllaFlags.ANT_WAIFU = 1;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
@@ -983,7 +997,7 @@ function tellPhyllaToStayTheFuckAtHomeThatCunt(): NextScreenChoices {
 
     DisplayText("\n\nAs you turn to leave she quickly says, \"<i>If you ever feel your camp is safe enough for me to join you, p-please come get me.  If you want.  I mean, I'm not going anywhere... not that I could with my mother watching anyway...</i>\"");
     DisplayText("\n\nYou nod and without another word, head back to camp.");
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_STAY_HOME = 1;
+    phyllaFlags.PHYLLA_STAY_HOME = 1;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
@@ -1004,15 +1018,14 @@ function bumpIntoTheAntColonyAfterStayHomePhylla(): NextScreenChoices {
     return { choices: [["Come2Camp", getAntWaifuYoShit], ["Stay Here", tellPhyllaToStayTheFuckAtHomeThatCunt]] };
 }
 
-export function introductionToPhyllaFollower() {
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_CAPACITY < 50) User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_CAPACITY = 50;
+export function introductionToPhyllaFollower(player: Character): NextScreenChoices {
+    if (phyllaFlags.PHYLLA_CAPACITY < 50) phyllaFlags.PHYLLA_CAPACITY = 50;
     DisplayText().clear();
-    if (pregnancy.isPregnant && pregnancy.incubation === 0) {
-        phyllaLaysSomeDriderEggs();
-        return;
+    if (pregWithDriderBabies() && phyllaFlags.PHYLLA_DRIDER_INCUBATION === 0) {
+        return phyllaLaysSomeDriderEggs(player);
     }
     // [Follower > Phylla Intro (First Time)]
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_CAMP_VISITS === 0) {
+    if (phyllaFlags.PHYLLA_CAMP_VISITS === 0) {
         DisplayText("Gazing into the distance, you see a small dirt hill you can only assume is the beginning of Phylla's colony.  Every now and then you see Phylla's silhouette pop out of the hole then immediately dive back into it.  You smile to yourself as you walk along the unfamiliar path towards the growing anthill.  Not very long after you start down the path, you end your journey at the base of her colony's entrance.  It's pretty impressive that Phylla has moved so much earth in such a small amount of time given that she is alone and 'royalty.'  Then again, she has four arms.  You cautiously make your way down through the threshold of the colony's entrance.  As you walk down the tunnel, you can't help but see the contrast between this single tunnel and her mother's massive, bewildering, colony.");
         DisplayText("\n\nYou come to the end of the tunnel and find Phylla sprawled on her pillows, napping, completely naked.  She seems to have hollowed out a makeshift room for herself.  Everything in the room is carved out of stone.  Then you realize something; this room is almost a carbon copy of your campsite on the surface!  It's even complete with a bedroll and firepit, both completely made of stone, rendering them quite useless.  Clearly Phylla did this to make you more comfortable, but failed in a very cute way.  She wakes up with a weary yawn, stretching all six of her limbs and flexing her abdomen.  Opening her eyes groggily, she jumps in surprise when she notices you standing in her doorway.  Clearly startled, Phylla frantically grasps for her pillows to cover her nudity.");
 
@@ -1036,7 +1049,7 @@ export function introductionToPhyllaFollower() {
         DisplayText("\n\n\"<i>W-we only need to have sex the one time, I mean! I want to have sex with you more!</i>\"  She quickly covers her mouth and blushes deeply after her mind catches up to what her mouth just blurted out.  Drawing her arms inward around her body, she stoops low in embarrassment but continues on.");
 
         DisplayText("\n\n\"<i>Ever since my first time with you, I've been pregnant.  I can choose to have children or not.  I-I mean.. my kind, lay eggs. They grow up fast... or fast compared to people like you.  So if you want, I can build us a colony full of our offspring, or I can just be here all by myself.  I don't care as long I'm with you.  The choice is up to you. I mean, if you don't mind.  You don't have to make this choice now either; I mean, I'm always here.</i>\"");
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).DIDNT_FUCK_PHYLLA_ON_RECRUITMENT === 1 && player.torso.cocks.count > 0) {
+        if (phyllaFlags.DIDNT_FUCK_PHYLLA_ON_RECRUITMENT === 1 && player.torso.cocks.count > 0) {
             DisplayText("\n\nYou raise your eyebrow and ask her how she can be pregnant if you never stuck it in.");
             DisplayText("\n\nShe takes a deep breath and continues.");
             DisplayText("\n\n\"<i>I don't need semen to have children; I just need certain fluids.</i>\"  Again she blushes and half covers her face with a pillow.  She looks as if she's not going to continue until she looks down between your legs.  \"<i>You were kind of leaking them...</i>\"  All she can muster is a deeper blush...");
@@ -1055,9 +1068,9 @@ export function introductionToPhyllaFollower() {
         DisplayText("Making your way down the familiar path away from your camp it's not long until you reach the growing anthill that is Phylla's campsite-adjacent colony.  You climb to the crest of the ever increasing anthill, and enter down the passage to the caves below.  Once you get to Phylla's room, you see she's working on carving something on the wall.  Half of it looks like a copy of the art you did and the other half looks like a map of her colony with all the networked caves.");
 
         // If <10 days in camp:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).DAYS_PHYLLA_IN_CAMP < 10) DisplayText("\n\nSo far the map of the caves doesn't look very impressive.");
+        if (phyllaFlags.DAYS_PHYLLA_IN_CAMP < 10) DisplayText("\n\nSo far the map of the caves doesn't look very impressive.");
         // If <30 days in camp:
-        else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).DAYS_PHYLLA_IN_CAMP < 30) DisplayText("\n\nThe map of the cave network is starting to look pretty impressive. You could get lost for quite awhile if you didn't know where you were going.");
+        else if (phyllaFlags.DAYS_PHYLLA_IN_CAMP < 30) DisplayText("\n\nThe map of the cave network is starting to look pretty impressive. You could get lost for quite awhile if you didn't know where you were going.");
         // If <100 days in camp:
         else DisplayText("\n\nJust looking at the carving makes your head spin.  It's almost certain that if you didn't know where you were going, you could easily get lost forever.");
 
@@ -1065,60 +1078,64 @@ export function introductionToPhyllaFollower() {
         DisplayText("\n\n\"<i>You came back! I mean... I hope you like it. I mean welcome... What do you want to talk about?</i>\"");
     }
     // [Talk] [Sex] [Lay Eggs / Don't Lay Eggs] [Children] [Appearance] [Gems]
+    const choices = [];
+    choices[0] = ["Talk", phyllaTalkChoices];
+    if (player.stats.lust >= 33) choices[1] = ["Sex", phyllaSexMenu];
+    if (phyllaFlags.PHYLLA_EGG_LAYING === 0) choices[2] = ["Lay Eggs", phyllaLaysEggsToggle];
+    else choices[2] = ["No Eggs", phyllaLaysEggsToggle];
+    if (phyllaFlags.ANT_KIDS > 0) choices[3] = ["Children", phyllasKidsChildren];
+    choices[4] = ["Appearance", phyllaPearance];
+    choices[5] = ["Find Gems", phyllaDigsForGems];
 
-    MainScreen.addButton(0, "Talk", phyllaTalkChoices);
-    if (player.stats.lust >= 33) MainScreen.addButton(1, "Sex", phyllaSexMenu);
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING === 0) MainScreen.addButton(2, "Lay Eggs", phyllaLaysEggsToggle);
-    else MainScreen.addButton(2, "No Eggs", phyllaLaysEggsToggle);
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 0) MainScreen.addButton(3, "Children", phyllasKidsChildren);
-    MainScreen.addButton(4, "Appearance", phyllaPearance);
-    MainScreen.addButton(5, "Find Gems", phyllaDigsForGems);
-    MainScreen.addButton(9, "Back", camp.campLoversMenu);
-
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_CAMP_VISITS++;
+    phyllaFlags.PHYLLA_CAMP_VISITS++;
+    return { choices, persistantChoices: [["Back", Scenes.camp.campLoversMenu]] };
 }
 
-function phyllaSexMenu(player: Character) {
+function phyllaSexMenu(player: Character): NextScreenChoices {
+    const choices = [];
     if (player.torso.cocks.count > 0) {
-        MainScreen.addButton(0, "Get BJ", phyllaBeeeJays);
+        choices[0] = ["Get BJ", phyllaBeeeJays];
         // \"<i>Use Dick</i>\"
-        MainScreen.addButton(1, "Fuck Her", dickPhylla);
+        choices[1] = ["Fuck Her", dickPhylla];
         // [While Giving Birth]
         // (Note: The above option will only be available if Phylla is 'Laying Eggs.')
         // While Giving Birth (Male) - Written
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0 && User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS >= 10) MainScreen.addButton(1, "Fuck Her", dudesFuckEggLayingBitches);
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 10 && player.stats.cor >= 75) MainScreen.addButton(3, "Orgy (Male)", orgyWithDatColonyCorruptDudes);
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0 && phyllaFlags.ANT_KIDS >= 10) choices[1] = ["Fuck Her", dudesFuckEggLayingBitches];
+        if (phyllaFlags.ANT_KIDS > 10 && player.stats.cor >= 75) choices[3] = ["Orgy (Male)", orgyWithDatColonyCorruptDudes];
     }
     // Straight Sex (Lesbian/Fisting) - Written
     if (player.torso.vaginas.count > 0) {
-        MainScreen.addButton(2, "Lesbian Sex", lesbianFisting);
+        choices[2] = ["Lesbian Sex", lesbianFisting];
         // While Giving Birth (Female) - Written
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0 && User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS >= 10) MainScreen.addButton(2, "Lesbian Sex", birfingSexWithAntsForDasLadies);
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0 && phyllaFlags.ANT_KIDS >= 10) choices[2] = ["Lesbian Sex", birfingSexWithAntsForDasLadies];
         // Orgy w/ Colony (Female)
         // You tell Phylla you're interested in 'inspecting' your children.
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 10 && player.stats.cor >= 75) MainScreen.addButton(4, "Orgy (Female)", antColonyOrgy4Ladies);
+        if (phyllaFlags.ANT_KIDS > 10 && player.stats.cor >= 75) choices[4] = ["Orgy (Female)", antColonyOrgy4Ladies];
     }
     // Drider/Bee impregnation scene for Phylla (universal unless otherwise specified, which will include varied intros and stuff.
     // Sex > [Egg Phylla]
-    if (player.canOvipositSpider()) MainScreen.addButton(5, "Oviposit", eggDatBitch);
-    MainScreen.addButton(9, "Back", introductionToPhyllaFollower);
+    if (player.canOvipositSpider()) choices[5] = ["Oviposit", eggDatBitch];
+    return { choices, persistantChoices: [["Back", introductionToPhyllaFollower]] };
 }
 
-function phyllaTalkChoices() {
-
-    MainScreen.addButton(0, "History", talkAboutAntHistory);
-    // (Ant Morph Mating Ritual / Inherited Knowledge)
-    MainScreen.addButton(1, "Mating", talkAboutAntMatingAndRituals);
-    // (Phylla's Life Past & Future)
-    MainScreen.addButton(2, "Her Life", phyllasLifePastAndFuture);
-    MainScreen.addButton(9, "Back", introductionToPhyllaFollower);
+function phyllaTalkChoices(): NextScreenChoices {
+    return {
+        choices: [
+            ["History", talkAboutAntHistory],
+            // (Ant Morph Mating Ritual / Inherited Knowledge)
+            ["Mating", talkAboutAntMatingAndRituals],
+            // (Phylla's Life Past & Future)
+            ["Her Life", phyllasLifePastAndFuture],
+            ["Back", introductionToPhyllaFollower],
+        ], persistantChoices: [["Back", introductionToPhyllaFollower]]
+    };
 }
 
 // ►[Talk]
 // ..(Ant Morph History)
-function talkAboutAntHistory(player: Character) {
+function talkAboutAntHistory(player: Character): NextScreenChoices {
     DisplayText().clear();
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).TALKED_WITH_PHYLLA_ABOUT_HISTORY = 1;
+    phyllaFlags.TALKED_WITH_PHYLLA_ABOUT_HISTORY = 1;
     DisplayText("You relax on one of the many available pillows and ask Phylla about her race's history. She pulls a pillow up next to yours and cuddles in.  \"<i>It's not a very happy story, are you sure you want to hear it?</i>\" You nod and move your hand to hold one of hers.");
 
     DisplayText("\n\nShe looks down into the darkened tunnel that leads to her room, seeming slightly detached for a moment.  \"<i>There was a time when my people were very prevalent here in Mareth.  We were called the Myrmi by different Tribes.  Though we never really interacted, I mean... we would forage on the surface sometimes, but we mostly kept to ourselves.  The only time we truly interacted with the surface is when a new Princess would go out looking for... for... suitors... if she couldn't find one among her own colony.</i>\"  A flush of red washes over her face as she continues.");
@@ -1189,7 +1206,7 @@ function talkAboutAntHistory(player: Character) {
 }
 
 // (Ant Morph Mating Ritual / Inherited Knowledge)
-function talkAboutAntMatingAndRituals(player: Character) {
+function talkAboutAntMatingAndRituals(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You've always wondered how Phylla can project thoughts and images of her life into your mind. Seeing as how she's not busy, you ask her about it.  She tilts her head, trying to think of a way to explain it.  You can see this is taking some thought as she stays silent for almost a minute.");
     DisplayText("\n\n\"<i>It's what we call Inherited Knowledge.  No doubt you felt it when you saved me from the demons. I-I 'marked' you as my potential mate with it.</i>\"  She blushes.  \"<i>I mean! It's not like that.</i>\" She waves all four of her hands frantically.  \"<i>I mean, we princesses have to choose mates that way! Y-you were my first; I had no idea what to expect myself.</i>\"");
@@ -1198,11 +1215,11 @@ function talkAboutAntMatingAndRituals(player: Character) {
 
     DisplayText("\n\nYou're well aware of that and you make a wickedly playful face to show her you know.  She blushes deeply, her cheeks turning bright red and her hands start to fidget.  \"<i>During mating... I-I mean s-sex, is when the link is the strongest. It's when both minds are open.  It's also why we can... control each others' urges.</i>\"  Phylla still seems very shy when it comes to talking about sex.");
     // If Phylla has ever Laid Eggs:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 0) DisplayText("\n\n\"<i>Unlike trying to connect to you, I can share knowledge freely with all of my children.  We never even need to make physical contact.  In the same way, they can share with me.</i>\"");
+    if (phyllaFlags.ANT_KIDS > 0) DisplayText("\n\n\"<i>Unlike trying to connect to you, I can share knowledge freely with all of my children.  We never even need to make physical contact.  In the same way, they can share with me.</i>\"");
     // If player has made Phylla have Drider Children:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_TIMES_DRIDER_EGG_LAYED > 0) DisplayText("\n\n\"<i>This of course doesn't extend to our non-ant children.  Like our lovely drider offspring for instance.</i>\"");
+    if (phyllaFlags.PHYLLA_TIMES_DRIDER_EGG_LAYED > 0) DisplayText("\n\n\"<i>This of course doesn't extend to our non-ant children.  Like our lovely drider offspring for instance.</i>\"");
     // If Phylla has Ant Children:
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 0) {
+    else if (phyllaFlags.ANT_KIDS > 0) {
         DisplayText("\n\nYou're a little amazed; you ask her if she can sense all of her children right now.  \"<i>It's not like that. I mean... feeling their every thought, all the time, would probably kill me.</i>\"  She pauses, trying to clear the morbid thought from her mind before a brilliant analogy pops into her head.  You comment that you aren't sure that would happen, but the inevitable headaches would certainly be debilitating.  Or drive her crazy.");
     }
     DisplayText("\n\n\"<i>It's like trying to think of every number between 1 and a 100 at the same time.  I can pick out numbers, but thinking about them all at once is too much.  I can also feel if one of them is in trouble or is sending me a specific feeling.  Fear, triumph, or kinds of rock or dirt...</i>\"");
@@ -1233,7 +1250,7 @@ function talkAboutAntMatingAndRituals(player: Character) {
         DisplayText("\n\nAnd?  \"<i>...and my nipples.</i>\"  Her nipples immediately get hard.  Either from her hands rubbing them or her talking about them, you're not quite sure.");
 
         // If Phylla is not laying eggs:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING === 0) DisplayText("\n\n\"<i>They don't produce milk unless I'm laying, but... they're very sensitive. I mean, you know that already.</i>\"  Seeing her struggle like this is thrilling in a very sexual way. You ask her just how sensitive they are.  \"<i>I don't... I mean...</i>\" She looks away from you as you stare at her.  You tell her to play with them. You want to see how sensitive they are.  She does, eliciting a gasp of surprised excitement from her open mouth.");
+        if (phyllaFlags.PHYLLA_EGG_LAYING === 0) DisplayText("\n\n\"<i>They don't produce milk unless I'm laying, but... they're very sensitive. I mean, you know that already.</i>\"  Seeing her struggle like this is thrilling in a very sexual way. You ask her just how sensitive they are.  \"<i>I don't... I mean...</i>\" She looks away from you as you stare at her.  You tell her to play with them. You want to see how sensitive they are.  She does, eliciting a gasp of surprised excitement from her open mouth.");
         else DisplayText("\n\n\"<i>R-right now they're much bigger because... I-I'm producing milk for our children.</i>\"  You can tell she hasn't been suckled recently as her breasts are much larger than normal. You ask to see her milk.  Shocked, she turns her head away but does as she's told.  Her two larger hands cup the bottom on her breasts and give a squeeze. You hear her moaning exhale as white milk sprays out of her nipples.  She does it again without you even telling her to - again a louder moan escapes her.  \"<i>I t-told you they're very sensitive...</i>\" Phylla says between deep breaths.");
 
         DisplayText("\n\nYou make a quip about how you'll keep that in mind the next time you two have sex. She quickly covers her chest with her hands, retracting inward.  \"<i>I don't want to... I mean... I do, but... I'm embarrassed... P-please...</i>\"");
@@ -1249,12 +1266,12 @@ function talkAboutAntMatingAndRituals(player: Character) {
             DisplayText("\n\n\"<i>My... c... cunt,</i>\" she says with a defeated tone.");
 
             DisplayText("\n\nYou tell her you can see her clit sticking out from between her lips.  She quickly looks down and confirms your words.  She quickly places all four of her hands over her pussy, uncovering her still hardened ");
-            if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("milk dripping ");
+            if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("milk dripping ");
             DisplayText("nipples.  You tell her you want to see the inside and for her to explain why she doesn't give birth from it.  By this time, you can see you've started making her horny and her modesty is slowly melting away.  She parts her pussy lips for you with her larger arms and then starts pointing at her long clit with one of her lower hands.");
 
             DisplayText("\n\n\"<i>This is my... m-my...</i>\"  With a gulp of courage she continues.  \"<i>My clitoris.  It's hypersensitive and just touching it can cause me to...</i>\" Her voice trails off.  \"<i>Cause you to...?</i>\"  You probe for the answer with a smile on your face, knowing she isn't looking at you anyway.  \"<i>Orgasm.</i>\"  She says blankly.  You can tell by her changing tone and attitude her lust must be consuming all her thoughts.  You ask for a demonstration, causing her head to twist around to give you a long, hard stare.  You've wiped the wicked smile from your face and replaced it with an innocently inquiring one; a true master of deception on one shoulder, and a devil in disguise on the other.");
             DisplayText("\n\nWith her two upper hands still holding her pussy open for you to see, the lower hand not resting on her clit starts to run up and down the entrance of her quickly moistening cunt.  She moves her smaller right hand and starts from the tip of her love button and slowly runs all her fingers down it.  She moans loudly every time she reaches the base of her clit. Her shoulders tense up and her body shakes as she almost instantly builds to an orgasm.  The resulting climaxes, as you are well aware, are very messy.  With her small left hand, she thrusts two of her fingers into herself, and you watch as she moans deeply and starts masturbating her clit quicker. The two larger hands cease holding her pussy lips apart and start to pinch her nipples");
-            if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText(", sending jets of milk shooting out onto the floor");
+            if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText(", sending jets of milk shooting out onto the floor");
             DisplayText(".  With a loud moan she orgasms, covering her smaller two forearms, her inner thighs, and the floor below her in thick, sweet-smelling, girl cum.");
 
             DisplayText("\n\nShe looks at her smaller hands as she pulls them away from her soaked cunt. They're completely covered in her juices.  Amazed at herself after what she did to herself in front of you, she looks at you blankly for guidance.  You then ask her how many orgasms she can have.");
@@ -1263,7 +1280,7 @@ function talkAboutAntMatingAndRituals(player: Character) {
             DisplayText("\n\nThough you tried to count over such a long period of watching her masturbate, you lost track at around 15.");
             DisplayText("\n\nShe's tried to stop a few times, pleading to you that it's too much but you just kept forcing her to continue.  After what you can only guess would be a few hours of watching her cum again and again in an almost heroic display of fortitude, she breaks.  Phylla falls over, completely spent. Sprawled out in front of you, her whole body from head to foot is covered in her own juices.");
             DisplayText("\n\nYou don't say a word to her as she lies in the pool of her own secretions, her blank eyes gazing into nothingness.  Maybe you broke her, only time will tell, she'll need to recover first.  You set out back to camp, knowing full well she's now just another plaything for you.");
-            model.time.hours++;
+            Time.hour++;
             player.stats.lust += 25;
         }
         else {
@@ -1271,16 +1288,16 @@ function talkAboutAntMatingAndRituals(player: Character) {
             player.stats.lust += 15;
         }
     }
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_INHERITED_KNOWLEDGE = 1;
+    phyllaFlags.PHYLLA_INHERITED_KNOWLEDGE = 1;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // (Phylla's Life Past & Future)
-function phyllasLifePastAndFuture(player: Character) {
+function phyllasLifePastAndFuture(player: Character): NextScreenChoices {
     DisplayText().clear();
     // (If Izma at Camp)
-    if (kGAMECLASS.izmaScene.izmaFollower() && User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_IZMA_TALK === 0) {
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_IZMA_TALK = 1;
+    if (Scenes.npcs.izmaScene.izmaFollower() && phyllaFlags.PHYLLA_IZMA_TALK === 0) {
+        phyllaFlags.PHYLLA_IZMA_TALK = 1;
         DisplayText("Phylla seems to be a little distant today as you sit down to talk.  You point it out to her and she cautiously asks about Izma.");
         DisplayText("\n\n\"<i>I k-know there's someone else at your camp.  I mean... I don't want to pretend I'm the only one you'll ever mate with, but this one is special.  I mean, I can feel it inside here.</i>\"  She points to your head with the two arms on her right side, and her head with the two arms on her left side. Seeing you don't deny it, Phylla's eyes well up as she tries to hold back tears.  \"<i>I d-don't know why you didn't tell me you had others staying closer to you...</i>\"");
         DisplayText("\n\nShe seems extremely distressed and your hesitation while you ponder how to respond only compounds it.  \"<i>I want to know how you feel about her.  I saw you two... I mean, I didn't mean to, I just heard moaning and I was tunneling out the colony and glanced over to your camp.  I didn't mean to watch but...</i>\"");
@@ -1295,7 +1312,7 @@ function phyllasLifePastAndFuture(player: Character) {
             DisplayText("\n\nOnce Phylla hears that she perks up.");
             DisplayText("\n\n\"<i>What if... you know... we... I mean...</i>\"  You raise an eyebrow and give her an inquisitive look.  \"<i>We could join...</i>\" She points at her head and yours, again.");
             // If PC Has the 'inherited knowledge' talk:
-            if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_INHERITED_KNOWLEDGE === 1) {
+            if (phyllaFlags.PHYLLA_INHERITED_KNOWLEDGE === 1) {
                 DisplayText("\n\nYou comment on how you thought she couldn't control that. \"<i>I can't... I mean not directly... I've just been stressed recently... ever since I saw the two of you... I think I could... I mean!  I just thought... if you want to try...</i>\"");
             }
             DisplayText("\n\nYou might as well try; Phylla seems pretty worked up over this and you want to help ease her stress in whatever way you can.");
@@ -1355,7 +1372,7 @@ function phyllasLifePastAndFuture(player: Character) {
         DisplayText("\n\nShe playfully squeezes the muscles in your arm.  \"<i>As for the future, that's really up to you. We're joined now, both in mind and destiny.</i>\"");
 
         // If Phylla has never laid eggs:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS === 0) DisplayText("\n\n\"<i>As I've said before, I can give us a growing colony with hundreds of children or I could just stay here with you.</i>\"  She pauses, hesitating to continue.  \"<i>Although if we have a large colony, it would mean we could repopulate my people...</i>\"  You get the distinct feeling that Phylla really wants to have kids with you.");
+        if (phyllaFlags.ANT_KIDS === 0) DisplayText("\n\n\"<i>As I've said before, I can give us a growing colony with hundreds of children or I could just stay here with you.</i>\"  She pauses, hesitating to continue.  \"<i>Although if we have a large colony, it would mean we could repopulate my people...</i>\"  You get the distinct feeling that Phylla really wants to have kids with you.");
         // If Phylla has/is laid/laying eggs:
         else DisplayText("\n\nYou see Phylla looking around as your children scurry about past the doorway to her room.  \"<i>I couldn't think of anything I've ever wanted more. Just to have you visit is like a dream.  Although we could always do... other things, I mean!  It doesn't have to be now, just you know...  I-I get lonely sometimes.</i>\"");
 
@@ -1366,10 +1383,10 @@ function phyllasLifePastAndFuture(player: Character) {
 }
 
 // First Time Blowjob:
-function phyllaBeeeJays(player: Character) {
+function phyllaBeeeJays(player: Character): NextScreenChoices {
     DisplayText().clear();
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS === 1) {
+    phyllaFlags.PHYLLA_BLOWJOBS++;
+    if (phyllaFlags.PHYLLA_BLOWJOBS === 1) {
         DisplayText("Turning to Phylla, you can't help but smile as you flash her a seductive look, making sure you have her undivided attention before glancing down at the bulge in your pants.  Raising a hand to her mouth in sultry intrigue, Phylla giggles and shoots you a devilish look back.  Turning towards the bed, Phylla presumptuously begins to disrobe...  close!  But not what you had in mind.");
         DisplayText("\n\nCrossing your arms, you let out a loud cough in order to redirect the confused ant morph's attention back to you.  She turns around slowly, obviously uncertain of what you have in mind for intimacy.");
 
@@ -1389,12 +1406,12 @@ function phyllaBeeeJays(player: Character) {
     }
     // Continued...
     // If Phylla is not Laying Eggs:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING === 0) DisplayText("\n\nPhylla can't help but grin as she walks over to you, zeroing in on your crotch as she closes in.");
+    if (phyllaFlags.PHYLLA_EGG_LAYING === 0) DisplayText("\n\nPhylla can't help but grin as she walks over to you, zeroing in on your crotch as she closes in.");
     // If Phylla is Laying Eggs:
     else DisplayText("\n\nPhylla looks a little stuck as she attempts to shift her egg-enlarged abdomen.  \"<i>I'm s-sorry I can't...</i>\" she says, looking on the verge of tears.  Taking a hint you walk over to her and climb atop the bed, leaving your package on an equal level with her mouth.  She immediately locks on to you with her eyes...");
 
     // First time:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS === 1) DisplayText("\n\n\"<i>Oh!  I get the meal delivered to me.  H-How... kind of you.</i>\"");
+    if (phyllaFlags.PHYLLA_BLOWJOBS === 1) DisplayText("\n\n\"<i>Oh!  I get the meal delivered to me.  H-How... kind of you.</i>\"");
     // Subsequent times:
     else DisplayText("\n\n\"<i>Breakfast in bed?  Y-You shouldn't have.</i>\"  She coos playfully.");
 
@@ -1415,7 +1432,7 @@ function phyllaBeeeJays(player: Character) {
     }
     else {
         // Dick size more than 60 inches (First Time):
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS === 1) {
+        if (phyllaFlags.PHYLLA_BLOWJOBS === 1) {
             DisplayText("\n\nPhylla jumps in to tug and free your member");
             if (player.torso.cocks.count > 1) DisplayText("s");
             DisplayText(" from your pants, but apparently doesn't realize just how big ");
@@ -1441,7 +1458,7 @@ function phyllaBeeeJays(player: Character) {
         // Dick size more than 60 inches (subsequent blowjobs):
         else {
             DisplayText("\n\n\"<i>Okay, you're gonna have to be careful so we don't have a repeat of ");
-            if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS === 2) DisplayText("last time");
+            if (phyllaFlags.PHYLLA_BLOWJOBS === 2) DisplayText("last time");
             else DisplayText("our first time");
             DisplayText(".  I'll help to free ");
             if (player.torso.cocks.count === 1) DisplayText("that monster");
@@ -1466,14 +1483,14 @@ function phyllaBeeeJays(player: Character) {
 }
 
 // Pure BJ:
-function purePhyllaBJOver(player: Character) {
+function purePhyllaBJOver(player: Character): NextScreenChoices {
     DisplayText().clear();
-    const x: number = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
+    const smallestCock = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
     DisplayText("You quickly and softly tell her to calm down, she needn't worry; you'll be more than happy to help her learn how as surely as she would help you if your situations were reversed.  At the mention of counter positions she nods cheerfully.");
     DisplayText("\n\n\"<i>You... know I'd d-do anything for you... I'll get good, I will!</i>\"");
 
-    DisplayText("\n\nHappy and secure that you're willing to tolerate her lack of experience, Phylla lowers herself back down to your " + Desc.Cock.describeCock(player, x) + " and gives you a tender lick on your head, slurping in all the pre-cum you've been accumulating.  You opt to help her with a more direct approach; you lower your hand down to her chin and tilt her head up so her eyes meet yours.  The tension in Phylla's jaw is fierce, and you tell her that she's putting too much thought and effort into this: just relax. You move your thumb over her lips and part her mouth slightly.  A calm washes over her as your directive registers.");
-    DisplayText("\n\nPeacefully, you tell her to open her mouth just a bit and to let your " + Desc.Cock.describeCock(player, x) + " slide into her mouth, advising her to watch the teeth.  Once she's got it in there, you tell her she can massage your head with her tongue and lips to begin with.  Eventually she'll work her way up to experimenting with the interior of her mouth.  Then once she gets that down, she can take you into her throat, but that's a more 'advanced technique.'");
+    DisplayText("\n\nHappy and secure that you're willing to tolerate her lack of experience, Phylla lowers herself back down to your " + Desc.Cock.describeCock(player, smallestCock) + " and gives you a tender lick on your head, slurping in all the pre-cum you've been accumulating.  You opt to help her with a more direct approach; you lower your hand down to her chin and tilt her head up so her eyes meet yours.  The tension in Phylla's jaw is fierce, and you tell her that she's putting too much thought and effort into this: just relax. You move your thumb over her lips and part her mouth slightly.  A calm washes over her as your directive registers.");
+    DisplayText("\n\nPeacefully, you tell her to open her mouth just a bit and to let your " + Desc.Cock.describeCock(player, smallestCock) + " slide into her mouth, advising her to watch the teeth.  Once she's got it in there, you tell her she can massage your head with her tongue and lips to begin with.  Eventually she'll work her way up to experimenting with the interior of her mouth.  Then once she gets that down, she can take you into her throat, but that's a more 'advanced technique.'");
     DisplayText("Taking your directions, Phylla takes the head of your cock along the top of her wet and humid tongue, leisurely batting around before trapping it with her lips.");
 
     // (If PC has Multidicks Add Section  - Multidick)
@@ -1502,52 +1519,55 @@ function purePhyllaBJOver(player: Character) {
     DisplayText("\n\n\"<i>T-this... doesn't do me...  I~mean... I'm in heat now... can we join so... I can feel this too?</i>\" She looks as if she didn't want to say it at all but her growing sexual appetite seems to be overtaking her timidness.");
     // [Sure]  [Nope]
 
-    MainScreen.addButton(0, "Sure", surePhyllaLetsFuck);
-    MainScreen.addButton(1, "Nope", nopeNotOnMouthOrWhateverFuckThisNoise);
+    return {
+        choices: [
+            ["Sure", surePhyllaLetsFuck],
+            ["Nope", nopeNotOnMouthOrWhateverFuckThisNoise]]
+    };
 }
 
 // [Sure]
-function surePhyllaLetsFuck(player: Character) {
+function surePhyllaLetsFuck(player: Character): NextScreenChoices {
     DisplayText().clear();
-    const x: number = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
+    const smallestCock = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
     DisplayText("\"<i>We'll have to... kiss...  I mean, I can still taste you... inside my mouth...  I could go wash or... ah~!</i>\" You cut her off by pulling her mouth on to yours.");
 
-    DisplayText("\n\nLike a tidal wave, her pleasures and emotions become one with yours, and you can feel the sensation of her longing for more of your " + Desc.Cock.describeCock(player, x) + " along her tongue.  You feel how her mind has given into the texture, the scent, the taste of your dick.  It's almost as though she doesn't want to stop - how cute she finds stimulating that one little area of your dick when she wants a shot of pre or how she wants to coax more and more precum out of you until you explode in her mouth.  You feel her wanting to try some more of those 'advanced techniques' you mentioned before, wanting to try and drive your cock down her throat and flood her gullet with all the cum you can muster.  A symphony of ideas and images ring out, drowning your thoughts and overwhelming you with a single chorus chant.  Phylla's voice stands out: \"<i>Cum. Cum! CUM! <b>PLEASE I NEED IT! CUM!</b></i>\"");
+    DisplayText("\n\nLike a tidal wave, her pleasures and emotions become one with yours, and you can feel the sensation of her longing for more of your " + Desc.Cock.describeCock(player, smallestCock) + " along her tongue.  You feel how her mind has given into the texture, the scent, the taste of your dick.  It's almost as though she doesn't want to stop - how cute she finds stimulating that one little area of your dick when she wants a shot of pre or how she wants to coax more and more precum out of you until you explode in her mouth.  You feel her wanting to try some more of those 'advanced techniques' you mentioned before, wanting to try and drive your cock down her throat and flood her gullet with all the cum you can muster.  A symphony of ideas and images ring out, drowning your thoughts and overwhelming you with a single chorus chant.  Phylla's voice stands out: \"<i>Cum. Cum! CUM! <b>PLEASE I NEED IT! CUM!</b></i>\"");
 
     DisplayText("\n\nYou open your eyes to find Phylla staring up at you; you didn't even feel her break the kiss.  Never breaking her longing gaze, she once again wraps her mouth around your member and starts bobbing up and down.  Her eyes continue to lock on yours looking like a begging dog.  You feel the shaft and head of your cock rub along her lips as if you were fellating your own member.");
     // If PC can Autofellatio:
-    if (player.canAutoFellate()) DisplayText("\n\nThis isn't really a new experience for you, but it's different this time as you feel Phylla's mind being overcome with the need for your nectar.");
+    if (player.torso.cocks.find(Cock.CanAutoFellate)) DisplayText("\n\nThis isn't really a new experience for you, but it's different this time as you feel Phylla's mind being overcome with the need for your nectar.");
     DisplayText("\n\nShe beseeches both your mind and your body to orgasm and fill her mouth and stomach with your seed.");
     // (Leads to - Pure BJ Ending)
-    pureBJEnding(true);
+    return pureBJEnding(player, true);
 }
 
 // [Nope]
-function nopeNotOnMouthOrWhateverFuckThisNoise(player: Character) {
+function nopeNotOnMouthOrWhateverFuckThisNoise(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You pass on her offer, not wanting to know what THAT sensation");
     // If PC can't Autofellatio:
-    if (!player.canAutoFellate()) DisplayText(" or anything like it would feel like.");
+    if (!player.torso.cocks.find(Cock.CanAutoFellate)) DisplayText(" or anything like it would feel like.");
     else DisplayText(" feels like with Phylla's mind linked to your own.");
 
     DisplayText("\n\nShe whines playfully, but respects your wishes. Getting back into it, she doesn't hold back. Acting as if this is a daily routine for her, she once again stimulates that one little area of your dick when she wants a shot of pre.  You can feel how she wants to coax more and more precum out of you until you explode in her mouth, how she wants you to drive your cock down her throat and flood her gullet with all the cum you can muster.");
     DisplayText("\n\nYou open your eyes to find Phylla staring up at you, never breaking her longing gaze as she gives a look that begs, beseeches you to orgasm and cave to her desires for your seed.");
     // (Leads to - Pure BJ Ending)
-    pureBJEnding(false);
+    return pureBJEnding(player, false);
 }
 
 // Pure BJ Ending
-function pureBJEnding(player: Character, event?: Event, linked: boolean = true) {
+function pureBJEnding(player: Character, linked: boolean = true): NextScreenChoices {
     DisplayText("\n\nTo your surprise, Phylla has fully embraced this new talent you've helped 'teach' her");
     if (!linked) DisplayText(".");
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_LINKED_BJ_SUCK === 0) {
+    else if (phyllaFlags.TIMES_LINKED_BJ_SUCK === 0) {
         DisplayText(", ");
         // If PC linked, first time occurring:
         DisplayText("leading to you jesting through the link and calling her a damn dirty cheater.");
     }
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_LINKED_BJ_SUCK > 0) DisplayText("  You can feel her relying less and less on the link with every subsequent time; there's no doubt in your mind that she will no longer \"<i>cheat</i>\" her way into making you cum before you know it.");
-    const x: number = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
-    DisplayText("\n\nShe giggles up at you as she bobs back and forth along your shaft, sensing the telltale signs of your pending orgasm with her mouth.  When you feel the moment of climax finally arrive, you grab onto the back of her head with your hands. She jumps at the unexpected feeling, but before she can react you roar, thrusting your hips forward.  Phylla, like a pro, times her motions with your release, drawing a steady stream of semen out of your rod.  With each spasm of your cock you shoot your cum into her mouth.  She doesn't relent until she's got a mouthful, pulling free of your " + Desc.Cock.describeCock(player, x) + " as ");
+    if (phyllaFlags.TIMES_LINKED_BJ_SUCK > 0) DisplayText("  You can feel her relying less and less on the link with every subsequent time; there's no doubt in your mind that she will no longer \"<i>cheat</i>\" her way into making you cum before you know it.");
+    const smallestCock = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
+    DisplayText("\n\nShe giggles up at you as she bobs back and forth along your shaft, sensing the telltale signs of your pending orgasm with her mouth.  When you feel the moment of climax finally arrive, you grab onto the back of her head with your hands. She jumps at the unexpected feeling, but before she can react you roar, thrusting your hips forward.  Phylla, like a pro, times her motions with your release, drawing a steady stream of semen out of your rod.  With each spasm of your cock you shoot your cum into her mouth.  She doesn't relent until she's got a mouthful, pulling free of your " + Desc.Cock.describeCock(player, smallestCock) + " as ");
     if (player.cumQ() < 250) DisplayText("thin");
     else if (player.cumQ() > 1000) DisplayText("thick");
     DisplayText(" strands of cum hang wildly between her lips and your prick.");
@@ -1567,40 +1587,43 @@ function pureBJEnding(player: Character, event?: Event, linked: boolean = true) 
     if (player.torso.balls.quantity > 0) DisplayText("balls");
     else DisplayText("in the pelvis");
     DisplayText(", you rub Phylla's hair playfully");
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS !== 1) DisplayText(".");
+    if (phyllaFlags.PHYLLA_BLOWJOBS !== 1) DisplayText(".");
     // If first time:
     else DisplayText(" and congratulate her on her first time.");
 
     DisplayText("\n\nShe smiles, but you notice that her cheeks are puffed up; turning your head quizzically, you ask Phylla what's she doing.  Embarrassed, she blushes and opens her mouth.  All of your deposit clings to her tongue and teeth. She can't talk but you can tell that she's looking for direction.");
     player.orgasm();
     // [Swallow it up]   [Spit it out]
-
-    MainScreen.addButton(0, "Swallow It", swallowDatJismPhylla);
-    MainScreen.addButton(1, "SpitItOut", spitItOutYouCunt);
+    return {
+        choices: [
+            ["Swallow It", swallowDatJismPhylla],
+            ["SpitItOut", spitItOutYouCunt]
+        ]
+    };
 }
 
 // [Swallow It]
-function swallowDatJismPhylla() {
+function swallowDatJismPhylla(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Placing your hands on your hips, you smirk and tell Phylla that a true queen never spits. Phylla shoots you a slutty look and gulps your load greedily, taking a moment to savor the warmth and texture as it works its way down her throat.  She ahhhs loudly as she rubs her stomach, humming in pleasure as the steamy load spreads its heat to her belly.  \"<i>Thank you, [name].  That hit the spot.</i>\"");
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [Spit it out]
-function spitItOutYouCunt() {
+function spitItOutYouCunt(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Crossing your arms, you tell Phylla to spit your load out.  As you dress yourself back up in your [armor], you hear Phylla frantically dig out a hole in the floor.  She playfully leans over and spits the salty payload into it.  She makes a soft hum when she's finished, before quickly covering it up again.  \"<i>Thank you, [name].  Next time I'll do better, I promise.</i>\"");
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // Corrupt BJ Ending
-function corruptPhyllaEndings(player: Character) {
+function corruptPhyllaEndings(player: Character): NextScreenChoices {
     DisplayText().clear();
     const smallestCock = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
     DisplayText("\"<i>A slut that can't suck a dick... how can this get any worse?</i>\"  You ponder to yourself while rubbing your nasal bridge. You tell the innocent little ant that she'll learn how to suck a mean cock, even if it kills her.  You're knee deep at this point - might as well turn her into something salvageable.  Commanding her attention, you lift her face up and hover your " + Desc.Cock.describeCock(player, smallestCock) + " close to her lips, smothering her lips with your precum.  She attempts to turn away but you react before she can.  Holding her head in place you comment on how this is what you want from her.");
     DisplayText("\n\n\"<i>Open wide!</i>\"  You forcefully tell her.  Phylla does it immediately, seeing that you're using your 'serious voice.'  You slide your cock in and smash into her tongue.  Smirking, you instruct your fuck toy to close up her mouth and form a tight seal around your rod; you have no intention of fucking an orifice that resembles a goblin brood mother's twat.  Phylla complies, but pulls away to hesitatingly ask if she's ");
     // If first time:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS === 1) DisplayText("achieved the desired effect.");
+    if (phyllaFlags.PHYLLA_BLOWJOBS === 1) DisplayText("achieved the desired effect.");
     // Every other time:
     else DisplayText("improved since the last time.");
 
@@ -1645,7 +1668,7 @@ function corruptPhyllaEndings(player: Character) {
     // (If silly mode is engaged. Transition to End of blowjob scene (silly)
     // (Else transition to end of blowjob scene (non-silly)
     // End of blowjob scene (non-silly mode)
-    if (!silly()) {
+    if (!User.settings.silly()) {
         DisplayText("\n\nPhylla works your " + Desc.Cock.describeCock(player, smallestCock) + " the entire time you cum, as if pleading for just a little more to come out.  You grab her hands, signaling you've have just about enough.  Coming down from your climax, you thank your slut for the oral and sit down on the bed and start gathering your scattered clothing.");
         DisplayText("\n\nHowever, you realize Phylla isn't done with her clit yet.  You had almost forgotten you even asked her to play with herself in the first place.  She sits back against the cushion that you might consider her \"<i>headboard</i>\", spreading her legs wide, giving you a full view of herself.  You dismissively tell her to finish herself off, watching in both pride and amusement as your slut eventually brings herself to orgasm.  She violently arches her back, forcing herself up onto her knees as she rubs her cunt furiously.  Her juices seem to flow freely and pool below her. Her moans of orgasm ring through your being and it brings you a great sense of joy at her ability to listen to and obey her master's commands.  Once you're sure she's finished up, you're amazed by the amount of cum she produces as the liquid seems to squirt out from between her legs long after her own orgasm.  You decide to help Phylla to her feet; can't have injured or sidelined lovers, can you?");
     }
@@ -1660,12 +1683,12 @@ function corruptPhyllaEndings(player: Character) {
 }
 
 // \"<i>Use Dick</i>\"
-function dickPhylla(player: Character) {
-    const x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
+function dickPhylla(player: Character): NextScreenChoices {
+    const largestCock = player.torso.cocks.sort(Cock.LargestCockArea)[0];
     DisplayText().clear();
     DisplayText("You give Phylla a devious look that denotes you didn't come here to just talk.  She looks a little surprised and embarrassed for you as you start removing your [armor].  Noticing her watching, you pull each article of clothing off a little slower, letting her lust build.  You seductively drop your armor, completely revealing yourself to her.  You can see her eyes widen as she visibly feasts on your features.");
     // (NO BJ experience)
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_BLOWJOBS === 0) {
+    if (phyllaFlags.PHYLLA_BLOWJOBS === 0) {
         DisplayText("\n\nYou see it suddenly dawn on her that you're completely nude. Phylla quickly turns her head away but you see her eyes still very focused on your manhood");
         if (player.torso.cocks.count > 1) DisplayText("s");
         DisplayText(".");
@@ -1679,22 +1702,22 @@ function dickPhylla(player: Character) {
     DisplayText("\n\nOnce she's gotten you sufficiently stiff, she uses her tremendous strength to push you onto your back - clearly she wants to be on top first.  Holding your shoulders with her two upper hands, she guides your cock to meet her dripping cunt with her lower two.");
 
     // (If Phylla is not laying Eggs)
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING === 0) DisplayText("\n\nPhylla bends her abdomen so that the underside tip of it runs down the ridge of your shaft, leaving a very warm clear liquid on your functions that tingles, causing you to groan in pleasure.");
+    if (phyllaFlags.PHYLLA_EGG_LAYING === 0) DisplayText("\n\nPhylla bends her abdomen so that the underside tip of it runs down the ridge of your shaft, leaving a very warm clear liquid on your functions that tingles, causing you to groan in pleasure.");
 
     DisplayText("\n\nOne of her lower hands starts to slowly pump your member as she starts to touch her long clit with the other.  Even pinned as you are, you can see her clit start to grow and stick out between her lips.  \"<i>Can I...  I mean... can I put you... inside me?</i>\"");
 
     // 3-4 times:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_FUCKS >= 3) DisplayText(" she asks playfully, knowing full well that that's what you came here for.");
+    if (phyllaFlags.PHYLLA_FUCKS >= 3) DisplayText(" she asks playfully, knowing full well that that's what you came here for.");
     // (First time)
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_FUCKS === 0) DisplayText(" You nod quickly.");
+    else if (phyllaFlags.PHYLLA_FUCKS === 0) DisplayText(" You nod quickly.");
     // (Subsequent fucks)
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_FUCKS > 0) DisplayText("\n\n\"<i>Do you have to ask?</i>\"  You ask her while grinning mischievously; something that causes her to smirk back at you.");
+    if (phyllaFlags.PHYLLA_FUCKS > 0) DisplayText("\n\n\"<i>Do you have to ask?</i>\"  You ask her while grinning mischievously; something that causes her to smirk back at you.");
 
     // 3-4 times:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_FUCKS >= 3) DisplayText("\n\nShe seems like she's losing some of her shyness, or at the very least feels comfortable enough around you to assert more of her personality.");
+    if (phyllaFlags.PHYLLA_FUCKS >= 3) DisplayText("\n\nShe seems like she's losing some of her shyness, or at the very least feels comfortable enough around you to assert more of her personality.");
 
     DisplayText("\n\nYou watch as she spreads herself apart for you and guides your cock into her.  As the head of your penis enters her, she lets out a weak moan.  Then in a wicked attempt to make her cum, because you know it's so easy, you thrust your hips upwards forcing as much as you can into her.");
-    DisplayText("\n\nHer eyes widen in surprise as your " + Desc.Cock.describeCock(player, x) + " fills her.  She howls a blissful scream as she drools forth her girl fluids, coating your cock ");
+    DisplayText("\n\nHer eyes widen in surprise as your " + Desc.Cock.describeCock(player, largestCock) + " fills her.  She howls a blissful scream as she drools forth her girl fluids, coating your cock ");
     if (player.torso.balls.quantity > 0) DisplayText("and balls ");
     DisplayText("in her sexual liquids.");
 
@@ -1734,7 +1757,7 @@ function dickPhylla(player: Character) {
     if (player.torso.vaginas.count > 0) DisplayText("\n\n\"<i>Let's see how you like it!</i>\" Phylla whispers being playfully aggressive.  She reaches down with one of her uncocked hands and pinches your [clit].  Immediately a wave of euphoria washes over you and you respond by giving her long clit a pinch back.  You both moan in unison, then look at each other and chuckle, breathing heavily.");
     // First Time, PC is multi-genitaled:
     if (player.gender >= 3) {
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_FUCKS === 0) DisplayText("\n\n\"<i>God I have to get better at this, leaving my lover's sex all alone...  L-let me fix that.</i>\"  She spits out between moans of pleasure, slightly embarrassed that she forgot her lover's OTHER genitalia. Wasting no time in order to make up for her \"<i>mistake,</i>\" Phylla does her best to please every part of your body.");
+        if (phyllaFlags.PHYLLA_FUCKS === 0) DisplayText("\n\n\"<i>God I have to get better at this, leaving my lover's sex all alone...  L-let me fix that.</i>\"  She spits out between moans of pleasure, slightly embarrassed that she forgot her lover's OTHER genitalia. Wasting no time in order to make up for her \"<i>mistake,</i>\" Phylla does her best to please every part of your body.");
         // (Transitions to Phylla does Vulcan shit to PC)
         // Subsequent Times, PC is multi-genitaled:
         else DisplayText("\n\n\"<i>Y-you are really gonna push this aren't you? Involving all of your genitalia?</i>\"  She delightfully teases you between moans of ecstasy. Smirking, you just say sometimes she forgets about all your other 'friends'.");
@@ -1752,12 +1775,12 @@ function dickPhylla(player: Character) {
     DisplayText("\n\nTaking her \"<i>hint,</i>\" you slam your cock into her pussy, making sure to get as deep as you can. Your initial thrust makes a very loud, squishy noise as your cock enters her soaked canal.  Your mind almost blacks out from the sheer sensual overload you both feel as a shared consciousness, unable to handle both hers and your own.  Phylla's head collapses into her hands as she releases a series of stammering moans.  Her hips twitch slightly with euphoria as she starts to slowly move up and down, her body desperately begging for more cock.");
 
     // If PC only has the two non TD dicks (greater than 42 inches):
-    if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) === 2)).length; {
+    if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length === 2) {
         DisplayText("\n\nNow content with her efforts, Phylla's body sucks in your long cock as your other is deep inside her. You feel her warm breath escape the seal she's made around the head of your cock when you hit the right spots inside her that cause her to moan.");
     }
-		// (Transitions to Doggy style Phylla or If PC has TD)
-		// PC has more than two Tentacle dicks (greater than 42 inches):
-		else if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE) > 2)).length; {
+    // (Transitions to Doggy style Phylla or If PC has TD)
+    // PC has more than two Tentacle dicks (greater than 42 inches):
+    else if (player.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length > 2) {
         DisplayText("\n\nNot content with just a little oral attention, you slither your other tentacle cocks up to her hands and give them a hard smack, soliciting a surprised hum from Phylla.  Seeing her lover's tentacle penile appendages caressing the back of her hand helps to clue her in that she still has some \"<i>capacity</i>\" to service you.  Propping herself upwards with a pillow, Phylla takes to leaning on her elbows as she begins to stroke and tease your cocks, coaxing a small flow of pre-cum in the process.");
         // (Transitions to Doggy style Phylla)
     }
@@ -1778,7 +1801,7 @@ function dickPhylla(player: Character) {
 }
 
 // Straight Sex (Lesbian/Fisting) - Written
-function lesbianFisting(player: Character) {
+function lesbianFisting(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You give Phylla a seductive smile as you start to remove your armor; you came here for something all right, but the surprised look on your lover's face shows she hasn't quite caught on yet.  Her eyes dart back and forth between watching you disrobe and staring at the stony ground in a confused manner, as if torn between modesty and desire.  Flirtatiously, you toss your underwear on the ground in front of where Phylla's eyes seem locked.  Her head snaps up in surprise; you're not sure what she was expecting, but clearly seeing you in your birthday suit wasn't it.  You strut over to her, putting on your best version of a succubus's sway in your step.  Once you reach Phylla, you take a seat on the edge of her raised stone bed and slowly cross your legs.");
     DisplayText("\n\nYou ask Phylla to look at you.  As she does, you tantalizingly uncross your legs, spreading them open so Phylla can glimpse your exposed body.  You even decide to go as far as to grab one of your breasts and caress your nipple playfully.");
@@ -1803,7 +1826,7 @@ function lesbianFisting(player: Character) {
     DisplayText("\n\nIn your mind's eye you see your fingers make a spear-like formation and you instantly understand what Phylla wants.  You smile wickedly as you heed her wish, making your hand like the tip of a spear, knowing full well what will happen next, and in that moment Phylla drops her hips.  You feel her excitement as all four fingers enter her with alarming speed and force, stretching the walls of her pussy wide, happening upon her G-spot in a sheer stroke of luck.  The link, sharing all of its intricacies and sensations, floods your body with the wild satisfaction this shy little woman has, and you scream in ecstatic pleasure.  One of Phylla's larger hands");
 
     // (If pussy is Virgin or tight:)
-    if (player.hasVirginVagina() || player.vaginalCapacity() <= 10) DisplayText(" tries to fit itself into you, only managing to insert her fingers into your pussy.  Despite the \"<i>setback,</i>\" Phylla");
+    if (player.torso.vaginas.find(Vagina.Virgin) || player.vaginalCapacity() <= 10) DisplayText(" tries to fit itself into you, only managing to insert her fingers into your pussy.  Despite the \"<i>setback,</i>\" Phylla");
     // (If pussy is loose or gaping: Continues as follows...)
     DisplayText(" thrusts into your cunt simultaneously.  You feel her hit the right spot, and an explosion of ecstasy floods your bodies as your minds join together in shared orgasm.  She squirts her warm girl cum all over you, coating your stomach in the sweet smelling liquid.  In return you cum into her hand and release what girl cum you can, but it's nowhere close to as much as Phylla produces.  You slowly remove each others' hands from their respective vaginas and collapse into each other's arms.");
 
@@ -1817,7 +1840,7 @@ function lesbianFisting(player: Character) {
 // [While Giving Birth]
 // (Note: The above option will only be available if Phylla is 'Laying Eggs.')
 // While Giving Birth (Male) - Written
-function dudesFuckEggLayingBitches() {
+function dudesFuckEggLayingBitches(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Phylla looks completely taken aback when you suggest you want to have sex with her.  Obviously self conscious about how she looks right now, she covers her enlarged breasts with all four of her hands as she sits back in her seat.");
     DisplayText("\n\n\"<i>Are you sure... I mean I could change... to be smaller.  It won't take long...</i>\"  She glances behind her at her engorged abdomen.  \"<i>Ummm... yeah, it won't ta-AHH!</i>\"");
@@ -1915,7 +1938,7 @@ function dudesFuckEggLayingBitches() {
 }
 
 // While Giving Birth (Female) - Written
-function birfingSexWithAntsForDasLadies(player: Character) {
+function birfingSexWithAntsForDasLadies(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Phylla looks completely taken aback when you suggest that you want to have sex with her.  You can tell she is self conscious about the way she looks right now by the way she covers her enlarged breasts with all four of her hands as she sits back in her seat.");
     DisplayText("\n\n\"<i>I... look, we could wait until I've given birth... Wouldn't you want that?</i>\"  She glances behind her at her engorged abdomen.  \"<i>I... It won't ta-AHH!</i>\"");
@@ -1952,7 +1975,7 @@ function birfingSexWithAntsForDasLadies(player: Character) {
         DisplayText("\n\nSmiling, you wrap your hand around the back of her head and pull her into a deep kiss.");
         DisplayText("\n\nFeeling the link almost immediately, it hits you as hard as a Minotaur wielding a battle axe.  A fireworks display of emotions wash over you; clearly, your mind was completely unprepared for this cavalcade of feeling.");
         // If PC has IS pregnant:
-        if (player.pregnancyIncubation > 0) DisplayText("\n\nThe feeling of your pregnancies is instantly transferred between yourself and Phylla; you feel the warmth and energy of her unborn children inside of you, and you can feel her experiencing the warmth of the life still growing within you.  At this moment, you two understand perfectly what it's like for each other to be with child; it's a pretty... enlightening experience... that's distracting you from the task at hand.");
+        if (player.pregnancy.womb.isPregnant || player.pregnancy.buttWomb.isPregnant) DisplayText("\n\nThe feeling of your pregnancies is instantly transferred between yourself and Phylla; you feel the warmth and energy of her unborn children inside of you, and you can feel her experiencing the warmth of the life still growing within you.  At this moment, you two understand perfectly what it's like for each other to be with child; it's a pretty... enlightening experience... that's distracting you from the task at hand.");
         // If PC has been pregnant:
         else if (player.statusAffects.get(StatusAffectType.Birthed).value1 > 0) DisplayText("\n\nYou've been pregnant before, but this... this is completely different.  You feel every stage that each of Phylla's eggs in her abdomen is in.  You feel what it's like to have your only goal, your only want in life being to mate and have children for the rest of your life.  It's an amazing turn on for you - you feel a warmth start to spread between your own legs.");
         // If PC has NEVER been pregnant:
@@ -2012,7 +2035,7 @@ function birfingSexWithAntsForDasLadies(player: Character) {
     DisplayText("\n\nLike a starving animal, Phylla's mouth waters as she takes hold of your thighs and spreads your legs apart.  You grab hold of her hair and shove her head inbetween your legs, impacting your " + Desc.Vagina.describeClit(player) + " and causing you to moan slightly.  She certainly isn't shy now, you think, as her tongue starts to work its way into you.  You can \"<i>hear</i>\" Phylla giggle back in response. Thoughts of grinding your pussy across her mouth and face flood your mind, and instinct takes over as your hips start to rock in response to Phylla's eager attack.  Running your hands through her hair,  you grind Phylla's pretty face harder and deeper into your soaking " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".  The poor ant can only respond by moaning fiercely as she eagerly sucks and kisses your love button, completely overwhelmed by the desire that has overtaken her.");
 
     // If PC has (a) Dick(s), that are less than 42 inches:
-    if (player.torso.cocks.count > 0 && player.cockThatFits(42) >= 0) {
+    if (player.torso.cocks.count > 0 && player.torso.cocks.find(Cock.CockThatFits(42))) {
         DisplayText("\n\n[EachCock] begs for your touch, and with no hesitation you grab a hold of ");
         if (player.torso.cocks.count > 1) DisplayText("them");
         else DisplayText("it");
@@ -2034,20 +2057,20 @@ function birfingSexWithAntsForDasLadies(player: Character) {
 
     DisplayText("\n\nDeciding to end this, you work your hips away from Phylla's eager tongue and lean down, whispering into her ear; you're hell bent on cumming simultaneously in a glorious display of sexual gratification, and want to know if she's thinking along similar lines.  Giggling at your suggestion, the pair of you quickly shift positions so you're in the time-honored sixty-nine.  Her vagina now rests just above your face as her face rests in between your legs, her huge abdomen casting a looming shadow over both of you as it curls over your head and drips warm liquid down your spine.  You feel her yearning to lay eggs, but you suppress her desire.  \"<i>Not yet,</i>\" you think - not until you've both cum.");
 
-    DisplayText("\n\nYour " + Desc.Vagina.describeClit(player) + " comes to rest on her lips again as her head starts to bob between her own strong legs.  Returning the sentiment, you dart in-between her legs, tongue first.  You hit that sweet tasting little pussy of hers with force.  Phylla moans, your intentions crystal clear as she bears down on your pussy hard, intently working for your sexual release.  She reaches up with her lower set of arms and gives both your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s a firm squeeze, the twist of which is nothing short of exquisite.  Muffled moans of bliss are unintelligible, but in your shared mind-state, you can hear one another screaming words of encouragement and direction.");
+    DisplayText("\n\nYour " + Desc.Vagina.describeClit(player) + " comes to rest on her lips again as her head starts to bob between her own strong legs.  Returning the sentiment, you dart in-between her legs, tongue first.  You hit that sweet tasting little pussy of hers with force.  Phylla moans, your intentions crystal clear as she bears down on your pussy hard, intently working for your sexual release.  She reaches up with her lower set of arms and gives both your " + Desc.Breast.describeNipple(player, player.torso.chest.get(0)) + "s a firm squeeze, the twist of which is nothing short of exquisite.  Muffled moans of bliss are unintelligible, but in your shared mind-state, you can hear one another screaming words of encouragement and direction.");
 
     // If PC has (a) Dick(s), that are less than 42 inches:
-    if (player.torso.cocks.count > 0 && player.cockThatFits(42) >= 0) DisplayText("\n\nWithout warning, Phylla begins to alternate between giving your " + Desc.Vagina.describeClit(player) + " oral and sucking your " + Desc.Cock.describeMultiCockShort(player) + "; the dual stimulation overwhelms you as she devilishly teases your sexes.");
+    if (player.torso.cocks.count > 0 && player.torso.cocks.find(Cock.CockThatFits(42))) DisplayText("\n\nWithout warning, Phylla begins to alternate between giving your " + Desc.Vagina.describeClit(player) + " oral and sucking your " + Desc.Cock.describeMultiCockShort(player) + "; the dual stimulation overwhelms you as she devilishly teases your sexes.");
     DisplayText("\n\nYou recall the tip of her abdomen being particularly sensitive as you reach up overhead. Your arm can barely reach it, but as if she knew what you were trying accomplish, Phylla curls her abdomen just enough so you can start to stroke her birthing slit.  At your caress, Phylla shudders and deeply exhales into your cunt, sending a shiver up your spine. Continuing like this, you both quickly build up orgasms.");
 
     DisplayText("\n\nHowling in delight, both of you twitch and writhe as the pure bliss of climax seizes your bodies, drooling and squirting lady fluids against each other's faces.");
 
     // If PC has a dick-two dicks that is/are less than 4 inches wide, in total:
-    if (player.torso.cocks.count > 0 && player.cockThatFits(42) >= 0) {
+    if (player.torso.cocks.count > 0 && player.torso.cocks.find(Cock.CockThatFits(42))) {
         DisplayText("\n\nMoaning savagely, Phylla pops ");
-        if (player.cockThatFits2(42) >= 0) DisplayText("two of ");
+        if (player.torso.cocks.find(Cock.CockThatFits(42))) DisplayText("two of ");
         DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + " into her mouth and mashes ");
-        if (player.cockThatFits2(42) >= 0) DisplayText("them");
+        if (player.torso.cocks.find(Cock.CockThatFits(42))) DisplayText("them");
         else DisplayText("it");
         DisplayText(" against the back of her throat.  Unable to contain the pleasure from this, you howl and blow your hot load into her throat.");
     }
@@ -2092,14 +2115,14 @@ function birfingSexWithAntsForDasLadies(player: Character) {
 // [Orgy w/ Colony - Requires Children]
 // (Note: The above option will only be available the PC has sufficient corruption.)
 // Orgy w/ Colony (Male) - Written
-function orgyWithDatColonyCorruptDudes(player: Character) {
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_CORRUPT_MALE_ANT_ORGY++;
+function orgyWithDatColonyCorruptDudes(player: Character): NextScreenChoices {
+    phyllaFlags.TIMES_CORRUPT_MALE_ANT_ORGY++;
     DisplayText().clear();
 
     DisplayText("You tell Phylla to call in your strongest and most virile children for 'inspection.'");
 
     // First Time:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_CORRUPT_MALE_ANT_ORGY === 1) {
+    if (phyllaFlags.TIMES_CORRUPT_MALE_ANT_ORGY === 1) {
         DisplayText("\n\nShe looks confused at first and attempts to ask why.  \"<i>I don't think... they will all fit in this room.  We have many warriors...</i>\"");
 
         DisplayText("\n\nLooking around, though her room is about the size of your campsite on the surface, she's probably right.  Sighing, you just tell Phylla to do what she can.  She closes her eyes then tilts her head back.  After a moment or two of this 'meditation' her eyes snap open.  \"<i>They should be here soon.</i>\"  Her voice is very cheerful.  You wonder how quickly it will change when you tell her just what you have in store.  If you even tell her outright - tricking her could be a better way to get what you want.");
@@ -2113,7 +2136,7 @@ function orgyWithDatColonyCorruptDudes(player: Character) {
 
     DisplayText("\n\nYou step away from him and look up and down the line; they're not even fully naked.  This won't do at all.  With a wicked grin, you tell Phylla to have them remove their loincloths.  A few of your sons glance at each other and shift uncomfortably.  Phylla, on the other hand, looks frightened and hesitant to do as you ask.");
 
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_CORRUPT_MALE_ANT_ORGY === 1) DisplayText("\n\n\"<i>Why... would you... want to... see...?</i>\"  Phylla seems confused.  You tell her that you need to see everything to get a proper assessment.  That is, unless Phylla thinks she's doing such a bad job of being queen that she would need to hide the facts from you.");
+    if (phyllaFlags.TIMES_CORRUPT_MALE_ANT_ORGY === 1) DisplayText("\n\n\"<i>Why... would you... want to... see...?</i>\"  Phylla seems confused.  You tell her that you need to see everything to get a proper assessment.  That is, unless Phylla thinks she's doing such a bad job of being queen that she would need to hide the facts from you.");
     // Subsequent Times:
     else DisplayText("\n\nThough you can tell Phylla doesn't want to, she gives in. You make a comment about how maybe her children have 'shrunk' since your last inspection.");
     DisplayText("\n\n\"<i>No!  I'm doing a good job!  I promise!</i>\"  Trying to show how wrong you are, she enters her trance.  The warriors before you start to disrobe.  Once all five of them are completely nude, Phylla snaps back into the present.");
@@ -2129,7 +2152,7 @@ function orgyWithDatColonyCorruptDudes(player: Character) {
     DisplayText("\n\nYou look to the other four.  \"<i>Do help your mother relieve herself of her... insecurities.  There's no reason for you four to hold back on my account.  Just don't touch her cunt!  That belongs to me!</i>\" Heeding your command, the four other soldier ants descend on Phylla, peeling her arms away from her face.  You hear Phylla's muffled protests, but that's quickly stopped when one of them kisses her deeply and guides one of her hands to his cock.  Another starts to suckle on her breast and moves another of her hands to massage his own member.  The third takes both of Phylla's smaller hands and forces her to cup his balls and stroke his cock as he stands in-between his brothers.  The fourth man seems to be left out, but then gets an idea and walks behind Phylla.");
 
     // If Phylla Is Laying Eggs:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("\n\nSeeing as how he wouldn't be able to lift her massive abdomen, he lays down and almost completely disappears under it.  Phylla moans loudly as he runs all four of his hands down the underside of her abdomen as a contraction racks her body.  The birthing slit at the end of her abdomen widens as an egg pushes itself out of her, splattering her child's chest with her clear birthing gel as it comes.  The ant-man uses his lower two arms to softly set the egg aside as his large hands part her birth canal.  He licks his way down her long abdomen and begins lapping up the liquid that continues to seep out of her birthing slit.  Drinking and slurping wildly, he starts to jack himself off with his smaller hands.");
+    if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("\n\nSeeing as how he wouldn't be able to lift her massive abdomen, he lays down and almost completely disappears under it.  Phylla moans loudly as he runs all four of his hands down the underside of her abdomen as a contraction racks her body.  The birthing slit at the end of her abdomen widens as an egg pushes itself out of her, splattering her child's chest with her clear birthing gel as it comes.  The ant-man uses his lower two arms to softly set the egg aside as his large hands part her birth canal.  He licks his way down her long abdomen and begins lapping up the liquid that continues to seep out of her birthing slit.  Drinking and slurping wildly, he starts to jack himself off with his smaller hands.");
     // If Phylla Isn't Laying Eggs:
     else DisplayText("\n\nThe large ant lifts up Phylla's abdomen and bends it so the tip of it rests in front of his face.  Taken by surprise by the sudden stimulation, Phylla 'Eeps!'  The man behind her sniffs at the tip of her abdomen and licks it hesitantly as if testing the waters.  Phylla moans into the mouth of the ant morph kissing her.  Seeing as how he was rewarded for his efforts, the ant at her abdomen dives his head into the tip of her abdomen, licking and fingering her birthing hole.");
 
@@ -2140,7 +2163,7 @@ function orgyWithDatColonyCorruptDudes(player: Character) {
     DisplayText("\n\n\"<i>Go get 'er, tiger,</i>\" you say, as you slap his ass.");
 
     DisplayText("\n\nHe practically charges his mother, lustful wants burning through his veins.  Seeing him dash towards them, his brothers pull Phylla down onto the bed.  Soon she's in position; her shoulders on the edge of the bed and her head looking back up at her children.  Once he gets to his mother, the charging ant-man flops his cock in between her breasts and lets his balls hang above her mouth.  Phylla uses her smaller set of hands to press her breasts together against his long dick.  He starts thrusting his penis between her ");
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("large, lactating ");
+    if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("large, lactating ");
     else DisplayText("small ");
     DisplayText("orbs.");
     DisplayText("\n\nWith her face slapped by his balls with each thrust, Phylla takes it upon herself to start sucking on his nuts, covering them in her drooling saliva.");
@@ -2174,19 +2197,19 @@ function orgyWithDatColonyCorruptDudes(player: Character) {
     DisplayText("\n\nAll four of her hands welcome your cock, her fingers running up and down your long shaft as she guides it to the lips of her drooling cunt.  Looking down you see her long clit poking out from between her inner folds.  Phylla pants heavily, like a dog in heat; you can actually see the steam coming from her mouth.  You grab her hair and shove your face into hers.  As your tongue penetrates her mouth you feel the familiar tinglings of your minds joining together.");
 
     // f first time; having orgy:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_CORRUPT_MALE_ANT_ORGY === 1) DisplayText("\n\nYou feel the link but it seems strained, like butter spread over too much toast.  You quickly recognize why: you feel the five others in the room in your mind along with Phylla.  They're building to release, but Phylla has been keeping them all from climaxing.  Well, at least you've trained her well.");
+    if (phyllaFlags.TIMES_CORRUPT_MALE_ANT_ORGY === 1) DisplayText("\n\nYou feel the link but it seems strained, like butter spread over too much toast.  You quickly recognize why: you feel the five others in the room in your mind along with Phylla.  They're building to release, but Phylla has been keeping them all from climaxing.  Well, at least you've trained her well.");
     // Repeat:
     else DisplayText("\n\nYou knew this moment would come and you're mentally prepared for it.  Feeling your mind link to everyone in the room is still overwhelming at first, but you quickly get over it as your mind finds balance.");
 
-    let x: number = player.cockThatFits(phyllaCapacity());
-    if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
-    DisplayText("\n\nWhen you've felt your mind completely sync up with everyone else in the room, it's like being drunk on sexual euphoria.  You almost lose yourself in it for a moment, but focusing your mind, you snap your eyes open. You see Phylla in front of you looking like a drugged slut; she runs all four of her hands over your " + Desc.Cock.describeCock(player, x) + " at the entrance of her flooded cunt while her children play with her nipples and suck each other off.  Aggressively, you grab her arms and pin her down while simultaneously shoving your cock into her.");
+    let cockThatFits = player.torso.cocks.find(Cock.CockThatFits(phyllaCapacity()));
+    if (!cockThatFits) cockThatFits = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
+    DisplayText("\n\nWhen you've felt your mind completely sync up with everyone else in the room, it's like being drunk on sexual euphoria.  You almost lose yourself in it for a moment, but focusing your mind, you snap your eyes open. You see Phylla in front of you looking like a drugged slut; she runs all four of her hands over your " + Desc.Cock.describeCock(player, cockThatFits) + " at the entrance of her flooded cunt while her children play with her nipples and suck each other off.  Aggressively, you grab her arms and pin her down while simultaneously shoving your cock into her.");
 
     DisplayText("\n\nYou feel every mind in the room wince in pain, then be overcome with pleasure as your cock rams into the deepest part of Phylla's cunt.");
 
     DisplayText("\n\nThe pulsations of her vagina run up and down the length of your cock as she struggles to get into a comfortable position under you.  With the help of her children, she finally finds a good position as you thrust harder and harder on top of her.  Phylla blindly reaches out, each of her hands searching for her offspring.  The largest of your children takes position over Phylla's face - she welcomes his long dick into her mouth.  As the others realize that Phylla is searching for their cocks, they untangle themselves from each other and crawl yearningly to their mother.  Phylla start to pump away at their cocks with her four hands as two latch on to her breasts.");
 
-    DisplayText("\n\nOne of your brood leans down and starts to feverishly lick the base of Phylla's clit as your cock slides in and out of her. His warm saliva coupled with Phylla's natural lubricant warms your cock and sends even more pleasure throughout your " + Desc.Cock.describeCock(player, x) + ".");
+    DisplayText("\n\nOne of your brood leans down and starts to feverishly lick the base of Phylla's clit as your cock slides in and out of her. His warm saliva coupled with Phylla's natural lubricant warms your cock and sends even more pleasure throughout your " + Desc.Cock.describeCock(player, cockThatFits) + ".");
 
     // If PC has Multi-Cocks:
     if (player.torso.cocks.count > 2) DisplayText("\n\nHaving just one of your cocks pleased as you ram her isn't enough.  You command your children, via the link, to get your other dicks off.  Quickly they oblige, using their hands and mouths to make sure no cock goes unpleased.");
@@ -2215,11 +2238,11 @@ function orgyWithDatColonyCorruptDudes(player: Character) {
 
 // Orgy w/ Colony (Female)
 // You tell Phylla you're interested in 'inspecting' your children.
-function antColonyOrgy4Ladies(player: Character) {
+function antColonyOrgy4Ladies(player: Character): NextScreenChoices {
     DisplayText().clear();
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_CORRUPT_FEMALE_ANT_ORGY++;
+    phyllaFlags.TIMES_CORRUPT_FEMALE_ANT_ORGY++;
     // (First Time)
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_CORRUPT_FEMALE_ANT_ORGY === 1) {
+    if (phyllaFlags.TIMES_CORRUPT_FEMALE_ANT_ORGY === 1) {
         DisplayText("She gives you a confused look, but does as you command. Tilting her head back and closing her eyes you watch as she silently 'communicates' to her children.");
         DisplayText("\n\n\"<i>I did what you asked. Five of my~ I mean our... finest warriors are on their way here.</i>\"");
         DisplayText("\n\nYou give her a nod, hoping that 'the finest warriors' will also have the finest cocks. Your mind quickly wanders to how it's going to feel having five dicks to do with what you please. As you thoughts lead you down the familiar path you can feel your [vagina] moisten");
@@ -2272,7 +2295,7 @@ function antColonyOrgy4Ladies(player: Character) {
     DisplayText("\n\nWith a commanding tone in both voice and mind you tell Phylla to get into the doggystyle position facing away from you.");
 
     // If Laying Eggs:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("\n\nYou're sure she would have too, had it not been for her massive egg filled abdomen. The best she can muster is to lay on her side with one of her legs up in the air.  Still, you think it will work for what you have in mind.");
+    if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("\n\nYou're sure she would have too, had it not been for her massive egg filled abdomen. The best she can muster is to lay on her side with one of her legs up in the air.  Still, you think it will work for what you have in mind.");
     // If NOT Laying Eggs:
     else DisplayText("\n\nQuickly, Phylla scrambles into position.  Reaching back with her two larger hands, she lifts her abdomen so you get a full view of her shapely ass and juicy cunt.  She starts to lightly thrust her ass in the air.");
 
@@ -2334,27 +2357,30 @@ function antColonyOrgy4Ladies(player: Character) {
 }
 
 // ►[Lay Eggs / Don't Lay Eggs]
-function phyllaLaysEggsToggle() {
+function phyllaLaysEggsToggle(): NextScreenChoices {
     DisplayText().clear();
     // (Lay Eggs)
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING === 0) {
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING = 1;
+    if (phyllaFlags.PHYLLA_EGG_LAYING === 0) {
+        phyllaFlags.PHYLLA_EGG_LAYING = 1;
         DisplayText("Phylla seems confused as to what you're thinking as you gaze deeply into her eyes.  You gather all four of her hands between the two of yours and tell her that children are wanted.  Not just one or two; you want as many as she can muster.");
         // If you've talked to her about history:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TALKED_WITH_PHYLLA_ABOUT_HISTORY > 0) DisplayText("  You tell her you want a colony like those she spoke of in the times before the corruption.");
+        if (phyllaFlags.TALKED_WITH_PHYLLA_ABOUT_HISTORY > 0) DisplayText("  You tell her you want a colony like those she spoke of in the times before the corruption.");
 
         DisplayText("\n\nAt first her eyes widen with shock, but then you see the reaction you were expecting; her face lights up with such a gleeful smile you could have sworn you just lit a large fire in the room.  She looks so excited; in fact, she seems to have lost her train of thought and just stands there taking in what you said... it's a bit odd.  Then she suddenly turns around and drops down on all fours.  Her abdomen rises, revealing all of herself to you.  Her embarrassment is clearly overshadowed by her desire to breed with you.  She looks at you from between her own legs and blushes, her cheeks growing as red as a tomato.  Using her two upper arms, she points to her abdomen, keeping her lower arms to support her as she's bent over on all fours.  There's a small opening that almost looks like a second vagina placed at the very end of her abdomen.  A clear coat of transparent liquid is already starting to seep out from the opening and has started to run down her abdomen.");
 
         DisplayText("\n\n\"<i>I just...  need you to lick it.  I mean, that's one way...  there are others, I mean, but this is the quickest; I want to start laying before nightfall.  Please...  I need this...</i>\"");
         // [Yay!] Transition to - LICK THAT!
         // [On your own] Transition to - DON'T LICK THAT!
-
-        MainScreen.addButton(0, "Lick That", lickThatAntButt);
-        MainScreen.addButton(1, "Don't Lick", dontLickAntButt);
+        return {
+            choices: [
+                ["Lick That", lickThatAntButt],
+                ["Don't Lick", dontLickAntButt],
+            ]
+        };
     }
     // (Stop Laying Eggs)
     else {
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING = 0;
+        phyllaFlags.PHYLLA_EGG_LAYING = 0;
         DisplayText("You sigh to yourself; you never really wanted this conversation but you knew it might happen someday.  You make a stern face and put a determined fatherly tone in your voice.  Phylla immediately senses you mean business and you have her full attention.  You try to tell her as gently as possible that you don't think it is safe for her to keep having children.");
 
         DisplayText("\n\nTo your almost astonished surprise she hesitantly agrees with you; somehow, you expected her to argue with you or plead to bring more life into this world.  \"<i>If you feel it's not safe for me to have anymore children, I won't.  I mean, you're both my mate and my colony's protector.  I would not want to endanger my children by overpopulation or the chance of corruption.</i>\"");
@@ -2366,7 +2392,7 @@ function phyllaLaysEggsToggle() {
 }
 
 // LICK THAT!
-function lickThatAntButt() {
+function lickThatAntButt(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You tilt your head slightly.  You thought she said she could start to lay any time after the first time you had sex with her.");
     DisplayText("\n\n\"<i>It is... faster... to kickstart it... if you help... please...</i>\"");
@@ -2385,7 +2411,7 @@ function lickThatAntButt() {
     DisplayText("\n\nAfter about a minute or two her eyes widen suddenly, her body contracting.  With a sudden pulse you can see a contraction run down Phylla's abdomen.  A small cylindrical egg about the length of your forearm pops out of the birth slit you were just licking for the last hour.");
 
     // First Time:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANTS_BIRTHED_FROM_LICKING === 0) {
+    if (phyllaFlags.ANTS_BIRTHED_FROM_LICKING === 0) {
         DisplayText("\n\nIt's a strange thing, unlike any egg you've seen before.  It doesn't have a shell and is transparent.  The liquid inside of it seems to be shimmering, as if there were thousands of tiny gold flecks in it.  In the very center there's a black sphere that unfolds into a larva as you look at it.  Phylla quickly snatches it up and holds it between the two of you.");
         DisplayText("\n\n\"<i>This is the beginning of a whole new life for me...  I mean, for us.  I'll always remember this, [name]!</i>\"  Phylla cries, cradling the egg close to her, proud to be a mother.  \"<i>I... I love you.</i>\"");
         DisplayText("\n\nYou were about to return the compliment when her body contracts again and another egg pops out of her abdomen.");
@@ -2396,14 +2422,14 @@ function lickThatAntButt() {
     // Subsequent Times:
     else DisplayText("\n\nYou know the drill.  You unwrap yourself from Phylla and walk over to scoop up the cyclical egg.  Once you've gotten it you bring it back to her.  Although as soon as you do, she snuggles up with it.");
     DisplayText("\n\nAfter only a minute or two, a large contraction passes through her body, and another egg seeps out of the tip of her abdomen.  You can see she's going to be very busy for the next few hours, maybe days; you're not really sure, and clearly she's in no condition to respond even if you asked.  You kiss her and head back to camp, happy with the job you've just accomplished.");
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_COOLDOWN = 12;
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANTS_BIRTHED_FROM_LICKING++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS < 5000) User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS += 5;
+    phyllaFlags.PHYLLA_COOLDOWN = 12;
+    phyllaFlags.ANTS_BIRTHED_FROM_LICKING++;
+    if (phyllaFlags.ANT_KIDS < 5000) phyllaFlags.ANT_KIDS += 5;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // DON'T LICK THAT!
-function dontLickAntButt() {
+function dontLickAntButt(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Hesitantly, you tell Phylla that you aren't exactly comfortable with licking her functions... while they are leaking birthing fluids.  Acting quickly though, you reassure your lover and tell her that you're willing to massage her intimate parts.  A warm smile spreads across her face; she's pleased that despite your reservations, you're willing to help her in a way that works for both of you.");
     DisplayText("\n\n\"<i>T-thank you...</i>\"  She whispers, breathing in a mix of anticipation and need as you work your way behind her.  As you touch her slit she gasps, your soft touch causing her to shudder.  The contractions of birth start not long after, no longer held back by Phylla's will.  \"<i>More...  Oh gods, more...</i>\"  She whimpers, groaning with each convulsion of muscle.  Plying your thumbs, you begin to massage the outer opening in a circular fashion, doing your best to gently aid Phylla in bringing your children into the world.");
@@ -2413,37 +2439,39 @@ function dontLickAntButt() {
     DisplayText("\n\nThe better part of an hour later, the two of you lay against Phylla's bedding in a loving embrace; you cuddle the exhausted ant woman close to you as she enjoys the tender feel of your fingers running through her hair.");
 
     DisplayText("\n\n\"<i>Thank you.  I-it meant a lot to me for you to be here.</i>\"  She confides.  You tell her that it was no trouble at all; that you wouldn't miss this joyous moment.  Phylla sneaks in a soft kiss on your neck and gives you a firm squeeze of her arms.  \"<i>I should be alright on my own at this point");
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 1) DisplayText("; the children can tend to the eggs and I can really use the rest");
+    if (phyllaFlags.ANT_KIDS > 1) DisplayText("; the children can tend to the eggs and I can really use the rest");
     DisplayText(".  You should get back to your duties...  B-but I wouldn't mind if you came back later...</i>\"");
 
     DisplayText("\n\nYou remark to Phylla that you might just take her up on that and wink as you leave your exhausted lover to recuperate, passing several of your children as they scoop up the bundle of eggs that lie huddled together on the floor.");
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_COOLDOWN = 6;
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS++;
+    phyllaFlags.PHYLLA_COOLDOWN = 6;
+    phyllaFlags.ANT_KIDS++;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // Phylla lays Drider eggs
-function phyllaLaysSomeDriderEggs(player: Character) {
+function phyllaLaysSomeDriderEggs(player: Character): NextScreenChoices {
     DisplayText().clear();
-    pregnancy.knockUpForce(); // Clear Pregnancy
+    phyllaFlags.PHYLLA_VAGINAL_PREGNANCY_TYPE = undefined;  // Clear Pregnancy
+    phyllaFlags.PHYLLA_TIMES_DRIDER_EGG_LAYED++;
+    phyllaFlags.PHYLLA_DRIDER_BABIES_COUNT += 5 + randInt(4);
     DisplayText("As you near Phylla's bedchamber you can hear an 'Eeep!' of surprise and worry. Thinking she might be in trouble you burst into the room.  Glancing around for any immediate danger you only see Phylla's vagina drooling a green, slimy mucus.  The way she holds her very pregnant stomach and splays her legs out on the bedspread suggests that your recently laid spawn are ready to hatch.  \"<i>[name], it's time!  UGH!  I don't... have to words to express how weird this feels!</i>\"  Phylla cries out, somewhat scared at the green ooze that trickled out of her.");
 
     // PC has less than 75 corruption:
     if (player.stats.cor < 75) {
         DisplayText("\n\nQuickly kneeling at her bedside, taking one of her larger her hands in yours, you inform her that your children are ready to enter this world. They need their mother to concentrate and push.");
         // If Phylla is Laying (her) Eggs while Drider eggs hatch:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("\n\n\"<i>It's~AHHH!</i>\"  Phylla moans into your shoulder as a contraction passes through her abdomen.  \"<i>I don't know if I can do both!</i>\"  Phylla cries.  In a reassuring tone you tell Phylla she just needs to push both at once.");
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("\n\n\"<i>It's~AHHH!</i>\"  Phylla moans into your shoulder as a contraction passes through her abdomen.  \"<i>I don't know if I can do both!</i>\"  Phylla cries.  In a reassuring tone you tell Phylla she just needs to push both at once.");
         DisplayText("\n\n\"<i>I~Ahhh</i>\" her words, again, stolen from her as you see her whole body contract.");
         DisplayText("\n\n\"<i>Oh, gods, I can feel yours sliding out!</i>\"  She half exclaims, half moans.  Phylla's body writhes in a mixture of pleasure and pain as she solely focuses on pushing.  After what seems like an eternity, she breathes a heavy sigh of relief as the first of many eggs works its way out of her.");
         // If Phylla is Laying (her) Eggs while Drider eggs hatch:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("\n\nAt the same time your egg drops to the floor, you see one of Phylla's eggs glide out of the tip of her abdomen with the aid of the thick gel she produces.");
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("\n\nAt the same time your egg drops to the floor, you see one of Phylla's eggs glide out of the tip of her abdomen with the aid of the thick gel she produces.");
 
         DisplayText("\n\nWith the knowledge that ");
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("both eggs are just fine on their own");
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("both eggs are just fine on their own");
         else DisplayText("the egg is just fine on its own");
         DisplayText(", you redirect your focus to helping Phylla through the labor.  Each subsequent egg that finds its way to freedom causes Phylla's once pain filled screams to turn into pleasurable moans of euphoric delight as her pussy becomes overwhelmed by the stimulation of each of your eggs working their way out.  At long last, the final egg slithers out of her vagina and lands gently on the bedding.  Her ordeal over, Phylla breathes a long sigh of relief.");
         // First Time:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_TIMES_DRIDER_EGG_LAYED === 0) DisplayText("\n\n\"<i>I-I've never given birth like that b-before.</i>\"  She manages between gasps for air while rubbing her now normal-sized belly.\n\n\"<i>I mean!  I want to, it was just different, usually I... use my...</i>\"  She shyly gestures to her abdomen.  \"<i>You'll have to do that to me again sometime.</i>\"  You feel a maternal warmth radiating from Phylla.  It's clear to you she just enjoys being a mother; it doesn't really matter to her what her children look like.");
+        if (phyllaFlags.PHYLLA_TIMES_DRIDER_EGG_LAYED === 0) DisplayText("\n\n\"<i>I-I've never given birth like that b-before.</i>\"  She manages between gasps for air while rubbing her now normal-sized belly.\n\n\"<i>I mean!  I want to, it was just different, usually I... use my...</i>\"  She shyly gestures to her abdomen.  \"<i>You'll have to do that to me again sometime.</i>\"  You feel a maternal warmth radiating from Phylla.  It's clear to you she just enjoys being a mother; it doesn't really matter to her what her children look like.");
         // Subsequent Times:
         else DisplayText("\n\nRubbing her now empty belly Phylla remarks on how much she loves giving birth through her 'other hole' and how you should knock her up this way much more often.  Again you feel the maternal warmth radiating from Phylla.");
 
@@ -2455,19 +2483,23 @@ function phyllaLaysSomeDriderEggs(player: Character) {
         DisplayText("\n\nGood, you get to watch while your corrupted young are birthed out of this creature naive enough to submit to your desires.  Phylla's painful screams quickly turn into blissful moans as her instincts for sexual pleasure dull the irritating agony and take over her mind.  You barely register any of it as your thoughts turn to future instances of pinning Phylla down to her bedding - how her ass will wave enticingly in the air just before you penetrate her and plant as many eggs as you can muster inside of her, how she'll beg to be stuffed with your brood and howl like a depraved whore as your cargo fills her with your corrupted brood.");
         DisplayText("\n\nThe first egg works its way out of Phylla's pussy as she hums in obvious sexual delight.  You lick your lips at the sight; you can barely contain the urge to mount her right now and impregnate her with more of your future children, imagining the look of content violation on her face as you do so.  But you manage to restrain yourself, opting instead to watch the show as egg after egg worms its way out.");
         // If Phylla is Laying (her) Eggs while Drider eggs hatch:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("\n\nAs if your own corrupt brood weren't enough for her, she has to deal with giving birth to her own offspring at the same time.");
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("\n\nAs if your own corrupt brood weren't enough for her, she has to deal with giving birth to her own offspring at the same time.");
         // First Time:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_TIMES_DRIDER_EGG_LAYED === 0) DisplayText("\n\nHmm... That's something you didn't know she could do and something you'll damn well keep in mind for the future.  You watch as she struggles to time the different contractions of her abdomen and cunt, but ultimately fails to do so.  It's soon very clear she's no longer aware of which egg is coming out of which hole and just screams out in passionate moans as her whole body surges and pulses with contractions.");
+        if (phyllaFlags.PHYLLA_TIMES_DRIDER_EGG_LAYED === 0) DisplayText("\n\nHmm... That's something you didn't know she could do and something you'll damn well keep in mind for the future.  You watch as she struggles to time the different contractions of her abdomen and cunt, but ultimately fails to do so.  It's soon very clear she's no longer aware of which egg is coming out of which hole and just screams out in passionate moans as her whole body surges and pulses with contractions.");
         DisplayText("\n\nWith one last heave the last egg is expelled from Phylla's pussy.");
         // If Phylla is Laying (her) Eggs while Drider eggs hatch:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING > 0) DisplayText("\n\nThough judging by the size of her abdomen, you're sure she still has a few left.  Her own eggs don't seem to cause her as many 'problems' as your eggs do.  Phylla tiredly slumps back to her bed, completely spent.");
+        if (phyllaFlags.PHYLLA_EGG_LAYING > 0) DisplayText("\n\nThough judging by the size of her abdomen, you're sure she still has a few left.  Her own eggs don't seem to cause her as many 'problems' as your eggs do.  Phylla tiredly slumps back to her bed, completely spent.");
         player.stats.lust += 45;
         if (player.canOvipositSpider()) {
             DisplayText("\n\nGods DAMN!  You want to knock her up so bad!  Your Drider urges to mount her are in danger of overwhelming you and reducing you to a brainless breeder... maybe that isn't so bad after all, but you need to make a decision now before you're consumed by lust!");
 
             // [Leave her to recover] - Let Phylla Recover  [Mount] - Mount Phylla
-            MainScreen.addButton(0, "LetHerRecover", letPhyllaRecover);
-            MainScreen.addButton(1, "Mount", driderDoublePhllaMount);
+            return {
+                choices: [
+                    ["LetHerRecover", letPhyllaRecover],
+                    ["Mount", driderDoublePhllaMount],
+                ]
+            };
         }
         else {
 
@@ -2475,12 +2507,10 @@ function phyllaLaysSomeDriderEggs(player: Character) {
             return { next: letPhyllaRecover };
         }
     }
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_TIMES_DRIDER_EGG_LAYED++;
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_DRIDER_BABIES_COUNT += 5 + randInt(4);
 }
 
 // Mount Phylla:
-function driderDoublePhllaMount(player: Character) {
+function driderDoublePhllaMount(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("No longer able to control yourself, you rip free of your [armor] and charge up to Phylla's bed, catching her by surprise as she looks up at you.  With a seductive smile, you pin her down and slather your ovipositor against her fuck hole.");
     DisplayText("\n\nYour voice whispers through her being and ignites her sexual desire as you tell her that you feel she'd benefit from having more eggs inside of her.  Bending her rump so that you have the perfect angle, Phylla whimpers in uncontrollable anticipation.");
@@ -2492,30 +2522,33 @@ function driderDoublePhllaMount(player: Character) {
     DisplayText("\n\nAt last, your egg supply is exhausted and you pull free of the Ant Morph, carefully walking over broken and soon to be broken egg shells as your children skitter up to their mother's nourishing breasts.  Phylla only coos with deep content as she cradles her stomach, barely taking notice of the young spiders that squabble over who gets to suckle first.");
     player.orgasm();
     // empty eggs and such!
-    player.dumpEggs();
+    player.pregnancy.ovipositor.dumpEggs();
     // set phylla drider preggo timer
-    if (!pregnancy.isPregnant) pregnancy.knockUpForce(PregnancyType.DRIDER_EGGS, 8 * 24); // Supposed to be eight days, not eight hours
+    if (!pregWithDriderBabies()) {
+        phyllaFlags.PHYLLA_VAGINAL_PREGNANCY_TYPE = PregnancyType.DRIDER_EGGS;
+        phyllaFlags.PHYLLA_DRIDER_INCUBATION = 8 * 24; // Supposed to be eight days, not eight hours
+    }
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // Let Phylla Recover:
-function letPhyllaRecover() {
+function letPhyllaRecover(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Working up all of your self control, you decide that Phylla could use the rest.  You wink at Phylla as you leave, telling her that you'll be back to fuck her brains out shortly... once she feeds your children.  She only musters the strength to smile and mutter something about motherhood but you're already halfway out the door.");
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // ►[Children - Only available if Phylla has laid eggs]
-function phyllasKidsChildren() {
+function phyllasKidsChildren(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Phylla seems surprised you would be interested in the fruits of your loins.  \"<i>Usually once my kind take a mate they never come back to their colony.  I mean!  Not that I don't want you to come back, I-I like when you come down here.  It's just, usually not what happens.</i>\"  You reassure her you don't mind and that sometimes it's good to get away from the surface to see your progeny.  Her face seems to light up when you imply that they're 'your children.'");
 
     DisplayText("\n\n\"<i>They're great; I mean... just look at who they come from.</i>\"  She gives a timid nudge and continues.  \"<i>They take care of me and we've started to dig deeper into the ground.</i>\"");
 
     // If birthing for less than 10 days:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).DAYS_PHYLLA_HAS_SPENT_BIRTHING < 10) DisplayText("\n\n\"<i>We haven't made much progress, but many of our children are still young and not fully able to serve me.  I mean us!</i>\"  She quickly corrects herself.  \"<i>The progress is slow but it's nice to have them around.  Little reminders of you when you're not here.</i>\"  She smiles widely.");
+    if (phyllaFlags.DAYS_PHYLLA_HAS_SPENT_BIRTHING < 10) DisplayText("\n\n\"<i>We haven't made much progress, but many of our children are still young and not fully able to serve me.  I mean us!</i>\"  She quickly corrects herself.  \"<i>The progress is slow but it's nice to have them around.  Little reminders of you when you're not here.</i>\"  She smiles widely.");
     // If birthing for more than 10 days:
-    else if (User.flags.get<PhyllaFlags>(FlagType.Phylla).DAYS_PHYLLA_HAS_SPENT_BIRTHING < 40) DisplayText("\n\n\"<i>We've made considerable progress as you can no doubt tell.  Most of our children are completely capable of digging their own tunnels and with as many as we have, the progress is quite fast.  A few of them have even taken your name.  I mean, I hope you don't mind.  I started running out of names around the one hundredth egg.</i>\"");
+    else if (phyllaFlags.DAYS_PHYLLA_HAS_SPENT_BIRTHING < 40) DisplayText("\n\n\"<i>We've made considerable progress as you can no doubt tell.  Most of our children are completely capable of digging their own tunnels and with as many as we have, the progress is quite fast.  A few of them have even taken your name.  I mean, I hope you don't mind.  I started running out of names around the one hundredth egg.</i>\"");
     // If birthing for more than 40 days:
     else {
         DisplayText("\n\n\"<i>The colony is as big and wonderful as I ever hoped it would be. I've now toned back on my egg laying to keep our colony at a sustainable level.  This colony even rivals my mother's - in fact, I think it's a little bigger.</i>\"  You hear a very prideful tone in her voice.  Though she seems thrilled, Phylla can tell that you don't really feel the same way; her mother's colony was massive and you consider the possibility that you might have let this go on a little too long.");
@@ -2523,19 +2556,19 @@ function phyllasKidsChildren() {
     DisplayText("\n\nClearly she sees you're not at ease and tries to reassure you.  \"<i>We don't have an arena like my mother did; I have no reason for such a thing.  I mean, unless it would make you feel more comfortable down here...</i>\"  That's the last thing that would make you comfortable; you could have died in that arena and you'll be damned if you ever see another one again.  \"<i>Well, your children are happy.  They're living out their lives in peace and prosperity.  All thanks to you.</i>\"");
 
     // If Phylla given birth to Drider Eggs:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_TIMES_DRIDER_EGG_LAYED > 0) DisplayText("\n\nYou inquire about ALL of your children, knowing Phylla was just talking about your ant offspring previously.  Phylla quickly glances at the ground, clearly embarrassed she forgot and that you remembered.\n\n\"<i>They're...much larger than I would have expected, and I... can't communicate with them like I can with my... kind... but they help dig, I mean... they're capable of digging... they're just more playfully aggressive and rambunctious than I expected.  But their size makes them excellent guards and caretakers for the rest of the children.  I'm not used to it, but I love them just as much as my own.</i>\"");
+    if (phyllaFlags.PHYLLA_TIMES_DRIDER_EGG_LAYED > 0) DisplayText("\n\nYou inquire about ALL of your children, knowing Phylla was just talking about your ant offspring previously.  Phylla quickly glances at the ground, clearly embarrassed she forgot and that you remembered.\n\n\"<i>They're...much larger than I would have expected, and I... can't communicate with them like I can with my... kind... but they help dig, I mean... they're capable of digging... they're just more playfully aggressive and rambunctious than I expected.  But their size makes them excellent guards and caretakers for the rest of the children.  I'm not used to it, but I love them just as much as my own.</i>\"");
     // PC has birthed 30 Drider children or more:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_TIMES_DRIDER_EGG_LAYED > 10) DisplayText("\n\nShe sighs forlornly but continues.  \"<i>Some of our drider offspring have even taken it upon themselves to leave the colony and venture out into the world.  Not that I mind; it's just sad seeing them go sometimes.  I know we did a good job raising them, and I hope they take the lessons we taught them to heart, and that they never forget where home is...</i>\"");
+    if (phyllaFlags.PHYLLA_TIMES_DRIDER_EGG_LAYED > 10) DisplayText("\n\nShe sighs forlornly but continues.  \"<i>Some of our drider offspring have even taken it upon themselves to leave the colony and venture out into the world.  Not that I mind; it's just sad seeing them go sometimes.  I know we did a good job raising them, and I hope they take the lessons we taught them to heart, and that they never forget where home is...</i>\"");
     // Ending for Scene
     DisplayText("\n\nYou feel good about this.  Standing up to survey the colony, you can see Phylla is also very content.  You thank her for talking to you and head back to the surface, toward camp.");
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // ►[Appearance]
-function phyllaPearance() {
+function phyllaPearance(): NextScreenChoices {
     DisplayText().clear();
     // Not Laying Eggs
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING === 0) {
+    if (phyllaFlags.PHYLLA_EGG_LAYING === 0) {
         DisplayText("Phylla is a 5-foot 8-inch tall ant morph with a very small, feminine frame covered in highly defined muscles.  She has four arms, two that attach at her shoulders and two slightly smaller ones that attach at her serratus anterior on her stomach.  Both sets of her arms and human-like legs are covered in plates of semi-reflective brown chitin armor.  Her interlocking joints remind you of how insect joints connect to one another. Her abdomen is about 4 feet long and is covered in large interlocking plates of skin colored exoskeleton.  Despite the fact that she has to carry the weight of an abdomen, her hips are very girly.  Her well toned butt is rarely seen as her abdomen covers it most of the time.  She has a sharp, slightly feminine face and large almond shaped emerald-green eyes with no hint of pupils or irises.  Her mouth is surprisingly large considering how thin her lips are.  When she smiles at you, you see a single row of human like teeth with typical human canines.  Her short brown hair is usually matted and covered in dirt, although on rare occasions she styles it so that two long bangs frame her face leaving the rest to flow around her neck.");
         DisplayText("\n\nShe has a pair of B-cup breasts, with a single 0.5 inch nipple on each breast.");
         DisplayText("\n\nShe has one extremely tight pussy placed between her legs, with a 2.0 inch clitoris.");
@@ -2559,24 +2592,23 @@ function phyllaPearance() {
 // Success/Failure - Based on {Number of Children} + Random Chance of Failure + Cap of 'X' per day.
 // (Leads to - Success)
 // (Leads to - Failure)
-function phyllaDigsForGems(player: Character) {
+function phyllaDigsForGems(player: Character): NextScreenChoices {
     DisplayText().clear();
     let kidsMod: number = 0;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 10) kidsMod++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 50) kidsMod++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 150) kidsMod++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 300) kidsMod++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 600) kidsMod++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 1000) kidsMod++;
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).ANT_KIDS > 2000) kidsMod++;
+    if (phyllaFlags.ANT_KIDS > 10) kidsMod++;
+    if (phyllaFlags.ANT_KIDS > 50) kidsMod++;
+    if (phyllaFlags.ANT_KIDS > 150) kidsMod++;
+    if (phyllaFlags.ANT_KIDS > 300) kidsMod++;
+    if (phyllaFlags.ANT_KIDS > 600) kidsMod++;
+    if (phyllaFlags.ANT_KIDS > 1000) kidsMod++;
+    if (phyllaFlags.ANT_KIDS > 2000) kidsMod++;
     // Success
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_GEMS_HUNTED_TODAY === 0 && randInt(20) + kidsMod > 10) {
+    if (phyllaFlags.PHYLLA_GEMS_HUNTED_TODAY === 0 && randInt(20) + kidsMod > 10) {
         let gems: number = 0;
         gems = 10 + randInt(10) + kidsMod * 2;
         player.inventory.gems += gems;
-        statScreenRefresh();
         // If Phylla IS NOT Laying Eggs
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_EGG_LAYING === 0) {
+        if (phyllaFlags.PHYLLA_EGG_LAYING === 0) {
             DisplayText("You ask Phylla is she's found any gems while digging out her colony.  She nods happily and runs over to a small stone chest and rifles though it.  After a moment, she runs back over to you and holds up all four of her hands.");
             DisplayText("\n\n\"<i>I hope... this is enough, I mean... they're rare, even down here.</i>\"  You mess up her hair with your hand, laughing. Telling her it's enough, you advise her to keep looking.  She gives you a playful salute as you place the gems into your pouch.");
             DisplayText("\n\nYou gain " + gems + " gems.");
@@ -2601,18 +2633,18 @@ function phyllaDigsForGems(player: Character) {
         else DisplayText("\n\nYou sigh, slightly disappointed, but give her a weak pat on the head anyway.");
         DisplayText("\n\n\"<i>Is there anything else you wanted to do while you're down here?</i>\"  She inquires excitedly.");
     }
-    User.flags.get<PhyllaFlags>(FlagType.Phylla).PHYLLA_GEMS_HUNTED_TODAY = 1;
+    phyllaFlags.PHYLLA_GEMS_HUNTED_TODAY = 1;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // Drider/Bee impregnation scene for Phylla (universal unless otherwise specified, which will include varied intros and stuff.
 // Sex > [Egg Phylla]
-function eggDatBitch(player: Character) {
+function eggDatBitch(player: Character): NextScreenChoices {
     DisplayText().clear();
     // PC is a Female/Herm Drider:
     if (player.canOvipositSpider()) DisplayText("While Phylla appears to be sexually sated, the heaviness in your spider abdomen begs for release.\n\n");
     // First Time:
-    if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_EGG_IMPREGNATING_PHYLLA === 0) {
+    if (phyllaFlags.TIMES_EGG_IMPREGNATING_PHYLLA === 0) {
         DisplayText("Turning to Phylla, you tell her that you can help to make her wishes of being a brood-mother come true.  She looks at you a bit taken back, as if what you already did wasn't enough already.");
         DisplayText("\n\nYou go on to explain, telling her that your body is chalk full of eggs that eagerly await a willing host to gestate in.  If she wants to birth as many children as possible, your union can grant her wishes; albeit, she would be birthing both Ant and Spider children.");
     }
@@ -2624,7 +2656,7 @@ function eggDatBitch(player: Character) {
     if (randInt(20) + 1 + player.stats.int / 20 < 10) {
         DisplayText("\n\nPhylla ponders for a moment and shakes her head.  \"<i>I'm sorry, [name], I'm not comfortable with that right now.");
         // If player has already impregnated Phylla with drider eggs and fails the check:
-        if (pregnancy.isPregnant) DisplayText("\n\n\"<i>I just can't hold anything else inside me.  I'm sorry!  Please don't be mad... I mean, I will!  Just a-after... this batch.</i>\"");
+        if (pregWithDriderBabies()) DisplayText("\n\n\"<i>I just can't hold anything else inside me.  I'm sorry!  Please don't be mad... I mean, I will!  Just a-after... this batch.</i>\"");
         // Else player has not impregnated:
         else DisplayText("\n\n\"<i>I mean... I just, don't feel comfortable with that right now. Maybe later, though.</i>\"");
         return { next: Scenes.camp.returnToCampUseOneHour };
@@ -2633,7 +2665,7 @@ function eggDatBitch(player: Character) {
     else {
         DisplayText("\n\nWith some hesitation and consideration, Phylla ponders the idea of being a brood-mother in more than one way for a bit.  With a shy smile, Phylla reluctantly agrees to house both of your children.");
         // First Time:
-        if (User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_EGG_IMPREGNATING_PHYLLA === 0) {
+        if (phyllaFlags.TIMES_EGG_IMPREGNATING_PHYLLA === 0) {
             DisplayText("\n\n\"<i>H-How will we do this?</i>\" She inquires. \"<i>I mean, I've never seen or heard of anything mating with a Drider before... M-my eggs come out of my abdo~</i>\"");
             DisplayText("\n\nYou raise a finger to her lips and tell her to lie down against the bed and to relax.  You know exactly where her eggs come out of.  The image of Phylla dropping eggs out of both her vagina and her abdomen makes you want this all the more.  Though the link you send this image to her, and feel her well up with maternal pride.  In uncertain anticipation, Phylla heeds your directions and lies down, her back on the bed with her abdomen curled in the air.");
         }
@@ -2655,10 +2687,13 @@ function eggDatBitch(player: Character) {
         DisplayText("\n\nAt last, the final egg laid inside of Phylla, you retract your ovipositor from her love hole; it'll recover in time. Phylla rubs her belly and gleams with delight, filled with her lover's future children that will help the colony to grow strong.");
         // PC Drider eggs will take 8 days regardless of where she houses them to hatch. (3
         // through 8 children per pregnancy)
-        if (!pregnancy.isPregnant) pregnancy.knockUpForce(PregnancyType.DRIDER_EGGS, 8 * 24); // Supposed to be eight days, not eight hours
-        User.flags.get<PhyllaFlags>(FlagType.Phylla).TIMES_EGG_IMPREGNATING_PHYLLA++;
+        if (!pregWithDriderBabies()) {
+            phyllaFlags.PHYLLA_VAGINAL_PREGNANCY_TYPE = PregnancyType.DRIDER_EGGS;
+            phyllaFlags.PHYLLA_DRIDER_INCUBATION = 8 * 24; // Supposed to be eight days, not eight hours
+        }
+        phyllaFlags.TIMES_EGG_IMPREGNATING_PHYLLA++;
         player.orgasm();
-        player.dumpEggs();
+        player.pregnancy.ovipositor.dumpEggs();
     }
     return { next: Scenes.camp.returnToCampUseOneHour };
 }

@@ -30,7 +30,7 @@ export class SandWitch extends Character {
 			game.dynStats("lus", 8 + int(player.stats.sens) / 10);
 		}
 		else {
-			DisplayText("You feel the sands shift by your " + Desc.Leg.describeFeet(player) + ", and look down to see something slip out of the sands and into your clothes!  It feels incredibly smooth and circular as it glides upward along your " + LegDescriptor.describeLeg(player) + ", its progress unaffected by your frantic effort to dislodge it.  ");
+			DisplayText("You feel the sands shift by your " + Desc.Leg.describeFeet(player) + ", and look down to see something slip out of the sands and into your clothes!  It feels incredibly smooth and circular as it glides upward along your " + Desc.Leg.describeLeg(player) + ", its progress unaffected by your frantic effort to dislodge it.  ");
 			if (player.torso.vaginas.count > 0) DisplayText("It glides up your thighs to the entrance of your sex, and its intentions dawn on you!\n\nToo late! You reach to stop it, but it pushes against your lips and slips inside your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " in an instant.  You groan in frustration as it begins pulsing and vibrating, sometimes even seeming to change size.");
 			else DisplayText("It glides up your thighs, curving around your buttocks, and its intentions dawn on you.\n\nYou desperately grab for it, but are too late!  It pushes firmly against your rectum and slips inside instantaneously.  You groan in frustration as it begins pulsing and vibrating, sometimes even seeming to change size.");
 			player.statusAffects.add(StatusAffectType.StoneLust, 0, 0, 0, 0);
@@ -56,7 +56,7 @@ export class SandWitch extends Character {
 		this.torso.butt.looseness = ButtLooseness.TIGHT;
 		this.torso.butt.wetness = ButtWetness.NORMAL;
 		this.tallness = randInt(12) + 55;
-		this.torso.hipRating = HipRating.CURVY;
+		this.torso.hips.rating = HipRating.CURVY;
 		this.torso.butt.rating = ButtRating.LARGE;
 		this.skin.tone = "bronzed";
 		this.torso.neck.head.hair.color = "sandy-blonde";

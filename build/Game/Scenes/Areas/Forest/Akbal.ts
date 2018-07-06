@@ -244,10 +244,10 @@ class AkbalEndScenes extends EndScenes {
     public readonly hasDefeatScene = true;
     protected defeatScene(howAkbalLost: DefeatType, enemy: Character): NextScreenChoices {
         if (howAkbalLost === DefeatType.HP) {
-            return Scenes.forest.akbalScene.akbalDefeated(enemy, true);
+            return Scenes.forest.akbalScene.akbalDefeated(enemy, this.char, true);
         }
         else if (howAkbalLost === DefeatType.Lust) {
-            return Scenes.forest.akbalScene.akbalDefeated(enemy, false);
+            return Scenes.forest.akbalScene.akbalDefeated(enemy, this.char, false);
         }
     }
 }

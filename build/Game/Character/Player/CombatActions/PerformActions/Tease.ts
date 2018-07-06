@@ -19,6 +19,8 @@ import { Menus } from '../../../../Menus/Menus';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { User } from '../../../../User';
 import { PlayerFlags } from '../../PlayerFlags';
+import { Scenes } from '../../../../Scenes/Scenes';
+import { NagaTease } from './NagaTease';
 
 const enum TeaseType {
     ButtShake,                  // 0 butt shake
@@ -453,6 +455,12 @@ export class Tease implements CombatAction {
         if (target.desc.short === "worms") {
             DisplayText().clear();
             DisplayText("Thinking to take advantage of its humanoid form, you wave your cock and slap your ass in a rather lewd manner. However, the creature fails to react to your suggestive actions.\n\n");
+            return;
+        }
+        const nagaTease = new NagaTease();
+        if (nagaTease.canUse(character, target)) {
+            nagaTease.use(character, target);
+            // Scenes.desert.nagaScene.naggaTease(character, target);
             return;
         }
         fatigueRecovery(character);

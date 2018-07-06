@@ -31,6 +31,8 @@ import { WeaponName } from '../../../Items/Weapons/WeaponName';
 import { ClickOption, NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { Scenes } from '../../Scenes';
+import { FlagType } from '../../../Utilities/FlagType';
+import { Gender } from '../../../Body/GenderIdentity';
 
 class BeeGirlEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean {
@@ -92,10 +94,10 @@ class BeeGirlEndScenes extends EndScenes {
     private leaveAfterDefeating(howYouLost: DefeatType): ClickOption {
         return () => {
             if (howYouLost === DefeatType.HP) {
-                (User.flags.get(CharacterType.BeeGirl) as BeeGirlFlags).combatWinsWithoutRape++; // This only happens if you beat her up and then don't rape her
+                (User.flags.get(FlagType.BeeGirl) as BeeGirlFlags).combatWinsWithoutRape++; // This only happens if you beat her up and then don't rape her
             }
             else {
-                (User.flags.get(CharacterType.BeeGirl) as BeeGirlFlags).combatWinsWithRape++; // All wins by lust count towards the desire option, even when you leave
+                (User.flags.get(FlagType.BeeGirl) as BeeGirlFlags).combatWinsWithRape++; // All wins by lust count towards the desire option, even when you leave
             }
             return { next: Scenes.camp.returnToCampUseOneHour };
         };
@@ -195,7 +197,7 @@ export class BeeGirl extends Character {
     public constructor() {
         super(CharacterType.BeeGirl);
         this.description = new CharacterDescription(this, "bee-girl", "A bee-girl buzzes around you, filling the air with intoxicatingly sweet scents and a buzz that gets inside your head.  She has a humanoid face with small antennae, black chitin on her arms and legs that looks like shiny gloves and boots, sizable breasts, and a swollen abdomen tipped with a gleaming stinger.", false, "a ");
-        this.torso.vaginas.add(new Vagina(VaginaType.HUMAN, VaginaWetness.SLAVERING, VaginaLooseness.GAPING));
+        this.torso.vaginas.add(new Vagina(VaginaWetness.SLAVERING, VaginaLooseness.GAPING));
         this.torso.chest.add(new BreastRow(BreastCup.DD));
         this.torso.butt.looseness = ButtLooseness.STRETCHED;
         this.torso.butt.wetness = ButtWetness.NORMAL;

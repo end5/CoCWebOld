@@ -13,6 +13,15 @@ import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { NextScreenChoices } from '../../../ScreenDisplay';
 import { Scenes } from '../../Scenes';
+import { CharacterType } from '../../../Character/CharacterType';
+import { Cock } from '../../../Body/Cock';
+import { BreastRow } from '../../../Body/BreastRow';
+import { Weapon } from '../../../Items/Weapons/Weapon';
+import { WeaponName } from '../../../Items/Weapons/WeaponName';
+import { Armor } from '../../../Items/Armors/Armor';
+import { ArmorName } from '../../../Items/Armors/ArmorName';
+import { Tail, TailType } from '../../../Body/Tail';
+import { CombatContainer } from '../../../Combat/CombatContainer';
 
 class Attack implements CombatAction {
     public name: string = "Attack";
@@ -64,7 +73,7 @@ class Entwine implements CombatAction {
             }
             // Fail
             else {
-                DisplayText("While you attempt to avoid the onslaught of pseudopods, one catches you around your " + LegDescriptor.describeFoot(enemy) + " and drags you to the ground. You attempt to reach for it to pull it off only to have all of the other tentacles grab you in various places and immobilize you in the air. You are trapped and helpless!!!\n\n");
+                DisplayText("While you attempt to avoid the onslaught of pseudopods, one catches you around your " + Desc.Leg.describeFoot(enemy) + " and drags you to the ground. You attempt to reach for it to pull it off only to have all of the other tentacles grab you in various places and immobilize you in the air. You are trapped and helpless!!!\n\n");
                 // Male/Herm Version:
                 if (enemy.torso.cocks.count > 0) DisplayText("The creature, having immobilized you, coils a long tendril about your penis. You shudder as the creature begins stroking your cock like a maid at a dairy farm in an attempt to provoke a response from you. Unable to resist, your " + Desc.Cock.describeCock(enemy, enemy.torso.cocks.get(0)) + " easily becomes erect, signaling to the creature that you are responsive to harsher stimulation.\n");
                 // Female Version:
@@ -134,30 +143,27 @@ class TentacleBeastEndScenes extends EndScenes {
         }
     }
 }
+    // public performCombatAction() {
+    //     // tentacle beasts have special AI
+    //     if (randInt(2) === 0 || this.statusAffects.has(StatusAffectType.TentacleCoolDown))
+    //         special1();
+    //     else special2();
+    // }
 
 export class TentacleBeast extends Character {
-    public performCombatAction() {
-        // tentacle beasts have special AI
-        if (randInt(2) === 0 || this.statusAffects.has(StatusAffectType.TentacleCoolDown))
-            special1();
-        else special2();
-    }
-
-    public TentacleBeast() {
+    public constructor() {
+        super(CharacterType.TentacleBeast);
         this.description = new CharacterDescription(this, "tentacle beast", "You see the massive, shambling form of the tentacle beast before you.  Appearing as a large shrub, it shifts its bulbous mass and reveals a collection of thorny tendrils and cephalopodic limbs.", false, "the ");
         this.torso.cocks.add(new Cock(40, 1.5));
-        this.createCock(60, 1.5);
-        this.createCock(50, 1.5);
-        this.createCock(20, 1.5);
-        this.balls = 0;
-        this.ballSize = 0;
+        this.torso.cocks.add(new Cock(60, 1.5));
+        this.torso.cocks.add(new Cock(50, 1.5));
+        this.torso.cocks.add(new Cock(20, 1.5));
+        this.torso.balls.quantity = 0;
+        this.torso.balls.size = 0;
         this.cumMultiplier = 3;
         // this.hoursSinceCum = 0;
         this.gender = Gender.NONE;
-        this.pronoun1 = "it";
-        this.pronoun2 = "it";
-        this.pronoun3 = "its";
-        this.createBreastRow(0, 0);
+        this.torso.chest.add(new BreastRow(0));
         this.torso.butt.looseness = ButtLooseness.TIGHT;
         this.torso.butt.wetness = ButtWetness.SLIME_DROOLING;
         this.tallness = randInt(9) + 70;
@@ -175,21 +181,20 @@ export class TentacleBeast extends Character {
         this.baseStats.lib = 90;
         this.baseStats.sens = 20;
         this.baseStats.cor = 100;
-        this.weaponName = "whip-tendril";
-        this.weaponVerb = "thorny tendril";
-        this.weaponAttack = 1;
-        this.armorName = "rubbery skin";
-        this.armorDef = 1;
-        this.bonusHP = 350;
-        this.lust = 10;
-        this.lustVuln = 0.8;
-        this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-        this.level = 6;
-        this.gems = randInt(15) + 5;
-        this.drop = new WeightedDrop(null, 1);
-        this.special1 = tentaclePhysicalAttack;
-        this.special2 = tentacleEntwine;
-        this.special3 = tentaclePhysicalAttack;
-        this.tailType = TailType.DEMONIC;
+        this.inventory.equipment.defaultWeaponSlot.equip(new Weapon("whip-tendril" as WeaponName, undefined, "whip-tendril", "thorny tendril", 1));
+        this.inventory.equipment.defaultArmorSlot.equip(new Armor("rubbery skin" as ArmorName, undefined, "rubbery skin", 1));
+        this.baseStats.bonusHP = 350;
+        this.baseStats.lust = 10;
+        this.baseStats.lustVuln = 0.8;
+        // this.temperment = TEMPERMENT_LOVE_GRAPPLES;
+        this.baseStats.level = 6;
+        this.inventory.gems = randInt(15) + 5;
+        // this.drop = new WeightedDrop(null, 1);
+        // this.special1 = tentaclePhysicalAttack;
+        // this.special2 = tentacleEntwine;
+        // this.special3 = tentaclePhysicalAttack;
+        this.torso.tails.add(new Tail(TailType.DEMONIC));
+
+        // this.combatContainer = new CombatContainer(this, new T)
     }
 }

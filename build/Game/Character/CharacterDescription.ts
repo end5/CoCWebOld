@@ -52,21 +52,21 @@ export class CharacterDescription implements ISerializable<CharacterDescription>
     }
 
     /**
-     * Returns subjective pronoun. (ie. he/she/it/they)
+     * Returns subjective pronoun. (ie. he/she/it/they) - pronoun1
      */
     public get subjectivePronoun(): string {
         return this.subjective;
     }
 
     /**
-     * Returns objective pronoun. (ie. him/her/it/them)
+     * Returns objective pronoun. (ie. him/her/it/them) - pronoun2
      */
     public get objectivePronoun(): string {
         return this.objective;
     }
 
     /**
-     * Returns possessive pronoun. (ie. his/her/its/their)
+     * Returns possessive pronoun. (ie. his/her/its/their) - pronoun3
      */
     public get possessivePronoun(): string {
         return this.possessive;

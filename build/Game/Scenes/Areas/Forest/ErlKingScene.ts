@@ -18,6 +18,7 @@ import { NextScreenChoices, ScreenChoice } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { Time } from '../../../Utilities/Time';
 import { Scenes } from '../../Scenes';
+import { FlagType } from '../../../Utilities/FlagType';
 
 export interface ErlkingFlags {
     erlkingDisabled: number;
@@ -25,31 +26,26 @@ export interface ErlkingFlags {
     timesEncounteredPrincessGwynn: number;
 }
 
-const erlkingFlags: ErlkingFlags = {
-    erlkingDisabled: 0,
-    wildHuntEncounters: 0,
-    timesEncounteredPrincessGwynn: 0
-};
-User.flags.set("Erlking", erlkingFlags);
+const erlkingFlags = User.flags.get<ErlkingFlags>(FlagType.Erlking);
 
-export function encounterWildHunt(character: Character): NextScreenChoices {
+export function encounterWildHunt(player: Character): NextScreenChoices {
     erlkingFlags.wildHuntEncounters++;
     if (erlkingFlags.wildHuntEncounters === 0) {
         return firstWildHuntEncounter();
     }
-    else if (!character.inventory.keyItems.has("Golden Antlers")) {
-        return repeatWildHuntEncounter(character);
+    else if (!player.inventory.keyItems.has("Golden Antlers")) {
+        return repeatWildHuntEncounter(player);
     }
-    else if (character.inventory.keyItems.has("Golden Antlers")) {
-        return encounterPrincessGwynn(character);
+    else if (player.inventory.keyItems.has("Golden Antlers")) {
+        return encounterPrincessGwynn(player);
     }
 }
 
-export function characterHuntScore(character: Character): number {
+export function characterHuntScore(player: Character): number {
     console.trace("Calculating Wild Hunt score.");
-    console.trace("Int + Spd = " + String(character.stats.int + character.stats.spe));
-    console.trace("Base = " + String((character.stats.int + character.stats.spe) - (character.stats.fatigue * 2)));
-    let baseVal: number = (character.stats.int + character.stats.spe) - (character.stats.fatigue * 2);
+    console.trace("Int + Spd = " + String(player.stats.int + player.stats.spe));
+    console.trace("Base = " + String((player.stats.int + player.stats.spe) - (player.stats.fatigue * 2)));
+    let baseVal: number = (player.stats.int + player.stats.spe) - (player.stats.fatigue * 2);
 
     /*
     Conditional modifiers: +20 for Evade
@@ -67,69 +63,69 @@ export function characterHuntScore(character: Character): number {
             -10 for Centaur Half
     */
 
-    if (character.perks.has(PerkType.Evade)) {
+    if (player.perks.has(PerkType.Evade)) {
         baseVal += 20;
         console.trace("+20 for Evade");
     }
-    if (character.perks.has(PerkType.Runner)) {
+    if (player.perks.has(PerkType.Runner)) {
         baseVal += 20;
         console.trace("+20 for Runner");
     }
-    if (character.torso.hips.legs.isDrider()) {
+    if (player.torso.hips.legs.isDrider()) {
         baseVal += 20;
         console.trace("+20 for Drider");
     }
-    if (character.perks.has(PerkType.CorruptedNinetails)) {
+    if (player.perks.has(PerkType.CorruptedNinetails)) {
         baseVal += 30;
         console.trace("+30 For Ninetails");
     }
-    if (character.perks.has(PerkType.EnlightenedNinetails)) {
+    if (player.perks.has(PerkType.EnlightenedNinetails)) {
         baseVal += 30;
         console.trace("+30 for Ninetails");
     }
 
     // Akbal Blessings
-    if (character.perks.has(PerkType.FireLord)) {
+    if (player.perks.has(PerkType.FireLord)) {
         baseVal += 10;
         console.trace("+10 for Firelord");
     }
-    if (character.perks.has(PerkType.Whispered)) {
+    if (player.perks.has(PerkType.Whispered)) {
         baseVal += 10;
         console.trace("+10 for Whispered");
     }
 
-    if (character.perks.has(PerkType.Fast)) {
+    if (player.perks.has(PerkType.Fast)) {
         baseVal += 10;
         console.trace("+10 for Fast");
     }
-    if (character.perks.has(PerkType.Incorporeality)) {
+    if (player.perks.has(PerkType.Incorporeality)) {
         baseVal += 10;
         console.trace("+10 for Incorporeal");
     }
-    if (character.canFly()) {
+    if (player.canFly()) {
         baseVal += 10;
         console.trace("+10 for Flight");
     }
 
     // Heavy penalty for prey features. The penalty is applied PER FEATURE.
-    if (RaceScore.kitsuneScore(character) > 0) {
-        baseVal -= (RaceScore.kitsuneScore(character) * 20);
-        console.trace("-20 for each Kitsune part (-" + String(RaceScore.kitsuneScore(character) * 20) + ")");
+    if (RaceScore.kitsuneScore(player) > 0) {
+        baseVal -= (RaceScore.kitsuneScore(player) * 20);
+        console.trace("-20 for each Kitsune part (-" + String(RaceScore.kitsuneScore(player) * 20) + ")");
     }
-    if (RaceScore.bunnyScore(character) > 0) {
-        baseVal -= (RaceScore.bunnyScore(character) * 20);
-        console.trace("-20 for each Bunny part (-" + String(RaceScore.bunnyScore(character) * 20) + ")");
+    if (RaceScore.bunnyScore(player) > 0) {
+        baseVal -= (RaceScore.bunnyScore(player) * 20);
+        console.trace("-20 for each Bunny part (-" + String(RaceScore.bunnyScore(player) * 20) + ")");
     }
-    if (RaceScore.harpyScore(character) > 0) {
-        baseVal -= (RaceScore.harpyScore(character) * 20);
-        console.trace("-20 for each Harpy part (-" + String(RaceScore.harpyScore(character) * 20) + ")");
+    if (RaceScore.harpyScore(player) > 0) {
+        baseVal -= (RaceScore.harpyScore(player) * 20);
+        console.trace("-20 for each Harpy part (-" + String(RaceScore.harpyScore(player) * 20) + ")");
     }
-    if (RaceScore.gooScore(character) > 0) {
-        baseVal -= (RaceScore.gooScore(character) * 10);
-        console.trace("-10 for each Goo part (-" + String(RaceScore.gooScore(character) * 10) + ")");
+    if (RaceScore.gooScore(player) > 0) {
+        baseVal -= (RaceScore.gooScore(player) * 10);
+        console.trace("-10 for each Goo part (-" + String(RaceScore.gooScore(player) * 10) + ")");
     }
 
-    if (character.torso.hips.legs.isTaur()) {
+    if (player.torso.hips.legs.isTaur()) {
         baseVal -= 10;
         console.trace("-10 for Taur");
     }
@@ -157,15 +153,15 @@ export function firstWildHuntEncounter(): NextScreenChoices {
     return { choices: [["Wait", firstWildHuntChaseWaited], ["Run", firstWildHuntChaseRan]] };
 }
 
-function firstWildHuntChaseWaited(character: Character): NextScreenChoices {
-    return firstWildHuntChase(character, true);
+function firstWildHuntChaseWaited(player: Character): NextScreenChoices {
+    return firstWildHuntChase(player, true);
 }
 
-function firstWildHuntChaseRan(character: Character): NextScreenChoices {
-    return firstWildHuntChase(character, false);
+function firstWildHuntChaseRan(player: Character): NextScreenChoices {
+    return firstWildHuntChase(player, false);
 }
 
-function firstWildHuntChase(character: Character, waited: boolean = false): NextScreenChoices {
+function firstWildHuntChase(player: Character, waited: boolean = false): NextScreenChoices {
     DisplayText().clear();
 
     if (waited === false) {
@@ -174,22 +170,22 @@ function firstWildHuntChase(character: Character, waited: boolean = false): Next
     }
     else {
         DisplayText("The baying of hounds fills the air, and the trees echo with the distant thunder of hooves as the first of the creatures bursts through the fog.  Stooped and low, this beast-man is mostly canine, with a sharp-toothed muzzle spread wide and panting.  His red-black tongue dangles with each breath, steam rising up from his jaws.  The hound’s pelt is midnight black, covering his muscular frame.  Strong arms hang low, almost touching the ground, muscles flexing as his surprisingly human hands open and close restlessly.  His legs are distinctly dog-like, ending in wide, black-clawed paws.  Between its stocky legs; you catch a glimpse of an arm-thick sheath and a heavy sack behind.  A broad tail wags behind him, swinging slowly and menacingly");
-        if (character.statusAffects.has(StatusAffectType.MetWhitney)) DisplayText(", and for a moment all you can think of are Whitney’s canine peppers");
+        if (player.statusAffects.has(StatusAffectType.MetWhitney)) DisplayText(", and for a moment all you can think of are Whitney’s canine peppers");
         DisplayText(".\n\n");
 
         DisplayText("His baleful red eyes glare at you from beneath a dark brow.  The hound takes in a deep breath, his nostrils flaring, then throws his head back to howl.  The deafening sound is answered instantly by the crashing of brush as another beast man leaps through the undergrowth.  The fog falls to shreds as he leaps out behind you, flanking you with his fellow Hound.\n\n");
 
         DisplayText("To your horror, you see flashes of red as their slick shafts slide out, the air thick with heavy, panting breaths.");
-        if (character.stats.cor >= 40) {
-            if (character.torso.cocks.count > 0 && character.torso.vaginas.count <= 0) {
+        if (player.stats.cor >= 40) {
+            if (player.torso.cocks.count > 0 && player.torso.vaginas.count <= 0) {
                 DisplayText("  You can't help but stiffen, yourself, at the sight of their eagerness.");
             }
-            else if (character.torso.vaginas.count > 0 && character.torso.cocks.count <= 0) {
+            else if (player.torso.vaginas.count > 0 && player.torso.cocks.count <= 0) {
                 DisplayText("  As the air grows thick with their musk, your pussy grows wet, despite your best efforts.");
             }
-            else if (character.torso.vaginas.count > 0 && character.torso.cocks.count > 0) {
+            else if (player.torso.vaginas.count > 0 && player.torso.cocks.count > 0) {
                 DisplayText("  You feel a twitch from your cock");
-                if (character.torso.cocks.count > 1) DisplayText("s");
+                if (player.torso.cocks.count > 1) DisplayText("s");
                 DisplayText(" and an answering shiver from your pussy as you imagine those canine shafts being put to use.");
             }
             else {
@@ -222,31 +218,31 @@ function firstWildHuntChase(character: Character, waited: boolean = false): Next
 
     DisplayText("Within a few moments, the wind picks up, blowing the fog away, leaving no console.trace of the mysterious Huntsman, save for a small package on the ground.  You hurriedly pick it up, unable to shake the eerie feeling that you’re being watched.\n\n");
 
-    character.stats.fatigue += 10;
+    player.stats.fatigue += 10;
 
     if (waited)
-        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
+        return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
     else
-        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.FoxBerry, Scenes.camp.returnToCampUseOneHour);
+        return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.FoxBerry, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.FOXBERY, Scenes.camp.returnToCampUseOneHour);
 }
 
-export function repeatWildHuntEncounter(character: Character): NextScreenChoices {
+export function repeatWildHuntEncounter(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("As you wander through the Deepwoods, a familiar chilly fog begins to gather around your [feet], and in the distance, you hear the sound of a hunting horn and the baying of Hounds.\n\n");
 
     DisplayText("The Erlking is coming for you!\n\n");
 
-    if (character.torso.wings.type !== WingType.NONE) DisplayText("You quickly glance from side to side, realizing that the trees here grow too close together for your to spread your [wings].\n\n");
+    if (player.torso.wings.type !== WingType.NONE) DisplayText("You quickly glance from side to side, realizing that the trees here grow too close together for your to spread your [wings].\n\n");
 
     DisplayText("Do you make a run for it or stand your ground?\n\n");
 
     return { choices: [["Run", repeatWildHuntChase], ["Wait", repeatWildHuntWait]] };
 }
 
-function repeatWildHuntWait(character: Character): NextScreenChoices {
+function repeatWildHuntWait(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("The fog pours in like a wave, surrounding you and blurring the forest around you.  You hear the thunder of hooves approaching, followed by the baying of hounds.\n\n");
@@ -259,50 +255,50 @@ function repeatWildHuntWait(character: Character): NextScreenChoices {
 
     DisplayText("It seems the Erlking has no interest in chasing prey that won’t run.\n\n");
 
-    if (character.stats.int < 80) character.stats.int++;
+    if (player.stats.int < 80) player.stats.int++;
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function repeatWildHuntChase(character: Character): NextScreenChoices {
-    const pScore: number = characterHuntScore(character);
+function repeatWildHuntChase(player: Character): NextScreenChoices {
+    const pScore: number = characterHuntScore(player);
     if (pScore > 150) {
-        return repeatWildHuntEscaped(character);
+        return repeatWildHuntEscaped(player);
     }
     else {
-        return repeatWildHuntCaught(character, pScore);
+        return repeatWildHuntCaught(player, pScore);
     }
 }
 
-function repeatWildHuntEscaped(character: Character): NextScreenChoices {
+function repeatWildHuntEscaped(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("The Erlking might be the Master of the Hunt, but you are no one’s prey.  You immediately begin running, moving like the wind through the Deepwoods, your heart beating hard in your chest.");
-    if (character.torso.hips.legs.isGoo()) DisplayText("You move like quicksilver over the forest floor, your slimy bottom half flowing over all obstacles, oozing you faster and faster, ever onward.");
-    else if (character.torso.hips.legs.isBiped()) DisplayText("  Your [legs] pound against the mossy ground, deftly moving across the forest floor.");
-    else if (character.torso.hips.legs.isNaga()) DisplayText("  You move like the wind across the mossy ground, your coils propelling you through the forest.");
-    else if (character.torso.hips.legs.isDrider()) DisplayText("  Your multitude of legs skitter over the forest floor, propelling you between the trees at great speed.");
-    else if (character.torso.hips.legs.isTaur()) DisplayText("  Your hooves send you rocketing through the forest, dodging between the trees and ducking below branches.");
+    if (player.torso.hips.legs.isGoo()) DisplayText("You move like quicksilver over the forest floor, your slimy bottom half flowing over all obstacles, oozing you faster and faster, ever onward.");
+    else if (player.torso.hips.legs.isBiped()) DisplayText("  Your [legs] pound against the mossy ground, deftly moving across the forest floor.");
+    else if (player.torso.hips.legs.isNaga()) DisplayText("  You move like the wind across the mossy ground, your coils propelling you through the forest.");
+    else if (player.torso.hips.legs.isDrider()) DisplayText("  Your multitude of legs skitter over the forest floor, propelling you between the trees at great speed.");
+    else if (player.torso.hips.legs.isTaur()) DisplayText("  Your hooves send you rocketing through the forest, dodging between the trees and ducking below branches.");
 
     DisplayText("  Though the fog snakes through the undergrowth, ever at your heels, it never manages to surround you, and you hear the sounds of the Hunt growing more and more distant until they disappear altogether.\n\n");
 
     DisplayText("It looks like you’re in the clear... for now.\n\n");
 
-    character.stats.fatigue += 10;
+    player.stats.fatigue += 10;
 
     if (randInt(5) === 0) {
         if (randInt(2) === 0) {
-            character.stats.tou += 1;
+            player.stats.tou += 1;
         }
         else {
-            character.stats.spe += 1;
+            player.stats.spe += 1;
         }
     }
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function repeatWildHuntCaught(character: Character, pScore: number): NextScreenChoices {
+function repeatWildHuntCaught(player: Character, pScore: number): NextScreenChoices {
     DisplayText().clear();
 
     // Player Hunt Score < 150.  The Erlking captures you.
@@ -321,12 +317,12 @@ function repeatWildHuntCaught(character: Character, pScore: number): NextScreenC
 
     DisplayText("The ropes are thicker than your wrist, and you could probably untie them, given time, but the spin of the net, combined with the mind-bending terror of the fog has left you no room to think.  The hounds are snarling, the world is spinning, you’re prey, and you’ve been caught.\n\n");
 
-    if (RaceScore.bunnyScore(character) >= 4 || RaceScore.kitsuneScore(character) >= 4 || RaceScore.harpyScore(character) >= 4 || pScore > 100)
-        return repeatWildHuntAWinnerIsYou(character);
-    else return repeatWildHuntGivenToTheHounds(character);
+    if (RaceScore.bunnyScore(player) >= 4 || RaceScore.kitsuneScore(player) >= 4 || RaceScore.harpyScore(player) >= 4 || pScore > 100)
+        return repeatWildHuntAWinnerIsYou(player);
+    else return repeatWildHuntGivenToTheHounds(player);
 }
 
-export function repeatWildHuntGivenToTheHounds(character: Character): NextScreenChoices {
+export function repeatWildHuntGivenToTheHounds(player: Character): NextScreenChoices {
     DisplayText("“<i>How disappointing,</i>” drips the refined voice of the Erlking.  His horse’s hooves thud softly on the ground as he walks below you.  The cane at his side clicks against the forest floor with every other step.  You have just enough wherewithal to understand his words as your fingers grip the net.\n\n");
 
     DisplayText("“<i>This was but a few minutes’ diversion.  I had been hoping for more of a challenge,</i>” he says, the red glow in his eyes dimming.  “<i>You’re not particularly good at this, are you?</i>” he says, sighing.  His long face looks almost wistful.\n\n");
@@ -342,32 +338,32 @@ export function repeatWildHuntGivenToTheHounds(character: Character): NextScreen
     DisplayText("This fear doubles as the two hounds waste no time.  They are on you in the space of a heartbeat, ripping the net from around you, their powerful hands shoving you to all fours as they snarl and bark.  Their red, shiny dog cocks slip from their heavy sheaths, throbbing with thin, purple veins.  The fog has definitely done something to you, because you can’t help but lick your lips at the sight.  \n\n");
 
     DisplayText("Growling, the first Hound grabs you by your [ass], his muscular fingers sinking roughly into your flesh.  He roughly rips your [armor] from you, growling.  You feel a rush of warmth as a canine mouth presses against your [ass],");
-    if (character.torso.vaginas.count > 0) DisplayText(" long tongue touching the bottom edge of your [vagina]");
-    else if (character.torso.balls.quantity > 0) DisplayText(" long tongue lapping at the base of your balls");
-    else if (character.torso.cocks.count > 0) DisplayText(" long tongue lapping at the base of your cock");
+    if (player.torso.vaginas.count > 0) DisplayText(" long tongue touching the bottom edge of your [vagina]");
+    else if (player.torso.balls.quantity > 0) DisplayText(" long tongue lapping at the base of your balls");
+    else if (player.torso.cocks.count > 0) DisplayText(" long tongue lapping at the base of your cock");
     else DisplayText(" long tongue slapping warmly against your taint");
     DisplayText(" before running up to your [asshole].\n\n");
 
     DisplayText("You shiver, the fog-born fear still controlling your body.  You feel a rush of strange gratitude— the hounds don’t want to eat you, they just want to sate a different hunger.  And with the mindbending fog inside you, you want desperately to satisfy them.  Your submissive mind even hopes that if you can do a good job, they’ll spare you any further domination.  You’d be repulsed by the idea of fucking two Hounds to exhaustion if you weren’t so damn scared of them.  An errant thought at the back of your mind hopes that the effects of this fog are only temporary.\n\n");
 
     DisplayText("You glance over your shoulder, wanting to make sure the Hound has no trouble getting into you,");
-    if (character.torso.hips.legs.isTaur()) DisplayText(" and realizing that you’re too tall, you fold your legs beneath you, dropping all the way to the ground,");
+    if (player.torso.hips.legs.isTaur()) DisplayText(" and realizing that you’re too tall, you fold your legs beneath you, dropping all the way to the ground,");
     DisplayText(" when the other hound roughly grabs your");
-    if (character.femininity < 30) DisplayText(" strong jaw");
-    else if (character.femininity > 70) DisplayText(" delicate chin");
+    if (player.femininity < 30) DisplayText(" strong jaw");
+    else if (player.femininity > 70) DisplayText(" delicate chin");
     else DisplayText(" chin");
     DisplayText(", turning it toward his massive, slimy dog cock.  You get a brief glimpse of a crystal-clear bead of pre before the tip is forced between your lips.\n\n");
 
     DisplayText("The Hound begins fucking your face roughly, leaving salty precum on your tongue, his cock throbbing between your lips.  You feel grateful that the Hound has chosen to simply fuck you, and you want nothing more than to do the best job possible for the Hound.\n\n");
 
     DisplayText("You groan around the Hound’s dick as you feel a pressure against your [asshole].  The beast squeezes your [ass] cheeks as he shoves his foot-long doggie cock into your rear. ");
-    Mod.Butt.displayStretchButt(character, 12 * 3, true, false, false);
+    Mod.Butt.displayStretchButt(player, 12 * 3, true, false, false);
     DisplayText(" You yelp, realizing what’s to come, and try to wriggle away, but, pinned between the two Hounds, there’s no escape.  The Hounds growl in unison and you freeze, cowed by the two powerful males who want their way with your frightened, vulnerable body.\n\n");
 
     DisplayText("After all, comes a thought in your fog-addled head, they’ve earned the right to do whatever they want to their prey.\n\n");
 
     DisplayText("It doesn’t take the two dog men long.  They rock back and forth, shoving their thick cocks in and out of your submissive, helpless body.  The one in front grabs your head, burying your [face] into his crotch, so deep that your tongue licks against the throbbing bulge of his knot, your nose buried in the thick fur above his shaft.");
-    if (character.torso.tails.count > 0) DisplayText("  The Hound behind grabs you by [onetail], using it as a handhold as he thrusts over and over into your [asshole].");
+    if (player.torso.tails.count > 0) DisplayText("  The Hound behind grabs you by [onetail], using it as a handhold as he thrusts over and over into your [asshole].");
     else DisplayText("  The Hound behind grabs you by your [ass], thrusting into you again and again.");
     DisplayText("  You tremble, completely dominated by the two powerful males as they make you their prey-bitch.\n\n");
 
@@ -378,22 +374,22 @@ export function repeatWildHuntGivenToTheHounds(character: Character): NextScreen
     DisplayText("As the fog recedes, your mind quickly returns.  Blinking, you wobble to your [feet], wiping cum from your lips and gathering your scattered gear from around the clearing before setting back for camp.  You find a shiny, red pepper in the clearing, but appear to have dropped some gems in your failed flight from the Hunt.\n\n");
 
     let gemLoss: number = 10 + randInt(15);
-    if (character.inventory.gems < gemLoss) gemLoss = character.inventory.gems;
-    character.inventory.gems -= gemLoss;
+    if (player.inventory.gems < gemLoss) gemLoss = player.inventory.gems;
+    player.inventory.gems -= gemLoss;
 
     DisplayText("<b>You’ve lost " + gemLoss + " gems.</b>\n\n");
-    character.stats.sens -= 2;
-    character.stats.lib += 2;
-    character.stats.cor += 1;
-    character.stats.lust = 0;
-    character.stats.fatigue += 10;
-    character.orgasm();
-    character.slimeFeed();
-    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
+    player.stats.sens -= 2;
+    player.stats.lib += 2;
+    player.stats.cor += 1;
+    player.stats.lust = 0;
+    player.stats.fatigue += 10;
+    player.orgasm();
+    player.slimeFeed();
+    return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
 }
 
-function repeatWildHuntAWinnerIsYou(character: Character): NextScreenChoices {
+function repeatWildHuntAWinnerIsYou(player: Character): NextScreenChoices {
     DisplayText("Spirited clapping fills the woods.  The Hounds fall silent, sitting obediently on their haunches as the Erlking walks into the clearing, dismounting and looking up at you.\n\n");
 
     DisplayText("“<i>A spirited chase,</i>” he says, his black-gloved hands still chipping a sharp staccato through the cold air.  “<i>I have not had such fun in ages.</i>” The clearing is awash with a dim glow - it seems the Erlking’s golden antlers are lit with their own inner fire.\n\n");
@@ -413,11 +409,11 @@ function repeatWildHuntAWinnerIsYou(character: Character): NextScreenChoices {
     DisplayText("Even with so many of these thoughts crowding your mind, there’s still a tiny spark of resentment burning.  You could rush him and turn the tables on this cocky asshole.\n\n");
 
     // Sex	 	What’s my prize?		Stop the Madness 		Surrender Forever		How Dare You!
-    character.stats.fatigue += 10;
+    player.stats.fatigue += 10;
     return { choices: [["Sex", predatoryPrey], ["Prize?", whatsMyPrize], ["Stop", stopTheMadness], ["Surrender", surrenderToTheHounds], ["Revenge", howDareYou]] };
 }
 
-function whatsMyPrize(character: Character): NextScreenChoices {
+function whatsMyPrize(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("You stand up, brushing yourself off, and ignore the Erlking’s clearly-visible dick, stating that you’d like some compensation for all the trouble.\n\n");
@@ -432,7 +428,7 @@ function whatsMyPrize(character: Character): NextScreenChoices {
     DisplayText("<b>You found " + gemFind + " gems.</b>\n\n");
 
     const itemToAdd = [ConsumableName.CaninePepper, ConsumableName.FoxBerry, ConsumableName.NeonPinkEgg][randInt(3)];
-    return character.inventory.items.createAdd(character, ItemType.Consumable, itemToAdd, Scenes.camp.returnToCampUseOneHour);
+    return player.inventory.items.createAdd(player, ItemType.Consumable, itemToAdd, Scenes.camp.returnToCampUseOneHour);
     /*
     if (selector === 0) inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
     if (selector === 1) inventory.takeItem(consumables.FOXBERY, Scenes.camp.returnToCampUseOneHour);
@@ -460,7 +456,7 @@ function stopTheMadness(): NextScreenChoices {
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function surrenderToTheHounds(character: Character): NextScreenChoices {
+function surrenderToTheHounds(player: Character): NextScreenChoices {
     // [Bad End]
     DisplayText().clear();
 
@@ -476,57 +472,57 @@ function surrenderToTheHounds(character: Character): NextScreenChoices {
 
     DisplayText("The words rumble through you, and you feel a warm heat building in your stomach.  Something about your arms and legs feel... off... but you can’t take your eyes away from the Erlking’s, not even when pain lances through your body, your muscles swelling, your [armor] tearing and falling away.  The Erlking releases his hold on you and you look down immediately at your body.\n\n");
 
-    if (character.skin.type === SkinType.FUR) DisplayText("Your fur turns jet black.");
+    if (player.skin.type === SkinType.FUR) DisplayText("Your fur turns jet black.");
     else DisplayText("Black fur runs down your body like a tide coming in.");
     DisplayText("  Your muscles bulge and swell beneath the midnight coat.");
-    if (character.torso.chest.count > 0) DisplayText("  Your chest first flattens out, then swells, as");
+    if (player.torso.chest.count > 0) DisplayText("  Your chest first flattens out, then swells, as");
     else DisplayText("  T");
     DisplayText(" taut muscles fill in your entire frame.");
-    if (character.torso.hips.legs.type === LegType.DOG) DisplayText("  Your doggie paws tingle as muscles build there, rebuilding them as stocky, athletic hound legs.");
+    if (player.torso.hips.legs.type === LegType.DOG) DisplayText("  Your doggie paws tingle as muscles build there, rebuilding them as stocky, athletic hound legs.");
     else DisplayText("  Your [legs] bend and crack, making you howl in pain as they rebuild themselves as onyx-clawed canine paws.");
     DisplayText("\n\n");
 
     DisplayText("Between your bestial legs, your genitals rearrange themselves.");
-    if (character.torso.vaginas.count > 0 && character.torso.cocks.count <= 0) {
+    if (player.torso.vaginas.count > 0 && player.torso.cocks.count <= 0) {
         DisplayText("  Your clit swells to incredible size, throbbing a dull red, run through with purple veins.  You pant heavily, your tongue hanging out of your mouth, as the rest of your pussy closes, sealing as if it were never there, only to be replaced a moment later with the swelling of two massive testicles.");
     }
-    else if (character.torso.cocks.count > 0 && character.torso.vaginas.count <= 0) {
-        if (character.torso.cocks.count > 1) {
+    else if (player.torso.cocks.count > 0 && player.torso.vaginas.count <= 0) {
+        if (player.torso.cocks.count > 1) {
             DisplayText("  Your stomach lurches as your cocks slap together and begin melding into one swollen form.  It pulses and throbs, swelling at the base, pointing at the tip, becoming a single dog cock.");
         }
-        else if (character.torso.cocks.get(0).type !== CockType.DOG) {
+        else if (player.torso.cocks.get(0).type !== CockType.DOG) {
             DisplayText("  Your cock begins to shift and mold like clay, aching dull red, the veins darkening to purple, tip pulling out to form a throbbing, new dog cock.");
         }
         else {
             DisplayText("  Your canine prick throbs painfully, leaving you panting and whining.");
         }
     }
-    else if (character.torso.vaginas.count > 0 && character.torso.cocks.count > 0) {
-        if (character.torso.cocks.count > 1) {
+    else if (player.torso.vaginas.count > 0 && player.torso.cocks.count > 0) {
+        if (player.torso.cocks.count > 1) {
             DisplayText("  You pant heavily, your tongue hanging out of your mouth, as your pussy closes, sealing as if it were never there, only to be occluded a moment later with the curve of your swelling, massive testicles.  Your stomach lurches as your cocks slap together and begin melding into one swollen form.  It pulses and throbs, swelling at the case, pointing at the tip, becoming a single dog cock.");
         }
         else {
             DisplayText("  You pant heavily, your tongue hanging out of your mouth, as your pussy closes, sealing as if it were never there, only to be occluded a moment later with the curve of your swelling, massive testicles.");
 
-            if (character.torso.cocks.get(0).type !== CockType.DOG) DisplayText("  Your cock begins to shift and mold like clay, aching dull red, the veins darkening to purple, tip pulling out to form a throbbing, new dog cock.");
+            if (player.torso.cocks.get(0).type !== CockType.DOG) DisplayText("  Your cock begins to shift and mold like clay, aching dull red, the veins darkening to purple, tip pulling out to form a throbbing, new dog cock.");
             else DisplayText("  Your canine prick throbs painfully, leaving you panting and whining.");
         }
     }
-    else if (character.torso.vaginas.count <= 0 && character.torso.cocks.count <= 0) {
+    else if (player.torso.vaginas.count <= 0 && player.torso.cocks.count <= 0) {
         DisplayText("  The smooth curve of your crotch ripples and bulges, and a cherry-red tip pushes out from your fur.  The wind around you picks up, blowing across your new, smooth doggie prick as it pushes out.  The overwhelming sensation has you shuddering, and you tilt your head back and howl.");
     }
     DisplayText("\n\n");
 
     DisplayText("The black fur covers your");
-    if (character.torso.balls.quantity === 0) DisplayText(" new");
+    if (player.torso.balls.quantity === 0) DisplayText(" new");
     DisplayText(" balls and runs halfway up your shiny red pecker, forming a sheath.");
-    if (character.torso.wings.type !== 0) DisplayText("  You whine, rolling on your back and with a start, realize that your wings must have fallen off while you were distracted with your cock.");
+    if (player.torso.wings.type !== 0) DisplayText("  You whine, rolling on your back and with a start, realize that your wings must have fallen off while you were distracted with your cock.");
     DisplayText("  You smile an open-mouthed doggie smile, feeling the warm churning of cum building in your throbbing balls.  You ache for release, wanting nothing more than to stroke yourself.  You raise your black-nailed hands to your cock, but stop short, knowing instinctively that masturbating is forbidden.\n\n");
 
     DisplayText("Instead, you curl your stomach, trying to reach your cock with your mouth.");
-    if (character.torso.neck.head.face.type !== FaceType.DOG) DisplayText("  The world bends alarmingly as your nose pushes out, creating a black-furred muzzle where your mouth once was.");
+    if (player.torso.neck.head.face.type !== FaceType.DOG) DisplayText("  The world bends alarmingly as your nose pushes out, creating a black-furred muzzle where your mouth once was.");
     DisplayText("  You whine, looking directly at your pointed dog cock, and the trickle of pre running from its tip, but even your");
-    if (character.torso.neck.head.face.type !== FaceType.DOG) DisplayText(" new");
+    if (player.torso.neck.head.face.type !== FaceType.DOG) DisplayText(" new");
     DisplayText(" muzzle and broad, flat tongue can’t reach it.\n\n");
 
     DisplayText("The Erlking... The Master, your mind corrects itself.  The Master murmurs softly to you.  “<i>Patience, Hound,</i>” he commands, pressing a strong, gloved hand against your chest, holding you down on the ground.  You go still, submissive to the Master as he kneels next to your prone form.  His other hand grasps your dick slowly, and your mind melts.\n\n");
@@ -534,7 +530,7 @@ function surrenderToTheHounds(character: Character): NextScreenChoices {
     DisplayText("You’re in absolute heaven as the Master pins you down, stroking your dick.  His gloved fingers work your shaft with elegant efficiency, running down your length, and squeezing in a delicious rhythm.  The hand on your chest stays firm, but runs through your fur, petting your broad, muscular chest.\n\n");
 
     DisplayText("Your eyes roll back, tongue lolling as the Master squeezes the base of your cock.  Your");
-    if (character.torso.cocks.filter(Cock.HasKnot).length <= 0) DisplayText(" new");
+    if (player.torso.cocks.filter(Cock.HasKnot).length <= 0) DisplayText(" new");
     DisplayText(" knot swells, and his firm hand on it feels sooo good.  At some point the two other Hounds have appeared, and you can feel, rather than see, their presence nearby.\n\n");
 
     DisplayText("You whimper and groan in absolute bliss, and begin bucking without meaning to.  You want to stay still and submissive for the Master, but your body has other ideas.  You whine, wriggling and writhing against the Master’s hand.  He grunts, hand moving faster and faster, squeezing tighter around your doggie cock.\n\n");
@@ -547,7 +543,7 @@ function surrenderToTheHounds(character: Character): NextScreenChoices {
     return { next: Menus.GameOver };
 }
 
-function predatoryPrey(character: Character): NextScreenChoices {
+function predatoryPrey(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("You stand, unable to take your eyes from the Erlking’s slim body and erect dick.\n\n");
@@ -558,15 +554,15 @@ function predatoryPrey(character: Character): NextScreenChoices {
 
     DisplayText("His warm mouth presses against your neck, his fingers undoing your [armor], letting it fall to the forest floor.  His touch sends warm shivers through you, and you moan as he walks you backward, pressing you firmly against a tree.\n\n");
 
-    if (!character.torso.hips.legs.isTaur()) {
-        if (character.torso.vaginas.count > 0 && character.torso.cocks.count <= 0) {
+    if (!player.torso.hips.legs.isTaur()) {
+        if (player.torso.vaginas.count > 0 && player.torso.cocks.count <= 0) {
             DisplayText("With your back against the tree, he guides your");
-            if (character.torso.hips.legs.isBiped() || character.torso.hips.legs.isDrider() || character.torso.hips.legs.isGoo()) DisplayText(" [legs] up, letting them wrap around his back.");
-            else if (character.torso.hips.legs.isNaga()) DisplayText(" tail up, letting your coils wrap around his back.");
+            if (player.torso.hips.legs.isBiped() || player.torso.hips.legs.isDrider() || player.torso.hips.legs.isGoo()) DisplayText(" [legs] up, letting them wrap around his back.");
+            else if (player.torso.hips.legs.isNaga()) DisplayText(" tail up, letting your coils wrap around his back.");
             DisplayText("  One hand grasps firmly under your [ass], holding you up, while the other plays softly across your chest, squeezing and caressing each of your [chest] in turn.  He tweaks your nipples, one by one, sending shockwaves of pleasure through your body.\n\n");
 
             DisplayText("“<i>Take me, Huntsman,</i>” you moan.  His shaft is already poised, his equine dick sliding up into your [vagina], pushing deep inside you.");
-            Mod.Vagina.displayStretchVagina(character, 12 * 3, true, true, false);
+            Mod.Vagina.displayStretchVagina(player, 12 * 3, true, true, false);
             // character.displayStretchVagina(12 * 3, true, true, false);
             DisplayText("\n\n");
 
@@ -580,15 +576,15 @@ function predatoryPrey(character: Character): NextScreenChoices {
 
             DisplayText("You wake up an hour later, head spinning, feeling slightly tougher for all of the... exercise.\n\n");
         }
-        else if (character.torso.cocks.count > 0) {
+        else if (player.torso.cocks.count > 0) {
             DisplayText("With your back against the tree, he guides your");
-            if (character.torso.hips.legs.isBiped()) DisplayText(" [legs] up, letting them wrap around his back.");
-            else if (character.torso.hips.legs.isNaga()) DisplayText(" tail up, letting your coils wrap around his back.");
+            if (player.torso.hips.legs.isBiped()) DisplayText(" [legs] up, letting them wrap around his back.");
+            else if (player.torso.hips.legs.isNaga()) DisplayText(" tail up, letting your coils wrap around his back.");
             DisplayText("  One hand grasps firmly under your [ass], holding you up, while the other plays softly across your chest, tweaking each nipple before trailing down your stomach, grasping [oneCock]\n\n");
 
             DisplayText("“<i>Take me, Huntsman,</i>” you groan.  His shaft is already at your [ass].  His equine dick pushing up into your [asshole], pushing deep inside you.");
 
-            Mod.Butt.displayStretchButt(character, 12 * 3, true, true, false);
+            Mod.Butt.displayStretchButt(player, 12 * 3, true, true, false);
             // character.displayStretchButt(12 * 3, true, true, false);
             DisplayText("\n\n");
 
@@ -606,15 +602,15 @@ function predatoryPrey(character: Character): NextScreenChoices {
     else {
         DisplayText("The Erlking smiles at you, caressing your cheek.  “<i>I pride myself in keeping a proper stable,</i>” he says, delicately moving behind you.  With his strong hands on your flanks, he guides you to face up against a tree.\n\n");
 
-        if (character.torso.vaginas.count > 0 && character.torso.cocks.count <= 0) {
+        if (player.torso.vaginas.count > 0 && player.torso.cocks.count <= 0) {
             DisplayText("With your [chest] against the rough bark, he lifts your [tail], exposing your [pussy] to the swelling head of his equine cock.  With a soft sound, he pushes between your lips, letting you feel each prepuce ring as they squeeze into you.");
 
-            Mod.Vagina.displayStretchVagina(character, 12 * 3, true, true, false);
+            Mod.Vagina.displayStretchVagina(player, 12 * 3, true, true, false);
             // character.displayStretchVagina(12 * 3, true, true, false);
             DisplayText("\n\n");
 
             DisplayText("You wrap your arms around the trunk of the tree as his hands grip your flanks.  His own equine legs begin thrusting him against you, his ribbed cock sliding in and out of your [pussy], the ridges of his horselike shaft massaging you from the inside.  The force of his fucking ginds your [chest] against the tree.");
-            if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 0) DisplayText("  The friction begins milking you, making you ooze milk down the trunk.");
+            if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 0) DisplayText("  The friction begins milking you, making you ooze milk down the trunk.");
             DisplayText("  The mild pain of abrasion couples with the pleasure of his forceful fucking and you feel your climax approaching.\n\n");
 
             DisplayText("With a moan, you cum, hugging the tree with all your might, thrusting back with your hindquarters.  With gentlemanly demeanor, the Erlking continues pumping his thick cock in and out of you until your orgasm recedes.  He then cums himself, filling your insides with his hot spunk. \n\n");
@@ -625,7 +621,7 @@ function predatoryPrey(character: Character): NextScreenChoices {
 
             DisplayText("You wake up an hour later in the clearing, the Erlking gone and your chest unmarred.  You blink, sleepily, still feeling the Erlking’s arms around you and shakily climb to your feet, making your way back to camp.\n\n");
         }
-        else if (character.torso.cocks.count > 0) {
+        else if (player.torso.cocks.count > 0) {
             DisplayText("With your [chest] against the rough bark, he crouches at your side, taking your already stiffening [oneCock] in his gloved hand.  From this angle, you feel, rather than see the cream he lathers on your [cock], working you to full hardness. One hand strokes your flank soothingly as the other wraps around your [cock], stroking you in his strong grip.\n\n");
 
             DisplayText("You pant, fingertips gripping the bark of the tree as he jacks you off.  Your tongue lolls out as his gloved hand grips you firmly, moving faster and faster as he works his way up and down your length.  Whatever lube he used is incredible, and you feel a tingle on every down and up stroke.\n\n");
@@ -643,28 +639,28 @@ function predatoryPrey(character: Character): NextScreenChoices {
     }
 
     // [+10 Fatigue, +1 Toughness / +1 Strength, 100 hp healed]
-    if (character.stats.tou < character.stats.str) {
+    if (player.stats.tou < player.stats.str) {
         // dynStats("toughness+", 1, "fatigue+", 10, "health+", 100, "lust=", 0);
-        character.stats.tou += 1;
-        character.stats.fatigue += 10;
-        character.stats.HP += 100;
-        character.stats.lust = 0;
+        player.stats.tou += 1;
+        player.stats.fatigue += 10;
+        player.stats.HP += 100;
+        player.stats.lust = 0;
     }
     else {
         // dynStats("strength+", 1, "fatigue+", 10, "health+", 100, "lust=", 0);
-        character.stats.str += 1;
-        character.stats.fatigue += 10;
-        character.stats.HP += 100;
-        character.stats.lust = 0;
+        player.stats.str += 1;
+        player.stats.fatigue += 10;
+        player.stats.HP += 100;
+        player.stats.lust = 0;
     }
 
-    character.orgasm();
-    character.slimeFeed();
+    player.orgasm();
+    player.slimeFeed();
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function howDareYou(character: Character): NextScreenChoices {
+function howDareYou(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     // [ends the Hunt permanently, Opens Princess Option]
@@ -680,7 +676,7 @@ function howDareYou(character: Character): NextScreenChoices {
 
     DisplayText("“<i>What do yo-</i>” begins the Erlking, looking up at you.  You slap his face, cutting off the end of the question.\n\n");
 
-    if (character.torso.vaginas.count > 0 && character.torso.cocks.count <= 0) {
+    if (player.torso.vaginas.count > 0 && player.torso.cocks.count <= 0) {
         DisplayText("You grab his horns, shoving him over backwards.  He seems to be getting weaker by the moment.  He can barely pick himself up off the ground.  You look down at the prone huntsman with disdain, striding to his head, your [feet] on either side of his head.\n\n");
 
         DisplayText("“<i>What are yo-</i>” he tries to ask, before you crouch down, burying his deer-muzzle in your muff.  You grab the forward prongs of his antlers, steering his mouth against your dripping vagina.\n\n");
@@ -699,7 +695,7 @@ function howDareYou(character: Character): NextScreenChoices {
 
         DisplayText("As you turn away, the fog rolls in low, engulfing the prone huntsman.  You know he definitely won’t be bothering you anymore.\n\n");
     }
-    else if (character.torso.cocks.count > 0) {
+    else if (player.torso.cocks.count > 0) {
         DisplayText("You undo your [armor], releasing your [cock].  Narrowing your eyes at the fallen hunter, you grab him by the antlers, shoving your cock in his face.\n\n");
 
         DisplayText("“<i>Lick it, huntsman.  Make me good and wet,</i>” you growl.  \n\n");
@@ -735,15 +731,15 @@ function howDareYou(character: Character): NextScreenChoices {
         DisplayText("“<i>No, my Lord,</i>” She croons, rising up to her knees, lapping at your dick.  Once she’s finished cleaning, she helps you with your [armor].  You nod a goodbye to her and begin walking, smirking in amusement at the trickle of cum running down her taut cheeks and down her legs as she waves farewell.\n\n");
     }
 
-    character.inventory.keyItems.add("Golden Antlers", 0, 0, 0, 0);
-    character.orgasm();
+    player.inventory.keyItems.add("Golden Antlers", 0, 0, 0, 0);
+    player.orgasm();
     // dynStats("lust=", 0);
-    character.stats.lust = 0;
+    player.stats.lust = 0;
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function encounterPrincessGwynn(character: Character): NextScreenChoices {
+function encounterPrincessGwynn(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("As you wander through the Deepwoods, you hear a rustling in the bushes.  You turn to see a flash of pink between the trees.  A slim, graceful figure steps out from behind a tree, wearing a dark green cloak and a small, leather shoulder bag.  It takes you a moment to recognize the Princess, the once-Erlking.  Her deer-like face and large, doe eyes peer timidly at you.\n\n");
@@ -772,20 +768,20 @@ function encounterPrincessGwynn(character: Character): NextScreenChoices {
 
     DisplayText("“<i>What can I do to repay you?</i>” Gwynn chirps cutely, kissing your cheek.  ");
 
-    if (character.torso.cocks.count > 0) DisplayText("“<i>I could suck your dick, or you could fuck my princess pussy, or ");
+    if (player.torso.cocks.count > 0) DisplayText("“<i>I could suck your dick, or you could fuck my princess pussy, or ");
     else DisplayText("“<i>");
-    if (character.torso.vaginas.count > 0) DisplayText("I could eat your pussy, ");
+    if (player.torso.vaginas.count > 0) DisplayText("I could eat your pussy, ");
     DisplayText(" or I could share some of my special potion with you,</i>” she counts the options off on her slim fingers.\n\n");
 
     DisplayText("You run through the options in your head, even briefly considering ‘getting some of her potion’ on your own terms.\n\n");
 
     // Suck My Dick  /  Fuck Her Ass  /  Eat My Pussy  /  Milk Her Dick  /  Gifts
     const choices: ScreenChoice[] = [["", undefined], ["", undefined], ["", undefined]];
-    if (character.torso.cocks.count > 0) {
+    if (player.torso.cocks.count > 0) {
         choices[0] = ["Suck Me", gwynnSucksDicks];
         choices[1] = ["Assfuck", gwynnGetsButtfuxed];
     }
-    if (character.torso.vaginas.count > 0) {
+    if (player.torso.vaginas.count > 0) {
         choices[2] = ["Eat Me", gwynnNomsDaCunts];
     }
     choices.push(["Milk Dick", gwynnGetsDickmilked]);
@@ -793,7 +789,7 @@ function encounterPrincessGwynn(character: Character): NextScreenChoices {
     return { choices };
 }
 
-function gwynnSucksDicks(character: Character): NextScreenChoices {
+function gwynnSucksDicks(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("“<i>Yes, of course, M’Lord!</i>” Gwynn burbles, happily, dropping down to her knees.  In an instant, your [cock] is in her wet mouth.  Her time in the woods has developed her skill as she moans around your [cock], slurping wetly at it.\n\n");
 
@@ -811,14 +807,14 @@ function gwynnSucksDicks(character: Character): NextScreenChoices {
 
     // [Libido + 2]
     // dynStats("lib+", 2, "lus=", 0);
-    character.stats.lib += 2;
-    character.stats.lust = 0;
-    character.orgasm();
+    player.stats.lib += 2;
+    player.stats.lust = 0;
+    player.orgasm();
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnGetsButtfuxed(character: Character): NextScreenChoices {
+function gwynnGetsButtfuxed(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>At once, M’Lord!</i>” she says, clapping her hands excitedly.  She bounces up in the air, then bounds low to the ground, pulling a small bottle from her purse, and dumping a liberal amount of raspberry-scented lube on your cock.  She works it in, her slim fingers massaging your cock to full attention before she hops around.\n\n");
@@ -837,14 +833,14 @@ function gwynnGetsButtfuxed(character: Character): NextScreenChoices {
 
     // [Sensitivity -2]
     // dynStats("sen-", 2, "lus=", 0);
-    character.stats.sens -= 2;
-    character.stats.lust = 0;
-    character.orgasm();
+    player.stats.sens -= 2;
+    player.stats.lust = 0;
+    player.orgasm();
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnNomsDaCunts(character: Character): NextScreenChoices {
+function gwynnNomsDaCunts(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>Yes Ma’am,</i>” she says, licking her lips.  She points to a nearby stump, gesturing for you to have a seat on the soft moss.  As you do, she wastes no time in dropping her pink muzzle to your pussy.  \n\n");
@@ -856,22 +852,22 @@ function gwynnNomsDaCunts(character: Character): NextScreenChoices {
     DisplayText("Two long, slim fingers slide into your pussy as she sucks on your love button.  Her tongue flickers and massages your clit as her finger pump in and out of your dripping snatch.  She hums, letting the vibrations from her lips travel in and buzz around your clitty.  Just as you shiver, on the edge of your orgasm, she closes her teeth lightly on your clitty, humming and buzzing them against your sensitive nub.  You cry out, gushing pussyjuices down her chin and chest.  She keeps licking, drawing another shivering orgasm on the heels of the first. \n\n");
 
     DisplayText("You slump back on the stump, trembling.  You glance down");
-    if (character.torso.chest.count > 0) DisplayText(" between your breasts");
+    if (player.torso.chest.count > 0) DisplayText(" between your breasts");
     DisplayText(" to see her smiling and elegantly licking her slim fingers clean. You shudder as she begins lapping at your pussy, cleaning you methodically.");
 
     DisplayText("When you can finally move again, Princess is kneeling next to you obediently.  She closes her eyes, smiling as you pat her head, ruffling her pink hair.  When you stand, she rises to help dress you, blowing you a kiss as you leave the forest behind.\n\n");
 
     // [Sensitivity -2, Libido +2]
     // dynStats("sen-", 2, "lib+", 2, "lus=", 0);
-    character.stats.sens -= 2;
-    character.stats.lib += 2;
-    character.stats.lust = 0;
-    character.orgasm();
+    player.stats.sens -= 2;
+    player.stats.lib += 2;
+    player.stats.lust = 0;
+    player.orgasm();
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnGetsDickmilked(character: Character): NextScreenChoices {
+function gwynnGetsDickmilked(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>My Lord, are you sure?</i>” she says, tilting her head to the side.\n\n");
@@ -898,13 +894,13 @@ function gwynnGetsDickmilked(character: Character): NextScreenChoices {
 
     // [Lust +20, Libido +2]
     // dynStats("lus+", 20, "lib+", 2);
-    character.stats.lust += 20;
-    character.stats.lib += 2;
+    player.stats.lust += 20;
+    player.stats.lib += 2;
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnGibsGifts(character: Character): NextScreenChoices {
+function gwynnGibsGifts(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>Do you have any presents for your Master?</i>” you ask casually.\n\n");
@@ -918,6 +914,6 @@ function gwynnGibsGifts(character: Character): NextScreenChoices {
     DisplayText("“<i>I’ll get started on it right away!</i>” she says suddenly.  She pulls away from you, nods her head seriously, then bounds off into the woods.\n\n");
 
     DisplayText("Before you can stop her, she’s gone, and you pocket the small bottle for later.\n\n");
-    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.PrincessPucker, Scenes.camp.returnToCampUseOneHour);
+    return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.PrincessPucker, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.PRNPKR, Scenes.camp.returnToCampUseOneHour);
 }

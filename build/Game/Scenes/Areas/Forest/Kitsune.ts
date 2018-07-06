@@ -32,6 +32,7 @@ import { WeaponName } from '../../../Items/Weapons/WeaponName';
 import { NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { Scenes } from '../../Scenes';
+import { FlagType } from '../../../Utilities/FlagType';
 
 class Entwine implements CombatAction {
     public name: string;
@@ -303,20 +304,20 @@ class KitsuneEndScenes extends EndScenes {
             return;
         }
         else {
-            return Scenes.forest.kitsuneScene.loseToKitsunes(this.char, enemy);
+            return Scenes.forest.kitsuneScene.loseToKitsunes(enemy, this.char);
         }
     }
     public readonly hasDefeatScene: boolean = true;
     protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
-        return Scenes.forest.kitsuneScene.defeatTheKitsunes(enemy);
+        return Scenes.forest.kitsuneScene.defeatTheKitsunes(enemy, this.char);
     }
 }
 
 export class Kitsune extends Character {
     public constructor(hairColor: string) {
         super(CharacterType.Kitsune);
-        const kitsuneData = User.flags.get(CharacterType.Kitsune) as KitsuneFlags;
-        if (randInt(3) !== 2) kitsuneData.redheadIsFuta = 1;
+        const kitsuneFlags = User.flags.get<KitsuneFlags>(FlagType.Kitsune);
+        if (randInt(3) !== 2) kitsuneFlags.redheadIsFuta = 1;
         const hairDesc = {
             blonde: "long flaxen",
             black: "lustrous, ass-length black",
@@ -324,14 +325,14 @@ export class Kitsune extends Character {
         }[hairColor];
         this.description = new CharacterDescription(this, "kitsune", "A kitsune stands in front of you, about five and a half feet tall.  She has a head of " + hairDesc +
             " hair.  She appears mostly human, except for a pair of large, furry ears poking through her hair and six luxurious silky tails swaying in the air behind her.  Her robes are revealing but comfortable-looking, hugging her voluptuous curves and exposing large swaths of tattooed skin.  A layer of ornate tattoos covers patches of her exposed flesh, accentuating her feminine curves nicely, and each movement brings a pleasant jiggle from her plump backside and large breasts.", false, "a ");
-        if (hairColor === "red" && kitsuneData.redheadIsFuta === 1) {
+        if (hairColor === "red" && kitsuneFlags.redheadIsFuta === 1) {
             this.torso.cocks.add(new Cock(randInt(13) + 14, 1.5 + randInt(20) / 2, CockType.HUMAN));
             this.torso.balls.quantity = 2;
             this.torso.balls.size = 2 + randInt(13);
             this.cumMultiplier = 1.5;
             this.hoursSinceCum = this.torso.balls.size * 10;
         }
-        this.torso.vaginas.add(new Vagina(VaginaType.HUMAN, VaginaWetness.SLICK, VaginaLooseness.NORMAL, false));
+        this.torso.vaginas.add(new Vagina(VaginaWetness.SLICK, VaginaLooseness.NORMAL, false));
         this.statusAffects.add(StatusAffectType.BonusVCapacity, 20, 0, 0, 0);
         this.torso.chest.add(new BreastRow(BreastCup.D));
         this.torso.butt.looseness = ButtLooseness.TIGHT;

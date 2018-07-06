@@ -4,7 +4,6 @@ import { BreastRow } from '../../../Body/BreastRow';
 import { Cock } from '../../../Body/Cock';
 import { Gender } from '../../../Body/GenderIdentity';
 import { Character } from '../../../Character/Character';
-import { CharacterType } from '../../../Character/CharacterType';
 import { Desc } from '../../../Descriptors/Descriptors';
 import { ConsumableName } from '../../../Items/Consumables/ConsumableName';
 import { ItemType } from '../../../Items/ItemType';
@@ -14,24 +13,8 @@ import { NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { numToCardinalCapText } from '../../../Utilities/NumToText';
 import { Scenes } from '../../Scenes';
-
-export interface EssrayleFlags {
-    met: number;
-    turnedDownFirstMeeting: number;
-    escapedDungeon: number;
-    toldMotherToRelease: number;
-    dungeonFucked: number;
-    metInDungeon: number;
-}
-const essrayleFlags: EssrayleFlags = {
-    met: 0,
-    turnedDownFirstMeeting: 0,
-    escapedDungeon: 0,
-    toldMotherToRelease: 0,
-    dungeonFucked: 0,
-    metInDungeon: 0
-};
-User.flags.set(CharacterType.Essrayle, essrayleFlags);
+import { FlagType } from '../../../Utilities/FlagType';
+import { SandWitchFlags } from '../Desert/SandWitchScene';
 
 // const MET_ESSY: number = 772;
 // const TURNED_DOWN_ESSY_FIRST_MEETING: number = 773;
@@ -41,29 +24,39 @@ User.flags.set(CharacterType.Essrayle, essrayleFlags);
 // const ESSY_DUNGEON_FUCKED: number = 865;
 // const ESSY_MET_IN_DUNGEON: number = 866;
 
+export interface EssrayleFlags {
+    MET_ESSY: number;
+    TURNED_DOWN_ESSY_FIRST_MEETING: number;
+    ESSRAYLE_ESCAPED_DUNGEON: number;
+    TOLD_MOTHER_TO_RELEASE_ESSY: number;
+    ESSY_DUNGEON_FUCKED: number;
+    ESSY_MET_IN_DUNGEON: number;
+}
+const essrayleFlags = User.flags.get<EssrayleFlags>(FlagType.Essrayle);
+
 // Restriction on meeting Essy I'd figure is you can't be genderless, Essy is a very sexual being and if she doesn't detect a sex in someone, she's bluntly not interested. I'd imagine she'd be more receptive to nagas, those rather cowish in species, and characters with very, very large breasts.
 
-export function essrayleMeetingI(character: Character): NextScreenChoices {
+export function essrayleMeetingI(player: Character): NextScreenChoices {
     DisplayText().clear();
-    if (essrayleFlags.met === 0) {
+    if (essrayleFlags.MET_ESSY === 0) {
         DisplayText("You blunder along through the thick foliage, swatting aside stray branches and the long grasses that try to impede your progress.  A clearing appears up ahead, giving you a goal to reach.  Honestly, you could use a brief break.  Forging through the brush, tromping, and causing a general ruckus, you practically burst into the glen in no time.");
         DisplayText("\n\nYou realize you're not alone.  The other occupant looks at you a bit startled, and you look back with more awe than anything.  It is a woman, isn't it?  You can't be fully sure.  Her body is slender, soft green in hue, and she has an elfish, noseless face.  Green, grassy hair cascades down her back, and a large, wooden horn rises from her forehead, ornamented like something you would see on a beetle rather than a person.");
         DisplayText("\n\nThe first thing to catch your gaze are her eyes; rich, deep amethyst things.  ");
-        if (character.stats.cor < 33) DisplayText("Despite however chivalric you think yourself");
-        else if (character.stats.cor < 66) DisplayText("Despite your better sense");
+        if (player.stats.cor < 33) DisplayText("Despite however chivalric you think yourself");
+        else if (player.stats.cor < 66) DisplayText("Despite your better sense");
         else DisplayText("Perhaps best of all");
         DisplayText(", your attention falls to her chest.  This emerald maiden sports a pair of breasts that'd make even a demon blush, gorgeous green globes that look like small watermelons resting upon her upper belly, capped with purple areolae.  Four, thick, teat-like nipples dangle a good three or four inches from each.");
 
         DisplayText("\n\nLikewise, four slender, green arms grace her form.  Instead of legs, a single, serpentine, smooth stalk rises from what looks like a giant flower bulb resting on the grassy ground. With her movement it seems to quiver slightly, though not nearly as much as those gigantic breasts do.");
 
         DisplayText("\n\nSeeing how you stare, the plant woman doesn't try to cover herself in shame, but thrusts her chest out a bit more, causing the pair to jiggle temptingly.  \"<i>Like what you see?</i>\" she coos, winking coyly and giggling to herself.  You fumble for the right words, ");
-        if (character.stats.cor < 33) DisplayText("hastily looking away from her nude body");
-        else if (character.stats.cor < 66) DisplayText("looking away out of courtesy");
+        if (player.stats.cor < 33) DisplayText("hastily looking away from her nude body");
+        else if (player.stats.cor < 66) DisplayText("looking away out of courtesy");
         else DisplayText("letting your eyes roam over her as you search for even more depraved features on her nubile body");
         DisplayText(".");
 
         DisplayText("\n\nA soft, sweet-smelling hand rests under your chin and directs you to look back to her once more.  \"<i>Don't be so shy,</i>\" she coos, pressing those large, squishy things firmly against your ");
-        if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 10) DisplayText("own");
+        if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 10) DisplayText("own");
         else DisplayText("[chest]");
         DisplayText(".  \"<i>You must be one of those adventurers I've been hearing about, am I right?</i>\"");
 
@@ -78,14 +71,14 @@ export function essrayleMeetingI(character: Character): NextScreenChoices {
         DisplayText("\n\nEssy smiles, bulb rippling as she nears you again.  \"<i>Say, you're a hero, right?  Do you think you could do a girl a favor?~</i>\"");
 
         DisplayText("\n\nWith the way she moves and seems to saturate the air around with her sexual tension, you're sure that helping her will lead to something sexual.  Do you help her?");
-        character.stats.lust += 5;
+        player.stats.lust += 5;
 
     }
     else {
         DisplayText("During your travels through the forest, you stumble upon a familiar face once again.  \"<i>Oh, hello!</i>\ Essrayle cheerily waves to you, causing her ample tits to jiggle slightly.  \"<i>I was wondering if you'd be back.</i>\"  She moves closer, massive melons wobbling mere inches away from you, \"<i>I had a feeling you would though.</i>\"  Cooing warmly, she brushes a lock of hair aside with enough of an exaggerated motion to set the bouncy pair to bobbing.");
         DisplayText("\n\n\"<i>So, did you come back just to say hi, or might there be some other reason?</i>\"  Those slender, green hands fall upon her shapely hips as her gorgeous amethyst eyes peer deeply into yours.  \"<i>If you came to give me a feeding, I simply must thank you this time, I insist.</i>\"  Abruptly, those tits squish against your chest as she leans in close, asking seductively, \"<i>So, feeling up for some gardening?</i>\"");
     }
-    essrayleFlags.met++;
+    essrayleFlags.MET_ESSY++;
     // [Yes] [No]
     return { yes: plantsForMe, no: noPlantsForMe };
 }
@@ -94,19 +87,19 @@ export function essrayleMeetingI(character: Character): NextScreenChoices {
 function noPlantsForMe(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Essy pouts, ears flattening to the sides a bit.  \"<i>I see,</i>\" she nods, looking at you with thinly masked disappointment.  She seems to instantly put on a false smile and move aside, gesturing to the path ahead with a sweep of the arm.  \"<i>Well, in that case, you must be going somewhere important.  Best not keep you waiting.  I do wish you luck in your adventures!</i>\" She continues to beam as you head on off, leaving her behind you in no time.  Though as you leave, you swear you hear a mumbled, \"<i>Leave it to me to find the prudish ones.</i>\"");
-    essrayleFlags.turnedDownFirstMeeting = 1;
+    essrayleFlags.TURNED_DOWN_ESSY_FIRST_MEETING = 1;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // >If Yes
-function plantsForMe(character: Character): NextScreenChoices {
+function plantsForMe(player: Character): NextScreenChoices {
     DisplayText().clear();
-    if (essrayleFlags.turnedDownFirstMeeting === 0) {
-        essrayleFlags.turnedDownFirstMeeting = 1;
+    if (essrayleFlags.TURNED_DOWN_ESSY_FIRST_MEETING === 0) {
+        essrayleFlags.TURNED_DOWN_ESSY_FIRST_MEETING = 1;
         DisplayText("Essrayle giggles, sending ripples through her ample breasts.  \"<i>Oh, why thank you!  It's nothing major - I doubt it'll be much of a burden to you.  But in my travels, I've grown wilted and depleted of the energy to go on.  I'm soooo hungry!  Would you please-?</i>\"  She leaves the question hanging, looking to you imploringly.  Hastily your hand goes to where your supplies are housed, but you stop as she waves a hand dismissively.  \"<i>No, no, I don't mean biscuits or the like.</i>\"  Confused, you frown, but soften as you feel her hand rest upon your [chest].  \"<i>I require a special kind of food to do what I do, one that won't exhaust your supplies in the least.</i>\"\n\n");
     }
     // (If breasts
-    if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 1) DisplayText("Your nipples stiffen, breasts puffing out with a heated breath");
+    if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 1) DisplayText("Your nipples stiffen, breasts puffing out with a heated breath");
     else DisplayText("You arch your back gently, unconsciously pressing into her slender fingers a bit further");
     DisplayText(" as her hand begins to circle your chest.  \"<i>Though you, that's another story.</i>\"  She grins seductively as the air around you seems to thicken with a gentle pink mist.  Out of instinct, you look around, trying to discern the source - could she be one of the demons?");
     DisplayText("\n\nAgain you hear Essy's laugh, sweet and playful, feeling her suddenly hug you tight into her ample bosom.  Her skin is so soft, smelling so sweet and rather floral, and those tremendous breasts squish as they cover the lower half of your [face], silencing any protests you might have.  \"<i>Shhh, just relax,</i>\" she coos, a hand caressing your back tenderly, \"<i>just breathe deeply, cutie.</i>\"");
@@ -122,13 +115,13 @@ function plantsForMe(character: Character): NextScreenChoices {
     DisplayText("\n\nSlowly, you two separate, Essy sliding her leaf-like tongue over your lips, leaving them with a cool tingle for a time.  \"<i>I'm sooooo hungry... so very, very hungry,</i>\" she whispers to you, her face touching your nose once more.  One of her hands begins to trail down your front, grasping and squeezing your nipples.");
 
     // (If breasts present)
-    if (character.torso.chest.get(0).rating >= 1) {
+    if (player.torso.chest.get(0).rating >= 1) {
         DisplayText("\n\n\"<i>Oooh, how I adore these,</i>\" she coos to you, taking your breasts into two hands and beginning to squeeze and knead firmly into the pillowy flesh");
-        if (character.torso.chest.count > 1) DisplayText(" of your uppermost pair");
+        if (player.torso.chest.count > 1) DisplayText(" of your uppermost pair");
         DisplayText(".  You moan, and this only seems to encourage her, as she takes your nipples between thumb and forefinger, twisting and turning them this way and that.  She giggles at how your moans seem to fluctuate by coincidence, continuing to tease them");
-        if (character.torso.chest.count > 1) DisplayText(", steadily working over the multitude of fleshy mounds on your body");
+        if (player.torso.chest.count > 1) DisplayText(", steadily working over the multitude of fleshy mounds on your body");
         DisplayText(".");
-        if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("  Her fingers play with your nipples and press gently to tease at them.  She seems quite surprised as they sink in with minimal effort.  A grin spreads over her face as she begins to steadily thrust those digits in and out of your nipples, fingers swirling about the interiors all the while.");
+        if (player.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("  Her fingers play with your nipples and press gently to tease at them.  She seems quite surprised as they sink in with minimal effort.  A grin spreads over her face as she begins to steadily thrust those digits in and out of your nipples, fingers swirling about the interiors all the while.");
         DisplayText("  \"<i>You certainly have a lovely pair, but they could always be better, don't you think?</i>\"");
         // [Yes] [No]
         return { yes: plantsForMe2BE, no: plantsForMe2NoBE };
@@ -140,19 +133,19 @@ function plantsForMe(character: Character): NextScreenChoices {
     }
 }
 
-function plantsForMe2NoMentionBE(character: Character): NextScreenChoices {
-    return plantsForMe2(character, 1);
+function plantsForMe2NoMentionBE(player: Character): NextScreenChoices {
+    return plantsForMe2(player, 1);
 }
 
-function plantsForMe2BE(character: Character): NextScreenChoices {
-    return plantsForMe2(character, 1);
+function plantsForMe2BE(player: Character): NextScreenChoices {
+    return plantsForMe2(player, 1);
 }
 
-function plantsForMe2NoBE(character: Character): NextScreenChoices {
-    return plantsForMe2(character, 2);
+function plantsForMe2NoBE(player: Character): NextScreenChoices {
+    return plantsForMe2(player, 2);
 }
 
-function plantsForMe2(character: Character, BE: number = 0): NextScreenChoices {
+function plantsForMe2(player: Character, BE: number = 0): NextScreenChoices {
     DisplayText().clear();
     // Yes
     if (BE === 1) DisplayText("Essy grins, nodding.  \"<i>Precisely.  I don't doubt they'll be even more fun given enough exposure here.</i>\"\n\n");
@@ -165,34 +158,34 @@ function plantsForMe2(character: Character, BE: number = 0): NextScreenChoices {
     DisplayText("\n\nBeing rather large, it takes a moment to reorient yourself, but you manage to almost deepthroat the entirety of it.  Essy squeaks in surprise, moaning out as you take her nipple all the way and more as one hand kneads and squeezes through the almost doughy flesh of her other breast.  Clamping down with your lips, you begin to tug and suck as hard as you can.  You're briefly surprised when a long, loud, pleasured 'Moo' comes from the plant girl, and thick, syrupy, milky sap spills into your mouth almost instantly.");
 
     DisplayText("\n\nHer milk is a delightful substance, tasting like sweet cream, and you eagerly gulp it down, nursing hungrily for more.  The bovine utterances continue as Essy's lowest hand moves further down your waist, eventually coming to rest upon your crotch.  Though she's obviously highly distracted by your attentions to her breast, those lithe fingers ");
-    if (character.torso.cocks.count > 0 && character.torso.vaginas.count > 0) DisplayText("find the dual sexes there.  Another hand joins the first, one gripping and tugging on your hardening cock as the other cups and squeezes over your pussy.");
-    else if (character.torso.cocks.count > 0) {
+    if (player.torso.cocks.count > 0 && player.torso.vaginas.count > 0) DisplayText("find the dual sexes there.  Another hand joins the first, one gripping and tugging on your hardening cock as the other cups and squeezes over your pussy.");
+    else if (player.torso.cocks.count > 0) {
         DisplayText("circle about ");
-        if (character.torso.cocks.count > 1) DisplayText("one of ");
+        if (player.torso.cocks.count > 1) DisplayText("one of ");
         DisplayText("your shaft");
-        if (character.torso.cocks.count > 1) DisplayText("s");
+        if (player.torso.cocks.count > 1) DisplayText("s");
         DisplayText(", beginning to squeeze and slide about its length until your nursing is interrupted by moans of your own delight");
     }
     else DisplayText("stroke about the puffy, now-inflamed lips of your own flower, taking the lips between two fingers and stroking up and down across their length fully before switching to your moist core.");
 
     DisplayText("\n\nA firm hand cups your ");
-    if (character.torso.hips.legs.isTaur()) DisplayText("back");
+    if (player.torso.hips.legs.isTaur()) DisplayText("back");
     else DisplayText("butt");
     DisplayText(" and pulls you close, forcing your [legs] against her bulb.  They sink in slightly as you go down, reluctantly relinquishing her nipple from your mouth.  As it springs free, a thick glob of sap splatters over your lips and nose.  Essy giggles softly as she wipes them off with a hand.");
 
     DisplayText("\n\n\"<i>I'm glad you enjoy me, sweetie, I really want to enjoy more with you, but I need it so bad right now!</i>\" Essy whines, her shivering, fat breasts jiggling about as she does.  A multitude of vine-like tentacles burst from her back flower and arc about her, coiling about your arms, waist, ");
-    if (character.torso.tails.count > 0) DisplayText("tail, ");
+    if (player.torso.tails.count > 0) DisplayText("tail, ");
     DisplayText("and [legs], ");
-    if (!character.torso.hips.legs.isTaur()) DisplayText("lifting you slowly into the air");
+    if (!player.torso.hips.legs.isTaur()) DisplayText("lifting you slowly into the air");
     else DisplayText("forcing you to rear up");
     DisplayText(".  Her lower hands grasp you, helping to raise you up until you're at the proper height, whence she abruptly plants her lips upon your crotch.");
 
     // Cock=
-    if (character.torso.cocks.count > 0) {
+    if (player.torso.cocks.count > 0) {
         DisplayText("\n\nEssy drags her thin tongue over the length of [oneCock], flowing over every inch of it, bending about its curve as she licks from base to tip before engulfing it with her lips. Without a moment's hesitation, she slides down to the hilt, giving amazing pleasure from the surreal tightness, hitting you as you feel the plant's throat rippling and actually milking at your length.");
 
         DisplayText("\n\nEssy just smiles as she begins to bob her head, slowly at first, but with increasing speed as your moans of delight egg her on.  Two tentacles rise up, funneling wide at the tips and engulfing your [nipples]");
-        if (character.torso.chest.get(0).rating >= 1) DisplayText(" and " + Desc.Breast.breastCup(character.torso.chest.get(0).rating) + " breasts");
+        if (player.torso.chest.get(0).rating >= 1) DisplayText(" and " + Desc.Breast.breastCup(player.torso.chest.get(0).rating) + " breasts");
         DisplayText(".  The opaque cups pump and suck, Essy humming to herself as the base of her tongue continues to skillfully tease over every hot spot near the [cockHead biggest] of your [cock biggest], her length slithering about it skillfully.");
     }
     // (Pussy=
@@ -200,22 +193,22 @@ function plantsForMe2(character: Character, BE: number = 0): NextScreenChoices {
         DisplayText("\n\nSmiling as she inspects your now juicy folds first hand, her lips close over yours, tongue snaking and squirming into your quivering pussy.  The plant gives you a royal tongue-lashing, slurping away lewdly, lips plucking at your throbbing clit with amazing expertise.");
     }
     // [if breasts then also=
-    if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) {
+    if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) {
         DisplayText("\n\nYour breasts bounce and quiver wildly as you bounce up and down, held tightly by those tentacles, Essy dining happily down below.  Those opaque coverings ripple and squeeze hard about your breasts, pumping them for ");
-        if (character.lactationQ() >= 400) DisplayText("your milk and ");
+        if (player.lactationQ() >= 400) DisplayText("your milk and ");
         DisplayText("your pleasure.  In time, their pumping increases in force and tempo just as her lips and tongue do.");
     }
 
     DisplayText("\n\nAnother tentacle momentarily rubs over her breast, growing slimy with the sap before it moves around behind you and abruptly shoves into your [asshole].  Like a professional, she takes it slow to start, letting you adjust to the unique girth and contours of the tentacle as it plunges in deep.  It smoothly pulls nearly out only to pump in deeply once more.");
-    Mod.Butt.displayStretchButt(character, 10, true, true, false);
+    Mod.Butt.displayStretchButt(player, 10, true, true, false);
 
     DisplayText("\n\nIt doesn't take long before you're screaming out in climax.  The pleasure swells and ebbs steadily, your planty friend making it sound like she's enjoying a four-course meal fit for a queen.  She continues to pump you on all fronts, not daring to stop until she's certain she's drained you for every drop she can get.");
-    if (character.cumQ() >= 500 && character.cumQ() < 2000) DisplayText("  It takes some time for her to completely drain your virile reserves, humming happily as splurt after splurt bulges her cheeks and forces her throat to work.  By the time you start to go dry, you can swear the bulb that is her base looks a little bit bigger, and perhaps her breasts as well.");
-    else if (character.cumQ() >= 2000) DisplayText("  This is a bit hard, as your virile cum-spout renders her trim belly bloated, and the bulb that forms her base rapidly swells with growth thanks to your fecund deposits.  The seed even trickles out around the corners of her mouth as she greedily attempts to devour it all, sighing around each cheek-stretching ejaculation.");
+    if (player.cumQ() >= 500 && player.cumQ() < 2000) DisplayText("  It takes some time for her to completely drain your virile reserves, humming happily as splurt after splurt bulges her cheeks and forces her throat to work.  By the time you start to go dry, you can swear the bulb that is her base looks a little bit bigger, and perhaps her breasts as well.");
+    else if (player.cumQ() >= 2000) DisplayText("  This is a bit hard, as your virile cum-spout renders her trim belly bloated, and the bulb that forms her base rapidly swells with growth thanks to your fecund deposits.  The seed even trickles out around the corners of her mouth as she greedily attempts to devour it all, sighing around each cheek-stretching ejaculation.");
 
     DisplayText("\n\nYou hang limply in her tentacles as she sucks firmly on you, a final pull before she pops off wetly.  Licking her lips to get every stray drop, she lowers you to the ground, tentacles disengaging and pulling back to where they came from.  She shivers gently, squishing her fat bosom in a self-hug.");
 
-    DisplayText("\n\n\"<i>Oooh yes,</i>\" she grins, \"<i>this will do me quite nicely for a time.</i>\"  She looks over to you as you lay there, spent, panting hotly as you struggle to regain your composure.  Smiling softly, she moves over and extends the stalk from her bulb, stretching with naga-like ease out to 'sit' at your side.   Her hand slides over your brow, wiping it dry and gently brushing through your " + Desc.Head.describeHair(character) + ".");
+    DisplayText("\n\n\"<i>Oooh yes,</i>\" she grins, \"<i>this will do me quite nicely for a time.</i>\"  She looks over to you as you lay there, spent, panting hotly as you struggle to regain your composure.  Smiling softly, she moves over and extends the stalk from her bulb, stretching with naga-like ease out to 'sit' at your side.   Her hand slides over your brow, wiping it dry and gently brushing through your " + Desc.Head.describeHair(player) + ".");
 
     DisplayText("\n\n\"<i>I thank you for your kindness, stranger,</i>\" she coos softly with each caress, the mist slowly dissipating.  \"<i>I'd love to stay and enjoy you for a week or two, but I really should get going; so much to see and do here still.</i>\"  Essy grins, leaning down and kissing you tenderly once more, lingering a bit before pulling back up, still smiling at you.  \"<i>But hey, maybe we'll run into each other some time, you never know.</i>\"  She winks, giggling as she returns to her usual position in her bulb.");
 
@@ -227,7 +220,7 @@ function plantsForMe2(character: Character, BE: number = 0): NextScreenChoices {
 
         DisplayText("\n\nThose massive tits begin to grind about your own, puffy nipples feeling warm against your flesh as they move up, down, and around in slow circular motions, their owner smiling knowingly all the while. It begins to grow soothing indeed, almost playful when a sudden pressure grips about your [nipples] tightly.  It feels almost as if they were being enclosed in some tight tubes, squeezed upon tightly but never painful.");
         DisplayText("\n\nCurious, you look down to the source of the compression.  Gone are the flopping faux teats, and further down, a single massive, purple nipple seems to fatly squeeze about your own smaller one, engulfing it with ease.  A quick glance confirms the other");
-        if (character.torso.chest.countNipples() > 2) DisplayText("s have");
+        if (player.torso.chest.countNipples() > 2) DisplayText("s have");
         else DisplayText(" has");
         DisplayText(" been swallowed up as well.");
 
@@ -235,34 +228,34 @@ function plantsForMe2(character: Character, BE: number = 0): NextScreenChoices {
 
         DisplayText("\n\nOnce more your [legs] shake some as the surreal experience continues. The pressure only grows with each throb of those fragrant, green breasts, your own only increasing in size with every pulse they give.  A third hand combs along your cheek, Essrayle cooing sweetly to you. \"<i>Relax,</i>\" she whispers, \"<i>relax and enjoy.</i>\"");
         DisplayText("\n\nAs the weight in your chest steadily increases, her hands take hold of you, keeping you standing through the pleasurable procedure.");
-        if (character.torso.chest.count > 1) DisplayText("  She eventually dislodges with a wet pop, setting your new breasts to wobbling about as she moves down your body, repeating the gestures upon each set of breasts in return.");
+        if (player.torso.chest.count > 1) DisplayText("  She eventually dislodges with a wet pop, setting your new breasts to wobbling about as she moves down your body, repeating the gestures upon each set of breasts in return.");
 
-        DisplayText("\n\nWeak from the pleasure, the last thing you see is her smiling face before you fall forward into her embrace.  The next thing you know, you're alone in the glade, staring at the canopy above.  There's a heavy weight on your chest and you struggle to sit up.  " + numToCardinalCapText(character.torso.chest.count * 2) + " massive breasts jiggle and sway upon your chest, all full and aching to be milked");
-        if (character.torso.chest.count > 1) DisplayText(", the top pair being largest, descending in size with each subsequent pair");
+        DisplayText("\n\nWeak from the pleasure, the last thing you see is her smiling face before you fall forward into her embrace.  The next thing you know, you're alone in the glade, staring at the canopy above.  There's a heavy weight on your chest and you struggle to sit up.  " + numToCardinalCapText(player.torso.chest.count * 2) + " massive breasts jiggle and sway upon your chest, all full and aching to be milked");
+        if (player.torso.chest.count > 1) DisplayText(", the top pair being largest, descending in size with each subsequent pair");
         DisplayText(".");
         // Boost size, set lactation quantity.
-        Mod.Breast.growSmallestBreastRow(character, 1, character.torso.chest.count, false);
+        Mod.Breast.growSmallestBreastRow(player, 1, player.torso.chest.count, false);
         // character.growTits(7, character.torso.chest.count, false, 2);
-        Mod.Breast.boostLactation(character, character.torso.chest.count);
+        Mod.Breast.boostLactation(player, player.torso.chest.count);
         // character.boostLactation(character.torso.chest.count);
         DisplayText("\n\nYou sit there for the next hour or two, milking your bloated bosom and giving the flora a generous watering in the process.  When all is taken care of, you stumble back upright with a brief struggle and don your gear once more.  The smell of fresh-cut flowers seems to linger on your [armor] as you depart.");
     }
-    if (character.torso.chest.count > 0 && character.isLactating()) {
-        character.milked();
+    if (player.torso.chest.count > 0 && player.isLactating()) {
+        player.milked();
         // Mod.Breast.boostLactation(character, 0.01);
-        Mod.Breast.boostLactation(character, 0.01);
+        Mod.Breast.boostLactation(player, 0.01);
     }
-    character.orgasm();
-    character.stats.lib += 1;
+    player.orgasm();
+    player.stats.lib += 1;
     // Slimefeed!
-    character.slimeFeed();
+    player.slimeFeed();
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // Look Closer
-export function approachTrappedEssy(character: Character): NextScreenChoices {
+export function approachTrappedEssy(player: Character): NextScreenChoices {
     DisplayText().clear();
-    if (essrayleFlags.dungeonFucked === 0) {
+    if (essrayleFlags.ESSY_DUNGEON_FUCKED === 0) {
         DisplayText("Where once the leafy maiden sported two enormous, watermelon sized breasts, she now is host to four mammoth jugs that put her former bust to shame.  The heaving tits glisten with moisture and almost seem to swell with every exhausted breath she takes.  Her hips - what you can see of them beyond the plant's gigantic udders - are immersed in a black, rich soil that fills the pot to its lip.  A glaze is prominent in her purple eyes, and she seems quite exhausted from something.");
 
         DisplayText("\n\nAs you draw nearer she bolts upright, sending oceanic ripples through her bloated breasts that gives a liquid jiggle to her whole body.  \"<i>Who's there?  It can't be time already!</i>\" she blurts out frantically, before noticing you.  A violet blush stains her emerald cheeks as she recognizes you and her panic is swiftly replaced by a gentle smile.  \"<i>Oh, hey, it's you again.</i>\"");
@@ -288,41 +281,41 @@ export function approachTrappedEssy(character: Character): NextScreenChoices {
     else {
         DisplayText("Essrayle sits here in her pot just like you left her.  She seems to be a bit out of it once more, not realizing you're there.  Her heavy breasts jiggle and ripple with the least amount of movement, apparently drawing nutrients from her soil to refill themselves.  Just watching the oblivious girl pant and swell with bovine surplus is oddly arousing, and having sampled her sap already... no wonder the sand witches keep her here.  Judging by the steady leak coming from her four breasts, it seems likely the ethereal hands have recently given her a good milking, but you're sure she wouldn't mind a more personal touch.");
     }
-    character.stats.lust += 10 + character.stats.lib / 10;
+    player.stats.lust += 10 + player.stats.lib / 10;
     // Option: [Feed her] [leave]
-    if (character.gender > 0) return { choices: [["Feed Her", feedTrappedEssy]], persistantChoices: [["Leave", Menus.Player]] };
+    if (player.gender > 0) return { choices: [["Feed Her", feedTrappedEssy]], persistantChoices: [["Leave", Menus.Player]] };
     return { choices: [["Leave", Menus.Player]] };
 }
 
 // [Feed Her]
-function feedTrappedEssy(character: Character): NextScreenChoices {
+function feedTrappedEssy(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Well, it's not like she's going anywhere right now, and she probably would love a good fuck from a friend anyway.");
     DisplayText("\n\nYou approach Essrayle once more, taking advantage of her dazed state to disrobe and sidle up to the enchanted flower pot before she realizes your intentions.  From this angle you can clearly see that her hands are sunk deep into the soil around her bubbly hips.  She blinks, confused by your sudden forwardness, but soon moans out loudly as your palms sink into the girl's recently massaged teats, fingers sinking deeply into the tender flesh.");
 
-    essrayleFlags.dungeonFucked++;
+    essrayleFlags.ESSY_DUNGEON_FUCKED++;
 
-    if (character.gender === Gender.MALE) {
+    if (player.gender === Gender.MALE) {
         DisplayText("\n\n");
-        return hasCockFeedEssy(character);
+        return hasCockFeedEssy(player);
     }
-    if (character.gender === Gender.FEMALE) {
+    if (player.gender === Gender.FEMALE) {
         DisplayText("\n\n");
-        return hasPussyFeedEssy(character);
+        return hasPussyFeedEssy(player);
     }
-    if (character.gender === Gender.HERM) {
+    if (player.gender === Gender.HERM) {
         DisplayText("  How best to make use of this floral beauty?");
         return { choices: [["Cock", hasCockFeedEssyClear], ["Pussy", hasPussyFeedEssyClear]] };
     }
 }
 
-function hasCockFeedEssyClear(character: Character): NextScreenChoices {
+function hasCockFeedEssyClear(player: Character): NextScreenChoices {
     DisplayText().clear();
-    return hasCockFeedEssy(character);
+    return hasCockFeedEssy(player);
 }
 
 // (Cock)
-function hasCockFeedEssy(character: Character): NextScreenChoices {
+function hasCockFeedEssy(player: Character): NextScreenChoices {
     DisplayText("[EachCock] stands erect as you grind it against her belly, enormous tits squishing wonderfully around it.  The udder-like melons squeeze [oneCock] with every hot breath the plant girl takes, taut skin soaked with the sweat of her afterglow wetly suckling at your length.  Determined to use such productive breasts to the fullest, you move forward, your [cock biggest]'s mass easily slipping between the bottom pair, her leaking, jade pillows snugly engulfing your girth as tightly as if she were holding them together with all four arms.");
 
     DisplayText("\n\nAs pliant as her mammaries are, a little extra lubrication couldn't hurt.  Grabbing two of her puffy, fist-sized teats, you begin to squeeze and tug at them as if you were milking a cow.  Essy pants with heated, bovine moans as syrupy, white sap gushes from her spouting nipples in thick, cascading gouts.  For being used so thoroughly by the sand witches, she seems remarkably receptive to your milking, as if her body's needed a more personal touch.  Not wanting to disappoint, you tighten your wringing grip and pump even harder.");
@@ -330,28 +323,28 @@ function hasCockFeedEssy(character: Character): NextScreenChoices {
     DisplayText("\n\nHer otherworldly, amethyst eyes lose their usual depth and become dull and dazed as the shadow of docility settles over her, Essy's expression softening to a blissful, cow-like contentment.  \"<i>Mooooo,</i>\" she languidly moans as her huge tits heave in oceanic jiggles.  They pulse under your siphoning caress, as if struggling to produce more sap.  While the oblivious girl seems lost in some function, torpid trance of delirious euphoria, her breasts almost appear to be swelling as if to embody her budding, enraptured exhilaration.");
 
     DisplayText("\n\nAs appealing as it may be to have the plant girl water herself to a glossy shine, you're reluctant to let her fountaining ivory go to waste.  Taking care to keep the steady pace of your pumping, you lubricate your now hard cock in the thick, syrupy \"milk.\"  Slick with the nourishing warmth of her nectar, you abandon all restraint, enjoying those verdant, pillowy, green breasts for all they're worth.  The wet sounds of squelching fill the air as you fuck ");
-    if (character.torso.cocks.sort(Cock.LongestCocks)[0].length < 20) DisplayText("her lower pair of wobbling udders");
+    if (player.torso.cocks.sort(Cock.LongestCocks)[0].length < 20) DisplayText("her lower pair of wobbling udders");
     else DisplayText("both sets of milk-bloated breasts");
     DisplayText(" faster and faster, the hot slapping of her bountiful bosom against your [cock]");
-    if (character.torso.balls.quantity > 0) DisplayText(" and your swollen, heavy balls against her fecund belly");
+    if (player.torso.balls.quantity > 0) DisplayText(" and your swollen, heavy balls against her fecund belly");
     DisplayText(" setting an inspiring drum beat to your feverish pace.");
 
     DisplayText("\n\nIt doesn't take long before the gushing, milky embrace of Essy's flowering breasts coaxes you to paint the green girl's emerald flesh white with your ivory seed.  As you cum, her shuddering udders seem to experience their own release, massive teats bulging between your fingers as they swell with a tremendous, liquid weight.  Then, in a strangely synchronized discharge, surging gouts of milky sap shower out in pressured geysers that rain down around the two of you in a sticky deluge of rich passion.  The floor teems with sprouting undergrowth while the plant girl's shapely ass jiggles with orgasmic delight as the soil she's planted in turns a deep black, instantly enriched by her fertile cream.");
 
     DisplayText("\n\nExhausted anew, Essy reclines in her pot, already dozing with an expression of happy contentment.  Though she's still imprisoned, you've at least set her at ease.  While you might like to move her somewhere more function, the sheer weight of her pot is more than enough to frustrate any attempt you might make.  Best to just leave her and check in later.");
-    character.orgasm();
+    player.orgasm();
     return { next: Menus.Player };
 }
 
-function hasPussyFeedEssyClear(character: Character): NextScreenChoices {
+function hasPussyFeedEssyClear(player: Character): NextScreenChoices {
     DisplayText().clear();
-    return hasPussyFeedEssy(character);
+    return hasPussyFeedEssy(player);
 }
 
-function hasPussyFeedEssy(character: Character): NextScreenChoices {
+function hasPussyFeedEssy(player: Character): NextScreenChoices {
     DisplayText("Repositioning one of Essy's massive tits, you opt to try something new, something different.  Essy's long, fat nipples glisten with plump promise as you climb up, over the lip of her ensorcelled flowerpot.  The soil is soft and moist with her milk as you gently push her back, leaning the girl's pliant form against the bulging swell of her pronounced ass.  She reclines, woozy and unable to process what it is that you're doing as you move over her ponderous bosom.  It takes almost no effort to guide one of the pert, fist-thick nipples into your womanly folds, sliding it into your [vagina] with ");
-    if (character.torso.vaginas.get(0).looseness < 2) DisplayText("a gasping grunt of effort");
-    else if (character.torso.vaginas.get(0).looseness < 4) DisplayText("little resistance");
+    if (player.torso.vaginas.get(0).looseness < 2) DisplayText("a gasping grunt of effort");
+    else if (player.torso.vaginas.get(0).looseness < 4) DisplayText("little resistance");
     else DisplayText("virtually no resistance at all");
     DisplayText(".  With some effort, you take the plant girl's peak to its leaf-green hilt, the soft skin of her pliant breast squeezed against your [hips], teat-like nipple a pulsing cock-like shaft inside your [vagina].");
 
@@ -362,8 +355,8 @@ function hasPussyFeedEssy(character: Character): NextScreenChoices {
     DisplayText("\n\nYour lewd, tit-humping labor swells to a fever pitch as her over-stimulated udder plumps inside you, fattening with her blossoming lust.  The cock-like knob inside you becomes swollen with milk, ballooning longer and thicker until your suckling inner walls strain to bear the girl's bloated nipple.  Feeling the trembling clench of your orgasm building, you tighten your grip and thrust yourself as deeply as you can on the cunny-stuffing mammary.  Her breast, unable to resist your peaking squeeze, gushes with pressurized jets of fertile sap, flooding your pussy with a warmth a bit too fluid to be cum, but still thick enough to send a shiver of fulfillment down your spine.  You watch your tummy grow pudgy, then plump, and finally obese as your womb is flooded with her tingling, fertile milk.  The two of you cry out in orgasmic bliss and, positively swollen with the plant-girl's bounty, you collapsing into her very soaked cleavage, still gripping her lactating nipples.  You lay there, panting softly with her for a time, just soaking in the stimulating thrill of your ponderous belly, giving Essy's tits a tender squeeze now and then just to hear her moo with delight.");
 
     DisplayText("\n\nIt takes you a while, but you extricate yourself and clean off the best you can, leaving her with a friendly kiss on the cheek before you head on your way once more.  With visitors like you, she hardly seems like she'll mind being trapped in the enchanted flower pot.");
-    character.orgasm();
-    if (character.fertility < 50) character.fertility++;
+    player.orgasm();
+    if (player.fertility < 50) player.fertility++;
     return { next: Menus.Player };
 }
 
@@ -381,24 +374,24 @@ export function essyWitchVictory(): NextScreenChoices {
     DisplayText("\n\nNoticing your drooping stare, a sly smile creeps over her lips.  \"<i>But I think I've got an idea that would make you very happy.</i>\"  Both of her upper hands go to her cleavage, pulling her fat, squishy tits apart before releasing them, letting the girl's mammary mountains slap together in quivering wobbles.  \"<i>Yes, something we could both be very happy with, that you'd truly enjoy.</i>\"  Her lower hands cup the bottoms of her lower breasts and begin to leisurely bounce them in her palms.  \"<i>After all, that's the important thing: enjoying yourself.</i>\"");
 
     DisplayText("\n\n\"<i>Now, I may be a visitor to this world, but I've learned some things.</i>\"  She grins and crosses her other two arms atop those jiggling, swaying, lush beauties.  \"<i>Since you seem to like these four so much, perhaps you'd like to join the club?</i>\"  Essrayle winks coyly, \"<i>How about it?</i>\"");
-    essrayleFlags.escapedDungeon = 1;
+    essrayleFlags.ESSRAYLE_ESCAPED_DUNGEON = 1;
     return { yes: acceptEssyPrizes, no: declineEssyPrizes };
 }
 
 // [No]
-function declineEssyPrizes(character: Character): NextScreenChoices {
+function declineEssyPrizes(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Essy sighs and shakes her head.  \"<i>What a let down!</i>\"  She shrugs, throwing all four arms into the air helplessly, and digs about in the pouch she keeps on her vine belt.  \"<i>Here, hope this tickles your fancy.</i>\"  She reaches out and places a number of glittering gems into your hand.  \"<i>They don't do me much good anyway.</i>\"");
 
     // (Player gains some more gems)
-    character.inventory.gems += 100 + randInt(70);
+    player.inventory.gems += 100 + randInt(70);
 
     DisplayText("\n\n\"<i>Well, maybe in the future you'll change your mind and find another way to do it on your own.  But I guess for now I'll just see you around!  Thanks for the save, hun!</i>\"  The planty beauty blows you a kiss before she heads off, bulging breasts jiggling and bouncing steadily all the way.");
     return { next: Menus.Player };
 }
 
 // [Yes]
-function acceptEssyPrizes(character: Character): NextScreenChoices {
+function acceptEssyPrizes(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Essrayle beams.  \"<i>That's what I thought!  You know a good thing when you see it!</i>\"  She takes you by the hand and guides you to sit on the side of the overturned pot.  Shuffling backwards, she pokes her leafy, green tongue out of the corner of her mouth while tapping the side of her head with a finger.  \"<i>Now... how did that go?</i>\"  She frowns in scatterbrained thought, trying to remember for a time before her expression lights up with ditzy delight once more.  \"<i>Oh, wait, I know! You stay right there, my little sprout.</i>\"");
 
@@ -407,45 +400,45 @@ function acceptEssyPrizes(character: Character): NextScreenChoices {
     DisplayText("\n\n\"<i>Ytnuob ruoy htiw sdnas eht doolf. Edit yklim eht wolf tel!</i>\"");
 
     DisplayText("\n\nYou feel a sweltering heat fall over you. With a sudden urge you thrust your chest out as ");
-    if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating <= 1) {
+    if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating <= 1) {
         DisplayText("four bulging tits erupt from your chest");
-        character.torso.chest.get(0).rating = 4;
-        if (character.torso.chest.count === 1) character.torso.chest.add(new BreastRow());
-        character.torso.chest.get(1).rating = 4;
+        player.torso.chest.get(0).rating = 4;
+        if (player.torso.chest.count === 1) player.torso.chest.add(new BreastRow());
+        player.torso.chest.get(1).rating = 4;
     }
     // if two breasts:
-    else if (character.torso.chest.count === 1) {
+    else if (player.torso.chest.count === 1) {
         DisplayText("two more bulging tits erupt from your chest");
-        if (character.torso.chest.get(0).rating < 4) {
+        if (player.torso.chest.get(0).rating < 4) {
             DisplayText(" while your top row expands");
-            character.torso.chest.get(0).rating = 4;
+            player.torso.chest.get(0).rating = 4;
         }
-        if (character.torso.chest.count === 1) character.torso.chest.add(new BreastRow());
-        character.torso.chest.get(1).rating = character.torso.chest.get(0).rating;
+        if (player.torso.chest.count === 1) player.torso.chest.add(new BreastRow());
+        player.torso.chest.get(1).rating = player.torso.chest.get(0).rating;
     }
     // if four+ breasts:
     else {
         DisplayText("your [fullChest] swell larger and larger under the expanding magic of the spell");
-        Mod.Breast.growSmallestBreastRow(character, 6, character.torso.chest.count, false);
+        Mod.Breast.growSmallestBreastRow(player, 6, player.torso.chest.count, false);
         // character.growTits(6, character.torso.chest.count, false, 2);
     }
-    Mod.Breast.boostLactation(character, character.torso.chest.count);
+    Mod.Breast.boostLactation(player, player.torso.chest.count);
     // character.boostLactation(character.torso.chest.count);
     DisplayText(", filling with warm, fluid weight.  They jiggle and wobble against each other and your belly as they adjust to their brimming plumpness.  You now proudly sport [fullChest].");
 
     DisplayText("\n\nGrinning, Essrayle nods happily, rolling the scroll back up.  \"<i>Yes, that looks veeerry good on you!</i>\”  She ogles your chest for a while before glancing down at her own.  \"<i>But I think I could do you one better, since you've been so sweet to me,</i>\" the all-natural beauty coos happily.  \"<i>As a special bonus to you, how'd you like to have these too?</i>\" she moos, running her finger about her four, plump nipples, giving you a seductive smile.");
-    character.stats.lust += 10;
+    player.stats.lust += 10;
     return { yes: yesGimmeGiantNipplesEssy, no: noGimmeGiantNipplesEssy };
 }
 
 // [Yes]
-function yesGimmeGiantNipplesEssy(character: Character): NextScreenChoices {
+function yesGimmeGiantNipplesEssy(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("She smiles knowingly and, reaching into her pouch once more, Essy produces a strange looking fruit.  It seems almost like a plum-colored eggplant, but it feels soft and rubbery to the touch.  \"<i>Here ya go!  Whenever you'd like, enjoy this!</i>\"  She places the strange thing in your hands.  \"<i>Call it my gift to another chest connoisseur.</i>\"");
 
     essyRewardEpilogueOUTTIES();
     // [gain purple fruit] [Next]
-    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.PurpleFruit, Scenes.camp.returnToCampUseOneHour);
+    return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.PurpleFruit, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.PRFRUIT, Scenes.camp.returnToCampUseOneHour);
 }
 
@@ -465,17 +458,17 @@ function essyRewardEpilogueOUTTIES(): NextScreenChoices {
     return { next: Menus.Player };
 }
 
-    // export function askMotherToReleaseEssy(): NextScreenChoices {
-    //     DisplayText().clear();
-    //     if ((Game.characterData.get(CharacterType.SandMother) as SandWitchData).sandWitchesCowed === 0) {
-    //         DisplayText("You point out that the witches have a friend of yours trapped here with magic and you'd like her released.");
-    //         DisplayText("\n\nThe Sand Mother cocks her head to the side before understanding dawns on her luminescent eyes.  \"<i>The plant-woman?  She seeks pleasure like a demon, yet lacks the corruption we would expect.  I can give the order to turn her loose, but see her out, and should she return, I cannot promise her freedom again.</i>\"");
-    //         DisplayText("\n\nThat'll have to do.");
-    //     }
-    //     else {
-    //         DisplayText("You command the Sand Mother to release your friend, Essrayle from her magical bondage.  The sorcerous queen looks about to protest, but after a brief pause, she admits, \"<i>Fine, I'll see her released.  You can go pick her up.</i>\"  She practically spits the last sentence.");
-    //         DisplayText("\n\nThat'll do.");
-    //     }
-    //     data.toldMotherToRelease = 1;
-    //     return { next: Menus.Player };
-    // }
+export function askMotherToReleaseEssy(): NextScreenChoices {
+    DisplayText().clear();
+    if (User.flags.get<SandWitchFlags>(FlagType.SandWitch).sandWitchesCowed === 0) {
+        DisplayText("You point out that the witches have a friend of yours trapped here with magic and you'd like her released.");
+        DisplayText("\n\nThe Sand Mother cocks her head to the side before understanding dawns on her luminescent eyes.  \"<i>The plant-woman?  She seeks pleasure like a demon, yet lacks the corruption we would expect.  I can give the order to turn her loose, but see her out, and should she return, I cannot promise her freedom again.</i>\"");
+        DisplayText("\n\nThat'll have to do.");
+    }
+    else {
+        DisplayText("You command the Sand Mother to release your friend, Essrayle from her magical bondage.  The sorcerous queen looks about to protest, but after a brief pause, she admits, \"<i>Fine, I'll see her released.  You can go pick her up.</i>\"  She practically spits the last sentence.");
+        DisplayText("\n\nThat'll do.");
+    }
+    essrayleFlags.TOLD_MOTHER_TO_RELEASE_ESSY = 1;
+    return { next: Menus.Player };
+}
