@@ -1,4 +1,6 @@
-﻿export type SortOption<T> = (a: T, b: T) => number;
+﻿import { randomChoice } from "./SMath";
+
+export type SortOption<T> = (a: T, b: T) => number;
 export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
 export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
 export type MapOption<T, U> = (value: T, index: number, array: T[]) => U;
@@ -80,6 +82,13 @@ export class List<Entry> implements Iterable<Entry> {
 
     public forEach(callbackfn: (value: Entry, index: number, array: Entry[]) => void): void {
         return this.list.forEach(callbackfn);
+    }
+
+    /**
+     * Returns a random item from the list.
+     */
+    public random(): Entry {
+        return randomChoice(this.list);
     }
 
     public [Symbol.iterator](): Iterator<Entry> {

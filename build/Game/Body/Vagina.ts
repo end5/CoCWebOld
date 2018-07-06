@@ -60,10 +60,10 @@ export class Vagina implements ISerializable<Vagina> {
     public fullness: number = 0;
 
     public constructor(
-        type: VaginaType = VaginaType.HUMAN,
         wetness: VaginaWetness = VaginaWetness.NORMAL,
         looseness: VaginaLooseness = VaginaLooseness.TIGHT,
-        virgin: boolean = true
+        virgin: boolean = true,
+        type: VaginaType = VaginaType.HUMAN
     ) {
         this.type = type;
         this.wetness = wetness;
