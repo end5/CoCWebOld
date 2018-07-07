@@ -25,8 +25,12 @@ export interface ErlkingFlags {
     wildHuntEncounters: number;
     timesEncounteredPrincessGwynn: number;
 }
-
-const erlkingFlags = User.flags.get<ErlkingFlags>(FlagType.Erlking);
+const erlkingFlags = {
+    erlkingDisabled: 0,
+    wildHuntEncounters: 0,
+    timesEncounteredPrincessGwynn: 0
+};
+User.flags.set(FlagType.Erlking, erlkingFlags);
 
 export function encounterWildHunt(player: Character): NextScreenChoices {
     erlkingFlags.wildHuntEncounters++;

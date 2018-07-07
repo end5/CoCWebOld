@@ -41,6 +41,14 @@ export interface KitsuneFlags {
     KITSUNE_SHRINE_VISIT: number;
     TOOK_KITSUNE_STATUE: number;
 }
+const kitsuneFlags = {
+    MANSION_VISITED: 0,
+    redheadIsFuta: 0,
+    MET_KITSUNES: 0,
+    KITSUNE_SHRINE_VISIT: 0,
+    TOOK_KITSUNE_STATUE: 0,
+};
+User.flags.set(FlagType.Kitsune, kitsuneFlags);
 
 class SpecialImpEndScenes {
     public claimsVictory(howYouWon: DefeatType, enemy: Character) { }
@@ -57,7 +65,6 @@ class SpecialImpEndScenes {
 }
 
 let hairColor: string = "black";
-const kitsuneFlags = User.flags.get<KitsuneFlags>(FlagType.Kitsune);
 
 /**
  * Created by aimozg on 04.01.14.

@@ -32,7 +32,17 @@ export interface EssrayleFlags {
     ESSY_DUNGEON_FUCKED: number;
     ESSY_MET_IN_DUNGEON: number;
 }
-const essrayleFlags = User.flags.get<EssrayleFlags>(FlagType.Essrayle);
+
+const essrayleFlags = {
+    MET_ESSY: 0,
+    TURNED_DOWN_ESSY_FIRST_MEETING: 0,
+    ESSRAYLE_ESCAPED_DUNGEON: 0,
+    TOLD_MOTHER_TO_RELEASE_ESSY: 0,
+    ESSY_DUNGEON_FUCKED: 0,
+    ESSY_MET_IN_DUNGEON: 0
+};
+
+User.flags.set(FlagType.Essrayle, essrayleFlags);
 
 // Restriction on meeting Essy I'd figure is you can't be genderless, Essy is a very sexual being and if she doesn't detect a sex in someone, she's bluntly not interested. I'd imagine she'd be more receptive to nagas, those rather cowish in species, and characters with very, very large breasts.
 

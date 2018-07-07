@@ -183,7 +183,7 @@ function fightTamanisDaughters() {
         monster.tou += 5;
         monster.stats.HP += 10;
         // (-20 mob lust)
-        monster.lust -= 20;
+        monster.stats.lust -= 20;
         // append combat desc
         monster.long += " <b>Tamani lurks in the back of the crowd, curvier than her brood and watching with a mixture of amusement and irritation.  She runs a hand through her pink and black hair, waiting for an opportunity to get involved...</b>";
     }

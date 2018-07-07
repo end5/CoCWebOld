@@ -8,5 +8,6 @@ export enum FlagType {
     Erlking = "Erlking",
     Essrayle = "Essrayle",
     Kitsune = "Kitsune",
-    Tamani = "Tamani"
+    Tamani = "Tamani",
+    Izumi = "Izumi"
 }

@@ -90,7 +90,7 @@
 		this.torso.butt.wetness = ButtWetness.DRY;
 		this.statusAffects.add(StatusAffectType.BonusACapacity, 20, 0, 0, 0);
 		this.tallness = 6 * 12 + 6;
-		this.torso.hipRating = HipRating.INHUMANLY_WIDE;
+		this.torso.hips.rating = HipRating.INHUMANLY_WIDE;
 		this.torso.butt.rating = ButtRating.EXPANSIVE;
 		this.torso.hips.legs.type = LegType.HARPY;
 		this.skin.tone = "pink";
