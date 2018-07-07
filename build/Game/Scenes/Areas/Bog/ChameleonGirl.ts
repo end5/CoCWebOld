@@ -119,7 +119,7 @@ export class ChameleonGirl extends Character {
     public constructor() {
         super(CharacterType.ChameleonGirl);
         const skin = randomChoice(ChameleonSkin);
-        this.description = new CharacterDescription(this, "chameleon girl", "You're faced with a tall lizard-like girl with smooth " + skin[0] + " skin and long, " + skin[1] + " stripes that run along her body from ankle to shoulder.  An abnormally large tail swishes behind her, and her hands are massive for her frame, built for easily climbing the trees.  A pair of small, cute horns grow from her temples, and a pair of perky B-cups push out through her skimpy drapings.  Large, sharp claws cap her fingers, gesturing menacingly at you.", false, "the ");
+        this.description = new CharacterDescription(this, "the ", "chameleon girl", "You're faced with a tall lizard-like girl with smooth " + skin[0] + " skin and long, " + skin[1] + " stripes that run along her body from ankle to shoulder.  An abnormally large tail swishes behind her, and her hands are massive for her frame, built for easily climbing the trees.  A pair of small, cute horns grow from her temples, and a pair of perky B-cups push out through her skimpy drapings.  Large, sharp claws cap her fingers, gesturing menacingly at you.");
         this.torso.vaginas.add(new Vagina(VaginaWetness.SLAVERING, VaginaLooseness.LOOSE, false));
         this.torso.chest.add(new BreastRow(BreastCup.B));
         this.torso.butt.looseness = ButtLooseness.NORMAL;

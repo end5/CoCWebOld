@@ -33,7 +33,13 @@ export interface SandTrapFlags {
     SANDTRAP_LOSS_REPEATS: number;
 }
 
-const sandTrapFlags = User.flags.get<SandTrapFlags>(FlagType.SandTrap);
+const sandTrapFlags: SandTrapFlags = {
+    TIMES_ENCOUNTERED_SAND_TRAPS: 0,
+    SANDTRAP_NAGA_3SOME: 0,
+    SANDTRAP_LOSS_REPEATS: 0,
+}
+
+User.flags.set(FlagType.SandTrap, sandTrapFlags);
 
 // Encounters (Z)
 // First Encounter: (requires having met a Sand Witch)

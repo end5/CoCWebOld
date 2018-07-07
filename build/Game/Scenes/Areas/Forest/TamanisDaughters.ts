@@ -99,7 +99,7 @@ import { CharacterDescription } from "../../../Character/CharacterDescription";
 export class TamanisDaughters extends Goblin {
     public constructor() {
         super(CharacterType.TamaniDaughters);
-        this.description = new CharacterDescription(this, "Tamani's daughters", "A large grouping of goblin girls has gathered around you, surrounding you on all sides.  Most have varying shades of green skin, though a few have yellowish or light blue casts to their skin.  All are barely clothed, exposing as much of their flesh as possible in order to excite a potential mate.  Their hairstyles are as varied as their clothing and skin-tones, and the only things they seem to have in common are cute faces and curvy forms.  It looks like they want something from you.", true, "the group of ");
+        this.description = new CharacterDescription(this, "the group of ", "Tamani's daughters", "A large grouping of goblin girls has gathered around you, surrounding you on all sides.  Most have varying shades of green skin, though a few have yellowish or light blue casts to their skin.  All are barely clothed, exposing as much of their flesh as possible in order to excite a potential mate.  Their hairstyles are as varied as their clothing and skin-tones, and the only things they seem to have in common are cute faces and curvy forms.  It looks like they want something from you.", true);
         this.torso.vaginas.add(new Vagina(VaginaWetness.DROOLING, VaginaLooseness.TIGHT));
         this.statusAffects.add(StatusAffectType.BonusVCapacity, 40, 0, 0, 0);
         this.torso.chest.add(new BreastRow(BreastCup.D));

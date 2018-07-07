@@ -127,7 +127,7 @@ import { randInt } from "../../../../Engine/Utilities/SMath";
 export class Tamani extends Goblin {
     public constructor() {
         super(CharacterType.Tamani);
-        this.description = new CharacterDescription(this, "Tamani", "She keeps her arms folded across her " + Scenes.forest.tamaniScene.tamaniChest() + " and glares at you.  The little thing is only about four feet tall, with pink and black dyed hair cut into a cute little 'do.  The greenish-gray skin of her breasts bulges out around her arms, supported by a few leather straps, amplifying her cleavage.  Her cunt lips are pierced multiple times, inflamed, and slightly parted.  There really isn't any clothing on her to hide them, just more of the ever-present straps wrapping around her thighs.", false, "");
+        this.description = new CharacterDescription(this, "", "Tamani", "She keeps her arms folded across her " + Scenes.forest.tamaniScene.tamaniChest() + " and glares at you.  The little thing is only about four feet tall, with pink and black dyed hair cut into a cute little 'do.  The greenish-gray skin of her breasts bulges out around her arms, supported by a few leather straps, amplifying her cleavage.  Her cunt lips are pierced multiple times, inflamed, and slightly parted.  There really isn't any clothing on her to hide them, just more of the ever-present straps wrapping around her thighs.", false);
         this.torso.vaginas.add(new Vagina(VaginaWetness.DROOLING, VaginaLooseness.NORMAL));
         this.statusAffects.add(StatusAffectType.BonusVCapacity, 55, 0, 0, 0);
         this.torso.chest.add(new BreastRow(BreastCup.E));

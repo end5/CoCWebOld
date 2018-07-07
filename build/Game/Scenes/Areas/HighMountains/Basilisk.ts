@@ -81,8 +81,8 @@ export function basiliskSpeed(player: Character, amount: number = 0): void {
 export class Basilisk extends Character {
     public constructor() {
         super(CharacterType.Basilisk);
-        this.description = new CharacterDescription(this, "basilisk", "You are fighting a basilisk!  From what you can tell while not looking directly at it, the basilisk is a male reptilian biped standing a bit over 6' tall.  It has a thin but ropy build, its tightly muscled yellow underbelly the only part of its frame not covered in those deceptive, camouflaging grey-green scales.  A long, whip-like tail flits restlessly through the dirt behind its skinny legs, and sharp sickle-shaped index claws decorate each hand and foot.  You don't dare to look at its face, but you have the impression of a cruel jaw, a blunt lizard snout and a crown of dull spines.", false, "the ");
-        this.torso.cocks.add(new Cock(CockType.LIZARD, 6, 2));
+        this.description = new CharacterDescription(this, "the ", "basilisk", "You are fighting a basilisk!  From what you can tell while not looking directly at it, the basilisk is a male reptilian biped standing a bit over 6' tall.  It has a thin but ropy build, its tightly muscled yellow underbelly the only part of its frame not covered in those deceptive, camouflaging grey-green scales.  A long, whip-like tail flits restlessly through the dirt behind its skinny legs, and sharp sickle-shaped index claws decorate each hand and foot.  You don't dare to look at its face, but you have the impression of a cruel jaw, a blunt lizard snout and a crown of dull spines.");
+        this.torso.cocks.add(new Cock(6, 2, CockType.LIZARD));
         this.torso.balls.quantity = 2;
         this.torso.balls.size = 2;
         this.torso.chest.add(new BreastRow(0));

@@ -41,7 +41,7 @@ export interface KitsuneFlags {
     KITSUNE_SHRINE_VISIT: number;
     TOOK_KITSUNE_STATUE: number;
 }
-const kitsuneFlags = {
+const kitsuneFlags: KitsuneFlags = {
     MANSION_VISITED: 0,
     redheadIsFuta: 0,
     MET_KITSUNES: 0,

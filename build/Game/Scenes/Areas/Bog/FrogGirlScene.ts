@@ -15,7 +15,7 @@ export interface FrogGirlFlags {
     TIMES_ENCOUNTERED_FROG: number;
 }
 
-const frogGirlFlags = {
+const frogGirlFlags: FrogGirlFlags = {
     TIMES_ENCOUNTERED_FROG: 0
 };
 User.flags.set(FlagType.FrogGirl, frogGirlFlags);

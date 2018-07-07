@@ -40,6 +40,18 @@ export interface BeeGirlFlags {
     badEndWarning: boolean;
 }
 
+const beeGirlFlags: BeeGirlFlags = {
+    conversation: 0,
+    attitude: 0,
+    talked: 0,
+    combatWinsWithRape: 0,
+    combatWinsWithoutRape: 0,
+    combatLosses: 0,
+    forceBeeToProduceHoney: 0,
+    badEndWarning: false
+};
+User.flags.set(FlagType.BeeGirl, beeGirlFlags);
+
 const BEE_GIRL_TALKED: number = 1; // Replaces the old bee progress flag
 const BEE_GIRL_TALKED_AND_LEFT: number = 2; // Refusing to take her eggs leads to conversation
 const BEE_GIRL_TALKED_AND_LEFT_TWICE: number = 3;
@@ -47,8 +59,6 @@ const BEE_GIRL_PLAYER_AFRAID: number = 4;
 const BEE_GIRL_PLAYER_VOLUNTARY_EGGING: number = 5; // End of the afraid chain, from now on character gets egged when they meet her
 const BEE_GIRL_PLAYER_DISGUSTED: number = 6;
 const BEE_GIRL_PLAYER_DUTY: number = 7;
-
-const beeGirlFlags = User.flags.get<BeeGirlFlags>(FlagType.BeeGirl);
 
 /**
  * Created by aimozg on 03.01.14.

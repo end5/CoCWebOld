@@ -25,7 +25,7 @@ export interface ErlkingFlags {
     wildHuntEncounters: number;
     timesEncounteredPrincessGwynn: number;
 }
-const erlkingFlags = {
+const erlkingFlags: ErlkingFlags = {
     erlkingDisabled: 0,
     wildHuntEncounters: 0,
     timesEncounteredPrincessGwynn: 0

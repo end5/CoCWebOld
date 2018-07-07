@@ -33,7 +33,15 @@ export interface AkbalFlags {
     timesBitched: number;
 }
 
-const akbalFlags = User.flags.get<AkbalFlags>(FlagType.Akbal);
+const akbalFlags: AkbalFlags = {
+    submissionState: 0,
+    bitchQ: 0,
+    playerResisted: 0,
+    submissionCounter: 0,
+    timesBitched: 0,
+};
+
+User.flags.set(FlagType.Akbal, akbalFlags);
 
 /**
  * Created by aimozg on 01.01.14.

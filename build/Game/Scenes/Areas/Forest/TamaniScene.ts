@@ -74,7 +74,19 @@ export interface TamaniFlags {
     TAMANI_TIME_OUT: number;
 }
 
-const tamaniFlags = User.flags.get<TamaniFlags>(FlagType.Tamani);
+const tamaniFlags: TamaniFlags = {
+    TAMANI_PREGNANCY_TYPE: undefined,
+    TAMANI_PREGNANCY_INCUBATION: 0,
+    TAMANI_NUMBER_OF_DAUGHTERS: 0,
+    TAMANI_PREGNANCY_COUNT: 0,
+    TAMANI_TIMES_IMPREGNATED: 0,
+    TAMANI_MET: 0,
+    TAMANI_TIMES_HYPNOTISED: 0,
+    TIMES_OVIPOSITED_TAMANI: 0,
+    TAMANI_TIME_OUT: 0,
+};
+
+User.flags.set(FlagType.Tamani, tamaniFlags);
 
 function tamaniGivesBirth() {
     if (tamaniFlags.TAMANI_PREGNANCY_TYPE === PregnancyType.PLAYER) { // Don't want drider eggs to add to her daughers

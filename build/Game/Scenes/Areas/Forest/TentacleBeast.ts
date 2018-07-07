@@ -153,7 +153,7 @@ class TentacleBeastEndScenes extends EndScenes {
 export class TentacleBeast extends Character {
     public constructor() {
         super(CharacterType.TentacleBeast);
-        this.description = new CharacterDescription(this, "tentacle beast", "You see the massive, shambling form of the tentacle beast before you.  Appearing as a large shrub, it shifts its bulbous mass and reveals a collection of thorny tendrils and cephalopodic limbs.", false, "the ");
+        this.description = new CharacterDescription(this,"the ", "tentacle beast", "You see the massive, shambling form of the tentacle beast before you.  Appearing as a large shrub, it shifts its bulbous mass and reveals a collection of thorny tendrils and cephalopodic limbs.");
         this.torso.cocks.add(new Cock(40, 1.5));
         this.torso.cocks.add(new Cock(60, 1.5));
         this.torso.cocks.add(new Cock(50, 1.5));

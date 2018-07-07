@@ -33,7 +33,7 @@ export interface EssrayleFlags {
     ESSY_MET_IN_DUNGEON: number;
 }
 
-const essrayleFlags = {
+const essrayleFlags: EssrayleFlags = {
     MET_ESSY: 0,
     TURNED_DOWN_ESSY_FIRST_MEETING: 0,
     ESSRAYLE_ESCAPED_DUNGEON: 0,

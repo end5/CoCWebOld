@@ -49,7 +49,7 @@ export interface PhoukaFlags {
     PREGNANCY_CORRUPTION: number;
 }
 
-const phoukaFlags = {
+const phoukaFlags: PhoukaFlags = {
     PHOUKA_LORE: 0,
     PHOUKA_ENCOUNTER_STATUS: 0,
     TREACLE_MINE_YEAR_DONE: 0,

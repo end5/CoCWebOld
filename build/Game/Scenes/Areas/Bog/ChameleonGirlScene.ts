@@ -47,7 +47,7 @@ export interface ChameleonGirlFlags {
     TIMES_MET_CHAMELEON: number;
 }
 
-const chameleonGirlFlags = {
+const chameleonGirlFlags: ChameleonGirlFlags = {
     TIMES_MET_CHAMELEON: 0
 };
 

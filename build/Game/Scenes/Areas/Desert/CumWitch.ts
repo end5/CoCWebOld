@@ -28,13 +28,13 @@ import { CharacterType } from "../../../Character/CharacterType";
 export class CumWitch extends Character {
     public constructor() {
         super(CharacterType.CumWitch);
-        this.description = new CharacterDescription(this, "Cum Witch", "The Cum Witch is a moderately tall woman, almost six feet in height.  Her dark ebony skin is nearly as black as pitch, though it glitters with sweat from her recent sexual activities and the fight.  She has plump lips and long, smooth blonde hair, though much of it is hidden behind a pointed, wide-brimmed hat.  Her robes are even blacker than she is, but she wields an alabaster staff that fairly sizzles with magical might.  Of course, her garments don't do much to conceal her gigantic breasts.  Though there are only two, they're large enough to dwarf the four tits most sand witches are packing.", false, "the ");
+        this.description = new CharacterDescription(this, "the ", "Cum Witch", "The Cum Witch is a moderately tall woman, almost six feet in height.  Her dark ebony skin is nearly as black as pitch, though it glitters with sweat from her recent sexual activities and the fight.  She has plump lips and long, smooth blonde hair, though much of it is hidden behind a pointed, wide-brimmed hat.  Her robes are even blacker than she is, but she wields an alabaster staff that fairly sizzles with magical might.  Of course, her garments don't do much to conceal her gigantic breasts.  Though there are only two, they're large enough to dwarf the four tits most sand witches are packing.");
         this.torso.cocks.add(new Cock(12, 2, CockType.HUMAN));
         this.torso.balls.quantity = 0;
         this.torso.balls.size = 0;
         this.cumMultiplier = 3;
         this.hoursSinceCum = 20;
-        this.torso.vaginas.add(new Vagina(VaginaType.HUMAN, VaginaWetness.WET, VaginaLooseness.LOOSE, false));
+        this.torso.vaginas.add(new Vagina(VaginaWetness.WET, VaginaLooseness.LOOSE, false));
         this.statusAffects.add(StatusAffectType.BonusVCapacity, 20, 0, 0, 0);
         this.torso.chest.add(new BreastRow(BreastCup.E));
         this.torso.butt.looseness = ButtLooseness.TIGHT;

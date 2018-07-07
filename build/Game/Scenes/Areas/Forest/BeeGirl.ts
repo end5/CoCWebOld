@@ -196,7 +196,7 @@ class BeeGirlActions implements ActionPerform {
 export class BeeGirl extends Character {
     public constructor() {
         super(CharacterType.BeeGirl);
-        this.description = new CharacterDescription(this, "bee-girl", "A bee-girl buzzes around you, filling the air with intoxicatingly sweet scents and a buzz that gets inside your head.  She has a humanoid face with small antennae, black chitin on her arms and legs that looks like shiny gloves and boots, sizable breasts, and a swollen abdomen tipped with a gleaming stinger.", false, "a ");
+        this.description = new CharacterDescription(this, "a ", "bee-girl", "A bee-girl buzzes around you, filling the air with intoxicatingly sweet scents and a buzz that gets inside your head.  She has a humanoid face with small antennae, black chitin on her arms and legs that looks like shiny gloves and boots, sizable breasts, and a swollen abdomen tipped with a gleaming stinger.");
         this.torso.vaginas.add(new Vagina(VaginaWetness.SLAVERING, VaginaLooseness.GAPING));
         this.torso.chest.add(new BreastRow(BreastCup.DD));
         this.torso.butt.looseness = ButtLooseness.STRETCHED;

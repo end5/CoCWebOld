@@ -32,7 +32,12 @@ export interface SandWitchFlags {
     EGG_WITCH_COUNTER: number;
 }
 
-const sandWitchFlags = User.flags.get<SandWitchFlags>(FlagType.SandWitch);
+const sandWitchFlags: SandWitchFlags = {
+    EGG_WITCH_TYPE: undefined,
+    EGG_WITCH_COUNTER: 0,
+}
+
+User.flags.set(FlagType.SandWitch, sandWitchFlags);
 
 class SandWitchPregnancy implements ITimeAware {
     // public SandWitchScene() {

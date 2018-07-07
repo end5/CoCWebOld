@@ -323,8 +323,8 @@ export class Kitsune extends Character {
             black: "lustrous, ass-length black",
             red: "unkempt, shoulder-length reddish"
         }[hairColor];
-        this.description = new CharacterDescription(this, "kitsune", "A kitsune stands in front of you, about five and a half feet tall.  She has a head of " + hairDesc +
-            " hair.  She appears mostly human, except for a pair of large, furry ears poking through her hair and six luxurious silky tails swaying in the air behind her.  Her robes are revealing but comfortable-looking, hugging her voluptuous curves and exposing large swaths of tattooed skin.  A layer of ornate tattoos covers patches of her exposed flesh, accentuating her feminine curves nicely, and each movement brings a pleasant jiggle from her plump backside and large breasts.", false, "a ");
+        this.description = new CharacterDescription(this, "a ", "kitsune", "A kitsune stands in front of you, about five and a half feet tall.  She has a head of " + hairDesc +
+            " hair.  She appears mostly human, except for a pair of large, furry ears poking through her hair and six luxurious silky tails swaying in the air behind her.  Her robes are revealing but comfortable-looking, hugging her voluptuous curves and exposing large swaths of tattooed skin.  A layer of ornate tattoos covers patches of her exposed flesh, accentuating her feminine curves nicely, and each movement brings a pleasant jiggle from her plump backside and large breasts.");
         if (hairColor === "red" && kitsuneFlags.redheadIsFuta === 1) {
             this.torso.cocks.add(new Cock(randInt(13) + 14, 1.5 + randInt(20) / 2, CockType.HUMAN));
             this.torso.balls.quantity = 2;
