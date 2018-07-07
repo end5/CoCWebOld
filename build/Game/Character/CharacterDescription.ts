@@ -3,7 +3,7 @@ import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { Desc } from '../Descriptors/Descriptors';
 
 export class CharacterDescription implements ISerializable<CharacterDescription> {
-    private character: Character;
+    protected character: Character;
     private subjective: string;
     private objective: string;
     private possessive: string;
@@ -13,7 +13,7 @@ export class CharacterDescription implements ISerializable<CharacterDescription>
     private longDesc: string;
     private isPlural: boolean;
 
-    public constructor(character: Character, short: string = "", long: string = "", plural: boolean = false, article: string = "a") {
+    public constructor(character: Character, article: string, short: string, long: string, plural: boolean = false) {
         this.character = character;
         this.article = article;
         this.defaultShort = short;

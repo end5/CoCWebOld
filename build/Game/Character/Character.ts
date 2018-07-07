@@ -34,7 +34,7 @@ export abstract class Character extends Creature implements ISerializable<Charac
         this.charType = type;
         this.UUID = generateUUID();
         this.inventory = new CharacterInventory(this);
-        this.description = new CharacterDescription(this);
+        this.description = new CharacterDescription(this, "", "", "");
         if (type !== CharacterType.Player) {
             this.stats.XP = this.totalXP();
         }
