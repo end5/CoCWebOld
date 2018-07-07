@@ -38,7 +38,7 @@ export class Womb implements ISerializable<Womb> {
     // If guarantee then override any contraceptives and guarantee fertilization
     public knockUp(pregnancy: Pregnancy, virility: number = 100, guarantee: boolean = false): void {
         // Contraceptives cancel!
-        if (this.canKnockUp()) {
+        if (guarantee || this.canKnockUp()) {
             this.removeHeat();
 
             // If unpregnant and fertility wins out:
