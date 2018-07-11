@@ -1,4 +1,4 @@
-﻿import { TamanisDaughtersFlags } from './TamanisDaughters';
+﻿import { TamanisDaughtersFlags, TamanisDaughters } from './TamanisDaughters';
 import { DisplaySprite } from '../../../../Engine/Display/DisplaySprite';
 import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
@@ -15,6 +15,7 @@ import { numToCardinalText } from '../../../Utilities/NumToText';
 import { Scenes } from '../../Scenes';
 import { ITimeAware } from '../../../ITimeAware';
 import { FlagType } from '../../../Utilities/FlagType';
+import { CombatManager } from '../../../Combat/CombatManager';
 
 export class TamainsDaughtersScene implements ITimeAware {
 
@@ -92,12 +93,18 @@ export class TamainsDaughtersScene implements ITimeAware {
 }
 
 export interface TamanisDaughtersFlags {
-    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS;
-    TAMANI_NUMBER_OF_DAUGHTERS;
-    TAMANI_TIMES_HYPNOTISED;
+    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS: number;
+    TAMANI_NUMBER_OF_DAUGHTERS: number;
+    TAMANI_TIMES_HYPNOTISED: number;
 }
 
-const tamanisDaughtersFlags = User.flags.get<TamanisDaughtersFlags>(FlagType.TamanisDaughters);
+const tamanisDaughtersFlags: TamanisDaughtersFlags = {
+    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS: 0,
+    TAMANI_NUMBER_OF_DAUGHTERS: 0,
+    TAMANI_TIMES_HYPNOTISED: 0,
+}
+
+User.flags.set(FlagType.TamanisDaughters, tamanisDaughtersFlags);
 
 export const tamaniPresent: boolean = false;
 
@@ -116,7 +123,7 @@ function tdCup(): string {
 }
 
 // ENCOUNTER:
-export function encounterTamanisDaughters(character: Character): NextScreenChoices {
+export function encounterTamanisDaughters(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     tamanisDaughtersFlags.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS++;
     DisplayText().clear();
@@ -132,7 +139,7 @@ export function encounterTamanisDaughters(character: Character): NextScreenChoic
     tamaniPresent = false;
     DisplayText("While roaming along, you find your path ahead blocked by ");
     DisplayText(tamaniDaughterCount + " goblins.  You ");
-    if (character.weaponName === "fists") DisplayText("ready your fists ");
+    if (player.inventory.equipment.weapon.displayname === "fists") DisplayText("ready your fists ");
     else DisplayText("draw your weapon ");
     DisplayText("and glance around evaluating your options.   Another crowd of small women emerges from the bushes, closing in a ring around you, preventing any chance of escape.  The largest of the goblin-women steps forwards, her " + this.tdCup() + "-breasts jiggling, barely contained by the bondage ropes she has tied around herself.\n\n");
     // first time
@@ -148,13 +155,13 @@ export function encounterTamanisDaughters(character: Character): NextScreenChoic
 }
 
 // [Play Dumb]
-function playDumbToTamanisDaughters(character: Character) {
+function playDumbToTamanisDaughters(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     DisplayText().clear();
-    DisplayText("You shrug and ask, \"<i>What exactly is it you want again?  I'm not sure you have the right " + Desc.Gender.mf(character, "guy", "person") + ".</i>\"\n\n");
+    DisplayText("You shrug and ask, \"<i>What exactly is it you want again?  I'm not sure you have the right " + Desc.Gender.mf(player, "guy", "person") + ".</i>\"\n\n");
 
     // approx 33% chance at 0 int, going up the smarter you are.
-    if (character.stats.int / 2 + 25 > randInt(75)) {
+    if (player.stats.int / 2 + 25 > randInt(75)) {
         DisplayText("The leader looks you up and down for a moment.  Her face slowly contorts to puzzlement, then rage, \"<i>Tammi you ditz!  I thought you said this was his trail?  Come on girls, we've got a dad to hunt.</i>\"\n\n");
         if (tamanisDaughtersFlags.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS > 1) DisplayText("They really must not be paying much attention to what you look like.");
         return { next: Scenes.camp.returnToCampUseOneHour };
@@ -170,12 +177,12 @@ function playDumbToTamanisDaughters(character: Character) {
 }
 
 // [Fight Them]
-function fightTamanisDaughters() {
+function fightTamanisDaughters(player: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("You whirl around threateningly, intent on putting Tamani's wayward brood back in their place.\n\n");
-    startCombat(new TamanisDaughters());
     DisplaySprite(SpriteName.Tamani_Daughters);
+    const monster = new TamanisDaughters();
     if (tamaniPresent) {
         // (+5 mob strength)
         monster.str += 5;
@@ -187,7 +194,7 @@ function fightTamanisDaughters() {
         // append combat desc
         monster.long += " <b>Tamani lurks in the back of the crowd, curvier than her brood and watching with a mixture of amusement and irritation.  She runs a hand through her pink and black hair, waiting for an opportunity to get involved...</b>";
     }
-    return;
+    return CombatManager.beginBattle(player, [], [monster]);
 }
 
 // (COMBAT TEXT:  You're fighting Tamani's brood.  All total, there are (x) of them spread in a loose circle around you.  Most of them have their hair dyed wild colors, and dress in little more than fetish clothing – for easy access you assume.  Some are dolled up with make-up, others have oiled their luscious forms, and a few are stopping to kiss and lick each other, putting on a show for their latest victim.  (Tamani is here as well, fighting her way to the forefront and absently massaging one of her \" + tamaniChest + \" as eyehumps your body.\")
@@ -893,7 +900,7 @@ function tamaniDaughtersYesBadEndMePlease(character: Character) {
     if (character.statusAffects.get(StatusAffectType.Exgartuan).value1 === 1) DisplayText("Exgartuan moans, \"<i>Ohhhhhh yeeeeaaaaahhhh...</i>\" before slipping into silence.\n\n");
 
     DisplayText("You spend the rest of your life trapped in orgasm, constantly feeding the growth of what becomes the biggest goblin tribe in all the land of Mareth.  Even when every single one of them is pregnant, they let you enjoy your reward.  Over time your capacity for memory, morals, or anything other feeling besides pleasure dwindles.  Trapped in a heaven of your own choosing, you gave up everything that you were for never-ending bliss.");
-    Game.gameOver();
+    return { next: Menus.GameOver };
 }
 
 // [NO]
@@ -930,7 +937,7 @@ function tamanisDaughtersFillIndividuallyBADEND(character: Character) {
     DisplayText("A cheer reverberates off the ceiling as your daughters crowd around you, pressing their buxom chests and rounded backsides against you.  You're led to a secluded corner and fed food and strange drinks, while being kept incredibly horny for hours as you await Tamani's return.  True to her word, your daughter is on top of you in a flash once the clan's matriarch enters the room, and you're helpless to do anything but submit to her velvet pussy.  You cum loudly and messily, creaming her walls and flooding the area around you with spunk while Tamani is forced to watch with a jealous look on her face.\n\n");
 
     DisplayText("The rest of your life continues on in a similar fashion – you're kept happily fed, full, and pleasured by your hundreds of pregnant wives as your harem grows.  There's no shortage of sex, and no shortage of desire thanks to your wives' alchemical talents.  Within the span of a month you've utterly forgotten about your quest – it's hard to focus on anything but cuddling with your wives and daughters while you await your next fuck.");
-    Game.gameOver();
+    return { next: Menus.GameOver };
 }
 
 // [Lose to Daughters With Tamani There]

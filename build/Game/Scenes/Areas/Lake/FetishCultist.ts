@@ -9,6 +9,7 @@ import { ArmorName } from "../../../Items/Armors/ArmorName";
 import { Weapon } from "../../../Items/Weapons/Weapon";
 import { WeaponName } from "../../../Items/Weapons/WeaponName";
 import { randInt } from "../../../../Engine/Utilities/SMath";
+import { CharacterType } from "../../../Character/CharacterType";
 
 const NAUGHTY_NURSES_UNIFORM: string = "naughty nurse's uniform";
 const TEACHERS_OUTFIT: string = "teacher's outfit";
@@ -151,7 +152,8 @@ const FETISHY_OUTFIT: string = "fetishy outfit";
 // }
 
 export class FetishCultist extends Character {
-    public FetishCultist() {
+    public constructor() {
+        super( CharacterType.FetishCultist);
         this.description = new CharacterDescription(this, "the ", "fetish cultist", "The woman across from you has her eyes closed, her hands joined, and seems to be chanting under her breath. She is wearing a religious outfit that closely hugs her curvacious shape, with a skirt so short that you can clearly see her pussy's lips.\n\nShe has clealy lost her grasp on sanity, and filled the void with pure perversion.");
         this.torso.vaginas.add(new Vagina(VaginaWetness.WET, VaginaLooseness.GAPING, false));
         this.torso.chest.add(new BreastRow(BreastCup.DD));
