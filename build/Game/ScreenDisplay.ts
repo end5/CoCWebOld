@@ -4,7 +4,7 @@ import { MainScreen } from '../Engine/Display/MainScreen';
 
 export type ClickFunction = (activeCharacter?: any, ...args: any[]) => NextScreenChoices;
 export interface ClickObject {
-    func: ClickOption;
+    func: ClickFunction;
     args: any[];
 }
 export type ClickOption = ClickFunction | ClickObject;
@@ -49,7 +49,7 @@ export function clickFuncWrapper(clickFunc: ClickOption): (event: Event) => void
                 displayNextScreenChoices(clickFunc(User.char, event));
             };
         }
-        else {
+        else if (typeof clickFunc === "object") {
             nextScreens.push(clickFunc.func.name);
             return (event) => {
                 previousScreens.push(clickFunc.func.name);

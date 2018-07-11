@@ -121,10 +121,10 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
         return this.itemSlots.reduce(option, initialValue);
     }
 
-    public filterName(name: string): ItemStack<T>[] {
-        return this.filter((itemStack: ItemStack<T>) => {
+    public static FilterName(name: string): FilterOption<ItemStack<Item>> {
+        return (itemStack: ItemStack<Item>) => {
             return itemStack.quantity > 0 && itemStack.item.name === name;
-        });
+        };
     }
 
     public static TotalQuantity: ReduceOption<ItemStack<Item>, number> = (previousValue: number, currentValue: ItemStack<Item>, index: number, array: ItemStack<Item>[]) => {
