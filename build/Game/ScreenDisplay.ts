@@ -5,10 +5,10 @@ import { MainScreen } from '../Engine/Display/MainScreen';
 export type ClickFunction = (activeCharacter?: any, ...args: any[]) => NextScreenChoices;
 export interface ClickObject {
     func: ClickFunction;
-    args: any[];
+    tooltip: string;
 }
 export type ClickOption = ClickFunction | ClickObject;
-export interface ScreenChoice extends Array<string | ClickOption> { 0: string; 1: ClickOption; }
+export type ScreenChoice = [string, ClickOption];
 export interface NextScreenChoices {
     yes?: ClickOption;
     no?: ClickOption;

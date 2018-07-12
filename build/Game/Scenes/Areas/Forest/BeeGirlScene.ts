@@ -28,6 +28,7 @@ import { User } from '../../../User';
 import { numToCardinalText } from '../../../Utilities/NumToText';
 import { Scenes } from '../../Scenes';
 import { FlagType } from '../../../Utilities/FlagType';
+import { partial } from '../../../Utilities/Partial';
 
 export interface BeeGirlFlags {
     conversation: number;
@@ -1352,11 +1353,11 @@ export function rapeTheBeeGirl(player: Character, beeGirl: Character): NextScree
     }
     if (player.torso.cocks.count > 0) {
         DisplayText("(You could fuck her with " + Desc.Cock.describeMultiCockSimpleEach(player) + ".)\n");
-        cock = { func: rapeTheBeeGirlWithADick, args: [beeGirl] };
+        cock = partial(rapeTheBeeGirlWithADick, player, beeGirl);
     }
     if (player.torso.cocks.count > 1) {
         DisplayText("(You could use more than one of your " + Desc.Cock.describeMultiCockShort(player) + " on her.)\n");
-        multiCock = { func: rapeTheBeeMultiCockStuff, args: [beeGirl] };
+        multiCock = partial(rapeTheBeeMultiCockStuff, player, beeGirl);
     }
     if (player.torso.vaginas.count > 0) {
         DisplayText("(You could make her get off your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + ".)\n");
@@ -1372,7 +1373,7 @@ export function rapeTheBeeGirl(player: Character, beeGirl: Character): NextScree
     }
     if (player.stats.cor >= 75 && player.stats.str >= 60 && (player.torso.neck.head.face.tongue.type === TongueType.SNAKE || player.torso.cocks.count > 0 || player.torso.vaginas.count > 0 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4)) {
         DisplayText("(You could play with her a bit and try to make her lay eggs into herself.)\n");
-        gentleman = { func: beeGirlRapeForTheDistinguishedGentleman, args: [beeGirl] };
+        gentleman = partial(beeGirlRapeForTheDistinguishedGentleman, player, beeGirl);
     }
     return {
         choices: [

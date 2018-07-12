@@ -24,6 +24,7 @@ import { User } from '../../../User';
 import { lustyMaidenPaizuri } from '../../Items/LustyMaidensArmor';
 import { Scenes } from '../../Scenes';
 import { FlagType } from '../../../Utilities/FlagType';
+import { partial } from '../../../Utilities/Partial';
 
 export interface AkbalFlags {
     submissionState: number;
@@ -69,13 +70,13 @@ export function akbalDefeated(player: Character, akbal: Character, hpVictory: bo
             let vagoo: ClickOption;
             let vagooLick: ClickOption;
             let buttFuck: ClickOption;
-            let bikiniTits: ClickObject;
+            let bikiniTits: ClickOption;
             if (player.torso.vaginas.count > 0) {
-                vagoo = { func: girlsRapeAkbalPart2, args: [akbal] };
+                vagoo = partial(girlsRapeAkbalPart2, player, akbal);
                 vagooLick = rapeAkbalForcedFemaleOral;
             }
             if (player.torso.vaginas.count > 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && player.inventory.equipment.armor.name === ArmorName.LustyMaidensArmor) {
-                bikiniTits = { func: lustyMaidenPaizuri, args: [akbal] };
+                bikiniTits = partial(lustyMaidenPaizuri, player, akbal);
             }
             if (player.torso.cocks.count > 0)
                 buttFuck = rapeAkbal;
@@ -451,7 +452,7 @@ function girlsRapeAkbal(player: Character, akbal: Character): NextScreenChoices 
     }
     player.stats.lust += 50;
     // -Page Turn-
-    return { next: { func: girlsRapeAkbalPart2, args: [akbal] } };
+    return { next: partial(girlsRapeAkbalPart2, player, akbal) };
 }
 
 function girlsRapeAkbalPart2(player: Character, akbal: Character): NextScreenChoices {
@@ -710,7 +711,7 @@ export function supahAkabalEdition(player: Character, akbal: Character): NextScr
 
     DisplayText("The aura pouring forth from this 'Akbal' is anything but god-like; you recognize the demon for what it truly is.  Yet its ivory teeth and sharp claws prove to you that it can make good on its threat.  What do you do?");
     // Talk / Fight / Run
-    return { choices: [["Talk", { func: superAkbalioTalk, args: [akbal] }], ["Fight", startuAkabalFightomon]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Talk", partial(superAkbalioTalk, player, akbal)], ["Fight", startuAkabalFightomon]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [Talk]
@@ -720,7 +721,7 @@ function superAkbalioTalk(player: Character, akbal: Character): NextScreenChoice
     DisplayText("After a few moments of silence you ask, \"<i>What do you mean, 'submit'?</i>\" Akbal grins, revealing a row of wicked ivory teeth as he opens his mouth. You suddenly feel the demon's powerful body pinning you down, a wide tongue licking your neck and claws tickling your back in a way that is both horrifying and sensual. Yet after a moment of taking it in, you realize that he is still there in front of you, unmoved and grinning. You can guess what the image means: he wants you to become his mate for a day to make up for invading his territory.  What do you do?\n\n");
 
     // Submit / Fight
-    return { choices: [["Fight", startuAkabalFightomon], ["Submit", { func: akbalSubmit, args: [akbal] }]] };
+    return { choices: [["Fight", startuAkabalFightomon], ["Submit", partial(akbalSubmit, player, akbal)]] };
 }
 
 // [Encounter if previously submitted]
@@ -730,7 +731,7 @@ function repeatAkbalPostSubmission(player: Character, akbal: Character): NextScr
     DisplayText("As you walk through the forest, you hear a purring coming from behind you.  Turning around reveals that Akbal has come to find you.  He uses his head to push you in the direction of his territory, obviously wanting to dominate you again.\n\n");
     DisplayText("What do you do?");
     // Submit / Deny / Fight
-    return { choices: [["Submit", { func: akbalSubmit, args: [akbal] }], ["Deny", akbalDeny], ["Fight", startuAkabalFightomon]] };
+    return { choices: [["Submit", partial(superAkbalioTalk, player, akbal)], ["Deny", akbalDeny], ["Fight", startuAkabalFightomon]] };
 }
 
 // [Deny]
@@ -762,7 +763,7 @@ function ackbalRepeatAfterLoss(player: Character, akbal: Character): NextScreenC
     DisplayText("A chorus of laughter sounds inside your mind as the jaguar demon, Akbal, drops to the ground in front of you.  His masculine voice says, \"<i>Well, if it isn't the defiant welp who, in all their great idiocy, has wandered into my territory again.  Will you submit, or do I have to teach you another harsh lesson?</i>\"\n\n");
 
     // Submit / Fight / Run
-    return { choices: [["Submit", { func: akbalSubmit, args: [akbal] }], ["Fight", startuAkabalFightomon]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Submit", partial(akbalSubmit, player, akbal)], ["Fight", startuAkabalFightomon]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [Fight]
@@ -1141,7 +1142,7 @@ function akbitchEncounter(player: Character, akbal: Character): NextScreenChoice
     // {corruption > 40}
     else {
         DisplayText("\n\nDo you take advantage of him again?");
-        return { yes: akbitchNoThnxClear, no: { func: takeAdvantageOfAkbitch, args: [akbal] } };
+        return { yes: akbitchNoThnxClear, no: partial(takeAdvantageOfAkbitch, player, akbal) };
     }
 }
 

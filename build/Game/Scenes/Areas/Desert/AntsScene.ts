@@ -25,6 +25,7 @@ import { Menus } from '../../../Menus/Menus';
 import { BreastRow } from '../../../Body/BreastRow';
 import { DisplayImage } from '../../../../Engine/Display/DisplayImage';
 import { ImageName } from '../../../../Engine/Display/Images/ImageName';
+import { partial } from '../../../Utilities/Partial';
 
 /**
  * Created by aimozg on 05.01.14.
@@ -631,7 +632,7 @@ function gigititigitigitigitigityAntGirl(player: Character): NextScreenChoices {
 
     // If PC has dick(s) that will fit: Jump to - Regular Male Scene Continuation
     if (cockThatFits.area <= phyllaCapacity()) {
-        return { next: { func: malePhyllaContinuation, args: [cockThatFits] } };
+        return { next: partial(malePhyllaContinuation, player, cockThatFits) };
     }
     // If PC has dick(s) that won't fit: Jump to - Cunnilingus Scene Continuation
     else {
@@ -917,7 +918,7 @@ function girlFiller(player: Character): NextScreenChoices {
     DisplayText("\"<i>I-I've... never,</i>\" she stammers, but you just want her to experience this before she ruins the moment.");
     DisplayText("\n\nRocking your hips you see the exact reaction you expected as Phylla moans into the air, arching her back and instinctively rocking her hips into yours.");
 
-    return { next: { func: scissorContinue, args: [true] } };
+    return { next: partial(scissorContinue, player, true) };
 }
 
 // If PC Herm/Has (a) cock(s):
