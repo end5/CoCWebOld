@@ -15,6 +15,10 @@ import { DisplaySprite } from '../../../../Engine/Display/DisplaySprite';
 import { CombatManager } from '../../../Combat/CombatManager';
 import { FetishCultist } from './FetishCultist';
 import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
+import { NextScreenChoices } from '../../../ScreenDisplay';
+import { Menus } from '../../../Menus/Menus';
+import { FlagType } from '../../../Utilities/FlagType';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 
 /**
  * Created by aimozg on 04.01.14.
@@ -25,19 +29,19 @@ import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
 Appearance: A large human female who's wearing what looks like a depraved religious outfit while chanting what sounds like random sentences, her outfit sometimes changes into something else, seemingly at random, but only for a short time.  Whatever intelligence she used to have is obviously long gone.
 Habitat: Could be anywhere, but the lake seems best from the current options.
 Attacks: Can raise the opponent's lust by posing in outfits that they find attractive; raise her own lust by "thinking"; or transfer half of her current lust to her opponent via magic.
-Raped by: She grabs the player player and their clothing shifts into a submissive costume (with a design that allows them to be raped without taking the outfit off), and then she shifts to one that dominates that one.  She then acts the part of her costume and rapes the player player, without removing the outfits.  The player player's clothes remain unchanged afterwards.  Examples: student and teacher, soldier and officer, or nurse and doctor.  The chosen pairing depends on the gender and structure of the player player, and lots of different scenes could be added.  
-Rape: The cultist's outfit shifts into that of something submissive and helpless and acts the part, but she clearly enjoys what is done to her.  
+Raped by: She grabs the player player and their clothing shifts into a submissive costume (with a design that allows them to be raped without taking the outfit off), and then she shifts to one that dominates that one.  She then acts the part of her costume and rapes the player player, without removing the outfits.  The player player's clothes remain unchanged afterwards.  Examples: student and teacher, soldier and officer, or nurse and doctor.  The chosen pairing depends on the gender and structure of the player player, and lots of different scenes could be added.
+Rape: The cultist's outfit shifts into that of something submissive and helpless and acts the part, but she clearly enjoys what is done to her.
 Loot: Could drop a random set of clothing or a costume on death.
 */
 
-export function fetishCultistEncounter(player: Character) {
+export function fetishCultistEncounter(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You see a largely human-looking young woman in the distance in a strange, whorish outfit, seemingly lost in prayers that sound like nonsense to you.  Finally noticing your presence, she confronts you with a lewd smile on her face.\n\nShe has clearly lost her grasp on sanity, and filled the void with pure perversion.");
     DisplaySprite(SpriteName.Fetish_Cultist);
     return CombatManager.beginBattle(player, [], [new FetishCultist()]);
 }
 
-export function cultistRapesYou(player: Character) {
+export function cultistRapesYou(player: Character): NextScreenChoices {
     cultist.lust = 1;
     cultist.stats.HP = 10;
     let changed: boolean = false;
@@ -66,7 +70,7 @@ export function cultistRapesYou(player: Character) {
                 if (player.inventory.equipment.armor.value === 0) player.inventory.equipment.armorDescMod = "bridle bit and saddle set";
 
                 // Check for bad-end start!
-                if (player.stats.int <= 10) return cultistBadEnd(player);
+                if (player.stats.int <= 10) return cultistBadEnd();
                 // (ending after all cultist rape scenes)
                 else {
                     DisplayText("A few hours later your mind finally returns to reality.  You look around, but can see no sign of the cultist that you saw earlier.  ");
@@ -190,10 +194,11 @@ export function cultistRapesYou(player: Character) {
     // if(cultist.armorName === "naughty nurse's uniform" && !sexed) {
     if (randInt(2) === 0 && !sexed) {
         DisplayText("You stand up and look over at the cultist. She is now wearing a nurse's uniform with bared breasts.  You notice that your " + player.inventory.equipment.armor.displayName + " changed into a bizarre cross between a patient's gown and a collection of black straps with buckles.  While tight in some places, it doesn't hinder your movement or hide your more sexual parts at all.");
-        if (player.torso.hips.legs.type === LegType.CENTAUR) {
-            DisplayText("  It also dawns to your fogged mind that you now have a human-looking lower body, though your sexual organs are unchanged.");
-            if (player.torso.cocks.count > 0) DisplayText("  As you see your " + Desc.Cock.describeMultiCockShort(player) + ", 'incredibly large' is the only qualifier you can think of.");
-        }
+        // Never reached
+        // if (player.torso.hips.legs.type === LegType.CENTAUR) {
+        //     DisplayText("  It also dawns to your fogged mind that you now have a human-looking lower body, though your sexual organs are unchanged.");
+        //     if (player.torso.cocks.count > 0) DisplayText("  As you see your " + Desc.Cock.describeMultiCockShort(player) + ", 'incredibly large' is the only qualifier you can think of.");
+        // }
         DisplayText("\n\n");
         if (player.inventory.equipment.armor.value === 0) player.inventory.equipment.armorDescMod = "bondage patient clothes";
         DisplayText("\"<i>Um, ");
@@ -295,10 +300,11 @@ export function cultistRapesYou(player: Character) {
     else if (!sexed) {
         // .Mistress and servant rape
         DisplayText("Her outfit shifts into that of a noble woman, and she looks down at you.");
-        if (player.torso.hips.legs.type === LegType.CENTAUR) {
-            DisplayText("  It dawns to your fogged mind that you now have a human-looking lower body, though your sexual organs are unchanged.");
-            if (player.torso.cocks.count > 0) DisplayText("  As you see your " + Desc.Cock.describeMultiCockShort(player) + ", 'incredibly large' is the only qualifier you can think of.");
-        }
+        // Never reached
+        // if (player.torso.hips.legs.type === LegType.CENTAUR) {
+        //     DisplayText("  It dawns to your fogged mind that you now have a human-looking lower body, though your sexual organs are unchanged.");
+        //     if (player.torso.cocks.count > 0) DisplayText("  As you see your " + Desc.Cock.describeMultiCockShort(player) + ", 'incredibly large' is the only qualifier you can think of.");
+        // }
         DisplayText("\n\n");
         // (variant 3: special toy, requires both dick and vagina)
         if (player.torso.vaginas.count > 0 && player.torso.cocks.count > 0) {
@@ -386,10 +392,10 @@ export function cultistRapesYou(player: Character) {
     }
 }
 
-export function playerRapesCultist(player: Character, cultist: Character) {
+export function playerRapesCultist(player: Character, cultist: Character): NextScreenChoices {
     DisplayText().clear();
     // (nun worship version, this one looks like it will be a little shorter than the other one was, only two variations again)
-    if (cultist.armorName === "pervy nun's clothing") {
+    if (cultist.inventory.equipment.armor.displayName === "pervy nun's clothing") {
         DisplayText("You see that the cultist's outfit has fixed on a naughty nun outfit with specially placed holes over her sexual parts.  As you get close to her, she goes down on her hands and knees and says to you, \"<i>Mighty sex god, who have shown me your power; please, take my body!</i>\"\n\n");
         if (player.stats.cor < 40) DisplayText("You are rather taken aback by this odd declaration, but in the end you decide: <i>what the hell, I'm horny.</i>\n\n");
         else DisplayText("You nod to yourself thinking: <i>that's right, I am a sex god.</i>\n\n");
@@ -434,14 +440,14 @@ export function playerRapesCultist(player: Character, cultist: Character) {
         DisplayText("Satisfied, you continue on your way.");
         player.orgasm();
     }
-    else if (cultist.armorName === "swimsuit") {
+    else if (cultist.inventory.equipment.armor.displayName === "swimsuit") {
         // (scene requires that the PC not be genderless)
         // foreplay
         DisplayText("You advance on the defeated cultist, whose outfit seems to have fixated on such a ridiculously skimpy swimming suit that she might as well be naked.  She looks up at you with a worried expression as you take a closer look at her.  The cultist slowly starts to speak, \"\"<i>Ah, hey there " + Desc.Gender.mf(player, "mister", "miss") + ", what a surprise to see you here!</i>\"  Embarrassed, she tries to make her incredibly revealing swimming suit somewhat less obscene while blushing furiously.  \"<i>Oh mercy me, just thinking about how much of me that you can see is turning me on.</i>\"  You arch an eyebrow: is this girl an exhibitionist?\n\n");
 
         DisplayText("You slowly ask her why, if she likes it so much, is she covering herself up?  She looks around a little nervously for a moment before pulling her hands away and giving you a good look at her body.  You see her breathing becoming more rapid.  \"<i>Oh fuck yeah, look at me in this slutty outfit,</i>\" she says, starting to shiver.  She giggles and does a stretch while \"accidentally\" getting part of her suit to slip off.  \"<i>Oops, you can totally see my nipple now, can't you?</i>\" she says breathlessly, her crotch now visibly soaked with her arousal.\n\n");
         // if (PC is an exhibitionist)
-        if (Flags.list[FlagEnum.PC_FETISH] > 0) DisplayText("Given your experience with Ceraph, you can definitely understand why she is having so much fun showing off her body.  In fact, you think you'll start to do the same.");
+        if (User.flags.get<PlayerFlags>(FlagType.Player).PC_FETISH > 0) DisplayText("Given your experience with Ceraph, you can definitely understand why she is having so much fun showing off her body.  In fact, you think you'll start to do the same.");
         else DisplayText("You don't really understand what could be so arousing about showing off your body to others, but you decided you were going to rape her, so you might as well strip down now.");
         DisplayText("  At the sight of your nude body, the nearly naked woman gives another shiver.  \"<i>Oh sweet cocks, you look so sexy,</i>\" she says running her hands over her heaving breasts.  \"<i>Please, can we fuck?</i>\" she begs you.\n\n");
         // corruption check!
@@ -469,8 +475,7 @@ export function playerRapesCultist(player: Character, cultist: Character) {
         let fuckVag;
         if (player.torso.vaginas.count > 0) vibe = swimsuitVibrators;
         if (player.torso.cocks.count > 0) fuckVag = plugSwimsuitVag;
-        MainScreen.simpleChoices(["FuckHerVag", "Vibrator", "", "", "Leave"], [fuckVag, vibe, null, null, Scenes.camp.returnToCampUseOneHour]);
-        return;
+        return { choices: [["FuckHerVag", fuckVag], ["Vibrator", vibe]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
     }
     else {
         DisplayText("You see that the cultist's outfit has fixed on what looks remarkably similar to a farmhand from your village.  Filled with desire, you approach her.  She cries out in fear and says \"<i>Please don't hurt me!  Even though I knew there were bandits coming, I couldn't leave my mother behind.  Take whatever you want, I won't get in your way, but please leave us alone!</i>\"\n\n");
@@ -502,7 +507,7 @@ export function playerRapesCultist(player: Character, cultist: Character) {
 }
 
 // PC goes for the vagina
-function plugSwimsuitVag(player: Character) {
+function plugSwimsuitVag(player: Character): NextScreenChoices {
     const largestCock = player.torso.cocks.sort(Cock.LargestCockArea)[0];
     DisplayText().clear();
     if (player.torso.vaginas.count > 0) DisplayText("You decline the vibrators; you'd much rather take her incredibly wet pussy.  ");
@@ -535,7 +540,7 @@ function plugSwimsuitVag(player: Character) {
 }
 
 // PC goes for the vagina vibrators
-function swimsuitVibrators(player: Character, cultist: Character) {
+function swimsuitVibrators(player: Character, cultist: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You suggest that you're interested in trying the vaginal vibrators she offered.  The cultist nods, and turns to face you holding two surprisingly large toys in her hands.  They're shaped like a long tube, with a small arm on the side near the handle that points towards the end.  You aren't sure where they came from, but you'd guess she used the same magic that she uses to shift her clothing to get them.\n\n");
     if (player.vaginalCapacity() <= 30) {// PC does not have a very loose or looser vagina)
@@ -564,7 +569,7 @@ function swimsuitVibrators(player: Character, cultist: Character) {
         cultist.stats.lust = 98;
         cultist.stats.HP = 2;
         player.stats.lust = 100;
-        User.flags.get<PlayerFlags>(FlagType.Player).COMBAT_BONUS_XP_VALUE = cultist.XP;
+        User.flags.get<PlayerFlags>(FlagType.Player).COMBAT_BONUS_XP_VALUE = cultist.stats.XP;
         player.orgasm();
         player.stats.lib += 1;
         player.stats.sens += -3;
@@ -596,14 +601,14 @@ function swimsuitVibrators(player: Character, cultist: Character) {
     }
 }
 
-function cultistBadEnd() {
+function cultistBadEnd(): NextScreenChoices {
     // This ending is caused from having too low of inte when losing to the cultist (say under 15) or it could be after losing too many times to them.  You chose which you would prefer.
     // (after being raped, do not show regular recovery message, skip here)
     DisplayText("\n\nYour mind is not able to recover from the fantasy, and instead moves on to another one, and another, and another...");
     return { next: this.cultistBadEnd2 };
 }
 
-function cultistBadEnd2(player: Character) {
+function cultistBadEnd2(player: Character): NextScreenChoices {
     let genderTag: string = "";
     DisplayText().clear();
     DisplayText("On a hill sits a large cathedral overlooking a river that feeds into a massive lake.  It is a surprisingly grand structure in a land almost devoid of any signs of civilization in any direction.  The design is quite clear; its entrance lined with statues of lewd naked figures and its windows are made of stain glass depicting acts of sexuality.  Even without hearing the sounds of ecstasy that usually emanate from inside, it is quite clear this is a place of debauchery.\n\n");
@@ -619,7 +624,7 @@ function cultistBadEnd2(player: Character) {
     return { next: Menus.GameOver };
 }
 
-export function fetishCultistHasAMilkFetish(player: Character) {
+export function fetishCultistHasAMilkFetish(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You remove your " + player.inventory.equipment.armor.displayName + ", standing naked in front of the beaten fetish-girl with your lactating " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + " dripping milk. You pick the cultist up and sit down on the ground with her resting on your lap, her soft warm ass up against your thighs. You hold the nipple up to her mouth; she suckles on it without the slightest sign of rebellion.\n\n");
 
@@ -676,7 +681,6 @@ export function fetishCultistHasAMilkFetish(player: Character) {
     player.stats.lib += .2;
     // You've now been milked, reset the timer for that
     player.statusAffects.get(StatusAffectType.Feeder).value1 = 1;
-    player.changeStatusValue(StatusAffects.Feeder, 2, 0);
+    player.statusAffects.get(StatusAffectType.Feeder).value2 = 0;
     return { next: Scenes.camp.returnToCampUseOneHour };
-}
 }

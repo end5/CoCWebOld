@@ -320,7 +320,7 @@ function sandwitchRaped(player: Character, sandWitch: Character): NextScreenChoi
             if (player.torso.cocks.count > 1) {
                 player.orgasm();
                 if (randInt(2) === 0) {
-                    return rapeSandwitchMultis();
+                    return rapeSandwitchMultis(player);
                 }
                 DisplayText("Using the corruption in your blood, you place your " + Desc.Leg.describeFoot(player) + " upon the budding shoots, and wipe them from existence. The sand witch looks shocked at your display of power, only turning you on more. You undo your loin cloth and grope her nethers, only to find a surprise. She has " + numToCardinalText(player.torso.cocks.count + 1) + " loose wet cunts and each seems to be made to fit you exactly. Pushing her to the ground, you bring the seeping heads of your " + Desc.Cock.describeMultiCockShort(player) + " to her nethers, slowly easing into her depths.  ");
                 DisplayText("Thrusting deep, you hit bottom, and marvel at the sensations as you feel the heads of your " + Desc.Cock.describeMultiCockShort(player) + " rub against the end of her wet pussies, only making your desire to penetrate increase. As though responding to your will, your " + Desc.Cock.describeMultiCockShort(player) + " grow just a tiny bit more in length and thickness.  ");
