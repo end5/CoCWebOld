@@ -1,4 +1,4 @@
-﻿import { TamanisDaughtersFlags, TamanisDaughters } from './TamanisDaughters';
+﻿import { TamanisDaughters } from './TamanisDaughters';
 import { DisplaySprite } from '../../../../Engine/Display/DisplaySprite';
 import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
@@ -6,7 +6,6 @@ import { randInt } from '../../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../../Body/BreastRow';
 import { Cock, CockType } from '../../../Body/Cock';
 import { Character } from '../../../Character/Character';
-import { CharacterType } from '../../../Character/CharacterType';
 import { Desc } from '../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { NextScreenChoices } from '../../../ScreenDisplay';
@@ -16,72 +15,96 @@ import { Scenes } from '../../Scenes';
 import { ITimeAware } from '../../../ITimeAware';
 import { FlagType } from '../../../Utilities/FlagType';
 import { CombatManager } from '../../../Combat/CombatManager';
+import { Time } from '../../../Utilities/Time';
+import { PregnancyType } from '../../../Body/Pregnancy/Pregnancy';
+import { TamaniFlags, tamaniKnockUp } from './TamaniScene';
+import { PerkType } from '../../../Effects/PerkType';
+import { Menus } from '../../../Menus/Menus';
+import { SkinType } from '../../../Body/Skin';
+import { PlayerFlags } from '../../../Character/Player/PlayerFlags';
+import { LegType } from '../../../Body/Legs';
+import { partial } from '../../../Utilities/Partial';
+
+// New Status:
+// +Tamani's Husband – (Still need too big loss scene and centaur version)
+// --Every point in it adds to lust gain per turn vs Tamani or Tamani/wdaughters
+// --Slight alteration to some scenes
+// --Leads up to perk with Tamani autosexing (maybe bad end)
+
+// Fuck Them:
+// 	*Fits
+// 	 *Alternate Tamani scenes directly in the event.
+// 	*Doesnt Fit
+// 	 *Alternate Tamani scenes directly in the event.
+
+// Let Them:
+// 	*Fits
+// 	 *Tamani Is Here
+// 	 *No Tamani
+// 	*Doesnt Fit
+// 	 *No Tamani
+// 	 *Tamani is here
+
+// Win:
+// *Rape -> "Fuck Them" scenes.
+
+// Lose:
+// 	*Daughters drag PC back to caves and milking machine action ensues.
+// 	*Tamani is there and hypno's the PC, then orgy ensues.
+
+// Variables to track:
+// 	Number of Daughters – Capped at 19 if PC has not yet encountered them yet.
+// "Tamani" v2
+// 	Times Encountered – 0 → infinity
+// tamanisDaughtersFlags.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS
+// 	Tamani Hypno Level – increases by 1 for each hypno event.  1-4 slight lust raises, 5-9 medium lust raises, 10-19 super high lust raises, 20+ high chance of autorape with special scene.
+// tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED
+// 	Daughter Preg Counter – they will not return until this countdown timer is 0.  Same length as Tamani's incubation – approx 1 week.
+// tamanisDaughtersFlags.TAMANI_DAUGHTER_PREGGO_COUNTDOWN
+// Tamani's Daughters – Tracked every birthing.  High cum production characters will produce more //Tamani babies and thus grow the mob (and achieve bad-end) faster.
+// Tamani's Daughters first arrive after #12 is born.
+// Tamani's Daughters encounter is expanded after #20
+// Tamani's Daughters gets much harder @ #40
+// Tamani's Daughters gets nigh-impossible @ #60
+
+export interface TamanisDaughtersFlags {
+    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS: number;
+    TAMANI_NUMBER_OF_DAUGHTERS: number;
+    TAMANI_TIMES_HYPNOTISED: number;
+    TAMANI_DAUGHTERS_PREGNANCY_TYPE: PregnancyType;
+    TAMANI_DAUGHTER_PREGGO_COUNTDOWN: number;
+    TAMANI_DAUGHTERS_PREGNANCY_COUNT: number;
+    TIMES_FUCKED_TAMANIS_DAUGHTERS: number;
+    UNKNOWN_FLAG_NUMBER_00058: number;
+}
+
+const tamanisDaughtersFlags: TamanisDaughtersFlags = {
+    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS: 0,
+    TAMANI_NUMBER_OF_DAUGHTERS: 0,
+    TAMANI_TIMES_HYPNOTISED: 0,
+    TAMANI_DAUGHTERS_PREGNANCY_TYPE: undefined,
+    TAMANI_DAUGHTER_PREGGO_COUNTDOWN: 0,
+    TAMANI_DAUGHTERS_PREGNANCY_COUNT: 0,
+    TIMES_FUCKED_TAMANIS_DAUGHTERS: 0,
+    UNKNOWN_FLAG_NUMBER_00058: 0,
+};
+
+User.flags.set(FlagType.TamanisDaughters, tamanisDaughtersFlags);
 
 export class TamainsDaughtersScene implements ITimeAware {
-
-    // New Status:
-    // +Tamani's Husband – (Still need too big loss scene and centaur version)
-    // --Every point in it adds to lust gain per turn vs Tamani or Tamani/wdaughters
-    // --Slight alteration to some scenes
-    // --Leads up to perk with Tamani autosexing (maybe bad end)
-
-    // Fuck Them:
-    // 	*Fits
-    // 	 *Alternate Tamani scenes directly in the event.
-    // 	*Doesnt Fit
-    // 	 *Alternate Tamani scenes directly in the event.
-
-    // Let Them:
-    // 	*Fits
-    // 	 *Tamani Is Here
-    // 	 *No Tamani
-    // 	*Doesnt Fit
-    // 	 *No Tamani
-    // 	 *Tamani is here
-
-    // Win:
-    // *Rape -> "Fuck Them" scenes.
-
-    // Lose:
-    // 	*Daughters drag PC back to caves and milking machine action ensues.
-    // 	*Tamani is there and hypno's the PC, then orgy ensues.
-
-    // Variables to track:
-    // 	Number of Daughters – Capped at 19 if PC has not yet encountered them yet.
-    // "Tamani" v2
-    // 	Times Encountered – 0 → infinity
-    // tamanisDaughtersFlags.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS
-    // 	Tamani Hypno Level – increases by 1 for each hypno event.  1-4 slight lust raises, 5-9 medium lust raises, 10-19 super high lust raises, 20+ high chance of autorape with special scene.
-    // tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED
-    // 	Daughter Preg Counter – they will not return until this countdown timer is 0.  Same length as Tamani's incubation – approx 1 week.
-    // tamanisDaughtersFlags.TAMANI_DAUGHTER_PREGGO_COUNTDOWN
-    // Tamani's Daughters – Tracked every birthing.  High cum production characters will produce more //Tamani babies and thus grow the mob (and achieve bad-end) faster.
-    // Tamani's Daughters first arrive after #12 is born.
-    // Tamani's Daughters encounter is expanded after #20
-    // Tamani's Daughters gets much harder @ #40
-    // Tamani's Daughters gets nigh-impossible @ #60
-
-    public pregnancy: PregnancyType;
-
-    public constructor() {
-        pregnancy = new PregnancyType(FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_TYPE, FlagEnum.TAMANI_DAUGHTER_PREGGO_COUNTDOWN, 0, 0);
-        CoC.timeAwareClassAdd(this);
-    }
-
-    // Implementation of TimeAwareInterface
     public timeChange(): boolean {
-        pregnancy.pregnancyAdvance(); // Preg should be 7*24, ends at 0 to -48 --> 9*24, ends at 0
-        if (pregnancy.isPregnant && pregnancy.incubation === 0) {
+        tamanisDaughtersFlags.TAMANI_DAUGHTER_PREGGO_COUNTDOWN -= tamanisDaughtersFlags.TAMANI_DAUGHTER_PREGGO_COUNTDOWN - 1 < 0 ? 0 : 1; // Preg should be 7*24, ends at 0 to -48 --> 9*24, ends at 0
+        if (tamanisDaughtersFlags.TAMANI_DAUGHTER_PREGGO_COUNTDOWN === 0) {
             tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS += tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT;
             tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT = 0;
-            pregnancy.knockUpForce(); // Clear Pregnancy
+            tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_TYPE = undefined; // Clear Pregnancy
         }
         // Put a cap on daughters if they havent been met yet.
         if (tamanisDaughtersFlags.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS === 0 && tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS > 30) {
             tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS = 30;
         }
         // Lower daughter population by 1 every fourth day once population gets high
-        if (tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS > 40 && model.time.hours > 23 && model.time.days % 4 === 0) {
+        if (tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS > 40 && Time.hour > 23 && Time.day % 4 === 0) {
             tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS--;
         }
         return false;
@@ -92,21 +115,7 @@ export class TamainsDaughtersScene implements ITimeAware {
     }
 }
 
-export interface TamanisDaughtersFlags {
-    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS: number;
-    TAMANI_NUMBER_OF_DAUGHTERS: number;
-    TAMANI_TIMES_HYPNOTISED: number;
-}
-
-const tamanisDaughtersFlags: TamanisDaughtersFlags = {
-    TIMES_ENCOUNTED_TAMANIS_DAUGHTERS: 0,
-    TAMANI_NUMBER_OF_DAUGHTERS: 0,
-    TAMANI_TIMES_HYPNOTISED: 0,
-}
-
-User.flags.set(FlagType.TamanisDaughters, tamanisDaughtersFlags);
-
-export const tamaniPresent: boolean = false;
+export let tamaniPresent: boolean = false;
 
 // Prime daughter tit-size
 // 12-20 – C
@@ -132,25 +141,25 @@ export function encounterTamanisDaughters(player: Character): NextScreenChoices 
         tamaniPresent = true;
         DisplayText("While roaming along, you find your path ahead blocked by " + tamaniDaughterCount + " goblins.  At the forefront of the mob is Tamani");
         if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED >= 10) DisplayText(", your wife");
-        DisplayText(".  You realize now that the other goblins must be your daughters.  Another crowd of small women emerges from the bushes, closing in a ring around you, preventing any chance of escape.  The largest of the younger goblin-women steps forwards, her " + this.tdCup() + " breasts jiggling, barely contained by the bondage ropes she has tied around herself.  She stops once she's next to her mother and Tamani explains, \"<i>I just can't keep their aching cunts at home anymore!  They're fertile adults now and they're wanting to get some experience with real dicks.  I figured you wouldn't mind helping them out a little.</i>\"\n\nWhat do you do? (Fight them off, Fuck them willingly, Let them fuck you)");
+        DisplayText(".  You realize now that the other goblins must be your daughters.  Another crowd of small women emerges from the bushes, closing in a ring around you, preventing any chance of escape.  The largest of the younger goblin-women steps forwards, her " + tdCup() + " breasts jiggling, barely contained by the bondage ropes she has tied around herself.  She stops once she's next to her mother and Tamani explains, \"<i>I just can't keep their aching cunts at home anymore!  They're fertile adults now and they're wanting to get some experience with real dicks.  I figured you wouldn't mind helping them out a little.</i>\"\n\nWhat do you do? (Fight them off, Fuck them willingly, Let them fuck you)");
         // [Fuck Them] [Let Them] [Fight]
-        return { choices: [["Fight", this.fightTamanisDaughters], ["Fuck Them", this.fuckYoDaughtersHomie], ["Let Them", this.legTamanisDaughtersRAEPYou]] };
+        return { choices: [["Fight", fightTamanisDaughters], ["Fuck Them", fuckYoDaughtersHomie], ["Let Them", legTamanisDaughtersRAEPYou]] };
     }
     tamaniPresent = false;
     DisplayText("While roaming along, you find your path ahead blocked by ");
     DisplayText(tamaniDaughterCount + " goblins.  You ");
     if (player.inventory.equipment.weapon.displayname === "fists") DisplayText("ready your fists ");
     else DisplayText("draw your weapon ");
-    DisplayText("and glance around evaluating your options.   Another crowd of small women emerges from the bushes, closing in a ring around you, preventing any chance of escape.  The largest of the goblin-women steps forwards, her " + this.tdCup() + "-breasts jiggling, barely contained by the bondage ropes she has tied around herself.\n\n");
+    DisplayText("and glance around evaluating your options.   Another crowd of small women emerges from the bushes, closing in a ring around you, preventing any chance of escape.  The largest of the goblin-women steps forwards, her " + tdCup() + "-breasts jiggling, barely contained by the bondage ropes she has tied around herself.\n\n");
     // first time
     if (tamanisDaughtersFlags.TIMES_FUCKED_TAMANIS_DAUGHTERS === 0) {
         DisplayText("She calls out, \"<i>We're tired of getting leftovers, so we're coming to the source.  Are you going to give us what we want?</i>\"\n\n");
         // [Fuck them] [Fight] [Play Dumb]
-        return { choices: [["Fight", this.fightTamanisDaughters], ["Fuck Them", this.fuckYoDaughtersHomie], ["Play Dumb", this.playDumbToTamanisDaughters], ["Let Them", this.legTamanisDaughtersRAEPYou]] };
+        return { choices: [["Fight", fightTamanisDaughters], ["Fuck Them", fuckYoDaughtersHomie], ["Play Dumb", playDumbToTamanisDaughters], ["Let Them", legTamanisDaughtersRAEPYou]] };
     }
     else {
         DisplayText("She calls out, \"<i>We came back for more cream!  Come on, let's fuck again!</i>\"\n\nIt doesn't look like 'no' is a word they understand.  What do you do?</i>");
-        return { choices: [["Fight", this.fightTamanisDaughters], ["Fuck Them", this.fuckYoDaughtersHomie], ["Let Them", this.legTamanisDaughtersRAEPYou]] };
+        return { choices: [["Fight", fightTamanisDaughters], ["Fuck Them", fuckYoDaughtersHomie], ["Let Them", legTamanisDaughtersRAEPYou]] };
     }
 }
 
@@ -165,7 +174,6 @@ function playDumbToTamanisDaughters(player: Character): NextScreenChoices {
         DisplayText("The leader looks you up and down for a moment.  Her face slowly contorts to puzzlement, then rage, \"<i>Tammi you ditz!  I thought you said this was his trail?  Come on girls, we've got a dad to hunt.</i>\"\n\n");
         if (tamanisDaughtersFlags.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS > 1) DisplayText("They really must not be paying much attention to what you look like.");
         return { next: Scenes.camp.returnToCampUseOneHour };
-        return;
     }
 
     DisplayText("The leader stamps her foot in a fit of rage.  It would be more imposing if she wasn't three feet tall... Her eyes lock onto your crotch and she says, \"<i>Last chance.   We're getting our ");
@@ -173,7 +181,7 @@ function playDumbToTamanisDaughters(player: Character): NextScreenChoices {
     DisplayText("litters one way or another!</i>\"\n\n");
 
     // [Fuck them] [Fight] [Let them have their way with you]
-    MainScreen.simpleChoices(["Fuck Them", "Fight", "", "Let Them", ""], [fuckYoDaughtersHomie, fightTamanisDaughters, null, legTamanisDaughtersRAEPYou, null]);
+    return { choices: [["Fuck Them", fuckYoDaughtersHomie], ["Fight", fightTamanisDaughters], ["", undefined], ["Let Them", legTamanisDaughtersRAEPYou]] };
 }
 
 // [Fight Them]
@@ -185,14 +193,14 @@ function fightTamanisDaughters(player: Character): NextScreenChoices {
     const monster = new TamanisDaughters();
     if (tamaniPresent) {
         // (+5 mob strength)
-        monster.str += 5;
+        monster.stats.str += 5;
         // (+5 mob toughness)
-        monster.tou += 5;
+        monster.stats.tou += 5;
         monster.stats.HP += 10;
         // (-20 mob lust)
         monster.stats.lust -= 20;
         // append combat desc
-        monster.long += " <b>Tamani lurks in the back of the crowd, curvier than her brood and watching with a mixture of amusement and irritation.  She runs a hand through her pink and black hair, waiting for an opportunity to get involved...</b>";
+        monster.desc.long += " <b>Tamani lurks in the back of the crowd, curvier than her brood and watching with a mixture of amusement and irritation.  She runs a hand through her pink and black hair, waiting for an opportunity to get involved...</b>";
     }
     return CombatManager.beginBattle(player, [], [monster]);
 }
@@ -201,17 +209,17 @@ function fightTamanisDaughters(player: Character): NextScreenChoices {
 // (Combat is 1 attack per 10 girls + 1x Tamani attack)
 
 // [Fuck them]
-function fuckYoDaughtersHomie(character: Character) {
+function fuckYoDaughtersHomie(player: Character, afterBattle: boolean = false): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     tamanisDaughtersFlags.TIMES_FUCKED_TAMANIS_DAUGHTERS++;
-    const cocks: number = character.torso.cocks.count;
-    const daughters: number = int(tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS / 2);
+    const cocks: number = player.torso.cocks.count;
+    const daughters: number = Math.floor(tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS / 2);
 
     DisplayText().clear();
-    DisplayText("You shrug out of your " + character.inventory.equipment.armor.displayName + " and grab hold of ");
+    DisplayText("You shrug out of your " + player.inventory.equipment.armor.displayName + " and grab hold of ");
     if (cocks === 1) DisplayText("your ");
     else DisplayText("one of your ");
-    DisplayText(Desc.Cock.describeMultiCockShort(character) + ", swinging it around as it hardens, teasing the crowd of lusty bitches.\n\n");
+    DisplayText(Desc.Cock.describeMultiCockShort(player) + ", swinging it around as it hardens, teasing the crowd of lusty bitches.\n\n");
 
     DisplayText("\"<i>Come and get it,</i>\" you shout, strutting forwards.  The ");
     if (daughters < 12) DisplayText("girls");
@@ -219,40 +227,40 @@ function fuckYoDaughtersHomie(character: Character) {
     DisplayText(" surges forwards, mobbing you from all sides.  ");
 
     // Find a dick that fits
-    const primary: number = character.cockThatFits(50);
+    const cockThatFits = player.torso.cocks.find(Cock.CockThatFits(50));
     // (Fits)
-    if (primary >= 0) {
-        DisplayText("You pick a random body from the crowd, impaling her on your " + Desc.Cock.describeCock(character, primary) + ".  The others crowd around, jealous of your chosen cock-sleeve.   She looks up at you, blissful as she hugs against you and grinds her tight body down, raping her virginal hole on the firmness of your " + Desc.Cock.describeCock(character, primary) + ".   The others massage your " + Desc.Leg.describeLegs(character) + ", licking and nibbling your skin as they compete to tempt you into taking them next.");
+    if (cockThatFits) {
+        DisplayText("You pick a random body from the crowd, impaling her on your " + Desc.Cock.describeCock(player, cockThatFits) + ".  The others crowd around, jealous of your chosen cock-sleeve.   She looks up at you, blissful as she hugs against you and grinds her tight body down, raping her virginal hole on the firmness of your " + Desc.Cock.describeCock(player, cockThatFits) + ".   The others massage your " + Desc.Leg.describeLegs(player) + ", licking and nibbling your skin as they compete to tempt you into taking them next.");
         if (tamaniPresent) {
             DisplayText("  Tamani pushes aside the smaller sluts and ");
-            if (character.torso.balls.quantity > 0) DisplayText("cups your " + Desc.Balls.describeBalls(true, true, character) + ".");
+            if (player.torso.balls.quantity > 0) DisplayText("cups your " + Desc.Balls.describeBalls(true, true, player) + ".");
             else DisplayText("licks your taint.");
         }
         DisplayText("\n\n");
 
         DisplayText("In no time, the vise-like grip of her cunt and thrill of taking her virginal passage push you beyond your threshold.  You groan and pump thick loads of jism deep into the tiny twat");
-        if (character.cumQ() >= 500) DisplayText(", bloating her belly until she gurgles and squishes on top of you");
+        if (player.cumQ() >= 500) DisplayText(", bloating her belly until she gurgles and squishes on top of you");
         DisplayText(".  She falls off with her eyes crossed as her sisters scramble to take her place.");
         if (tamaniPresent) {
             DisplayText("  Tamani shoves the rest of them away and mounts you, ");
-            if (character.tallness >= 60) DisplayText("scrabbling up enough to ");
+            if (player.tallness >= 60) DisplayText("scrabbling up enough to ");
             DisplayText("kiss you roughly on the lips, tasting of cherries and sweat.  Your body goes limp, dropping down onto your back as your green mistress has her way with you.\n\n");
         }
         else {
-            DisplayText("  Another mounts you, launching herself at you with such force that she knocks you off your " + Desc.Leg.describeFeet(character) + " and onto your back.  A hand clamps over your mouth and jams something inside while another massages your throat, forcing you to swallow it.  Numbness flows through most of your body, robbing you of strength and feeling in all but one place...\n\n");
+            DisplayText("  Another mounts you, launching herself at you with such force that she knocks you off your " + Desc.Leg.describeFeet(player) + " and onto your back.  A hand clamps over your mouth and jams something inside while another massages your throat, forcing you to swallow it.  Numbness flows through most of your body, robbing you of strength and feeling in all but one place...\n\n");
         }
 
         DisplayText("You're swarmed as you lie in the mud, covered head to toe in nubile young goblin flesh.  Some part of you KNOWS you're being raped, but you're so effectively drugged there really isn't anything to do but try to enjoy it.   The tight goblin-cunt wrapped around your dickflesh refuses to let it go soft, massaging it with clenching ripples of muscle.  ");
         if (tamaniPresent) {
-            DisplayText("Tamani's massive jugs rest against your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + ", bouncing and wobbling.  She crosses her arms over them and sucks on a finger, watching your expression with a mix of amusement and arousal.  She asks, \"<i>So what do you think of your daughters, sweet stuff?  They're just aching for a taste of their daddy's spunk, and it's hard to keep so many rambunctious sluts under control.</i>\"\n\n");
+            DisplayText("Tamani's massive jugs rest against your " + Desc.Breast.describeBreastRow(player.torso.chest.get(0)) + ", bouncing and wobbling.  She crosses her arms over them and sucks on a finger, watching your expression with a mix of amusement and arousal.  She asks, \"<i>So what do you think of your daughters, sweet stuff?  They're just aching for a taste of their daddy's spunk, and it's hard to keep so many rambunctious sluts under control.</i>\"\n\n");
         }
         else DisplayText("Tamani's daughter looks up at you, giggling happily while her hips vigorously abuse you.   She asks, \"<i>Do you think my cunt is tighter than mom's is?  Bet you never thought you'd be fucking one of your daughters pregnant, did you?</i>\"\n\n");
 
         DisplayText("Such perverse thoughts, and coming from your own daughters.  ");
-        if (character.stats.cor < 33) DisplayText("You were supposed to save the village from corruption, not breed tiny sluts to overrun it... y");
-        else if (character.stats.cor < 66) DisplayText("You came here to make things better for everyone... well, at least you're helping these girls. Y");
+        if (player.stats.cor < 33) DisplayText("You were supposed to save the village from corruption, not breed tiny sluts to overrun it... y");
+        else if (player.stats.cor < 66) DisplayText("You came here to make things better for everyone... well, at least you're helping these girls. Y");
         else DisplayText("You came here to make things better, but you know you'll keep knocking up Tamani every chance you get.  It's too much fun to resist adding to the sea of green girls. Y");
-        DisplayText("ou moan as a drooling green cunt is pressed into your " + Desc.Face.describeFace(character) + ", smothering away any protests you might have offered.  Your tongue laps away, servicing another one of your many goblin offspring as best it can.  It plunges deep to harvest her nectar, making her soak you with juice, performing oral as if it were possessed.  Your eyes cross and you feel your release building, cresting in a wave as it prepares to dump into your ");
+        DisplayText("ou moan as a drooling green cunt is pressed into your " + Desc.Face.describeFace(player) + ", smothering away any protests you might have offered.  Your tongue laps away, servicing another one of your many goblin offspring as best it can.  It plunges deep to harvest her nectar, making her soak you with juice, performing oral as if it were possessed.  Your eyes cross and you feel your release building, cresting in a wave as it prepares to dump into your ");
         if (!tamaniPresent) DisplayText("daughter");
         else DisplayText("favorite goblin MILF");
         DisplayText(".\n\n");
@@ -260,18 +268,18 @@ function fuckYoDaughtersHomie(character: Character) {
         DisplayText("The pressure of orgasm spikes as the first blast takes ");
         if (!tamaniPresent) DisplayText("your goblin daughter");
         else DisplayText("Tamani");
-        DisplayText(" in her waiting womb, painting her walls white.  Each successive glob mixes into the slurry of sexual fluids brewing in her slit, until it starts to dribble out.  The goblin on your face cums noisily, filling your mouth with female moisture.   With no other choice, you swallow it down while your tongue keeps trying to pleasure her.  A sudden void of sensation and cold air overtakes your " + Desc.Cock.describeCock(character, primary) + " as you hear the goblins squabbling.  In no time flat a fresh cunt is squeezing over your still-orgasming member, clamping down to form a tight seal as you pump it full of even more fertile seed.\n\n");
+        DisplayText(" in her waiting womb, painting her walls white.  Each successive glob mixes into the slurry of sexual fluids brewing in her slit, until it starts to dribble out.  The goblin on your face cums noisily, filling your mouth with female moisture.   With no other choice, you swallow it down while your tongue keeps trying to pleasure her.  A sudden void of sensation and cold air overtakes your " + Desc.Cock.describeCock(player, cockThatFits) + " as you hear the goblins squabbling.  In no time flat a fresh cunt is squeezing over your still-orgasming member, clamping down to form a tight seal as you pump it full of even more fertile seed.\n\n");
 
         // (Go to End if < 10 daughters), else keep goin
         if (daughters > 10) {
-            DisplayText("As your orgasm trails off, your green cock-sleeve is removed.  You sigh happily, glad the ordeal is over.  Your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " manages to continue to throb, and you wonder just how long you'll have to wait for the goblin drugs to wear off.  The answer comes sooner than you think, in the form of a large vial of sweet-tasting liquid.  Your nose is pinched shut by a teal hand and your throat is massaged until you swallow the entire thing.  The result is immediate.  Slight shakes work their way through your body as it reacts to the corrupted drugs.  ");
-            if (character.torso.balls.quantity > 0) DisplayText("Your balls visibly puff up and slosh as one of your daughters plays with them, filling with more seed than ever before.");
+            DisplayText("As your orgasm trails off, your green cock-sleeve is removed.  You sigh happily, glad the ordeal is over.  Your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " manages to continue to throb, and you wonder just how long you'll have to wait for the goblin drugs to wear off.  The answer comes sooner than you think, in the form of a large vial of sweet-tasting liquid.  Your nose is pinched shut by a teal hand and your throat is massaged until you swallow the entire thing.  The result is immediate.  Slight shakes work their way through your body as it reacts to the corrupted drugs.  ");
+            if (player.torso.balls.quantity > 0) DisplayText("Your balls visibly puff up and slosh as one of your daughters plays with them, filling with more seed than ever before.");
             else DisplayText("Your gut clenches painfully as something inside puffs up.  Pressure builds at the base of your cock and you realize somehow you're more full of cum than ever before.");
             DisplayText("\n\n");
 
             if (tamaniPresent) {
-                DisplayText("Tamani pushes the slut on your face off and plants herself there, smearing your " + Desc.Face.describeFace(character) + " with a mixture of cum and vaginal wetness.  ");
-                if (Scenes.forest.tamaniScene.pregnancy.isPregnant) {
+                DisplayText("Tamani pushes the slut on your face off and plants herself there, smearing your " + Desc.Face.describeFace(player) + " with a mixture of cum and vaginal wetness.  ");
+                if (User.flags.get<TamaniFlags>(FlagType.Tamani).TAMANI_PREGNANCY_TYPE) {
                     DisplayText("She rubs her pregnancy swollen belly");
                 }
                 else DisplayText("She fondles her nipples");
@@ -279,16 +287,16 @@ function fuckYoDaughtersHomie(character: Character) {
             }
             // Else:
             else {
-                DisplayText("The first daughter to take your seed climbs onto your face and plants herself there, smearing your " + Desc.Face.describeFace(character) + " with a mixture of cum and vaginal wetness.  She pinches her budding chest and grinds on top of you, asking, \"<i>You realize I'm going to be pregnant don't you?  I can already feel your little swimmers tickling all my eggs.  Can you imagine what I'll look like in a few days?  With bigger tits leaking milk and my belly stuffed with offspring?  Just let your dick do the thinking and keep cumming until we're all stuffed, ok?  Don't hold back now, we're just aching for more!</i>\"\n\n");
+                DisplayText("The first daughter to take your seed climbs onto your face and plants herself there, smearing your " + Desc.Face.describeFace(player) + " with a mixture of cum and vaginal wetness.  She pinches her budding chest and grinds on top of you, asking, \"<i>You realize I'm going to be pregnant don't you?  I can already feel your little swimmers tickling all my eggs.  Can you imagine what I'll look like in a few days?  With bigger tits leaking milk and my belly stuffed with offspring?  Just let your dick do the thinking and keep cumming until we're all stuffed, ok?  Don't hold back now, we're just aching for more!</i>\"\n\n");
             }
 
-            DisplayText("The perverse thoughts get to you, worming their way inside you until they reach your " + Desc.Cock.describeCock(character, primary) + ".  It clenches and explodes, packing the slut's womb with cream.  She's lifted off by her sisters, and your next blast fires into the air, splattering over the assembled goblins with a wet plop.  Many gather it up, licking and slurping it, or shoveling it directly into their waiting cunts.  Another pussy is placed on you, and the sensation of new flesh taking you makes the contraction feel even longer.  She staggers off a few moments later, looking pregnant already.  The cycle repeats until");
+            DisplayText("The perverse thoughts get to you, worming their way inside you until they reach your " + Desc.Cock.describeCock(player, cockThatFits) + ".  It clenches and explodes, packing the slut's womb with cream.  She's lifted off by her sisters, and your next blast fires into the air, splattering over the assembled goblins with a wet plop.  Many gather it up, licking and slurping it, or shoveling it directly into their waiting cunts.  Another pussy is placed on you, and the sensation of new flesh taking you makes the contraction feel even longer.  She staggers off a few moments later, looking pregnant already.  The cycle repeats until");
             if (daughters < 20) DisplayText(" the majority ");
             else DisplayText(" half ");
             DisplayText("of the girls have spooge-slicked cunts and big grins.\n\n");
 
             DisplayText("As your ");
-            if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character) + " empty");
+            if (player.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, player) + " empty");
             else DisplayText("prostate empties");
             DisplayText(", one of the girls wanders over and asks, \"<i>How does it feel knowing your daughter is pregnant with even more children? Does it turn you on, <b>Daddy</b>?</i>\"\n\n");
 
@@ -296,7 +304,7 @@ function fuckYoDaughtersHomie(character: Character) {
             if (daughters > 20) {
                 DisplayText("You lie there, feeling like an empty husk.  The crowd starts to disperse");
                 if (tamaniPresent) DisplayText(" while Tamani walks away");
-                DisplayText(", but a few of the little sluts don't look satisfied yet.  They crowd around.  One straddles your chest and begins dancing in an erotic display.  Somehow, your " + Desc.Cock.describeCock(character, primary) + " still manages to twitch weakly in response.  Another goblin opens a satchel and pulls out some fruit and a canteen.  She delicately begins feeding you, clearing wanting you to regain your strength.  It seems they aren't finished with you yet.  You down what feels like gallons of water, and then find yourself presented with another flask of pink goo.  Shrugging, you gulp it down willingly, enjoying the sensation of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " re-inflating to its maximum, turgid size.\n\n");
+                DisplayText(", but a few of the little sluts don't look satisfied yet.  They crowd around.  One straddles your chest and begins dancing in an erotic display.  Somehow, your " + Desc.Cock.describeCock(player, cockThatFits) + " still manages to twitch weakly in response.  Another goblin opens a satchel and pulls out some fruit and a canteen.  She delicately begins feeding you, clearing wanting you to regain your strength.  It seems they aren't finished with you yet.  You down what feels like gallons of water, and then find yourself presented with another flask of pink goo.  Shrugging, you gulp it down willingly, enjoying the sensation of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " re-inflating to its maximum, turgid size.\n\n");
 
                 DisplayText("Sighing happily, you lie there as the remainder of your daughters take you, fucking you one after another.  The whole time you don't stop eating, converting all of the girl's rations into gallons of baby batter.  Your daughters don't seem to mind, and take turns posing sexily and feeding you while they take turns riding your pole until they're bloating and pregnant.  By the time the last one rises up on shaky legs, you're exhausted and your eyes are drifting closed.  ");
                 if (daughters < 50) DisplayText("Girlish giggles sooth you to sleep as the crowd slowly disperses.");
@@ -315,33 +323,33 @@ function fuckYoDaughtersHomie(character: Character) {
     else {
         DisplayText("You pick a random girl from the crowd, and the others crowd around, jealous of your chosen cock-sleeve.   Her cries of excitement rapidly turn to pain when you try to push in though.  She's just too small, even for a goblin.  You set her down, disappointed, but then she lies down in the grass and spreads her legs wide.  She says, \"<i>Since you're too big for us, how about we take turns lining up on the ground while some of us suck out your sticky goop?</i>\"\n\n");
 
-        DisplayText("The idea sounds great to you.  Two of the horny sluts are already climbing forwards while their sisters lay out, pulling their vulva apart and toying with their tiny green clits.  They must be twins, because aside from their wildly different hair, their features are identical.  The paired cock-sluts both kiss your swollen " + Desc.Cock.describeCockHead() + ", then drag their lips and tongues over your length.  At first they're working in sync, but as their efforts intensify they slowly get out of rhythm, until they're each slobbering over a different part of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".\n\n");
+        DisplayText("The idea sounds great to you.  Two of the horny sluts are already climbing forwards while their sisters lay out, pulling their vulva apart and toying with their tiny green clits.  They must be twins, because aside from their wildly different hair, their features are identical.  The paired cock-sluts both kiss your swollen " + Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + ", then drag their lips and tongues over your length.  At first they're working in sync, but as their efforts intensify they slowly get out of rhythm, until they're each slobbering over a different part of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".\n\n");
 
         if (tamaniPresent) {
             DisplayText("Tamani steps up and reaches into a pouch.  As she withdraws her hand, you get your first glimpse of her cargo.  It appears to be a massive double-ended dildo, pink and floppy.  One end is shaped like a canine, with a huge knot, while the other ends in the flared tip of a horse-cock.  Tamani grunts as she spears herself with the pointed canine side, even forcing the massive dildo's knot inside.  She releases the dildo and the horse-half bobbles imposingly in front of her, dripping pink fluids.  She grins up at you saying, \"<i>If my daughters are going to claim all your cream, I'm going to make sure you don't hold back.  You saw the knot on this thing, didn't you?  Well, it's filled with aphrodisiacs, so when I cum and clamp down on it, you'll be forced to squirt every ounce of seed into my girls.</i>\"\n\n");
 
             DisplayText("She disappears behind you and you cringe, knowing this will probably be at least slightly uncomfortable.  ");
-            if (character.tallness > 48) DisplayText("You can hear her climbing up on something behind you, in order to get to the right height.  ");
-            DisplayText("Your expression of disdain is ruined when one of the sluts stretches wide and slurps your " + Desc.Cock.describeCockHead() + " into her mouth.  Her tongue feels like heaven as it slides over your tip, and her sister works the shaft, jerking the spit-lubed monster off with fast strokes.   Your enjoyment is interrupted by a sudden intrusion at your backdoor.  The rubbery flared horse-toy presses against your " + Desc.Butt.describeButthole(character.torso.butt) + ", dribbling a little bit of its strange lubricants into your backdoor as Tamani pushes it forward.   Tiny hands grab your " + Desc.Butt.describeButt(character) + " as it's pushed forward, and you have no choice but to relax and allow it inside.\n\n");
+            if (player.tallness > 48) DisplayText("You can hear her climbing up on something behind you, in order to get to the right height.  ");
+            DisplayText("Your expression of disdain is ruined when one of the sluts stretches wide and slurps your " + Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " into her mouth.  Her tongue feels like heaven as it slides over your tip, and her sister works the shaft, jerking the spit-lubed monster off with fast strokes.   Your enjoyment is interrupted by a sudden intrusion at your backdoor.  The rubbery flared horse-toy presses against your " + Desc.Butt.describeButthole(player.torso.butt) + ", dribbling a little bit of its strange lubricants into your backdoor as Tamani pushes it forward.   Tiny hands grab your " + Desc.Butt.describeButt(player) + " as it's pushed forward, and you have no choice but to relax and allow it inside.\n\n");
 
             DisplayText("Half the head slips inside you, then the other, and in no time Tamani is slowly forcing it inside you.  It hurts just a little, enough to make your hips swivel forwards in a futile attempt at escape.  The goblin on your cock nearly chokes from the sudden change, though her sister gives you a wicked grin and strokes harder.  A flash of warmth squirts inside you in time with a moan from Tamani, and suddenly your body is exploding with pleasure.\n\n");
 
             DisplayText("Cum bubbles from the first goblin's nose as she falls off you, getting a massive facial in the process.  Her twin sister happily jacks you off, aiming your tool down at the row of cunts below you.  The sticky spooge splatters into their holes, painting their toned midriffs and ample thighs with sticky whiteness as you're used like some kind of fertility sprinkler. Tamani shoves her artificial dong further into your backdoor and somehow you manage to squeeze out a few more splattering drops of whiteness for her daughters.\n\n");
 
-            DisplayText("Spent, your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " wilts, drooping downward as it drips the last of its seed.  Tamani seems oblivious to that fact though, and continues to violate you from behind.  You're about to reach around to dislodge the tiny anal rapist when another squirt of aphrodisiacs releases inside you, catching some of your prostate with the goop.  A torrent of blood rushes to your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " and you're suddenly achingly hard again.");
-            if (character.torso.balls.quantity > 0) DisplayText("  Your " + Desc.Balls.describeBalls(true, true, character) + " ache from the strain, but struggle to churn up more sperm.  ");
+            DisplayText("Spent, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " wilts, drooping downward as it drips the last of its seed.  Tamani seems oblivious to that fact though, and continues to violate you from behind.  You're about to reach around to dislodge the tiny anal rapist when another squirt of aphrodisiacs releases inside you, catching some of your prostate with the goop.  A torrent of blood rushes to your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and you're suddenly achingly hard again.");
+            if (player.torso.balls.quantity > 0) DisplayText("  Your " + Desc.Balls.describeBalls(true, true, player) + " ache from the strain, but struggle to churn up more sperm.  ");
             DisplayText("A drop of pre-cum beads on the tip and you find yourself relaxing, letting Tamani slide her drug-slicked horse-cock the rest of the way into you.\n\n");
         }
-        DisplayText("A third goblin suddenly attacks your taint, licking between your " + Desc.Butt.describeButthole(character.torso.butt) + " and ");
-        if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character));
-        else if (character.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
+        DisplayText("A third goblin suddenly attacks your taint, licking between your " + Desc.Butt.describeButthole(player.torso.butt) + " and ");
+        if (player.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, player));
+        else if (player.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)));
         else DisplayText("shaft");
-        DisplayText(" as she presses her hard nipples up against your " + Desc.Leg.describeLegs(character) + ". ");
+        DisplayText(" as she presses her hard nipples up against your " + Desc.Leg.describeLegs(player) + ". ");
         // (No Tamani:
-        if (!tamaniPresent) DisplayText("She presses something against your backdoor and before you have a chance to react, something hot and wet is filling your " + Desc.Butt.describeButthole(character.torso.butt) + ".  You look down as she pulls out a tube of pink residue, and sways with burning desire.\n\n");
+        if (!tamaniPresent) DisplayText("She presses something against your backdoor and before you have a chance to react, something hot and wet is filling your " + Desc.Butt.describeButthole(player.torso.butt) + ".  You look down as she pulls out a tube of pink residue, and sways with burning desire.\n\n");
         else DisplayText("The feeling of the ridges and flare of Tamani's fake cock as it slides inside you makes you sway on your feet, drunk with the lust its fluids have induced.   You sway back and forth with burning desire as both of the twins caress and stroke your meat, coaxing as much pleasure from it as possible.\n\n");
 
-        DisplayText("You explode, coming harder than ever from the pressure and drugs buried against your prostate.  One of the twins, tired of waiting, pulls your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " over and shoves your tip against her slickened folds.  You manage to pump a thick blob of cum deep inside her before her sister snatches it away, grinding her own hungry twat against you until her entire groin is stained white.  They glare at each other, but after seemingly being sated, they return to fondling your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " together, using it like a hose to drench their smiling sisters with the remaining cum.\n\n");
+        DisplayText("You explode, coming harder than ever from the pressure and drugs buried against your prostate.  One of the twins, tired of waiting, pulls your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " over and shoves your tip against her slickened folds.  You manage to pump a thick blob of cum deep inside her before her sister snatches it away, grinding her own hungry twat against you until her entire groin is stained white.  They glare at each other, but after seemingly being sated, they return to fondling your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " together, using it like a hose to drench their smiling sisters with the remaining cum.\n\n");
 
         if (tamaniPresent) {
             DisplayText("Tamani pushes hard and screams behind you, \"<i>OH FUCK YES KNOCK THEIR LITTLE CUNTS UP!  Oooooohh...</i>\"\n\n");
@@ -353,73 +361,73 @@ function fuckYoDaughtersHomie(character: Character) {
         DisplayText("he girls shift position, rearranging themselves so that those who got the most love-juice are now positioned alongside you.  ");
         if (!tamaniPresent) DisplayText("You shrug and drink it, ");
         else DisplayText("You begin ");
-        DisplayText(" feeling hornier and hornier, as ready now as you were when you got here.  Twitching, your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " announces its readiness to repaint these living cum-sponges.  A trio of goblin tongues slip over your shaft, and lip-gloss smeared lips worship every ounce of your life-giving rod.  One of the girls, an older one with prominent breasts, breaks off and begins to scale her way up your body.  She doesn't stop until she's sitting on your shoulders with her hot messy cunt pressed against your face.\n\n");
+        DisplayText(" feeling hornier and hornier, as ready now as you were when you got here.  Twitching, your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " announces its readiness to repaint these living cum-sponges.  A trio of goblin tongues slip over your shaft, and lip-gloss smeared lips worship every ounce of your life-giving rod.  One of the girls, an older one with prominent breasts, breaks off and begins to scale her way up your body.  She doesn't stop until she's sitting on your shoulders with her hot messy cunt pressed against your face.\n\n");
 
-        DisplayText("One of the girls on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " gets an idea and mashes her tits against it you while she licks and strokes you.  The combined goblin assault once again achieves its goal, and you are brought to a body shaking orgasm AGAIN.   The swarm of goblins giggles happily as they gather your falling spunk into their waiting cunts.  What doesn't fit inside is slurped up, and soon you're covering a writhing orgy of curvy green women with a thick coat of spunk.\n\n");
+        DisplayText("One of the girls on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " gets an idea and mashes her tits against it you while she licks and strokes you.  The combined goblin assault once again achieves its goal, and you are brought to a body shaking orgasm AGAIN.   The swarm of goblins giggles happily as they gather your falling spunk into their waiting cunts.  What doesn't fit inside is slurped up, and soon you're covering a writhing orgy of curvy green women with a thick coat of spunk.\n\n");
 
         DisplayText("You finish and collapse backwards, totally drained and losing consciousness.  ");
         if (daughters < 20) { }
         // (20+ daughters:
         else if (daughters < 30) {
             DisplayText("A glass vial is slipped into your mouth as you lose consciousness, and you reflexively swallow.  You swear you could hear something about, \"<i>not done yet,</i>\" but you pass out.  Your dreams are far from restful, but full of pleasure.");
-            character.stats.tou += -.5;
-            character.stats.int += -.5;
+            player.stats.tou += -.5;
+            player.stats.int += -.5;
         }
         // (30+ Daughters:
         else {
             DisplayText("Vial after vial is pressed against your mouth as liquids are poured down your throat.  Your body reflexively swallows and the massive jump in arousal prevents you from totally passing out.  You can't remember much before you truly lose consciousness, but one thing that sticks in your mind is some of your daughters asking, \"<i>Why don't we just bring Daddy back to camp and then we can fuck him whenever we want?</i>\"\n\nYou passed out before you could hear the answer.");
-            character.stats.tou += -.75;
-            character.stats.int += -1;
-            character.stats.lib += .5;
+            player.stats.tou += -.75;
+            player.stats.int += -1;
+            player.stats.lib += .5;
         }
     }
-    character.orgasm();
-    character.stats.lib += 1;
-    character.stats.cor += 1;
+    player.orgasm();
+    player.stats.lib += 1;
+    player.stats.cor += 1;
     // Knock the bitches up, boost libido, corruption
-    if (tamaniPresent) Scenes.forest.tamaniScene.tamaniKnockUp(); // If she wasn't pregnant she will be now
-    knockUpDaughters();
-    character.cumMultiplier += .3;
-    if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
+    if (tamaniPresent) tamaniKnockUp(player); // If she wasn't pregnant she will be now
+    knockUpDaughters(player);
+    player.cumMultiplier += .3;
+    if (afterBattle) return { next: Scenes.camp.returnToCampUseOneHour };
     else return { next: Scenes.camp.returnToCampUseFourHours };
 }
 
 // [Let them]
-function legTamanisDaughtersRAEPYou(character: Character) {
+function legTamanisDaughtersRAEPYou(player: Character, afterBattle: boolean = false): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     tamanisDaughtersFlags.TIMES_FUCKED_TAMANIS_DAUGHTERS++;
-    const cocks: number = character.torso.cocks.count;
-    const daughters: number = int(tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS / 2);
+    const cocks: number = player.torso.cocks.count;
+    const daughters: number = Math.floor(tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS / 2);
     // Find a dick that fits
-    const primary: number = character.cockThatFits(50);
+    const primary = player.torso.cocks.find(Cock.CockThatFits(50));
 
     DisplayText().clear();
     DisplayText("Knowing full well that a ");
     if (daughters > 20) DisplayText("large ");
     DisplayText("crowd of goblins isn't going to let you leave while you still have a drop of sperm in your body, you disrobe and walk into their midst, lying down in a soft mossy patch and giving yourself up to the horde completely.  In an instant you're smothered in a sea of supple green flesh, and caressed from head to toe.  The largest of the group is happily stroking ");
     if (cocks > 1) DisplayText("one of ");
-    DisplayText(" your " + Desc.Cock.describeMultiCockShort(character) + ", teasing you as it near-instantly rises, \"<i>Mommy never told me you were such an easy " + Desc.Gender.mf(character, "man-", "") + "slut.</i>\"\n\n");
+    DisplayText(" your " + Desc.Cock.describeMultiCockShort(player) + ", teasing you as it near-instantly rises, \"<i>Mommy never told me you were such an easy " + Desc.Gender.mf(player, "man-", "") + "slut.</i>\"\n\n");
 
-    DisplayText("A slippery gash mounts your " + Desc.Face.describeFace(character) + ", blocking your view of anything but a cute navel as pungent pussy slobbers over your lips.  With a resigned sigh, you open your mouth and bury your tongue into one of your many daughters' snatches.  It's tangy and sweet, and juicier than fresh fruit.   The girlish moans you hear let you know how successful your tongue is, and you work harder than ever to kiss and lick her slippery lips, pausing only to suck the tiny bud of her clit into your mouth.\n\n");
+    DisplayText("A slippery gash mounts your " + Desc.Face.describeFace(player) + ", blocking your view of anything but a cute navel as pungent pussy slobbers over your lips.  With a resigned sigh, you open your mouth and bury your tongue into one of your many daughters' snatches.  It's tangy and sweet, and juicier than fresh fruit.   The girlish moans you hear let you know how successful your tongue is, and you work harder than ever to kiss and lick her slippery lips, pausing only to suck the tiny bud of her clit into your mouth.\n\n");
 
     DisplayText("Through it all the other girls stay busy, Tamani's eldest daughter gets most of your attention while she continues  to stroke you off.  She squeezes and caresses it until your member is trembling in her hand, ready to explode.\n\n");
     // (FORK BETWEEN TOO BIG AND FITS)
     // [FITS]
-    if (primary >= 0) {
+    if (primary) {
         DisplayText("Effortlessly, she straddles you and guides the entire length of your rod into her honeypot.  Amazingly the tiny girl is able to spread her cunt around you, forming a tight, but not uncomfortable, fit.  ");
         if (cocks === 2) DisplayText("Another set of hands latches on to your free dick and forces herself down on top it, sitting back to back with the other lucky slut as she takes it to the hilt.  Somehow you know that if you could see beyond the tight body smothering your face, watching your daughters fuck together would push you over the edge.");
-        else if (cocks > 2) DisplayText("More and more hands latch onto the rest of your " + Desc.Cock.describeMultiCockShort(character) + ", guiding each of them into a tight cunt-hole.   If you could see around the tight body of the slut on your face, you're sure the scene on your crotch would push you over the edge.");
-        else DisplayText("You stiffen as a tongue suddenly presses against your " + assholeOrPussy() + " sliding inside and intensifying the feelings radiating down your fuck-pole until you're unable to hold on.");
+        else if (cocks > 2) DisplayText("More and more hands latch onto the rest of your " + Desc.Cock.describeMultiCockShort(player) + ", guiding each of them into a tight cunt-hole.   If you could see around the tight body of the slut on your face, you're sure the scene on your crotch would push you over the edge.");
+        else DisplayText("You stiffen as a tongue suddenly presses against your " + Desc.Body.assholeOrPussy(player) + " sliding inside and intensifying the feelings radiating down your fuck-pole until you're unable to hold on.");
         DisplayText("\n\n");
 
-        DisplayText("A sudden flow of fluids soaks your " + Desc.Face.describeFace(character) + " and dribbles from your chin.  The face-riding goblin bucks like a bronco, nearly breaking your nose before the strength drains from her body and she slides off into the dirt, panting weakly.   Confronted with the sight of ");
+        DisplayText("A sudden flow of fluids soaks your " + Desc.Face.describeFace(player) + " and dribbles from your chin.  The face-riding goblin bucks like a bronco, nearly breaking your nose before the strength drains from her body and she slides off into the dirt, panting weakly.   Confronted with the sight of ");
         if (cocks > 2) DisplayText("so many girls impaled on your flesh");
         else if (cocks === 2) DisplayText("your daughters' whorish expressions of pleasure");
-        else DisplayText("the sultry gaze of Tamani's oldest daughter as she rides your " + Desc.Cock.describeCock(character, primary));
+        else DisplayText("the sultry gaze of Tamani's oldest daughter as she rides your " + Desc.Cock.describeCock(player, primary));
         DisplayText(", you can do nothing but cum.  ");
         if (cocks > 1) DisplayText("Twitching powerfully, your body unloads into the tight, fertile cum-receptacles, giving them exactly what they want.");
         else DisplayText("Twitching powerfully, your body unloads into the tight, fertile cum-receptacle, giving her exactly what she wants.");
-        if (character.cumQ() >= 1000) {
+        if (player.cumQ() >= 1000) {
             DisplayText("  The near-supernatural amount of spooge you produce easily bloats ");
             if (cocks === 1) DisplayText("her belly until she looks a little pregnant");
             else DisplayText("each of their uteruses until they look a little pregnant");
@@ -434,25 +442,25 @@ function legTamanisDaughtersRAEPYou(character: Character) {
 
             DisplayText("She gives ");
             if (cocks > 1) DisplayText("one of ");
-            DisplayText("your deflating " + Desc.Cock.describeMultiCockShort(character) + " a playful slap, smirking when it stiffens in response, \"<i>Honestly, you're so shameful, getting hard again from such an innocent touch.  I didn't know you wanted to make our little family that much bigger.</i>\"\n\n");
+            DisplayText("your deflating " + Desc.Cock.describeMultiCockShort(player) + " a playful slap, smirking when it stiffens in response, \"<i>Honestly, you're so shameful, getting hard again from such an innocent touch.  I didn't know you wanted to make our little family that much bigger.</i>\"\n\n");
 
             DisplayText("Pantomiming a sigh, Tamani drags her finger from your ");
-            if (!character.torso.cocks.find(Cock.HasSheath)) DisplayText("base");
+            if (!player.torso.cocks.find(Cock.HasSheath)) DisplayText("base");
             else DisplayText("sheath");
             DisplayText(" to the tip, giggling with mirth as her words and touches bring you to full readiness.\n\n");
 
             DisplayText("\"<i>Well, I wouldn't be a very nice wife if I didn't let you empty your stress into my hungry cunny from time to time would I?  Here, drink this, it'll make sure we have lots of daughters,</i>\" says the goblin, shoving a flask into your hand.  You nod, made agreeable by constant touches and strokes the goblin lavishes upon your groin.  The drink goes down smoothly, disappearing into you with a few quick sips from the colored glass bottle.  It settles into your belly, radiating pleasant warmth that seeps down to your crotch while it fills your mind with fuzz.\n\n");
 
             DisplayText("Tamani massages your ");
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
-            else DisplayText(Desc.Breast.describeAllBreasts(character));
+            if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
+            else DisplayText(Desc.Breast.describeAllBreasts(player));
             DisplayText(" as she mounts you, ");
-            DisplayText("squeezing her dripping wet cunt around your " + Desc.Cock.describeCock(character, primary) + ".  She explains, caressing your cheek as you start to drool, \"<i>You see, " + character.short + ", this potion is a special one.  You can probably feel it now, emptying your mind and shutting down your thought processes.  That's what it's supposed to do.  You won't remember anything when I'm done either, aside from how great my pussy feels on your " + Desc.Cock.describeCock(character, primary) + "</i>.\"\n\n");
+            DisplayText("squeezing her dripping wet cunt around your " + Desc.Cock.describeCock(player, primary) + ".  She explains, caressing your cheek as you start to drool, \"<i>You see, " + player.desc.short + ", this potion is a special one.  You can probably feel it now, emptying your mind and shutting down your thought processes.  That's what it's supposed to do.  You won't remember anything when I'm done either, aside from how great my pussy feels on your " + Desc.Cock.describeCock(player, primary) + "</i>.\"\n\n");
 
             DisplayText("You drool, accepting the truth.  She's so right, there's no way you'd ever forget the feeling of hot wetness as it rubs around your shaft.  Tamani keeps talking, confidently riding you as your mind soaks up her instructions, \"<i>My hot little cunt needs filling, and your cock knows it.  It wants it.</i>\"  She leans back, allowing you a glimpse of pinkness and sticky female juices while she teases her button, \"<i>Just the sight of my pussy gets you hard and ready.  The thought of feeling that hot hole mounting you just diverts all your blood and willpower into your ready fuckstick.  You CAN'T resist my pussy.</i>\"\n\n");
 
             DisplayText("The words she's saying stop mattering.  All that matters is how much a slave your cock is to that tight little hole, and how great it feels to give yourself over it.  Your spunk-hungry wife never shuts up, and you just lie there, listening placidly, contentedly twitching against her as orgasm approaches.  A happy smile spreads over your face as you feel your ");
-            if (character.torso.balls.quantity > 0) DisplayText("balls");
+            if (player.torso.balls.quantity > 0) DisplayText("balls");
             else DisplayText("groin");
             DisplayText(" churning with lust and desire, ready to give life to another batch of daughters for your mistress.  ");
             if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED < 10) DisplayText("'Wait... wife... mistress?' your mind wonders, rejecting the foreign thoughts.  You look up at Tamani, confused for a moment");
@@ -469,40 +477,40 @@ function legTamanisDaughtersRAEPYou(character: Character) {
             // increase hypno value
             tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED++;
             // preggo up tamani
-            Scenes.forest.tamaniScene.tamaniKnockUp();
+            tamaniKnockUp(player);
         }
         // NO TAMANI:
         else {
             // (SMALL PACK)
             if (daughters < 20) {
-                DisplayText("The smaller girls take turns, mounting your cum-soaked rod one after another, using their hungry cunts like cum-sponges until your " + Desc.Cock.describeCock(character, primary) + " is polished with feminine fluids and cleaned of any residual jism.  After so many repeated mountings, you're hard and ready to cum again, and the horny sluts know it.   You're crammed back into each one of them, one after another in a barrage of quick fucks.  Each girl is only given a few seconds on your rod before she's pulled off by her peers and replaced by another ecstatic goblin.  While waiting for their next turn, the spare girls tease you, tweaking your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s while licking your ears and whispering, \"<i>Don't cum for her, it'll be much better in my hot little box,</i>\" or, \"<i>You won't cum for that skank, will you?  Save your baby-batter for me!</i>\"\n\n");
+                DisplayText("The smaller girls take turns, mounting your cum-soaked rod one after another, using their hungry cunts like cum-sponges until your " + Desc.Cock.describeCock(player, primary) + " is polished with feminine fluids and cleaned of any residual jism.  After so many repeated mountings, you're hard and ready to cum again, and the horny sluts know it.   You're crammed back into each one of them, one after another in a barrage of quick fucks.  Each girl is only given a few seconds on your rod before she's pulled off by her peers and replaced by another ecstatic goblin.  While waiting for their next turn, the spare girls tease you, tweaking your " + Desc.Breast.describeNipple(player, player.torso.chest.get(0)) + "s while licking your ears and whispering, \"<i>Don't cum for her, it'll be much better in my hot little box,</i>\" or, \"<i>You won't cum for that skank, will you?  Save your baby-batter for me!</i>\"\n\n");
 
-                DisplayText("Amazingly, you orgasm again.  An orgiastic squeal erupts from your " + Desc.Cock.describeCock(character, primary) + "'s current owner, breaking off into pants and gasps ");
-                if (character.cumQ() < 100) DisplayText("as you twitch underneath her, emptying the last of your cum inside her.");
-                else if (character.cumQ() < 500) DisplayText("as you twitch underneath her, pumping her full of cum, thoroughly seeding her womb with spunk.");
+                DisplayText("Amazingly, you orgasm again.  An orgiastic squeal erupts from your " + Desc.Cock.describeCock(player, primary) + "'s current owner, breaking off into pants and gasps ");
+                if (player.cumQ() < 100) DisplayText("as you twitch underneath her, emptying the last of your cum inside her.");
+                else if (player.cumQ() < 500) DisplayText("as you twitch underneath her, pumping her full of cum, thoroughly seeding her womb with spunk.");
                 else DisplayText("as you twitch underneath her in powerful spasms, blasting huge gouts of cum into her waiting body until her belly is bloated with seed and it begins to squirt out around you in time with each eruption of spunk.");
-                DisplayText("  Disappointed moans rise up from the others as they realize they've lost the cum-lottery.   The winner, patting her belly happily, stands up, filling the air with a loud 'slurrrrrp' as her twat noisily releases your " + Desc.Cock.describeCock(character, primary) + ".");
-                if (character.cumQ() >= 500) DisplayText("  A few enterprising goblins gather around, gathering up the loose spunk and shoveling it into their holes.");
+                DisplayText("  Disappointed moans rise up from the others as they realize they've lost the cum-lottery.   The winner, patting her belly happily, stands up, filling the air with a loud 'slurrrrrp' as her twat noisily releases your " + Desc.Cock.describeCock(player, primary) + ".");
+                if (player.cumQ() >= 500) DisplayText("  A few enterprising goblins gather around, gathering up the loose spunk and shoveling it into their holes.");
                 DisplayText("\n\n");
 
-                DisplayText("Tired from the sexual acrobatics, your daughters gather up their possessions and begin dispersing, but a few stick around to lick your " + Desc.Cock.describeCock(character, primary) + " clean and give you deep french-kisses.  Exhausted as well, you begin to doze off, but not before a girlish voice whispers in your ear, \"<i>Thanks daddy!  I'll bring your daughters back once they've grown up so you can have their cherries too.</i>\"\n\n");
+                DisplayText("Tired from the sexual acrobatics, your daughters gather up their possessions and begin dispersing, but a few stick around to lick your " + Desc.Cock.describeCock(player, primary) + " clean and give you deep french-kisses.  Exhausted as well, you begin to doze off, but not before a girlish voice whispers in your ear, \"<i>Thanks daddy!  I'll bring your daughters back once they've grown up so you can have their cherries too.</i>\"\n\n");
             }
             // (MEDIUM PACK (or bigger))
             else {
-                DisplayText("The smaller girls take turns, mounting your cum-soaked rod one after another, using their hungry cunts like cum-sponges until your " + Desc.Cock.describeCock(character, primary) + " is polished with feminine fluids and cleaned of any residual jism.  After so many repeated mountings, you're hard and ready to cum again, and the horny sluts know it.   You're crammed back into each one of them, one after another in a barrage of quick fucks.  Each girl is only given a few seconds on your rod before she's pulled off by her peers and replaced by another ecstatic goblin.  While waiting for their next turn, the spare girls tease you, tweaking your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s while licking your ears and whispering, \"<i>Don't cum for her, it'll be much better in my hot little box,</i>\" or, \"<i>You won't cum for that skank, will you?  Save your babby-batter for me!</i>\"\n\n");
+                DisplayText("The smaller girls take turns, mounting your cum-soaked rod one after another, using their hungry cunts like cum-sponges until your " + Desc.Cock.describeCock(player, primary) + " is polished with feminine fluids and cleaned of any residual jism.  After so many repeated mountings, you're hard and ready to cum again, and the horny sluts know it.   You're crammed back into each one of them, one after another in a barrage of quick fucks.  Each girl is only given a few seconds on your rod before she's pulled off by her peers and replaced by another ecstatic goblin.  While waiting for their next turn, the spare girls tease you, tweaking your " + Desc.Breast.describeNipple(player, player.torso.chest.get(0)) + "s while licking your ears and whispering, \"<i>Don't cum for her, it'll be much better in my hot little box,</i>\" or, \"<i>You won't cum for that skank, will you?  Save your babby-batter for me!</i>\"\n\n");
 
-                DisplayText("Amazingly, you orgasm again.  An orgiastic squeal erupts from your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + "'s current owner, breaking off into pants and gasps ");
-                if (character.cumQ() < 100) DisplayText("as you twitch underneath her, emptying the last of your cum inside her.");
-                else if (character.cumQ() < 500) DisplayText("as you twitch underneath her, pumping her full of cum, thoroughly seeding her womb with spunk.");
+                DisplayText("Amazingly, you orgasm again.  An orgiastic squeal erupts from your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + "'s current owner, breaking off into pants and gasps ");
+                if (player.cumQ() < 100) DisplayText("as you twitch underneath her, emptying the last of your cum inside her.");
+                else if (player.cumQ() < 500) DisplayText("as you twitch underneath her, pumping her full of cum, thoroughly seeding her womb with spunk.");
                 else DisplayText("as you twitch underneath her in powerful spasms, blasting huge gouts of cum into her waiting body until her belly is bloated with seed and it begins to squirt out around you in time with each eruption of spunk.");
-                DisplayText("  Disappointed moans rise up from the others as they realize they've lost the cum-lottery.   The winner, patting her belly happily, stands up, filling the air with a loud 'slurrrrrp' as her twat noisily releases your " + Desc.Cock.describeCock(character, primary) + ".");
-                if (character.cumQ() >= 500) DisplayText("A few enterprising goblins gather around, gathering up the loose spunk and shoveling it into their holes.");
+                DisplayText("  Disappointed moans rise up from the others as they realize they've lost the cum-lottery.   The winner, patting her belly happily, stands up, filling the air with a loud 'slurrrrrp' as her twat noisily releases your " + Desc.Cock.describeCock(player, primary) + ".");
+                if (player.cumQ() >= 500) DisplayText("A few enterprising goblins gather around, gathering up the loose spunk and shoveling it into their holes.");
                 DisplayText("\n\n");
 
                 DisplayText("You're exhausted from the sexual battering you've had to endure, but the giggling swarm won't let you rest.  Tiny hands pry open your jaws and force a bubbling concoction past your lips.  Another one massages your throat and you're forced to swallow the stuff.   The drug's effects are strong and immediate.  Your ");
-                if (character.torso.balls.quantity > 0) DisplayText("balls begin swelling, trembling as they visibly inflate, preparing a massive load of seed.");
+                if (player.torso.balls.quantity > 0) DisplayText("balls begin swelling, trembling as they visibly inflate, preparing a massive load of seed.");
                 else DisplayText("groin shifts uncomfortably, trembling as it begins preparing a massive load of seed.");
-                DisplayText("  Your " + Desc.Cock.describeMultiCockShort(character) + " spasms, twitching as unearned pleasures fill the flesh and bring you to climax.\n\n");
+                DisplayText("  Your " + Desc.Cock.describeMultiCockShort(player) + " spasms, twitching as unearned pleasures fill the flesh and bring you to climax.\n\n");
 
                 DisplayText("You grunt, squirting a long rope of the stuff that splatters onto your belly.  A palpable sense of relief comes with it, though the mystery drug they've fed you immediately turns that relief back into uncomfortable fullness.  Your hips twitch and try to launch the next load, but it's intercepted by a pierced goblin-twat that slides down on top of you.  The goblin pinches her nipples and coos happily as you send squirt after squirt into her, until she's cumming loudly and her over-full twat is squirting out each time you try to pack more in.\n\n");
 
@@ -512,7 +520,7 @@ function legTamanisDaughtersRAEPYou(character: Character) {
 
                 if (daughters < 40) {
                     DisplayText("Locked in a ceaseless orgasm, you're raped by one goblin after another.  A parade of tight pink pussies and their green-skinned owners passes by you, and once each of them is dripping with white seed, they take the time for a second pass.  By the time it's over, you're raw and sore, and your ");
-                    if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character) + " hurt");
+                    if (player.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, player) + " hurt");
                     else DisplayText("crotch hurts");
                     DisplayText(" from having to generate such a ridiculous quantity of spooge.  The crowd of milling goblins seems much less frantic now that they've gotten what they want.  You're kissed and licked and massaged by the thankful mass, and you lose yourself to unconsciousness, still dribbling semen.");
                 }
@@ -520,9 +528,9 @@ function legTamanisDaughtersRAEPYou(character: Character) {
                 else {
                     DisplayText("Locked in a ceaseless orgasm, you're raped by one goblin after another.  A parade of tight pink pussies and their green-skinned owners passes by you, and once each of them is dripping with white seed, they take the time for a second pass.  You're raw, sore, and losing consciousness, but the huge mass of young goblins is far from done with you.  They force another potion into your throat as you lose consciousness.   Your dreams are filled with demented orgies where your dick is kept in one tight hole after another, a cruel reflection of reality.  When you awake they're gone and you're incredibly sore, but somehow still horny.  Getting dosed with so many goblin drugs in such a short time-span might not have been a good idea.");
                     // libido/cumq/corruption booster?
-                    character.stats.lib += 1;
-                    character.stats.cor += .5;
-                    character.cumMultiplier += .3;
+                    player.stats.lib += 1;
+                    player.stats.cor += .5;
+                    player.cumMultiplier += .3;
                 }
             }
         }
@@ -531,61 +539,61 @@ function legTamanisDaughtersRAEPYou(character: Character) {
     else {
         // 	[No Tamani]
         if (!tamaniPresent) {
-            DisplayText("Effortlessly, Tamani's daughter launches herself onto you, straddling your body as she tries to work your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " into her tight gash.  No matter how hard she tries, she just can't get it in.  She looks up at you in confusion and asks, \"<i>How in Marae's cunt can my Mom take this beast?</i>\"\n\n");
+            DisplayText("Effortlessly, Tamani's daughter launches herself onto you, straddling your body as she tries to work your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " into her tight gash.  No matter how hard she tries, she just can't get it in.  She looks up at you in confusion and asks, \"<i>How in Marae's cunt can my Mom take this beast?</i>\"\n\n");
 
-            DisplayText("Frowning in consternation, she presses it down onto your belly and sits on top, spreading her cunt as wide as she can around the bulge your urethra makes on the underside of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  Though you can't see her, the feeling of her starting to slide along your length is wonderfully pleasurable.  After a few moments you can feel her getting into it, leaning over and pressing her taut body and heavy breasts against you as well.  Incredibly turned on by the mental picture you're forced to form, you attack the cunt riding your " + Desc.Face.describeFace(character) + ", licking it with feverish intensity.\n\n");
+            DisplayText("Frowning in consternation, she presses it down onto your belly and sits on top, spreading her cunt as wide as she can around the bulge your urethra makes on the underside of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  Though you can't see her, the feeling of her starting to slide along your length is wonderfully pleasurable.  After a few moments you can feel her getting into it, leaning over and pressing her taut body and heavy breasts against you as well.  Incredibly turned on by the mental picture you're forced to form, you attack the cunt riding your " + Desc.Face.describeFace(player) + ", licking it with feverish intensity.\n\n");
 
-            DisplayText("A sudden flow of fluids soaks your " + Desc.Face.describeFace(character) + " and dribbles from your chin.  The face-riding goblin bucks like a bronco, nearly breaking your nose before the strength drains from her body and she slides off into the dirt, panting weakly.  Now freed from your juicy prison, you can see the oldest daughter as she's squeezing on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", sliding her gash and ");
+            DisplayText("A sudden flow of fluids soaks your " + Desc.Face.describeFace(player) + " and dribbles from your chin.  The face-riding goblin bucks like a bronco, nearly breaking your nose before the strength drains from her body and she slides off into the dirt, panting weakly.  Now freed from your juicy prison, you can see the oldest daughter as she's squeezing on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", sliding her gash and ");
             if (daughters < 20) DisplayText("pert ");
             else if (daughters > 40) DisplayText("heavy ");
             DisplayText("breasts over every part of it.");
-            if (cocks === 2) DisplayText("  Another one of the petite sluts climbs aboard your " + Desc.Cock.describeCock(character, 1) + ", squealing happily to her sister as she joins her in riding you.");
+            if (cocks === 2) DisplayText("  Another one of the petite sluts climbs aboard your " + Desc.Cock.describeCock(player, player.torso.cocks.get(1)) + ", squealing happily to her sister as she joins her in riding you.");
             if (cocks > 2) {
                 DisplayText("  A third, wearing slutty pink make-up with platinum blonde hair, lays out across your ");
-                if (cocks > 3) DisplayText("remaining " + Desc.Cock.describeMultiCockShort(character));
-                else DisplayText(Desc.Cock.describeCock(character, 2));
+                if (cocks > 3) DisplayText("remaining " + Desc.Cock.describeMultiCockShort(player));
+                else DisplayText(Desc.Cock.describeCock(player, player.torso.cocks.get(2)));
                 DisplayText(".");
             }
             DisplayText("\n\n");
 
-            DisplayText("She pivots around, placing her drooling, wet gash against your " + Desc.Cock.describeCockHead() + " and begins vigorously jerking you off.   Her ass bounces hypnotically on your ");
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
-            else DisplayText(Desc.Breast.describeAllBreasts(character));
-            DisplayText(", sending a fresh surge of arousal through your " + Desc.Cock.describeMultiCockShort(character) + ".   Another one of the girls leans down between your " + Desc.Leg.describeLegs(character) + " licking your ");
-            if (character.torso.balls.quantity > 0) DisplayText("balls");
-            else if (character.torso.vaginas.count > 0) DisplayText("pussy");
+            DisplayText("She pivots around, placing her drooling, wet gash against your " + Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " and begins vigorously jerking you off.   Her ass bounces hypnotically on your ");
+            if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
+            else DisplayText(Desc.Breast.describeAllBreasts(player));
+            DisplayText(", sending a fresh surge of arousal through your " + Desc.Cock.describeMultiCockShort(player) + ".   Another one of the girls leans down between your " + Desc.Leg.describeLegs(player) + " licking your ");
+            if (player.torso.balls.quantity > 0) DisplayText("balls");
+            else if (player.torso.vaginas.count > 0) DisplayText("pussy");
             else DisplayText("taint");
             DisplayText(", massaging your ");
-            if (character.torso.cocks.find(Cock.HasSheath)) DisplayText("sheath");
+            if (player.torso.cocks.find(Cock.HasSheath)) DisplayText("sheath");
             else DisplayText("crotch");
-            DisplayText(", and the sensitive " + character.skin.desc + " around your crotch.   The busty girl on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " teases, \"<i>Go ahead and let it out " + Desc.Gender.mf(character, "stud", "sexy") + ".  I'm tired of getting your cream second-hand, so squirt it right into my hot little cunt.</i>\"\n\n");
+            DisplayText(", and the sensitive " + player.skin.desc + " around your crotch.   The busty girl on your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " teases, \"<i>Go ahead and let it out " + Desc.Gender.mf(player, "stud", "sexy") + ".  I'm tired of getting your cream second-hand, so squirt it right into my hot little cunt.</i>\"\n\n");
 
             if (cocks === 2) DisplayText("Her sister agrees, \"<i>Yeah, I want to feel the hot cum squirting into my cunt.  Fill me full of so many babies that you make Mom jealous!</i>\"\n\n");
             else if (cocks > 2) DisplayText("Her sisters agree, \"<i>Yeah, we want to feel the hot cum squirting into our cunts!  Fill us up with so many babies that Mom gets jealous!</i>\"\n\n");
 
-            DisplayText("Your body caves into their demands.  The girl between your " + Desc.Leg.describeLegs(character) + " licks hard as your muscles tense with orgasm.  ");
+            DisplayText("Your body caves into their demands.  The girl between your " + Desc.Leg.describeLegs(player) + " licks hard as your muscles tense with orgasm.  ");
             // Single cock jizz scene
             if (cocks === 1) {
                 DisplayText("The daughter giggles and squeals as bulges of cum squeeze up your urethra, visibly shifting her tight body before squirting inside with wet, fluid noises.  Sloshing squishing noises fill the air as you submit to your jizz-devouring pack of daughters, feeding their insatiable need for sperm.  Pleasure rocks you as ");
                 // Cum stuff
-                if (character.cumQ() < 100) DisplayText("your orgasm ends, pulsing weakly inside the sloppy goblin flesh.");
-                else if (character.cumQ() < 500) DisplayText("your orgasm drags on, pumping the slut up until she looks slightly pregnant.");
+                if (player.cumQ() < 100) DisplayText("your orgasm ends, pulsing weakly inside the sloppy goblin flesh.");
+                else if (player.cumQ() < 500) DisplayText("your orgasm drags on, pumping the slut up until she looks slightly pregnant.");
                 else {
                     DisplayText("your orgasm drags on, splattering cum everywhere as you plump up the girl until she looks pregnant.");
-                    if (character.cumQ() > 1000) DisplayText("  Seed gushes out her opening, actually pushing the goblin away as your orgasm splatters cum into the grass.");
-                    if (character.cumQ() > 5000) DisplayText("  The other goblins frolic around in the stuff, greedily shoveling it into their dripping pussies with both hands as you form a small lake of seed.");
+                    if (player.cumQ() > 1000) DisplayText("  Seed gushes out her opening, actually pushing the goblin away as your orgasm splatters cum into the grass.");
+                    if (player.cumQ() > 5000) DisplayText("  The other goblins frolic around in the stuff, greedily shoveling it into their dripping pussies with both hands as you form a small lake of seed.");
                 }
             }
             // Multi jizz scene
             else {
                 DisplayText("The daughters giggle and squeal as bulges of cum squeeze up your urethras, visibly shifting their tight bodies before squirting inside with wet, fluid noises.  Sloshing squishing noises fill the air as you submit to your jizz-devouring pack of daughters, feeding their insatiable need for sperm.  Pleasure rocks you as ");
                 // Orgazmo
-                if (character.cumQ() < 100) DisplayText("your orgasm ends, pulsing weakly inside the sloppy goblin flesh.");
-                else if (character.cumQ() < 500) DisplayText("your orgasm drags on, pumping the sluts up till they look slightly pregnant.");
+                if (player.cumQ() < 100) DisplayText("your orgasm ends, pulsing weakly inside the sloppy goblin flesh.");
+                else if (player.cumQ() < 500) DisplayText("your orgasm drags on, pumping the sluts up till they look slightly pregnant.");
                 else {
                     DisplayText("your orgasm drags on, splattering cum everywhere as you plump up the girls until they look pregnant.");
-                    if (character.cumQ() > 1000) DisplayText("  Seed gushes out their openings, actually pushing the goblins away as your orgasm splatters cum into the grass.");
-                    if (character.cumQ() > 5000) DisplayText("  The other goblins frolic around in the stuff, greedily shoveling it into their dripping pussies with both hands as you form a small lake of seed.");
+                    if (player.cumQ() > 1000) DisplayText("  Seed gushes out their openings, actually pushing the goblins away as your orgasm splatters cum into the grass.");
+                    if (player.cumQ() > 5000) DisplayText("  The other goblins frolic around in the stuff, greedily shoveling it into their dripping pussies with both hands as you form a small lake of seed.");
                 }
             }
             DisplayText("\n\n");
@@ -594,34 +602,34 @@ function legTamanisDaughtersRAEPYou(character: Character) {
 
             if (cocks === 1) DisplayText("Y");
             else DisplayText("Each of y");
-            DisplayText("our " + Desc.Cock.describeMultiCockShort(character) + " is now rock solid and beading pre-cum at the tip.  ");
+            DisplayText("our " + Desc.Cock.describeMultiCockShort(player) + " is now rock solid and beading pre-cum at the tip.  ");
             // (single)
-            if (cocks === 1) DisplayText("The purple-lipped cock-slut grabs your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " and makes a show of smearing the slippery fluid over your shaft, lubricating it as she jacks you off.  Her warm lips form a tight seal on your " + Desc.Cock.describeCockHead() + " as the young goblin begins lapping at your pre-cum as she sucks it from your urethra.   It feels heavenly, and your " + Desc.Hip.describeHips(character) + " pump weakly into the air in an instinctive bid to enhance the sensation.");
+            if (cocks === 1) DisplayText("The purple-lipped cock-slut grabs your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " and makes a show of smearing the slippery fluid over your shaft, lubricating it as she jacks you off.  Her warm lips form a tight seal on your " + Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " as the young goblin begins lapping at your pre-cum as she sucks it from your urethra.   It feels heavenly, and your " + Desc.Hip.describeHips(player) + " pump weakly into the air in an instinctive bid to enhance the sensation.");
             // (multiple)
             else {
-                DisplayText("The purple-lipped cock-slut grabs hold of one of your " + Desc.Cock.describeMultiCockShort(character) + " and makes a show of smearing the slippering fluid over the shaft, lubricating it as she begins to jack you off.  Her sisters, taking the cue, step over the other sated sluts and grab hold of your " + Desc.Cock.describeCock(character, 1) + ", fondling it lovingly.  ");
-                if (cocks > 2) DisplayText("They spread out until every one of your " + Desc.Cock.describeMultiCockShort(character) + " has at least one goblin hanging off it, stroking and touching you.  ");
-                DisplayText("It feels heavenly, and your " + Desc.Hip.describeHips(character) + " pump weakly into the air in an instinctive bid to enhance the sensation.");
+                DisplayText("The purple-lipped cock-slut grabs hold of one of your " + Desc.Cock.describeMultiCockShort(player) + " and makes a show of smearing the slippering fluid over the shaft, lubricating it as she begins to jack you off.  Her sisters, taking the cue, step over the other sated sluts and grab hold of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(1)) + ", fondling it lovingly.  ");
+                if (cocks > 2) DisplayText("They spread out until every one of your " + Desc.Cock.describeMultiCockShort(player) + " has at least one goblin hanging off it, stroking and touching you.  ");
+                DisplayText("It feels heavenly, and your " + Desc.Hip.describeHips(player) + " pump weakly into the air in an instinctive bid to enhance the sensation.");
             }
             DisplayText("\n\n");
 
-            DisplayText("The goblin who served between the legs crawls back into position, and you realize she must be the youngest, and therefore the lowest on the goblin totem-pole.  Her eager tongue is just as skilled as it was minutes ago, and between her attentions and the tongues on your " + Desc.Cock.describeMultiCockShort(character) + ", you're leaking streamers of liquid lust.  Hands run over your ");
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
-            else DisplayText(Desc.Breast.describeAllBreasts(character));
+            DisplayText("The goblin who served between the legs crawls back into position, and you realize she must be the youngest, and therefore the lowest on the goblin totem-pole.  Her eager tongue is just as skilled as it was minutes ago, and between her attentions and the tongues on your " + Desc.Cock.describeMultiCockShort(player) + ", you're leaking streamers of liquid lust.  Hands run over your ");
+            if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
+            else DisplayText(Desc.Breast.describeAllBreasts(player));
             DisplayText(", circling your nipples and massaging your chest while a girlish voice whispers in your ear, \"<i>Cum for us now daddy, we've gotten so wet having to wait on you...</i>\"\n\n");
 
             DisplayText("Ripples of convulsive pleasure wrack your midsection as you feel the muscular contractions of your orgasm threatening to tear you apart.   Your ");
             // (single)
-            if (cocks === 1) DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " blasts a wave of seed directly into your cock-obsessed daughter's mouth, flooding it until she falls off of it with jism dripping from her nostrils.  You squirt a massive spurt high into the air overhead, and more than a few goblins are running around with their tongues out, trying to catch it in their mouths.   Each wave of seed is larger than the last, erupting from your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " like a geyser.   Soon everyone is spattered in a layer of the stuff, and your gut-clenching orgasm tapers down to a more reasonable, but constant, slow flow of semen.  Each of your daughters comes up and takes turns angling your shaft into her waiting cunt, allowing the thick fluid to fill her to capacity before waddling off.  Then the next girl does the same, and the next, and the next...");
+            if (cocks === 1) DisplayText(Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " blasts a wave of seed directly into your cock-obsessed daughter's mouth, flooding it until she falls off of it with jism dripping from her nostrils.  You squirt a massive spurt high into the air overhead, and more than a few goblins are running around with their tongues out, trying to catch it in their mouths.   Each wave of seed is larger than the last, erupting from your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " like a geyser.   Soon everyone is spattered in a layer of the stuff, and your gut-clenching orgasm tapers down to a more reasonable, but constant, slow flow of semen.  Each of your daughters comes up and takes turns angling your shaft into her waiting cunt, allowing the thick fluid to fill her to capacity before waddling off.  Then the next girl does the same, and the next, and the next...");
             // (Multi)
-            else DisplayText(Desc.Cock.describeMultiCockShort(character) + " blast waves of seed directly into your cock-obsessed daughters' mouths, flooding them until they fall off with jism dripping from their nostrils.   You spurt massive loads high into the air overhead, and more than a few goblins are running around with their tongues out, trying to catch the seed in their mouths.  Each wave is larger than the last, erupting from your " + Desc.Cock.describeMultiCockShort(character) + " like a geyser.  Soon everyone is covered in a thick coating of the stuff, and your gut-clenching orgasm tapers down to a more reasonable, but constant, slow flow of semen.  Each of your daughters comes up and guides a shaft into her waiting cunt, filling herself to capacity with the thick fluid before waddling off.   Then the next set of girls does the same, and the next, and the next....");
+            else DisplayText(Desc.Cock.describeMultiCockShort(player) + " blast waves of seed directly into your cock-obsessed daughters' mouths, flooding them until they fall off with jism dripping from their nostrils.   You spurt massive loads high into the air overhead, and more than a few goblins are running around with their tongues out, trying to catch the seed in their mouths.  Each wave is larger than the last, erupting from your " + Desc.Cock.describeMultiCockShort(player) + " like a geyser.  Soon everyone is covered in a thick coating of the stuff, and your gut-clenching orgasm tapers down to a more reasonable, but constant, slow flow of semen.  Each of your daughters comes up and guides a shaft into her waiting cunt, filling herself to capacity with the thick fluid before waddling off.   Then the next set of girls does the same, and the next, and the next....");
             DisplayText("You're done in by the effort, and quickly lose consciousness.");
         }
         // [Tamani is There]
         else {
-            DisplayText("A scuffle in the crowd breaks out to your right, and though you can hear it, the jiggling ass and delicious pussy of the goblin slut on your face makes it impossible to see what's going on.  You do what any horny " + Desc.Gender.mf(character, "male", "herm") + " would do in your position – groan into the slippery box and ignore it, focusing on the feel of skilled hands fondling ");
+            DisplayText("A scuffle in the crowd breaks out to your right, and though you can hear it, the jiggling ass and delicious pussy of the goblin slut on your face makes it impossible to see what's going on.  You do what any horny " + Desc.Gender.mf(player, "male", "herm") + " would do in your position – groan into the slippery box and ignore it, focusing on the feel of skilled hands fondling ");
             if (cocks > 1) DisplayText("each of ");
-            DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + ".\n\n");
+            DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + ".\n\n");
 
             DisplayText("High pitched voices rise in pleading tones, followed by the impact of flesh on flesh.  A sultry, familiar voice clears her throat and asks, \"<i>Oh, so this is where you've been.  Tamani would've expected her husband to be in his proper place – lodged deep between her legs, rather than rewarding his ditzy daughters' misbehavior.</i>\"\n\n");
 
@@ -632,11 +640,11 @@ function legTamanisDaughtersRAEPYou(character: Character) {
             else DisplayText("\"wife\"");
             DisplayText(" in mock indignation.   She taps her chin for a moment, ignoring her daughters as they continue to lick and stroke ");
             if (cocks) DisplayText("each of ");
-            DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + ".  Your eyes roll back in blissful pleasure as Tamani declares, \"<i>Tamani will take care of you, husband.  You're going to cum into these girls' hungry twats until they have to waddle home, and then you're going to remember why Tamani's cunt owns your " + Desc.Cock.nounCock(CockType.HUMAN) + ", forever.</i>\"\n\n");
+            DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + ".  Your eyes roll back in blissful pleasure as Tamani declares, \"<i>Tamani will take care of you, husband.  You're going to cum into these girls' hungry twats until they have to waddle home, and then you're going to remember why Tamani's cunt owns your " + Desc.Cock.nounCock(CockType.HUMAN) + ", forever.</i>\"\n\n");
 
-            DisplayText("Tamani pulls out a ring gag, shoves it into your protesting mouth, and pulls the straps securely around the back of your neck.  She tousles your " + Desc.Head.describeHair(character) + " as you squirm, but the crowd of goblins easily keeps you subdued, assisting their mother now that they know her plans.   You ");
-            if (character.stats.cor > 66) DisplayText("sigh, actually anticipating what's about to come");
-            else if (character.stats.cor > 33) DisplayText("don't resist, knowing there's no way to stop what's about to happen");
+            DisplayText("Tamani pulls out a ring gag, shoves it into your protesting mouth, and pulls the straps securely around the back of your neck.  She tousles your " + Desc.Head.describeHair(player) + " as you squirm, but the crowd of goblins easily keeps you subdued, assisting their mother now that they know her plans.   You ");
+            if (player.stats.cor > 66) DisplayText("sigh, actually anticipating what's about to come");
+            else if (player.stats.cor > 33) DisplayText("don't resist, knowing there's no way to stop what's about to happen");
             else DisplayText("shudder, struggling to pull free");
             DisplayText(" as Tamani pulls out a half dozen vials and a handful of pills.  She drops the drug-filled capsules into your mouth, pouring in the potions, one at a time, to wash down her concoctions.\n\n");
 
@@ -646,19 +654,19 @@ function legTamanisDaughtersRAEPYou(character: Character) {
             else DisplayText("there's a TON of you here so you'll need to move quick if you each want a turn");
             DisplayText(",</i>\" commands the goblin mother.\n\n");
 
-            DisplayText("Her words are downright prophetic.  Churning, bubbling warmth floods your crotch with need as you look on, moaning.  Your back arches and your eyes cross in an involuntary reaction to your drug-induced orgasm.  Grunting, you twitch as the goblins line up, the eldest daughter grabbing home of your flexing " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " as it begins to erupt.  Strangely, it isn't the pulsing, squirting orgasms you're used to.  Instead, a steady stream of cum washes out over the girl's abdomen as she lines up, eventually grinding her wet pussy against your straining urethra.  She giggles with lewd pleasure, grinding against your swollen " + Desc.Cock.describeCockHead() + " as her womb is pumped full of semen.  Her belly quickly rounds out, and she's forced to step away, leaving you to soak your belly while the next of your daughters gets in position.\n\n");
+            DisplayText("Her words are downright prophetic.  Churning, bubbling warmth floods your crotch with need as you look on, moaning.  Your back arches and your eyes cross in an involuntary reaction to your drug-induced orgasm.  Grunting, you twitch as the goblins line up, the eldest daughter grabbing home of your flexing " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " as it begins to erupt.  Strangely, it isn't the pulsing, squirting orgasms you're used to.  Instead, a steady stream of cum washes out over the girl's abdomen as she lines up, eventually grinding her wet pussy against your straining urethra.  She giggles with lewd pleasure, grinding against your swollen " + Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " as her womb is pumped full of semen.  Her belly quickly rounds out, and she's forced to step away, leaving you to soak your belly while the next of your daughters gets in position.\n\n");
 
             // (MULTI)
             if (cocks > 2) {
                 DisplayText("Meanwhile your other " + Desc.Cock.nounCock(CockType.HUMAN) + "s are wasting their spunk over your belly, so some of the waiting girls grab them and pull them aside, ramming their tips deep inside their seemingly bottomless fuck-holes.  They giggle and run their manicured nails over your ");
-                if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
-                else DisplayText(Desc.Breast.describeAllBreasts(character));
+                if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
+                else DisplayText(Desc.Breast.describeAllBreasts(player));
                 DisplayText(", circling your sensitive nipples");
-                if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) {
+                if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) {
                     DisplayText(" as they start to ");
-                    if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 2) DisplayText("leak");
-                    else if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 3) DisplayText("drip");
-                    else if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 5) DisplayText("spew");
+                    if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 2) DisplayText("leak");
+                    else if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 3) DisplayText("drip");
+                    else if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 5) DisplayText("spew");
                     else DisplayText("fountain");
                     DisplayText(" milk");
                 }
@@ -667,21 +675,21 @@ function legTamanisDaughtersRAEPYou(character: Character) {
             // (SINGLE EXTRA)
             else if (cocks === 2) {
                 DisplayText("Meanwhile your other " + Desc.Cock.nounCock(CockType.HUMAN) + " is wasting its spunk over your belly, so one of the waiting girls grabs it and pulls it to the side, ramming its tip deep inside her seemingly bottomless fuck-hole.  She giggle and runs their manicured nails over your ");
-                if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
-                else DisplayText(Desc.Breast.describeAllBreasts(character));
+                if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
+                else DisplayText(Desc.Breast.describeAllBreasts(player));
                 DisplayText(", circling your sensitive nipples");
-                if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) {
+                if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) {
                     DisplayText(" as they start to ");
-                    if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 2) DisplayText("leak");
-                    else if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 3) DisplayText("drip");
-                    else if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 5) DisplayText("spew");
+                    if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 2) DisplayText("leak");
+                    else if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 3) DisplayText("drip");
+                    else if (player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 5) DisplayText("spew");
                     else DisplayText("fountain");
                     DisplayText(" milk");
                 }
                 DisplayText(".  The perverse scene seems to feed you even more pleasure, and you feel your orgasm increase in intensity, thickening the flow of cum.\n\n");
             }
 
-            DisplayText("The next slut grabs your " + Desc.Cock.describeCockHead() + " with both hands as she straddles you, pinching it tightly enough to make you wince.  The flow of white goo is pinched off, backing up painfully as she gets in position.  Just when you're about to cry, she's in position, and releases her too-tight grip.   Your body rewards the slut for her pain with a blast of seed so powerful it nearly blows her off your midsection, splattering out around her lips.  She holds on through an orgasm as you fill her depths with even more of your creamy load.  Surprisingly, she manages to take even more than her older sister, staying on until she looks a few months pregnant.  She staggers off, sloshing wetly while seed drips between her thighs.\n\n");
+            DisplayText("The next slut grabs your " + Desc.Cock.describeCockHead(player.torso.cocks.get(0)) + " with both hands as she straddles you, pinching it tightly enough to make you wince.  The flow of white goo is pinched off, backing up painfully as she gets in position.  Just when you're about to cry, she's in position, and releases her too-tight grip.   Your body rewards the slut for her pain with a blast of seed so powerful it nearly blows her off your midsection, splattering out around her lips.  She holds on through an orgasm as you fill her depths with even more of your creamy load.  Surprisingly, she manages to take even more than her older sister, staying on until she looks a few months pregnant.  She staggers off, sloshing wetly while seed drips between her thighs.\n\n");
 
             DisplayText("While you continue to fertilize the slutty goblin girls, Tamani is nice enough to remove your gag.  Sadly, you're too drunk with pleasure and Tamani's chemicals to do anything but pant and drool, but it was a nice gesture.  ");
             // (SMALL CROWD:
@@ -689,7 +697,7 @@ function legTamanisDaughtersRAEPYou(character: Character) {
             // (ALT MORE GIRLZ)
             else if (daughters < 35) DisplayText("The crowd of girls seems to take forever to get filled.  Every time one of them gets too into it, her mother pulls her back and guides the next willing hole into place.  In spite of the orderly procession, cum manages to get everywhere, soaking your torso and more than a few goblin thighs with a glaze of whiteness.  The whole time, you're kept in constant orgasm, though by the time you're filling the last girl with cum, the flow is slowing while the chemicals wear off.\n\n");
             // (ALT TOO MANY GIRLZ)
-            else DisplayText("The massive crowd is forced to carefully ration your semen, bountiful though it is.   Tamani doesn't even let the girls get completely filled, instead forcing each of them to only get a few cunt-filling moments of your orgasm.  Those who've already had a turn hang around, scooping up the sperm-filled fluid that's leaking out and shoveling it into their baby-craving bodies.  The whole time you're kept locked in incredible climax.  If you had any capacity for reason you'd probably feel more like a tool than " + Desc.Gender.mf(character, "man", "woman") + ", but the synapses of your brain are too busy firing off about how good it feels to think.  By the time the last girl gets her turn, your orgasm has trailed off to a weak flow, so she stays on until the drugs finally wear off.\n\n");
+            else DisplayText("The massive crowd is forced to carefully ration your semen, bountiful though it is.   Tamani doesn't even let the girls get completely filled, instead forcing each of them to only get a few cunt-filling moments of your orgasm.  Those who've already had a turn hang around, scooping up the sperm-filled fluid that's leaking out and shoveling it into their baby-craving bodies.  The whole time you're kept locked in incredible climax.  If you had any capacity for reason you'd probably feel more like a tool than " + Desc.Gender.mf(player, "man", "woman") + ", but the synapses of your brain are too busy firing off about how good it feels to think.  By the time the last girl gets her turn, your orgasm has trailed off to a weak flow, so she stays on until the drugs finally wear off.\n\n");
 
             DisplayText("The soon-to-be-pregnant goblins stagger off, a bit bow-legged and generously glazed with semen.  You come down from your high, panting weakly and trembling.  Tamani wraps her arms around your head, cradling you deep into her incredible bust.  The soft skin completely envelops you in breast-flesh as her sweet, fruity scent fills your lungs with every breath.  ");
             if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED > 10) DisplayText("She's the best wife ever.  You nuzzle deep into her cleavage, sighing happily.");
@@ -704,18 +712,18 @@ function legTamanisDaughtersRAEPYou(character: Character) {
 
             DisplayText("Pink haze crowds away your thoughts as your glare melts away into dopey confusion.  Tamani giggles and says, \"<i>");
             // (Done before)
-            if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED > 0) DisplayText("Don't you remember the last time we did this?  Of course not.</i>\"  Your hot goblin wife gestures at your suddenly swollen and erect " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", and continues, \"<i>Your dick remembers my special potion though.  Now, let's get back to teaching that wonderful cum-spout of yours how to behave around its wife and mistress.</i>\"\n\n");
+            if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED > 0) DisplayText("Don't you remember the last time we did this?  Of course not.</i>\"  Your hot goblin wife gestures at your suddenly swollen and erect " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ", and continues, \"<i>Your dick remembers my special potion though.  Now, let's get back to teaching that wonderful cum-spout of yours how to behave around its wife and mistress.</i>\"\n\n");
             // (Not Done Before)
             else DisplayText("I mixed a special potion in that drink.   It shuts down all those pesky thoughts so you'll listen to your wonderful wife and let her tell you how to think and feel.</i>\"  She strokes your partially softened " + Desc.Cock.nounCock(CockType.HUMAN) + ", giggling as it hardens for her, \"<i>You won't remember what Tamani tells you once it wears off, but your dick won't ever forget.</i>\"\n\n");
 
-            DisplayText("Tamani slides her jiggling body overtop of you, placing her sopping wet pussy directly over-top of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  The warm wet fluids of her desire slowly drip down onto you until your entire surface is coated in her clear feminine-drool and the entire area smells like her cunt.  She shivers and looks into your eyes, smiling at your mindless expression as she lectures, \"<i>Feel how hard your dick is?  That's because it smells my hungry, wet pussy.  It knows that it wants to cum for my pussy.  Your cock wants nothing more than to touch my cunt, worship it and bathe it with cum.</i>\"\n\n");
+            DisplayText("Tamani slides her jiggling body overtop of you, placing her sopping wet pussy directly over-top of your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + ".  The warm wet fluids of her desire slowly drip down onto you until your entire surface is coated in her clear feminine-drool and the entire area smells like her cunt.  She shivers and looks into your eyes, smiling at your mindless expression as she lectures, \"<i>Feel how hard your dick is?  That's because it smells my hungry, wet pussy.  It knows that it wants to cum for my pussy.  Your cock wants nothing more than to touch my cunt, worship it and bathe it with cum.</i>\"\n\n");
 
             DisplayText("She lets her pink-lipped entrance touch you at last, gliding it up and down your length.  You drool on yourself as she reaches your tip, leans back, and displays her glistening entrance to you as she talks, \"<i>This is what you want, what you need.   Just looking at it makes you hot and ready to fuck.  One glance and all your worries melt into arousal and desire to please your goblin wife.</i>\"\n\n");
 
             DisplayText("She's completely right.  You're past truly comprehending words, all you know is how hot your wife is making your cock and had bad it wants to cum in her.   Tamani smirks knowingly and begins sliding herself along the sensitive shaft again, slowly bringing you closer to an inevitable orgasm with her glorious vagina.  She leans over and whispers, \"<i>You'll be a good obedient husband and fuck your wife, won't you?  That's a husband's duty – to worship his wife's beautiful pussy, bathe it in semen, and be obedient in her presence.</i>\"\n\n");
 
             DisplayText("The words she's saying stop mattering.  All that matters is how much a slave your cock is to that wonderful, wet gash, and how great it feels to give yourself over to it.  Your spunk-hungry wife never shuts up, and you just lie there, listening placidly, contentedly twitching against her as orgasm approaches.  A happy smile spreads over your face as you feel your ");
-            if (character.torso.balls.quantity > 0) DisplayText("balls");
+            if (player.torso.balls.quantity > 0) DisplayText("balls");
             else DisplayText("groin");
             DisplayText(" churning with lust and desire, ready to give life to another batch of daughters for your mistress.  ");
             if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED < 10) DisplayText("'Wait... wife... mistress?' your mind wonders, rejecting the foreign thoughts.  You look up at Tamani, confused for a moment");
@@ -724,37 +732,41 @@ function legTamanisDaughtersRAEPYou(character: Character) {
 
             DisplayText("Your mistress steps away, swaying her more-than ample hips from side to side as she saunters off.  You shake your head, feeling a little out of sorts, but before you get a chance to puzzle it out, the exhaustion of the encounter overwhelms you, blacking you out.");
             // knock up tamani chance
-            Scenes.forest.tamaniScene.tamaniKnockUp();
+            tamaniKnockUp(player);
             // increase hypno value
             tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED++;
         }
     }
     // knock bitches up, slight libido gain, slight strength/toughness loss.
-    character.orgasm();
-    dynStats("str", -.5, "int", -.5, "lib", 1, "cor", 1);
-    if (tamaniPresent) Scenes.forest.tamaniScene.tamaniKnockUp(); // If she wasn't pregnant she will be now
-    knockUpDaughters();
-    if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
+    player.orgasm();
+    // dynStats("str", -.5, "int", -.5, "lib", 1, "cor", 1);
+    player.stats.str += -0.5;
+    player.stats.int += -0.5;
+    player.stats.lib += 1;
+    player.stats.cor += 1;
+    if (tamaniPresent) tamaniKnockUp(player); // If she wasn't pregnant she will be now
+    knockUpDaughters(player);
+    if (afterBattle) return { next: Scenes.camp.returnToCampUseOneHour };
     else return { next: Scenes.camp.returnToCampUseFourHours };
 }
 
 // [Lose Combat, Get Your Dick DRAINED]
-function tamaniDaughtersCombatLossDrain(character: Character) {
+function tamaniDaughtersCombatLossDrain(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     tamanisDaughtersFlags.TIMES_FUCKED_TAMANIS_DAUGHTERS++;
     DisplayText().clear();
 
     // Vars
-    const cocks: number = character.torso.cocks.count;
-    const daughters: number = int(tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS / 2);
+    const cocks: number = player.torso.cocks.count;
+    const daughters: number = Math.floor(tamanisDaughtersFlags.TAMANI_NUMBER_OF_DAUGHTERS / 2);
 
     DisplayText("Your efforts to resist were in vain – there's simply too many of your slutty daughters to fight off.  The crowd flows over your ");
-    if (character.stats.HP < 1) DisplayText("defeated");
+    if (player.stats.HP < 1) DisplayText("defeated");
     else DisplayText("lust weakened");
     DisplayText(" form, pulling you off your feet and carrying the whole of your body off.  ");
-    if (character.stats.lust > 99) {
+    if (player.stats.lust > 99) {
         DisplayText("It doesn't bother you too much... they keep ");
-        if (character.torso.balls.quantity > 0) DisplayText("fondling your balls and ");
+        if (player.torso.balls.quantity > 0) DisplayText("fondling your balls and ");
         DisplayText("stroking your shaft to keep you nice and excited, squirming helplessly with desire.");
     }
     else DisplayText("Your abused body slips in and out of consciousness, but the crowd applies salves as they travel to slowly invigorate your form.  Their hands keep touching and stroking you, and despite your mighty efforts to resist, you find yourself aroused and willing in short order.");
@@ -762,19 +774,19 @@ function tamaniDaughtersCombatLossDrain(character: Character) {
 
     DisplayText("Perhaps an hour later, you're pulled into a cave.   Daylight fades away, replaced by the flickering light cast by a few torches and candles.  Your daughters are giggling and gossiping as they parade you through their subterranean lair, taking you ever-deeper.   An indeterminate amount of time later, you hear a door opening and are pulled through an entryway into what passes for a room.  You pant and moan as one of the tallest of Tamani's brood does her best to fellate ");
     if (cocks > 1) DisplayText("one of ");
-    DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + ", keeping your more than turned on enough to go along with whatever they have planned.\n\n");
+    DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + ", keeping your more than turned on enough to go along with whatever they have planned.\n\n");
 
     // (regular lower body)
-    if (character.hips.legs.type !== LegType.CENTAUR) {
-        DisplayText("The hands holding you slowly lower you into a comfortable feeling chair, securing your " + Desc.Leg.describeLegs(character) + " into tightly bound stirrups.  A moment later, your hands are strapped into equally firm cuffs.  By this point, your lust-dulled mind has begun to worry, and you start to struggle, but binding leather straps are passed over your chest, midsection, and upper thighs, then tightened against the chair to completely restrain you.  Perhaps the only ");
-        if (cocks > 1) DisplayText(" things not restrained are your " + Desc.Cock.describeMultiCockShort(character) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
-        else DisplayText(" thing not restrained is your " + Desc.Cock.describeMultiCockShort(character) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
+    if (player.torso.hips.legs.type !== LegType.CENTAUR) {
+        DisplayText("The hands holding you slowly lower you into a comfortable feeling chair, securing your " + Desc.Leg.describeLegs(player) + " into tightly bound stirrups.  A moment later, your hands are strapped into equally firm cuffs.  By this point, your lust-dulled mind has begun to worry, and you start to struggle, but binding leather straps are passed over your chest, midsection, and upper thighs, then tightened against the chair to completely restrain you.  Perhaps the only ");
+        if (cocks > 1) DisplayText(" things not restrained are your " + Desc.Cock.describeMultiCockShort(player) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
+        else DisplayText(" thing not restrained is your " + Desc.Cock.describeMultiCockShort(player) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
     }
     // (Shit taurs go!)
     else {
-        DisplayText("The hands holding you slowly lower you down onto your back, guiding you into a combination chair and harness designed to accommodate a centuar's size and shape.  Before you know it, straps secure your " + Desc.Leg.describeLegs(character) + " into tightly bound restraints.  A moment later your, hands are strapped into equally firm cuffs.  By this point, your lust-dulled mind has begun to worry, and you start to struggle, but binding leather straps are passed over your chest, midsection, and hindquarters, then tightened against the chair to completely restrain you.  Perhaps the only ");
-        if (cocks > 1) DisplayText(" things not restrained are your " + Desc.Cock.describeMultiCockShort(character) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
-        else DisplayText(" thing not restrained is your " + Desc.Cock.describeMultiCockShort(character) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
+        DisplayText("The hands holding you slowly lower you down onto your back, guiding you into a combination chair and harness designed to accommodate a centuar's size and shape.  Before you know it, straps secure your " + Desc.Leg.describeLegs(player) + " into tightly bound restraints.  A moment later your, hands are strapped into equally firm cuffs.  By this point, your lust-dulled mind has begun to worry, and you start to struggle, but binding leather straps are passed over your chest, midsection, and hindquarters, then tightened against the chair to completely restrain you.  Perhaps the only ");
+        if (cocks > 1) DisplayText(" things not restrained are your " + Desc.Cock.describeMultiCockShort(player) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
+        else DisplayText(" thing not restrained is your " + Desc.Cock.describeMultiCockShort(player) + ", standing at attention despite, or perhaps because of, your predicament.\n\n");
     }
 
     DisplayText("A goblin with lustrous blue hair pulls a lever on the side of the chair, shifting your position to further expose you.  She assures, ");
@@ -783,7 +795,7 @@ function tamaniDaughtersCombatLossDrain(character: Character) {
 
     DisplayText("You hear a commotion to the side and crane your head to watch.  There's a crowd of the girls clustered around a machine.   It's about the size of a large dresser or cabinet, only instead of holding clothes it's covered in knobs, levers, and various mechanical dials.  A goblin with light blue, almost silvery hair looks back at you and blows you a kiss while she pulls a lever.  A mechanical whirring noise fills the room, emanating from the ceiling.  You tilt your head back and look up, and see a massive metal bulb descending from the ceiling.\n\n");
 
-    DisplayText("The goblin-made device is clearly sexual in nature.  Dozens of openings cover the bottom surface, and inside each one is a some kind of pink-lined hole, dripping with lubricants.  Most intriguing of all, you realize that the different holes all have different shapes, patterns, and sizes.  Some are huge, resembling something that would be at home between a monster's legs, and others are tiny, practically elf-like in appearance.   The bulb pauses just over your crotch, and a few snickering, green skanks guide " + Desc.Cock.describeMultiCockSimpleOne(character) + " into a perfectly sized hole.\n\n");
+    DisplayText("The goblin-made device is clearly sexual in nature.  Dozens of openings cover the bottom surface, and inside each one is a some kind of pink-lined hole, dripping with lubricants.  Most intriguing of all, you realize that the different holes all have different shapes, patterns, and sizes.  Some are huge, resembling something that would be at home between a monster's legs, and others are tiny, practically elf-like in appearance.   The bulb pauses just over your crotch, and a few snickering, green skanks guide " + Desc.Cock.describeMultiCockSimpleOne(player) + " into a perfectly sized hole.\n\n");
 
     DisplayText("You shiver as your manhood");
     if (cocks > 1) DisplayText("s are");
@@ -798,50 +810,64 @@ function tamaniDaughtersCombatLossDrain(character: Character) {
 
     DisplayText("The machinery's humming gets louder as an unseen goblin does as she is told.  Noisy, wet suckling fills the room as the dozens of artificial mouths activate.  The wet, slimy substance encapsulating you immediately heats until it feels as warm as a maiden's love, and a gentle suction pulls on ");
     if (cocks > 1) DisplayText("each of ");
-    DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " until it feels much harder and thicker than normal.  You stifle an involuntary groan, but fail to conceal your lust-filled pants from your audience.   A daring girl leaps onto your ");
-    if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
-    else DisplayText(Desc.Breast.describeAllBreasts(character));
+    DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + " until it feels much harder and thicker than normal.  You stifle an involuntary groan, but fail to conceal your lust-filled pants from your audience.   A daring girl leaps onto your ");
+    if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
+    else DisplayText(Desc.Breast.describeAllBreasts(player));
     DisplayText(" and shoves a lactating nipple into your mouth, commanding, \"<i>Drink up, the more fluid you have the more baby batter you can cook up for us!</i>\"\n\n");
 
-    DisplayText("Unable to fight back in any way, you shrug and begin suckling the purplish nipple, tasting the creamy goblin milk as it easily fills your mouth.  You gulp it down, slowly relaxing between the mechanized cock-sucking and gentle breast-feeding.  Your daughter was right, it's almost like paradise. Unfortunately, the pleasure is interrupted by something probing at your backside.  Unable to look with your mouth full of delicious tit, you can only gurgle and dribble in protest as a lubricated tube is inserted into your " + Desc.Butt.describeButthole(character.torso.butt) + ".\n\n");
+    DisplayText("Unable to fight back in any way, you shrug and begin suckling the purplish nipple, tasting the creamy goblin milk as it easily fills your mouth.  You gulp it down, slowly relaxing between the mechanized cock-sucking and gentle breast-feeding.  Your daughter was right, it's almost like paradise. Unfortunately, the pleasure is interrupted by something probing at your backside.  Unable to look with your mouth full of delicious tit, you can only gurgle and dribble in protest as a lubricated tube is inserted into your " + Desc.Butt.describeButthole(player.torso.butt) + ".\n\n");
 
     DisplayText("The familiar voice of the machine's inventor whispers, \"<i>");
     if (tamanisDaughtersFlags.UNKNOWN_FLAG_NUMBER_00058 === 0) DisplayText("Time for your medicine!  We need you to cum enough for each of us, and maybe have a little left over to play with, so suck up the medicine, okay?  Just relax and let it fill you so that you give us all that yummy cummy!</i>\"\n\n");
-    else DisplayText("Relax Dad, we're just giving you your cummy medicine.  I know you're a sexy, virile " + Desc.Gender.mf(character, "stud", "slut") + "and all, but take your medicine and you'll have more than enough cum for us!</i>\"\n\n");
+    else DisplayText("Relax Dad, we're just giving you your cummy medicine.  I know you're a sexy, virile " + Desc.Gender.mf(player, "stud", "slut") + "and all, but take your medicine and you'll have more than enough cum for us!</i>\"\n\n");
 
     DisplayText("You blush, ");
     // EXHIBITIONISTZ
-    if (tamanisDaughtersFlags.PC_FETISH > 0) DisplayText("unimaginably turned on by being used and abused by such machinery in front of an audience of your own horny children.");
-    else if (character.stats.cor > 60) DisplayText("turned on by being milked in such an obscene way.");
+    if (User.flags.get<PlayerFlags>(FlagType.Player).PC_FETISH > 0) DisplayText("unimaginably turned on by being used and abused by such machinery in front of an audience of your own horny children.");
+    else if (player.stats.cor > 60) DisplayText("turned on by being milked in such an obscene way.");
     else DisplayText("horrified at the situation but unable to resist arousal as you're constantly sucked and pleasured.");
     DisplayText("\n\n");
 
     DisplayText("A trickle of warm fluid flows into you, and immediately your skin tingles, burning with heat and need.  ");
-    if (character.torso.balls.quantity > 0) DisplayText("Your balls tighten inside your sack and swell up like sponges, slowly increasing in size in time with your desire.");
-    else DisplayText("Your body feels tight and needy, your gut clenching as your body adjusts to the drugs it's absorbing so readily through your " + Desc.Butt.describeButthole(character.torso.butt) + ".");
+    if (player.torso.balls.quantity > 0) DisplayText("Your balls tighten inside your sack and swell up like sponges, slowly increasing in size in time with your desire.");
+    else DisplayText("Your body feels tight and needy, your gut clenching as your body adjusts to the drugs it's absorbing so readily through your " + Desc.Butt.describeButthole(player.torso.butt) + ".");
     DisplayText("  The suckling pleasure around ");
     if (cocks > 1) DisplayText("each of ");
-    DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " seems to slowly increase as more of the drugs are absorbed by your body, until escaping the straps for your freedom is longer a concern.   Now all that matters is getting free so that you can fuck ");
+    DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + " seems to slowly increase as more of the drugs are absorbed by your body, until escaping the straps for your freedom is longer a concern.   Now all that matters is getting free so that you can fuck ");
     if (cocks === 1) DisplayText("that");
     else DisplayText("those");
     DisplayText(" mechanical hole");
     if (cocks > 1) DisplayText("s");
     DisplayText(" until you feel that wonderful, delicious release that you crave.\n\n");
 
-    DisplayText("The goblins, upon seeing your change in demeanor, begin smiling to one another and congratulating each other on their hard work.  The girl at the console twists a few more levers and the warmth inside you seems to double as more drugs are forced into your captive frame.  You start " + Desc.Gender.mf(character, "laughing", "giggling") + ", the narcotics and pleasure overwhelming your thought processes, leaving you feeling like you're floating in heaven.  To anyone watching, you're panting and moaning in between the laughter, slobbering all over the milky goblin-tit in your mouth as your body begins squirting pre-cum into the cock-milker.\n\n");
+    DisplayText("The goblins, upon seeing your change in demeanor, begin smiling to one another and congratulating each other on their hard work.  The girl at the console twists a few more levers and the warmth inside you seems to double as more drugs are forced into your captive frame.  You start " + Desc.Gender.mf(player, "laughing", "giggling") + ", the narcotics and pleasure overwhelming your thought processes, leaving you feeling like you're floating in heaven.  To anyone watching, you're panting and moaning in between the laughter, slobbering all over the milky goblin-tit in your mouth as your body begins squirting pre-cum into the cock-milker.\n\n");
 
     DisplayText("A few seconds away from your orgasm, the goblin running the machinery makes a few adjustments, and you feel the flow into your rectum growing stronger until you start to feel full and bloated.  Your body caves in to the pleasure, every inch of your skin tingling as you're forced to climax.  ");
-    if (character.torso.balls.quantity > 0) DisplayText("Straining and shaking, your " + Desc.Balls.describeBalls(true, true, character) + " clench against you, feeling tight as your body struggles to pump out the spooge they're producing.");
+    if (player.torso.balls.quantity > 0) DisplayText("Straining and shaking, your " + Desc.Balls.describeBalls(true, true, player) + " clench against you, feeling tight as your body struggles to pump out the spooge they're producing.");
     else DisplayText("Straining and shaking , your body struggles through the orgasm as it tries to deal with all the cum your prostate and glands are putting out.");
     DisplayText("  The drugs and milking machines squish, suck, and whir noisily as you cum, flooding the tubes above the mechanical cunt-bulb with white.\n\n");
 
     DisplayText("The lactating green girl stops breast-feeding you and climbs off you, fed up that you're too busy moaning to properly suckle.  A few of the giggling goblins slap your face, laughing out loud when you fail to even register the blows.  The never-ending flow of orgasmic goop flooding out from ");
     if (cocks > 1) DisplayText("each of ");
-    DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " has your brain flooded with pleasure, blocking any other thoughts or feelings from arising from the swirling morass of fuck.\n\n");
+    DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + " has your brain flooded with pleasure, blocking any other thoughts or feelings from arising from the swirling morass of fuck.\n\n");
 
     DisplayText("Another voice joins you in ecstatic moaning, echoing from the other side of the room.  The source is a curvy goblin with a hose rammed up her glistening snatch, buried to the hilt.  Her sisters are teasing her, opening and closing a valve on the machine, filling their sister up with short bursts of your copious cum.  She's moaning and fucking herself in desperation with the dildo-shaped tube-tip, but her brood-mates seem intent on staggering the flow of semen to prevent her from reaching orgasm.  It doesn't take more than a dozen seconds to fill her, and she's pulled off, crying and pouting about how she wasn't done.  The next girl steps in line, rams the juice-coated dispenser inside herself, and gets ready to become a mother...\n\n");
 
     DisplayText("Trapped in a constant orgasm by cruel machinery and a steady flow of specially tailored drugs, you start to smile uncontrollably.  True, you're utterly incapable of thinking by this point, but your body and mind are too pleased with the situation not to grin.  The situation in the corner of the scene repeats over and over as your daughters enjoy your 'milk'.  After they've had their fill they fall on each other, filling the room with orgiastic moans as any sense of order is blown away by a tide of female lust.\n\n");
+
+    // Needz variable to track how many times PC has been 'chaired'
+    tamanisDaughtersFlags.UNKNOWN_FLAG_NUMBER_00058++;
+    // moar daughters, increment 'times milked' by the daughters.
+    knockUpDaughters(player);
+    // boost cum production slightly.
+    player.cumMultiplier += .3;
+    // increase libido, slight corruption, minus stregth and speed.
+    player.orgasm();
+    // dynStats("str", -.5, "int", -.5, "lib", 1, "cor", 1);
+    player.stats.str += -0.5;
+    player.stats.int += -0.5;
+    player.stats.lib += 1;
+    player.stats.cor += 1;
 
     //// Chance of tamani saving you
     if (tamanisDaughtersFlags.UNKNOWN_FLAG_NUMBER_00058 < 4) {
@@ -849,13 +875,13 @@ function tamaniDaughtersCombatLossDrain(character: Character) {
 
         DisplayText("When you do wake, you find yourself alone in a forest clearing, with a note taped to your face:\n\n");
         if (tamanisDaughtersFlags.UNKNOWN_FLAG_NUMBER_00058 === 0) {
-            DisplayText("<i>   " + Desc.Gender.mf(character, "Husband", "Baby") + ",\n");
+            DisplayText("<i>   " + Desc.Gender.mf(player, "Husband", "Baby") + ",\n");
             DisplayText("      Do you have any idea how hard it is for Tamani to drag you out here all by herself?  If you weren't my favorite breeder, I would've let my daughters keep you.  Next time stand up to the little twats or Tamani might look the other way while you're being milked!\n\n");
             DisplayText("   Hugs & cums,\n");
             DisplayText("      -Tamani</i>");
         }
         else {
-            DisplayText("<i>   Seriously, it isn't funny.  " + Desc.Gender.mf(character, "Man", "Toughen") + "-up and beat the little cunts silly instead of letting them force themselves on you.   Do you have any idea how hard it is to drag you out here?  If you weren't so much fun in the sack Tamani would be tempted to let her daughters keep you in their milker.   Maybe the girls would give Tamani a good cut of your production to join the operation?\n\n");
+            DisplayText("<i>   Seriously, it isn't funny.  " + Desc.Gender.mf(player, "Man", "Toughen") + "-up and beat the little cunts silly instead of letting them force themselves on you.   Do you have any idea how hard it is to drag you out here?  If you weren't so much fun in the sack Tamani would be tempted to let her daughters keep you in their milker.   Maybe the girls would give Tamani a good cut of your production to join the operation?\n\n");
             DisplayText("   Fucks & Love,\n");
             DisplayText("      -Tamani</i>");
         }
@@ -867,70 +893,61 @@ function tamaniDaughtersCombatLossDrain(character: Character) {
         // [NEXT]
         return { next: tamaniDaughtersBadEndChoice };
     }
-    // Needz variable to track how many times PC has been 'chaired'
-    tamanisDaughtersFlags.UNKNOWN_FLAG_NUMBER_00058++;
-    // moar daughters, increment 'times milked' by the daughters.
-    knockUpDaughters();
-    // boost cum production slightly.
-    character.cumMultiplier += .3;
-    // increase libido, slight corruption, minus stregth and speed.
-    character.orgasm();
-    dynStats("str", -.5, "int", -.5, "lib", 1, "cor", 1);
 }
 
-function tamaniDaughtersBadEndChoice(character: Character) {
+function tamaniDaughtersBadEndChoice(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
-    DisplayText("The next morning your unfocused eyes blink open, and you find yourself in the same situation as before.  Thankfully your orgasm has been allowed to end, though you still feel dopey and unfocused from whatever is flowing into you.  You manage to twist your head around to get a better look at the situation and discover a pair of IV's lodged in your arms.  Twisting your body, you realize you can still feel the drug-enema tube lodged in your " + Desc.Butt.describeButthole(character.torso.butt) + ".  Oddly, it's hard to feel worried or concerned about the situation.\n\n");
+    DisplayText("The next morning your unfocused eyes blink open, and you find yourself in the same situation as before.  Thankfully your orgasm has been allowed to end, though you still feel dopey and unfocused from whatever is flowing into you.  You manage to twist your head around to get a better look at the situation and discover a pair of IV's lodged in your arms.  Twisting your body, you realize you can still feel the drug-enema tube lodged in your " + Desc.Butt.describeButthole(player.torso.butt) + ".  Oddly, it's hard to feel worried or concerned about the situation.\n\n");
 
     DisplayText("A goblin leans over your face and hugs her jiggling breasts against you as she gushes, \"<i>Thank you so much daddy!   You probably can't see with all the straps holding you down, but you got me and my sisters totally pregnant.  There's even enough of your spunk left over to knock us up a few more times!  We decided that even though we don't need you to cum right now, we'd let you keep coming forever.  Do you want that?</i>\"\n\n");
 
-    if (character.statusAffects.get(StatusAffectType.Exgartuan).value1 === 1) DisplayText("Exgartuan barks, \"<i>Hell yes I do!</i>\" but the goblin only smirks down for a moment before looking back at you.\n\n");
+    if (player.statusAffects.get(StatusAffectType.Exgartuan).value1 === 1) DisplayText("Exgartuan barks, \"<i>Hell yes I do!</i>\" but the goblin only smirks down for a moment before looking back at you.\n\n");
 
     DisplayText("(Options: Yes, No, I'd rather fill your cunts individually & personally)");
-    MainScreen.simpleChoices(["Yes", "No", "Individual", "", ""], [tamaniDaughtersYesBadEndMePlease, tamaniDaughtersDeclineBadEnd, tamanisDaughtersFillIndividuallyBADEND, null, null]);
+    return { choices: [["Yes", tamaniDaughtersYesBadEndMePlease], ["No", tamaniDaughtersDeclineBadEnd], ["Individual", tamanisDaughtersFillIndividuallyBADEND]] };
 }
 
 // [Yes]
-function tamaniDaughtersYesBadEndMePlease(character: Character) {
+function tamaniDaughtersYesBadEndMePlease(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     DisplayText().clear();
-    DisplayText("\"<i>Wonderful!</i>\" cries the excited pregnant slut.   She gives you a quick peck on the cheek as she prances back over to the machine.  You brace yourself in anticipation, eager to lose yourself to an eternal orgasm.  A switch clicks, and a dial whirs as it's turned up to the maximum.  The fluids pumping into your backside and directly into your veins suddenly jump in pressure, stinging painfully for a moment before the pleasure returns.  Your eyes slowly roll back, your jaw goes slack, and your " + Desc.Cock.describeMultiCockShort(character) + " spew");
-    if (character.torso.cocks.count === 1) DisplayText("s");
+    DisplayText("\"<i>Wonderful!</i>\" cries the excited pregnant slut.   She gives you a quick peck on the cheek as she prances back over to the machine.  You brace yourself in anticipation, eager to lose yourself to an eternal orgasm.  A switch clicks, and a dial whirs as it's turned up to the maximum.  The fluids pumping into your backside and directly into your veins suddenly jump in pressure, stinging painfully for a moment before the pleasure returns.  Your eyes slowly roll back, your jaw goes slack, and your " + Desc.Cock.describeMultiCockShort(player) + " spew");
+    if (player.torso.cocks.count === 1) DisplayText("s");
     DisplayText(" cum into the tubes.\n\n");
-    if (character.statusAffects.get(StatusAffectType.Exgartuan).value1 === 1) DisplayText("Exgartuan moans, \"<i>Ohhhhhh yeeeeaaaaahhhh...</i>\" before slipping into silence.\n\n");
+    if (player.statusAffects.get(StatusAffectType.Exgartuan).value1 === 1) DisplayText("Exgartuan moans, \"<i>Ohhhhhh yeeeeaaaaahhhh...</i>\" before slipping into silence.\n\n");
 
     DisplayText("You spend the rest of your life trapped in orgasm, constantly feeding the growth of what becomes the biggest goblin tribe in all the land of Mareth.  Even when every single one of them is pregnant, they let you enjoy your reward.  Over time your capacity for memory, morals, or anything other feeling besides pleasure dwindles.  Trapped in a heaven of your own choosing, you gave up everything that you were for never-ending bliss.");
     return { next: Menus.GameOver };
 }
 
 // [NO]
-function tamaniDaughtersDeclineBadEnd(character: Character) {
+function tamaniDaughtersDeclineBadEnd(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     DisplayText().clear();
     DisplayText("\"<i>Seriously!?</i>\" exclaims the pregnant slut, \"<i>What kind of person wouldn't want to cum all the time?  Fuck, just the idea of it is making me drip!</i>\"\n\n");
 
     DisplayText("She sighs, \"<i>Whatever, Dad.  Next time we need you I'm sure you'll remember how much fun this was and come running home.</i>\"\n\n");
 
-    DisplayText("The restraints pop off you at once, and you pull the tubes and IV's from your skin.  You grunt with discomfort and remove the final tube from your " + Desc.Butt.describeButthole(character.torso.butt) + ".  Climbing off the table, your " + Desc.Leg.describeLegs(character) + " wobble unsteadily as you try to get your balance.   The goblin says, \"<i>Go on home dad before I strap you back down and teach you to enjoy my gifts!</i>\"\n\n");
+    DisplayText("The restraints pop off you at once, and you pull the tubes and IV's from your skin.  You grunt with discomfort and remove the final tube from your " + Desc.Butt.describeButthole(player.torso.butt) + ".  Climbing off the table, your " + Desc.Leg.describeLegs(player) + " wobble unsteadily as you try to get your balance.   The goblin says, \"<i>Go on home dad before I strap you back down and teach you to enjoy my gifts!</i>\"\n\n");
 
     DisplayText("You sheepishly leave the cave and head home, glad to be out of there before your growing tribe of daughters decides to milk you forever.\n\n");
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 // [Rather Fill Individually]
-function tamanisDaughtersFillIndividuallyBADEND(character: Character) {
+function tamanisDaughtersFillIndividuallyBADEND(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     DisplayText().clear();
     DisplayText("\"<i>Really?</i>\" asks the pregnant goblin before she exclaims, \"<i>You do love us!  Oh Dad, once mom comes home will you fuck all of us?  I want to feel you make love to my drippy, pregnant pussy while she watches!</i>\"\n\n");
 
     DisplayText("You agree to do just that, ");
-    if (character.torso.cocks.count > 1) DisplayText("each of ");
-    DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " rising to full hardness in anticipation.  Your daughter pats ");
-    if (character.torso.cocks.count > 1) DisplayText("one of them");
+    if (player.torso.cocks.count > 1) DisplayText("each of ");
+    DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + " rising to full hardness in anticipation.  Your daughter pats ");
+    if (player.torso.cocks.count > 1) DisplayText("one of them");
     else DisplayText("it");
-    DisplayText(" as if it were a person and smiles as she pops the restraints from your chair.  She helps you as you stagger up to your " + Desc.Leg.describeFeet(character) + ", though the feeling of her hand stroking ");
-    if (character.torso.cocks.count > 1) DisplayText("a");
+    DisplayText(" as if it were a person and smiles as she pops the restraints from your chair.  She helps you as you stagger up to your " + Desc.Leg.describeFeet(player) + ", though the feeling of her hand stroking ");
+    if (player.torso.cocks.count > 1) DisplayText("a");
     else DisplayText("your");
-    DisplayText(" " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " doesn't make it easy.  The pair of you journey deeper into the caves to a massive antechamber filled with pregnant goblins.  Some are eating, others are sewing at tables, tinkering with machinery, or fiddling with alchemical equipment.  All of them turn to look at you as you enter.\n\n");
+    DisplayText(" " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " doesn't make it easy.  The pair of you journey deeper into the caves to a massive antechamber filled with pregnant goblins.  Some are eating, others are sewing at tables, tinkering with machinery, or fiddling with alchemical equipment.  All of them turn to look at you as you enter.\n\n");
 
     DisplayText("The well endowed goblin next to you announces, \"<i>Dad has decided that he will willingly stay here and fuck each of us as often as we want.  Let's get him some succubi's delight, I want mom to watch him fill me when she gets home!</i>\"\n\n");
 
@@ -941,35 +958,35 @@ function tamanisDaughtersFillIndividuallyBADEND(character: Character) {
 }
 
 // [Lose to Daughters With Tamani There]
-function loseToDaughtersWithTamaniThere(character: Character) {
+function loseToDaughtersWithTamaniThere(player: Character, afterBattle: boolean = false): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     DisplayText().clear();
     tamanisDaughtersFlags.TIMES_FUCKED_TAMANIS_DAUGHTERS++;
     // Find a dick that fits
-    const primary: number = character.cockThatFits(50);
+    const primary = player.torso.cocks.find(Cock.CockThatFits(50));
 
     DisplayText("Your attempts to resist prove to be in vain, as your daughters and their extra-curvy mother have completely defeated you.  ");
-    if (character.stats.HP < 1) DisplayText("Lying in the dirt, too hurt to fight back, you can only tremble in anticipation of what pleasures they're going to force upon you this time.");
+    if (player.stats.HP < 1) DisplayText("Lying in the dirt, too hurt to fight back, you can only tremble in anticipation of what pleasures they're going to force upon you this time.");
     else {
         DisplayText("Lying back in the dirt, you're too hard to fight back.  You stroke ");
-        if (character.torso.cocks.count > 1) DisplayText("one of ");
-        DisplayText("your trembling " + Desc.Cock.describeMultiCockShort(character) + ", feeling it leak pre-cum in anticipation of getting to knock up some of these beautiful curvy women.");
+        if (player.torso.cocks.count > 1) DisplayText("one of ");
+        DisplayText("your trembling " + Desc.Cock.describeMultiCockShort(player) + ", feeling it leak pre-cum in anticipation of getting to knock up some of these beautiful curvy women.");
     }
     DisplayText("  Tamani pushes her way to the front of the pack, her daughters looking disappointed but yielding to their mother's authority for the time being.  She walks over to you, stepping over your fallen form and uncorking a a potion.  You grunt as she drops her jiggling ass down on your ");
-    if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
-    else DisplayText(Desc.Breast.describeAllBreasts(character));
+    if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("chest");
+    else DisplayText(Desc.Breast.describeAllBreasts(player));
     DisplayText(" and says, \"<i>Now husband, you've let your daughters beat you fair and square, so now it's time to take your medicine and give them their reward for becoming so strong.</i>\"\n\n");
 
     DisplayText("The potion's bottle becomes a plug for your mouth as Tamani forces your mouth open.  She tips it back and massages your throat with one hand, forcing you to gulp down the fluid.  ");
     if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED < 2) DisplayText("It tastes syrupy-sweet");
     else DisplayText("It has a familiar taste that you can't quite place");
-    DisplayText(" and nearly makes you gag, but Tamani makes sure you drink down every drop.  An immediate numbness spreads through your body, starting at your fingertips.  It slowly crawls up your arms and then starts at your " + Desc.Leg.describeFeet(character) + " as well.  In no time it's hard to move, and it becomes hard to think.  Your mind feels almost like its full of cotton-candy, with fuzzy pink stuff constantly getting in the way of your thoughts.\n\n");
+    DisplayText(" and nearly makes you gag, but Tamani makes sure you drink down every drop.  An immediate numbness spreads through your body, starting at your fingertips.  It slowly crawls up your arms and then starts at your " + Desc.Leg.describeFeet(player) + " as well.  In no time it's hard to move, and it becomes hard to think.  Your mind feels almost like its full of cotton-candy, with fuzzy pink stuff constantly getting in the way of your thoughts.\n\n");
 
-    DisplayText("Tamani rubs your temples soothingly as your " + Desc.Face.describeFace(character) + " creases with worry and reassures you, \"<i>Don't worry, this will wear off soon.  This drug just shuts down your mind so it'll be nice and open to suggestion.  You can feel how hard it is to think, can't you?  Every time you muster up a thought it gets caught up in the little pink clouds and whisked away.  Don't bother, just relax and listen to Tamani's voice.</i>\"\n\n");
+    DisplayText("Tamani rubs your temples soothingly as your " + Desc.Face.describeFace(player) + " creases with worry and reassures you, \"<i>Don't worry, this will wear off soon.  This drug just shuts down your mind so it'll be nice and open to suggestion.  You can feel how hard it is to think, can't you?  Every time you muster up a thought it gets caught up in the little pink clouds and whisked away.  Don't bother, just relax and listen to Tamani's voice.</i>\"\n\n");
 
-    DisplayText("She reaches into your " + character.inventory.equipment.armor.displayName + " to rub ");
-    if (character.torso.cocks.count > 1) DisplayText("one of ");
-    DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + ", casually stroking the hard member as she pivots around to explain, \"<i>You get so hard for Mistress Tamani, don't you?  ");
+    DisplayText("She reaches into your " + player.inventory.equipment.armor.displayName + " to rub ");
+    if (player.torso.cocks.count > 1) DisplayText("one of ");
+    DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + ", casually stroking the hard member as she pivots around to explain, \"<i>You get so hard for Mistress Tamani, don't you?  ");
     if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED > 10) DisplayText("Your body must remember how much it loves being my pussy-hungry husband.");
     else DisplayText("That's because your body knows how hot and moist Tamani's pussy is and how much you want to service it.");
     DisplayText("</i>\"\n\n");
@@ -977,7 +994,7 @@ function loseToDaughtersWithTamaniThere(character: Character) {
     DisplayText("Of course she's right – you can feel her wetness on your chest and you want to bury your face in it while she strokes you.  Tamani watches your eyes and turns to give you a better view, presenting her snatch while she leans back to stroke you.  She titters, \"<i>Yes, get a good look at your wife's cunt.  It looks so delicious, so warm, so inviting.  You want nothing more than to bury your cock or face into it, don't you?  That's because it's your wife's cunt, and you're a good husband.</i>\"\n\n");
 
     DisplayText("Her hand starts stroking you faster and her juices start to drip down the sides of your torso");
-    if (character.skin.type === SkinType.FUR) DisplayText(", matting your " + character.torso.neck.head.hair.color + " fur");
+    if (player.skin.type === SkinType.FUR) DisplayText(", matting your " + player.torso.neck.head.hair.color + " fur");
     DisplayText(" as she continues ");
     if (tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED < 10) DisplayText("filling your mind with truths");
     else DisplayText("reinforcing your image of yourself as an obedient husband");
@@ -985,36 +1002,36 @@ function loseToDaughtersWithTamaniThere(character: Character) {
 
     DisplayText("You start nodding while she talks, your eyes never leaving the glistening fuck-hole a few inches away.  Your wife is so smart, and though you stop hearing the words, you know everything she's telling you is the truth.  The smooth skin of her hands strokes you perfectly, only getting better as they become slick with pre-cum.  Tamani's voice rises, taking on a tone of command, and then you're squirting obediently for her – a good husband.\n\n");
 
-    if (character.cumQ() < 50) DisplayText("Cum splatters and drips down Tamani's hand, forming a tiny puddle on your chest.");
+    if (player.cumQ() < 50) DisplayText("Cum splatters and drips down Tamani's hand, forming a tiny puddle on your chest.");
     // (ALT)
-    else if (character.cumQ() < 250) DisplayText("Cum splatters over Tamani's hand and forearm, even hitting her ass and hips as you form a thick puddle over your torso that drips to the ground.");
+    else if (player.cumQ() < 250) DisplayText("Cum splatters over Tamani's hand and forearm, even hitting her ass and hips as you form a thick puddle over your torso that drips to the ground.");
     // (ALT2)
-    else if (character.cumQ() < 600) DisplayText("Cum splatters out in thick waves, soaking Tamani's hand, forearm, and hips with thick puddles of the stuff.  It pools on your belly for a moment, then rolls off you, forming a small pool on the ground as you keep squirting.");
+    else if (player.cumQ() < 600) DisplayText("Cum splatters out in thick waves, soaking Tamani's hand, forearm, and hips with thick puddles of the stuff.  It pools on your belly for a moment, then rolls off you, forming a small pool on the ground as you keep squirting.");
     // (ALT3)
     else {
         DisplayText("A massive wave of cum erupts from you, soaking Tamani from the shoulders to the knees in thick goop.  The next wave comes out with less force, pooling your belly before rolling off to puddle on the ground.   The puddle grows into a thick pool of the stuff as your orgasm drags on.");
-        if (character.cumQ() >= 2000) DisplayText("  Eventually it stops, but by then the pool is huge and nearly five inches deep.");
+        if (player.cumQ() >= 2000) DisplayText("  Eventually it stops, but by then the pool is huge and nearly five inches deep.");
     }
     DisplayText("  Pride wells up in you when you realize what a good husband you've been.  Tamani pats you on the head, and whispers, \"<i>Good job lover</i>\" as the cobwebs slowly clear away.   You remember your wife pouring a lust draft down your throat and giving you the 69 of a lifetime, but now it's time to be a good husband and father and help your daughters out too.   The girls clamber forwards, giggling to each other excitedly as they remove what little garments they have.\n\n");
 
     DisplayText("You welcome them into your arms as Tamani steps away with a strange glint in her eye, rubbing the seed on her hand into her snatch.  Potions are pressed to your lips, and you happily accept your daughters' gifts, guzzling them happily and taking the time to compliment them on their alchemical skills while ");
-    if (character.torso.cocks.count > 1) DisplayText("each of ");
-    DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " grows back to full erectness and trembles with desire, ready to seed a womb.  The girls ");
-    if (character.torso.cocks.count === 1) DisplayText("grab your " + Desc.Cock.describeMultiCockShort(character) + " and stroke it with long slow strokes, just like their mother.  Unlike her, they don't seem content to wait, and in seconds a slippery gash is stretching to accommodate your cock-head.\n\n");
-    else DisplayText("each grab one of your " + Desc.Cock.describeMultiCockShort(character) + " and stroke it with long slow strokes, just like their mother.  Unlike her, they don't seem content to wait, and in seconds a slippery gash is stretching to accommodate each cock-tip.\n\n");
+    if (player.torso.cocks.count > 1) DisplayText("each of ");
+    DisplayText("your " + Desc.Cock.describeMultiCockShort(player) + " grows back to full erectness and trembles with desire, ready to seed a womb.  The girls ");
+    if (player.torso.cocks.count === 1) DisplayText("grab your " + Desc.Cock.describeMultiCockShort(player) + " and stroke it with long slow strokes, just like their mother.  Unlike her, they don't seem content to wait, and in seconds a slippery gash is stretching to accommodate your cock-head.\n\n");
+    else DisplayText("each grab one of your " + Desc.Cock.describeMultiCockShort(player) + " and stroke it with long slow strokes, just like their mother.  Unlike her, they don't seem content to wait, and in seconds a slippery gash is stretching to accommodate each cock-tip.\n\n");
 
     // (TOO BIG)
-    if (primary < 0) {
+    if (!primary) {
         DisplayText("Sadly, you're just too big to properly impregnate your daughter, and a stab of worry that you might be a bad father lances through you.  ");
-        if (character.torso.cocks.count === 1) {
+        if (player.torso.cocks.count === 1) {
             DisplayText("Thankfully your daughter doesn't seem to mind.  She switches to resume stroking you, though the wet tightness of goblin cunt stretches around as much of your tip as it can.  Between the drugs, the sexy girl on top of you, and your desire to be a good patriarch, they have no problem getting you off into their waiting, fertile wombs.  You cry out and twitch, seeding your daughter's womb with spunk, treating her just like her mother now that she's all grown up.");
-            if (character.cumQ() > 700) DisplayText("It gets everywhere as her womb fails to contain your massive load, even after you've bloated her belly with the stuff.");
-            if (character.cumQ() > 2000) DisplayText("After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
+            if (player.cumQ() > 700) DisplayText("It gets everywhere as her womb fails to contain your massive load, even after you've bloated her belly with the stuff.");
+            if (player.cumQ() > 2000) DisplayText("After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
         }
         else {
             DisplayText("Thankfully your daughters don't seem to mind.  They switch to resume stroking you, though the wet tightness of goblin cunts stretches around as much of your tips it can.  Between the drugs, the sexy girls on top of you, and your desire to be a good patriarch, they have no problem getting you off into their waiting, fertile wombs.  You cry out and twitch, seeding your daughters' womb with spunk, treating them just like their mother now that they're all grown up.");
-            if (character.cumQ() > 700) DisplayText("It gets everywhere as their wombs fail to contain your massive load, even after you've bloated their bellies with the stuff.");
-            if (character.cumQ() > 2000) DisplayText("After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
+            if (player.cumQ() > 700) DisplayText("It gets everywhere as their wombs fail to contain your massive load, even after you've bloated their bellies with the stuff.");
+            if (player.cumQ() > 2000) DisplayText("After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
         }
         DisplayText("\n\n");
 
@@ -1022,42 +1039,48 @@ function loseToDaughtersWithTamaniThere(character: Character) {
     }
     // (FITS)
     else {
-        DisplayText("Thankfully, the hungry goblin twat is able to devour your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " with ease.  Those pliable, fluid-slicked cunt-walls clench ever-so-tightly around you");
-        if (character.torso.cocks.sort(Cock.LargestCockArea)[0].area < 30) DisplayText(" in spite of the large sizes they usually handle.");
+        DisplayText("Thankfully, the hungry goblin twat is able to devour your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " with ease.  Those pliable, fluid-slicked cunt-walls clench ever-so-tightly around you");
+        if (player.torso.cocks.sort(Cock.LargestCockArea)[0].area < 30) DisplayText(" in spite of the large sizes they usually handle.");
         else DisplayText("r large size.");
-        if (character.torso.cocks.count > 1) {
+        if (player.torso.cocks.count > 1) {
             DisplayText("  You grunt happily as your daughters begin to slide up and down your lengths, moaning lewdly with every wet squelch that escapes their drooling pussies.  Thanks to the drugs, the writhing form of your sexy daughters, and the desire to be a good patriarch for your family, you get off in no time.  You cry out and twitch, seeding your daughters' womb with spunk, treating them just like their mother now that they're all grown up.");
-            if (character.cumQ() > 700) DisplayText("  It gets everywhere as their wombs fail to contain your massive load, even after you've bloated their bellies with the stuff.");
-            if (character.cumQ() > 2000) DisplayText("  After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
+            if (player.cumQ() > 700) DisplayText("  It gets everywhere as their wombs fail to contain your massive load, even after you've bloated their bellies with the stuff.");
+            if (player.cumQ() > 2000) DisplayText("  After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
         }
         else {
             DisplayText(" You grunt happily as your daughter begins to slide up and down your length, moaning lewdly with every wet squelch that escapes her drooling pussy.  Thanks to the drugs, the writhing form of your sexy daughter, and the desire to be a good patriarch for your family, you get off in no time.  You cry out and twitch, seeding your daughter's womb with spunk, treating her just like her mother now that she's all grown up.");
-            if (character.cumQ() > 700) DisplayText("  It gets everywhere as her womb fails to contain your massive load, even after you've bloated her belly with the stuff.");
-            if (character.cumQ() > 2000) DisplayText("  After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
+            if (player.cumQ() > 700) DisplayText("  It gets everywhere as her womb fails to contain your massive load, even after you've bloated her belly with the stuff.");
+            if (player.cumQ() > 2000) DisplayText("  After a few more seconds the puddle from before gets even deeper, and your daughters kindly prop up your head to keep you from drowning in the jism pool.");
         }
         DisplayText("\n\n");
 
         DisplayText("Drained from two amazing orgasms, you start to nod off, but you're happy knowing they'll keep you hard and cumming until every empty pussy is full of thick baby-making cream.");
     }
     // Chance of tamani pregnancy, chance of daughter preggers
-    knockUpDaughters();
-    Scenes.forest.tamaniScene.tamaniKnockUp();
+    knockUpDaughters(player);
+    tamaniKnockUp(player);
     tamanisDaughtersFlags.TAMANI_TIMES_HYPNOTISED++;
     // daughter countdown reset.
-    character.orgasm();
-    dynStats("str", -.5, "int", -.5, "lib", 1, "sen", 1, "cor", 1);
-    if (Game.inCombat) return { next: Scenes.camp.returnToCampUseOneHour };
+    player.orgasm();
+    // dynStats("str", -.5, "int", -.5, "lib", 1, "sen", 1, "cor", 1);
+    player.stats.str += -0.5;
+    player.stats.int += -0.5;
+    player.stats.lib += 1;
+    player.stats.sens += 1;
+    player.stats.cor += 1;
+    if (afterBattle) return { next: Scenes.camp.returnToCampUseOneHour };
     else return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function knockUpDaughters(character: Character) {
-    if (pregnancy.isPregnant) return;
-    pregnancy.knockUpForce(PregnancyType.PLAYER, 216); // Nine day long pregnancy, just like mom
+function knockUpDaughters(player: Character): void {
+    if (tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_TYPE) return;
+    tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_TYPE = PregnancyType.PLAYER;
+    tamanisDaughtersFlags.TAMANI_DAUGHTER_PREGGO_COUNTDOWN = 216; // Nine day long pregnancy, just like mom
     // Determine how many kids...
     tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT = 2;
-    const cum: number = character.cumQ();
+    const cum: number = player.cumQ();
     // Breeder perk is awesome
-    if (character.perks.has(PerkType.MaraesGiftStud)) tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT += 3;
+    if (player.perks.has(PerkType.MaraesGiftStud)) tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT += 3;
     if (cum >= 50 && randInt(2) === 0) tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
     if (cum >= 100 && randInt(2) === 0) tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
     if (cum >= 200 && randInt(2) === 0) tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
@@ -1067,68 +1090,64 @@ function knockUpDaughters(character: Character) {
     if (cum >= 600 && randInt(2) === 0) tamanisDaughtersFlags.TAMANI_DAUGHTERS_PREGNANCY_COUNT++;
 }
 
-export function combatWinAgainstDaughters(character: Character) {
+export function combatWinAgainstDaughters(player: Character, monster: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
     DisplayText().clear();
     if (monster.stats.HP < 1) {
         DisplayText("You smile in satisfaction as " + monster.desc.a + monster.desc.short + " collapses, unable to continue fighting.");
-        if (character.stats.lust >= 33 && character.torso.cocks.count > 0) {
+        if (player.stats.lust >= 33 && player.torso.cocks.count > 0) {
             DisplayText("In spite of their injuries, they do try to present their bodies in as lewd a way as possible.  You could still fuck them, but things might get out of hand...\n\nDo you fuck them?");
-            doYesNo(fuckYoDaughtersHomie, Scenes.camp.returnToCampUseOneHour);
+            return { yes: partial(fuckYoDaughtersHomie, player, true), no: Scenes.camp.returnToCampUseOneHour };
         }
         else return { next: Scenes.camp.returnToCampUseOneHour };
-        return;
     }
     else {
         DisplayText("You smile in satisfaction as your daughters collapse in upon themselves, devolving into a frenzied orgy.  It looks like they're too distracted to continue fighting.  They're putting on quite a show...\n\n");
-        character.stats.lust += 5;
-        if (character.stats.lust >= 33 && character.torso.cocks.count > 0) {
+        player.stats.lust += 5;
+        if (player.stats.lust >= 33 && player.torso.cocks.count > 0) {
             DisplayText("You could still fuck them, but things might get out of hand...\n\nDo you fuck them?");
-            doYesNo(fuckYoDaughtersHomie, Scenes.camp.returnToCampUseOneHour);
+            return { yes: partial(fuckYoDaughtersHomie, player, true), no: Scenes.camp.returnToCampUseOneHour };
         }
         else return { next: Scenes.camp.returnToCampUseOneHour };
-        return;
     }
 }
 
-function loseToDaughters(character: Character) {
+function loseToDaughters(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Tamani_Daughters);
-    if (character.stats.lust > 99) {
+    if (player.stats.lust > 99) {
         // worms r gross mmmmkay?
-        if (character.statusAffects.has(StatusAffectType.Infested)) {
-            kGAMECLASS.infestOrgasm();
+        if (player.statusAffects.has(StatusAffectType.Infested)) {
+            infestOrgasm();
             DisplayText("\n\nThe goblins sigh and say, \"<i>Dad, that's just gross.  Don't get me wrong, we're still gonna have you knock us up, but I hate the feeling of those worms inside me.</i>\"");
-            character.orgasm();
+            player.orgasm();
         }
         DisplayText("\n\nYou give up, you're just too turned on by the sea of sexually charged deviants to resist them anymore.  You're ready to fuck them all.");
-        if (character.torso.cocks.count === 0) {
+        if (player.torso.cocks.count === 0) {
             DisplayText("The sexy sluts pout, \"<i>Why did you have to go and get rid of your dick!?</i>\" before something hits you in the head, HARD, knocking you out.");
             return { next: Scenes.camp.returnToCampUseOneHour };
         }
         if (tamaniPresent) {
-            if (randInt(2) === 0) return { next: loseToDaughtersWithTamaniThere };
-            else return { next: legTamanisDaughtersRAEPYou };
+            if (randInt(2) === 0) return { next: partial(loseToDaughtersWithTamaniThere, player, true) };
+            else return { next: partial(legTamanisDaughtersRAEPYou, player, true) };
         }
         else {
             if (randInt(2) === 0) return { next: tamaniDaughtersCombatLossDrain };
-            else return { next: legTamanisDaughtersRAEPYou };
+            else return { next: partial(legTamanisDaughtersRAEPYou, player, true) };
         }
     }
     // hp loss
     else {
         DisplayText("\n\nOverwhelmed by your wounds, you can't even try to stop the goblin horde...");
-        if (character.torso.cocks.count === 0) {
+        if (player.torso.cocks.count === 0) {
             DisplayText("The sexy sluts pout, \"<i>Why did you have to go and get rid of your dick!?</i>\" before something hits you in the head, HARD, knocking you out.");
             return { next: Scenes.camp.returnToCampUseOneHour };
-            return;
         }
         if (tamaniPresent) {
-            return { next: loseToDaughtersWithTamaniThere };
+            return { next: partial(loseToDaughtersWithTamaniThere, player, true) };
         }
         else {
             if (randInt(2) === 0) return { next: tamaniDaughtersCombatLossDrain };
-            else return { next: legTamanisDaughtersRAEPYou };
+            else return { next: partial(legTamanisDaughtersRAEPYou, player, true) };
         }
     }
-}
 }

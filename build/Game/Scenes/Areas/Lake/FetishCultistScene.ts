@@ -664,7 +664,7 @@ export function fetishCultistHasAMilkFetish(player: Character): NextScreenChoice
     if (player.stats.int < 33) {
         DisplayText("but nothing happens. You even try to open the door of the cabin but it's locked. You poke around, when a brilliant idea comes to you. You place your hand in your mouth and bite down hard. The intense pain brings you back to reality.  ");
         // (Minus 5hp)
-        player.takeDamage(5);
+        player.stats.HP -= 5;
     }
     // [Med Int]
     else if (player.stats.int < 66) {
@@ -675,7 +675,7 @@ export function fetishCultistHasAMilkFetish(player: Character): NextScreenChoice
 
     DisplayText("You see the cultist is sleeping on the ground, still in the fantasy she created.");
     // [You have found 1xBee Honey]
-    Flags.list[FlagEnum.FORCE_BEE_TO_PRODUCE_HONEY] = 1;
+    User.flags.get<PlayerFlags>(FlagType.Player).FORCE_BEE_TO_PRODUCE_HONEY = 1;
     // set lust to 0, increase sensitivity slightly
     player.orgasm();
     player.stats.lib += .2;

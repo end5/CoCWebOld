@@ -52,7 +52,7 @@ export class TamaniScene implements ITimeAware {
 
     // Implementation of TimeAwareInterface
     public timeChange(): boolean {
-        tamaniFlags.TAMANI_PREGNANCY_INCUBATION--;
+        tamaniFlags.TAMANI_PREGNANCY_INCUBATION -= tamaniFlags.TAMANI_PREGNANCY_INCUBATION - 1 < 0 ? 0 : 1;
         if (tamaniFlags.TAMANI_PREGNANCY_TYPE && tamaniFlags.TAMANI_PREGNANCY_INCUBATION === 0) tamaniGivesBirth(); // Silently clear Tamani's pregnancy if the character doesn't encounter her in time
         return false;
     }

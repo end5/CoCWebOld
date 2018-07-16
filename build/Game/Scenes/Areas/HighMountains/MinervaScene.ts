@@ -20,6 +20,7 @@ import { TongueType } from "../../../Body/Tongue";
 import { ItemType } from "../../../Items/ItemType";
 import { ConsumableName } from "../../../Items/Consumables/ConsumableName";
 import { partial } from "../../../Utilities/Partial";
+import { minotaurAddicted } from "./MinotaurMobScene";
 
 // const MINERVA_LOVE: number = 813;
 // const MINERVA_BACKSTORY: number = 814;
@@ -135,7 +136,7 @@ function firstMinervaEncounter(player: Character): NextScreenChoices {
     else DisplayText(" something interesting");
     DisplayText(", or get some good plunder from some of the local beasts");
     // if minotaur cum addict:
-    if (player.minotaurAddicted()) DisplayText(".  With any luck, you might even find a hunky minotaur to scratch that burning itch in your mind");
+    if (minotaurAddicted(player)) DisplayText(".  With any luck, you might even find a hunky minotaur to scratch that burning itch in your mind");
     DisplayText(".  Trudging on, you make your way up and up the mountain, passing the occasional harpy nest as you climb and traverse along the mountain paths.  Just when it looks like you're going to hit the clouds, you catch sight of a trail that you had never really noticed before.");
     // Choice
     // [Ignore Path] [Take Path]
