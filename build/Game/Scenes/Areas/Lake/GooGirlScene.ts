@@ -21,6 +21,7 @@ import { User } from '../../../User';
 import { FlagType } from '../../../Utilities/FlagType';
 import { Menus } from '../../../Menus/Menus';
 import { PlayerFlags } from '../../../Character/Player/PlayerFlags';
+import { ConsumableName } from '../../../Items/Consumables/ConsumableName';
 
 /**
  * Created by aimozg on 04.01.14.
@@ -43,18 +44,21 @@ const gooGirlFlags: GooGirlFlags = {
 
 User.flags.set(FlagType.GooGirl, gooGirlFlags);
 
+let skinTone: string;
 // goo-girl encounter-
 
 // [Lake]
 export function encounterGooGirl(player: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Goo_Girl);
+    const gooGirl = new GooGirl();
+    skinTone = gooGirl.skin.tone;
     DisplayText("As you walk around the lake, you notice a pale red light pulsing in the ");
     if (!player.statusAffects.has(StatusAffectType.FactoryOverload)) DisplayText("sapphire ");
     else DisplayText("murky ");
     DisplayText("waters. You pause, trying to figure out what the shape might be. Just under the surface of the water, there appears to be a fist-sized heart shedding a crimson glow. Leaning closer, you gaze down into your reflection only to find your face rising up with pursed lips, trying to kiss you! You jerk backwards and the pseudo-head quivers, resolving its face into a gooey-looking girl, her ");
     DisplayText(gooColor() + " slime body sculpting itself into a humanoid shape. The girl curiously tilts her head to one side, as if trying to figure out why you're backing away, before she happily surges forward!");
-    return CombatManager.beginBattle(player, [], [new GooGirl()]);
+    return CombatManager.beginBattle(player, [], [gooGirl]);
 }
 
 // New Perk – Slime Core (requires goo player, random drop rate?)
@@ -366,7 +370,7 @@ export function beatUpGoo(player: Character): NextScreenChoices {
         let sex3N;
         let sex4S: string = "";
         let sex4N;
-        let valeria: Function = Scenes.valeria.valeriaAndGooThreeStuff;
+        let valeria = Scenes.valeria.valeriaAndGooThreeStuff;
         if (player.inventory.equipment.armor.displayName !== "goo armor" || player.pregnancy.womb.isPregnant() || player.pregnancy.buttWomb.isPregnant()) valeria = null;
         let eggs;
         if (player.canOvipositBee()) eggs = layBeeEggsInGoo;
@@ -402,10 +406,10 @@ export function beatUpGoo(player: Character): NextScreenChoices {
             if (
                 player.stats.cor < 50 &&
                 (
-                    player.inventory.items.has(consumables.SUCMILK) || player.inventory.items.has(consumables.P_S_MLK)
+                    player.inventory.items.has(ConsumableName.SuccubiMilk) || player.inventory.items.has(ConsumableName.SuccubiMilkPure)
                 ) &&
                 (
-                    player.inventory.items.has(consumables.BLACKEG) || player.inventory.items.has(consumables.L_BLKEG))) {
+                    player.inventory.items.has(ConsumableName.EggBlack) || player.inventory.items.has(ConsumableName.LargeEggBlack))) {
                 Scenes.latexGirl.pureGooRecruitmentStart();
                 return;
             }
@@ -420,7 +424,7 @@ export function beatUpGoo(player: Character): NextScreenChoices {
                 else {
                     DisplayText("\n\nAs you survey your victory, you remember the idea you had before - maybe if you drugged one of these things with a black egg and some succubi milk, you could make it your pet?");
                 }
-                if ((player.inventory.items.has(consumables.SUCMILK) || player.inventory.items.has(consumables.P_S_MLK)) && (player.inventory.items.has(consumables.BLACKEG) || player.inventory.items.has(consumables.L_BLKEG))) {
+                if ((player.inventory.items.has(ConsumableName.SuccubiMilk) || player.inventory.items.has(ConsumableName.SuccubiMilkPure)) && (player.inventory.items.has(ConsumableName.EggBlack) || player.inventory.items.has(ConsumableName.LargeEggBlack))) {
                     DisplayText("  Good thing you have those handy!");
                     gooTF = kGAMECLASS.latexGirl.meanGooGirlRecruitment;
                 }
@@ -431,7 +435,7 @@ export function beatUpGoo(player: Character): NextScreenChoices {
             if (Flags.list[FlagEnum.TIMES_VALERIA_GOO_THREESOMED] === 0) DisplayText("Do you offer a threesome with the girl to Valeria? It could get a little weird....");
             else DisplayText("Do you offer a threesome with the girl to Valeria? She'll likely try flood with you with more sloshing, shuddering pleasure than your body can handle.");
         }
-        choices(sex1S, sex1N, sex2S, sex2N, sex3S, sex3N, sex4S, sex4N, "Lay Eggs", eggs, "", null, "", null, "Valeria", valeria, "Make Slave", gooTF, "Leave", Scenes.camp.returnToCampUseOneHour);
+        return { choices: [[sex1S, sex1N], [sex2S, sex2N], [sex3S, sex3N], [sex4S, sex4N], ["Lay Eggs", eggs], ["Valeria", valeria], ["Make Slave", gooTF]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
     }
 }
 

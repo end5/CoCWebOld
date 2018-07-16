@@ -10,22 +10,57 @@ import { Gender } from "../../../Body/GenderIdentity";
 import { PerkType } from "../../../Effects/PerkType";
 import { randInt } from "../../../../Engine/Utilities/SMath";
 import { ITimeAware } from "../../../ITimeAware";
+import { ItemType } from "../../../Items/ItemType";
+import { ConsumableName } from "../../../Items/Consumables/ConsumableName";
+import { User } from "../../../User";
+import { FlagType } from "../../../Utilities/FlagType";
+import { numToCardinalText } from "../../../Utilities/NumToText";
+import { DisplaySprite } from "../../../../Engine/Display/DisplaySprite";
+import { SpriteName } from "../../../../Engine/Display/Images/SpriteName";
+import { partial } from "../../../Utilities/Partial";
+import { Cock } from "../../../Body/Cock";
+import { Pregnancy, IncubationTime, PregnancyType } from "../../../Body/Pregnancy/Pregnancy";
+import { minoCumAddiction } from "../HighMountains/MinotaurMobScene";
+import { Time } from "../../../Utilities/Time";
+import { MinotaurFlags } from "./MinotaurScene";
+import { PlayerFlags } from "../../../Character/Player/PlayerFlags";
+
+export interface SalonFlags {
+    SALON_PAID: number;
+    LYNNETTE_PREGNANCY_CYCLE: number; // 0-3 = pregnant. 4-6 = not.
+    LYNNETTE_APPROVAL: number;
+    LYNNETTE_BABY_COUNT: number;
+    LYNNETTE_CARRYING_COUNT: number;
+    LYNNETTE_MET_UNPREGNANT: number;
+    LYNNETTE_ANNOUNCED_APPROVAL: number;
+    LYNNETTE_FUCK_COUNTER: number;
+    UNKNOWN_FLAG_NUMBER_00142: number;
+}
+
+const salonFlags: SalonFlags = {
+    SALON_PAID: 0,
+    LYNNETTE_PREGNANCY_CYCLE: 0,
+    LYNNETTE_APPROVAL: 0,
+    LYNNETTE_BABY_COUNT: 0,
+    LYNNETTE_CARRYING_COUNT: 0,
+    LYNNETTE_MET_UNPREGNANT: 0,
+    LYNNETTE_ANNOUNCED_APPROVAL: 0,
+    LYNNETTE_FUCK_COUNTER: 0,
+    UNKNOWN_FLAG_NUMBER_00142: 0,
+};
+
+User.flags.set(FlagType.Salon, salonFlags);
 
 export class Salon implements ITimeAware {
-
-    public Salon() {
-        CoC.timeAwareClassAdd(this);
-    }
-
     // Implementation of TimeAwareInterface
     public timeChange(): boolean {
-        Flags.list[FlagEnum.SALON_PAID] = 0;
-        if (model.time.hours > 23) {
-            if (Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] === 0 || Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] !== 4) {
-                Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE]++;
+        salonFlags.SALON_PAID = 0;
+        if (Time.hour > 23) {
+            if (salonFlags.LYNNETTE_CARRYING_COUNT === 0 || salonFlags.LYNNETTE_PREGNANCY_CYCLE !== 4) {
+                salonFlags.LYNNETTE_PREGNANCY_CYCLE++;
             }
-            if (Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] === 7) {
-                Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] = 0;
+            if (salonFlags.LYNNETTE_PREGNANCY_CYCLE === 7) {
+                salonFlags.LYNNETTE_PREGNANCY_CYCLE = 0;
             }
         }
         return false;
@@ -52,60 +87,69 @@ export function salonGreeting(player: Character): NextScreenChoices {
     }
 }
 function favoriteSalonMenu(player: Character): NextScreenChoices {
-    MainScreen.addButton(6, "Payments", salonFavoritesPaymentMenu);
-    return salonPurchaseMenu(player);
+    return salonPurchaseMenu(player, true);
 }
 
 function salonFavoritesPaymentMenu(player: Character): NextScreenChoices {
     let blow;
     if (player.torso.cocks.count > 0) blow = goblinHairDresserFacefuck;
     let minoCum;
-    if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00142] > 0) minoCum = goblinHairDresserFacefuck;
-
-    if (Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] >= 4 && player.torso.cocks.count > 0) MainScreen.addButton(5, "Fuck Goblin", fuckLynnette);
-    MainScreen.addButton(0, "Goblin Blow", blow);
-    MainScreen.addButton(1, "Canine", gloryholeDoggie);
-    MainScreen.addButton(2, "Imp", gloryholeImp);
-    MainScreen.addButton(3, "Minotaur", gloryholeMinotaur);
-    MainScreen.addButton(4, "Incubus", gloryholeIncubus);
-    MainScreen.addButton(8, "Buy MinoCum", minoCum);
-    MainScreen.addButton(9, "Back", favoriteSalonMenu);
+    if (salonFlags.UNKNOWN_FLAG_NUMBER_00142 > 0) minoCum = goblinHairDresserFacefuck;
+    let fuckGoblin;
+    if (salonFlags.LYNNETTE_PREGNANCY_CYCLE >= 4 && player.torso.cocks.count > 0) fuckGoblin = fuckLynnette;
+    return {
+        choices: [
+            ["Goblin Blow", blow],
+            ["Canine", gloryholeDoggie],
+            ["Imp", gloryholeImp],
+            ["Minotaur", gloryholeMinotaur],
+            ["Incubus", gloryholeIncubus],
+            ["Fuck Goblin", fuckGoblin],
+            ["Buy MinoCum", minoCum],
+            ["Back", favoriteSalonMenu],
+        ]
+    };
 }
 
 function salonPaymentMenu(player: Character): NextScreenChoices {
     let blow;
     if (player.torso.cocks.count > 0) blow = goblinHairDresserFacefuck;
     let minoCum;
-    if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00142] > 0) minoCum = buyMinoCum;
+    if (salonFlags.UNKNOWN_FLAG_NUMBER_00142 > 0) minoCum = buyMinoCum;
 
-    if (Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] >= 4 && player.torso.cocks.count > 0) MainScreen.addButton(5, "Fuck Goblin", fuckLynnette);
-    MainScreen.addButton(0, "Goblin Blow", blow);
-    MainScreen.addButton(1, "Canine", gloryholeDoggie);
-    MainScreen.addButton(2, "Imp", gloryholeImp);
-    MainScreen.addButton(3, "Minotaur", gloryholeMinotaur);
-    MainScreen.addButton(4, "Incubus", gloryholeIncubus);
-    MainScreen.addButton(8, "Buy MinoCum", minoCum);
-    MainScreen.addButton(9, "Leave", Scenes.camp.returnToCampUseOneHour);
-    // choices("Goblin Blow",blow,"Canine",gloryholeDoggie,"Imp",gloryholeImp,"Minotaur",gloryholeMinotaur,"Incubus",gloryholeIncubus,"",0,"",0,"",0,"Buy MinoCum",minoCum,"Leave",13);
+    let fuckGoblin;
+    if (salonFlags.LYNNETTE_PREGNANCY_CYCLE >= 4 && player.torso.cocks.count > 0) fuckGoblin = fuckLynnette;
+    return {
+        choices: [
+            ["Goblin Blow", blow],
+            ["Canine", gloryholeDoggie],
+            ["Imp", gloryholeImp],
+            ["Minotaur", gloryholeMinotaur],
+            ["Incubus", gloryholeIncubus],
+            ["Fuck Goblin", fuckGoblin],
+            ["Buy MinoCum", minoCum],
+            ["Leave", Scenes.camp.returnToCampUseOneHour],
+        ]
+    };
 }
 function buyMinoCum(player: Character): NextScreenChoices {
     DisplayText().clear();
     if (player.inventory.gems < 60) {
         DisplayText("You can't afford any minotaur cum right now!");
-        if (Flags.list[FlagEnum.SALON_PAID] === 0)
+        if (salonFlags.SALON_PAID === 0)
             return { next: salonGreeting };
         else
-            salonPurchaseMenu();
+            return salonPurchaseMenu(player);
     }
     else {
         player.inventory.gems -= 60;
         DisplayText("You happily give Lynnette 60 gems and pick up the bottle full of glistening, heavenly cum.  ");
-        inventory.takeItem(consumables.MINOCUM, Scenes.camp.returnToCampUseOneHour);
+        player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.MinotaurCum, Scenes.camp.returnToCampUseOneHour);
     }
 }
-export function salonPurchaseMenu(player: Character): NextScreenChoices {
-    Flags.list[FlagEnum.SALON_PAID] = 1;
-    DisplaySprite(38);
+export function salonPurchaseMenu(player: Character, fav: boolean = false): NextScreenChoices {
+    salonFlags.SALON_PAID = 1;
+    DisplaySprite(SpriteName.Lynette);
     let cutShort2;
     let cutMedium2;
     let cutLong2;
@@ -113,7 +157,7 @@ export function salonPurchaseMenu(player: Character): NextScreenChoices {
     let minoCum;
     let mudFacial2;
     let sandFacial2;
-    if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00142] > 0) minoCum = buyMinoCum;
+    if (salonFlags.UNKNOWN_FLAG_NUMBER_00142 > 0) minoCum = buyMinoCum;
     if (player.torso.neck.head.hair.length > 2) cutShort2 = cutShort;
     if (player.torso.neck.head.hair.length > 13) cutMedium2 = cutMedium;
     if (player.torso.neck.head.hair.length >= 26) cutLong2 = cutLong;
@@ -126,20 +170,24 @@ export function salonPurchaseMenu(player: Character): NextScreenChoices {
     else if (player.femininity > 30 && player.gender === Gender.FEMALE) sandFacial2 = sandFacial;
     else if (player.femininity > 20 && (player.gender === Gender.NONE || player.gender === Gender.HERM)) sandFacial2 = sandFacial;
     else if (player.femininity > 0 && player.perks.has(PerkType.Androgyny)) sandFacial2 = sandFacial;
-
-    MainScreen.addButton(0, "Cut Short", cutShort2);
-    MainScreen.addButton(1, "Cut Med.", cutMedium2);
-    MainScreen.addButton(2, "Cut Long", cutLong2);
-    MainScreen.addButton(3, "Lengthen", lengthening);
-    MainScreen.addButton(4, "Buy Products", dyeMenu);
-    MainScreen.addButton(5, "Buy MinoCum", minoCum);
-    MainScreen.addButton(7, "Mud Facial", mudFacial2);
-    MainScreen.addButton(8, "Sand Facial", sandFacial2);
-    MainScreen.addButton(9, "Leave", Scenes.camp.returnToCampUseOneHour);
+    return {
+        choices: [
+            ["Cut Short", cutShort2],
+            ["Cut Med.", cutMedium2],
+            ["Cut Long", cutLong2],
+            ["Lengthen", lengthening],
+            ["Buy Products", dyeMenu],
+            ["Buy MinoCum", minoCum],
+            fav ? ["Payments", salonFavoritesPaymentMenu] : ["", undefined],
+            ["Mud Facial", mudFacial2],
+            ["Sand Facial", sandFacial2],
+            ["Leave", Scenes.camp.returnToCampUseOneHour],
+        ]
+    };
 }
 
 function hairDresserGreeting(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     DisplayText().clear();
     DisplayText("You step inside the cave, and are greeted by a sight you did not expect.  The cave's floor is covered with smooth wood panelling and the walls are nearly entirely covered with hanging mirrors.  The few stalactites have hooks drilled into them, from which hang hundreds of scissors, shears, razors, combs, and other hairstyling impliments.  It reminds you of the hair-cutter's shop in your hometown.");
     DisplayText("\n\nThere are a few chairs along the wall and goblins with latex dresses and gloves looking bored.  At the sight of you they perk up and clamor around you excitedly, until one with a gravity-defying chest pushes them apart and greets you.");
@@ -151,30 +199,28 @@ function hairDresserGreeting(player: Character): NextScreenChoices {
         DisplayText("  I'll even do you the favor of letting you blow it in my mouth, I've already got a bun in the oven.  So what do you say?  Want a spooge and a haircut?  Or would you rather go get your payment from one of the gloryholes in the back, you " + Desc.Gender.mf(player, "kinky boy", "naughty girl") + "?</i>\"\n\n");
         DisplayText("In the very back of the salon you can see a boarded-up wall with holes cut in it, some of which are currently plugged by various monstrous penises.  Do you let the goblin blow you, or do you go suck your payment from one of them?");
     }
-    salonPaymentMenu();
     DisplayText("\n\n<b>(Salon unlocked in 'places' menu from camp)</b>");
+    return salonPaymentMenu(player);
 }
 function hairDresserRepeatGreeting(player: Character): NextScreenChoices {
     DisplayText().clear();
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     const minoCum: number = 0;
     // Chance for mino craziness here
-    if (randInt(5) === 0 && (player.perks.has(PerkType.MinotaurCumAddict) || Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] > 0)) {
-        minotaurCumBukkakeInSalon();
-        return;
+    if (randInt(5) === 0 && (player.perks.has(PerkType.MinotaurCumAddict) || User.flags.get<MinotaurFlags>(FlagType.Minotaur).MINOTAUR_CUM_ADDICTION_STATE > 0)) {
+        return minotaurCumBukkakeInSalon(player);
     }
     // Had babies announcement!
-    if (Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] === 4 && Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] > 0) {
+    if (salonFlags.LYNNETTE_PREGNANCY_CYCLE === 4 && salonFlags.LYNNETTE_CARRYING_COUNT > 0) {
         DisplayText("As soon as you enter the Salon, Lynnette is beaming ");
         if (player.tallness >= 48) DisplayText("up ");
-        DisplayText("at you. \"<i>Hey there, honey. Come for some more service or to check up on the kids?</i>\" She pats her now-flat midsection. \"<i>I popped them out last night. We had " + numToCardinalText(Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT]) + " kids... all girls, of course.</i>\" She tucks a lock of beautifully styled hair behind an elfin ear. \"<i>Now you be sure and let me know when you want to contribute to my baby-bank again.</i>\"");
-        if (Flags.list[FlagEnum.LYNNETTE_BABY_COUNT] > 0) DisplayText("\n\nA few new, green faces can be seen looking your way and blushing as they work the gloryholes, probably from a previous litter. They grow up so fast.");
-        Flags.list[FlagEnum.LYNNETTE_BABY_COUNT] += Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT];
-        Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] = 0;
+        DisplayText("at you. \"<i>Hey there, honey. Come for some more service or to check up on the kids?</i>\" She pats her now-flat midsection. \"<i>I popped them out last night. We had " + numToCardinalText(salonFlags.LYNNETTE_CARRYING_COUNT) + " kids... all girls, of course.</i>\" She tucks a lock of beautifully styled hair behind an elfin ear. \"<i>Now you be sure and let me know when you want to contribute to my baby-bank again.</i>\"");
+        if (salonFlags.LYNNETTE_BABY_COUNT > 0) DisplayText("\n\nA few new, green faces can be seen looking your way and blushing as they work the gloryholes, probably from a previous litter. They grow up so fast.");
+        salonFlags.LYNNETTE_BABY_COUNT += salonFlags.LYNNETTE_CARRYING_COUNT;
+        salonFlags.LYNNETTE_CARRYING_COUNT = 0;
         // If favorite!
-        if (Flags.list[FlagEnum.LYNNETTE_ANNOUNCED_APPROVAL] === 1) {
-            favoriteSalonMenu();
-            return;
+        if (salonFlags.LYNNETTE_ANNOUNCED_APPROVAL === 1) {
+            return favoriteSalonMenu(player);
         }
         else {
             if (player.torso.cocks.count === 0) {
@@ -186,22 +232,21 @@ function hairDresserRepeatGreeting(player: Character): NextScreenChoices {
         }
     }
     // Favorite Announcement
-    else if (Flags.list[FlagEnum.LYNNETTE_APPROVAL] >= 100 && Flags.list[FlagEnum.LYNNETTE_ANNOUNCED_APPROVAL] === 0) {
+    else if (salonFlags.LYNNETTE_APPROVAL >= 100 && salonFlags.LYNNETTE_ANNOUNCED_APPROVAL === 0) {
         DisplayText("Lynnette practically beams at your appearance, chasing you into the lobby of her shop before you can change your mind. You look quizzically at her, wondering just what's gotten her so excited, when she announces, \"<i>Look, honey, you've done such a great job knocking me up that I've decided you ought to have a little reward - besides stuffing me silly.</i>\" Her nipples seem to harden a touch through her dress at that. \"<i>You can get any of our regular services for free, my studly, virile... mmm....</i>\" Her eyes drift closed ever so briefly as a hand vanishes under a slit in her dress. A moment later, she jolts and withdraws it, sheepishly admitting. \"<i>We'll do your hair for free! Just don't forget to knock me up from time to time, okay?</i>\"");
         DisplayText("\n\nThis seems like quite the deal!");
-        Flags.list[FlagEnum.LYNNETTE_ANNOUNCED_APPROVAL] = 1;
+        salonFlags.LYNNETTE_ANNOUNCED_APPROVAL = 1;
         // Custom menu with options to "pay anyway"
-        favoriteSalonMenu();
-        return;
+        return favoriteSalonMenu(player);
     }
     // Favorite Greeting
-    else if (Flags.list[FlagEnum.LYNNETTE_ANNOUNCED_APPROVAL] === 1) {
+    else if (salonFlags.LYNNETTE_ANNOUNCED_APPROVAL === 1) {
         // (Pregnant With Your Babies)
-        if (Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] < 4 && Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] > 0) {
+        if (salonFlags.LYNNETTE_PREGNANCY_CYCLE < 4 && salonFlags.LYNNETTE_CARRYING_COUNT > 0) {
             DisplayText("Lynnette has a little difficulty ushering you in with her swollen belly in the way. She's tremendously heavy with child already, likely due to some goblin-engineered chemicals that accelerate her pregnancy. Her tremendously fertile hips roll back and forth as she waddles a little deeper into the salon, greeting, \"<i>Welcome back, honey-bunch. Here to make a donation to the cause or get some freebies from your favorite pregnant slut?</i>\" She twists her ass in your direction and slaps it, making it jiggle in her sheer dress.");
         }
         // Pregnant with other babies
-        else if (Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] < 4) {
+        else if (salonFlags.LYNNETTE_PREGNANCY_CYCLE < 4) {
             DisplayText("Lynnette the goblin answers the door and lets you in, waving you deeper into her shop.  Her shining black dress barely contains her fertile-hips and jiggling chest as she greets you, \"<i>Welcome back, honey-bunch!  You should've stopped by to stuff my oven.  I wound up having to dip into our reserves.</i>\"  She affectionally wraps an arm around your waist and rubs your midsection.  \"<i>I would've much rather had my Champion's babies.</i>\"  She smiles up at you and says, \"<i>I'm sure you didn't just come here to visit.  Did you need a trim, or didja just want to make a donation do my little business?</i>\"  The word 'donation' is rolled as slowly and sensuously from her mouth as possible.");
         }
         // Nonpreggers
@@ -215,13 +260,12 @@ function hairDresserRepeatGreeting(player: Character): NextScreenChoices {
         if (player.torso.cocks.count === 0) {
             DisplayText("\n\nHer expression drops when she realizes you're no longer packing. \"<i>You should really grow a cock back, honey. It's a little shameful for such a perfect stud to be so under-equipped.</i>\"");
         }
-        favoriteSalonMenu();
-        return;
+        return favoriteSalonMenu(player);
     }
     // Non-Pregnant Greetings:
-    else if (Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] >= 4) {
-        if (Flags.list[FlagEnum.LYNNETTE_MET_UNPREGNANT] === 0) {
-            Flags.list[FlagEnum.LYNNETTE_MET_UNPREGNANT] = 1;
+    else if (salonFlags.LYNNETTE_PREGNANCY_CYCLE >= 4) {
+        if (salonFlags.LYNNETTE_MET_UNPREGNANT === 0) {
+            salonFlags.LYNNETTE_MET_UNPREGNANT = 1;
             DisplayText("Lynnette's familiar face greets you at the door to her salon once more, and she waves you in with a beatific smile plastered upon her face. Clinging to her like a second skin, the businessgoblin's dress highlights her surprisingly flat midsection; she's not pregnant!");
             DisplayText("\n\n\"<i>Noticing something you like, honey-bunches?</i>\" the goblin coos with a sashy of her baby-bearing hips. \"<i>A girl can't be pregnant ALL the time, after all.</i>\" She dabs at one of the many spots of moisture her prominent nipples have left on her top and smiles a bit overbroadly.");
             // Normal offers with a bit hinting at knocking her up when appropriate
@@ -248,7 +292,7 @@ function hairDresserRepeatGreeting(player: Character): NextScreenChoices {
             DisplayText("Will you be getting our normal services?  Just one BJ per hair treatment!  Or would you rather get it from the gloryholes in back?</i>\"");
         }
     }
-    salonPaymentMenu();
+    return salonPaymentMenu(player);
 }
 function gloryholeImp(player: Character): NextScreenChoices {
     player.slimeFeed();
@@ -327,12 +371,12 @@ function gloryholeMinotaur(player: Character): NextScreenChoices {
     DisplayText("Your head spins from the minotaur's musk, and you idly mop up and swallow the cum on your " + Desc.Face.describeFace(player) + ". A goblin aide comes in with a bowl, and gently scrapes the cum off your tits with a smooth, flat rock. Once you're cleaned up and you're dressed, the aide leads you back to Lynnette.\n\n");
     player.stats.lust += 33;
     player.stats.cor += 1;
-    player.minoCumAddiction(10);
+    minoCumAddiction(10);
     return { next: hairDressingMainMenu };
 }
 
 function goblinHairDresserFacefuck(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     DisplayText().clear();
     DisplayText("Lynnette licks her lips and practically tears her way into your " + player.inventory.equipment.armor.displayName + ", having your crotch exposed in seconds.  Your " + Desc.Cock.describeCock(player, player.torso.cocks.get(0)) + " flops out immediately, slapping her on the nose as it grows hard.  She wraps both hands around you and begins pumping with practiced ease, flicking her tongue over your crown and wrapping her lips ");
     if (player.torso.cocks.get(0).thickness >= 4) DisplayText("around as much of you as she can");
@@ -343,24 +387,23 @@ function goblinHairDresserFacefuck(player: Character): NextScreenChoices {
     DisplayText("  In time it ends, and she pops back, spitting most of the cum into a funnel.  It washes down a pipe and you have to wonder if there's some horny goblin girl at the other end with her cunt spread wide.");
     DisplayText("\n\nThe hair-dressing goblin matron sputters a bit before licking her lips clean and beaming a happy smile at you.\n\n");
     player.orgasm();
-    hairDressingMainMenu();
+    return hairDressingMainMenu(player);
 }
 function hairDressingMainMenu(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     DisplayText("Lynnette offers and explains their options, \"<i>So what'll it be hun?  We could cut it down or give you a lengthening treatment. Or you can get a hair-dye to use on your own.  Just remember to come back in a few days for a touchup.</i>\"");
-    if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00142] > 0) {
+    if (salonFlags.UNKNOWN_FLAG_NUMBER_00142 > 0) {
         DisplayText("\n\nOf course you could always spend some gems and buy some minotaur cum instead...");
     }
-    salonPurchaseMenu();
+    return salonPurchaseMenu(player);
 }
 
 function cutShort(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     // -trying to get a goblin to cut tentacle hair:
-    if (player.torso.neck.head.hairType === 4) {
+    if (player.torso.neck.head.hair.type === 4) {
         DisplayText("Lynnette stares at you when you ask for a cut.  \"<i>Nothing doing, hon; that stuff looks alive and I don't want blood all over my nice floor.  Thanks for contributing to the white file, though; maybe we can do something else?</i>\"\n\n");
-        salonPurchaseMenu();
-        return;
+        return salonPurchaseMenu(player);
     }
     DisplayText().clear();
     DisplayText("Lynnette and her daughters crowd around you with razor-sharp scissors, effortlessly paring down your " + Desc.Head.describeHair(player) + ".  When they've finished, you're left with ");
@@ -369,12 +412,11 @@ function cutShort(player: Character): NextScreenChoices {
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 function cutMedium(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     // -trying to get a goblin to cut tentacle hair:
-    if (player.torso.neck.head.hairType === 4) {
+    if (player.torso.neck.head.hair.type === 4) {
         DisplayText("Lynnette stares at you when you ask for a cut.  \"<i>Nothing doing, hon; that stuff looks alive and I don't want blood all over my nice floor.  Thanks for contributing to the white file, though; maybe we can do something else?</i>\"\n\n");
-        salonPurchaseMenu();
-        return;
+        return salonPurchaseMenu(player);
     }
     DisplayText().clear();
     DisplayText("Lynnette and her daughters crowd around you with razor-sharp scissors, effortlessly paring down your " + Desc.Head.describeHair(player) + ".  When they've finished, you're left with ");
@@ -383,12 +425,11 @@ function cutMedium(player: Character): NextScreenChoices {
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 function cutLong(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     // -trying to get a goblin to cut tentacle hair:
-    if (player.torso.neck.head.hairType === 4) {
+    if (player.torso.neck.head.hair.type === 4) {
         DisplayText("Lynnette stares at you when you ask for a cut.  \"<i>Nothing doing, hon; that stuff looks alive and I don't want blood all over my nice floor.  Thanks for the contributing to the white file, though; maybe we can do something else?</i>\"\n\n");
-        salonPurchaseMenu();
-        return;
+        return salonPurchaseMenu(player);
     }
     DisplayText().clear();
     DisplayText("Lynnette and her daughters crowd around you with razor-sharp scissors, effortlessly paring down your " + Desc.Head.describeHair(player) + ".  When they've finished, you're left with ");
@@ -397,43 +438,47 @@ function cutLong(player: Character): NextScreenChoices {
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 function hairGrow(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     // -asking for a lengthening treatment with tentacle hair:
-    if (player.torso.neck.head.hairType === 4) {
+    if (player.torso.neck.head.hair.type === 4) {
         DisplayText("Lynnette looks dubiously at you when you ask for a lengthening treatment.  \"<i>No offense hon, but that stuff is basically like an arm or an organ, not hair.  I'm not a goblin chirurgeon, and I wouldn't try to lengthen it even if one of my disobedient daughters were here to donate some parts.  Sorry to make you shoot and scoot, but I can't help you.  Maybe we could do something else?</i>\"\n\n");
-        salonPurchaseMenu();
-        return;
+        return salonPurchaseMenu(player);
     }
     DisplayText().clear();
     DisplayText("Lynnette grabs a bottle and squirts a white fluid into your hair.  You really hope it isn't your payment.  But it must not be, as within short order you feel the added weight of ");
-    temp = randInt(3) + 3;
-    Flags.list[FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
+    const temp = randInt(3) + 3;
+    User.flags.get<PlayerFlags>(FlagType.Player).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD = 0;
     player.torso.neck.head.hair.length += temp;
     DisplayText(numToCardinalText(temp) + " more inches of " + player.torso.neck.head.hair.color + " hair.");
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
-function buyDye(player: Character, itype: ItemType): NextScreenChoices {
+function buyDye(player: Character, dyeName: ConsumableName): NextScreenChoices {
     DisplayText().clear();
-    inventory.takeItem(itype, Scenes.camp.returnToCampUseOneHour);
+    return player.inventory.items.createAdd(player, ItemType.Consumable, dyeName, Scenes.camp.returnToCampUseOneHour);
 }
 
 function dyeMenu(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     DisplayText().clear();
     DisplayText("Lynnette pulls open a cabinet in the corner, displaying a wide array of exotic hair-dyes.  Which kind do you want?");
-
-    MainScreen.addButton(0, "Blue", buyDye, consumables.BLUEDYE);
-    MainScreen.addButton(1, "Orange", buyDye, consumables.ORANGDY);
-    MainScreen.addButton(2, "Pink", buyDye, consumables.PINKDYE);
-    MainScreen.addButton(3, "Purple", buyDye, consumables.PURPDYE);
-    MainScreen.addButton(4, "Green", buyDye, consumables.GREEN_D);
-    MainScreen.addButton(5, "Ext.Serum", buyDye, consumables.EXTSERM);
-    MainScreen.addButton(9, "Back", hairDressingMainMenu);
+    return {
+        choices: [
+            ["Blue", partial(buyDye, player, ConsumableName.HairDyeDarkBlue)],
+            ["Orange", partial(buyDye, player, ConsumableName.HairDyeBrightOrange)],
+            ["Pink", partial(buyDye, player, ConsumableName.HairDyeNeonPink)],
+            ["Purple", partial(buyDye, player, ConsumableName.HairDyePurple)],
+            ["Green", partial(buyDye, player, ConsumableName.HairDyeGreen)],
+            ["Ext.Serum", partial(buyDye, player, ConsumableName.HairExtensionSerum)],
+        ],
+        persistantChoices: [
+            ["Back", hairDressingMainMenu],
+        ]
+    };
 }
 
 function minotaurCumBukkakeInSalon(player: Character): NextScreenChoices {
     DisplayText().clear();
-    player.minoCumAddiction(10);
+    minoCumAddiction(10);
     player.slimeFeed();
     DisplayText("As the salon door swings closed behind you, a familiar, heavenly scent catches your nose and wicks into your brain, flooding you with need and molten-hot lust.  Lynnette saunters over with her lips slightly pursed and her body jiggling, but you brush her aside.  She's completely forgotten as you close in on the source of your olfactory bliss.  Your sigh dreamily while your pupils slowly dilate from the familiar chemicals pounding through your bloodstream");
     if (player.torso.vaginas.count > 0) DisplayText(" and puffing up your twat with liquid arousal.\n\n");
@@ -488,14 +533,14 @@ function minotaurCumBukkakeInSalon(player: Character): NextScreenChoices {
     if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 2) DisplayText("The sudden girth change sends an enticing ripple through your " + Desc.Breast.describeAllBreasts(player) + " that's pleasurable enough to make you moan into his steadily-widening urethra.  ");
     DisplayText("You pull off and bounce faster, lost to your lust and the haze of sex-musk permeating the air, intent on seeing just how much this huge stud can spray onto you.\n\n");
 
-    DisplayText("The minotaur does not disappoint.  His hole dilates from the size of the approaching cum-blast, and you sink down his shaft slowly until it's aimed directly at your face.  You close your eyes and feel the first explosion splatter over your " + Desc.Head.describeHair(player) + " and forehead.  The next takes you full in the face, making it difficult to breathe through the mask of drug-like goo, but a few quick licks gives you a fix and makes it easy to breathe again.  On and on, the minotaur pumps fat ropes of spooge over your body until you're a syrupy, sticky mess that reeks of minotaur pheromones so strongly that dizziness overwhelms you and you fall free of the still-orgasming mino-cock, taking a few final blasts of seed on your " + Desc.Breast.describeChest(character) + " and crotch.  Your hands instinctively shovel a few loads into your " + assholeOrPussy());
+    DisplayText("The minotaur does not disappoint.  His hole dilates from the size of the approaching cum-blast, and you sink down his shaft slowly until it's aimed directly at your face.  You close your eyes and feel the first explosion splatter over your " + Desc.Head.describeHair(player) + " and forehead.  The next takes you full in the face, making it difficult to breathe through the mask of drug-like goo, but a few quick licks gives you a fix and makes it easy to breathe again.  On and on, the minotaur pumps fat ropes of spooge over your body until you're a syrupy, sticky mess that reeks of minotaur pheromones so strongly that dizziness overwhelms you and you fall free of the still-orgasming mino-cock, taking a few final blasts of seed on your " + Desc.Breast.describeChest(player) + " and crotch.  Your hands instinctively shovel a few loads into your " + Desc.Body.assholeOrPussy(player));
     if (player.torso.vaginas.count > 0) DisplayText(" while the animal part of your brain hopes it makes you pregnant with an equally girthy son");
     DisplayText(".\n\n");
     // ADD PREG CHECK
     // Preggers chance!
-    player.knockUp(PregnancyType.MINOTAUR, PregnancyType.INCUBATION_MINOTAUR, 70);
+    player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.MINOTAUR, IncubationTime.MINOTAUR), 70);
 
-    DisplayText("Giggling, you stagger over to the next cock in line and turn around, possessed with the idea of taking its spooge in the most direct way possible – anally.   You pull your butt-cheeks apart and lean back, surprising one of the horny beasts with the warmth of your " + Desc.Butt.describeButthole(character.torso.butt) + " as you slowly relax, spreading over his flare.  He actually squirts ropes of something inside of you, but you've been around minotaurs enough to know that it can't be cum, at least not yet.  The slippery gouts of preseed make it nice and easy to rock back and spear yourself on the first few inches, ");
+    DisplayText("Giggling, you stagger over to the next cock in line and turn around, possessed with the idea of taking its spooge in the most direct way possible – anally.   You pull your butt-cheeks apart and lean back, surprising one of the horny beasts with the warmth of your " + Desc.Butt.describeButthole(player.torso.butt) + " as you slowly relax, spreading over his flare.  He actually squirts ropes of something inside of you, but you've been around minotaurs enough to know that it can't be cum, at least not yet.  The slippery gouts of preseed make it nice and easy to rock back and spear yourself on the first few inches, ");
     if (player.analCapacity() < 80) {
         DisplayText("delighting in the drug-numbed pain of stretching yourself beyond your normal capacity.");
     }
@@ -518,11 +563,11 @@ function minotaurCumBukkakeInSalon(player: Character): NextScreenChoices {
     return { next: minotaurSalonFollowUp };
 }
 function minotaurSalonFollowUp(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     DisplayText().clear();
-    if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00142] === 0) {
+    if (salonFlags.UNKNOWN_FLAG_NUMBER_00142 === 0) {
         // Unlock mino cum purchase
-        Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00142]++;
+        salonFlags.UNKNOWN_FLAG_NUMBER_00142++;
         // text goez here
         DisplayText("Lynnette slaps your face, waking you from your stupor.  What?  Where are you?  You look around and realize you're strapped into a barber's chair and caked with white goop, but why?\n\n");
         DisplayText("The goblin answers before you can vocalize your query, \"<i>Baby, you're so cum-hungry you make my daughters look like chaste virgins!  I haven't seen anyone go to town on minotaurs like that since my mother passed away, Marae guide her soul.  Normally we don't have that much use for the minotaurs outside of a bit of recreational drug-play, but you milked out so much cum that we can start selling it!  Isn't that great!?</i>\"\n\n");
@@ -531,26 +576,26 @@ function minotaurSalonFollowUp(player: Character): NextScreenChoices {
     else DisplayText("You're woken up with a slap to the face, and still muzzy from your cum-induced glory-hole orgy, you stagger up to your " + Desc.Leg.describeFeet(player) + ".  Lynnette shakes her stinging palm and apologizes, \"<i>Sorry I have to keep doing that, but you're damned hard to wake after you go on these binges!  Anyways, you've earned some hair treatment if you want it.  Of course you could always buy more of your favorite fluid...</i>\"\n\n");
     // Menu
     DisplayText("Lynnette offers and explains their options, \"<i>So what'll it be hun?  We could cut it down or give you a lengthening treatment. Or you can get a hair-dye to use on your own.  Just remember to come back in a few days for a touchup.</i>\"");
-    salonPurchaseMenu();
+    return salonPurchaseMenu(player);
 }
 
 function mudFacial(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     DisplayText().clear();
     DisplayText("You sit back in a comfortable chair and pull on a lever to recline it.  The goblins buzz around you, gathering up 'special mud'.  You close your eyes, letting them plaster your " + Desc.Face.describeFace(player) + " with the stuff in hopes that it will improve your complexion as much as you've been promised.  A pair of cucumber slices are laid out on your eyes, obscuring your view.\n\n");
 
     DisplayText("With that finished, the crowd of busty, green-skinned women disperses to leave you in peace.  Time drags on, but eventually the mud hardens and cracks.  As if on cue, tiny hands emerge with wet rags to scrub your face clean.  Once they've finished, you feel like a whole new you! (+10 femininity)");
-    player.modFem(100, 10);
+    Mod.Body.displayModFem(player, 100, 10);
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 function sandFacial(player: Character): NextScreenChoices {
-    DisplaySprite(38);
+    DisplaySprite(SpriteName.Lynette);
     DisplayText().clear();
     DisplayText("You sit back in a comfortable chair and pull on a lever to recline it.  The goblins buzz around you, gathering up 'special sand'.  You close your eyes, letting them splatter your " + Desc.Face.describeFace(player) + " with the rough, textured goop.  It doesn't feel very good, but that won't matter if it makes you as handsome as it's supposed to.\n\n");
 
     DisplayText("After a while the goblin girls come back and clean the stuff from your face. (+10 masculinity)");
-    player.modFem(0, 10);
+    Mod.Body.displayModFem(player, 0, 10);
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 /*
@@ -564,7 +609,7 @@ export function static const LYNNETTE_CARRYING_COUNT: number                    
 function fuckLynnette(player: Character): NextScreenChoices {
     DisplayText().clear();
     // Checks to see if you've cum withint hte past 24 hours.
-    if (Flags.list[FlagEnum.LYNNETTE_FUCK_COUNTER] === 0) {
+    if (salonFlags.LYNNETTE_FUCK_COUNTER === 0) {
         DisplayText("At your suggestion, Lynnette's eyelashes flutter dangerously low. She gives you a smokey look and asks, \"<i>Is that so?</i>\" She circles around you, looking you up and down with eyes that seem to bore right through your [armor]. She must see something she likes, because she dips forward, parting her weighty melons around your ");
         if (player.tallness >= 72) DisplayText("[leg]");
         else if (player.tallness >= 55) DisplayText("[hips]");
@@ -579,8 +624,7 @@ function fuckLynnette(player: Character): NextScreenChoices {
         if (player.hoursSinceCum < 24) {
             DisplayText("\n\nA feminine giggle slips free of her lips.  \"<i>I'm sorry [name], but I don't get knocked up unless I'm going to get knocked up with a dozen daughters.</i>\"  She gives your package a longing squeeze and extricates her hand, letting her palm caress your sensitive groin and belly on the way out.  \"<i>I need thick, sticky, pent-up jism that's going to be desperate to inseminate every egg it can get its hands on.</i>\"  She shivers at the thought, saying, \"<i>Come back when you've let yourself go a full twenty four hours without cumming.  Then you can get me pregnant... assuming some other lucky stud hasn't already.</i>\"");
             DisplayText("\n\nShe licks your scent from her fingers and asks, \"<i>Now, was there another way you wanted to pay?</i>\"");
-            salonPaymentMenu();
-            return;
+            return salonPaymentMenu(player);
         }
     }
     // Repeat cum within 24 hours check
@@ -596,8 +640,7 @@ function fuckLynnette(player: Character): NextScreenChoices {
         // NOT ENOUGH!
         if (player.hoursSinceCum < 24) {
             DisplayText("\n\nA frown slowly spreads across her face.  \"<i>[name], this just won't do. I need anxious, needy little sperm that will scream out of your cock with enough force to impregnate my ovaries.  I can't get that if you're getting off all the time.  Come back after you've gone without blowing a load for twenty four hours, and I'll give you a proper place to do it... if someone else hasn't beaten you to it.  Did you want to stick around and pay another way?</i>\"");
-            salonPaymentMenu();
-            return;
+            return salonPaymentMenu(player);
         }
     }
     // There is enough!
@@ -626,16 +669,15 @@ function fuckLynnette(player: Character): NextScreenChoices {
     DisplayText("\n\nYou climb up onto the bed with one hand wrapped around [oneCock] and your eyes leering down over your jade prize, your dick oozing droplets of molten-hot pre onto your waiting conquest's slick thighs as you climb into position. She looks up at you imploringly as she awaits the inevitable penetration, grabbing your hand and pressing down on her sodden box. The sensation reminds you vaguely of holding your hand above a pot of boiling water, the steaming heat collecting into condensation upon your hand. That settles it; you absolutely need to fuck her NOW! Your dick");
     if (player.torso.cocks.count > 1) DisplayText("s");
     DisplayText(" won't take no for an answer.");
-    let x: number = player.cockThatFits(80);
-    if (x < 0) x = player.torso.cocks.sort(Cock.SmallestCockArea)[0];
-    DisplayText("\n\nGrunting as you aggressively move yourself into place, you lock eyes with the shameless slut, letting her know with a single look just how hard you are going to fuck her, how perfectly pounded her pussy is going to be.  That one expression leaves her unequivocally sure of her impending bowleggedness, and the little tart just grins.  You thrust forward with all the subtleness of a rampaging bull, battering your " + Desc.Cock.describeCockHead(x) + " right through her slobbering delta, feeling the lips cling to your girth as they're stretched out into an o-ring of cock-squeezing pleasure, somehow incredibly tight around you but with more give than any woman ought to have.");
-    if (x.area > 50) {
+    const cockThatFits = player.torso.cocks.reduce(Cock.CocksThatFitOrSort(80, 1, Cock.SmallestCockArea), [])[0];
+    DisplayText("\n\nGrunting as you aggressively move yourself into place, you lock eyes with the shameless slut, letting her know with a single look just how hard you are going to fuck her, how perfectly pounded her pussy is going to be.  That one expression leaves her unequivocally sure of her impending bowleggedness, and the little tart just grins.  You thrust forward with all the subtleness of a rampaging bull, battering your " + Desc.Cock.describeCockHead(cockThatFits) + " right through her slobbering delta, feeling the lips cling to your girth as they're stretched out into an o-ring of cock-squeezing pleasure, somehow incredibly tight around you but with more give than any woman ought to have.");
+    if (cockThatFits.area > 50) {
         DisplayText("  Her tummy bulges with the outline of your swollen mass, clearly displaying the shape of your bitch-breaking dong as it travels up ");
-        if (x.area <= 80) DisplayText("her belly.");
+        if (cockThatFits.area <= 80) DisplayText("her belly.");
         else DisplayText("into her ribcage, penetrating farther than any lesser race could ever hope to handle.");
     }
     DisplayText(" The breeder grabs hold of your [hips] and tugs as hard as her meager strength will allow.  ");
-    if (x.area <= 90) {
+    if (cockThatFits.area <= 90) {
         DisplayText("Slapping against her hard enough to release a splash of girlish cum, you hilt yourself completely");
         if (player.torso.balls.quantity > 0) DisplayText(", [balls] resting on her soaked, juicy ass-cheeks.");
     }
@@ -644,22 +686,22 @@ function fuckLynnette(player: Character): NextScreenChoices {
         if (player.torso.balls.quantity > 0) DisplayText("  Her feet wrap around your [sack] to squeeze your [balls] affectionately, compensating quite nicely for her own shortcomings.");
     }
 
-    DisplayText("\n\nLynette is so goddamned wet! Her twat is a sopping-wet furnace around your " + Desc.Cock.describeCock(player, x) + ", clenching down tightly to hold you still while she adjusts to the shape and size of hard-throbbing inseminator.  A happy, brainless smile spreads across her face in reaction to the mounting, though her hands remain stubbornly on your hips, helping to keep you from pounding away until she's ready.  While you're immobilized, you decide to avail yourself of the goblin's other features, gripping as much of one titanic tit as you possibility can.  Your hand barely covers a quarter of the swollen bosom, and your fingers sink deeply into the forgiving green flesh, eliciting a gasp of pleasure from the hairdresser when you shift your grope to place her nipple within your reach.");
-    DisplayText("\n\nLosing control of her abdominal muscles from the forcible, nipple-bound bliss, Lynnette's cock-arresting grip collapses, and you're free to saw away at her gushing nethers, dragging your " + Desc.Cock.describeCock(player, x) + " out until only the head remains embedded within her purple-tinged interior and then, slamming it back in just as hard as your initial penetration.  Her hands slip off your [hips] and down to the sheets, where they gather up fistfuls of the increasingly sex-stained fabric and clench.  The honey hole around you flutters uncontrollably, clenching wildly as you thrust powerfully through it, mixing your pre-cum with its own copious leavings until there's a whitish slurry leaking from the increasingly puffy entrance.");
+    DisplayText("\n\nLynette is so goddamned wet! Her twat is a sopping-wet furnace around your " + Desc.Cock.describeCock(player, cockThatFits) + ", clenching down tightly to hold you still while she adjusts to the shape and size of hard-throbbing inseminator.  A happy, brainless smile spreads across her face in reaction to the mounting, though her hands remain stubbornly on your hips, helping to keep you from pounding away until she's ready.  While you're immobilized, you decide to avail yourself of the goblin's other features, gripping as much of one titanic tit as you possibility can.  Your hand barely covers a quarter of the swollen bosom, and your fingers sink deeply into the forgiving green flesh, eliciting a gasp of pleasure from the hairdresser when you shift your grope to place her nipple within your reach.");
+    DisplayText("\n\nLosing control of her abdominal muscles from the forcible, nipple-bound bliss, Lynnette's cock-arresting grip collapses, and you're free to saw away at her gushing nethers, dragging your " + Desc.Cock.describeCock(player, cockThatFits) + " out until only the head remains embedded within her purple-tinged interior and then, slamming it back in just as hard as your initial penetration.  Her hands slip off your [hips] and down to the sheets, where they gather up fistfuls of the increasingly sex-stained fabric and clench.  The honey hole around you flutters uncontrollably, clenching wildly as you thrust powerfully through it, mixing your pre-cum with its own copious leavings until there's a whitish slurry leaking from the increasingly puffy entrance.");
     DisplayText("\n\nThe blissed-out goblin's eyelids droop closed a second after her eyes roll back, and she calls out, \"<i>Oh fuck yessssssss, that's the spot!  Fuck me!  Fuck me!  YES!</i>\"  Her body shudders, accompanied by a screech of pleasure.  \"<i>You're making me c-c-c-cum...!</i>\"  Lynnette's wonderfully fertile thighs roll with the waves of passion she's riding, rhythmically squeezing down on your dick with inadvertent muscular contractions that feel so good they almost suck the cum straight out of your [balls].");
     DisplayText("\n\nSomehow, you don't blow your load into the dick-massaging goblin twat right then and there. Compelled by an urgent, instinctive need, you continue to saw your raging-hard phallus into Lynnette's musky cunt, splattering love-juices everywhere. The seed trapped inside your [balls] churns and roils as your body does its damnedest to maximize its output");
     if (player.torso.balls.quantity > 0) DisplayText(", making your sack feel tight and your testes bloated and tender.");
     else DisplayText(", making your gut clench and spasm with near-orgasmic contractions.");
     DisplayText("  There's a tsunami of sperm building up inside you to the point where holding it in is actually starting to hurt you, but at the same time, your body refuses to give in and climax yet either.");
     DisplayText("\n\nLynnette's huge, milk-dripping nipples erupt like the verdant volcano peaks they resemble, spraying gushes of ivory cream in lewd cascades that wash over you both, acting as a sweet, slick lubricant that allows her thighs to slip and slide over your own with ease.  She whimpers when your hands attach themselves to her leaky teats, attracted to the mounds as if by magnetism, and you squeeze down on them, pinching off the flow only to release the pressure, making her release her lactic load in huge, pulsing sprays.  She cries out, \"<i>Milk me!  Milk me like a dirty, bova slut!</i>\"  Her back lifts to press those squirting nubs more firmly between your fingers as another orgasm, smaller than the first, wracks her tender, tiny body.");
-    DisplayText("\n\nYour thrusts transform from powerful lunges into a frenzied jackhammering so powerful that the impact ripples along her considerable thighs and ass.  Even her squirting tits shake and jostle with the pussy-plowing impacts as you mount the goblin like a rutting beast, battering your " + Desc.Cock.describeCockHead(x) + " ");
-    if (x.area > 24) DisplayText("up against her slightly-yielding cervix");
+    DisplayText("\n\nYour thrusts transform from powerful lunges into a frenzied jackhammering so powerful that the impact ripples along her considerable thighs and ass.  Even her squirting tits shake and jostle with the pussy-plowing impacts as you mount the goblin like a rutting beast, battering your " + Desc.Cock.describeCockHead(cockThatFits) + " ");
+    if (cockThatFits.area > 24) DisplayText("up against her slightly-yielding cervix");
     else DisplayText("in as close to the cervix as you possibly can");
     DisplayText(", grunting and growling as you lose yourself in the feel of her soaked, velvet tunnel.  Your focus collapses entirely down to the feel of that slick tunnel around you and how far you can push into it, how strongly you can make it climax and squeeze around you.");
     DisplayText("\n\nLooking up at you in between reason-deadening orgasms, Lynnette purses her considerably puffy, cock-sucking lips to lick them.  She reaches up with both arms to grab you firmly about the neck, surprising you with her strength as she pulls you down, guiding your mouth to her moistened puckers for an eager kiss.  Her lips slip and slide across yours as you nuzzle mouth to mouth, your hips still working, and you trade saliva, sparring your tongues back and forth between your paired oral orifices.  One of her hands grabs your [hair] in a tight grip, breaking the kiss long enough for her to growl, \"<i>Cum.  Now.</i>\"");
 
-    DisplayText("\n\nYour body has been ready to go off for some time now, and the words act like an irresistible trigger for your climax, causing you to lurch your " + Desc.Cock.describeCock(player, x) + " ");
-    if (x.area <= 90) DisplayText("completely inside once more");
+    DisplayText("\n\nYour body has been ready to go off for some time now, and the words act like an irresistible trigger for your climax, causing you to lurch your " + Desc.Cock.describeCock(player, cockThatFits) + " ");
+    if (cockThatFits.area <= 90) DisplayText("completely inside once more");
     else DisplayText("as deeply inside as you can");
     DisplayText(" and hold it there.");
     if (player.torso.cocks.count > 1) {
@@ -678,11 +720,11 @@ function fuckLynnette(player: Character): NextScreenChoices {
     // One liter minor cumflate
     else if (player.cumQ() < 3000) DisplayText("\n\nThere's enough cum pouring out of you that Lynnette's briefly-taut tummy plumps with impregnating weight, filled just enough to give her a tiny, jiggling paunch of baby-making delight.  You empty your last few ropes into her, noting that not even a single drop escapes her luscious slit, and smile, completely satiated.");
     // Three liter good cumflate
-    else if (player.cumQ() < 6000) DisplayText("\n\nThere's so much cum flowing out of your " + Desc.Cock.describeCockHead(x) + " that Lynnette's once-taut tummy immediately plumps up with spermy weight, filled into a jiggly paunch by your first few blasts.  As you continue to flood her womb with your slurry of baby-making goodness, her belly continues to rise up between you, eventually arcing up into a gravid dome.  Somehow, her body holds it all inside, and only a small trickle of spunk leaks out of her luscious slit as you finish.");
+    else if (player.cumQ() < 6000) DisplayText("\n\nThere's so much cum flowing out of your " + Desc.Cock.describeCockHead(cockThatFits) + " that Lynnette's once-taut tummy immediately plumps up with spermy weight, filled into a jiggly paunch by your first few blasts.  As you continue to flood her womb with your slurry of baby-making goodness, her belly continues to rise up between you, eventually arcing up into a gravid dome.  Somehow, her body holds it all inside, and only a small trickle of spunk leaks out of her luscious slit as you finish.");
     // Six liter major cumflate
     else if (player.cumQ() < 10000) DisplayText("\n\nOh gods, there's so much cum! It's rushing out of you like a river, bloating the poor goblin's once-narrow abdomen into a small, pregnant-looking dome.  Each successive womb-filling makes the rounded bulge jostle cutely before bulging bigger, expanding under the weight of your immense virility until her emerald distention is covered in shiny, taut skin.  Her belly-button pops out into an outtie, and the goblin's sultry slit finally fails to contain the pressure, allowing what feels like a liter of your cum to backwash out over you.");
     // 10 liter ludicrous cumflate!
-    else DisplayText("\n\nOh gods!  Every torrential outflow of cum is so substantial that it's literally stretching the poor goblin out as it rushes into her womb.  The first two blasts are enough to turn her once-taut middle into a sperm-stuffed dome, and you just keep shooting after that, each time making her gravid tummy jiggle and swell, rounding fuller and fuller until her bulging midsection seems almost as big as her.  Her belly button long ago popped out into an outtie, and the smooth, emerald skin shines with its overstretched tightness.  Lynnette whimpers softly, and a sudden torrent of spunk rolls out around your " + Desc.Cock.describeCock(player, x) + ".  It seems she just couldn't hold it all in, and you aren't even done cumming yet!  You resume sliding in and out as you jizz, washing your soon-to-be-pregnant fucktoy's tunnel with generous waves of spooge until you finally exhaust yourself.");
+    else DisplayText("\n\nOh gods!  Every torrential outflow of cum is so substantial that it's literally stretching the poor goblin out as it rushes into her womb.  The first two blasts are enough to turn her once-taut middle into a sperm-stuffed dome, and you just keep shooting after that, each time making her gravid tummy jiggle and swell, rounding fuller and fuller until her bulging midsection seems almost as big as her.  Her belly button long ago popped out into an outtie, and the smooth, emerald skin shines with its overstretched tightness.  Lynnette whimpers softly, and a sudden torrent of spunk rolls out around your " + Desc.Cock.describeCock(player, cockThatFits) + ".  It seems she just couldn't hold it all in, and you aren't even done cumming yet!  You resume sliding in and out as you jizz, washing your soon-to-be-pregnant fucktoy's tunnel with generous waves of spooge until you finally exhaust yourself.");
     DisplayText("\n\nLynnette holds you tight until she's absolutely sure you've spent every drop");
     if (player.cumQ() >= 3000) {
         DisplayText(", even if ");
@@ -691,7 +733,7 @@ function fuckLynnette(player: Character): NextScreenChoices {
         DisplayText(" of it is on the bed at this point");
     }
     DisplayText(".  Only then does she release you, allowing you to slide out");
-    if (player.hasKnot(x)) DisplayText(" with a wet-sounding 'pop'.  Your knot does a terrific job of gaping her lips during its exit, and you cannot help but marvel at how well you've broken this bitch in.  A shame she'll probably tighten up again in short order");
+    if (cockThatFits.hasKnot()) DisplayText(" with a wet-sounding 'pop'.  Your knot does a terrific job of gaping her lips during its exit, and you cannot help but marvel at how well you've broken this bitch in.  A shame she'll probably tighten up again in short order");
     else DisplayText(" with a gush of girlspunk to chase you");
     DisplayText(".  She groans, ");
     // BELOW ONE LITER!
@@ -701,34 +743,34 @@ function fuckLynnette(player: Character): NextScreenChoices {
     }
     // "GOOD"
     else if (player.cumQ() <= 10000) {
-        if (Flags.list[FlagEnum.LYNNETTE_ANNOUNCED_APPROVAL] === 1) DisplayText("\"<i>Wow, [name].  You cum like a minotaur... and without drugging me out of my mind to boot!  Gods, I can feel the little swimmers hunting down my eggs already.</i>\"  She giggles and retrieves a vial, downing it in a single gulp.  \"<i>I better make sure there's enough eggs for them all, huh?</i>\"\n\nYou leave with a happy smile. It seems Lynnette approves of you as a mate.");
+        if (salonFlags.LYNNETTE_ANNOUNCED_APPROVAL === 1) DisplayText("\"<i>Wow, [name].  You cum like a minotaur... and without drugging me out of my mind to boot!  Gods, I can feel the little swimmers hunting down my eggs already.</i>\"  She giggles and retrieves a vial, downing it in a single gulp.  \"<i>I better make sure there's enough eggs for them all, huh?</i>\"\n\nYou leave with a happy smile. It seems Lynnette approves of you as a mate.");
         // "GOOD + LYNNETTE FAVORITE"
         else DisplayText("\"<i>Mmmm, [name], I love the way you pack me full.</i>\"  She tosses back a vial of fertility-boosting chemicals and sighs.  \"<i>Do me a favor and come back soon.  I'd rather be pouring out swarms of your babies than a slurry of weakling sluts.</i>\"");
         lynnetteApproval(10);
     }
     // "UBUR"
     else {
-        if (Flags.list[FlagEnum.LYNNETTE_ANNOUNCED_APPROVAL] === 0) DisplayText("\"<i>Ohhh... oh gods....  W-wha?  How...?  I'm so fucking full, [name]!  I can feel it, like I'm pregnant and about to pop already, and I haven't even given my babies a chance to fertilize!</i>\"  She gathers some of your leaking spooge to smear across the titanic dome with one hand and a bottle of fertility enhancers with the other.  \"<i>Go on baby, I'm just going to soak in it for a little while and make sure I get as many girls out of this as I can.</i>\"  Lynnette knocks back the vial and drops it at her side, focusing entirely on wallowing in your cum.\n\nYou swagger out into the main room with a happy smile, noting the envious looks you get from her daughters when they try to offer you 'services'.");
+        if (salonFlags.LYNNETTE_ANNOUNCED_APPROVAL === 0) DisplayText("\"<i>Ohhh... oh gods....  W-wha?  How...?  I'm so fucking full, [name]!  I can feel it, like I'm pregnant and about to pop already, and I haven't even given my babies a chance to fertilize!</i>\"  She gathers some of your leaking spooge to smear across the titanic dome with one hand and a bottle of fertility enhancers with the other.  \"<i>Go on baby, I'm just going to soak in it for a little while and make sure I get as many girls out of this as I can.</i>\"  Lynnette knocks back the vial and drops it at her side, focusing entirely on wallowing in your cum.\n\nYou swagger out into the main room with a happy smile, noting the envious looks you get from her daughters when they try to offer you 'services'.");
         // "UBUR + LYNNETTE FAVORITE"
         else DisplayText("\"<i>Fuck me, honey! I... you're the only one that can fill me like this, you know?  Short of a machine, I mean.</i>\"  Lynnette colors a deep green as she struggles to reach for a bottle of a fertility-enhancing chemical, half-pinned by her own cum-stuffed weight.  You easily hand it to her with a smile, and she downs it before gazing gratefully your way.  \"<i>I fucking love just lying here, fucking into oblivion, lying in a lake of my stud's lusts, wallowing in it until I pass out from pleasure.</i>\"\n\nShe sounds almost lovey-dovey in her declaration and must realize it, because her tone changes when she says, \"<i>Just make sure you come back in a few days to give me another proper fucking.  You'll do it if you know what's good for your dick!</i>\"\n\nYou silence her with a kiss that leaves her swooning and stroll out, dressing on the way.  Lynnette's satiated moans seem to haunt you the entire time you remain in the salon.");
         lynnetteApproval(25);
     }
-    Flags.list[FlagEnum.LYNNETTE_FUCK_COUNTER]++;
+    salonFlags.LYNNETTE_FUCK_COUNTER++;
     player.orgasm();
-    Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] = 3 + randInt(3);
-    if (player.cumQ() >= 1000) Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] += 1 + randInt(3);
-    if (player.cumQ() >= 2000) Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] += 1 + randInt(3);
-    if (player.cumQ() >= 3000) Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] += 2 + randInt(3);
-    if (player.cumQ() >= 4000) Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] += 2 + randInt(3);
-    if (player.cumQ() >= 6000) Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] += 2 + randInt(3);
-    if (player.cumQ() >= 10000) Flags.list[FlagEnum.LYNNETTE_CARRYING_COUNT] += 2 + randInt(3);
+    salonFlags.LYNNETTE_CARRYING_COUNT = 3 + randInt(3);
+    if (player.cumQ() >= 1000) salonFlags.LYNNETTE_CARRYING_COUNT += 1 + randInt(3);
+    if (player.cumQ() >= 2000) salonFlags.LYNNETTE_CARRYING_COUNT += 1 + randInt(3);
+    if (player.cumQ() >= 3000) salonFlags.LYNNETTE_CARRYING_COUNT += 2 + randInt(3);
+    if (player.cumQ() >= 4000) salonFlags.LYNNETTE_CARRYING_COUNT += 2 + randInt(3);
+    if (player.cumQ() >= 6000) salonFlags.LYNNETTE_CARRYING_COUNT += 2 + randInt(3);
+    if (player.cumQ() >= 10000) salonFlags.LYNNETTE_CARRYING_COUNT += 2 + randInt(3);
 
-    Flags.list[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] = 0;
-    salonPurchaseMenu();
+    salonFlags.LYNNETTE_PREGNANCY_CYCLE = 0;
+    return salonPurchaseMenu(player);
 }
 export function lynnetteApproval(arg: number = 0): number {
-    if (arg !== 0) Flags.list[FlagEnum.LYNNETTE_APPROVAL] += arg;
-    if (Flags.list[FlagEnum.LYNNETTE_APPROVAL] < -100) Flags.list[FlagEnum.LYNNETTE_APPROVAL] = -100;
-    else if (Flags.list[FlagEnum.LYNNETTE_APPROVAL] > 100) Flags.list[FlagEnum.LYNNETTE_APPROVAL] = 100;
-    return Flags.list[FlagEnum.LYNNETTE_APPROVAL];
+    if (arg !== 0) salonFlags.LYNNETTE_APPROVAL += arg;
+    if (salonFlags.LYNNETTE_APPROVAL < -100) salonFlags.LYNNETTE_APPROVAL = -100;
+    else if (salonFlags.LYNNETTE_APPROVAL > 100) salonFlags.LYNNETTE_APPROVAL = 100;
+    return salonFlags.LYNNETTE_APPROVAL;
 }

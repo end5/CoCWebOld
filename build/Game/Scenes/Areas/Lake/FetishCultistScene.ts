@@ -41,8 +41,8 @@ export function fetishCultistEncounter(player: Character): NextScreenChoices {
     return CombatManager.beginBattle(player, [], [new FetishCultist()]);
 }
 
-export function cultistRapesYou(player: Character): NextScreenChoices {
-    cultist.lust = 1;
+export function cultistRapesYou(player: Character, cultist: Character): NextScreenChoices {
+    cultist.stats.lust = 1;
     cultist.stats.HP = 10;
     let changed: boolean = false;
     let changedCock: boolean = false;
