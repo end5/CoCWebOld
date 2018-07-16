@@ -5,7 +5,7 @@ import {
     MapOption,
     ReduceOption,
     SortOption
-    } from '../../Engine/Utilities/List';
+} from '../../Engine/Utilities/List';
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
@@ -76,8 +76,33 @@ export class Cock implements ISerializable<Cock> {
         return previousValue + currentValue.length;
     }
 
+    public static readonly AverageCockArea: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
+        if (index >= array.length - 1)
+            return previousValue / index;
+        return previousValue + currentValue.area;
+    }
+
     public static readonly MajorityType: ReduceOption<Cock, CockType> = (previousValue: CockType, currentValue: Cock, index: number, array: Cock[]) => {
         return array.filter((cock) => cock.type === previousValue).length >= array.filter((cock) => cock.type === currentValue.type).length ? previousValue : currentValue.type;
+    }
+
+    /**
+     * Returns a list of cocks that fit with a least a min. If the min cannot be met, then return a sorted array instead.
+     * @param area Area to match
+     * @param min The minimum amount of cocks required
+     * @param sortOption An optional sort option. If one is not provided, then the array is returned.
+     */
+    public static CocksThatFitOrSort(area: number, min: number, sortOption?: SortOption<Cock>): ReduceOption<Cock, Cock[]> {
+        return (previousValue: Cock[], currentValue: Cock, index: number, array: Cock[]) => {
+            if (Cock.CockThatFits(area)(currentValue))
+                previousValue.push(currentValue);
+
+            if (index < array.length - 1 || previousValue.length >= min)
+                return previousValue;
+            else if (sortOption)
+                return array.slice().sort(sortOption);
+            else return array.slice();
+        };
     }
 
     // Note: DogCocks/FoxCocks are functionally identical. They actually change back and forth depending on some
@@ -116,6 +141,16 @@ export class Cock implements ISerializable<Cock> {
      * @param length Length
      */
     public static LongerThan(length: number): FilterOption<Cock> {
+        return (a: Cock) => {
+            return a.length >= length;
+        };
+    }
+
+    /**
+     * Filter selected cock.thickness >= supplied thickness.
+     * @param length Length
+     */
+    public static ThickerThan(length: number): FilterOption<Cock> {
         return (a: Cock) => {
             return a.length >= length;
         };
