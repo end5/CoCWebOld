@@ -2,7 +2,7 @@ import { User } from './User';
 import { StatType } from '../Engine/Display/Elements/StatsPanelObserver';
 import { MainScreen } from '../Engine/Display/MainScreen';
 
-export type ClickFunction = (activeCharacter?: any, ...args: any[]) => NextScreenChoices;
+export type ClickFunction = (activeCharacter?: any, event?: Event) => NextScreenChoices;
 export interface ClickObject {
     func: ClickFunction;
     tooltip: string;

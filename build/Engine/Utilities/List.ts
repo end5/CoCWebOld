@@ -1,10 +1,10 @@
 ﻿import { randomChoice } from "./SMath";
 
-export type SortOption<T> = (a: T, b: T) => number;
-export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
-export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
-export type MapOption<T, U> = (value: T, index: number, array: T[]) => U;
-export type FindOption<T> = (value: T, index: number, array: T[]) => boolean;
+export type SortOption<T> = (a?: T, b?: T) => number;
+export type FilterOption<T> = (value?: T, index?: number, array?: T[]) => boolean;
+export type ReduceOption<T, U> = (previousValue?: U, currentValue?: T, currentIndex?: number, array?: T[]) => U;
+export type MapOption<T, U> = (value?: T, index?: number, array?: T[]) => U;
+export type FindOption<T> = (value?: T, index?: number, array?: T[]) => boolean;
 
 export class List<Entry> implements Iterable<Entry> {
     protected list: Entry[] = [];
@@ -63,7 +63,9 @@ export class List<Entry> implements Iterable<Entry> {
      * @param option ReduceOption
      * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
      */
-    public reduce<U>(option: ReduceOption<Entry, U>, initialValue: U): U {
+    public reduce(option: ReduceOption<Entry, Entry>, initialValue?: Entry): Entry;
+    public reduce<U>(option: ReduceOption<Entry, U>, initialValue: U): U;
+    public reduce(option: any, initialValue?: any) {
         return this.list.reduce(option, initialValue);
     }
 
