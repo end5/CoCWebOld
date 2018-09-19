@@ -1,23 +1,29 @@
-import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
 import { clickFuncWrapper, NextScreenChoices } from '../ScreenDisplay';
-import { Settings } from '../Settings';
 import { User } from '../User';
 import { isEaster, isValentine } from '../Utilities/Dates';
 import { VersionInfo } from '../VersionInfo';
+import { statsMenu } from './InGame/StatsMenu';
+import { perkUpMenu } from './InGame/PerkUpMenu';
+import { appearanceMenu } from './InGame/PlayerAppearanceMenu';
+import { charCreationMenu } from './InGame/CharCreationMenu';
+import { dataMenu } from './DataMenu';
+import { creditsMenu } from './CreditsMenu';
+import { settingsMenu } from './SettingsMenu';
+import { campMenu } from './InGame/PlayerMenu';
 
-export function display(): NextScreenChoices {
+export function mainMenu(): NextScreenChoices {
     if (!User.char)
         MainScreen.getStatsPanel().hide();
     // Reset newgame buttons
-    MainScreen.getTopButton(TopButton.Stats).modify("Stats", clickFuncWrapper(Menus.Stats));
-    MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", clickFuncWrapper(Menus.PerkUp));
-    MainScreen.getTopButton(TopButton.Perks).modify("Perks", clickFuncWrapper(Menus.PerkUp));
-    MainScreen.getTopButton(TopButton.Appearance).modify("Appearance", clickFuncWrapper(Menus.Appearance));
+    MainScreen.getTopButton(TopButton.Stats).modify("Stats", clickFuncWrapper(statsMenu));
+    MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", clickFuncWrapper(perkUpMenu));
+    MainScreen.getTopButton(TopButton.Perks).modify("Perks", clickFuncWrapper(perkUpMenu));
+    MainScreen.getTopButton(TopButton.Appearance).modify("Appearance", clickFuncWrapper(appearanceMenu));
     MainScreen.hideTopButtons();
-    MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", clickFuncWrapper(Menus.CharCreation));
-    MainScreen.getTopButton(TopButton.Data).modify("Data", clickFuncWrapper(Menus.Data));
+    MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", clickFuncWrapper(charCreationMenu));
+    MainScreen.getTopButton(TopButton.Data).modify("Data", clickFuncWrapper(dataMenu));
 
     DisplayText().clear();
     DisplayText("Corruption of Champions Web Edition v" + VersionInfo.number).bold().endline();
@@ -67,17 +73,17 @@ export function display(): NextScreenChoices {
     // if (Scenes.helFollower.isHeliaBirthday())
     //     DisplayText("\n\n<b>It's Helia's Birthday Month!</b>");
 
-    // const resume = Menus.Player;
+    // const resume = Player;
     // if (User.char.stats.str > 0)  // we're in a game, allow resume.
-    //     resume = Menus.Player;
+    //     resume = Player;
 
     // MainScreen.displayChoices(
     //     ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
-    //     [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, resume]
+    //     [undefined, Credits, Instructions, undefined, Settings, resume]
     // );
     return {
         choices: [
-            ["Image Credits", undefined], ["Credits", Menus.Credits], ["Instructions", Menus.Instructions], ["Debug Info", undefined], ["Settings", Menus.Settings], ["Resume", User.char ? Menus.Player : undefined]
+            ["Image Credits", undefined], ["Credits", creditsMenu], ["Instructions", statsMenu], ["Debug Info", undefined], ["Settings", settingsMenu], ["Resume", User.char ? campMenu : undefined]
         ]
     };
 }

@@ -13,14 +13,26 @@ import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
 import { Tail, TailType } from '../../Body/Tail';
 import { Character } from '../../Character/Character';
-import { PlayerFlags } from '../../Character/Player/PlayerFlags';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
-import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
+import { describeMultiCockShort, describeCock, nounCock } from '../../Descriptors/CockDescriptor';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { describeButt } from '../../Descriptors/ButtDescriptor';
+import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
+import { Gender } from '../../Body/GenderIdentity';
+import { describeAllBreasts } from '../../Descriptors/BreastDescriptor';
+import { describeHair } from '../../Descriptors/HairDescriptor';
+import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { User } from '../../User';
+
+export const ReptilumFlags = {
+    HAIR_GROWTH_STOPPED_BECAUSE_LIZARD: 0,
+};
+
+User.flags.set('Reptilum', ReptilumFlags);
 
 export class Reptilum extends Consumable {
     public constructor() {
@@ -28,9 +40,9 @@ export class Reptilum extends Consumable {
     }
 
     private getFirstNonLizzyCock(character: Character): Cock {
-        for (let index: number = 0; index < character.torso.cocks.count; index++) {
-            if (character.torso.cocks.get(index).type !== CockType.LIZARD) {
-                return character.torso.cocks.get(index);
+        for (let index: number = 0; index < character.body.cocks.count; index++) {
+            if (character.body.cocks.get(index).type !== CockType.LIZARD) {
+                return character.body.cocks.get(index);
             }
         }
     }
@@ -66,16 +78,16 @@ export class Reptilum extends Consumable {
         if (character.stats.lib < 100 && changes < changeLimit && randInt(3) === 0) {
             DisplayText("\n\nA knot of fire in your gut doubles you over but passes after a few moments.  As you straighten you can feel the heat seeping into you, ");
             // (DICK)
-            if (character.torso.cocks.count > 0 && (character.gender !== 3 || randInt(2) === 0)) {
+            if (character.body.cocks.count > 0 && (character.gender !== 3 || randInt(2) === 0)) {
                 DisplayText("filling ");
-                if (character.torso.cocks.count > 1) DisplayText("each of ");
-                DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " with the desire to breed.  You get a bit hornier when you realize your sex-drive has gotten a boost.");
+                if (character.body.cocks.count > 1) DisplayText("each of ");
+                DisplayText("your " + describeMultiCockShort(character) + " with the desire to breed.  You get a bit hornier when you realize your sex-drive has gotten a boost.");
             }
             // (COOCH)
-            else if (character.torso.vaginas.count > 0)
-                DisplayText("puddling in your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ".  An instinctive desire to mate and lay eggs spreads through you, increasing your lust and boosting your sex-drive.");
+            else if (character.body.vaginas.count > 0)
+                DisplayText("puddling in your " + describeVagina(character, character.body.vaginas.get(0)) + ".  An instinctive desire to mate and lay eggs spreads through you, increasing your lust and boosting your sex-drive.");
             // (TARDS)
-            else DisplayText("puddling in your featureless crotch for a split-second before it slides into your " + Desc.Butt.describeButt(character) + ".  You want to be fucked, filled, and perhaps even gain a proper gender again.  Through the lust you realize your sex-drive has been permanently increased.");
+            else DisplayText("puddling in your featureless crotch for a split-second before it slides into your " + describeButt(character) + ".  You want to be fucked, filled, and perhaps even gain a proper gender again.  Through the lust you realize your sex-drive has been permanently increased.");
             // +3 lib if less than 50
             if (character.stats.lib < 50) character.stats.lib += 1;
             // +2 lib if less than 75
@@ -89,7 +101,7 @@ export class Reptilum extends Consumable {
         if (character.stats.tou < 70 && changes < changeLimit && randInt(3) === 0) {
             // (+3)
             if (character.stats.tou < 40) {
-                DisplayText("\n\nYour body and skin both thicken noticeably.  You pinch your " + character.skin.desc + " experimentally and marvel at how much tougher your hide has gotten.");
+                DisplayText("\n\nYour body and skin both thicken noticeably.  You pinch your " + character.body.skin.desc + " experimentally and marvel at how much tougher your hide has gotten.");
                 character.stats.tou += 3;
             }
             // (+2)
@@ -99,7 +111,7 @@ export class Reptilum extends Consumable {
             }
             // (+1)
             else {
-                DisplayText("\n\nYou snarl happily as you feel yourself getting even tougher.  It's a barely discernible difference, but you can feel your " + character.skin.desc + " getting tough enough to make you feel invincible.");
+                DisplayText("\n\nYou snarl happily as you feel yourself getting even tougher.  It's a barely discernible difference, but you can feel your " + character.body.skin.desc + " getting tough enough to make you feel invincible.");
                 character.stats.tou += 1;
             }
             changes++;
@@ -107,26 +119,26 @@ export class Reptilum extends Consumable {
 
         // Sexual Changes:
         // -Lizard dick - first one
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && character.torso.cocks.count > 0 && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && character.body.cocks.count > 0 && changes < changeLimit && randInt(4) === 0) {
             // Find the first non-lizzy dick
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
-            DisplayText("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + Desc.Cock.describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
-            if (character.torso.cocks.find(Cock.HasSheath)) DisplayText("sheath ");
+            DisplayText("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
+            if (character.body.cocks.find(Cock.HasSheath)) DisplayText("sheath ");
             else DisplayText("base ");
-            DisplayText("to tip, undulating and convulsing as its color lightens, darkens, and finally settles on a purplish hue.  Your " + Desc.Cock.nounCock(CockType.HUMAN) + " resolves itself into a bulbous form, with a slightly pointed tip.  The 'bulbs' throughout its shape look like they would provide an interesting ride for your sexual partners, but the perverse, alien pecker ");
+            DisplayText("to tip, undulating and convulsing as its color lightens, darkens, and finally settles on a purplish hue.  Your " + nounCock(CockType.HUMAN) + " resolves itself into a bulbous form, with a slightly pointed tip.  The 'bulbs' throughout its shape look like they would provide an interesting ride for your sexual partners, but the perverse, alien pecker ");
             if (character.stats.cor < 33) DisplayText("horrifies you.");
             else if (character.stats.cor < 66) DisplayText("is a little strange for your tastes.");
             else {
                 DisplayText("looks like it might be more fun to receive than use on others.  ");
-                if (character.torso.vaginas.count > 0) DisplayText("Maybe you could find someone else with one to ride?");
+                if (character.body.vaginas.count > 0) DisplayText("Maybe you could find someone else with one to ride?");
                 else DisplayText("Maybe you should test it out on someone and ask them exactly how it feels?");
             }
             DisplayText("  <b>You now have a bulbous, lizard-like cock.</b>");
             // Actually xform it nau
-            if (character.torso.cocks.find(Cock.HasSheath)) {
+            if (character.body.cocks.find(Cock.HasSheath)) {
                 nonLizzyDick.type = CockType.LIZARD;
-                if (character.torso.cocks.filter(Cock.HasSheath).length <= 0)
-                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + Desc.Cock.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
+                if (character.body.cocks.filter(Cock.HasSheath).length <= 0)
+                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
             }
             else nonLizzyDick.type = CockType.LIZARD;
             changes++;
@@ -135,10 +147,10 @@ export class Reptilum extends Consumable {
         }
         // (CHANGE OTHER DICK)
         // Requires 1 lizard cock, multiple cocks
-        if (character.torso.cocks.count > 1 && character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0 && character.torso.cocks.count > character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.cocks.count > 1 && character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0 && character.body.cocks.count > character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length && randInt(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nA familiar tingle starts in your crotch, and before you can miss the show, you pull open your " + character.inventory.equipment.armor.displayName + ".  As if operating on a cue, ");
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
-            if (character.torso.cocks.count === 2) DisplayText("your other dick");
+            if (character.body.cocks.count === 2) DisplayText("your other dick");
             else DisplayText("another one of your dicks");
             DisplayText(" starts to change into the strange reptilian shape you've grown familiar with.  It warps visibly, trembling and radiating pleasurable feelings back to you as the transformation progresses.  ");
             if (character.cumQ() < 50) DisplayText("pre-cum oozes from the tip");
@@ -146,10 +158,10 @@ export class Reptilum extends Consumable {
             else DisplayText("A wave of pre-cum splatters on the ground");
             DisplayText(" from the pleasure of the change.  In moments <b>you have a bulbous, lizard-like cock.</b>");
             // (REMOVE SHEATH IF NECESSARY)
-            if (character.torso.cocks.find(Cock.HasSheath)) {
+            if (character.body.cocks.find(Cock.HasSheath)) {
                 nonLizzyDick.type = CockType.LIZARD;
-                if (character.torso.cocks.filter(Cock.HasSheath).length <= 0)
-                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + Desc.Cock.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
+                if (character.body.cocks.filter(Cock.HasSheath).length <= 0)
+                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
             }
             else nonLizzyDick.type = CockType.LIZARD;
             changes++;
@@ -157,35 +169,35 @@ export class Reptilum extends Consumable {
             character.stats.lust += 10;
         }
         // -Grows second lizard dick if only 1 dick
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === 1 && character.torso.cocks.count === 1 && randInt(4) === 0 && changes < changeLimit) {
-            const firstCock = character.torso.cocks.get(0);
-            DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + Desc.Leg.describeFeet(character) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + character.skin.desc + ", adjacent to your " + Desc.Cock.describeCock(character, firstCock) + ".  The flesh darkens, turning purple");
-            if (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES)
-                DisplayText(" and shedding " + character.skin.desc);
+        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === 1 && character.body.cocks.count === 1 && randInt(4) === 0 && changes < changeLimit) {
+            const firstCock = character.body.cocks.get(0);
+            DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + describeFeet(character) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + character.body.skin.desc + ", adjacent to your " + describeCock(character, firstCock) + ".  The flesh darkens, turning purple");
+            if (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES)
+                DisplayText(" and shedding " + character.body.skin.desc);
             DisplayText(" as the bulge lengthens, pushing out from your body.  Too surprised to react, you can only pant in pain and watch as the fleshy lump starts to take on a penis-like appearance.  <b>You're growing a second lizard-cock!</b>  It doesn't stop growing until it's just as long as its brother and the same shade of shiny purple.  A dribble of cum oozes from its tip, and you feel relief at last.");
 
             const newCock = new Cock();
             newCock.type = CockType.LIZARD;
             newCock.length = firstCock.length;
             newCock.thickness = firstCock.thickness;
-            character.torso.cocks.add(newCock);
+            character.body.cocks.add(newCock);
             changes++;
             character.stats.lib += 3;
             character.stats.lust += 10;
         }
         // --Worms leave if 100% lizard dicks?
         // Require mammals?
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === character.torso.cocks.count && changes < changeLimit && character.statusAffects.has(StatusAffectType.Infested)) {
+        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === character.body.cocks.count && changes < changeLimit && character.statusAffects.has(StatusEffectType.Infested)) {
             DisplayText("\n\nLike rats from a sinking ship, worms escape from your body in a steady stream.  Surprisingly, the sensation is remarkably pleasant, similar to the pleasure of sexual release in a way.  Though they seem inexhaustible, the tiny, cum-slimed invertebrates slow to a trickle.  The larger worm-kin inside you stirs as if disturbed from a nap, coming loose from whatever moorings it had attached itself to in the interior of your form.  It slowly works its way up your urethra, stretching to an almost painful degree with every lurching motion.  Your dick bloats out around the base, stretched like the ovipositor on a bee-girl in order to handle the parasitic creature, but thankfully, the ordeal is a brief one.");
-            if (character.torso.balls.quantity > 1) DisplayText("  The remaining " + numToCardinalText(character.torso.balls.quantity - 1) + " slither out the pre-stretched holes with ease, though the last one hangs from your tip for a moment before dropping to the ground.");
+            if (character.body.balls.count > 1) DisplayText("  The remaining " + numToCardinalText(character.body.balls.count - 1) + " slither out the pre-stretched holes with ease, though the last one hangs from your tip for a moment before dropping to the ground.");
             DisplayText("  The white creature joins its kin on the ground and slowly slithers away.  Perhaps they prefer mammals? In any event, <b>you are no longer infected with worms</b>.");
-            character.statusAffects.remove(StatusAffectType.Infested);
+            character.statusAffects.remove(StatusEffectType.Infested);
             changes++;
         }
         // -Breasts vanish to 0 rating if male
-        if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1 && character.gender === Gender.MALE && changes < changeLimit && randInt(3) === 0) {
+        if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 1 && character.gender === Gender.MALE && changes < changeLimit && randInt(3) === 0) {
             // (HUEG)
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 8) {
+            if (character.body.chest.sort(BreastRow.Largest)[0].rating > 8) {
                 DisplayText("\n\nThe flesh on your chest tightens up, losing nearly half its mass in the span of a few seconds.  With your center of balance shifted so suddenly, you stagger about trying not to fall on your ass.  You catch yourself and marvel at the massive change in breast size.");
                 // Half tit size
             }
@@ -194,8 +206,8 @@ export class Reptilum extends Consumable {
             // (BOTH - no new PG)
             DisplayText("  With the change in weight and gravity, you find it's gotten much easier to move about.");
             // Loop through behind the scenes and adjust all tits.
-            for (let index: number = 0; index < character.torso.chest.count; index++) {
-                const breasts = character.torso.chest.get(index);
+            for (let index: number = 0; index < character.body.chest.count; index++) {
+                const breasts = character.body.chest.get(index);
                 if (breasts.rating > 8)
                     breasts.rating /= 2;
                 else
@@ -206,36 +218,36 @@ export class Reptilum extends Consumable {
             changes++;
         }
         // -Lactation stoppage.
-        if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1 && changes < changeLimit && randInt(4) === 0) {
-            if (character.torso.chest.countNipples() === 2) DisplayText("\n\nBoth of your");
+        if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 1 && changes < changeLimit && randInt(4) === 0) {
+            if (character.body.chest.reduce(BreastRow.NippleCount, 0) === 2) DisplayText("\n\nBoth of your");
             else DisplayText("\n\nAll of your many");
             DisplayText(" nipples relax.  It's a strange feeling, and you pull back your top to touch one.  It feels fine, though there doesn't seem to be any milk leaking out.  You give it a squeeze and marvel when nothing ");
-            if (character.torso.chest.find(BreastRow.FuckableNipples)) DisplayText("but sexual fluid ");
+            if (character.body.chest.find(BreastRow.FuckableNipples)) DisplayText("but sexual fluid ");
             DisplayText("escapes it.  <b>You are no longer lactating.</b>  That makes sense, only mammals lactate!  Smiling, you muse at how much time this will save you when cleaning your gear.");
-            if (character.perks.has(PerkType.Feeder) || character.statusAffects.has(StatusAffectType.Feeder)) {
+            if (character.perks.has(PerkType.Feeder) || character.statusAffects.has(StatusEffectType.Feeder)) {
                 DisplayText("\n\n(<b>Feeder perk lost!</b>)");
                 character.perks.remove(PerkType.Feeder);
-                character.statusAffects.remove(StatusAffectType.Feeder);
+                character.statusAffects.remove(StatusEffectType.Feeder);
             }
             changes++;
             // Loop through and reset lactation
-            for (let index: number = 0; index < character.torso.chest.count; index++) {
-                character.torso.chest.get(index).lactationMultiplier = 0;
+            for (let index: number = 0; index < character.body.chest.count; index++) {
+                character.body.chest.get(index).lactationMultiplier = 0;
             }
         }
         // -Nipples reduction to 1 per tit.
-        if (character.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nA chill runs over your " + Desc.Breast.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("'breast'.");
+        if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
+            DisplayText("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) DisplayText("'breast'.");
             else DisplayText("breast.");
             changes++;
             // Loop through and reset nipples
-            for (let index: number = 0; index < character.torso.chest.count; index++) {
-                character.torso.chest.get(index).nipples.count = 1;
+            for (let index: number = 0; index < character.body.chest.count; index++) {
+                character.body.chest.get(index).nipples.count = 1;
             }
         }
         // -VAGs
-        if (character.torso.vaginas.count > 0 && !character.perks.has(PerkType.Oviposition) && changes < changeLimit && randInt(5) === 0 && RaceScore.lizardScore(character) > 3) {
+        if (character.body.vaginas.count > 0 && !character.perks.has(PerkType.Oviposition) && changes < changeLimit && randInt(5) === 0 && RaceScore.lizardScore(character) > 3) {
             DisplayText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n");
             DisplayText("(<b>Perk Gained: Oviposition</b>)");
             character.perks.add(PerkType.Oviposition, 0, 0, 0, 0);
@@ -244,23 +256,23 @@ export class Reptilum extends Consumable {
 
         // Physical changes:
         // -Existing horns.amount become draconic, max of 4, max length of 1'
-        if (character.torso.neck.head.horns.type !== HornType.DRACONIC_X4_12_INCH_LONG && changes < changeLimit && randInt(5) === 0) {
+        if (character.body.horns.type !== HornType.DRACONIC_X4_12_INCH_LONG && changes < changeLimit && randInt(5) === 0) {
             // No dragon horns.amount yet.
-            if (character.torso.neck.head.horns.type !== HornType.DRACONIC_X2) {
+            if (character.body.horns.type !== HornType.DRACONIC_X2) {
                 // Already have horns
-                if (character.torso.neck.head.horns.amount > 0) {
+                if (character.body.horns.count > 0) {
                     // High quantity demon horns
-                    if (character.torso.neck.head.horns.type === HornType.DEMON && character.torso.neck.head.horns.amount > 4) {
+                    if (character.body.horns.type === HornType.DEMON && character.body.horns.count > 4) {
                         DisplayText("\n\nYour horns.amount condense, twisting around each other and merging into larger, pointed protrusions.  By the time they finish you have four draconic-looking horns, each about twelve inches long.");
-                        character.torso.neck.head.horns.amount = 12;
-                        character.torso.neck.head.horns.type = HornType.DRACONIC_X4_12_INCH_LONG;
+                        character.body.horns.count = 12;
+                        character.body.horns.type = HornType.DRACONIC_X4_12_INCH_LONG;
                     }
                     else {
                         DisplayText("\n\nYou feel your horns.amount changing and warping, and reach back to touch them.  They have a slight curve and a gradual taper.  They must look something like the horns.amount the dragons in your village's legends always had.");
-                        character.torso.neck.head.horns.type = HornType.DRACONIC_X2;
-                        if (character.torso.neck.head.horns.amount > 13) {
+                        character.body.horns.type = HornType.DRACONIC_X2;
+                        if (character.body.horns.count > 13) {
                             DisplayText("  The change seems to have shrunken the horns, they're about a foot long now.");
-                            character.torso.neck.head.horns.amount = 12;
+                            character.body.horns.count = 12;
                         }
 
                     }
@@ -270,139 +282,139 @@ export class Reptilum extends Consumable {
                 else {
                     // -If no horns, grow a pair
                     DisplayText("\n\nWith painful pressure, the skin on the sides of your forehead splits around two tiny nub-like horns.  They're angled back in such a way as to resemble those you saw on the dragons in your village's legends.  A few inches of horn sprout from your head before stopping.  <b>You have about four inches of dragon-like horn.</b>");
-                    character.torso.neck.head.horns.amount = 4;
-                    character.torso.neck.head.horns.type = HornType.DRACONIC_X2;
+                    character.body.horns.count = 4;
+                    character.body.horns.type = HornType.DRACONIC_X2;
 
                     changes++;
                 }
             }
             // ALREADY DRAGON
             else {
-                if (character.torso.neck.head.horns.type === HornType.DRACONIC_X2) {
-                    if (character.torso.neck.head.horns.amount < 12) {
+                if (character.body.horns.type === HornType.DRACONIC_X2) {
+                    if (character.body.horns.count < 12) {
                         if (randInt(2) === 0) {
                             DisplayText("\n\nYou get a headache as an inch of fresh horn escapes from your pounding skull.");
-                            character.torso.neck.head.horns.amount += 1;
+                            character.body.horns.count += 1;
                         }
                         else {
                             DisplayText("\n\nYour head aches as your horns.amount grow a few inches longer.  They get even thicker about the base, giving you a menacing appearance.");
-                            character.torso.neck.head.horns.amount += 2 + randInt(4);
+                            character.body.horns.count += 2 + randInt(4);
                         }
-                        if (character.torso.neck.head.horns.amount >= 12) DisplayText("  <b>Your horns.amount settle down quickly, as if they're reached their full size.</b>");
+                        if (character.body.horns.count >= 12) DisplayText("  <b>Your horns.amount settle down quickly, as if they're reached their full size.</b>");
                         changes++;
                     }
                     // maxxed out, new row
                     else {
                         // --Next horn growth adds second row and brings length up to 12\"
                         DisplayText("\n\nA second row of horns.amount erupts under the first, and though they are narrower, they grow nearly as long as your first row before they stop.  A sense of finality settles over you.  <b>You have as many horns.amount as a lizan can grow.</b>");
-                        character.torso.neck.head.horns.type = HornType.DRACONIC_X4_12_INCH_LONG;
+                        character.body.horns.type = HornType.DRACONIC_X4_12_INCH_LONG;
                         changes++;
                     }
                 }
             }
         }
         // -Hair stops growing!
-        if ((User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD === 0 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nYour scalp tingles oddly.  In a panic, you reach up to your " + Desc.Head.describeHair(character) + ", but thankfully it appears unchanged.\n\n");
+        if (ReptilumFlags.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD === 0 && changes < changeLimit && randInt(4) === 0) {
+            DisplayText("\n\nYour scalp tingles oddly.  In a panic, you reach up to your " + describeHair(character) + ", but thankfully it appears unchanged.\n\n");
             DisplayText("(<b>Your hair has stopped growing.</b>)");
             changes++;
-            (User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD++;
+            ReptilumFlags.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD++;
         }
         // Big physical changes:
         // -Legs - Draconic, clawed feet
-        if (character.torso.hips.legs.type !== LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
+        if (character.body.legs.type !== LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
             // Hooves -
-            if (character.torso.hips.legs.type === LegType.HOOFED) DisplayText("\n\nYou scream in agony as you feel your hooves crack and break apart, beginning to rearrange.  Your legs change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.");
+            if (character.body.legs.type === LegType.HOOFED) DisplayText("\n\nYou scream in agony as you feel your hooves crack and break apart, beginning to rearrange.  Your legs change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.");
             // TAURS -
-            else if (character.torso.hips.legs.type === LegType.CENTAUR) DisplayText("\n\nYour lower body is wracked by pain!  Once it passes, you discover that you're standing on digitigrade legs with lizard-like claws.");
+            else if (character.body.legs.type === LegType.CENTAUR) DisplayText("\n\nYour lower body is wracked by pain!  Once it passes, you discover that you're standing on digitigrade legs with lizard-like claws.");
             // feet types -
-            else if (character.torso.hips.legs.type === LegType.HUMAN || character.torso.hips.legs.type === LegType.DOG || character.torso.hips.legs.type === LegType.DEMONIC_HIGH_HEELS || character.torso.hips.legs.type === LegType.DEMONIC_CLAWS || character.torso.hips.legs.type === LegType.BEE || character.torso.hips.legs.type === LegType.CAT) DisplayText("\n\nYou scream in agony as you feel the bones in your legs break and begin to rearrange. They change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.");
+            else if (character.body.legs.type === LegType.HUMAN || character.body.legs.type === LegType.DOG || character.body.legs.type === LegType.DEMONIC_HIGH_HEELS || character.body.legs.type === LegType.DEMONIC_CLAWS || character.body.legs.type === LegType.BEE || character.body.legs.type === LegType.CAT) DisplayText("\n\nYou scream in agony as you feel the bones in your legs break and begin to rearrange. They change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.");
             // Else -
-            else DisplayText("\n\nPain rips through your " + Desc.Leg.describeLegs(character) + ", morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.");
+            else DisplayText("\n\nPain rips through your " + describeLegs(character) + ", morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.");
             DisplayText("  <b>You have reptilian legs and claws!</b>");
-            character.torso.hips.legs.type = LegType.LIZARD;
+            character.body.legs.type = LegType.LIZARD;
             changes++;
         }
         // -Tail - sinuous lizard tail
-        if (character.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
+        if (character.body.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.body.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
             // No tail
-            if (character.torso.tails.count >= 1) DisplayText("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + Desc.Butt.describeButt(character) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>");
+            if (character.body.tails.count >= 1) DisplayText("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + describeButt(character) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>");
             // Yes tail
             else DisplayText("\n\nYou drop to the ground as your tail twists and grows, changing its shape in order to gradually taper to a point.  It flicks back and forth, prehensile and totally under your control.  <b>You now have a reptilian tail.</b>");
-            character.torso.tails.clear();
-            character.torso.tails.add(new Tail(TailType.LIZARD));
+            character.body.tails.clear();
+            character.body.tails.add(new Tail(TailType.LIZARD));
             changes++;
         }
         // Remove odd eyes
-        if (changes < changeLimit && randInt(5) === 0 && character.torso.neck.head.face.eyes.type > EyeType.HUMAN) {
-            if (character.torso.neck.head.face.eyes.type === EyeType.BLACK_EYES_SAND_TRAP) {
+        if (changes < changeLimit && randInt(5) === 0 && character.body.eyes.type > EyeType.HUMAN) {
+            if (character.body.eyes.type === EyeType.BLACK_EYES_SAND_TRAP) {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
-                if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                if (character.body.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
-            character.torso.neck.head.face.eyes.type = EyeType.HUMAN;
+            character.body.eyes.type = EyeType.HUMAN;
             changes++;
         }
         // -Ears become smaller nub-like openings?
-        if (character.torso.neck.head.ears.type !== EarType.LIZARD && character.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
+        if (character.body.ears.type !== EarType.LIZARD && character.body.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.body.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
             DisplayText("\n\nTightness centers on your scalp, pulling your ears down from their normal, fleshy shape into small, scaley bumps with holes in their centers.  <b>You have reptilian ears!</b>");
-            character.torso.neck.head.ears.type = EarType.LIZARD;
+            character.body.ears.type = EarType.LIZARD;
             changes++;
         }
         // -Scales - color changes to red, green, white, blue, or black.  Rarely: purple or silver.
-        if (character.skin.type !== SkinType.SCALES && character.torso.neck.head.ears.type === EarType.LIZARD && character.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
+        if (character.body.skin.type !== SkinType.SCALES && character.body.ears.type === EarType.LIZARD && character.body.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.body.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
             // (fur)
-            if (character.skin.type === SkinType.FUR) {
+            if (character.body.skin.type === SkinType.FUR) {
                 // set new skin.tone
                 if (randInt(10) === 0) {
-                    if (randInt(2) === 0) character.skin.tone = "purple";
-                    else character.skin.tone = "silver";
+                    if (randInt(2) === 0) character.body.skin.tone = "purple";
+                    else character.body.skin.tone = "silver";
                 }
                 // non rare skin.tone
                 else {
                     const chance: number = randInt(5);
-                    if (chance === 0) character.skin.tone = "red";
-                    else if (chance === 1) character.skin.tone = "green";
-                    else if (chance === 2) character.skin.tone = "white";
-                    else if (chance === 3) character.skin.tone = "blue";
-                    else character.skin.tone = "black";
+                    if (chance === 0) character.body.skin.tone = "red";
+                    else if (chance === 1) character.body.skin.tone = "green";
+                    else if (chance === 2) character.body.skin.tone = "white";
+                    else if (chance === 3) character.body.skin.tone = "blue";
+                    else character.body.skin.tone = "black";
                 }
-                DisplayText("\n\nYou scratch yourself, and come away with a large clump of " + character.torso.neck.head.hair.color + " fur.  Panicked, you look down and realize that your fur is falling out in huge clumps.  It itches like mad, and you scratch your body relentlessly, shedding the remaining fur with alarming speed.  Underneath the fur your skin feels incredibly smooth, and as more and more of the stuff comes off, you discover a seamless layer of " + character.skin.tone + " scales covering most of your body.  The rest of the fur is easy to remove.  <b>You're now covered in scales from head to toe.</b>");
+                DisplayText("\n\nYou scratch yourself, and come away with a large clump of " + character.body.hair.color + " fur.  Panicked, you look down and realize that your fur is falling out in huge clumps.  It itches like mad, and you scratch your body relentlessly, shedding the remaining fur with alarming speed.  Underneath the fur your skin feels incredibly smooth, and as more and more of the stuff comes off, you discover a seamless layer of " + character.body.skin.tone + " scales covering most of your body.  The rest of the fur is easy to remove.  <b>You're now covered in scales from head to toe.</b>");
             }
             // (no fur)
             else {
-                DisplayText("\n\nYou idly reach back to scratch yourself and nearly jump out of your " + character.inventory.equipment.armor.displayName + " when you hit something hard.  A quick glance down reveals that scales are growing out of your " + character.skin.tone + " skin with alarming speed.  As you watch, the surface of your skin is covered in smooth scales.  They interlink together so well that they may as well be seamless.  You peel back your " + character.inventory.equipment.armor.displayName + " and the transformation has already finished on the rest of your body.  <b>You're covered from head to toe in shiny ");
+                DisplayText("\n\nYou idly reach back to scratch yourself and nearly jump out of your " + character.inventory.equipment.armor.displayName + " when you hit something hard.  A quick glance down reveals that scales are growing out of your " + character.body.skin.tone + " skin with alarming speed.  As you watch, the surface of your skin is covered in smooth scales.  They interlink together so well that they may as well be seamless.  You peel back your " + character.inventory.equipment.armor.displayName + " and the transformation has already finished on the rest of your body.  <b>You're covered from head to toe in shiny ");
                 // set new skin.tone
                 if (randInt(10) === 0) {
-                    if (randInt(2) === 0) character.skin.tone = "purple";
-                    else character.skin.tone = "silver";
+                    if (randInt(2) === 0) character.body.skin.tone = "purple";
+                    else character.body.skin.tone = "silver";
                 }
                 // non rare skin.tone
                 else {
                     const chance: number = randInt(5);
-                    if (chance === 0) character.skin.tone = "red";
-                    else if (chance === 1) character.skin.tone = "green";
-                    else if (chance === 2) character.skin.tone = "white";
-                    else if (chance === 3) character.skin.tone = "blue";
-                    else character.skin.tone = "black";
+                    if (chance === 0) character.body.skin.tone = "red";
+                    else if (chance === 1) character.body.skin.tone = "green";
+                    else if (chance === 2) character.body.skin.tone = "white";
+                    else if (chance === 3) character.body.skin.tone = "blue";
+                    else character.body.skin.tone = "black";
                 }
-                DisplayText(character.skin.tone + " scales.</b>");
+                DisplayText(character.body.skin.tone + " scales.</b>");
             }
-            character.skin.type = SkinType.SCALES;
-            character.skin.desc = "scales";
+            character.body.skin.type = SkinType.SCALES;
+            character.body.skin.desc = "scales";
             changes++;
         }
         // -Lizard-like face.
-        if (character.torso.neck.head.face.type !== FaceType.LIZARD && character.skin.type === SkinType.SCALES && character.torso.neck.head.ears.type === EarType.LIZARD && character.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
-            DisplayText("\n\nTerrible agony wracks your " + Desc.Face.describeFace(character) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>");
-            character.torso.neck.head.face.type = FaceType.LIZARD;
+        if (character.body.face.type !== FaceType.LIZARD && character.body.skin.type === SkinType.SCALES && character.body.ears.type === EarType.LIZARD && character.body.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.body.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
+            DisplayText("\n\nTerrible agony wracks your " + describeFace(character) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>");
+            character.body.face.type = FaceType.LIZARD;
         }
-        if (randInt(4) === 0 && character.torso.neck.gills && changes < changeLimit) {
+        if (randInt(4) === 0 && character.body.neck.gills && changes < changeLimit) {
             DisplayText("\n\nYour chest itches, and as you reach up to scratch it, you realize your gills have withdrawn into your skin.");
-            character.torso.neck.gills = false;
+            character.body.neck.gills = false;
             changes++;
         }
         // FAILSAFE CHANGE

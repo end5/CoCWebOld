@@ -8,13 +8,13 @@ import { Gender } from '../../Body/GenderIdentity';
 import { HipRating } from '../../Body/Hips';
 import { Vagina, VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import { Player } from '../../Character/Player/Player';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Time } from '../../Utilities/Time';
-import { Menus } from '../Menus';
+import { describeHair } from '../../Descriptors/HairDescriptor';
+import { campMenu } from './PlayerMenu';
 
 // public newGamePlus() {
 //     Flags[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP] = player.stats.XP;
@@ -27,7 +27,7 @@ import { Menus } from '../Menus';
 //     display();
 // }
 
-export function display(): NextScreenChoices {
+export function charCreationMenu(): NextScreenChoices {
     MainScreen.getStatsPanel().hide();
     MainScreen.getTopButton(TopButton.MainMenu).hide();
     MainScreen.getTopButton(TopButton.Data).hide();
@@ -149,20 +149,20 @@ function isAMan(player: Player): NextScreenChoices {
     player.stats.str += 3;
     player.stats.tou += 2;
 
-    player.torso.balls.quantity = 2;
-    player.torso.balls.size = 1;
-    player.fertility = 5;
-    player.torso.neck.head.hair.length = 1;
-    player.tallness = 71;
-    player.tone = 60;
+    player.body.balls.count = 2;
+    player.body.balls.size = 1;
+    player.body.fertility = 5;
+    player.body.hair.length = 1;
+    player.body.tallness = 71;
+    player.body.tone = 60;
 
-    player.torso.chest.add(new BreastRow());
+    player.body.chest.add(new BreastRow());
     const newCock = new Cock();
     newCock.length = 5.5;
     newCock.thickness = 1;
     newCock.type = CockType.HUMAN;
     newCock.knotMultiplier = 1;
-    player.torso.cocks.add(newCock);
+    player.body.cocks.add(newCock);
     player.gender = Gender.MALE;
     DisplayText().clear();
     DisplayText("You are a man.  Your upbringing has provided you an advantage in strength and toughness.\n\nWhat type of build do you have?");
@@ -173,16 +173,16 @@ function isAWoman(player: Player): NextScreenChoices {
     player.stats.spe += 3;
     player.stats.int += 2;
 
-    player.torso.balls.quantity = 0;
-    player.torso.balls.size = 0;
-    player.fertility = 10;
-    player.torso.neck.head.hair.length = 10;
-    player.tallness = 67;
-    player.tone = 30;
+    player.body.balls.count = 0;
+    player.body.balls.size = 0;
+    player.body.fertility = 10;
+    player.body.hair.length = 10;
+    player.body.tallness = 67;
+    player.body.tone = 30;
 
-    player.torso.chest.add(new BreastRow());
-    player.torso.vaginas.add(new Vagina());
-    player.torso.clit.length = 0.5;
+    player.body.chest.add(new BreastRow());
+    player.body.vaginas.add(new Vagina());
+    player.body.clit.length = 0.5;
     player.gender = Gender.FEMALE;
     DisplayText().clear();
     DisplayText("You are a woman.  Your upbringing has provided you an advantage in speed and intellect.\n\nWhat type of build do you have?");
@@ -193,13 +193,13 @@ function buildLeanMale(player: Player): NextScreenChoices {
     player.stats.str -= 1;
     player.stats.spe += 1;
 
-    player.femininity = 34;
-    player.thickness = 30;
-    player.tone += 5;
+    player.body.femininity = 34;
+    player.body.thickness = 30;
+    player.body.tone += 5;
 
-    player.torso.chest.get(0).rating = BreastCup.FLAT;
-    player.torso.butt.rating = ButtRating.TIGHT;
-    player.torso.hips.rating = HipRating.SLENDER;
+    player.body.chest.get(0).rating = BreastCup.FLAT;
+    player.body.butt.rating = ButtRating.TIGHT;
+    player.body.hips.rating = HipRating.SLENDER;
     return chooseComplexion();
 }
 
@@ -207,33 +207,33 @@ function buildSlenderFemale(player: Player): NextScreenChoices {
     player.stats.str -= 1;
     player.stats.spe += 1;
 
-    player.femininity = 66;
-    player.thickness = 30;
-    player.tone += 5;
+    player.body.femininity = 66;
+    player.body.thickness = 30;
+    player.body.tone += 5;
 
-    player.torso.chest.get(0).rating = BreastCup.B;
-    player.torso.butt.rating = ButtRating.TIGHT;
-    player.torso.hips.rating = HipRating.AMPLE;
+    player.body.chest.get(0).rating = BreastCup.B;
+    player.body.butt.rating = ButtRating.TIGHT;
+    player.body.hips.rating = HipRating.AMPLE;
     return chooseComplexion();
 }
 
 function buildAverageMale(player: Player): NextScreenChoices {
-    player.femininity = 30;
-    player.thickness = 50;
+    player.body.femininity = 30;
+    player.body.thickness = 50;
 
-    player.torso.chest.get(0).rating = BreastCup.FLAT;
-    player.torso.butt.rating = ButtRating.AVERAGE;
-    player.torso.hips.rating = HipRating.AVERAGE;
+    player.body.chest.get(0).rating = BreastCup.FLAT;
+    player.body.butt.rating = ButtRating.AVERAGE;
+    player.body.hips.rating = HipRating.AVERAGE;
     return chooseComplexion();
 }
 
 function buildAverageFemale(player: Player): NextScreenChoices {
-    player.femininity = 70;
-    player.thickness = 50;
+    player.body.femininity = 70;
+    player.body.thickness = 50;
 
-    player.torso.chest.get(0).rating = BreastCup.C;
-    player.torso.butt.rating = ButtRating.NOTICEABLE;
-    player.torso.hips.rating = HipRating.AMPLE;
+    player.body.chest.get(0).rating = BreastCup.C;
+    player.body.butt.rating = ButtRating.NOTICEABLE;
+    player.body.hips.rating = HipRating.AMPLE;
     return chooseComplexion();
 }
 
@@ -242,13 +242,13 @@ function buildThickMale(player: Player): NextScreenChoices {
     player.stats.str += 2;
     player.stats.tou += 2;
 
-    player.femininity = 29;
-    player.thickness = 70;
-    player.tone -= 5;
+    player.body.femininity = 29;
+    player.body.thickness = 70;
+    player.body.tone -= 5;
 
-    player.torso.chest.get(0).rating = BreastCup.FLAT;
-    player.torso.butt.rating = ButtRating.NOTICEABLE;
-    player.torso.hips.rating = HipRating.AVERAGE;
+    player.body.chest.get(0).rating = BreastCup.FLAT;
+    player.body.butt.rating = ButtRating.NOTICEABLE;
+    player.body.hips.rating = HipRating.AVERAGE;
     return chooseComplexion();
 }
 
@@ -257,12 +257,12 @@ function buildCurvyFemale(player: Player): NextScreenChoices {
     player.stats.str += 1;
     player.stats.tou += 1;
 
-    player.femininity = 71;
-    player.thickness = 70;
+    player.body.femininity = 71;
+    player.body.thickness = 70;
 
-    player.torso.chest.get(0).rating = BreastCup.D;
-    player.torso.butt.rating = ButtRating.LARGE;
-    player.torso.hips.rating = HipRating.CURVY;
+    player.body.chest.get(0).rating = BreastCup.D;
+    player.body.butt.rating = ButtRating.LARGE;
+    player.body.hips.rating = HipRating.CURVY;
     return chooseComplexion();
 }
 
@@ -270,13 +270,13 @@ function buildGirlyMale(player: Player): NextScreenChoices {
     player.stats.str -= 2;
     player.stats.spe += 2;
 
-    player.femininity = 50;
-    player.thickness = 50;
-    player.tone = 26;
+    player.body.femininity = 50;
+    player.body.thickness = 50;
+    player.body.tone = 26;
 
-    player.torso.chest.get(0).rating = BreastCup.A;
-    player.torso.butt.rating = ButtRating.NOTICEABLE;
-    player.torso.hips.rating = HipRating.SLENDER;
+    player.body.chest.get(0).rating = BreastCup.A;
+    player.body.butt.rating = ButtRating.NOTICEABLE;
+    player.body.hips.rating = HipRating.SLENDER;
     return chooseComplexion();
 }
 
@@ -284,13 +284,13 @@ function buildTomboyishFemale(player: Player): NextScreenChoices {
     player.stats.str += 1;
     player.stats.spe -= 1;
 
-    player.femininity = 56;
-    player.thickness = 50;
-    player.tone = 50;
+    player.body.femininity = 56;
+    player.body.thickness = 50;
+    player.body.tone = 50;
 
-    player.torso.chest.get(0).rating = BreastCup.A;
-    player.torso.butt.rating = ButtRating.TIGHT;
-    player.torso.hips.rating = HipRating.SLENDER;
+    player.body.chest.get(0).rating = BreastCup.A;
+    player.body.butt.rating = ButtRating.TIGHT;
+    player.body.hips.rating = HipRating.SLENDER;
     return chooseComplexion();
 }
 
@@ -298,17 +298,17 @@ function chooseComplexion(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("What is your complexion?");
     return {
-        choices: [[
-            "Light", (player: Player) => setComplexion(player, "light"),
-            "Olive", (player: Player) => setComplexion(player, "olive"),
-            "Dark", (player: Player) => setComplexion(player, "dark"),
-            "Ebony", (player: Player) => setComplexion(player, "ebony")
-        ]]
+        choices: [
+            ["Light", (player: Player) => setComplexion(player, "light")],
+            ["Olive", (player: Player) => setComplexion(player, "olive")],
+            ["Dark", (player: Player) => setComplexion(player, "dark")],
+            ["Ebony", (player: Player) => setComplexion(player, "ebony")]
+        ]
     };
 }
 
 function setComplexion(player: Player, choice: string): NextScreenChoices { // And choose hair
-    player.skin.tone = choice;
+    player.body.skin.tone = choice;
     DisplayText().clear();
     DisplayText("You selected a " + choice + " complexion.\n\nWhat color is your hair?");
     return {
@@ -325,9 +325,9 @@ function setComplexion(player: Player, choice: string): NextScreenChoices { // A
 }
 
 function setHair(player: Player, choice: string): NextScreenChoices {
-    player.torso.neck.head.hair.color = choice;
+    player.body.hair.color = choice;
     DisplayText().clear();
-    DisplayText("You have " + Desc.Head.describeHair(player) + ".");
+    DisplayText("You have " + describeHair(player) + ".");
     return { next: chooseEndowment };
 }
 
@@ -342,7 +342,7 @@ function chooseEndowment(player: Player): NextScreenChoices {
         ["Libido", confirmEndowmentLibido],
         ["Touch", confirmEndowmentTouch]
     ];
-    if (player.torso.cocks.count > 0) {
+    if (player.body.cocks.count > 0) {
         choices.push(["Big Cock", confirmEndowmentBigCock], ["Lots of Jizz", confirmEndowmentMessyOrgasms]);
     }
     else {
@@ -430,8 +430,8 @@ function confirmEndowmentWetVagina(): NextScreenChoices {
 
 function setEndowmentStrength(player: Player): NextScreenChoices {
     player.stats.str += 5;
-    player.tone += 7;
-    player.thickness += 3;
+    player.body.tone += 7;
+    player.body.thickness += 3;
     // Add bonus +25% strength gain
     player.perks.add(PerkType.Strong, 0.25, 0, 0, 0);
     return chooseHistory();
@@ -439,8 +439,8 @@ function setEndowmentStrength(player: Player): NextScreenChoices {
 
 function setEndowmentToughness(player: Player): NextScreenChoices {
     player.stats.tou += 5;
-    player.tone += 5;
-    player.thickness += 5;
+    player.body.tone += 5;
+    player.body.thickness += 5;
     player.perks.add(PerkType.Tough, 0.25, 0, 0, 0);
     player.stats.HP = player.stats.maxHP();
     return chooseHistory();
@@ -448,14 +448,14 @@ function setEndowmentToughness(player: Player): NextScreenChoices {
 
 function setEndowmentSpeed(player: Player): NextScreenChoices {
     player.stats.spe += 5;
-    player.tone += 10;
+    player.body.tone += 10;
     player.perks.add(PerkType.Fast, 0.25, 0, 0, 0);
     return chooseHistory();
 }
 
 function setEndowmentSmarts(player: Player): NextScreenChoices {
     player.stats.int += 5;
-    player.thickness -= 5;
+    player.body.thickness -= 5;
     player.perks.add(PerkType.Smart, 0.25, 0, 0, 0);
     return chooseHistory();
 }
@@ -473,45 +473,45 @@ function setEndowmentTouch(player: Player): NextScreenChoices {
 }
 
 function setEndowmentBigCock(player: Player): NextScreenChoices {
-    player.femininity -= 5;
-    player.torso.cocks.get(0).length = 8;
-    player.torso.cocks.get(0).thickness = 1.5;
+    player.body.femininity -= 5;
+    player.body.cocks.get(0).length = 8;
+    player.body.cocks.get(0).thickness = 1.5;
     player.perks.add(PerkType.BigCock, 1.25, 0, 0, 0);
     return chooseHistory();
 }
 
 function setEndowmentMessyOrgasms(player: Player): NextScreenChoices {
-    player.femininity -= 2;
-    player.cumMultiplier = 1.5;
+    player.body.femininity -= 2;
+    player.body.cumMultiplier = 1.5;
     player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
     return chooseHistory();
 }
 
 function setEndowmentBigBreasts(player: Player): NextScreenChoices {
-    player.femininity += 5;
-    player.torso.chest.get(0).rating += 2;
+    player.body.femininity += 5;
+    player.body.chest.get(0).rating += 2;
     player.perks.add(PerkType.BigTits, 1.5, 0, 0, 0);
     return chooseHistory();
 }
 
 function setEndowmentBigClit(player: Player): NextScreenChoices {
-    player.femininity -= 5;
-    player.torso.clit.length = 1;
+    player.body.femininity -= 5;
+    player.body.clit.length = 1;
     player.perks.add(PerkType.BigClit, 1.25, 0, 0, 0);
     return chooseHistory();
 }
 
 function setEndowmentFertile(player: Player): NextScreenChoices {
-    player.femininity += 5;
-    player.fertility += 25;
-    player.torso.hips.rating += 2;
+    player.body.femininity += 5;
+    player.body.fertility += 25;
+    player.body.hips.rating += 2;
     player.perks.add(PerkType.Fertile, 1.5, 0, 0, 0);
     return chooseHistory();
 }
 
 function setEndowmentWetVagina(player: Player): NextScreenChoices {
-    player.femininity += 7;
-    player.torso.vaginas.get(0).wetness = VaginaWetness.WET;
+    player.body.femininity += 7;
+    player.body.vaginas.get(0).wetness = VaginaWetness.WET;
     player.perks.add(PerkType.WetPussy, 2, 0, 0, 0);
     return chooseHistory();
 }
@@ -570,11 +570,11 @@ function confirmHistory(choice: PerkType): NextScreenChoices {
 function setHistory(player: Player, choice: PerkType): NextScreenChoices {
     player.perks.set(choice, PerkFactory.create(choice));
     if (choice === PerkType.HistorySlut || choice === PerkType.HistoryWhore) {
-        if (player.torso.vaginas.count > 0) {
-            player.torso.vaginas.get(0).virgin = false;
-            player.torso.vaginas.get(0).looseness = VaginaLooseness.LOOSE;
+        if (player.body.vaginas.count > 0) {
+            player.body.vaginas.get(0).virgin = false;
+            player.body.vaginas.get(0).looseness = VaginaLooseness.LOOSE;
         }
-        player.torso.butt.looseness = 1;
+        player.body.butt.looseness = 1;
     }
     return completeCharacterCreation(player);
 }
@@ -629,5 +629,5 @@ function arrivalPartThree(player: Player): NextScreenChoices {
 function arrivalPartFour(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You look around, surveying the hellish landscape as you plot your next move.  The portal is a few yards away, nestled between a formation of rocks.  It does not seem to exude the arousing influence it had on the other side.  The ground and sky are both tinted different shades of red, though the earth beneath your feet feels as normal as any other lifeless patch of dirt.   You settle on the idea of making a camp here and fortifying this side of the portal.  No demons will ravage your beloved hometown on your watch.\n\nIt does not take long to set up your tent and a few simple traps.  You'll need to explore and gather more supplies to fortify it any further.  Perhaps you will even manage to track down the demons who have been abducting the other champions!");
-    return { next: Menus.Player };
+    return { next: campMenu };
 }

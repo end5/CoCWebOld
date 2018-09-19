@@ -6,7 +6,7 @@ import { DefaultRespond } from './Default/DefaultRespond';
 import { EndScenes } from './EndScenes';
 import { Character } from '../Character/Character';
 import { CombatEffectList } from '../Effects/CombatEffectList';
-import { StatusAffectType } from '../Effects/StatusAffectType';
+import { StatusEffectType } from '../Effects/StatusEffectType';
 
 export class CombatContainer {
     private character: Character;
@@ -35,13 +35,13 @@ export class CombatContainer {
     }
 
     public spellCount(): number {
-        return [StatusAffectType.KnowsArouse,
-        StatusAffectType.KnowsHeal,
-        StatusAffectType.KnowsMight,
-        StatusAffectType.KnowsCharge,
-        StatusAffectType.KnowsBlind,
-        StatusAffectType.KnowsWhitefire]
-            .filter((name: StatusAffectType) => {
+        return [StatusEffectType.KnowsArouse,
+        StatusEffectType.KnowsHeal,
+        StatusEffectType.KnowsMight,
+        StatusEffectType.KnowsCharge,
+        StatusEffectType.KnowsBlind,
+        StatusEffectType.KnowsWhitefire]
+            .filter((name: StatusEffectType) => {
                 return this.character.statusAffects.has(name);
             })
             .length;

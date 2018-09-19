@@ -5,7 +5,7 @@ import { EarType } from './Ears';
 import { EyeType } from './Eyes';
 import { FaceType } from './Face';
 import { HairType } from './Hair';
-import { AntennaeType } from './Head';
+import { AntennaeType } from './Antennae';
 import { HornType } from './Horns';
 import { LegType } from './Legs';
 import { SkinType } from './Skin';
@@ -14,29 +14,29 @@ import { TongueType } from './Tongue';
 import { VaginaType } from './Vagina';
 import { WingType } from './Wings';
 import { Character } from '../Character/Character';
-import { StatusAffectType } from '../Effects/StatusAffectType';
+import { StatusEffectType } from '../Effects/StatusEffectType';
 
 export class RaceScore {
     public static demonScore(character: Character): number {
         let demonCounter: number = 0;
-        if (character.torso.neck.head.horns.amount === HornType.DEMON && character.torso.neck.head.horns.amount > 0) {
+        if (character.body.horns.count === HornType.DEMON && character.body.horns.count > 0) {
             demonCounter++;
-            if (character.torso.neck.head.horns.amount > 4)
+            if (character.body.horns.count > 4)
                 demonCounter++;
         }
-        if (character.torso.tails.filter(Tail.FilterType(TailType.DEMONIC)).length > 1)
+        if (character.body.tails.filter(Tail.FilterType(TailType.DEMONIC)).length > 1)
             demonCounter++;
-        if (character.torso.wings.type === WingType.BAT_LIKE_LARGE ||
-            character.torso.wings.type === WingType.BAT_LIKE_TINY)
+        if (character.body.wings.type === WingType.BAT_LIKE_LARGE ||
+            character.body.wings.type === WingType.BAT_LIKE_TINY)
             demonCounter++;
-        if (character.skin.type === SkinType.PLAIN && character.stats.cor > 50)
+        if (character.body.skin.type === SkinType.PLAIN && character.stats.cor > 50)
             demonCounter++;
-        if (character.torso.neck.head.face.type === FaceType.HUMAN && character.stats.cor > 50)
+        if (character.body.face.type === FaceType.HUMAN && character.stats.cor > 50)
             demonCounter++;
-        if (character.torso.hips.legs.type === LegType.DEMONIC_HIGH_HEELS ||
-            character.torso.hips.legs.type === LegType.DEMONIC_CLAWS)
+        if (character.body.legs.type === LegType.DEMONIC_HIGH_HEELS ||
+            character.body.legs.type === LegType.DEMONIC_CLAWS)
             demonCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.DEMON)).length > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.DEMON)).length > 0)
             demonCounter++;
         return demonCounter;
     }
@@ -44,21 +44,21 @@ export class RaceScore {
     // Determine Human Rating
     public static humanScore(character: Character): number {
         let humanCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.HUMAN)
+        if (character.body.face.type === FaceType.HUMAN)
             humanCounter++;
-        if (character.skin.type === SkinType.PLAIN)
+        if (character.body.skin.type === SkinType.PLAIN)
             humanCounter++;
-        if (character.torso.neck.head.horns.amount === HornType.NONE)
+        if (character.body.horns.count === HornType.NONE)
             humanCounter++;
-        if (character.torso.tails.count === 0)
+        if (character.body.tails.count === 0)
             humanCounter++;
-        if (character.torso.wings.type === WingType.NONE)
+        if (character.body.wings.type === WingType.NONE)
             humanCounter++;
-        if (character.torso.hips.legs.type === LegType.HUMAN)
+        if (character.body.legs.type === LegType.HUMAN)
             humanCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.HUMAN)).length === 1 && character.torso.cocks.count === 1)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.HUMAN)).length === 1 && character.body.cocks.count === 1)
             humanCounter++;
-        if (character.torso.chest.count === 1 && character.skin.type === SkinType.PLAIN)
+        if (character.body.chest.count === 1 && character.body.skin.type === SkinType.PLAIN)
             humanCounter++;
         return humanCounter;
     }
@@ -66,23 +66,23 @@ export class RaceScore {
     // Determine minotaur rating
     public static minotaurScore(character: Character): number {
         let minoCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.COW_MINOTAUR)
+        if (character.body.face.type === FaceType.COW_MINOTAUR)
             minoCounter++;
-        if (character.torso.neck.head.ears.type === EarType.COW)
+        if (character.body.ears.type === EarType.COW)
             minoCounter++;
-        if (character.torso.tails.reduce(Tail.HasType(TailType.COW), false))
+        if (character.body.tails.reduce(Tail.HasType(TailType.COW), false))
             minoCounter++;
-        if (character.torso.neck.head.horns.type === HornType.COW_MINOTAUR)
+        if (character.body.horns.type === HornType.COW_MINOTAUR)
             minoCounter++;
-        if (character.torso.hips.legs.type === LegType.HOOFED && minoCounter > 0)
+        if (character.body.legs.type === LegType.HOOFED && minoCounter > 0)
             minoCounter++;
-        if (character.tallness > 80 && minoCounter > 0)
+        if (character.body.tallness > 80 && minoCounter > 0)
             minoCounter++;
-        if (character.torso.cocks.count > 0 && minoCounter > 0) {
-            if (character.torso.cocks.filter(Cock.FilterType(CockType.HORSE)))
+        if (character.body.cocks.count > 0 && minoCounter > 0) {
+            if (character.body.cocks.filter(Cock.FilterType(CockType.HORSE)))
                 minoCounter++;
         }
-        if (character.torso.vaginas.count > 0)
+        if (character.body.vaginas.count > 0)
             minoCounter--;
         return minoCounter;
     }
@@ -90,26 +90,26 @@ export class RaceScore {
     // Determine cow rating
     public static cowScore(character: Character): number {
         let minoCounter: number = 0;
-        if (character.torso.neck.head.face.type === 0)
+        if (character.body.face.type === 0)
             minoCounter++;
-        if (character.torso.neck.head.face.type === FaceType.COW_MINOTAUR)
+        if (character.body.face.type === FaceType.COW_MINOTAUR)
             minoCounter--;
-        if (character.torso.neck.head.ears.type === EarType.COW)
+        if (character.body.ears.type === EarType.COW)
             minoCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.COW)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.COW)).length > 0)
             minoCounter++;
-        if (character.torso.neck.head.horns.type === HornType.COW_MINOTAUR)
+        if (character.body.horns.type === HornType.COW_MINOTAUR)
             minoCounter++;
-        if (character.torso.hips.legs.type === 1 && minoCounter > 0)
+        if (character.body.legs.type === 1 && minoCounter > 0)
             minoCounter++;
-        if (character.tallness >= 73 && minoCounter > 0)
+        if (character.body.tallness >= 73 && minoCounter > 0)
             minoCounter++;
-        if (character.torso.vaginas.count > 0)
+        if (character.body.vaginas.count > 0)
             minoCounter++;
-        if (character.torso.chest.count > 0) {
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 && minoCounter > 0)
+        if (character.body.chest.count > 0) {
+            if (character.body.chest.sort(BreastRow.Largest)[0].rating > 4 && minoCounter > 0)
                 minoCounter++;
-            if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].rating > 2 && minoCounter > 0)
+            if (character.body.chest.sort(BreastRow.LactationMost)[0].rating > 2 && minoCounter > 0)
                 minoCounter++;
         }
         return minoCounter;
@@ -117,15 +117,15 @@ export class RaceScore {
 
     public static sandTrapScore(character: Character): number {
         let counter: number = 0;
-        if (character.statusAffects.has(StatusAffectType.BlackNipples))
+        if (character.statusAffects.has(StatusEffectType.BlackNipples))
             counter++;
-        if (character.torso.vaginas.count > 0 && character.torso.vaginas.get(0).type === VaginaType.BLACK_SAND_TRAP)
+        if (character.body.vaginas.count > 0 && character.body.vaginas.get(0).type === VaginaType.BLACK_SAND_TRAP)
             counter++;
-        if (character.torso.neck.head.face.eyes.type === EyeType.BLACK_EYES_SAND_TRAP)
+        if (character.body.eyes.type === EyeType.BLACK_EYES_SAND_TRAP)
             counter++;
-        if (character.torso.wings.type === 12)
+        if (character.body.wings.type === 12)
             counter++;
-        if (character.statusAffects.has(StatusAffectType.Uniball))
+        if (character.statusAffects.has(StatusEffectType.Uniball))
             counter++;
         return counter;
     }
@@ -133,108 +133,108 @@ export class RaceScore {
     // Determine Bee Rating
     public static beeScore(character: Character): number {
         let beeCounter: number = 0;
-        if (character.torso.neck.head.hair.color === "shiny black")
+        if (character.body.hair.color === "shiny black")
             beeCounter++;
-        if (character.torso.neck.head.hair.color === "black and yellow")
+        if (character.body.hair.color === "black and yellow")
             beeCounter += 2;
-        if (character.torso.neck.head.antennae > 0) {
+        if (character.body.antennae.type > 0) {
             beeCounter++;
-            if (character.torso.neck.head.face.type === FaceType.HUMAN)
+            if (character.body.face.type === FaceType.HUMAN)
                 beeCounter++;
         }
-        if (character.torso.hips.legs.type === LegType.BEE) {
+        if (character.body.legs.type === LegType.BEE) {
             beeCounter++;
-            if (character.torso.vaginas.count === 1)
+            if (character.body.vaginas.count === 1)
                 beeCounter++;
         }
-        if (character.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0)
             beeCounter++;
-        if (character.torso.wings.type === WingType.BEE_LIKE_LARGE)
+        if (character.body.wings.type === WingType.BEE_LIKE_LARGE)
             beeCounter++;
-        if (character.torso.wings.type === WingType.BEE_LIKE_SMALL)
+        if (character.body.wings.type === WingType.BEE_LIKE_SMALL)
             beeCounter++;
         return beeCounter;
     }
     // Determine Ferret Rating!
     public static ferretScore(character: Character): number {
         let counter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.FERRET_MASK)
+        if (character.body.face.type === FaceType.FERRET_MASK)
             counter++;
-        if (character.torso.neck.head.face.type === FaceType.FERRET)
+        if (character.body.face.type === FaceType.FERRET)
             counter += 2;
-        if (character.torso.neck.head.ears.type === EarType.FERRET)
+        if (character.body.ears.type === EarType.FERRET)
             counter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.FERRET)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.FERRET)).length > 0)
             counter++;
-        if (character.torso.hips.legs.type === LegType.FERRET)
+        if (character.body.legs.type === LegType.FERRET)
             counter++;
-        if (character.skin.type === SkinType.FUR && counter > 0)
+        if (character.body.skin.type === SkinType.FUR && counter > 0)
             counter++;
         return counter;
     }
     // Determine Dog Rating
     public static dogScore(character: Character): number {
         let dogCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.DOG)
+        if (character.body.face.type === FaceType.DOG)
             dogCounter++;
-        if (character.torso.neck.head.ears.type === EarType.DOG)
+        if (character.body.ears.type === EarType.DOG)
             dogCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.DOG)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.DOG)).length > 0)
             dogCounter++;
-        if (character.torso.hips.legs.type === LegType.DOG)
+        if (character.body.legs.type === LegType.DOG)
             dogCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.DOG)).length > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.DOG)).length > 0)
             dogCounter++;
-        if (character.torso.chest.count > 1)
+        if (character.body.chest.count > 1)
             dogCounter++;
-        if (character.torso.chest.count === 3)
+        if (character.body.chest.count === 3)
             dogCounter++;
-        if (character.torso.chest.count > 3)
+        if (character.body.chest.count > 3)
             dogCounter--;
         // Fur only counts if some canine features are present
-        if (character.skin.type === SkinType.FUR && dogCounter > 0)
+        if (character.body.skin.type === SkinType.FUR && dogCounter > 0)
             dogCounter++;
         return dogCounter;
     }
 
     public static mouseScore(character: Character): number {
         let coonCounter: number = 0;
-        if (character.torso.neck.head.ears.type === EarType.MOUSE)
+        if (character.body.ears.type === EarType.MOUSE)
             coonCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.MOUSE)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.MOUSE)).length > 0)
             coonCounter++;
 
-        if (character.torso.neck.head.face.type === FaceType.BUCKTEETH)
+        if (character.body.face.type === FaceType.BUCKTEETH)
             coonCounter++;
-        if (character.torso.neck.head.face.type === FaceType.MOUSE)
+        if (character.body.face.type === FaceType.MOUSE)
             coonCounter += 2;
         // Fur only counts if some canine features are present
-        if (character.skin.type === SkinType.FUR && coonCounter > 0)
+        if (character.body.skin.type === SkinType.FUR && coonCounter > 0)
             coonCounter++;
 
-        if (character.tallness < 55 && coonCounter > 0)
+        if (character.body.tallness < 55 && coonCounter > 0)
             coonCounter++;
-        if (character.tallness < 45 && coonCounter > 0)
+        if (character.body.tallness < 45 && coonCounter > 0)
             coonCounter++;
         return coonCounter;
     }
 
     public static raccoonScore(character: Character): number {
         let coonCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.RACCOON)
+        if (character.body.face.type === FaceType.RACCOON)
             coonCounter++;
-        if (character.torso.neck.head.face.type === FaceType.RACCOON_MASK)
+        if (character.body.face.type === FaceType.RACCOON_MASK)
             coonCounter += 2;
-        if (character.torso.neck.head.ears.type === EarType.RACCOON)
+        if (character.body.ears.type === EarType.RACCOON)
             coonCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.RACCOON)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.RACCOON)).length > 0)
             coonCounter++;
-        if (character.torso.hips.legs.type === LegType.RACCOON)
+        if (character.body.legs.type === LegType.RACCOON)
             coonCounter++;
-        if (coonCounter > 0 && character.torso.balls.quantity > 0)
+        if (coonCounter > 0 && character.body.balls.count > 0)
             coonCounter++;
         // Fur only counts if some canine features are present
-        if (character.skin.type === SkinType.FUR && coonCounter > 0)
+        if (character.body.skin.type === SkinType.FUR && coonCounter > 0)
             coonCounter++;
         return coonCounter;
     }
@@ -242,24 +242,24 @@ export class RaceScore {
     // Determine Fox Rating
     public static foxScore(character: Character): number {
         let foxCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.FOX)
+        if (character.body.face.type === FaceType.FOX)
             foxCounter++;
-        if (character.torso.neck.head.ears.type === EarType.FOX)
+        if (character.body.ears.type === EarType.FOX)
             foxCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).length > 0)
             foxCounter++;
-        if (character.torso.hips.legs.type === LegType.FOX)
+        if (character.body.legs.type === LegType.FOX)
             foxCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.DOG)).length > 0 && foxCounter > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.DOG)).length > 0 && foxCounter > 0)
             foxCounter++;
-        if (character.torso.chest.count > 1 && foxCounter > 0)
+        if (character.body.chest.count > 1 && foxCounter > 0)
             foxCounter++;
-        if (character.torso.chest.count === 3 && foxCounter > 0)
+        if (character.body.chest.count === 3 && foxCounter > 0)
             foxCounter++;
-        if (character.torso.chest.count === 4 && foxCounter > 0)
+        if (character.body.chest.count === 4 && foxCounter > 0)
             foxCounter++;
         // Fur only counts if some canine features are present
-        if (character.skin.type === SkinType.FUR && foxCounter > 0)
+        if (character.body.skin.type === SkinType.FUR && foxCounter > 0)
             foxCounter++;
         return foxCounter;
     }
@@ -267,24 +267,24 @@ export class RaceScore {
     // Determine cat Rating
     public static catScore(character: Character): number {
         let catCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.CAT)
+        if (character.body.face.type === FaceType.CAT)
             catCounter++;
-        if (character.torso.neck.head.ears.type === EarType.CAT)
+        if (character.body.ears.type === EarType.CAT)
             catCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.CAT)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.CAT)).length > 0)
             catCounter++;
-        if (character.torso.hips.legs.type === LegType.CAT)
+        if (character.body.legs.type === LegType.CAT)
             catCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0)
             catCounter++;
-        if (character.torso.chest.count > 1 && catCounter > 0)
+        if (character.body.chest.count > 1 && catCounter > 0)
             catCounter++;
-        if (character.torso.chest.count === 3 && catCounter > 0)
+        if (character.body.chest.count === 3 && catCounter > 0)
             catCounter++;
-        if (character.torso.chest.count > 3)
+        if (character.body.chest.count > 3)
             catCounter -= 2;
         // Fur only counts if some canine features are present
-        if (character.skin.type === SkinType.FUR && catCounter > 0)
+        if (character.body.skin.type === SkinType.FUR && catCounter > 0)
             catCounter++;
         return catCounter;
     }
@@ -292,40 +292,40 @@ export class RaceScore {
     // Determine lizard rating
     public static lizardScore(character: Character): number {
         let lizardCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.LIZARD)
+        if (character.body.face.type === FaceType.LIZARD)
             lizardCounter++;
-        if (character.torso.neck.head.ears.type === EarType.LIZARD)
+        if (character.body.ears.type === EarType.LIZARD)
             lizardCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.LIZARD)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.LIZARD)).length > 0)
             lizardCounter++;
-        if (character.torso.hips.legs.type === LegType.LIZARD)
+        if (character.body.legs.type === LegType.LIZARD)
             lizardCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0)
             lizardCounter++;
-        if (character.torso.neck.head.horns.amount > 0 &&
-            (character.torso.neck.head.horns.type === HornType.DRACONIC_X2 ||
-                character.torso.neck.head.horns.type === HornType.DRACONIC_X4_12_INCH_LONG))
+        if (character.body.horns.count > 0 &&
+            (character.body.horns.type === HornType.DRACONIC_X2 ||
+                character.body.horns.type === HornType.DRACONIC_X4_12_INCH_LONG))
             lizardCounter++;
-        if (character.skin.type === 2)
+        if (character.body.skin.type === 2)
             lizardCounter++;
         return lizardCounter;
     }
 
     public static spiderScore(character: Character): number {
         let score: number = 0;
-        if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES)
+        if (character.body.eyes.type === EyeType.FOUR_SPIDER_EYES)
             score += 2;
-        if (character.torso.neck.head.face.type === FaceType.SPIDER_FANGS)
+        if (character.body.face.type === FaceType.SPIDER_FANGS)
             score++;
-        if (character.torso.arms.type === ArmType.SPIDER)
+        if (character.body.arms.type === ArmType.SPIDER)
             score++;
-        if (character.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS || character.torso.hips.legs.type === LegType.DRIDER_LOWER_BODY)
+        if (character.body.legs.type === LegType.CHITINOUS_SPIDER_LEGS || character.body.legs.type === LegType.DRIDER_LOWER_BODY)
             score += 2;
         else if (score > 0)
             score--;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).length > 0)
             score += 2;
-        if (character.skin.type !== SkinType.PLAIN && score > 0)
+        if (character.body.skin.type !== SkinType.PLAIN && score > 0)
             score--;
         return score;
     }
@@ -333,18 +333,18 @@ export class RaceScore {
     // Determine Horse Rating
     public static horseScore(character: Character): number {
         let horseCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.HORSE)
+        if (character.body.face.type === FaceType.HORSE)
             horseCounter++;
-        if (character.torso.neck.head.ears.type === EarType.HORSE)
+        if (character.body.ears.type === EarType.HORSE)
             horseCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.HORSE)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.HORSE)).length > 0)
             horseCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0)
             horseCounter++;
-        if (character.torso.hips.legs.type === LegType.HOOFED || character.torso.hips.legs.type === LegType.CENTAUR)
+        if (character.body.legs.type === LegType.HOOFED || character.body.legs.type === LegType.CENTAUR)
             horseCounter++;
         // Fur only counts if some equine features are present
-        if (character.skin.type === SkinType.FUR && horseCounter > 0)
+        if (character.body.skin.type === SkinType.FUR && horseCounter > 0)
             horseCounter++;
         return horseCounter;
     }
@@ -352,35 +352,35 @@ export class RaceScore {
     // Determine kitsune Rating
     public static kitsuneScore(character: Character): number {
         let kitsuneCounter: number = 0;
-        if (character.torso.neck.head.ears.type === EarType.FOX)
+        if (character.body.ears.type === EarType.FOX)
             kitsuneCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).length > 0)
             kitsuneCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length > 0 && character.torso.tails.count >= 2)
+        if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).length > 0 && character.body.tails.count >= 2)
             kitsuneCounter += 2;
-        if (character.torso.vaginas.count > 0 && character.torso.vaginas.get(0).capacity() >= 8000)
+        if (character.body.vaginas.count > 0 && character.body.vaginas.get(0).capacity() >= 8000)
             kitsuneCounter++;
-        if (kitsuneCounter > 0 && character.torso.neck.head.face.type === FaceType.HUMAN)
+        if (kitsuneCounter > 0 && character.body.face.type === FaceType.HUMAN)
             kitsuneCounter++;
-        if (kitsuneCounter > 0 && (character.torso.neck.head.hair.color === "golden blonde" ||
-            character.torso.neck.head.hair.color === "black" ||
-            character.torso.neck.head.hair.color === "red" ||
-            character.torso.neck.head.hair.color === "white" ||
-            character.torso.neck.head.hair.color === "silver blonde"))
+        if (kitsuneCounter > 0 && (character.body.hair.color === "golden blonde" ||
+            character.body.hair.color === "black" ||
+            character.body.hair.color === "red" ||
+            character.body.hair.color === "white" ||
+            character.body.hair.color === "silver blonde"))
             kitsuneCounter++;
-        if (kitsuneCounter > 0 && character.femininity >= 40)
+        if (kitsuneCounter > 0 && character.body.femininity >= 40)
             kitsuneCounter++;
-        if (character.skin.type !== SkinType.PLAIN)
+        if (character.body.skin.type !== SkinType.PLAIN)
             kitsuneCounter -= 2;
-        if (character.skin.type === SkinType.FUR)
+        if (character.body.skin.type === SkinType.FUR)
             kitsuneCounter--;
-        if (character.torso.hips.legs.type !== LegType.HUMAN)
+        if (character.body.legs.type !== LegType.HUMAN)
             kitsuneCounter--;
-        if (character.torso.neck.head.face.type !== FaceType.HUMAN)
+        if (character.body.face.type !== FaceType.HUMAN)
             kitsuneCounter--;
-        if (character.torso.neck.head.ears.type !== EarType.FOX)
+        if (character.body.ears.type !== EarType.FOX)
             kitsuneCounter--;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length <= 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).length <= 0)
             kitsuneCounter--;
 
         return kitsuneCounter;
@@ -389,25 +389,25 @@ export class RaceScore {
     // Determine Horse Rating
     public static dragonScore(character: Character): number {
         let dragonCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.DRAGON)
+        if (character.body.face.type === FaceType.DRAGON)
             dragonCounter++;
-        if (character.torso.neck.head.ears.type === EarType.DRAGON)
+        if (character.body.ears.type === EarType.DRAGON)
             dragonCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.DRACONIC)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.DRACONIC)).length > 0)
             dragonCounter++;
-        if (character.torso.neck.head.face.tongue.type === TongueType.DRACONIC)
+        if (character.body.tongue.type === TongueType.DRACONIC)
             dragonCounter++;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.DRAGON)).length > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.DRAGON)).length > 0)
             dragonCounter++;
-        if (character.torso.wings.type === WingType.DRACONIC_SMALL)
+        if (character.body.wings.type === WingType.DRACONIC_SMALL)
             dragonCounter++;
-        if (character.torso.wings.type === WingType.DRACONIC_LARGE)
+        if (character.body.wings.type === WingType.DRACONIC_LARGE)
             dragonCounter += 2;
-        if (character.torso.hips.legs.type === LegType.DRAGON)
+        if (character.body.legs.type === LegType.DRAGON)
             dragonCounter++;
-        if (character.skin.type === SkinType.SCALES && dragonCounter > 0)
+        if (character.body.skin.type === SkinType.SCALES && dragonCounter > 0)
             dragonCounter++;
-        if (character.torso.neck.head.horns.type === HornType.DRACONIC_X4_12_INCH_LONG || character.torso.neck.head.horns.type === HornType.DRACONIC_X2)
+        if (character.body.horns.type === HornType.DRACONIC_X4_12_INCH_LONG || character.body.horns.type === HornType.DRACONIC_X2)
             dragonCounter++;
         return dragonCounter;
     }
@@ -415,18 +415,18 @@ export class RaceScore {
     // Goblinscore
     public static goblinScore(character: Character): number {
         let goblinCounter: number = 0;
-        if (character.torso.neck.head.ears.type === EarType.ELFIN)
+        if (character.body.ears.type === EarType.ELFIN)
             goblinCounter++;
-        if (character.skin.tone === "pale yellow" || character.skin.tone === "grayish-blue" || character.skin.tone === "green" || character.skin.tone === "dark green")
+        if (character.body.skin.tone === "pale yellow" || character.body.skin.tone === "grayish-blue" || character.body.skin.tone === "green" || character.body.skin.tone === "dark green")
             goblinCounter++;
         if (goblinCounter > 0) {
-            if (character.torso.neck.head.face.type === FaceType.HUMAN)
+            if (character.body.face.type === FaceType.HUMAN)
                 goblinCounter++;
-            if (character.tallness < 48)
+            if (character.body.tallness < 48)
                 goblinCounter++;
-            if (character.torso.vaginas.count > 0)
+            if (character.body.vaginas.count > 0)
                 goblinCounter++;
-            if (character.torso.hips.legs.type === 0)
+            if (character.body.legs.type === 0)
                 goblinCounter++;
         }
         return goblinCounter;
@@ -435,15 +435,15 @@ export class RaceScore {
     // Gooscore
     public static gooScore(character: Character): number {
         let gooCounter: number = 0;
-        if (character.torso.neck.head.hair.type === HairType.GOO)
+        if (character.body.hair.type === HairType.GOO)
             gooCounter++;
-        if (character.skin.adj === "slimy")
+        if (character.body.skin.adj === "slimy")
             gooCounter++;
-        if (character.torso.hips.legs.type === LegType.GOO)
+        if (character.body.legs.type === LegType.GOO)
             gooCounter++;
-        if (character.torso.vaginas.count > 0 && character.torso.vaginas.get(0).capacity() > 9000)
+        if (character.body.vaginas.count > 0 && character.body.vaginas.get(0).capacity() > 9000)
             gooCounter++;
-        if (character.statusAffects.has(StatusAffectType.SlimeCraving))
+        if (character.statusAffects.has(StatusEffectType.SlimeCraving))
             gooCounter++;
         return gooCounter;
     }
@@ -451,13 +451,13 @@ export class RaceScore {
     // Nagascore
     public static nagaScore(character: Character): number {
         let nagaCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.SNAKE_FANGS)
+        if (character.body.face.type === FaceType.SNAKE_FANGS)
             nagaCounter++;
-        if (character.torso.neck.head.face.tongue.type === TongueType.SNAKE)
+        if (character.body.tongue.type === TongueType.SNAKE)
             nagaCounter++;
-        if (nagaCounter > 0 && character.torso.neck.head.antennae === AntennaeType.NONE)
+        if (nagaCounter > 0 && character.body.antennae.type === AntennaeType.NONE)
             nagaCounter++;
-        if (nagaCounter > 0 && character.torso.wings.type === WingType.NONE)
+        if (nagaCounter > 0 && character.body.wings.type === WingType.NONE)
             nagaCounter++;
         return nagaCounter;
     }
@@ -465,24 +465,24 @@ export class RaceScore {
     // Bunnyscore
     public static bunnyScore(character: Character): number {
         let bunnyCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.BUNNY)
+        if (character.body.face.type === FaceType.BUNNY)
             bunnyCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.BUNNY)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.BUNNY)).length > 0)
             bunnyCounter++;
-        if (character.torso.neck.head.ears.type === EarType.BUNNY)
+        if (character.body.ears.type === EarType.BUNNY)
             bunnyCounter++;
-        if (character.torso.hips.legs.type === LegType.BUNNY)
+        if (character.body.legs.type === LegType.BUNNY)
             bunnyCounter++;
         // More than 2 balls reduces bunny score
-        if (character.torso.balls.quantity > 2 && bunnyCounter > 0)
+        if (character.body.balls.count > 2 && bunnyCounter > 0)
             bunnyCounter--;
         // Human skin on bunmorph adds
-        if (character.skin.type === SkinType.PLAIN && bunnyCounter > 1)
+        if (character.body.skin.type === SkinType.PLAIN && bunnyCounter > 1)
             bunnyCounter++;
-        // No wings and character.torso.neck.head.antennae a plus
-        if (bunnyCounter > 0 && character.torso.neck.head.antennae === AntennaeType.NONE)
+        // No wings and character.torso.antennae a plus
+        if (bunnyCounter > 0 && character.body.antennae.type === AntennaeType.NONE)
             bunnyCounter++;
-        if (bunnyCounter > 0 && character.torso.wings.type === WingType.NONE)
+        if (bunnyCounter > 0 && character.body.wings.type === WingType.NONE)
             bunnyCounter++;
         return bunnyCounter;
     }
@@ -490,19 +490,19 @@ export class RaceScore {
     // Harpyscore
     public static harpyScore(character: Character): number {
         let harpy: number = 0;
-        if (character.torso.arms.type === ArmType.HARPY)
+        if (character.body.arms.type === ArmType.HARPY)
             harpy++;
-        if (character.torso.neck.head.hair.type === HairType.FEATHER)
+        if (character.body.hair.type === HairType.FEATHER)
             harpy++;
-        if (character.torso.wings.type === WingType.HARPY)
+        if (character.body.wings.type === WingType.HARPY)
             harpy++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.HARPY)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.HARPY)).length > 0)
             harpy++;
-        if (character.torso.hips.legs.type === LegType.HARPY)
+        if (character.body.legs.type === LegType.HARPY)
             harpy++;
-        if (harpy >= 2 && character.torso.neck.head.face.type === FaceType.HUMAN)
+        if (harpy >= 2 && character.body.face.type === FaceType.HUMAN)
             harpy++;
-        if (harpy >= 2 && (character.torso.neck.head.ears.type === EarType.HUMAN || character.torso.neck.head.ears.type === EarType.ELFIN))
+        if (harpy >= 2 && (character.body.ears.type === EarType.HUMAN || character.body.ears.type === EarType.ELFIN))
             harpy++;
         return harpy;
     }
@@ -510,17 +510,17 @@ export class RaceScore {
     // Kangascore
     public static kangaScore(character: Character): number {
         let kanga: number = 0;
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.KANGAROO)).length > 0)
+        if (character.body.cocks.filter(Cock.FilterType(CockType.KANGAROO)).length > 0)
             kanga++;
-        if (character.torso.neck.head.ears.type === EarType.KANGAROO)
+        if (character.body.ears.type === EarType.KANGAROO)
             kanga++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.KANGAROO)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.KANGAROO)).length > 0)
             kanga++;
-        if (character.torso.hips.legs.type === LegType.KANGAROO)
+        if (character.body.legs.type === LegType.KANGAROO)
             kanga++;
-        if (character.torso.neck.head.face.type === FaceType.KANGAROO)
+        if (character.body.face.type === FaceType.KANGAROO)
             kanga++;
-        if (kanga >= 2 && character.skin.type === SkinType.FUR)
+        if (kanga >= 2 && character.body.skin.type === SkinType.FUR)
             kanga++;
         return kanga;
     }
@@ -528,11 +528,11 @@ export class RaceScore {
     // sharkscore
     public static sharkScore(character: Character): number {
         let sharkCounter: number = 0;
-        if (character.torso.neck.head.face.type === FaceType.SHARK_TEETH)
+        if (character.body.face.type === FaceType.SHARK_TEETH)
             sharkCounter++;
-        if (character.torso.wings.type === WingType.SHARK_FIN)
+        if (character.body.wings.type === WingType.SHARK_FIN)
             sharkCounter++;
-        if (character.torso.tails.filter(Tail.FilterType(TailType.SHARK)).length > 0)
+        if (character.body.tails.filter(Tail.FilterType(TailType.SHARK)).length > 0)
             sharkCounter++;
         return sharkCounter;
     }
@@ -540,28 +540,28 @@ export class RaceScore {
     // Determine Mutant Rating
     public static mutantScore(character: Character): number {
         let mutantCounter: number = 0;
-        if (character.torso.neck.head.face.type > 0)
+        if (character.body.face.type > 0)
             mutantCounter++;
-        if (character.skin.type !== SkinType.PLAIN)
+        if (character.body.skin.type !== SkinType.PLAIN)
             mutantCounter++;
-        if (character.torso.tails.count > 0)
+        if (character.body.tails.count > 0)
             mutantCounter++;
-        if (character.torso.cocks.count > 1)
+        if (character.body.cocks.count > 1)
             mutantCounter++;
-        if (character.torso.cocks.count > 0 && character.torso.vaginas.count > 0)
+        if (character.body.cocks.count > 0 && character.body.vaginas.count > 0)
             mutantCounter++;
-        if (character.torso.chest.find(BreastRow.FuckableNipples))
+        if (character.body.chest.find(BreastRow.FuckableNipples))
             mutantCounter++;
-        if (character.torso.chest.count > 1)
+        if (character.body.chest.count > 1)
             mutantCounter++;
-        /*if (character.torso.neck.head.face.type == FaceType.HORSE) {
-            if (character.skin.type == SkinType.FUR)
+        /*if (character.torso.face.type == FaceType.HORSE) {
+            if (character.body.skin.type == SkinType.FUR)
                 mutantCounter--;
             if (character.torso.tailType == TailType.HORSE)
                 mutantCounter--;
         }
-        if (character.torso.neck.head.face.type == 2) {
-            if (character.skin.type == SkinType.FUR)
+        if (character.torso.face.type == 2) {
+            if (character.body.skin.type == SkinType.FUR)
                 mutantCounter--;
             if (character.torso.tailType == 2)
                 mutantCounter--;

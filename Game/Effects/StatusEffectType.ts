@@ -1,4 +1,4 @@
-export enum StatusAffectType {
+export enum StatusEffectType {
     // Non-combat player perks
     AllNaturalOnaholeUsed = "AllNaturalOnaholeUsed",
     AteEgg = "AteEgg",

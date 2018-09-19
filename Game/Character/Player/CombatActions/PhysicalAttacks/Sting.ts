@@ -3,7 +3,7 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 
@@ -12,11 +12,11 @@ export class Sting implements CombatAction {
     public reasonCannotUse: string = "You do not have enough venom to sting right now!";
 
     public isPossible(player: Player): boolean {
-        return player.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false);
+        return player.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false);
     }
 
     public canUse(player: Player): boolean {
-        return player.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].vemon >= 33;
+        return player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].vemon >= 33;
     }
 
     public use(player: Player, monster: Character): NextScreenChoices {
@@ -28,7 +28,7 @@ export class Sting implements CombatAction {
         }
         // Determine if dodged!
         // Amily!
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -57,8 +57,8 @@ export class Sting implements CombatAction {
         else if (player.stats.level < 20) damage += 30 + (player.stats.level - 10) * 2;
         else damage += 50;
         monster.stats.lust += monster.stats.lustVuln * damage;
-        if (!monster.statusAffects.has(StatusAffectType.lustvenom))
-            monster.statusAffects.add(StatusAffectType.lustvenom, 0, 0, 0, 0);
+        if (!monster.statusAffects.has(StatusEffectType.lustvenom))
+            monster.statusAffects.add(StatusEffectType.lustvenom, 0, 0, 0, 0);
         /* IT used to paralyze 50% of the time, this is no longer the case!
         Paralise the other 50%!
         else {
@@ -75,6 +75,6 @@ export class Sting implements CombatAction {
         // New line before monster attack
         DisplayText("\n\n");
         // Use tail mp
-        player.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].vemon -= 25;
+        player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].vemon -= 25;
     }
 }

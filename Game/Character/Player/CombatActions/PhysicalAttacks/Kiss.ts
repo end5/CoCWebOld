@@ -3,8 +3,8 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Character } from '../../../../Character/Character';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Desc } from '../../../../Descriptors/Descriptors';
-import { StatusAffectFactory } from '../../../../Effects/StatusAffectFactory';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusAffectFactory } from '../../../../Effects/StatusEffectFactory';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 
@@ -13,11 +13,11 @@ export class Kiss implements CombatAction {
     public reasonCannotUse: string = "There's no way you'd be able to find their lips while you're blind!";
 
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has(StatusAffectType.LustStickApplied);
+        return player.statusAffects.has(StatusEffectType.LustStickApplied);
     }
 
     public canUse(player: Player): boolean {
-        return !player.statusAffects.has(StatusAffectType.Blind);
+        return !player.statusAffects.has(StatusEffectType.Blind);
     }
 
     public use(player: Player, monster: Character): NextScreenChoices {
@@ -70,7 +70,7 @@ export class Kiss implements CombatAction {
             return;
         }
         // Success but no effect:
-        if (monster.stats.lustVuln <= 0 || monster.torso.cocks.count <= 0) {
+        if (monster.stats.lustVuln <= 0 || monster.body.cocks.count <= 0) {
             if (monster.desc.plural) DisplayText("  Mouth presses against mouth, and you allow your tongue to stick out to taste the saliva of one of their number, making sure to give them a big dose.  Pulling back, you look at " + monster.desc.a + monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n");
             else DisplayText("  Mouth presses against mouth, and you allow your tongue to stick to taste " + monster.desc.possessivePronoun + "'s saliva as you make sure to give them a big dose.  Pulling back, you look at " + monster.desc.a + monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n");
             return;
@@ -80,7 +80,7 @@ export class Kiss implements CombatAction {
             // Success 1:
             case 1:
                 if (monster.desc.plural) DisplayText("  Success!  A spit-soaked kiss lands right on one of their mouths.  The victim quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n");
-                else DisplayText("  Success!  A spit-soaked kiss lands right on " + monster.desc.a + monster.desc.short + "'s mouth.  " + Desc.Gender.mf(monster, "He", "She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n");
+                else DisplayText("  Success!  A spit-soaked kiss lands right on " + monster.desc.a + monster.desc.short + "'s mouth.  " + mf(monster, "He", "She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n");
                 damage = 15;
                 break;
             // Success 2:
@@ -92,9 +92,9 @@ export class Kiss implements CombatAction {
             // CRITICAL SUCCESS (3)
             case 3:
                 if (monster.desc.plural)
-                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against one of them.  " + Desc.Gender.mf(monster, "He", "She") + " melts against you, " + Desc.Gender.mf(monster, "his", "her") + " tongue sliding into your mouth as " + Desc.Gender.mf(monster, "he", "she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + Desc.Gender.mf(monster, "his", "her") + " mouth, you break back and observe your handwork.  One of " + monster.desc.a + monster.desc.short + " is still standing there, licking " + Desc.Gender.mf(monster, "his", "her") + " his lips while " + Desc.Gender.mf(monster, "his", "her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + Desc.Gender.mf(monster, "he", "she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.\n\n");
+                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against one of them.  " + mf(monster, "He", "She") + " melts against you, " + mf(monster, "his", "her") + " tongue sliding into your mouth as " + mf(monster, "he", "she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + mf(monster, "his", "her") + " mouth, you break back and observe your handwork.  One of " + monster.desc.a + monster.desc.short + " is still standing there, licking " + mf(monster, "his", "her") + " his lips while " + mf(monster, "his", "her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + mf(monster, "he", "she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.\n\n");
                 else
-                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against " + monster.desc.possessivePronoun + ".  " + Desc.Gender.mf(monster, "He", "She") + " melts against you, " + monster.desc.possessivePronoun + " tongue sliding into your mouth as " + monster.desc.subjectivePronoun + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.desc.possessivePronoun + " mouth, you break back and observe your handwork.  " + monster.desc.capitalA + monster.desc.short + " is still standing there, licking " + monster.desc.possessivePronoun + " lips while " + monster.desc.possessivePronoun + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.desc.subjectivePronoun + " will go soft now.\n\n");
+                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against " + monster.desc.possessivePronoun + ".  " + mf(monster, "He", "She") + " melts against you, " + monster.desc.possessivePronoun + " tongue sliding into your mouth as " + monster.desc.subjectivePronoun + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.desc.possessivePronoun + " mouth, you break back and observe your handwork.  " + monster.desc.capitalA + monster.desc.short + " is still standing there, licking " + monster.desc.possessivePronoun + " lips while " + monster.desc.possessivePronoun + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.desc.subjectivePronoun + " will go soft now.\n\n");
                 damage = 30;
                 break;
             // Success 4:
@@ -104,10 +104,10 @@ export class Kiss implements CombatAction {
                 break;
         }
         // Add status if not already drugged
-        if (!monster.statusAffects.has(StatusAffectType.LustStick))
-            monster.statusAffects.add(StatusAffectType.LustStick, 0, 0, 0, 0);
+        if (!monster.statusAffects.has(StatusEffectType.LustStick))
+            monster.statusAffects.add(StatusEffectType.LustStick, 0, 0, 0, 0);
         // Else add bonus to round damage
-        else monster.statusAffects.get(StatusAffectType.LustStick).value2 = Math.round(damage / 10);
+        else monster.statusAffects.get(StatusEffectType.LustStick).value2 = Math.round(damage / 10);
         // Deal damage
         monster.stats.lust += Math.round(monster.stats.lustVuln * damage);
         // Sets up for end of combat, and if not, goes to AI.

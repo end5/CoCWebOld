@@ -47,7 +47,7 @@ export function describeVagina(character: Character, vagina: Vagina): string {
             description += ", ";
         description += "pierced";
     }
-    if (description === "" && character.skin.type === SkinType.GOO) {
+    if (description === "" && character.body.skin.type === SkinType.GOO) {
         if (description.length > 0)
             description += ", ";
 
@@ -85,15 +85,15 @@ export function describeVagina(character: Character, vagina: Vagina): string {
 }
 
 export function describeAllVagina(character: Character): string {
-    if (character.torso.vaginas.count === 1)
-        return describeVagina(character, character.torso.vaginas.get(randInt(character.torso.vaginas.count - 1)));
-    if (character.torso.vaginas.count > 1)
-        return describeVagina(character, character.torso.vaginas.get(randInt(character.torso.vaginas.count - 1))) + "s";
+    if (character.body.vaginas.count === 1)
+        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.count - 1)));
+    if (character.body.vaginas.count > 1)
+        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.count - 1))) + "s";
 }
 
 export function describeClit(character: Character): string {
     let description: string = "";
-    const clit = character.torso.clit;
+    const clit = character.body.clit;
     // Length Adjective - 50% chance
     if (percentChance(50)) {
         // small clits!
@@ -131,7 +131,7 @@ export function describeClit(character: Character): string {
     // Descriptive descriptions - 50% chance of being called
     if (percentChance(50)) {
         // Doggie descriptors - 50%
-        if (character.skin.type === SkinType.FUR && percentChance(50)) {
+        if (character.body.skin.type === SkinType.FUR && percentChance(50)) {
             description += "bitch-";
         }
         /*Horse descriptors - 50%

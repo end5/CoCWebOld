@@ -2,8 +2,8 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { ItemDesc } from '../ItemDesc';
+import { describeHair } from '../../Descriptors/HairDescriptor';
 
 export enum HairDyeType {
     Auburn,
@@ -95,17 +95,17 @@ export class HairDye extends Consumable {
 
     public use(character: Character) {
         DisplayText().clear();
-        if (character.torso.neck.head.hair.color.indexOf("rubbery") !== -1 || character.torso.neck.head.hair.color.indexOf("latex-textured") !== -1) {
-            DisplayText("You massage the dye into your " + Desc.Head.describeHair(character) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
+        if (character.body.hair.color.indexOf("rubbery") !== -1 || character.body.hair.color.indexOf("latex-textured") !== -1) {
+            DisplayText("You massage the dye into your " + describeHair(character) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
             return;
         }
-        if (character.torso.neck.head.hair.length === 0) {
+        if (character.body.hair.length === 0) {
             DisplayText("You rub the dye into your bald head, but it has no effect.");
             return;
         }
-        DisplayText("You rub the dye into your " + Desc.Head.describeHair(character) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
-        character.torso.neck.head.hair.color = this.getColor();
-        DisplayText("You now have " + Desc.Head.describeHair(character) + ".");
+        DisplayText("You rub the dye into your " + describeHair(character) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
+        character.body.hair.color = this.getColor();
+        DisplayText("You now have " + describeHair(character) + ".");
         if (character.stats.lust > 50) {
             DisplayText("\n\nThe cool water calms your urges somewhat, letting you think more clearly.");
             character.stats.lust += -15;

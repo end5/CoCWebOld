@@ -2,8 +2,7 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { DefeatType } from '../../Combat/DefeatEvent';
 import { EndScenes } from '../../Combat/EndScenes';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
-import { Scenes } from '../../Scenes/Scenes';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Character } from '../Character';
 
@@ -47,20 +46,20 @@ export class PlayerEndScenes extends EndScenes {
 
     public readonly hasVictoryScene = false;
     protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
-        return { next: Scenes.camp.returnToCampUseOneHour };
+        return { next: returnToCampUseOneHour };
     }
 
     public readonly hasDefeatScene = false;
     protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
-        if (enemy.statusAffects.get(StatusAffectType.Sparring).value1 === 2) {
+        if (enemy.statusAffects.get(StatusEffectType.Sparring).value1 === 2) {
             DisplayText().clear();
             DisplayText("The cow-girl has defeated you in a practice fight!");
             DisplayText("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
             // Game.inCombat = false;
             this.char.stats.HP = 1;
-            return { next: Scenes.camp.returnToCampUseOneHour };
+            return { next: returnToCampUseOneHour };
         }
-        else if (enemy.statusAffects.has(StatusAffectType.PeachLootLoss)) {
+        else if (enemy.statusAffects.has(StatusEffectType.PeachLootLoss)) {
             // Game.inCombat = false;
             this.char.stats.HP = 1;
             return;
@@ -68,7 +67,7 @@ export class PlayerEndScenes extends EndScenes {
         else if (enemy.desc.short === "Ember") {
             // Game.inCombat = false;
             this.char.stats.HP = 1;
-            return { next: Scenes.camp.returnToCampUseOneHour };
+            return { next: returnToCampUseOneHour };
         }
         else {
             let lostGems: number = randInt(10) + 1;
@@ -116,6 +115,6 @@ export class PlayerEndScenes extends EndScenes {
         // }
         // else return { next: createCallBackFunction(Scenes.camp.returnToCamp, timePasses) };
 
-        return { next: Scenes.camp.returnToCampUseEightHours };
+        return { next: returnToCampUseEightHours };
     }
 }

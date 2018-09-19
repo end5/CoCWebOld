@@ -31,15 +31,15 @@ export class Attack implements CombatAction {
         }
 
         if (!missNoAttack(character)) {
-            if (character.perks.has(PerkType.DoubleAttack) && character.stats.spe >= 50 && (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE < 2) {
+            if (character.perks.has(PerkType.DoubleAttack) && character.stats.spe >= 50 && playerFlags.DOUBLE_ATTACK_STYLE < 2) {
                 if (character.combat.effects.has(CombatEffectType.FirstAttack))
                     character.combat.effects.remove(CombatEffectType.FirstAttack);
                 else {
                     // Always!
-                    if ((User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE === 0)
+                    if (playerFlags.DOUBLE_ATTACK_STYLE === 0)
                         character.combat.effects.set(CombatEffectType.FirstAttack, CombatEffectFactory.create(CombatEffectType.FirstAttack, 0, 0, 0, 0));
                     // Alternate!
-                    else if (character.stats.str < 61 && (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE === 1)
+                    else if (character.stats.str < 61 && playerFlags.DOUBLE_ATTACK_STYLE === 1)
                         character.combat.effects.set(CombatEffectType.FirstAttack, CombatEffectFactory.create(CombatEffectType.FirstAttack, 0, 0, 0, 0));
                 }
             }
@@ -68,7 +68,7 @@ function missNoAttack(character: Character): boolean {
         DisplayText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The kitsune's seals have made normal attack impossible!  Maybe you could try something else?\n\n");
         return true;
     }
-    if ((User.flags.get("Player") as PlayerFlags).FETISH >= 3) {
+    if (playerFlags.FETISH >= 3) {
         DisplayText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Ceraph's piercings have made normal attack impossible!  Maybe you could try something else?\n\n");
         return true;
     }
@@ -94,7 +94,7 @@ function determineDamage(character: Character, enemy: Character, crit: boolean):
         character.perks.has(PerkType.DoubleAttack) &&
         character.stats.spe >= 50 &&
         character.stats.str > 61 &&
-        (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE === 0
+        playerFlags.DOUBLE_ATTACK_STYLE === 0
     ) {
         damage = 60.5;
     }

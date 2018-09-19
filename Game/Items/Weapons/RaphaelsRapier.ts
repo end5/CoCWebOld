@@ -1,8 +1,5 @@
 import { Weapon } from './Weapon';
 import { WeaponName } from './WeaponName';
-import { WeaponPerkType } from './WeaponPerk';
-import { PlayerFlags } from '../../Character/Player/PlayerFlags';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 
 export class RaphaelsRapier extends Weapon {
@@ -11,6 +8,6 @@ export class RaphaelsRapier extends Weapon {
     }
 
     public get attack(): number {
-        return 8 + (User.flags.get("Player") as PlayerFlags).RAPHAEL_RAPIER_TRANING * 2;
+        return 8 + playerFlags.RAPHAEL_RAPIER_TRANING * 2;
     }
 }

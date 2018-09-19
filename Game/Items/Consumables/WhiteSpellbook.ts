@@ -2,7 +2,7 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 
 export class WhiteSpellbook extends Consumable {
@@ -30,21 +30,21 @@ export class WhiteSpellbook extends Consumable {
             character.stats.int += .6;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 25 && !character.statusAffects.has(StatusAffectType.KnowsCharge)) {
+        if (character.stats.int >= 25 && !character.statusAffects.has(StatusEffectType.KnowsCharge)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Charge Weapon.</b>");
-            character.statusAffects.add(StatusAffectType.KnowsCharge, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.KnowsCharge, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 30 && !character.statusAffects.has(StatusAffectType.KnowsBlind)) {
+        if (character.stats.int >= 30 && !character.statusAffects.has(StatusEffectType.KnowsBlind)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Blind.</b>");
-            character.statusAffects.add(StatusAffectType.KnowsBlind, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.KnowsBlind, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 40 && !character.statusAffects.has(StatusAffectType.KnowsWhitefire)) {
+        if (character.stats.int >= 40 && !character.statusAffects.has(StatusEffectType.KnowsWhitefire)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Whitefire.</b>");
-            character.statusAffects.add(StatusAffectType.KnowsWhitefire, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.KnowsWhitefire, 0, 0, 0, 0);
         }
     }
 }

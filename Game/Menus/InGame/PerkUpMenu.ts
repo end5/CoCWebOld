@@ -5,16 +5,14 @@ import { ParagraphElement } from '../../../Engine/display/Elements/ParagraphElem
 import { UnorderedListElement } from '../../../Engine/Display/Elements/UnorderedListElement';
 import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
 import { Character } from '../../Character/Character';
-import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 import { Perk } from '../../Effects/Perk';
 import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import { displayNextScreenChoices, NextScreenChoices } from '../../ScreenDisplay';
-import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import { Menus } from '../Menus';
+import { campMenu } from './PlayerMenu';
 
-export function display(character: Character): NextScreenChoices {
+export function perkUpMenu(character: Character): NextScreenChoices {
     DisplayText().clear();
     const perkList: Perk[] = getAvailablePerks(character);
 
@@ -22,7 +20,7 @@ export function display(character: Character): NextScreenChoices {
         DisplayText("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + numToCardinalText(character.stats.perkPoints) + " perk point");
         if (character.stats.perkPoints > 1) DisplayText("s");
         DisplayText(".");
-        return { next: Menus.Player };
+        return { next: campMenu };
     }
     else {
         DisplayText("Please select a perk from the list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.");
@@ -32,7 +30,7 @@ export function display(character: Character): NextScreenChoices {
 
         MainScreen.getTopButton(TopButton.MainMenu).hide();
         // "Okay" button is modified in displayPerkList
-        return { choices: [["Okay", undefined], ["Skip", Menus.Player]] };
+        return { choices: [["Okay", undefined], ["Skip", campMenu]] };
     }
 }
 
@@ -44,7 +42,7 @@ function confirmPerk(character: Character, selectedPerk: Perk): NextScreenChoice
     DisplayText(selectedPerk.desc.longDesc);
     DisplayText("\n\n");
     DisplayText("If you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
-    return { choices: [["Okay", (char) => applyPerk(char, selectedPerk)], ["Skip", Menus.Player]] };
+    return { choices: [["Okay", (char) => applyPerk(char, selectedPerk)], ["Skip", campMenu]] };
 }
 
 function displayPerkList(character: Character, selectedPerk: string) {
@@ -61,7 +59,7 @@ function displayPerkList(character: Character, selectedPerk: string) {
         listEntry.appendElement(buttonElement);
         buttonElement.modify(perk.desc.name, () => {
             // Okay button is disabled until perk is selected
-            displayNextScreenChoices({ choices: [["Okay", (char) => confirmPerk(char, perk)], ["Skip", Menus.Player]] });
+            displayNextScreenChoices({ choices: [["Okay", (char) => confirmPerk(char, perk)], ["Skip", campMenu]] });
         });
 
         const longDescElement = new ParagraphElement();
@@ -215,7 +213,7 @@ function getAvailablePerks(character: Character): Perk[] {
         perkList.push(PerkFactory.create(PerkType.CorruptedLibido, 20, 0, 0, 0));
     }
     // Slot 7 - Seduction (Must have seduced Jojo
-    if (!character.perks.has(PerkType.Seduction) && character.stats.cor >= 50 && (User.flags.get("Player") as PlayerFlags).monk >= 5) {
+    if (!character.perks.has(PerkType.Seduction) && character.stats.cor >= 50 && playerFlags.monk >= 5) {
         perkList.push(PerkFactory.create(PerkType.Seduction));
     }
     // Slot 7 - Nymphomania
@@ -261,5 +259,5 @@ function applyPerk(character: Character, selectedPerk: Perk) {
     if (selectedPerk.type === PerkType.Tank2) {
         character.stats.HP += character.stats.tou;
     }
-    return { next: Menus.Player };
+    return { next: campMenu };
 }

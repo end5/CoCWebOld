@@ -2,15 +2,16 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import { Desc } from '../../Descriptors/Descriptors';
 import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
 import { PerkType } from '../PerkType';
+import { describeCock } from '../../Descriptors/CockDescriptor';
+import { mf } from '../../Descriptors/GenderDescriptor';
 
 export class LustStick extends CombatEffect {
     public update(character: Character, enemy: Character) {
         if (character.charType === CharacterType.Player) {
-            if (character.torso.cocks.count > 0 && (enemy.charType === CharacterType.Harpy || enemy.charType === CharacterType.Sophie)) {
+            if (character.body.cocks.count > 0 && (enemy.charType === CharacterType.Harpy || enemy.charType === CharacterType.Sophie)) {
                 // Chance to cleanse!
                 if (character.perks.has(PerkType.Medicine) && randInt(100) <= 14) {
                     character.combat.effects.remove(CombatEffectType.LustStick);
@@ -20,9 +21,9 @@ export class LustStick extends CombatEffect {
                 else if (randInt(5) === 0) {
                     character.stats.lust += 20;
                     if (randInt(2) === 0)
-                        DisplayText("A fantasy springs up from nowhere, dominating your thoughts for a few moments.  In it, you're lying down in a soft nest.  Gold-rimmed lips are noisily slurping around your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", smearing it with her messy aphrodisiac until you're completely coated in it.  She looks up at you knowingly as the two of you get ready to breed the night away...");
+                        DisplayText("A fantasy springs up from nowhere, dominating your thoughts for a few moments.  In it, you're lying down in a soft nest.  Gold-rimmed lips are noisily slurping around your " + describeCock(character, character.body.cocks.get(0)) + ", smearing it with her messy aphrodisiac until you're completely coated in it.  She looks up at you knowingly as the two of you get ready to breed the night away...");
                     else
-                        DisplayText("An idle daydream flutters into your mind.  In it, you're fucking a harpy's asshole, clutching tightly to her wide, feathery flanks as the tight ring of her pucker massages your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  She moans and turns around to kiss you on the lips, ensuring your hardness.  Before long her feverish grunts of pleasure intensify, and you feel the egg she's birthing squeezing against you through her internal walls...");
+                        DisplayText("An idle daydream flutters into your mind.  In it, you're fucking a harpy's asshole, clutching tightly to her wide, feathery flanks as the tight ring of her pucker massages your " + describeCock(character, character.body.cocks.get(0)) + ".  She moans and turns around to kiss you on the lips, ensuring your hardness.  Before long her feverish grunts of pleasure intensify, and you feel the egg she's birthing squeezing against you through her internal walls...");
                     DisplayText("\n\n");
                 }
             }
@@ -36,9 +37,9 @@ export class LustStick extends CombatEffect {
                 // First:
                 case 1: {
                     if (character.desc.plural)
-                        DisplayText("One of " + character.desc.a + character.desc.short + " pants and crosses " + Desc.Gender.mf(character, "his", "her") + " eyes for a moment.  " + Desc.Gender.mf(character, "His", "Her") + " dick flexes and bulges, twitching as " + Desc.Gender.mf(character, "he", "she") + " loses himself in a lipstick-fueled fantasy.  When " + Desc.Gender.mf(character, "he", "she") + " recovers, you lick your lips and watch " + Desc.Gender.mf(character, "his", "her") + " blush spread.");
+                        DisplayText("One of " + character.desc.a + character.desc.short + " pants and crosses " + mf(character, "his", "her") + " eyes for a moment.  " + mf(character, "His", "Her") + " dick flexes and bulges, twitching as " + mf(character, "he", "she") + " loses himself in a lipstick-fueled fantasy.  When " + mf(character, "he", "she") + " recovers, you lick your lips and watch " + mf(character, "his", "her") + " blush spread.");
                     else
-                        DisplayText(character.desc.capitalA + character.desc.short + " pants and crosses " + character.desc.possessivePronoun + " eyes for a moment.  " + Desc.Gender.mf(character, "His", "Her") + " dick flexes and bulges, twitching as " + character.desc.subjectivePronoun + " loses " + Desc.Gender.mf(character, "himself", "herself") + " in a lipstick-fueled fantasy.  When " + character.desc.subjectivePronoun + " recovers, you lick your lips and watch " + Desc.Gender.mf(character, "his", "her") + " blush spread.");
+                        DisplayText(character.desc.capitalA + character.desc.short + " pants and crosses " + character.desc.possessivePronoun + " eyes for a moment.  " + mf(character, "His", "Her") + " dick flexes and bulges, twitching as " + character.desc.subjectivePronoun + " loses " + mf(character, "himself", "herself") + " in a lipstick-fueled fantasy.  When " + character.desc.subjectivePronoun + " recovers, you lick your lips and watch " + mf(character, "his", "her") + " blush spread.");
                 }
                 // Second:
                 case 2: {

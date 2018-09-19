@@ -4,10 +4,12 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { SkinType } from '../../Body/Skin';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
+import { describeMultiCockSimpleOne } from '../../Descriptors/CockDescriptor';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { describeButthole } from '../../Descriptors/ButtDescriptor';
 
 export class NumbRock extends Consumable {
     public constructor() {
@@ -24,24 +26,24 @@ export class NumbRock extends Consumable {
             character.stats.lust -= 20 + randInt(40);
         }
         if (randInt(5) === 0) {
-            if (!character.statusAffects.has(StatusAffectType.Dysfunction)) {
+            if (!character.statusAffects.has(StatusEffectType.Dysfunction)) {
                 DisplayText("\n\nUnfortunately, the skin of ");
-                if (character.torso.cocks.count > 0) {
-                    DisplayText(Desc.Cock.describeMultiCockSimpleOne(character));
-                    if (character.torso.vaginas.count > 0) DisplayText(" and");
+                if (character.body.cocks.count > 0) {
+                    DisplayText(describeMultiCockSimpleOne(character));
+                    if (character.body.vaginas.count > 0) DisplayText(" and");
                     DisplayText(" ");
                 }
-                if (character.torso.vaginas.count > 0) {
-                    if (character.torso.cocks.count <= 0) DisplayText("your ");
-                    DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " ");
+                if (character.body.vaginas.count > 0) {
+                    if (character.body.cocks.count <= 0) DisplayText("your ");
+                    DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " ");
                 }
-                if (!(character.torso.cocks.count > 0 || character.torso.vaginas.count > 0)) DisplayText(Desc.Butt.describeButthole(character.torso.butt) + " ");
+                if (!(character.body.cocks.count > 0 || character.body.vaginas.count > 0)) DisplayText(describeButthole(character.body.butt) + " ");
                 DisplayText(" numbs up too.  You give yourself a gentle touch, but are quite disturbed when you realize you can barely feel it.  You can probably still fuck something to get off, but regular masturbation is out of the question...");
-                character.statusAffects.add(StatusAffectType.Dysfunction, 50 + randInt(100), 0, 0, 0);
+                character.statusAffects.add(StatusEffectType.Dysfunction, 50 + randInt(100), 0, 0, 0);
             }
             else {
                 DisplayText("\n\nSadly your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
-                character.statusAffects.get(StatusAffectType.Dysfunction).value1 = 50 + randInt(100);
+                character.statusAffects.get(StatusEffectType.Dysfunction).value1 = 50 + randInt(100);
             }
         }
         else if (randInt(4) === 0 && character.stats.int > 15) {
@@ -50,12 +52,12 @@ export class NumbRock extends Consumable {
         }
         if (!character.perks.has(PerkType.ThickSkin) && character.stats.sens < 30 && randInt(4) === 0) {
             DisplayText("Slowly, ");
-            if (character.skin.type === SkinType.PLAIN) DisplayText("your skin");
-            else DisplayText("the skin under your " + character.skin.desc);
+            if (character.body.skin.type === SkinType.PLAIN) DisplayText("your skin");
+            else DisplayText("the skin under your " + character.body.skin.desc);
             DisplayText(" begins to feel duller, almost... thicker.  You pinch yourself and find that your epidermis feels more resistant to damage, almost like natural armor!\n<b>(Thick Skin - Perk Gained!)</b>");
             character.perks.add(PerkType.ThickSkin, 0, 0, 0, 0);
         }
-        DisplayText("\n\nAfter the sensations pass, your " + character.skin.desc + " feels a little less receptive to touch.");
+        DisplayText("\n\nAfter the sensations pass, your " + character.body.skin.desc + " feels a little less receptive to touch.");
         character.stats.sens += -3;
         if (character.stats.sens < 1) character.stats.sens = 1;
     }

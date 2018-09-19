@@ -3,9 +3,9 @@ import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
 import { Scenes } from '../../Scenes/Scenes';
 import { clickFuncWrapper, NextScreenChoices } from '../../ScreenDisplay';
-import { Menus } from '../Menus';
+import { mainMenu } from '../MainMenu';
 
-export function display(character: Character): NextScreenChoices {
+export function campMenu(character: Character): NextScreenChoices {
     // Safe guard against combat breaking
     if (CombatManager.inCombat) {
         return CombatManager.encounter.performTurnEnd();
@@ -13,16 +13,16 @@ export function display(character: Character): NextScreenChoices {
 
     // if (Game.state !== GameState.InCombat)
     //     DisplaySprite(SpriteName.None);
-    MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", clickFuncWrapper(Menus.Main));
+    MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", clickFuncWrapper(mainMenu));
     // MainScreen.getStatsPanel().nameBox.visible = false;
     // if (Game.state === GameState.InCombat || Game.state === GameState.InCombatGrapple) {
-    //     Menus.Combat.display(character);
+    //     Combat.display(character);
     //     return;
     // }
     // Clear restriction on item overlaps if not in combat
     // plotFight = false;
     // if (inDungeon) {
-    //     Menus.Dungeon.display();
+    //     Dungeon.display();
     //     return;
     // }
     // else if (inRoomedDungeon) {

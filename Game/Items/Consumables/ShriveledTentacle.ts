@@ -5,12 +5,11 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { Tail, TailType } from '../../Body/Tail';
 import { WingType } from '../../Body/Wings';
 import { Character } from '../../Character/Character';
-import { PlayerFlags } from '../../Character/Player/PlayerFlags';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
+import { describeNipple } from '../../Descriptors/BreastDescriptor';
+import { ReptilumFlags } from './Reptilum';
 
 export class ShriveledTentacle extends Consumable {
     public constructor() {
@@ -51,26 +50,26 @@ export class ShriveledTentacle extends Consumable {
 
         // physical changes:
         // - may randomly remove bee abdomen, if present; always checks and does so when any changes to hair might happen
-        if (randInt(4) === 0 && changes < changeLimit && character.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
+        if (randInt(4) === 0 && changes < changeLimit && character.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
             DisplayText("\n\nAs the gentle tingling of the tentacle's remaining venom spreads through your body, it begins to collect and intensify above the crack of your butt.  Looking back, you notice your abdomen shivering and contracting; with a snap, the chitinous appendage parts smoothly from your backside and falls to the ground.  <b>You no longer have a bee abdomen!</b>\n\n");
-            character.torso.tails.clear();
+            character.body.tails.clear();
             changes++;
         }
         // -may randomly remove bee wings:
-        if (randInt(4) === 0 && (character.torso.wings.type === WingType.BEE_LIKE_SMALL || character.torso.wings.type === WingType.BEE_LIKE_LARGE) && changes < changeLimit) {
+        if (randInt(4) === 0 && (character.body.wings.type === WingType.BEE_LIKE_SMALL || character.body.wings.type === WingType.BEE_LIKE_LARGE) && changes < changeLimit) {
             DisplayText("\n\nYour wings twitch and flap involuntarily.  You crane your neck to look at them as best you are able; from what you can see, they seem to be shriveling and curling up.  They're starting to look a lot like they did when they first popped out, wet and new.  <b>As you watch, they shrivel all the way, then recede back into your body.</b>");
-            character.torso.wings.type = WingType.NONE;
-            character.torso.wings.desc = "non-existent";
+            character.body.wings.type = WingType.NONE;
+            character.body.wings.desc = "non-existent";
             changes++;
         }
         // -hair morphs to anemone tentacles, retains color, hair shrinks back to med-short('shaggy') and stops growing, lengthening treatments don't work and goblins won't cut it, but more anemone items can lengthen it one level at a time
-        if (character.torso.neck.gills && character.torso.neck.head.hair.type !== 4 && changes < changeLimit && randInt(5) === 0) {
+        if (character.body.neck.gills && character.body.hair.type !== 4 && changes < changeLimit && randInt(5) === 0) {
             DisplayText("\n\nYour balance slides way off, and you plop down on the ground as mass concentrates on your head.  Reaching up, you give a little shriek as you feel a disturbingly thick, squirming thing where your hair should be.  Pulling it down in front of your eyes, you notice it's still attached to your head; what's more, it's the same color as your hair used to be.  <b>You now have squirming tentacles in place of hair!</b>  As you gaze at it, a gentle heat starts to suffuse your hand.  The tentacles must be developing their characteristic stingers!  You quickly let go; you'll have to take care to keep them from rubbing on your skin at all hours.  On the other hand, they're quite short and you find you can now flex and extend them as you would any other muscle, so that shouldn't be too hard.  You settle on a daring, windswept look for now.");
-            character.torso.neck.head.hair.type = 4;
-            character.torso.neck.head.hair.length = 5;
-            if ((User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD === 0) {
+            character.body.hair.type = 4;
+            character.body.hair.length = 5;
+            if (ReptilumFlags.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD === 0) {
                 DisplayText("  <b>(Your hair has stopped growing.)</b>");
-                (User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD = 1;
+                ReptilumFlags.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD = 1;
             }
             changes++;
             changes++;
@@ -79,22 +78,22 @@ export class ShriveledTentacle extends Consumable {
             // appearance screen: replace 'hair' with 'tentacle-hair'
         }
         // -feathery gills sprout from chest and drape sensually over nipples (cumulative swimming power boost with fin, if swimming is implemented)
-        if (randInt(5) === 0 && !character.torso.neck.gills && character.skin.tone === "aphotic blue-black" && changes < changeLimit) {
-            DisplayText("\n\nYou feel a pressure in your lower esophageal region and pull your garments down to check the area.  <b>Before your eyes a pair of feathery gills start to push out of the center of your chest, just below your neckline, parting sideways and draping over your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s.</b>  They feel a bit uncomfortable in the open air at first, but soon a thin film of mucus covers them and you hardly notice anything at all.  You redress carefully.");
-            character.torso.neck.gills = true;
+        if (randInt(5) === 0 && !character.body.neck.gills && character.body.skin.tone === "aphotic blue-black" && changes < changeLimit) {
+            DisplayText("\n\nYou feel a pressure in your lower esophageal region and pull your garments down to check the area.  <b>Before your eyes a pair of feathery gills start to push out of the center of your chest, just below your neckline, parting sideways and draping over your " + describeNipple(character, character.body.chest.get(0)) + "s.</b>  They feel a bit uncomfortable in the open air at first, but soon a thin film of mucus covers them and you hardly notice anything at all.  You redress carefully.");
+            character.body.neck.gills = true;
             changes++;
         }
         // -[aphotic] skin tone (blue-black)
-        if (randInt(5) === 0 && changes < changeLimit && character.skin.tone !== "aphotic blue-black") {
+        if (randInt(5) === 0 && changes < changeLimit && character.body.skin.tone !== "aphotic blue-black") {
             DisplayText("\n\nYou absently bite down on the last of the tentacle, then pull your hand away, wincing in pain.  How did you bite your finger so hard?  Looking down, the answer becomes obvious; <b>your hand, along with the rest of your skin, is now the same aphotic color as the dormant tentacle was!</b>");
-            character.skin.tone = "aphotic blue-black";
+            character.body.skin.tone = "aphotic blue-black";
             changes++;
         }
         // -eat more, grow more 'hair':
-        if (character.torso.neck.head.hair.type === 4 && character.torso.neck.head.hair.length < 36 &&
+        if (character.body.hair.type === 4 && character.body.hair.length < 36 &&
             randInt(2) === 0 && changes < changeLimit) {
             const hairGrowth: number = 5 + randInt(3);
-            character.torso.neck.head.hair.length += hairGrowth;
+            character.body.hair.length += hairGrowth;
             DisplayText("\n\nAs you laboriously chew the rubbery dried anemone, your head begins to feel heavier.  Using your newfound control, you snake one of your own tentacles forward; holding it out where you can see it, the first thing you notice is that it appears quite a bit longer.  <b>Your head-tentacles are now " + numToCardinalText(hairGrowth) + " inches longer!</b>");
             // (add one level of hairlength)
             changes++;

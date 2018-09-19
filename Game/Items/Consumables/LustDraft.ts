@@ -3,9 +3,11 @@ import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
+import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { Gender } from '../../Body/GenderIdentity';
 
 export class LustDraft extends Consumable {
     private enhanced: boolean;
@@ -36,14 +38,14 @@ export class LustDraft extends Consumable {
         // ORGAZMO
         if (character.stats.lust >= 100){ // && !Game.inCombat) {
             DisplayText("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + character.inventory.equipment.armor.displayName + " and look down as your ");
-            if (character.torso.cocks.count > 0) {
-                DisplayText(Desc.Cock.describeMultiCockShort(character) + " erupts in front of you, liberally spraying the ground around you.  ");
+            if (character.body.cocks.count > 0) {
+                DisplayText(describeMultiCockShort(character) + " erupts in front of you, liberally spraying the ground around you.  ");
             }
-            if (character.torso.cocks.count > 0 && character.torso.vaginas.count > 0) {
+            if (character.body.cocks.count > 0 && character.body.vaginas.count > 0) {
                 DisplayText("At the same time your ");
             }
-            if (character.torso.vaginas.count > 0) {
-                DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " soaks your thighs.  ");
+            if (character.body.vaginas.count > 0) {
+                DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " soaks your thighs.  ");
             }
             if (character.gender === Gender.NONE) DisplayText("body begins to quiver with orgasmic bliss.  ");
             DisplayText("Once you've had a chance to calm down, you notice that the explosion of pleasure you just experienced has rocked you to your core.  You are a little hornier than you were before.");

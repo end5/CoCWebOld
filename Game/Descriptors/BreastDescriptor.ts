@@ -3,7 +3,7 @@ import { BreastCup, BreastRow } from '../Body/BreastRow';
 import { Chest } from '../Body/Chest';
 import { Character } from '../Character/Character';
 import { Player } from '../Character/Player/Player';
-import { StatusAffectType } from '../Effects/StatusAffectType';
+import { StatusEffectType } from '../Effects/StatusEffectType';
 import { PiercingType } from '../Items/Misc/Piercing';
 
 export function describeBreastRow(breastRow: BreastRow): string {
@@ -165,20 +165,20 @@ export function describeNipple(character: Character, breastRow: BreastRow): stri
             haveDescription = true;
         }
     }
-    if (!haveDescription && randInt(2) === 0 && character.inventory.equipment.piercings.nipples.get(character.torso.chest.indexOf(breastRow)).isEquipped()) {
-        if (character.inventory.equipment.piercings.nipples.get(character.torso.chest.indexOf(breastRow)).item.name === PiercingType.Chain)
+    if (!haveDescription && randInt(2) === 0 && character.inventory.equipment.piercings.nipples.get(character.body.chest.indexOf(breastRow)).isEquipped()) {
+        if (character.inventory.equipment.piercings.nipples.get(character.body.chest.indexOf(breastRow)).item.name === PiercingType.Chain)
             description += "chained ";
         else
             description += "pierced ";
         haveDescription = true;
     }
-    if (!haveDescription && character.skin.type === 3) {
+    if (!haveDescription && character.body.skin.type === 3) {
         options = ["slime-slick ",
             "goopy ",
             "slippery "];
         description += randomChoice(options);
     }
-    if (!haveDescription && character.statusAffects.has(StatusAffectType.BlackNipples)) {
+    if (!haveDescription && character.statusAffects.has(StatusEffectType.BlackNipples)) {
         options = ["black ",
             "ebony ",
             "sable "];
@@ -242,7 +242,7 @@ export function breastCupInverse(name: string, defaultValue: BreastCup = 0): Bre
 
 export function describeBiggestBreastRow(character: Character): string {
     let description: string = "";
-    const biggestBreastRow: BreastRow = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
+    const biggestBreastRow: BreastRow = character.body.chest.sort(BreastRow.Largest)[0];
 
     if (biggestBreastRow.rating < 1)
         return "flat breasts";
@@ -307,7 +307,7 @@ export function describeBreastSize(size: number): string {
 }
 
 export function describeAllBreasts(character: Character): string {
-    const chest: Chest = character.torso.chest;
+    const chest: Chest = character.body.chest;
     let desciption: string = "";
     switch (chest.count / 2) {
         case 0:
@@ -329,32 +329,32 @@ export function describeAllBreasts(character: Character): string {
 export function describeBreastGrowth(player: Player, amount: number, chest: Chest): string {
     let text = "";
     if (amount <= 2) {
-        if (chest.count > 1) text += "Your rows of " + describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
-        if (chest.count === 1) text += "Your " + describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
+        if (chest.count > 1) text += "Your rows of " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
+        if (chest.count === 1) text += "Your " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
     }
     else if (amount <= 4) {
-        if (chest.count > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
-        if (chest.count === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
+        if (chest.count > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
+        if (chest.count === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
     }
     else {
-        if (chest.count > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your " + describeBreastRow(player.torso.chest.get(0)) + " tingle strongly, growing disturbingly large.";
-        if (chest.count === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + describeBreastRow(player.torso.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
+        if (chest.count > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your " + describeBreastRow(player.body.chest.get(0)) + " tingle strongly, growing disturbingly large.";
+        if (chest.count === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + describeBreastRow(player.body.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
     }
-    if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 8.5 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 2) {
-        text += "  A tender ratingat your " + describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 2;
+    if (chest.sort(BreastRow.Largest)[0].rating >= 8.5 && chest.sort(BreastRow.Largest)[0].nipples.length < 2) {
+        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest)[0].nipples.length = 2;
     }
-    if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 7 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1) {
-        text += "  A tender ratingat your " + describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 1;
+    if (chest.sort(BreastRow.Largest)[0].rating >= 7 && chest.sort(BreastRow.Largest)[0].nipples.length < 1) {
+        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest)[0].nipples.length = 1;
     }
-    if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 5 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < .75) {
-        text += "  A tender ratingat your " + describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = .75;
+    if (chest.sort(BreastRow.Largest)[0].rating >= 5 && chest.sort(BreastRow.Largest)[0].nipples.length < .75) {
+        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest)[0].nipples.length = .75;
     }
-    if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 3 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < .5) {
-        text += "  A tender ratingat your " + describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = .5;
+    if (chest.sort(BreastRow.Largest)[0].rating >= 3 && chest.sort(BreastRow.Largest)[0].nipples.length < .5) {
+        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest)[0].nipples.length = .5;
     }
     return text;
 }
@@ -394,11 +394,11 @@ export function describeTopRowBreastGrowth(amount: number, character: Character,
 }
 
 export function describeChest(character: Character) {
-    if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) return "chest";
+    if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) return "chest";
     return describeBiggestBreastRow(character);
 }
 
 export function describeAllChest(character: Character) {
-    if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) return "chest";
+    if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) return "chest";
     return describeAllBreasts(character);
 }

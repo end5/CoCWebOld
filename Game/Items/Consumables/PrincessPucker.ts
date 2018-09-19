@@ -30,10 +30,10 @@ export class PrincessPucker extends Consumable {
             // dynStats("lus-", 20, "sen-", 2);
         }
 
-        if (character.torso.neck.head.hair.color !== "pink") {
+        if (character.body.hair.color !== "pink") {
             if (randInt(5) === 0) {
-                DisplayText("A slight tingle across your scalp draws your attention to your hair.  It seems your " + character.torso.neck.head.hair.color + " is rapidly gaining a distinctly pink hue, growing in from the roots!\n\n");
-                character.torso.neck.head.hair.color = "pink";
+                DisplayText("A slight tingle across your scalp draws your attention to your hair.  It seems your " + character.body.hair.color + " is rapidly gaining a distinctly pink hue, growing in from the roots!\n\n");
+                character.body.hair.color = "pink";
             }
         }
     }

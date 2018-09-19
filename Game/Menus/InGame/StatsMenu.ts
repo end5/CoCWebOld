@@ -1,20 +1,19 @@
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Cock } from '../../Body/Cock';
-import * as Spells from '../../Character/Player/CombatActions/PerformActions';
 import { Player } from '../../Character/Player/Player';
 import { PerkType } from '../../Effects/PerkType';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../ScreenDisplay';
-import { Menus } from '../Menus';
+import { campMenu } from './PlayerMenu';
 
-export function display(player: Player): NextScreenChoices {
+export function statsMenu(player: Player): NextScreenChoices {
     // DisplaySprite.hide();
     DisplayText().clear();
 
     // Begin Combat Stats
     let combatStats: string = "";
     if (player.inventory.keyItems.has("Bow"))
-        combatStats += "<b>Bow Skill:</b> " + Math.round(player.statusAffects.get(StatusAffectType.Kelt).value1) + "\n";
+        combatStats += "<b>Bow Skill:</b> " + Math.round(player.statusAffects.get(StatusEffectType.Kelt).value1) + "\n";
 
     combatStats += "<b>Lust Resistance:</b> " + (100 - Math.round(player.stats.lustPercent())) + "% (Higher is better.)\n";
 
@@ -34,8 +33,8 @@ export function display(player: Player): NextScreenChoices {
     // Begin Children Stats
     let childStats: string = "";
 
-    if (player.statusAffects.get(StatusAffectType.Birthed).value1 > 0)
-        childStats += "<b>Times Given Birth:</b> " + player.statusAffects.get(StatusAffectType.Birthed).value1 + "\n";
+    if (player.statusAffects.get(StatusEffectType.Birthed).value1 > 0)
+        childStats += "<b>Times Given Birth:</b> " + player.statusAffects.get(StatusEffectType.Birthed).value1 + "\n";
 
     // if (Flags.list[FlagEnum.AMILY_MET] > 0)
     //     childStats += "<b>Litters With Amily:</b> " + (Flags.list[FlagEnum.AMILY_BIRTH_TOTAL] + Flags.list[FlagEnum.PC_TIMES_BIRTHED_AMILYKIDS]) + "\n";
@@ -121,9 +120,9 @@ export function display(player: Player): NextScreenChoices {
     let bodyStats: string = "";
 
     bodyStats += "<b>Anal Capacity:</b> " + Math.round(player.analCapacity()) + "\n";
-    bodyStats += "<b>Anal Looseness:</b> " + Math.round(player.torso.butt.looseness) + "\n";
+    bodyStats += "<b>Anal Looseness:</b> " + Math.round(player.body.butt.looseness) + "\n";
 
-    bodyStats += "<b>Fertility (Base) Rating:</b> " + Math.round(player.fertility) + "\n";
+    bodyStats += "<b>Fertility (Base) Rating:</b> " + Math.round(player.body.fertility) + "\n";
     bodyStats += "<b>Fertility (With Bonuses) Rating:</b> " + Math.round(player.totalFertility()) + "\n";
 
     if (player.cumQ() > 0)
@@ -131,9 +130,9 @@ export function display(player: Player): NextScreenChoices {
     if (player.lactationQ() > 0)
         bodyStats += "<b>Milk Production:</b> " + Math.round(player.lactationQ()) + "mL\n";
 
-    if (player.statusAffects.has(StatusAffectType.Feeder)) {
-        bodyStats += "<b>Hours Since Last Time Breastfed Someone:</b>  " + player.statusAffects.get(StatusAffectType.Feeder).value2;
-        if (player.statusAffects.get(StatusAffectType.Feeder).value2 >= 72)
+    if (player.statusAffects.has(StatusEffectType.Feeder)) {
+        bodyStats += "<b>Hours Since Last Time Breastfed Someone:</b>  " + player.statusAffects.get(StatusEffectType.Feeder).value2;
+        if (player.statusAffects.get(StatusEffectType.Feeder).value2 >= 72)
             bodyStats += " (Too long! Sensitivity Increasing!)";
 
         bodyStats += "\n";
@@ -152,31 +151,31 @@ export function display(player: Player): NextScreenChoices {
         bodyStats += preg + "\n";
     }
 
-    if (player.torso.cocks.count > 0) {
-        bodyStats += "<b>Total Cocks:</b> " + player.torso.cocks.count + "\n";
+    if (player.body.cocks.count > 0) {
+        bodyStats += "<b>Total Cocks:</b> " + player.body.cocks.count + "\n";
 
-        const totalCockLength = player.torso.cocks.reduce(Cock.TotalCockLength, 0);
-        const totalCockGirth = player.torso.cocks.reduce(Cock.TotalCockThickness, 0);
+        const totalCockLength = player.body.cocks.reduce(Cock.TotalLength, 0);
+        const totalCockGirth = player.body.cocks.reduce(Cock.TotalThickness, 0);
 
         bodyStats += "<b>Total Cock Length:</b> " + Math.round(totalCockLength) + " inches\n";
         bodyStats += "<b>Total Cock Girth:</b> " + Math.round(totalCockGirth) + " inches\n";
 
     }
 
-    if (player.torso.vaginas.count > 0)
-        bodyStats += "<b>Vaginal Capacity:</b> " + Math.round(player.vaginalCapacity()) + "\n" + "<b>Vaginal Looseness:</b> " + Math.round(player.torso.vaginas.get(0).looseness) + "\n";
+    if (player.body.vaginas.count > 0)
+        bodyStats += "<b>Vaginal Capacity:</b> " + Math.round(player.vaginalCapacity()) + "\n" + "<b>Vaginal Looseness:</b> " + Math.round(player.body.vaginas.get(0).looseness) + "\n";
 
     if (player.perks.has(PerkType.SpiderOvipositor) || player.perks.has(PerkType.BeeOvipositor))
         bodyStats += "<b>Ovipositor Total Egg Count: " + player.pregnancy.ovipositor.eggs + "\nOvipositor Fertilized Egg Count: " + player.pregnancy.ovipositor.fertilizedEggs + "</b>\n";
 
-    if (player.statusAffects.has(StatusAffectType.SlimeCraving)) {
-        if (player.statusAffects.get(StatusAffectType.SlimeCraving).value1 >= 18)
+    if (player.statusAffects.has(StatusEffectType.SlimeCraving)) {
+        if (player.statusAffects.get(StatusEffectType.SlimeCraving).value1 >= 18)
             bodyStats += "<b>Slime Craving:</b> Active! You are currently losing strength and speed.  You should find fluids.\n";
         else {
             if (player.perks.has(PerkType.SlimeCore))
-                bodyStats += "<b>Slime Stored:</b> " + ((17 - player.statusAffects.get(StatusAffectType.SlimeCraving).value1) * 2) + " hours until you start losing strength.\n";
+                bodyStats += "<b>Slime Stored:</b> " + ((17 - player.statusAffects.get(StatusEffectType.SlimeCraving).value1) * 2) + " hours until you start losing strength.\n";
             else
-                bodyStats += "<b>Slime Stored:</b> " + (17 - player.statusAffects.get(StatusAffectType.SlimeCraving).value1) + " hours until you start losing strength.\n";
+                bodyStats += "<b>Slime Stored:</b> " + (17 - player.statusAffects.get(StatusEffectType.SlimeCraving).value1) + " hours until you start losing strength.\n";
         }
     }
 
@@ -206,10 +205,10 @@ export function display(player: Player): NextScreenChoices {
     // Begin Addition Stats
     let addictStats: string = "";
     // Marble Milk Addition
-    if (player.statusAffects.get(StatusAffectType.Marble).value3 > 0) {
+    if (player.statusAffects.get(StatusEffectType.Marble).value3 > 0) {
         addictStats += "<b>Marble Milk:</b> ";
         if (!player.perks.has(PerkType.MarbleResistant) && !player.perks.has(PerkType.MarblesMilk))
-            addictStats += Math.round(player.statusAffects.get(StatusAffectType.Marble).value2) + "%\n";
+            addictStats += Math.round(player.statusAffects.get(StatusEffectType.Marble).value2) + "%\n";
         else if (player.perks.has(PerkType.MarbleResistant))
             addictStats += "0%\n";
         else
@@ -321,21 +320,21 @@ export function display(player: Player): NextScreenChoices {
     // Begin Ongoing Stat Effects
     let statEffects: string = "";
 
-    if (player.statusAffects.has(StatusAffectType.Heat))
-        statEffects += "Heat - " + Math.round(player.statusAffects.get(StatusAffectType.Heat).value3) + " hours remaining\n";
+    if (player.statusAffects.has(StatusEffectType.Heat))
+        statEffects += "Heat - " + Math.round(player.statusAffects.get(StatusEffectType.Heat).value3) + " hours remaining\n";
 
-    if (player.statusAffects.has(StatusAffectType.Rut))
-        statEffects += "Rut - " + Math.round(player.statusAffects.get(StatusAffectType.Rut).value3) + " hours remaining\n";
+    if (player.statusAffects.has(StatusEffectType.Rut))
+        statEffects += "Rut - " + Math.round(player.statusAffects.get(StatusEffectType.Rut).value3) + " hours remaining\n";
 
-    if (player.statusAffects.get(StatusAffectType.LustStick).value1 > 0)
-        statEffects += "Luststick - " + Math.round(player.statusAffects.get(StatusAffectType.LustStick).value1) + " hours remaining\n";
+    if (player.statusAffects.get(StatusEffectType.LustStick).value1 > 0)
+        statEffects += "Luststick - " + Math.round(player.statusAffects.get(StatusEffectType.LustStick).value1) + " hours remaining\n";
 
-    if (player.statusAffects.get(StatusAffectType.BlackCatBeer).value1 > 0)
-        statEffects += "Black Cat Beer - " + player.statusAffects.get(StatusAffectType.BlackCatBeer).value1 + " hours remaining (Lust resistance 20% lower, physical resistance 25% higher.)\n";
+    if (player.statusAffects.get(StatusEffectType.BlackCatBeer).value1 > 0)
+        statEffects += "Black Cat Beer - " + player.statusAffects.get(StatusEffectType.BlackCatBeer).value1 + " hours remaining (Lust resistance 20% lower, physical resistance 25% higher.)\n";
 
     if (statEffects !== "")
         DisplayText("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects);
     // End Ongoing Stat Effects
 
-    return { next: Menus.Player };
+    return { next: campMenu };
 }

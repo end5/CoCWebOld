@@ -5,10 +5,10 @@ import { CombatParty } from './CombatParty';
 import { combatRegeneration } from './CombatUtils';
 import { DefeatType } from './DefeatEvent';
 import { Character } from '../Character/Character';
-import { CharacterType } from '../Character/CharacterType';
-import { Menus } from '../Menus/Menus';
 import { NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
 import { User } from '../User';
+import { campMenu } from '../Menus/InGame/PlayerMenu';
+import { combatMenu } from '../Menus/InGame/PlayerCombatMenu';
 
 export class Encounter {
     private mainCharacter: Character;
@@ -50,10 +50,10 @@ export class Encounter {
             return encounter.endCombatOrNextRound();
         };
         if (!activeMember) {
-            return { next: Menus.Player };
+            return { next: campMenu };
         }
         else if (activeMember.uuid === User.char.uuid) {
-            return { next: () => Menus.Combat(this.mainCharacter) };
+            return { next: () => combatMenu(this.mainCharacter) };
         }
         else {
             return performActionAI(activeMember);
@@ -70,7 +70,7 @@ export class Encounter {
             return encounter.endCombatOrNextRound();
         };
         if (!activeMember) {
-            return { next: Menus.Player };
+            return { next: campMenu };
         }
         else return performActionAI(activeMember);
     }

@@ -3,7 +3,7 @@ import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 
 export class Release implements CombatAction {
     public name: string = "Release";
@@ -21,7 +21,7 @@ export class Release implements CombatAction {
         DisplayText().clear();
         DisplayText("You release " + target.desc.a + target.desc.short + " from " + target.desc.possessivePronoun + " bonds, and " + target.desc.subjectivePronoun + " drops to the ground, catching " + target.desc.possessivePronoun + " breath before " + target.desc.subjectivePronoun + " stands back up, apparently prepared to fight some more.");
         DisplayText("\n\n");
-        target.statusAffects.remove(StatusAffectType.Constricted);
+        target.statusAffects.remove(StatusEffectType.Constricted);
         return;
     }
 }

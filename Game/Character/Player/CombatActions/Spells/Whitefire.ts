@@ -2,7 +2,7 @@ import { WhiteMagic } from './WhiteMagic';
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
@@ -12,14 +12,14 @@ export class Whitefire extends WhiteMagic {
     public readonly baseCost: number = 30;
 
     public isPossible(character: Character): boolean {
-        return character.statusAffects.has(StatusAffectType.KnowsWhitefire);
+        return character.statusAffects.has(StatusEffectType.KnowsWhitefire);
     }
 
     public castSpell(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has(StatusAffectType.Shell)) {
+        if (monster.statusAffects.has(StatusEffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }

@@ -3,7 +3,7 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 
@@ -12,28 +12,28 @@ export class Web implements CombatAction {
     public reasonCannotUse: string = "You do not have enough webbing to shoot right now!";
 
     public isPossible(player: Player): boolean {
-        return player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false);
+        return player.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false);
     }
 
     public canUse(player: Player): boolean {
-        return player.torso.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].vemon >= 33;
+        return player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].vemon >= 33;
     }
 
     public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
-        player.torso.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].vemon -= 33;
+        player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].vemon -= 33;
         // Amily!
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Blind
-        if (player.statusAffects.has(StatusAffectType.Blind)) {
+        if (player.statusAffects.has(StatusEffectType.Blind)) {
             DisplayText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
         else DisplayText("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a + monster.desc.short + "!  ");
         // Determine if dodged!
-        if ((player.statusAffects.has(StatusAffectType.Blind) && randInt(2) === 0) ||
+        if ((player.statusAffects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             DisplayText("You miss " + monster.desc.a + monster.desc.short + " completely - ");
             DisplayText(monster.desc.subjectivePronoun + " moved out of the way!\n\n");

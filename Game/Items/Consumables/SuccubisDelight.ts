@@ -3,10 +3,11 @@ import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
+import { describeBalls, describeSack } from '../../Descriptors/BallsDescriptor';
+import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
 
 export class SuccubisDelight extends Consumable {
     public readonly tainted: boolean;
@@ -49,32 +50,32 @@ export class SuccubisDelight extends Consumable {
             changes++;
         }
         // Makes your balls biggah! (Or cummultiplier higher if futa!)
-        if (randInt(1.5) === 0 && changes < changeLimit && character.torso.balls.quantity > 0) {
-            character.torso.balls.size++;
+        if (randInt(1.5) === 0 && changes < changeLimit && character.body.balls.count > 0) {
+            character.body.balls.size++;
             // They grow slower as they get bigger...
-            if (character.torso.balls.size > 10) character.torso.balls.size -= .5;
+            if (character.body.balls.size > 10) character.body.balls.size -= .5;
             // Texts
-            if (character.torso.balls.size <= 2) DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + Desc.Balls.describeBalls(false, true, character) + " have grown larger than a human's.");
-            if (character.torso.balls.size > 2) DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + Desc.Balls.describeSack(character) + ".  Walking becomes difficult as you discover your " + Desc.Balls.describeBalls(false, true, character) + " have enlarged again.");
+            if (character.body.balls.size <= 2) DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + describeBalls(false, true, character) + " have grown larger than a human's.");
+            if (character.body.balls.size > 2) DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + describeSack(character) + ".  Walking becomes difficult as you discover your " + describeBalls(false, true, character) + " have enlarged again.");
             character.stats.lib += 1;
             character.stats.lust += 3;
         }
         // Boost cum multiplier
-        if (changes < changeLimit && randInt(2) === 0 && character.torso.cocks.count > 0) {
-            if (character.cumMultiplier < 6 && randInt(2) === 0 && changes < changeLimit) {
+        if (changes < changeLimit && randInt(2) === 0 && character.body.cocks.count > 0) {
+            if (character.body.cumMultiplier < 6 && randInt(2) === 0 && changes < changeLimit) {
                 // Temp is the max it can be raised to
                 let cumMultiplerMax: number = 3;
                 // Lots of cum raises cum multiplier cap to 6 instead of 3
                 if (character.perks.has(PerkType.MessyOrgasms)) cumMultiplerMax = 6;
-                if (cumMultiplerMax < character.cumMultiplier + .4 * crit) {
+                if (cumMultiplerMax < character.body.cumMultiplier + .4 * crit) {
                     changes--;
                 }
                 else {
-                    character.cumMultiplier += .4 * crit;
+                    character.body.cumMultiplier += .4 * crit;
                     // Flavor text
-                    if (character.torso.balls.quantity === 0) DisplayText("\n\nYou feel a churning inside your body as something inside you changes.");
-                    if (character.torso.balls.quantity > 0) DisplayText("\n\nYou feel a churning in your " + Desc.Balls.describeBalls(true, true, character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
-                    if (crit > 1) DisplayText("  A bit of milky pre dribbles from your " + Desc.Cock.describeMultiCockShort(character) + ", pushed out by the change.");
+                    if (character.body.balls.count === 0) DisplayText("\n\nYou feel a churning inside your body as something inside you changes.");
+                    if (character.body.balls.count > 0) DisplayText("\n\nYou feel a churning in your " + describeBalls(true, true, character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
+                    if (crit > 1) DisplayText("  A bit of milky pre dribbles from your " + describeMultiCockShort(character) + ", pushed out by the change.");
                     character.stats.lib += 1;
                 }
                 changes++;
@@ -86,7 +87,7 @@ export class SuccubisDelight extends Consumable {
             character.hoursSinceCum += 100;
             changes++;
         }
-        if (character.torso.balls.quantity > 0 && randInt(3) === 0) {
+        if (character.body.balls.count > 0 && randInt(3) === 0) {
             DisplayText(Mod.Body.displayModFem(character, 12, 3));
         }
     }

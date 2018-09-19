@@ -15,15 +15,15 @@ export class PurpleFruit extends Consumable {
         DisplayText().clear();
         DisplayText("You bite into the fruit Essrayle gave you with little hesitation.  It's amazingly sweet, with a texture that's rather gummy.  The juice is a candied grape syrup that fills your cheeks and flows down your throat with far more fluid than the size of the plant should allow.  You hastily devour the entire thing, unable to stop yourself once you've started.");
         DisplayText("\n\nA tingling warmth shifts to a roaring inferno in your veins, your heart-rate spiking abruptly.  The intensity of it almost makes your body feel molten!  But, as quickly as it came, the sensation fades into merely a pleasing warmth that settles in your chest.");
-        if (character.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 4) {
+        if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 4) {
             DisplayText("  At first you think nothing has changed, but a second look confirms that your breasts now sport the same quartet of cow-like nipples the bovine plant-girl bears.");
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 4)
-                character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 4;
-            for (let index: number = 0; index < character.torso.chest.count; index++)
-                character.torso.chest.get(index).nipples.count = 4;
+            if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 4)
+                character.body.chest.sort(BreastRow.Largest)[0].nipples.length = 4;
+            for (let index: number = 0; index < character.body.chest.count; index++)
+                character.body.chest.get(index).nipples.count = 4;
         }
         // [Character gains quad nipples, milk production and libido way up]
         character.stats.lib += 5;
-        Mod.Breast.boostLactation(character, 3 * character.torso.chest.count);
+        Mod.Breast.boostLactation(character, 3 * character.body.chest.count);
     }
 }

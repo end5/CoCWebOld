@@ -2,8 +2,9 @@ import { Armor } from './Armor';
 import { ArmorName } from './ArmorName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { ItemDesc } from '../ItemDesc';
+import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { Gender } from '../../Body/GenderIdentity';
 
 export class GooArmor extends Armor {
     public constructor() {
@@ -14,12 +15,12 @@ export class GooArmor extends Armor {
         DisplayText("With an ecstatic smile, the goo-armor jumps to her feet and throws her arms around your shoulders.  \"<i>Oh, this is going to be so much fun!  Thank you thank you thank you!  I promise I'll keep you nice and snug and safe, don't you worry.  Oooh, a real adventure again!  WHEEE!</i>\"");
         DisplayText("\n\nBefore she can get too excited, you remind the goo that she's supposed to be your armor right about now.  Clasping her hands over her mouth in embarrassment, she utters a muted apology and urges you to just \"<i>put me on!</i>\"  Awkwardly, you strip out of your gear and open up the platemail armor and clamber in.  It's wet and squishy, making you shudder and squirm as you squash your new friend flat against the metal armor.");
         DisplayText("\n\nEventually, the two of you get situated. The goo-girl slips around your body inside the heavy armor, maneuvering so that your face is unobstructed and your joints, not protected by the armor, are soundly clad in squishy goo.  She even forms a gooey beaver on your new helm, allowing you to open and close her like a visor in battle.  Eventually, her goo settles around your ");
-        if (character.torso.vaginas.count > 0)
+        if (character.body.vaginas.count > 0)
             DisplayText("[vagina]");
-        if (character.torso.vaginas.count > 0 && character.torso.cocks.count > 0)
+        if (character.body.vaginas.count > 0 && character.body.cocks.count > 0)
             DisplayText(" and ");
-        if (character.torso.cocks.count > 0)
-            DisplayText(Desc.Cock.describeMultiCockShort(character));
+        if (character.body.cocks.count > 0)
+            DisplayText(describeMultiCockShort(character));
         if (character.gender === Gender.NONE)
             DisplayText("groin");
         DisplayText(", encasing your loins in case you need a little mid-battle release, she says.");

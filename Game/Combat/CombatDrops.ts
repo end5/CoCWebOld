@@ -2,7 +2,7 @@ import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
-import { StatusAffectType } from '../Effects/StatusAffectType';
+import { StatusEffectType } from '../Effects/StatusEffectType';
 import { EquipSlot } from '../Inventory/EquipSlot';
 import { ConsumableName } from '../Items/Consumables/ConsumableName';
 import { Item } from '../Items/Item';
@@ -10,28 +10,28 @@ import { ItemFactory } from '../Items/ItemFactory';
 import { ItemType } from '../Items/ItemType';
 import { CockSockName } from '../Items/Misc/CockSockName';
 import { WeaponName } from '../Items/Weapons/WeaponName';
-import { Menus } from '../Menus/Menus';
 import { NextScreenChoices } from '../ScreenDisplay';
 import { isEaster } from '../Utilities/Dates';
+import { campMenu } from '../Menus/InGame/PlayerMenu';
 
 export class CombatDrops {
     public static awardPlayer(character: Character, enemy: Character): NextScreenChoices {
         const gildedCockSock = character.inventory.equipment.cockSocks.find(EquipSlot.FilterName(CockSockName.Gilded));
         if (gildedCockSock) {
             const cockIndex = character.inventory.equipment.cockSocks.indexOf(gildedCockSock);
-            enemy.inventory.gems += enemy.inventory.gems * 0.15 + 5 * character.torso.cocks.get(cockIndex).length;
+            enemy.inventory.gems += enemy.inventory.gems * 0.15 + 5 * character.body.cocks.get(cockIndex).length;
         }
         enemy.combat.rewards.onReward();
         character.inventory.gems += enemy.combat.rewards.gems();
         character.stats.XP += enemy.combat.rewards.XP();
         const item = CombatDrops.dropItem(character, enemy);
         if (item) {
-            return character.inventory.items.createAdd(character, item.type, item.name, Menus.Player);
+            return character.inventory.items.createAdd(character, item.type, item.name, campMenu);
         }
     }
 
     public static dropItem(character: Character, enemy: Character): Item {
-        if (enemy.statusAffects.has(StatusAffectType.NoLoot)) {
+        if (enemy.statusAffects.has(StatusEffectType.NoLoot)) {
             return;
         }
         let item: Item = enemy.combat.rewards.drop().roll();
@@ -44,7 +44,7 @@ export class CombatDrops {
                     // 50% breakage!
                     if (randInt(2) === 0) {
                         item = ItemFactory.get(ItemType.Weapon, WeaponName.LargeAxe);
-                        if (character.tallness < 78) {
+                        if (character.body.tallness < 78) {
                             DisplayText("\nYou find a large axe on the minotaur, but it is too big for a person of your stature to comfortably carry.  ");
                             if (randInt(2) === 0) item = undefined;
                             else item = ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight);

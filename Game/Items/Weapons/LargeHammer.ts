@@ -11,7 +11,7 @@ export class LargeHammer extends Weapon {
     }
 
     public canUse(character: Character): boolean {
-        if (character.tallness >= 60)
+        if (character.body.tallness >= 60)
             return true;
         DisplayText("This hammer is too large for you to wield effectively.  ");
         return false;

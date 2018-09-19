@@ -10,7 +10,7 @@ export class AnemoneSting implements CombatAction {
     public reasonCannotUse: string = "";
 
     public isPossible(player: Player): boolean {
-        return player.torso.neck.head.hair.type === 4;
+        return player.body.hair.type === 4;
     }
 
     public canUse(player: Player): boolean {
@@ -24,7 +24,7 @@ export class AnemoneSting implements CombatAction {
         // 25% base fail chance
         // Increased by 1% for every point over PC's speed
         // Decreased by 1% for every inch of hair the PC has
-        const hairLength: number = player.torso.neck.head.hair.length;
+        const hairLength: number = player.body.hair.length;
         let prob: number = 70;
         if (monster.stats.spe > player.stats.spe)
             prob -= monster.stats.spe - player.stats.spe;

@@ -5,12 +5,13 @@ import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { MainScreen } from '../../../Engine/Display/MainScreen';
 import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { WeaponName } from '../../Items/Weapons/WeaponName';
-import { ClickOption, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
-import { Menus } from '../Menus';
+import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
+import { combatMenu } from './PlayerCombatMenu';
+import { campMenu } from './PlayerMenu';
 
-export function display(player: Character): NextScreenChoices {
+export function inventoryMenu(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.None);
 
     MainScreen.hideTopButtons();
@@ -28,7 +29,7 @@ export function display(player: Character): NextScreenChoices {
     const choices: ScreenChoice[] = [];
 
     if (player.inventory.equipment.weapon.name !== WeaponName.Fists) {
-        choices[0] = ["Unequip", () => player.inventory.items.add(player, player.inventory.equipment.weapon.unequip(), display)];
+        choices[0] = ["Unequip", () => player.inventory.items.add(player, player.inventory.equipment.weapon.unequip(), inventoryMenu)];
     }
 
     // if (!Game.inCombat && !Game.inDungeon && !Game.inRoomedDungeon) {
@@ -52,14 +53,14 @@ export function display(player: Character): NextScreenChoices {
     // }
     /*if (!foundItem) {
         DisplayText("\nYou have no usable items.");
-        return { next: Menus.Player.display };
+        return { next: Player.display };
     }*/
-    if (CombatManager.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value1 === 3) {
+    if (CombatManager.inCombat && player.statusAffects.has(StatusEffectType.Sealed) && player.statusAffects.get(StatusEffectType.Sealed).value1 === 3) {
         DisplayText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
     }
 
     DisplayText("\nWhich item will you use?");
-    choices[4] = ["Back", CombatManager.inCombat ? Menus.Combat : Menus.Player];
+    choices[4] = ["Back", CombatManager.inCombat ? combatMenu : campMenu];
     // Removes empty buttons for more inventory buttons
     while (!choices[0]) {
         choices.shift();

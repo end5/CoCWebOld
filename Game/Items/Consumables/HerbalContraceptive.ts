@@ -2,7 +2,7 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 
 export class HerbalContraceptive extends Consumable {
@@ -16,6 +16,6 @@ export class HerbalContraceptive extends Consumable {
         // Placeholder, sue me
         DisplayText("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
 
-        character.statusAffects.add(StatusAffectType.Contraceptives, 1, 48, 0, 0);
+        character.statusAffects.add(StatusEffectType.Contraceptives, 1, 48, 0, 0);
     }
 }

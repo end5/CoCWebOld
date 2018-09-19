@@ -10,9 +10,14 @@ import { Tail, TailType } from '../../Body/Tail';
 import { Vagina } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
+import { Gender } from '../../Body/GenderIdentity';
+import { describeBalls, describeSack } from '../../Descriptors/BallsDescriptor';
+import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeFeet } from '../../Descriptors/LegDescriptor';
 
 export class SharkTooth extends Consumable {
     private enhanced: boolean;
@@ -69,35 +74,35 @@ export class SharkTooth extends Consumable {
         }
         // Smexual stuff!
         // -TIGGERSHARK ONLY: Grow a cunt (guaranteed if no gender)
-        if (this.enhanced && (character.gender === Gender.NONE || (character.torso.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0))) {
+        if (this.enhanced && (character.gender === Gender.NONE || (character.body.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0))) {
             changes++;
             // (balls)
-            if (character.torso.balls.quantity > 0)
-                DisplayText("\n\nAn itch starts behind your " + Desc.Balls.describeBalls(true, true, character) + ", but before you can reach under to scratch it, the discomfort fades. A moment later a warm, wet feeling brushes your " + Desc.Balls.describeSack(character) + ", and curious about the sensation, <b>you lift up your balls to reveal your new vagina.</b>");
+            if (character.body.balls.count > 0)
+                DisplayText("\n\nAn itch starts behind your " + describeBalls(true, true, character) + ", but before you can reach under to scratch it, the discomfort fades. A moment later a warm, wet feeling brushes your " + describeSack(character) + ", and curious about the sensation, <b>you lift up your balls to reveal your new vagina.</b>");
             // (dick)
-            else if (character.torso.cocks.count > 0)
-                DisplayText("\n\nAn itch starts on your groin, just below your " + Desc.Cock.describeMultiCockShort(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
+            else if (character.body.cocks.count > 0)
+                DisplayText("\n\nAn itch starts on your groin, just below your " + describeMultiCockShort(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
             else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
             const newVagina: Vagina = new Vagina();
-            character.torso.vaginas.add(newVagina);
+            character.body.vaginas.add(newVagina);
             character.stats.sens += 10;
             character.updateGender();
         }
         // WANG GROWTH - TIGGERSHARK ONLY
-        if (this.enhanced && (character.torso.cocks.count <= 0) && changes < changeLimit && randInt(3) === 0) {
+        if (this.enhanced && (character.body.cocks.count <= 0) && changes < changeLimit && randInt(3) === 0) {
             // Genderless:
-            if (character.torso.vaginas.count <= 0) DisplayText("\n\nYou feel a sudden stabbing pain in your featureless crotch and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of a new human-shaped penis");
+            if (character.body.vaginas.count <= 0) DisplayText("\n\nYou feel a sudden stabbing pain in your featureless crotch and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of a new human-shaped penis");
             // Female:
-            else DisplayText("\n\nYou feel a sudden stabbing pain just above your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of not only a " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", but a new human-shaped penis");
-            if (character.torso.balls.quantity === 0) {
+            else DisplayText("\n\nYou feel a sudden stabbing pain just above your " + describeVagina(character, character.body.vaginas.get(0)) + " and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of not only a " + describeVagina(character, character.body.vaginas.get(0)) + ", but a new human-shaped penis");
+            if (character.body.balls.count === 0) {
                 DisplayText(" and a pair of balls");
-                character.torso.balls.quantity = 2;
-                character.torso.balls.size = 2;
+                character.body.balls.count = 2;
+                character.body.balls.size = 2;
             }
             DisplayText("!");
             const newCock: Cock = new Cock(7, 1.4);
-            character.torso.cocks.add(newCock);
+            character.body.cocks.add(newCock);
             character.stats.lib += 4;
             character.stats.sens += 5;
             character.stats.lust += 20;
@@ -105,15 +110,15 @@ export class SharkTooth extends Consumable {
             changes++;
         }
         // (Requires the character having two testicles)
-        if (this.enhanced && (character.torso.balls.quantity === 0 || character.torso.balls.quantity === 2) && character.torso.cocks.count > 0 && changes < changeLimit && randInt(3) === 0) {
-            if (character.torso.balls.quantity === 2) {
-                DisplayText("\n\nYou gasp in shock as a sudden pain racks your abdomen. Within seconds, two more testes drop down into your " + Desc.Balls.describeSack(character) + ", your skin stretching out to accommodate them. Once the pain clears, you examine <b>your new quartet of testes.</b>");
-                character.torso.balls.quantity = 4;
+        if (this.enhanced && (character.body.balls.count === 0 || character.body.balls.count === 2) && character.body.cocks.count > 0 && changes < changeLimit && randInt(3) === 0) {
+            if (character.body.balls.count === 2) {
+                DisplayText("\n\nYou gasp in shock as a sudden pain racks your abdomen. Within seconds, two more testes drop down into your " + describeSack(character) + ", your skin stretching out to accommodate them. Once the pain clears, you examine <b>your new quartet of testes.</b>");
+                character.body.balls.count = 4;
             }
-            else if (character.torso.balls.quantity === 0) {
+            else if (character.body.balls.count === 0) {
                 DisplayText("\n\nYou gasp in shock as a sudden pain racks your abdomen. Within seconds, two balls drop down into a new sack, your skin stretching out to accommodate them. Once the pain clears, you examine <b>your new pair of testes.</b>");
-                character.torso.balls.quantity = 2;
-                character.torso.balls.size = 2;
+                character.body.balls.count = 2;
+                character.body.balls.size = 2;
             }
             character.stats.lib += 2;
             character.stats.sens += 3;
@@ -122,68 +127,68 @@ export class SharkTooth extends Consumable {
         }
         // Transformations:
         // Mouth TF
-        if (character.torso.neck.head.face.type !== FaceType.SHARK_TEETH && randInt(3) === 0 && changes < changeLimit) {
+        if (character.body.face.type !== FaceType.SHARK_TEETH && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\n");
-            if (character.torso.neck.head.face.type > FaceType.HUMAN && character.torso.neck.head.face.type < FaceType.SHARK_TEETH) DisplayText("Your " + Desc.Face.describeFace(character) + " explodes with agony, reshaping into a more human-like visage.  ");
-            character.torso.neck.head.face.type = FaceType.SHARK_TEETH;
+            if (character.body.face.type > FaceType.HUMAN && character.body.face.type < FaceType.SHARK_TEETH) DisplayText("Your " + describeFace(character) + " explodes with agony, reshaping into a more human-like visage.  ");
+            character.body.face.type = FaceType.SHARK_TEETH;
             DisplayText("You firmly grasp your mouth, an intense pain racking your oral cavity. Your gums shift around and the bones in your jaw reset. You blink a few times wondering what just happened. You move over to a puddle to catch sight of your reflection, and you are thoroughly surprised by what you see. A set of retractable shark fangs have grown in front of your normal teeth, and your face has elongated slightly to accommodate them!  They even scare you a little.\n(Gain: 'Bite' special attack)");
             changes++;
         }
         // Remove odd eyes
-        if (changes < changeLimit && randInt(5) === 0 && character.torso.neck.head.face.eyes.type > EyeType.HUMAN) {
-            if (character.torso.neck.head.face.eyes.type === EyeType.BLACK_EYES_SAND_TRAP) {
+        if (changes < changeLimit && randInt(5) === 0 && character.body.eyes.type > EyeType.HUMAN) {
+            if (character.body.eyes.type === EyeType.BLACK_EYES_SAND_TRAP) {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
-                if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                if (character.body.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
-            character.torso.neck.head.face.eyes.type = EyeType.HUMAN;
+            character.body.eyes.type = EyeType.HUMAN;
             changes++;
         }
         // Tail TF
-        if (character.torso.tails.reduce(Tail.HasType(TailType.SHARK), false) && randInt(3) === 0 && changes < changeLimit) {
+        if (character.body.tails.reduce(Tail.HasType(TailType.SHARK), false) && randInt(3) === 0 && changes < changeLimit) {
             changes++;
-            if (character.torso.tails.count >= 1) DisplayText("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your brand new shark tail.");
+            if (character.body.tails.count >= 1) DisplayText("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your brand new shark tail.");
             else DisplayText("\n\nJets of pain shoot down your spine into your tail.  You feel the tail bulging out until it explodes into a large and flexible shark-tail.  You swish it about experimentally, and find it quite easy to control.");
-            character.torso.tails.clear();
-            character.torso.tails.add(new Tail(TailType.SHARK));
+            character.body.tails.clear();
+            character.body.tails.add(new Tail(TailType.SHARK));
         }
         // Hair
-        if (character.torso.neck.head.hair.color !== "silver" && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.hair.color !== "silver" && randInt(4) === 0 && changes < changeLimit) {
             changes++;
             DisplayText("\n\nYou feel a tingling in your scalp and reach up to your head to investigate. To your surprise, your hair color has changed into a silvery color, just like that of a shark girl!");
-            character.torso.neck.head.hair.color = "silver";
+            character.body.hair.color = "silver";
         }
         // Skin
-        if (((character.skin.tone !== "rough gray" && character.skin.tone !== "orange and black striped") || character.skin.type !== SkinType.PLAIN) && randInt(7) === 0 && changes < changeLimit) {
+        if (((character.body.skin.tone !== "rough gray" && character.body.skin.tone !== "orange and black striped") || character.body.skin.type !== SkinType.PLAIN) && randInt(7) === 0 && changes < changeLimit) {
             DisplayText("\n\n");
-            if (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES) DisplayText("Your " + character.skin.desc + " falls out, collecting on the floor and exposing your supple skin underneath.  ");
-            else if (character.skin.type === SkinType.GOO) DisplayText("Your gooey skin solidifies, thickening up as your body starts to solidy into a more normal form. ");
+            if (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES) DisplayText("Your " + character.body.skin.desc + " falls out, collecting on the floor and exposing your supple skin underneath.  ");
+            else if (character.body.skin.type === SkinType.GOO) DisplayText("Your gooey skin solidifies, thickening up as your body starts to solidy into a more normal form. ");
             else if (!this.enhanced) DisplayText("Your skin itches and tingles becoming slightly rougher and turning gray.  ");
             if (!this.enhanced) {
                 DisplayText("You abruptly stop moving and gasp sharply as a shudder goes up your entire frame. Your skin begins to shift and morph, growing slightly thicker and changing into a shiny grey color. Your skin now feels oddly rough too, comparable to that of a marine mammal. You smile and run your hands across your new shark skin.");
-                character.skin.type = SkinType.PLAIN;
-                character.skin.desc = "skin";
-                character.skin.tone = "rough gray";
+                character.body.skin.type = SkinType.PLAIN;
+                character.body.skin.desc = "skin";
+                character.body.skin.tone = "rough gray";
                 changes++;
             }
             else {
                 DisplayText("Your skin begins to tingle and itch, before rapidly shifting to a shiny orange color, marked by randIntom black stripes. You take a quick look in a nearby pool of water, to see your skin has morphed in appearance and texture to become more like a tigershark!");
-                character.skin.type = SkinType.PLAIN;
-                character.skin.desc = "skin";
-                character.skin.tone = "orange and black striped";
+                character.body.skin.type = SkinType.PLAIN;
+                character.body.skin.desc = "skin";
+                character.body.skin.tone = "orange and black striped";
                 changes++;
             }
         }
         // FINZ R WINGS
-        if (character.torso.wings.type !== WingType.SHARK_FIN && changes < changeLimit && randInt(3) === 0) {
+        if (character.body.wings.type !== WingType.SHARK_FIN && changes < changeLimit && randInt(3) === 0) {
             DisplayText("\n\n");
-            if (character.torso.wings.type > WingType.NONE) DisplayText("Your wings fold into themselves, merging together with your back.  ");
+            if (character.body.wings.type > WingType.NONE) DisplayText("Your wings fold into themselves, merging together with your back.  ");
             DisplayText("You groan and slump down in pain, almost instantly regretting eating the tooth. You start sweating profusely and panting loudly, feeling the space between your shoulder blades shifting about. You hastily remove your " + character.inventory.equipment.armor.displayName + " just in time before a strange fin-like structure bursts from in-between your shoulders. You examine it carefully and make a few modifications to your " + character.inventory.equipment.armor.displayName + " to accommodate your new fin.");
-            character.torso.wings.type = WingType.SHARK_FIN;
-            character.torso.wings.desc = "";
+            character.body.wings.type = WingType.SHARK_FIN;
+            character.body.wings.desc = "";
             changes++;
         }
         if (changes === 0) {

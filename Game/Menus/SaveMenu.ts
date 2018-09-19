@@ -1,13 +1,12 @@
-import { Menus } from './Menus';
 import { displaySaves, saveSlotChoices } from './SaveDisplay';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { InputTextElement } from '../../Engine/Display/Elements/InputTextElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { generateSave, SaveFile } from '../SaveFile';
 import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
-import { User } from '../User';
+import { dataMenu } from './DataMenu';
 
-export function display(): NextScreenChoices {
+export function saveMenu(): NextScreenChoices {
     DisplayText().clear();
     if (SaveManager.activeSlot())
         DisplayText("Last saved or loaded from: " + SaveManager.activeSlot()).bold();
@@ -22,7 +21,7 @@ export function display(): NextScreenChoices {
     DisplayText().appendElement(notesInputElement);
     notesInputElement.style.position = "fixed";
 
-    return saveSlotChoices(createSaveFuncCallback(generateSave(notesInputElement.text)), Menus.Data);
+    return saveSlotChoices(createSaveFuncCallback(generateSave(notesInputElement.text)), dataMenu);
 }
 
 function createSaveFuncCallback(save: SaveFile): (index: number) => ClickOption {
@@ -32,7 +31,7 @@ function createSaveFuncCallback(save: SaveFile): (index: number) => ClickOption 
                 return confirmOverwrite(index, save);
             else {
                 SaveManager.saveToSlot(index, save);
-                return { next: display };
+                return { next: saveMenu };
             }
         };
     };
@@ -45,9 +44,9 @@ function confirmOverwrite(slotNumber: number, save: SaveFile): NextScreenChoices
     DisplayText("\n\n");
     DisplayText("Are you sure you want to delete it?");
     return {
-        choices: [["No", Menus.Save], ["Yes", () => {
+        choices: [["No", saveMenu], ["Yes", () => {
             SaveManager.saveToSlot(slotNumber, save);
-            return display();
+            return saveMenu();
         }]]
     };
 }

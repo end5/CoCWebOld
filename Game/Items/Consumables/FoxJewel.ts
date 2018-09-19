@@ -7,13 +7,16 @@ import { SkinType } from '../../Body/Skin';
 import { Tail, TailType } from '../../Body/Tail';
 import { VaginaType } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
+import { skinFurScales, skin } from '../../Descriptors/SkinDescriptor';
+import { describeHair } from '../../Descriptors/HairDescriptor';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { describeNipple } from '../../Descriptors/BreastDescriptor';
 
 export class FoxJewel extends Consumable {
     private mystic: boolean;
@@ -62,9 +65,9 @@ export class FoxJewel extends Consumable {
         // [decrease Toughness toward 20]
         if (character.stats.tou > 20 && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0))) {
             // from 66 or less toughness
-            if (character.stats.tou <= 66) DisplayText("\n\nYou feel your " + Desc.Skin.skinFurScales(character) + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your " + Desc.Skin.skinFurScales(character) + " won't offer you much protection.");
+            if (character.stats.tou <= 66) DisplayText("\n\nYou feel your " + skinFurScales(character) + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your " + skinFurScales(character) + " won't offer you much protection.");
             // from 66 or greater toughness
-            else DisplayText("\n\nYou feel your " + Desc.Skin.skinFurScales(character) + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your hide isn't quite as tough as it used to be.");
+            else DisplayText("\n\nYou feel your " + skinFurScales(character) + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your hide isn't quite as tough as it used to be.");
             character.stats.tou += -1;
             if (character.stats.tou > 66) character.stats.tou += -1;
             changes++;
@@ -84,65 +87,65 @@ export class FoxJewel extends Consumable {
         // Your facial features soften as your body becomes more androgynous.
         // from high to low
         // Your facial features harden as your body becomes more androgynous.
-        if (((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0)) && changes < changeLimit && character.femininity !== 50) {
+        if (((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0)) && changes < changeLimit && character.body.femininity !== 50) {
             DisplayText(Mod.Body.displayModFem(character, 50, 2));
             changes++;
         }
         // [decrease muscle tone toward 40]
-        if (character.tone >= 40 && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0))) {
+        if (character.body.tone >= 40 && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0))) {
             DisplayText("\n\nMoving brings with it a little more jiggle than you're used to.  You don't seem to have gained weight, but your muscles seem less visible, and various parts of you are pleasantly softer.");
-            character.tone -= 2 + randInt(3);
+            character.body.tone -= 2 + randInt(3);
             changes++;
         }
 
         // [Adjust hips toward 10 � wide/curvy/flared]
         // from narrow to wide
-        if (character.torso.hips.rating < 10 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && changes < changeLimit) {
-            character.torso.hips.rating++;
-            if (character.torso.hips.rating < 7) character.torso.hips.rating++;
-            if (character.torso.hips.rating < 4) character.torso.hips.rating++;
+        if (character.body.hips.rating < 10 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && changes < changeLimit) {
+            character.body.hips.rating++;
+            if (character.body.hips.rating < 7) character.body.hips.rating++;
+            if (character.body.hips.rating < 4) character.body.hips.rating++;
             DisplayText("\n\nYou stumble a bit as the bones in your pelvis rearrange themselves painfully.  Your hips have widened nicely!");
             changes++;
         }
         // from wide to narrower
-        if (character.torso.hips.rating > 10 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && changes < changeLimit) {
-            character.torso.hips.rating--;
-            if (character.torso.hips.rating > 14) character.torso.hips.rating--;
-            if (character.torso.hips.rating > 19) character.torso.hips.rating--;
-            if (character.torso.hips.rating > 24) character.torso.hips.rating--;
+        if (character.body.hips.rating > 10 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && changes < changeLimit) {
+            character.body.hips.rating--;
+            if (character.body.hips.rating > 14) character.body.hips.rating--;
+            if (character.body.hips.rating > 19) character.body.hips.rating--;
+            if (character.body.hips.rating > 24) character.body.hips.rating--;
             DisplayText("\n\nYou stumble a bit as the bones in your pelvis rearrange themselves painfully.  Your hips have narrowed.");
             changes++;
         }
 
         // [Adjust hair length toward range of 16-26 � very long to ass-length]
-        if ((character.torso.neck.head.hair.length < 16 || character.torso.neck.head.hair.length > 26) && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && changes < changeLimit) {
+        if ((character.body.hair.length < 16 || character.body.hair.length > 26) && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && changes < changeLimit) {
             // from short to long
-            if (character.torso.neck.head.hair.length < 16) {
-                character.torso.neck.head.hair.length += 3 + randInt(3);
-                DisplayText("\n\nYou experience a tingling sensation in your scalp.  Feeling a bit off-balance, you discover your hair has lengthened, becoming " + Desc.Head.describeHair(character) + ".");
+            if (character.body.hair.length < 16) {
+                character.body.hair.length += 3 + randInt(3);
+                DisplayText("\n\nYou experience a tingling sensation in your scalp.  Feeling a bit off-balance, you discover your hair has lengthened, becoming " + describeHair(character) + ".");
             }
             // from long to short
             else {
-                character.torso.neck.head.hair.length -= 3 + randInt(3);
-                DisplayText("\n\nYou experience a tingling sensation in your scalp.  Feeling a bit off-balance, you discover your hair has shed a bit of its length, becoming " + Desc.Head.describeHair(character) + ".");
+                character.body.hair.length -= 3 + randInt(3);
+                DisplayText("\n\nYou experience a tingling sensation in your scalp.  Feeling a bit off-balance, you discover your hair has shed a bit of its length, becoming " + describeHair(character) + ".");
             }
             changes++;
         }
         // [Increase Vaginal Capacity] - requires vagina, of course
-        if (character.torso.vaginas.count > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && character.statusAffects.get(StatusAffectType.BonusVCapacity).value1 < 200 && changes < changeLimit) {
-            DisplayText("\n\nA gurgling sound issues from your abdomen, and you double over as a trembling ripple passes through your womb.  The flesh of your stomach roils as your internal organs begin to shift, and when the sensation finally passes, you are instinctively aware that your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " is a bit deeper than it was before.");
-            if (!character.statusAffects.has(StatusAffectType.BonusVCapacity)) {
-                character.statusAffects.add(StatusAffectType.BonusVCapacity, 0, 0, 0, 0);
+        if (character.body.vaginas.count > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 < 200 && changes < changeLimit) {
+            DisplayText("\n\nA gurgling sound issues from your abdomen, and you double over as a trembling ripple passes through your womb.  The flesh of your stomach roils as your internal organs begin to shift, and when the sensation finally passes, you are instinctively aware that your " + describeVagina(character, character.body.vaginas.get(0)) + " is a bit deeper than it was before.");
+            if (!character.statusAffects.has(StatusEffectType.BonusVCapacity)) {
+                character.statusAffects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
             }
-            character.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 5 + randInt(10);
+            character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 = 5 + randInt(10);
             changes++;
         }
         // [Vag of Holding] - rare effect, only if PC has high vaginal looseness
-        else if (character.torso.vaginas.count > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && character.statusAffects.get(StatusAffectType.BonusVCapacity).value1 >= 200 && character.statusAffects.get(StatusAffectType.BonusVCapacity).value1 < 8000 && changes < changeLimit) {
+        else if (character.body.vaginas.count > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 >= 200 && character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 < 8000 && changes < changeLimit) {
             DisplayText("\n\nYou clutch your stomach with both hands, dropping to the ground in pain as your internal organs begin to twist and shift violently inside you.  As you clench your eyes shut in agony, you are overcome with a sudden calm.  The pain in your abdomen subsides, and you feel at one with the unfathomable infinity of the universe, warmth radiating through you from the vast swirling cosmos contained within your womb.");
             if (User.settings.silly()) DisplayText("  <b>Your vagina has become a universe unto itself, capable of accepting colossal insertions beyond the scope of human comprehension!</b>");
             else DisplayText("  <b>Your vagina is now capable of accepting even the most ludicrously sized insertions with no ill effects.</b>");
-            character.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 8000;
+            character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 = 8000;
             changes++;
         }
 
@@ -150,9 +153,9 @@ export class FoxJewel extends Consumable {
         // BIG APPEARANCE CHANGES
         // **********************
         // [Grow Fox Tail]
-        if (!character.torso.tails.reduce(Tail.HasType(TailType.FOX), false) && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0))) {
+        if (!character.body.tails.reduce(Tail.HasType(TailType.FOX), false) && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0))) {
             // if PC has no tail
-            if (character.torso.tails.count >= 1) {
+            if (character.body.tails.count >= 1) {
                 DisplayText("\n\nA pressure builds on your backside.  You feel under your " + character.inventory.equipment.armor.displayName + " and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it has a mind of its own.  <b>You now have a fox-tail.</b>");
             }
             // if PC has another type of tail
@@ -161,11 +164,11 @@ export class FoxJewel extends Consumable {
             }
             const newTail = new Tail();
             newTail.type = TailType.FOX;
-            character.torso.tails.add(newTail);
+            character.body.tails.add(newTail);
             changes++;
         }
-        const foxTailCount = character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length;
-        if (!this.mystic && character.torso.neck.head.ears.type === EarType.FOX && foxTailCount === 8 && randInt(3) === 0) {
+        const foxTailCount = character.body.tails.filter(Tail.FilterType(TailType.FOX)).length;
+        if (!this.mystic && character.body.ears.type === EarType.FOX && foxTailCount === 8 && randInt(3) === 0) {
             DisplayText("\n\nYou have the feeling that if you could grow a ninth tail you would be much more powerful, but you would need to find a way to enhance one of these gems or meditate with one to have a chance at unlocking your full potential.");
         }
         // [Grow Addtl. Fox Tail]
@@ -188,7 +191,7 @@ export class FoxJewel extends Consumable {
             }
             const newTail = new Tail();
             newTail.type = TailType.FOX;
-            character.torso.tails.add(newTail);
+            character.body.tails.add(newTail);
             changes++;
         }
         // [Grow 9th tail and gain Corrupted Nine-tails perk]
@@ -196,7 +199,7 @@ export class FoxJewel extends Consumable {
             changes < changeLimit &&
             foxTailCount === 8 &&
             character.stats.level >= 9 &&
-            character.torso.neck.head.ears.type === EarType.FOX &&
+            character.body.ears.type === EarType.FOX &&
             character.stats.int >= 90 &&
             !character.perks.has(PerkType.CorruptedNinetails) &&
             !character.perks.has(PerkType.EnlightenedNinetails)
@@ -212,78 +215,78 @@ export class FoxJewel extends Consumable {
         }
 
         // [Grow Fox Ears]
-        if (character.torso.tails.reduce(Tail.HasType(TailType.FOX), false) && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0)) && character.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit) {
+        if (character.body.tails.reduce(Tail.HasType(TailType.FOX), false) && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0)) && character.body.ears.type !== EarType.FOX && changes < changeLimit) {
             // if PC has non-animal ears
-            if (character.torso.neck.head.ears.type === EarType.HUMAN) DisplayText("\n\nThe sides of your face painfully stretch as your ears morph and begin to migrate up past your hairline, toward the top of your head.  They elongate, becoming large vulpine triangles covered in bushy fur.  You now have fox ears.");
+            if (character.body.ears.type === EarType.HUMAN) DisplayText("\n\nThe sides of your face painfully stretch as your ears morph and begin to migrate up past your hairline, toward the top of your head.  They elongate, becoming large vulpine triangles covered in bushy fur.  You now have fox ears.");
             // if PC has animal ears
             else DisplayText("\n\nYour ears change shape, shifting from their current shape to become vulpine in nature.  You now have fox ears.");
-            character.torso.neck.head.ears.type = EarType.FOX;
+            character.body.ears.type = EarType.FOX;
             changes++;
         }
         // [Change Hair Color: Golden-blonde, SIlver Blonde, White, Black, Red]
-        if (((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0)) && changes < changeLimit && character.torso.neck.head.hair.color !== "golden blonde" && character.torso.neck.head.hair.color !== "silver blonde" && character.torso.neck.head.hair.color !== "white" && character.torso.neck.head.hair.color !== "black" && character.torso.neck.head.hair.color !== "red") {
+        if (((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0)) && changes < changeLimit && character.body.hair.color !== "golden blonde" && character.body.hair.color !== "silver blonde" && character.body.hair.color !== "white" && character.body.hair.color !== "black" && character.body.hair.color !== "red") {
             const hairTemp: number = randInt(10);
-            if (hairTemp === 0) character.torso.neck.head.hair.color = "golden blonde";
-            else if (hairTemp === 1) character.torso.neck.head.hair.color = "silver blonde";
-            else if (hairTemp <= 3) character.torso.neck.head.hair.color = "white";
-            else if (hairTemp <= 6) character.torso.neck.head.hair.color = "black";
-            else character.torso.neck.head.hair.color = "red";
-            DisplayText("\n\nYour scalp begins to tingle, and you gently grasp a strand, pulling it forward to check it.  Your hair has become the same " + character.torso.neck.head.hair.color + " as a kitsune's!");
+            if (hairTemp === 0) character.body.hair.color = "golden blonde";
+            else if (hairTemp === 1) character.body.hair.color = "silver blonde";
+            else if (hairTemp <= 3) character.body.hair.color = "white";
+            else if (hairTemp <= 6) character.body.hair.color = "black";
+            else character.body.hair.color = "red";
+            DisplayText("\n\nYour scalp begins to tingle, and you gently grasp a strand, pulling it forward to check it.  Your hair has become the same " + character.body.hair.color + " as a kitsune's!");
             changes++;
         }
         // [Change Skin Type: remove fur or scales, change skin to Tan, Olive, or Light]
-        if (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES && ((this.mystic) || (!this.mystic && randInt(2) === 0))) {
-            DisplayText("\n\nYou begin to tingle all over your " + Desc.Skin.skin(character) + ", starting as a cool, pleasant sensation but gradually worsening until you are furiously itching all over.");
-            if (character.skin.type === SkinType.FUR) DisplayText("  You stare in horror as you pull your fingers away holding a handful of " + character.torso.neck.head.hair.color + " fur!  Your fur sloughs off your body in thick clumps, falling away to reveal patches of bare, " + character.skin.tone + " skin.");
-            else if (character.skin.type === SkinType.SCALES) DisplayText("  You stare in horror as you pull your fingers away holding a handful of dried up scales!  Your scales continue to flake and peel off your skin in thick patches, revealing the tender " + character.skin.tone + " skin underneath.");
+        if (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES && ((this.mystic) || (!this.mystic && randInt(2) === 0))) {
+            DisplayText("\n\nYou begin to tingle all over your " + skin(character) + ", starting as a cool, pleasant sensation but gradually worsening until you are furiously itching all over.");
+            if (character.body.skin.type === SkinType.FUR) DisplayText("  You stare in horror as you pull your fingers away holding a handful of " + character.body.hair.color + " fur!  Your fur sloughs off your body in thick clumps, falling away to reveal patches of bare, " + character.body.skin.tone + " skin.");
+            else if (character.body.skin.type === SkinType.SCALES) DisplayText("  You stare in horror as you pull your fingers away holding a handful of dried up scales!  Your scales continue to flake and peel off your skin in thick patches, revealing the tender " + character.body.skin.tone + " skin underneath.");
             DisplayText("  Your skin slowly turns raw and red under your severe scratching, the tingling sensations raising goosebumps across your whole body.  Over time, the itching fades, and your flushed skin resolves into a natural-looking ");
-            character.skin.type = SkinType.PLAIN;
-            character.skin.adj = "";
-            character.skin.desc = "skin";
-            if (!this.mystic && character.skin.tone !== "tan" && character.skin.tone !== "olive" && character.skin.tone !== "light") {
+            character.body.skin.type = SkinType.PLAIN;
+            character.body.skin.adj = "";
+            character.body.skin.desc = "skin";
+            if (!this.mystic && character.body.skin.tone !== "tan" && character.body.skin.tone !== "olive" && character.body.skin.tone !== "light") {
                 const skinTemp: number = randInt(3);
-                if (skinTemp === 0) character.skin.tone = "tan";
-                else if (skinTemp === 1) character.skin.tone = "olive";
-                else character.skin.tone = "light";
+                if (skinTemp === 0) character.body.skin.tone = "tan";
+                else if (skinTemp === 1) character.body.skin.tone = "olive";
+                else character.body.skin.tone = "light";
             }
-            else if (this.mystic && character.skin.tone !== "dark" && character.skin.tone !== "ebony" && character.skin.tone !== "ashen" && character.skin.tone !== "sable" && character.skin.tone !== "milky white") {
+            else if (this.mystic && character.body.skin.tone !== "dark" && character.body.skin.tone !== "ebony" && character.body.skin.tone !== "ashen" && character.body.skin.tone !== "sable" && character.body.skin.tone !== "milky white") {
                 const skinT: number = randInt(5);
-                if (skinT === 0) character.skin.tone = "dark";
-                else if (skinT === 1) character.skin.tone = "ebony";
-                else if (skinT === 2) character.skin.tone = "ashen";
-                else if (skinT === 3) character.skin.tone = "sable";
-                else character.skin.tone = "milky white";
+                if (skinT === 0) character.body.skin.tone = "dark";
+                else if (skinT === 1) character.body.skin.tone = "ebony";
+                else if (skinT === 2) character.body.skin.tone = "ashen";
+                else if (skinT === 3) character.body.skin.tone = "sable";
+                else character.body.skin.tone = "milky white";
             }
-            DisplayText(character.skin.tone + " complexion.");
-            DisplayText("  <b>You now have " + Desc.Skin.skin(character) + "!</b>");
+            DisplayText(character.body.skin.tone + " complexion.");
+            DisplayText("  <b>You now have " + skin(character) + "!</b>");
             changes++;
         }
         // Change skin tone if not changed you!
-        else if (this.mystic && character.skin.tone !== "dark" && character.skin.tone !== "ebony" && character.skin.tone !== "ashen" && character.skin.tone !== "sable" && character.skin.tone !== "milky white" && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0))) {
+        else if (this.mystic && character.body.skin.tone !== "dark" && character.body.skin.tone !== "ebony" && character.body.skin.tone !== "ashen" && character.body.skin.tone !== "sable" && character.body.skin.tone !== "milky white" && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0))) {
             DisplayText("\n\nYou feel a crawling sensation on the surface of your skin, starting at the small of your back and spreading to your extremities, ultimately reaching your face.  Holding an arm up to your face, you discover that <b>you now have ");
             const mtoneTemp: number = randInt(5);
-            if (mtoneTemp === 0) character.skin.tone = "dark";
-            else if (mtoneTemp === 1) character.skin.tone = "ebony";
-            else if (mtoneTemp === 2) character.skin.tone = "ashen";
-            else if (mtoneTemp === 3) character.skin.tone = "sable";
-            else character.skin.tone = "milky white";
-            DisplayText(Desc.Skin.skin(character) + "!</b>");
+            if (mtoneTemp === 0) character.body.skin.tone = "dark";
+            else if (mtoneTemp === 1) character.body.skin.tone = "ebony";
+            else if (mtoneTemp === 2) character.body.skin.tone = "ashen";
+            else if (mtoneTemp === 3) character.body.skin.tone = "sable";
+            else character.body.skin.tone = "milky white";
+            DisplayText(skin(character) + "!</b>");
             changes++;
         }
         // Change skin tone if not changed you!
-        else if (!this.mystic && character.skin.tone !== "tan" && character.skin.tone !== "olive" && character.skin.tone !== "light" && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0))) {
+        else if (!this.mystic && character.body.skin.tone !== "tan" && character.body.skin.tone !== "olive" && character.body.skin.tone !== "light" && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0))) {
             DisplayText("\n\nYou feel a crawling sensation on the surface of your skin, starting at the small of your back and spreading to your extremities, ultimately reaching your face.  Holding an arm up to your face, you discover that <b>you now have ");
             const toneTemp: number = randInt(3);
-            if (toneTemp === 0) character.skin.tone = "tan";
-            else if (toneTemp === 1) character.skin.tone = "olive";
-            else character.skin.tone = "light";
-            DisplayText(Desc.Skin.skin(character) + "!</b>");
+            if (toneTemp === 0) character.body.skin.tone = "tan";
+            else if (toneTemp === 1) character.body.skin.tone = "olive";
+            else character.body.skin.tone = "light";
+            DisplayText(skin(character) + "!</b>");
             changes++;
         }
         // [Change Skin Color: add "Tattoos"]
         // From Tan, Olive, or Light skin tones
-        /*else if ((this.mystic && false && (character.skin.tone == "dark" || character.skin.tone == "ebony" || character.skin.tone == "ashen" || character.skin.tone == "sable" || character.skin.tone == "milky white")) || (!this.mystic && false && (character.skin.tone == "tan" || character.skin.tone == "olive" || character.skin.tone || "light")) && changes < changeLimit) {
-            DisplayText("You feel a crawling sensation on the surface of your skin, starting at the small of your back and spreading to your extremities, ultimately reaching your face.  You are caught by surprise when you are suddenly assaulted by a blinding flash issuing from areas of your skin, and when the spots finally clear from your vision, an assortment of glowing tribal tattoos adorns your " + Desc.Skin.skin(character) + ".  The glow gradually fades, but the distinctive ");
+        /*else if ((this.mystic && false && (character.body.skin.tone == "dark" || character.body.skin.tone == "ebony" || character.body.skin.tone == "ashen" || character.body.skin.tone == "sable" || character.body.skin.tone == "milky white")) || (!this.mystic && false && (character.body.skin.tone == "tan" || character.body.skin.tone == "olive" || character.body.skin.tone || "light")) && changes < changeLimit) {
+            DisplayText("You feel a crawling sensation on the surface of your skin, starting at the small of your back and spreading to your extremities, ultimately reaching your face.  You are caught by surprise when you are suddenly assaulted by a blinding flash issuing from areas of your skin, and when the spots finally clear from your vision, an assortment of glowing tribal tattoos adorns your " + skin(character) + ".  The glow gradually fades, but the distinctive ");
             if (this.mystic) DisplayText("angular");
             else DisplayText("curved");
             DisplayText(" markings remain, as if etched into your skin.");
@@ -291,15 +294,15 @@ export class FoxJewel extends Consumable {
             //9999 - pending tats system
         }*/
         // Nipples Turn Back:
-        if (character.statusAffects.has(StatusAffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nSomething invisible brushes against your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+        if (character.statusAffects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
+            DisplayText("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
-            character.statusAffects.remove(StatusAffectType.BlackNipples);
+            character.statusAffects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.torso.vaginas.get(0).type !== VaginaType.HUMAN && character.torso.vaginas.count > 0) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN && character.body.vaginas.count > 0) {
             DisplayText("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
-            character.torso.vaginas.get(0).type = VaginaType.HUMAN;
+            character.body.vaginas.get(0).type = VaginaType.HUMAN;
             changes++;
         }
         if (changes === 0) {

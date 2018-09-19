@@ -1,5 +1,5 @@
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
@@ -14,7 +14,7 @@ export class Squeeze implements CombatAction {
     }
 
     public canUse(character: Character, target?: Character): boolean {
-        return !!target && target.statusAffects.has(StatusAffectType.Constricted);
+        return !!target && target.statusAffects.has(StatusEffectType.Constricted);
     }
 
     public use(character: Character, target: Character): NextScreenChoices {

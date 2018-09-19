@@ -6,17 +6,17 @@ export enum HornType {
 
 export class Horns implements ISerializable<Horns> {
     public type: HornType = HornType.NONE;
-    public amount: number = 0;
+    public count: number = 0;
 
     public serialize(): object | undefined {
         return {
             type: this.type,
-            amount: this.amount
+            count: this.count
         };
     }
 
     public deserialize(saveObject: Horns) {
         this.type = saveObject.type;
-        this.amount = saveObject.amount;
+        this.count = saveObject.count;
     }
 }

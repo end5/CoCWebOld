@@ -68,12 +68,12 @@ export class HellhoundPreg implements IPregnancyEvent {
         DisplayText("You sit there in a state of euphoria for some time.  It's not until the child in front of you starts to become uncomfortably hot and heavy, that you are brought back to reality.  You look down to see that the hellhound pup has grown to three times its original size and even sprouted the distinctive layer of tough black fur.  The beast is licking contentedly at your breasts instead of sucking.  It was the now-full flames in its mouth that had broken your reverie, but before you get a real grasp of what had happened, the hellhound pulls away from you and gives you a few quick happy barks before turning around and running off into the wilds, dropping down onto four legs just before disappearing from view.  You feel the unnatural strength you gained during the birth fade away, and you fall into a deep contented sleep.\n\n");
         Mod.Breast.boostLactation(player, .01);
         // Main Text here
-        if (player.torso.chest.reduce(BreastRow.AverageLactation, 0) > 0 && player.torso.chest.reduce(BreastRow.AverageLactation, 0) < 5) {
+        if (player.body.chest.reduce(BreastRow.AverageLactation, 0) > 0 && player.body.chest.reduce(BreastRow.AverageLactation, 0) < 5) {
             DisplayText("Your breasts won't seem to stop dribbling milk, lactating more heavily than before.  ");
             Mod.Breast.boostLactation(player, .5);
         }
         Mod.Vagina.displayStretchVagina(player, 60, true);
-        if (player.torso.vaginas.get(0).wetness === VaginaWetness.DRY) player.torso.vaginas.get(0).wetness++;
+        if (player.body.vaginas.get(0).wetness === VaginaWetness.DRY) player.body.vaginas.get(0).wetness++;
         if (player.gender === Gender.MALE) player.gender = 3;
         if (player.gender === Gender.NONE) player.gender = 2;
         player.orgasm();
@@ -83,15 +83,15 @@ export class HellhoundPreg implements IPregnancyEvent {
         player.stats.lib += 1;
         player.stats.sens += .5;
         // Butt increase
-        if (player.torso.butt.rating < 14 && randInt(2) === 0) {
-            if (player.torso.butt.rating < 10) {
-                player.torso.butt.rating++;
-                DisplayText("\n\nYou notice your " + Desc.Butt.describeButt(player) + " feeling larger and plumper after the ordeal.");
+        if (player.body.butt.rating < 14 && randInt(2) === 0) {
+            if (player.body.butt.rating < 10) {
+                player.body.butt.rating++;
+                DisplayText("\n\nYou notice your " + describeButt(player) + " feeling larger and plumper after the ordeal.");
             }
             // Big butts grow slower!
-            else if (player.torso.butt.rating < 14 && randInt(2) === 0) {
-                player.torso.butt.rating++;
-                DisplayText("\n\nYou notice your " + Desc.Butt.describeButt(player) + " feeling larger and plumper after the ordeal.");
+            else if (player.body.butt.rating < 14 && randInt(2) === 0) {
+                player.body.butt.rating++;
+                DisplayText("\n\nYou notice your " + describeButt(player) + " feeling larger and plumper after the ordeal.");
             }
         }
         DisplayText().newline();

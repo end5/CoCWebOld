@@ -3,10 +3,17 @@ import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { HairType } from '../../Body/Hair';
 import { Character } from '../../Character/Character';
-import { PlayerFlags } from '../../Character/Player/PlayerFlags';
-import { Desc } from '../../Descriptors/Descriptors';
 import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
+import { describeHair } from '../../Descriptors/HairDescriptor';
+import { ReptilumFlags } from './Reptilum';
+
+export const HairExtensionSerumFlags = {
+    INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED: 0,
+    INCREASED_HAIR_GROWTH_TIME_REMAINING: 0,
+};
+
+User.flags.set('HairExtensionSerum', HairExtensionSerumFlags);
 
 export class HairExtensionSerum extends Consumable {
     public constructor() {
@@ -14,31 +21,31 @@ export class HairExtensionSerum extends Consumable {
     }
 
     public canUse(character: Character): boolean {
-        if ((User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED <= 2) return true;
+        if (HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED <= 2) return true;
         DisplayText("<b>No way!</b>  Your head itches like mad from using the rest of these, and you will NOT use another.\n");
         return false;
     }
 
     public use(character: Character) {
         DisplayText("You open the bottle of hair extension serum and follow the directions carefully, massaging it into your scalp and being careful to keep it from getting on any other skin.  You wash off your hands with lakewater just to be sure.");
-        if ((User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_TIME_REMAINING <= 0) {
+        if (HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_TIME_REMAINING <= 0) {
             DisplayText("\n\nThe tingling on your head lets you know that it's working!");
-            (User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_TIME_REMAINING = 7;
-            (User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED = 1;
+            HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_TIME_REMAINING = 7;
+            HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED = 1;
         }
-        else if ((User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED === 1) {
+        else if (HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED === 1) {
             DisplayText("\n\nThe tingling intensifies, nearly making you feel like tiny invisible faeries are massaging your scalp.");
-            (User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED++;
+            HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED++;
         }
-        else if ((User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED === 2) {
+        else if (HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED === 2) {
             DisplayText("\n\nThe tingling on your scalp is intolerable!  It's like your head is a swarm of angry ants, though you could swear your hair is growing so fast that you can feel it weighing you down more and more!");
-            (User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED++;
+            HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED++;
         }
-        if ((User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD > 0 && character.torso.neck.head.hair.type !== HairType.ANEMONE) {
-            (User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD = 0;
-            DisplayText("\n\n<b>Somehow you know that your " + Desc.Head.describeHair(character) + " is growing again.</b>");
+        if (ReptilumFlags.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD > 0 && character.body.hair.type !== HairType.ANEMONE) {
+            ReptilumFlags.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD = 0;
+            DisplayText("\n\n<b>Somehow you know that your " + describeHair(character) + " is growing again.</b>");
         }
-        if ((User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_TIME_REMAINING < 7)
-            (User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_TIME_REMAINING = 7;
+        if (HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_TIME_REMAINING < 7)
+            HairExtensionSerumFlags.INCREASED_HAIR_GROWTH_TIME_REMAINING = 7;
     }
 }

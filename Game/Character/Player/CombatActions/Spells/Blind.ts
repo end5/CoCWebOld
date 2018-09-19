@@ -1,7 +1,7 @@
 import { WhiteMagic } from './WhiteMagic';
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
@@ -11,11 +11,11 @@ export class Blind extends WhiteMagic {
     public readonly baseCost: number = 20;
 
     public isPossible(character: Character): boolean {
-        return character.statusAffects.has(StatusAffectType.KnowsBlind);
+        return character.statusAffects.has(StatusEffectType.KnowsBlind);
     }
 
     public canUse(character: Character, monster: Character): boolean {
-        if (monster.statusAffects.has(StatusAffectType.Blind)) {
+        if (monster.statusAffects.has(StatusEffectType.Blind)) {
             this.reasonCannotUse = "<b>" + monster.desc.capitalA + monster.desc.short + " is already affected by blind.</b>\n\n";
             return false;
         }
@@ -25,7 +25,7 @@ export class Blind extends WhiteMagic {
     public castSpell(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has(StatusAffectType.Shell)) {
+        if (monster.statusAffects.has(StatusEffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -45,7 +45,7 @@ export class Blind extends WhiteMagic {
 
                 DisplayText("\n\n“<i>The taste of your own medicine, it is not so nice, eh? I will show you much nicer things in there in time intrus, don’t worry. Once you have learnt your place.</i>”");
 
-                character.statusAffects.add(StatusAffectType.Blind, randInt(4) + 1, 0, 0, 0);
+                character.statusAffects.add(StatusEffectType.Blind, randInt(4) + 1, 0, 0, 0);
             }
             return;
         }
@@ -57,14 +57,14 @@ export class Blind extends WhiteMagic {
             DisplayText(" <b>" + monster.desc.capitalA + monster.desc.short + " ");
             if (monster.desc.plural && monster.desc.short !== "imp horde") DisplayText("are blinded!</b>");
             else DisplayText("is blinded!</b>");
-            monster.statusAffects.add(StatusAffectType.Blind, 5 * character.combat.stats.spellMod(), 0, 0, 0);
+            monster.statusAffects.add(StatusEffectType.Blind, 5 * character.combat.stats.spellMod(), 0, 0, 0);
             // if (monster.desc.short === "Isabella")
             //     if (Scenes.isabellaFollowerScene.isabellaAccent()) DisplayText("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.");
             //     else DisplayText("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.");
             if (monster.desc.short === "Kiha") DisplayText("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.");
             if (monster.desc.short === "plain girl") {
                 DisplayText("  Remarkably, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused. The girl flashes a radiant smile at you, and the battle continues.");
-                monster.statusAffects.remove(StatusAffectType.Blind);
+                monster.statusAffects.remove(StatusEffectType.Blind);
             }
         }
         else DisplayText(monster.desc.capitalA + monster.desc.short + " blinked!");

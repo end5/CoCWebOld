@@ -1,6 +1,6 @@
 ﻿import { randInt, randomChoice } from '../../Engine/Utilities/SMath';
 import { Character } from '../Character/Character';
-import { StatusAffectType } from '../Effects/StatusAffectType';
+import { StatusEffectType } from '../Effects/StatusEffectType';
 
 // ballsDescriptLight(forcedSize, true, this)
 /**
@@ -12,16 +12,14 @@ import { StatusAffectType } from '../Effects/StatusAffectType';
  * @return    Full description of balls
  */
 export function describeBalls(forceDisplaySize: boolean, plural: boolean, character: Character, withArticle: boolean = false): string {
-    if (character.torso.balls.quantity === 0)
+    if (character.body.balls.count === 0)
         return "prostate";
 
-    const haveDescription: boolean = false;
-    const randomNumber: number = 0;
     let description: string = "";
     let options: string[] = [];
 
-    if (plural && (!character.statusAffects.has(StatusAffectType.Uniball))) {
-        if (character.torso.balls.quantity === 1) {
+    if (plural && (!character.statusAffects.has(StatusEffectType.Uniball))) {
+        if (character.body.balls.count === 1) {
             if (withArticle) {
                 options = ["a single",
                     "a solitary",
@@ -36,7 +34,7 @@ export function describeBalls(forceDisplaySize: boolean, plural: boolean, charac
             }
             description += randomChoice(options);
         }
-        else if (character.torso.balls.quantity === 2) {
+        else if (character.body.balls.count === 2) {
             if (withArticle) {
                 options = ["a pair of",
                     "two",
@@ -49,13 +47,13 @@ export function describeBalls(forceDisplaySize: boolean, plural: boolean, charac
             }
             description += randomChoice(options);
         }
-        else if (character.torso.balls.quantity === 3) {
+        else if (character.body.balls.count === 3) {
             options = ["three",
                 "triple"];
             (withArticle) ? options.push("a trio of") : options.push("trio of");
             description += randomChoice(options);
         }
-        else if (character.torso.balls.quantity === 4) {
+        else if (character.body.balls.count === 4) {
             options = ["four",
                 "quadruple"];
             (withArticle) ? options.push("a quartette of") : options.push("quartette of");
@@ -76,33 +74,33 @@ export function describeBalls(forceDisplaySize: boolean, plural: boolean, charac
         }
     }
     // size!
-    if (character.torso.balls.size > 1 && (randInt(3) <= 1 || forceDisplaySize)) {
+    if (character.body.balls.size > 1 && (randInt(3) <= 1 || forceDisplaySize)) {
         if (description) description += " ";
 
-        if (character.torso.balls.size >= 18)
+        if (character.body.balls.size >= 18)
             description += "hideously swollen and oversized";
-        else if (character.torso.balls.size >= 15)
+        else if (character.body.balls.size >= 15)
             description += "beachball-sized";
-        else if (character.torso.balls.size >= 12)
+        else if (character.body.balls.size >= 12)
             description += "watermelon-sized";
-        else if (character.torso.balls.size >= 9)
+        else if (character.body.balls.size >= 9)
             description += "basketball-sized";
-        else if (character.torso.balls.size >= 7)
+        else if (character.body.balls.size >= 7)
             description += "soccerball-sized";
-        else if (character.torso.balls.size >= 5)
+        else if (character.body.balls.size >= 5)
             description += "cantaloupe-sized";
-        else if (character.torso.balls.size >= 4)
+        else if (character.body.balls.size >= 4)
             description += "grapefruit-sized";
-        else if (character.torso.balls.size >= 3)
+        else if (character.body.balls.size >= 3)
             description += "apple-sized";
-        else if (character.torso.balls.size >= 2)
+        else if (character.body.balls.size >= 2)
             description += "baseball-sized";
-        else if (character.torso.balls.size > 1)
+        else if (character.body.balls.size > 1)
             description += "large";
 
     }
     // UNIBALL
-    if (character.statusAffects.has(StatusAffectType.Uniball)) {
+    if (character.statusAffects.has(StatusEffectType.Uniball)) {
         if (description)
             description += " ";
         options = ["tightly-compressed",
@@ -138,7 +136,7 @@ export function describeBalls(forceDisplaySize: boolean, plural: boolean, charac
 
     }
     // Slimy skin
-    if (character.skin.type === 3) {
+    if (character.body.skin.type === 3) {
         if (description)
             description += " ";
         options = ["goopey",
@@ -166,7 +164,7 @@ export function describeBalls(forceDisplaySize: boolean, plural: boolean, charac
     if (plural)
         description += "s";
 
-    if (character.statusAffects.has(StatusAffectType.Uniball) && randInt(2) === 0) {
+    if (character.statusAffects.has(StatusEffectType.Uniball) && randInt(2) === 0) {
         if (randInt(3) === 0)
             description += " merged into a cute, spherical package";
         else if (randInt(2) === 0)
@@ -183,7 +181,7 @@ export function describeBallsShort(character: Character, forceDisplaySize: boole
 
 // Returns random description of scrotum
 export function describeSack(character: Character): string {
-    if (character.torso.balls.quantity === 0)
+    if (character.body.balls.count === 0)
         return "prostate";
 
     let options: string[] = [];

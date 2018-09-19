@@ -5,36 +5,42 @@ export enum Gender {
 }
 
 export class GenderIdentity {
-    private creatureGender: Gender;
-    public forced: boolean;
+    private sex: Gender;
+    private forced: boolean;
+    private preferredGender: Gender;
     private creature: Creature;
     public constructor(creature: Creature) {
         this.creature = creature;
     }
 
     private update() {
-        if (this.creature.torso.cocks.count > 0 && this.creature.torso.vaginas.count > 0)
-            this.creatureGender = Gender.HERM;
-        else if (this.creature.torso.cocks.count > 0)
-            this.creatureGender = Gender.MALE;
-        else if (this.creature.torso.vaginas.count > 0)
-            this.creatureGender = Gender.FEMALE;
+        if (this.creature.body.cocks.count > 0 && this.creature.body.vaginas.count > 0)
+            this.sex = Gender.HERM;
+        else if (this.creature.body.cocks.count > 0)
+            this.sex = Gender.MALE;
+        else if (this.creature.body.vaginas.count > 0)
+            this.sex = Gender.FEMALE;
         else
-            this.creatureGender = Gender.NONE;
+            this.sex = Gender.NONE;
     }
 
-    public get gender(): Gender {
+    public get preference(): Gender {
         if (this.forced)
-            return this.creatureGender;
+            return this.preferredGender;
         else {
             this.update();
-            return this.creatureGender;
+            return this.preferredGender;
         }
     }
 
-    public set gender(gender: Gender) {
-        this.forced = true;
-        this.creatureGender = gender;
+    public set preference(gender: Gender) {
+        this.forced = gender === undefined ? false : true;
+        this.preferredGender = gender;
+    }
+
+    public get gender(): Gender {
+        this.update();
+        return this.sex;
     }
 
     public reset() {

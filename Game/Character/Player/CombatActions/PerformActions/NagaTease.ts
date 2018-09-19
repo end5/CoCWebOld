@@ -3,7 +3,7 @@ import { Character } from "../../../Character";
 import { CombatAbilityFlag } from "../../../../Effects/CombatAbilityFlag";
 import { DisplayText } from "../../../../../Engine/display/DisplayText";
 import { Gender } from "../../../../Body/GenderIdentity";
-import { StatusAffectType } from "../../../../Effects/StatusAffectType";
+import { StatusEffectType } from "../../../../Effects/StatusEffectType";
 import { PerkType } from "../../../../Effects/PerkType";
 import { randInt } from "../../../../../Engine/Utilities/SMath";
 import { Desc } from "../../../../Descriptors/Descriptors";
@@ -17,13 +17,13 @@ export class NagaTease implements CombatAction {
         return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Tease ? true : false;
     }
     public canUse(character: Character, target?: Character): boolean {
-        return target.statusAffects.has(StatusAffectType.Constricted);
+        return target.statusAffects.has(StatusEffectType.Constricted);
     }
 
     public use(character: Character, target: Character): NextScreenChoices {
         DisplayText().clear();
         // (if poisoned)
-        if (target.statusAffects.has(StatusAffectType.NagaVenom)) {
+        if (target.statusAffects.has(StatusEffectType.NagaVenom)) {
             DisplayText("You attempt to stimulate " + target.desc.a + target.desc.short + " by rubbing " + target.desc.possessivePronoun + " nether regions, but " + target.desc.possessivePronoun + " seems too affected by your poison to react.\n\n");
         }
         else if (target.gender === Gender.NONE) {
@@ -93,7 +93,7 @@ export class NagaTease implements CombatAction {
             // Normal cases for other monsters
             else {
                 if (target.gender === Gender.MALE) {
-                    DisplayText("Your nimble tail begins to gently stroke his " + Desc.Cock.describeCockShort(target.torso.cocks.get(0)) + ", and you can see it on his face as he tries to hold back the fact that it feels good.");
+                    DisplayText("Your nimble tail begins to gently stroke his " + describeCockShort(target.body.cocks.get(0)) + ", and you can see it on his face as he tries to hold back the fact that it feels good.");
                 }
                 if (target.gender === Gender.FEMALE) {
                     DisplayText("Your nimble tail manages to work its way between her legs, grinding your tail's scaly skin against her clit. She appears to enjoy it, but it is obvious she is trying to hide it from you.");

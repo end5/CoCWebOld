@@ -1,10 +1,13 @@
-import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { AnchorElement } from '../../Engine/Display/Elements/AnchorElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Character } from '../Character/Character';
 import { generateSave, loadFromSave } from '../SaveFile';
 import { displayNextScreenChoices, NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
+import { saveMenu } from './SaveMenu';
+import { loadMenu } from './LoadMenu';
+import { deleteMenu } from './DeleteMenu';
+import { mainMenu } from './MainMenu';
 
 function displayInfo() {
     DisplayText().clear();
@@ -19,14 +22,14 @@ function displayInfo() {
     DisplayText("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
 }
 
-export function display(character: Character): NextScreenChoices {
+export function dataMenu(character: Character): NextScreenChoices {
     displayInfo();
 
     const choices: ScreenChoice[] = [
-        ["Save", Menus.Save],
-        ["Load", Menus.Load],
+        ["Save", saveMenu],
+        ["Load", loadMenu],
         ["AutoSav: ON", autosaveToggle],
-        ["Delete", Menus.Delete],
+        ["Delete", deleteMenu],
         ["Save File", saveToFile],
         ["Load File", loadFromFile]
     ];
@@ -40,20 +43,20 @@ export function display(character: Character): NextScreenChoices {
         choices[2][0] = "AutoSav: OFF";
     }
 
-    // const backFunc = Menus.Player;
+    // const backFunc = Player;
 
     // if (Game.state === GameState.GameOver)
-    //     backFunc = Menus.GameOver;
+    //     backFunc = GameOver;
     // else if (character.stats.str === 0)
-    //     backFunc = Menus.Main;
+    //     backFunc = Main;
 
     // return { choices: [text, func], persistantChoices: [["Back"], [backFunc]] };
-    return { choices, persistantChoices: [["Back", Menus.Main]] };
+    return { choices, persistantChoices: [["Back", mainMenu]] };
 }
 
 function autosaveToggle(character: Character): NextScreenChoices {
     SaveManager.autosaveToggle();
-    return display(character);
+    return dataMenu(character);
 }
 
 function saveToFile(character: Character): NextScreenChoices {
@@ -68,7 +71,7 @@ function saveToFile(character: Character): NextScreenChoices {
         anchor.href = window.URL.createObjectURL(blob);
     anchor.download = saveFile.name;
     anchor.click();
-    return display(character);
+    return dataMenu(character);
 }
 
 function loadFromFile(character: Character, event: Event): NextScreenChoices {
@@ -82,7 +85,7 @@ function loadFromFile(character: Character, event: Event): NextScreenChoices {
     fileReader.addEventListener("loadend", () => {
         let obj;
         try {
-            obj = JSON.parse(fileReader.result);
+            obj = JSON.parse(fileReader.result as string);
         }
         catch (e) {
             console.error(e);
@@ -90,12 +93,12 @@ function loadFromFile(character: Character, event: Event): NextScreenChoices {
         }
         if (obj) {
             loadFromSave(obj);
-            displayNextScreenChoices({ next: display });
+            displayNextScreenChoices({ next: dataMenu });
         }
     });
     fileReader.addEventListener("error", (evnt) => {
         console.log(evnt);
         alert("Error reading file");
     });
-    return display(character);
+    return dataMenu(character);
 }

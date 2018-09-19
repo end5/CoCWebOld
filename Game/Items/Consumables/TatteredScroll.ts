@@ -1,14 +1,12 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
 import { DisplayText } from '../../../Engine/display/DisplayText';
-import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { BreastRow } from '../../Body/BreastRow';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { Mod } from '../../Modifiers/Modifiers';
 import { Scenes } from '../../Scenes/Scenes';
 import { ItemDesc } from '../ItemDesc';
+import { describeLegs } from '../../Descriptors/LegDescriptor';
 
 export class TatteredScroll extends Consumable {
     public constructor() {
@@ -17,49 +15,49 @@ export class TatteredScroll extends Consumable {
 
     public use(character: Character) {
         DisplayText().clear();
-        DisplayText("Your wobbly " + Desc.Leg.describeLegs(character) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
-        if (character.torso.neck.head.hair.color === "sandy blonde") {
+        DisplayText("Your wobbly " + describeLegs(character) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
+        if (character.body.hair.color === "sandy blonde") {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>Tresed eht retaw llahs klim ruoy.</i>\"\n\n");
-            if (character.torso.chest.count === 0) {
+            if (character.body.chest.count === 0) {
                 DisplayText("You grow a perfectly rounded pair of C-cup breasts!  ");
                 const newBreastRow: BreastRow = new BreastRow();
                 newBreastRow.rating = 3;
                 if (newBreastRow.nipples.count < 1)
                     newBreastRow.nipples.count = 1;
-                character.torso.chest.add(newBreastRow);
+                character.body.chest.add(newBreastRow);
                 character.stats.sens += 2;
                 character.stats.lust += 1;
             }
             else {
-                if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating === 0) {
+                if (character.body.chest.sort(BreastRow.Largest)[0].rating === 0) {
                     DisplayText("You grow a perfectly rounded pair of C-cup breasts!  ");
-                    const selectedBreastBow: BreastRow = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
+                    const selectedBreastBow: BreastRow = character.body.chest.sort(BreastRow.Largest)[0];
                     selectedBreastBow.rating = 3;
                     if (selectedBreastBow.nipples.count < 1)
                         selectedBreastBow.nipples.count = 1;
                     character.stats.sens += 2;
                     character.stats.lust += 1;
                 }
-                const largestBreasts: BreastRow = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
+                const largestBreasts: BreastRow = character.body.chest.sort(BreastRow.Largest)[0];
                 if (largestBreasts.rating > 0 && largestBreasts.rating < 3) {
                     DisplayText("Your breasts suddenly balloon outwards, stopping as they reach a perfectly rounded C-cup.  ");
                     largestBreasts.rating = 3;
                     character.stats.sens += 1;
                     character.stats.lust += 1;
                 }
-                if (character.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 1) {
+                if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 1) {
                     DisplayText("A dark spot appears on each breast, rapidly forming into a sensitive nipple.  ");
-                    for (let index = 0; index < character.torso.chest.count; index++) {
+                    for (let index = 0; index < character.body.chest.count; index++) {
                         // If that breast didnt have nipples reset length
-                        if (character.torso.chest.get(index).nipples.count < 1)
-                            character.torso.chest.get(index).nipples.length = .2;
-                        character.torso.chest.get(index).nipples.count = 1;
+                        if (character.body.chest.get(index).nipples.count < 1)
+                            character.body.chest.get(index).nipples.length = .2;
+                        character.body.chest.get(index).nipples.count = 1;
 
                     }
                     character.stats.sens += 2;
                     character.stats.lust += 1;
                 }
-                const largestLactationMultiplier = character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier;
+                const largestLactationMultiplier = character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier;
                 if (largestLactationMultiplier > 0) {
                     DisplayText("A strong pressure builds in your chest, painful in its intensity.  You yank down your top as ");
                     if (largestLactationMultiplier < 2)
@@ -92,7 +90,7 @@ export class TatteredScroll extends Consumable {
         }
         else {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>nuf erutuf rof riah ydnas, nus tresed eht sa ydnas.</i>\"\n\nYou feel a tingling in your scalp, and realize your hair has become a sandy blonde!");
-            character.torso.neck.head.hair.color = "sandy blonde";
+            character.body.hair.color = "sandy blonde";
             DisplayText("\n\nYour mouth curls with a sick smile, speaking with a voice that isn't your own, \"<i>I ALWAYS get what I want, dear...</i>\"");
             return { next: Scenes.camp.returnToCampUseOneHour };
         }

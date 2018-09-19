@@ -12,11 +12,16 @@ import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
 import { Tail, TailType } from '../../Body/Tail';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
+import { skinFurScales } from '../../Descriptors/SkinDescriptor';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { describeButthole, describeButt } from '../../Descriptors/ButtDescriptor';
+import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeBreastRow, describeNipple, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
+import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
 
 export class SweetGossamer extends Consumable {
     private sweet: boolean;
@@ -68,7 +73,7 @@ export class SweetGossamer extends Consumable {
         }
         // (increase toughness to 60)
         if (changes < changeLimit && randInt(3) === 0 && character.stats.tou < 60) {
-            DisplayText("\n\nStretching languidly, you realize you're feeling a little tougher than before, almost as if you had a full-body shell of armor protecting your internal organs.  How strange.  You probe at yourself, and while your " + Desc.Skin.skinFurScales(character) + " doesn't feel much different, the underlying flesh does seem tougher.");
+            DisplayText("\n\nStretching languidly, you realize you're feeling a little tougher than before, almost as if you had a full-body shell of armor protecting your internal organs.  How strange.  You probe at yourself, and while your " + skinFurScales(character) + " doesn't feel much different, the underlying flesh does seem tougher.");
             character.stats.tou += 1;
             changes++;
         }
@@ -84,168 +89,168 @@ export class SweetGossamer extends Consumable {
         // Sexual Changes
         // ****************
         // Increase venom recharge
-        const spiderbutts = character.torso.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN));
+        const spiderbutts = character.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN));
         if (spiderbutts.length >= 1 && spiderbutts[0].recharge < 25 && changes < changeLimit) {
             changes++;
             DisplayText("\n\nThe spinnerets on your abdomen twitch and drip a little webbing.  The entirety of its heavy weight shifts slightly, and somehow you know you'll produce webs faster now.");
             spiderbutts[0].recharge += 5;
         }
         // (tightens vagina to 1, increases lust/libido)
-        if (character.torso.vaginas.count > 0) {
-            if (character.torso.vaginas.get(0).looseness > 1 && changes < changeLimit && randInt(3) === 0) {
-                DisplayText("\n\nWith a gasp, you feel your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " tightening, making you leak sticky girl-juice. After a few seconds, it stops, and you rub on your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " excitedly. You can't wait to try this out!");
+        if (character.body.vaginas.count > 0) {
+            if (character.body.vaginas.get(0).looseness > 1 && changes < changeLimit && randInt(3) === 0) {
+                DisplayText("\n\nWith a gasp, you feel your " + describeVagina(character, character.body.vaginas.get(0)) + " tightening, making you leak sticky girl-juice. After a few seconds, it stops, and you rub on your " + describeVagina(character, character.body.vaginas.get(0)) + " excitedly. You can't wait to try this out!");
                 character.stats.lib += 2;
                 character.stats.lust += 25;
                 changes++;
-                character.torso.vaginas.get(0).looseness--;
+                character.body.vaginas.get(0).looseness--;
             }
         }
         // (tightens asshole to 1, increases lust)
-        if (character.torso.butt.looseness > 1 && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nYou let out a small cry as your " + Desc.Butt.describeButthole(character.torso.butt) + " shrinks, becoming smaller and tighter. When it's done, you feel much hornier and eager to stretch it out again.");
+        if (character.body.butt.looseness > 1 && changes < changeLimit && randInt(3) === 0) {
+            DisplayText("\n\nYou let out a small cry as your " + describeButthole(character.body.butt) + " shrinks, becoming smaller and tighter. When it's done, you feel much hornier and eager to stretch it out again.");
             character.stats.lib += 2;
             character.stats.lust += 25;
             changes++;
-            character.torso.butt.looseness--;
+            character.body.butt.looseness--;
         }
         // [Requires penises]
         // (Thickens all cocks to a ratio of 1\" thickness per 5.5\"
-        if (character.torso.cocks.count > 0 && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.cocks.count > 0 && changes < changeLimit && randInt(4) === 0) {
             // Use temp to see if any dicks can be thickened
             let cockGotThickened: boolean = false;
-            for (let index: number = 0; index < character.torso.cocks.count; index++) {
-                if (character.torso.cocks.get(index).thickness * 5.5 < character.torso.cocks.get(index).length) {
-                    character.torso.cocks.get(index).thickness += .1;
+            for (let index: number = 0; index < character.body.cocks.count; index++) {
+                if (character.body.cocks.get(index).thickness * 5.5 < character.body.cocks.get(index).length) {
+                    character.body.cocks.get(index).thickness += .1;
                     cockGotThickened = true;
                 }
             }
             // If something got thickened
             if (cockGotThickened) {
-                DisplayText("\n\nYou can feel your " + Desc.Cock.describeMultiCockShort(character) + " filling out in your " + character.inventory.equipment.armor.displayName + ". Pulling ");
-                if (character.torso.cocks.count === 1) DisplayText("it");
+                DisplayText("\n\nYou can feel your " + describeMultiCockShort(character) + " filling out in your " + character.inventory.equipment.armor.displayName + ". Pulling ");
+                if (character.body.cocks.count === 1) DisplayText("it");
                 else DisplayText("them");
                 DisplayText(" out, you look closely.  ");
-                if (character.torso.cocks.count === 1) DisplayText("It's");
+                if (character.body.cocks.count === 1) DisplayText("It's");
                 else DisplayText("They're");
                 DisplayText(" definitely thicker.");
                 changes++;
             }
         }
         // [Increase to Breast Size] - up to Large DD
-        if (character.torso.chest.count > 0) {
-            const smallestBreastRow = character.torso.chest.sort(BreastRow.BreastRatingSmallest)[0];
+        if (character.body.chest.count > 0) {
+            const smallestBreastRow = character.body.chest.sort(BreastRow.Smallest)[0];
             if (smallestBreastRow.rating < 6 && changes < changeLimit && randInt(4) === 0) {
-                DisplayText("\n\nAfter eating it, your chest aches and tingles, and your hands reach up to scratch at it unthinkingly.  Silently, you hope that you aren't allergic to it.  Just as you start to scratch at your " + Desc.Breast.describeBreastRow(smallestBreastRow) + ", your chest pushes out in slight but sudden growth.");
+                DisplayText("\n\nAfter eating it, your chest aches and tingles, and your hands reach up to scratch at it unthinkingly.  Silently, you hope that you aren't allergic to it.  Just as you start to scratch at your " + describeBreastRow(smallestBreastRow) + ", your chest pushes out in slight but sudden growth.");
                 smallestBreastRow.rating++;
                 changes++;
             }
         }
         // [Increase to Ass Size] - to 11
-        if (character.torso.butt.rating < 11 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nYou look over your shoulder at your " + Desc.Butt.describeButt(character) + " only to see it expand just slightly. You gape in confusion before looking back at the remaining silk in your hands. You finish it anyway. Dammit!");
-            character.torso.butt.rating++;
+        if (character.body.butt.rating < 11 && changes < changeLimit && randInt(4) === 0) {
+            DisplayText("\n\nYou look over your shoulder at your " + describeButt(character) + " only to see it expand just slightly. You gape in confusion before looking back at the remaining silk in your hands. You finish it anyway. Dammit!");
+            character.body.butt.rating++;
             changes++;
         }
         // ***************
         // Appearance Changes
         // ***************
         // (Ears become pointed if not human)
-        if (character.torso.neck.head.ears.type !== EarType.HUMAN && character.torso.neck.head.ears.type !== EarType.ELFIN && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.ears.type !== EarType.HUMAN && character.body.ears.type !== EarType.ELFIN && randInt(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nYour ears twitch once, twice, before starting to shake and tremble madly.  They migrate back towards where your ears USED to be, so long ago, finally settling down before twisting and stretching, changing to become <b>new, pointed elfin ears.</b>");
-            character.torso.neck.head.ears.type = EarType.ELFIN;
+            character.body.ears.type = EarType.ELFIN;
             changes++;
         }
         // (Fur/Scales fall out)
-        if (character.skin.type !== SkinType.PLAIN && (character.torso.neck.head.ears.type === EarType.HUMAN || character.torso.neck.head.ears.type === EarType.ELFIN) && randInt(4) === 0 && changes < changeLimit) {
-            DisplayText("\n\nA slowly-building itch spreads over your whole body, and as you idly scratch yourself, you find that your " + Desc.Skin.skinFurScales(character) + " ");
-            if (character.skin.type === SkinType.SCALES) DisplayText("are");
+        if (character.body.skin.type !== SkinType.PLAIN && (character.body.ears.type === EarType.HUMAN || character.body.ears.type === EarType.ELFIN) && randInt(4) === 0 && changes < changeLimit) {
+            DisplayText("\n\nA slowly-building itch spreads over your whole body, and as you idly scratch yourself, you find that your " + skinFurScales(character) + " ");
+            if (character.body.skin.type === SkinType.SCALES) DisplayText("are");
             else DisplayText("is");
             DisplayText(" falling to the ground, revealing flawless, almost pearly-white skin underneath.  <b>You now have pale white skin.</b>");
-            character.skin.tone = "pale white";
-            character.skin.adj = "";
-            character.skin.type = SkinType.PLAIN;
-            character.skin.desc = "skin";
+            character.body.skin.tone = "pale white";
+            character.body.skin.adj = "";
+            character.body.skin.type = SkinType.PLAIN;
+            character.body.skin.desc = "skin";
             changes++;
         }
         // (Gain human face)
-        if (character.skin.type === SkinType.PLAIN && (character.torso.neck.head.face.type !== FaceType.SPIDER_FANGS && character.torso.neck.head.face.type !== FaceType.HUMAN) && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.skin.type === SkinType.PLAIN && (character.body.face.type !== FaceType.SPIDER_FANGS && character.body.face.type !== FaceType.HUMAN) && changes < changeLimit && randInt(4) === 0) {
             DisplayText("\n\nWracked by pain, your face slowly reforms into a perfect human shape.  Awed by the transformation, you run your fingers delicately over the new face, marvelling at the change.  <b>You have a human face again!</b>");
-            character.torso.neck.head.face.type = FaceType.HUMAN;
+            character.body.face.type = FaceType.HUMAN;
             changes++;
         }
         // -Remove breast rows over 2.
-        if (changes < changeLimit && character.torso.chest.count > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
+        if (changes < changeLimit && character.body.chest.count > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
-            const bottomBreastRow: BreastRow = character.torso.chest.get(character.torso.chest.count - 1);
-            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + Desc.Breast.describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
-            if (character.torso.chest.count >= 3) DisplayText("abdomen");
+            const bottomBreastRow: BreastRow = character.body.chest.get(character.body.chest.count - 1);
+            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
+            if (character.body.chest.count >= 3) DisplayText("abdomen");
             else DisplayText("chest");
-            DisplayText(". The " + Desc.Breast.describeNipple(character, bottomBreastRow) + "s even fade until nothing but ");
-            if (character.skin.type === SkinType.FUR) DisplayText(character.torso.neck.head.hair.color + " " + character.skin.desc);
-            else DisplayText(character.skin.tone + " " + character.skin.desc);
+            DisplayText(". The " + describeNipple(character, bottomBreastRow) + "s even fade until nothing but ");
+            if (character.body.skin.type === SkinType.FUR) DisplayText(character.body.hair.color + " " + character.body.skin.desc);
+            else DisplayText(character.body.skin.tone + " " + character.body.skin.desc);
             DisplayText(" remains. <b>You've lost a row of breasts!</b>");
             character.stats.sens += -5;
-            character.torso.chest.remove(character.torso.chest.count - 1);
+            character.body.chest.remove(character.body.chest.count - 1);
         }
         // -Nipples reduction to 1 per tit.
-        if (character.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nA chill runs over your " + Desc.Breast.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("'breast'.");
+        if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
+            DisplayText("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) DisplayText("'breast'.");
             else DisplayText("breast.");
             changes++;
             // Loop through and reset nipples
-            for (let index: number = 0; index < character.torso.chest.count; index++) {
-                character.torso.chest.get(index).nipples.count = 1;
+            for (let index: number = 0; index < character.body.chest.count; index++) {
+                character.body.chest.get(index).nipples.count = 1;
             }
         }
         // Nipples Turn Black:
-        if (!character.statusAffects.has(StatusAffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
+        if (!character.statusAffects.has(StatusEffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
             DisplayText("\n\nA tickling sensation plucks at your nipples and you cringe, trying not to giggle.  Looking down you are in time to see the last spot of flesh tone disappear from your [nipples].  They have turned an onyx black!");
-            character.statusAffects.add(StatusAffectType.BlackNipples, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.BlackNipples, 0, 0, 0, 0);
             changes++;
         }
         // eyes!
-        if (character.skin.type === SkinType.PLAIN && character.torso.neck.head.face.type !== FaceType.SPIDER_FANGS && character.torso.neck.head.face.type !== FaceType.HUMAN && character.torso.neck.head.face.eyes.type === EyeType.HUMAN && randInt(4) === 0 && changes < changeLimit) {
-            character.torso.neck.head.face.eyes.type = EyeType.FOUR_SPIDER_EYES;
+        if (character.body.skin.type === SkinType.PLAIN && character.body.face.type !== FaceType.SPIDER_FANGS && character.body.face.type !== FaceType.HUMAN && character.body.eyes.type === EyeType.HUMAN && randInt(4) === 0 && changes < changeLimit) {
+            character.body.eyes.type = EyeType.FOUR_SPIDER_EYES;
             changes++;
             DisplayText("\n\nYou suddenly get the strangest case of double vision.  Stumbling and blinking around, you clutch at your face, but you draw your hands back when you poke yourself in the eye.  Wait, those fingers were on your forehead!  You tentatively run your fingertips across your forehead, not quite believing what you felt.  <b>There's a pair of eyes on your forehead, positioned just above your normal ones!</b>  This will take some getting used to!");
             character.stats.int += 5;
         }
         // (Gain spider fangs)
-        if (character.torso.neck.head.face.type === FaceType.HUMAN && character.skin.type === SkinType.PLAIN && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.face.type === FaceType.HUMAN && character.body.skin.type === SkinType.PLAIN && changes < changeLimit && randInt(4) === 0) {
             DisplayText("\n\nTension builds within your upper gum, just above your canines.  You open your mouth and prod at the affected area, pricking your finger on the sharpening tooth.  It slides down while you're touching it, lengthening into a needle-like fang.  You check the other side and confirm your suspicions.  <b>You now have a pair of pointy spider-fangs, complete with their own venom!</b>");
-            character.torso.neck.head.face.type = FaceType.SPIDER_FANGS;
+            character.body.face.type = FaceType.SPIDER_FANGS;
             changes++;
         }
         // (Arms to carapace-covered arms)
-        if (character.torso.arms.type !== ArmType.SPIDER && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.arms.type !== ArmType.SPIDER && changes < changeLimit && randInt(4) === 0) {
             DisplayText("\n\n");
             // (Bird pretext)
-            if (character.torso.arms.type === ArmType.HARPY) DisplayText("The feathers covering your arms fall away, leaving them to return to a far more human appearance.  ");
-            DisplayText("You watch, spellbound, while your forearms gradually become shiny.  The entire outer structure of your arms tingles while it divides into segments, turning the " + Desc.Skin.skinFurScales(character) + " into a shiny black carapace.  You touch the onyx exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.");
-            character.torso.arms.type = ArmType.SPIDER;
+            if (character.body.arms.type === ArmType.HARPY) DisplayText("The feathers covering your arms fall away, leaving them to return to a far more human appearance.  ");
+            DisplayText("You watch, spellbound, while your forearms gradually become shiny.  The entire outer structure of your arms tingles while it divides into segments, turning the " + skinFurScales(character) + " into a shiny black carapace.  You touch the onyx exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.");
+            character.body.arms.type = ArmType.SPIDER;
             changes++;
         }
         // (Centaurs -> Normal Human Legs) (copy from elsewhere)
-        if (character.torso.hips.legs.isTaur() && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.legs.isTaur() && changes < changeLimit && randInt(4) === 0) {
             DisplayText("\n\nYour quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side.  Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow.  When it finally stops, <b>you look down to behold your new pair of human legs</b>!");
-            character.torso.hips.legs.type = LegType.HUMAN;
+            character.body.legs.type = LegType.HUMAN;
             changes++;
         }
         // (Goo -> Normal Human Legs) (copy from elsewhere)
-        if (character.torso.hips.legs.isGoo() && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.legs.isGoo() && changes < changeLimit && randInt(4) === 0) {
             DisplayText("\n\nYour lower body rushes inward, molding into two leg-like shapes that gradually stiffen up.  In moments they solidify into normal-looking legs, complete with regular, human feet.  <b>You now have normal feet!</b>");
-            character.torso.hips.legs.type = LegType.HUMAN;
+            character.body.legs.type = LegType.HUMAN;
             changes++;
         }
         // (Naga -> Normal Human Legs) (copy from elsewhere)
-        if (character.torso.hips.legs.isNaga() && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.legs.isNaga() && changes < changeLimit && randInt(4) === 0) {
             DisplayText("\n\nYou collapse as your sinuous snake-tail tears in half, shifting into legs.  The pain is immense, particularly where your new feet are forming.  <b>You have human legs again.</b>");
-            character.torso.hips.legs.type = LegType.HUMAN;
+            character.body.legs.type = LegType.HUMAN;
             changes++;
         }
         // Drider butt
-        if (!this.sweet && !character.perks.has(PerkType.SpiderOvipositor) && character.torso.hips.legs.isDrider() && character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && changes < changeLimit && randInt(3) === 0 && (character.torso.vaginas.count > 0 || randInt(2) === 0)) {
+        if (!this.sweet && !character.perks.has(PerkType.SpiderOvipositor) && character.body.legs.isDrider() && character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && changes < changeLimit && randInt(3) === 0 && (character.body.vaginas.count > 0 || randInt(2) === 0)) {
             DisplayText("\n\nAn odd swelling sensation floods your spider half.  Curling your abdomen underneath you for a better look, you gasp in recognition at your new 'equipment'!  Your semi-violent run-ins with the swamp's population have left you <i>intimately</i> familiar with the new appendage.  <b>It's a drider ovipositor!</b>  A few light prods confirm that it's just as sensitive as any of your other sexual organs.  You idly wonder what laying eggs with this thing will feel like...");
             DisplayText("\n\n(<b>Perk Gained:  Spider Ovipositor - Allows you to lay eggs in your foes!</b>)");
             // V1 - Egg Count
@@ -261,39 +266,39 @@ export class SweetGossamer extends Consumable {
             changes++;
         }
         // (Normal Biped Legs -> Carapace-Clad Legs)
-        if (((!this.sweet && character.torso.hips.legs.type !== LegType.DRIDER_LOWER_BODY && character.torso.hips.legs.type !== LegType.CHITINOUS_SPIDER_LEGS) ||
-            (this.sweet && character.torso.hips.legs.type !== LegType.CHITINOUS_SPIDER_LEGS)) &&
-            (!character.torso.hips.legs.isGoo() && !character.torso.hips.legs.isNaga() && !character.torso.hips.legs.isTaur()) &&
+        if (((!this.sweet && character.body.legs.type !== LegType.DRIDER_LOWER_BODY && character.body.legs.type !== LegType.CHITINOUS_SPIDER_LEGS) ||
+            (this.sweet && character.body.legs.type !== LegType.CHITINOUS_SPIDER_LEGS)) &&
+            (!character.body.legs.isGoo() && !character.body.legs.isNaga() && !character.body.legs.isTaur()) &&
             changes < changeLimit &&
             randInt(4) === 0
         ) {
-            DisplayText("\n\nStarting at your " + Desc.Leg.describeFeet(character) + ", a tingle runs up your " + Desc.Leg.describeLegs(character) + ", not stopping until it reaches your thighs.  From the waist down, your strength completely deserts you, leaving you to fall hard on your " + Desc.Butt.describeButt(character) + " in the dirt.  With nothing else to do, you look down, only to be mesmerized by the sight of black exoskeleton creeping up a perfectly human-looking calf.  It crests up your knee to envelop the joint in a many-faceted onyx coating.  Then, it resumes its slow upward crawl, not stopping until it has girded your thighs in glittery, midnight exoskeleton.  From a distance it would look almost like a black, thigh-high boot, but you know the truth.  <b>You now have human-like legs covered in a black, arachnid exoskeleton.</b>");
-            character.torso.hips.legs.type = LegType.CHITINOUS_SPIDER_LEGS;
+            DisplayText("\n\nStarting at your " + describeFeet(character) + ", a tingle runs up your " + describeLegs(character) + ", not stopping until it reaches your thighs.  From the waist down, your strength completely deserts you, leaving you to fall hard on your " + describeButt(character) + " in the dirt.  With nothing else to do, you look down, only to be mesmerized by the sight of black exoskeleton creeping up a perfectly human-looking calf.  It crests up your knee to envelop the joint in a many-faceted onyx coating.  Then, it resumes its slow upward crawl, not stopping until it has girded your thighs in glittery, midnight exoskeleton.  From a distance it would look almost like a black, thigh-high boot, but you know the truth.  <b>You now have human-like legs covered in a black, arachnid exoskeleton.</b>");
+            character.body.legs.type = LegType.CHITINOUS_SPIDER_LEGS;
             changes++;
         }
         // (Tail becomes spider abdomen GRANT WEB ATTACK)
-        if (!character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && (character.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS || character.torso.hips.legs.type === LegType.DRIDER_LOWER_BODY) && character.torso.arms.type === ArmType.SPIDER && randInt(4) === 0) {
+        if (!character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && (character.body.legs.type === LegType.CHITINOUS_SPIDER_LEGS || character.body.legs.type === LegType.DRIDER_LOWER_BODY) && character.body.arms.type === ArmType.SPIDER && randInt(4) === 0) {
             DisplayText("\n\n");
             // (Pre-existing tails)
-            if (character.torso.tails.count > 0) DisplayText("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + Desc.Butt.describeButt(character) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + Desc.Butt.describeButt(character) + "!</b>\n\n");
+            if (character.body.tails.count > 0) DisplayText("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + describeButt(character) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + describeButt(character) + "!</b>\n\n");
             // (No tail)
-            else DisplayText("A burst of pain hits you just above your " + Desc.Butt.describeButt(character) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + Desc.Skin.skinFurScales(character) + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + Desc.Butt.describeButt(character) + "!</b>");
-            character.torso.tails.clear();
+            else DisplayText("A burst of pain hits you just above your " + describeButt(character) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + skinFurScales(character) + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + describeButt(character) + "!</b>");
+            character.body.tails.clear();
             const newTail = new Tail(TailType.SPIDER_ABDOMEN);
             newTail.vemon = 5;
             newTail.recharge = 5;
-            character.torso.tails.add(newTail);
+            character.body.tails.add(newTail);
             changes++;
         }
         // (Drider Item Only: Carapace-Clad Legs to Drider Legs)
-        if (!this.sweet && character.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS && randInt(4) === 0 && character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
-            DisplayText("\n\nJust like when your legs changed to those of a spider-morph, you find yourself suddenly paralyzed below the waist.  Your dark, reflective legs splay out and drop you flat on your back.   Before you can sit up, you feel tiny feelers of pain mixed with warmth and tingling running through them.  Terrified at the thought of all the horrible changes that could be wracking your body, you slowly sit up, expecting to find yourself turned into some incomprehensible monstrosity from the waist down.  As if to confirm your suspicions, the first thing you see is that your legs have transformed into eight long, spindly legs.  Instead of joining directly with your hips, they now connect with the spider-like body that has sprouted in place of where your legs would normally start.  Your abdomen has gotten even larger as well.  Once the strength returns to your new, eight-legged lower body, you struggle up onto your pointed 'feet', and wobble around, trying to get your balance.  As you experiment with your new form, you find you're even able to twist the spider half of your body down between your legs in an emulation of your old, bipedal stance.  That might prove useful should you ever want to engage in 'normal' sexual positions, particularly since your " + Desc.Butt.describeButt(character) + " is still positioned just above the start of your arachnid half.  <b>You're now a drider.</b>");
-            character.torso.hips.legs.type = LegType.DRIDER_LOWER_BODY;
+        if (!this.sweet && character.body.legs.type === LegType.CHITINOUS_SPIDER_LEGS && randInt(4) === 0 && character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
+            DisplayText("\n\nJust like when your legs changed to those of a spider-morph, you find yourself suddenly paralyzed below the waist.  Your dark, reflective legs splay out and drop you flat on your back.   Before you can sit up, you feel tiny feelers of pain mixed with warmth and tingling running through them.  Terrified at the thought of all the horrible changes that could be wracking your body, you slowly sit up, expecting to find yourself turned into some incomprehensible monstrosity from the waist down.  As if to confirm your suspicions, the first thing you see is that your legs have transformed into eight long, spindly legs.  Instead of joining directly with your hips, they now connect with the spider-like body that has sprouted in place of where your legs would normally start.  Your abdomen has gotten even larger as well.  Once the strength returns to your new, eight-legged lower body, you struggle up onto your pointed 'feet', and wobble around, trying to get your balance.  As you experiment with your new form, you find you're even able to twist the spider half of your body down between your legs in an emulation of your old, bipedal stance.  That might prove useful should you ever want to engage in 'normal' sexual positions, particularly since your " + describeButt(character) + " is still positioned just above the start of your arachnid half.  <b>You're now a drider.</b>");
+            character.body.legs.type = LegType.DRIDER_LOWER_BODY;
             changes++;
         }
-        if (randInt(4) === 0 && character.torso.neck.gills && changes < changeLimit) {
+        if (randInt(4) === 0 && character.body.neck.gills && changes < changeLimit) {
             DisplayText("\n\nYour chest itches, and as you reach up to scratch it, you realize your gills have withdrawn into your skin.");
-            character.torso.neck.gills = false;
+            character.body.neck.gills = false;
             changes++;
         }
         if (changes === 0) {

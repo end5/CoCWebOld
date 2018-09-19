@@ -4,7 +4,7 @@ import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
 import { Desc } from '../../../../Descriptors/Descriptors';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
@@ -15,7 +15,7 @@ export class SpiderBite extends PlayerPhysicalAction {
     public readonly baseCost: number = 10;
 
     public isPossible(player: Player): boolean {
-        return player.torso.neck.head.face.type === FaceType.SPIDER_FANGS;
+        return player.body.face.type === FaceType.SPIDER_FANGS;
     }
 
     public canUse(player: Player): boolean {
@@ -26,7 +26,7 @@ export class SpiderBite extends PlayerPhysicalAction {
         DisplayText().clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -51,7 +51,7 @@ export class SpiderBite extends PlayerPhysicalAction {
                 if (monster.desc.plural)
                     DisplayText("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.");
                 else
-                    DisplayText("  " + Desc.Gender.mf(monster, "He", "She") + " flushes hotly and " + Desc.Gender.mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
+                    DisplayText("  " + mf(monster, "He", "She") + " flushes hotly and " + mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
                 monster.stats.lust += 25 * monster.stats.lustVuln;
                 if (randInt(5) === 0) monster.stats.lust += 25 * monster.stats.lustVuln;
             }

@@ -1,8 +1,8 @@
-import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { NextScreenChoices } from '../ScreenDisplay';
+import { mainMenu } from './MainMenu';
 
-export function display(): NextScreenChoices {
+export function creditsMenu(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("<b>Coding and Main Events:</b>\n");
     DisplayText("<ul>");
@@ -131,5 +131,5 @@ export function display(): NextScreenChoices {
     DisplayText("<li> Gardeford (Helia x Bimbo Sophie Threesomes)</li>");
     DisplayText("</ul>");
     DisplayText("\nIf I'm missing anyone, please contact me ASAP!  I have done a terrible job keeping the credits up to date!");
-    return { next: Menus.Main };
+    return { next: mainMenu };
 }

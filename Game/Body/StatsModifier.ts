@@ -1,8 +1,7 @@
 ﻿import { Creature } from './Creature';
 import { Stats } from './Stats';
-import { Tail } from './Tail';
-import { Settings } from '../Settings';
 import { User } from '../User';
+import { Gender } from './GenderIdentity';
 
 export class StatsModifier {
     private body: Creature;

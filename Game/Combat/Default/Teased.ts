@@ -1,18 +1,18 @@
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 
 export function teased(lustDelta: number, self: Character, enemy: Character) {
     displayDefaultTeaseReaction(lustDelta, self);
     if (lustDelta > 0) {
         // Imp mob uber interrupt!
-        if (self.statusAffects.has(StatusAffectType.ImpUber)) {
+        if (self.statusAffects.has(StatusEffectType.ImpUber)) {
             DisplayText("\nThe imps in the back stumble over their spell, their loincloths tenting obviously as your display interrupts their casting.  One of them spontaneously orgasms, having managed to have his spell backfire.  He falls over, weakly twitching as a growing puddle of whiteness surrounds his defeated form.");
             // (-5% of max enemy HP)
             self.combat.stats.loseHP(this.char.stats.bonusHP * .05, enemy);
             self.stats.lust -= 15;
-            self.statusAffects.remove(StatusAffectType.ImpUber);
-            self.statusAffects.add(StatusAffectType.ImpSkip);
+            self.statusAffects.remove(StatusEffectType.ImpUber);
+            self.statusAffects.add(StatusEffectType.ImpSkip);
         }
     }
     applyTease(lustDelta, self);

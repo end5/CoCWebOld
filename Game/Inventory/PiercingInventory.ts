@@ -50,8 +50,8 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
         this.cocks = new EquipSlotList(character);
         this.nipplesMonitor = new ListMonitor(this.nipples, EquipSlot, character);
         this.cocksMonitor = new ListMonitor(this.cocks, EquipSlot, character);
-        character.torso.chest.attach(this.nipplesMonitor);
-        character.torso.cocks.attach(this.cocksMonitor);
+        character.body.chest.attach(this.nipplesMonitor);
+        character.body.cocks.attach(this.cocksMonitor);
     }
 
     // 0) **Clit (+2 sens)

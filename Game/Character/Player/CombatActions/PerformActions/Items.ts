@@ -17,6 +17,6 @@ export class Items implements CombatAction {
     }
 
     public use(character: Character, target: Character): NextScreenChoices {
-        return Menus.Inventory(character);
+        return inventoryMenu(character);
     }
 }

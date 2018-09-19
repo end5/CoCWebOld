@@ -12,19 +12,8 @@ export class Chest extends ObservableList<BreastRow> {
             super.remove(index);
     }
 
-    public countBreasts(): number {
-        return this.list.length * 2;
-    }
-
-    public countNipples(): number {
-        let total: number = 0;
-        for (const breastRow of this.list)
-            total += breastRow.nipples.count * 2;
-        return total;
-    }
-
     public lactationSpeed(): number {
         // Lactation * breastSize x 10 (milkPerBreast) determines scene
-        return this.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier * this.sort(BreastRow.BreastRatingLargest)[0].rating * 10;
+        return this.sort(BreastRow.LactationMost)[0].lactationMultiplier * this.sort(BreastRow.Largest)[0].rating * 10;
     }
 }

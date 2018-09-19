@@ -3,8 +3,8 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
-import { StatusAffectFactory } from '../../../../Effects/StatusAffectFactory';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusAffectFactory } from '../../../../Effects/StatusEffectFactory';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
@@ -15,7 +15,7 @@ export class NagaBite extends PlayerPhysicalAction {
     public readonly baseCost: number = 10;
 
     public isPossible(player: Player): boolean {
-        return player.torso.neck.head.face.type === FaceType.SNAKE_FANGS;
+        return player.body.face.type === FaceType.SNAKE_FANGS;
     }
 
     public canUse(player: Player): boolean {
@@ -26,7 +26,7 @@ export class NagaBite extends PlayerPhysicalAction {
         DisplayText().clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -45,10 +45,10 @@ export class NagaBite extends PlayerPhysicalAction {
             monster.stats.spe -= 5 + randInt(5);
             if (monster.stats.str < 1) monster.stats.str = 1;
             if (monster.stats.spe < 1) monster.stats.spe = 1;
-            if (monster.statusAffects.has(StatusAffectType.NagaVenom)) {
-                monster.statusAffects.get(StatusAffectType.NagaVenom).value1 += 1;
+            if (monster.statusAffects.has(StatusEffectType.NagaVenom)) {
+                monster.statusAffects.get(StatusEffectType.NagaVenom).value1 += 1;
             }
-            else monster.statusAffects.add(StatusAffectType.NagaVenom, 1, 0, 0, 0);
+            else monster.statusAffects.add(StatusEffectType.NagaVenom, 1, 0, 0, 0);
         }
         else {
             DisplayText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.");

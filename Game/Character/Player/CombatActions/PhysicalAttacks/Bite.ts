@@ -2,7 +2,7 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
@@ -13,7 +13,7 @@ export class Bite extends PlayerPhysicalAction {
     public baseCost: number = 25;
 
     public isPossible(player: Player): boolean {
-        return player.torso.neck.head.face.type === FaceType.SHARK_TEETH;
+        return player.body.face.type === FaceType.SHARK_TEETH;
     }
 
     public canUse(player: Player, monster: Character): boolean {
@@ -33,15 +33,15 @@ export class Bite extends PlayerPhysicalAction {
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
         DisplayText().clear();
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         DisplayText("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
-        if (player.statusAffects.has(StatusAffectType.Blind))
+        if (player.statusAffects.has(StatusEffectType.Blind))
             DisplayText("In hindsight, trying to bite someone while blind was probably a bad idea... ");
         // Determine if dodged!
-        if ((player.statusAffects.has(StatusAffectType.Blind) && randInt(3) !== 0) ||
+        if ((player.statusAffects.has(StatusEffectType.Blind) && randInt(3) !== 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Math.floor(randInt(((monster.stats.spe - player.stats.spe) / 4) + 80)) > 80)) {
             if (monster.stats.spe - player.stats.spe < 8)
                 DisplayText(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!");

@@ -7,7 +7,7 @@ export class LustStones extends CombatEffect {
     public update(character: Character) {
         character.stats.lust += character.combat.effects.get(CombatEffectType.LustStones).value1 + 4;
         // [When witches activate the stones for goo bodies]
-        if (character.torso.hips.legs.isGoo()) {
+        if (character.body.legs.isGoo()) {
             DisplayText("The stones start vibrating again, making your liquid body ripple with pleasure.  The witches snicker at the odd sight you are right now.").bold();
         }
         // [When witches activate the stones for solid bodies]

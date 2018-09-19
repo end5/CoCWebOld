@@ -5,10 +5,13 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Skin';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
+import { skin } from '../../Descriptors/SkinDescriptor';
+import { describeCock } from '../../Descriptors/CockDescriptor';
+import { describeHips } from '../../Descriptors/HipDescriptor';
+import { describeLegs } from '../../Descriptors/LegDescriptor';
 
 // Miscellaneous
 // ITEM GAINED FROM LUST WINS
@@ -40,7 +43,7 @@ export class Ectoplasm extends Consumable {
         }
         // Effect script 2:  (lower sensitivity)
         if (character.stats.sens >= 20 && randInt(3) === 0 && changes < changeLimit) {
-            DisplayText("\n\nWoah, what the... you pinch your " + Desc.Skin.skin(character) + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.");
+            DisplayText("\n\nWoah, what the... you pinch your " + skin(character) + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.");
             character.stats.sens -= 2;
             if (character.stats.sens >= 75)
                 character.stats.sens -= 2;
@@ -58,42 +61,42 @@ export class Ectoplasm extends Consumable {
             changes++;
         }
         // Effect script a:  (human wang)
-        if (character.torso.cocks.count > 0 && changes < changeLimit) {
-            if (randInt(3) === 0 && character.torso.cocks.get(0).type !== CockType.HUMAN) {
-                DisplayText("\n\nA strange tingling begins behind your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", slowly crawling up across its entire length.  While neither particularly arousing nor uncomfortable, you do shift nervously as the feeling intensifies.  You resist the urge to undo your " + character.inventory.equipment.armor.displayName + " to check, but by the feel of it, your penis is shifting form.  Eventually the transformative sensation fades, <b>leaving you with a completely human penis.</b>");
-                character.torso.cocks.get(0).type = CockType.HUMAN;
+        if (character.body.cocks.count > 0 && changes < changeLimit) {
+            if (randInt(3) === 0 && character.body.cocks.get(0).type !== CockType.HUMAN) {
+                DisplayText("\n\nA strange tingling begins behind your " + describeCock(character, character.body.cocks.get(0)) + ", slowly crawling up across its entire length.  While neither particularly arousing nor uncomfortable, you do shift nervously as the feeling intensifies.  You resist the urge to undo your " + character.inventory.equipment.armor.displayName + " to check, but by the feel of it, your penis is shifting form.  Eventually the transformative sensation fades, <b>leaving you with a completely human penis.</b>");
+                character.body.cocks.get(0).type = CockType.HUMAN;
                 changes++;
             }
         }
         // Appearnace Change
         // Hair
-        if (randInt(4) === 0 && changes < changeLimit && character.torso.neck.head.hair.type !== 2) {
+        if (randInt(4) === 0 && changes < changeLimit && character.body.hair.type !== 2) {
             DisplayText("\n\nA sensation of weightlessness assaults your scalp. You reach up and grab a handful of hair, confused. Your perplexion only heightens when you actually feel the follicles becoming lighter in your grasp, before you can hardly tell you're holding anything.  Plucking a strand, you hold it up before you, surprised to see... it's completely transparent!  You have transparent hair!");
-            character.torso.neck.head.hair.type = 2;
+            character.body.hair.type = 2;
             changes++;
         }
         // Skin
-        if (randInt(4) === 0 && changes < changeLimit && (character.skin.tone !== "sable" && character.skin.tone !== "white")) {
+        if (randInt(4) === 0 && changes < changeLimit && (character.body.skin.tone !== "sable" && character.body.skin.tone !== "white")) {
             if (randInt(2) === 0) {
                 DisplayText("\n\nA warmth begins in your belly, slowly spreading through your torso and appendages. The heat builds, becoming uncomfortable, then painful, then nearly unbearable. Your eyes unfocus from the pain, and by the time the burning sensation fades, you can already tell something's changed. You raise a hand, staring at the milky-white flesh. Your eyes are drawn to the veins in the back of your hand, darkening to a jet black as you watch. <b>You have white skin, with black veins!</b>");
-                character.skin.tone = "white";
-                character.skin.adj = "milky";
-                character.skin.desc = "skin";
-                character.skin.type = SkinType.PLAIN;
+                character.body.skin.tone = "white";
+                character.body.skin.adj = "milky";
+                character.body.skin.desc = "skin";
+                character.body.skin.type = SkinType.PLAIN;
             }
             else {
                 DisplayText("\n\nA warmth begins in your belly, slowly spreading through your torso and appendages. The heat builds, becoming uncomfortable, then painful, then nearly unbearable. Your eyes unfocus from the pain, and by the time the burning sensation fades, you can already tell something's changed. You raise a hand, staring at the sable flesh. Your eyes are drawn to the veins in the back of your hand, brightening to an ashen tone as you watch.  <b>You have black skin, with white veins!</b>");
-                character.skin.tone = "sable";
-                character.skin.adj = "ashen";
-                character.skin.desc = "skin";
-                character.skin.type = SkinType.PLAIN;
+                character.body.skin.tone = "sable";
+                character.body.skin.adj = "ashen";
+                character.body.skin.desc = "skin";
+                character.body.skin.type = SkinType.PLAIN;
             }
             changes++;
         }
         // Legs
-        if (changes < changeLimit && !character.perks.has(PerkType.Incorporeality) && (character.skin.tone === "white" || character.skin.tone === "sable") && character.torso.neck.head.hair.type === 2) {
+        if (changes < changeLimit && !character.perks.has(PerkType.Incorporeality) && (character.body.skin.tone === "white" || character.body.skin.tone === "sable") && character.body.hair.type === 2) {
             // (ghost-legs!  Absolutely no problem with regular encounters, though! [if you somehow got this with a centaur it'd probably do nothing cuz you're not supposed to be a centaur with ectoplasm ya dingus])
-            DisplayText("\n\nAn otherworldly sensation begins in your belly, working its way to your " + Desc.Hip.describeHips(character) + ". Before you can react, your " + Desc.Leg.describeLegs(character) + " begin to tingle, and you fall on your rump as a large shudder runs through them. As you watch, your lower body shimmers, becoming ethereal, wisps rising from the newly ghost-like " + Desc.Leg.describeLegs(character) + ". You manage to rise, surprised to find your new, ghostly form to be as sturdy as its former corporeal version. Suddenly, like a dam breaking, fleeting visions and images flow into your head, never lasting long enough for you to concentrate on one. You don't even realize it, but your arms fly up to your head, grasping your temples as you groan in pain. As fast as the mental bombardment came, it disappears, leaving you with a surprising sense of spiritual superiority.  <b>You have ghost legs!</b>\n\n");
+            DisplayText("\n\nAn otherworldly sensation begins in your belly, working its way to your " + describeHips(character) + ". Before you can react, your " + describeLegs(character) + " begin to tingle, and you fall on your rump as a large shudder runs through them. As you watch, your lower body shimmers, becoming ethereal, wisps rising from the newly ghost-like " + describeLegs(character) + ". You manage to rise, surprised to find your new, ghostly form to be as sturdy as its former corporeal version. Suddenly, like a dam breaking, fleeting visions and images flow into your head, never lasting long enough for you to concentrate on one. You don't even realize it, but your arms fly up to your head, grasping your temples as you groan in pain. As fast as the mental bombardment came, it disappears, leaving you with a surprising sense of spiritual superiority.  <b>You have ghost legs!</b>\n\n");
             DisplayText("<b>(Gained Perk:  Incorporeality</b>)");
             character.perks.add(PerkType.Incorporeality, 0, 0, 0, 0);
         }

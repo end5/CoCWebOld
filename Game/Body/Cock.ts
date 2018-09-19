@@ -2,7 +2,6 @@ import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import {
     FilterOption,
     FindOption,
-    MapOption,
     ReduceOption,
     SortOption
 } from '../../Engine/Utilities/List';
@@ -12,35 +11,35 @@ export enum CockType {
 }
 
 export class Cock implements ISerializable<Cock> {
-    public static readonly SmallestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly Smallest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return a.area - b.area;
     }
 
-    public static readonly LargestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly Largest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return b.area - a.area;
     }
 
-    public static readonly ShortestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly Shortest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return a.length - b.length;
     }
 
-    public static readonly LongestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly Longest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return b.length - a.length;
     }
 
-    public static readonly ThinnestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly Thinnest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return a.thickness - b.thickness;
     }
 
-    public static readonly ThickestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly Thickest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return b.thickness - a.thickness;
     }
 
-    public static readonly LargestKnot: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly KnotLargest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return a.knotMultiplier - b.knotMultiplier;
     }
 
-    public static readonly SmallestKnot: SortOption<Cock> = (a: Cock, b: Cock) => {
+    public static readonly KnotSmallest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return b.knotMultiplier - a.knotMultiplier;
     }
 
@@ -56,27 +55,27 @@ export class Cock implements ISerializable<Cock> {
         return a.canAutoFellate();
     }
 
-    public static readonly TotalCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
+    public static readonly TotalThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
         return previousValue + currentValue.thickness;
     }
 
-    public static readonly TotalCockLength: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
+    public static readonly TotalLength: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
         return previousValue + currentValue.thickness;
     }
 
-    public static readonly AverageCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
+    public static readonly AverageThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
         if (index >= array.length - 1)
             return previousValue / index;
         return previousValue + currentValue.thickness;
     }
 
-    public static readonly AverageCockLength: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
+    public static readonly AverageLength: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
         if (index >= array.length - 1)
             return previousValue / index;
         return previousValue + currentValue.length;
     }
 
-    public static readonly AverageCockArea: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
+    public static readonly AverageArea: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
         if (index >= array.length - 1)
             return previousValue / index;
         return previousValue + currentValue.area;

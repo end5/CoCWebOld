@@ -1,7 +1,7 @@
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
@@ -20,7 +20,7 @@ export class Hellfire extends PlayerSpellAction {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
         // Amily!
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -29,15 +29,15 @@ export class Hellfire extends PlayerSpellAction {
             return;
         }
         let damage: number = (character.stats.level * 8 + randInt(10) + character.stats.cor / 5);
-        if (!character.statusAffects.has(StatusAffectType.GooArmorSilence)) DisplayText("You take in a deep breath and unleash a wave of corrupt red flames from deep within.");
+        if (!character.statusAffects.has(StatusEffectType.GooArmorSilence)) DisplayText("You take in a deep breath and unleash a wave of corrupt red flames from deep within.");
 
-        if (character.statusAffects.has(StatusAffectType.WebSilence)) {
+        if (character.statusAffects.has(StatusEffectType.WebSilence)) {
             DisplayText("  <b>The fire burns through the webs blocking your mouth!</b>");
-            character.statusAffects.remove(StatusAffectType.WebSilence);
+            character.statusAffects.remove(StatusEffectType.WebSilence);
         }
-        if (character.statusAffects.has(StatusAffectType.GooArmorSilence)) {
+        if (character.statusAffects.has(StatusEffectType.GooArmorSilence)) {
             DisplayText("  <b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b>");
-            character.statusAffects.remove(StatusAffectType.GooArmorSilence);
+            character.statusAffects.remove(StatusEffectType.GooArmorSilence);
             damage += 25;
         }
         if (monster.desc.short === "Isabella") {

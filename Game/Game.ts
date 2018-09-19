@@ -61,7 +61,7 @@
 //         throw new Error("Method not implemented.");
 //     }
 //     public start(): void {
-//         Menus.MainMenu();
+//         MainMenu();
 //     }
 
 //     public static update(hours: number) {
@@ -79,6 +79,6 @@
 //     }
 
 //     public static gameOver() {
-//         Menus.GameOver();
+//         GameOver();
 //     }
 // }

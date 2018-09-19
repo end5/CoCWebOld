@@ -2,11 +2,13 @@
 // Accepts any type.
 // Can also accept a *single* array of items, in which case it picks from the array instead.
 // This lets you pre-construct the argument, to make things cleaner
-export function randomChoice<T>(...args): T {
+export function randomChoice<T>(arg: T[]): T;
+export function randomChoice<T>(...args: T[]): T;
+export function randomChoice<T>(arg: T | T[], ...args: T[]): T {
     let choice;
-    if ((args.length === 1))// && (args[0] is Array))
+    if ((args.length === 0))// && (args[0] is Array))
     {
-        choice = Math.round(Math.random() * (args[0].length - 1));
+        choice = Math.round(Math.random() * (arg[0].length - 1));
         return args[0][choice];
     }
     else {

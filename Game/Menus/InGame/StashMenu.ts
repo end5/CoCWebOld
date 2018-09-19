@@ -3,9 +3,9 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { Player } from '../../Character/Player/Player';
 import { NextScreenChoices } from '../../ScreenDisplay';
-import { Menus } from '../Menus';
+import { campMenu } from './PlayerMenu';
 
-export function display(player: Player): NextScreenChoices {
+export function stashMenu(player: Player): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.None);
     const text = [];
@@ -43,5 +43,5 @@ export function display(player: Player): NextScreenChoices {
     //     };
     //     DisplayText("\n\n");
     // }
-    return { choices: [["Back", Menus.Player]] };
+    return { choices: [["Back", campMenu]] };
 }

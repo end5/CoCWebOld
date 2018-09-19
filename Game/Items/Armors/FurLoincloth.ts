@@ -1,8 +1,8 @@
 import { Armor } from './Armor';
 import { ArmorName } from './ArmorName';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { ItemDesc } from '../ItemDesc';
+import { describeButt } from '../../Descriptors/ButtDescriptor';
 
 export class FurLoincloth extends Armor {
     public constructor() {
@@ -10,6 +10,6 @@ export class FurLoincloth extends Armor {
     }
 
     public description(character: Character): string {
-        return "A pair of loincloths to cover your crotch and " + Desc.Butt.describeButt(character) + ".  Typically worn by people named 'Conan'.";
+        return "A pair of loincloths to cover your crotch and " + describeButt(character) + ".  Typically worn by people named 'Conan'.";
     }
 }

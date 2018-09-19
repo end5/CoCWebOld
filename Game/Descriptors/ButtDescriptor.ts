@@ -15,10 +15,10 @@ import { Character } from '../Character/Character';
  */
 export function describeButt(character: Character): string {
     let description: string = "";
-    const butt: Butt = character.torso.butt;
+    const butt: Butt = character.body.butt;
 
     if (butt.rating < ButtRating.TIGHT) {
-        if (character.tone >= 60)
+        if (character.body.tone >= 60)
             description += "incredibly tight, perky ";
         else {
             description = randomChoice(
@@ -26,13 +26,13 @@ export function describeButt(character: Character): string {
                 "very small",
                 "dainty");
             // Soft PC's buns!
-            if (character.tone <= 30 && percentChance(33))
+            if (character.body.tone <= 30 && percentChance(33))
                 description += " yet soft";
             description += " ";
         }
     }
     else if (butt.rating >= ButtRating.TIGHT && butt.rating < ButtRating.AVERAGE) {
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             description = randomChoice(
                 "perky, muscular ",
                 "tight, toned ",
@@ -41,7 +41,7 @@ export function describeButt(character: Character): string {
                 "muscular, toned ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             description = randomChoice(
                 "tight ",
                 "firm ",
@@ -62,7 +62,7 @@ export function describeButt(character: Character): string {
     }
     else if (butt.rating >= ButtRating.AVERAGE && butt.rating < ButtRating.NOTICEABLE) {
         // TOIGHT LIKE A TIGER
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             description = randomChoice("nicely muscled ",
                 "nice, toned ",
                 "muscly ",
@@ -71,7 +71,7 @@ export function describeButt(character: Character): string {
                 "fair ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             description = randomChoice("nice ",
                 "fair ");
         }
@@ -86,7 +86,7 @@ export function describeButt(character: Character): string {
     }
     else if (butt.rating >= ButtRating.NOTICEABLE && butt.rating < ButtRating.LARGE) {
         // TOIGHT LIKE A TIGER
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             description = randomChoice("full, toned ",
                 "muscly handful of ",
                 "shapely, toned ",
@@ -96,7 +96,7 @@ export function describeButt(character: Character): string {
                 "chiseled ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             description = randomChoice("handful of ",
                 "full ",
                 "shapely ",
@@ -117,7 +117,7 @@ export function describeButt(character: Character): string {
     }
     else if (butt.rating >= ButtRating.LARGE && butt.rating < ButtRating.JIGGLY) {
         // TOIGHT LIKE A TIGER
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             description = randomChoice("large, muscular ",
                 "substantial, toned ",
                 "big-but-tight ",
@@ -128,7 +128,7 @@ export function describeButt(character: Character): string {
                 "large ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             description = randomChoice("squeezable ",
                 "large ",
                 "substantial ");
@@ -148,7 +148,7 @@ export function describeButt(character: Character): string {
     }
     else if (butt.rating >= ButtRating.JIGGLY && butt.rating < ButtRating.EXPANSIVE) {
         // TOIGHT LIKE A TIGER
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             description = randomChoice("thick, muscular ",
                 "big, burly ",
                 "heavy, powerful ",
@@ -158,7 +158,7 @@ export function describeButt(character: Character): string {
                 "thick, strong ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             description = randomChoice("jiggling ",
                 "spacious ",
                 "heavy ",
@@ -180,7 +180,7 @@ export function describeButt(character: Character): string {
     }
     else if (butt.rating >= ButtRating.EXPANSIVE && butt.rating < ButtRating.HUGE) {
         // TOIGHT LIKE A TIGER
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             description = randomChoice("expansive, muscled ",
                 "voluminous, rippling ",
                 "generous, powerful ",
@@ -191,7 +191,7 @@ export function describeButt(character: Character): string {
                 "powerful, expansive ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             description = randomChoice("expansive ",
                 "generous ",
                 "voluminous ",
@@ -213,7 +213,7 @@ export function describeButt(character: Character): string {
         }
     }
     else if (butt.rating >= ButtRating.HUGE && butt.rating < ButtRating.INCONCEIVABLY_BIG) {
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             description = randomChoice("huge, toned ",
                 "vast, muscular ",
                 "vast, well-built ",
@@ -222,7 +222,7 @@ export function describeButt(character: Character): string {
                 "muscle-bound ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             if (percentChance(20))
                 return "jiggling expanse of ass";
             if (percentChance(20))
@@ -247,7 +247,7 @@ export function describeButt(character: Character): string {
         }
     }
     else if (butt.rating >= ButtRating.INCONCEIVABLY_BIG) {
-        if (character.tone >= 65) {
+        if (character.body.tone >= 65) {
             if (percentChance(14))
                 return "colossal, muscly ass";
             description = randomChoice("ginormous, muscle-bound ",
@@ -258,7 +258,7 @@ export function describeButt(character: Character): string {
                 "colossal, well-defined ");
         }
         // Nondescript
-        else if (character.tone >= 30) {
+        else if (character.body.tone >= 30) {
             description = randomChoice("ginormous ",
                 "colossal ",
                 "tremendous ",

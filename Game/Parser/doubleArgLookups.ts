@@ -11,29 +11,29 @@ import { Desc } from '../Descriptors/Descriptors';
 
 const cockLookups = // For subject: "cock"
     {
-        all: (char: Character) => Desc.Cock.describeMultiCockShort(char),
-        each: (char: Character) => Desc.Cock.describeMultiCockSimpleEach(char),
-        one: (char: Character) => Desc.Cock.describeMultiCockSimpleOne(char),
-        largest: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.LargestCockArea)[0]),
-        biggest: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.LargestCockArea)[0]),
-        biggest2: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.LargestCockArea)[1]),
-        biggest3: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.LargestCockArea)[2]),
-        smallest: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.SmallestCockArea)[0]),
-        smallest2: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.SmallestCockArea)[1]),
-        longest: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.LongestCocks)[0]),
-        shortest: (char: Character) => Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.ShortestCocks)[0])
+        all: (char: Character) => describeMultiCockShort(char),
+        each: (char: Character) => describeMultiCockSimpleEach(char),
+        one: (char: Character) => describeMultiCockSimpleOne(char),
+        largest: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Largest)[0]),
+        biggest: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Largest)[0]),
+        biggest2: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Largest)[1]),
+        biggest3: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Largest)[2]),
+        smallest: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Smallest)[0]),
+        smallest2: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Smallest)[1]),
+        longest: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Longest)[0]),
+        shortest: (char: Character) => describeCock(char, char.body.cocks.sort(Cock.Shortest)[0])
     };
 
 const cockHeadLookups = // For subject: "cockHead"
     {
-        biggest: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.LargestCockArea)[0]),
-        biggest2: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.LargestCockArea)[1]),
-        biggest3: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.LargestCockArea)[2]),
-        largest: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.LargestCockArea)[0]),
-        smallest: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.SmallestCockArea)[0]),
-        smallest2: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.SmallestCockArea)[1]),
-        longest: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.LongestCocks)[0]),
-        shortest: (char: Character) => Desc.Cock.describeCockHead(char.torso.cocks.sort(Cock.ShortestCocks)[0])
+        biggest: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Largest)[0]),
+        biggest2: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Largest)[1]),
+        biggest3: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Largest)[2]),
+        largest: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Largest)[0]),
+        smallest: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Smallest)[0]),
+        smallest2: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Smallest)[1]),
+        longest: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Longest)[0]),
+        shortest: (char: Character) => describeCockHead(char.body.cocks.sort(Cock.Shortest)[0])
     };
 
 // These tags take a two-word tag with a **numberic** attribute for lookup.
@@ -46,50 +46,50 @@ const cockHeadLookups = // For subject: "cockHead"
 const twoWordNumericTagsLookup =
     {
         cockfit: (char: Character, args: string) => {
-            if (char.torso.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
-                const cocksThatFit = char.torso.cocks.filter(Cock.CockThatFits(+args));
-                if (cocksThatFit.length >= 0) return Desc.Cock.describeCock(char, cocksThatFit[0]);
-                else return Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.SmallestCockArea)[0]);
+                const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
+                if (cocksThatFit.length >= 0) return describeCock(char, cocksThatFit[0]);
+                else return describeCock(char, char.body.cocks.sort(Cock.Smallest)[0]);
             }
         },
         cockfit2: (char: Character, args: string) => {
-            if (char.torso.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
-                const cocksThatFit = char.torso.cocks.filter(Cock.CockThatFits(+args));
-                if (cocksThatFit.length >= 0) return Desc.Cock.describeCock(char, cocksThatFit[1]);
-                else return Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.SmallestCockArea)[0]);
+                const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
+                if (cocksThatFit.length >= 0) return describeCock(char, cocksThatFit[1]);
+                else return describeCock(char, char.body.cocks.sort(Cock.Smallest)[0]);
             }
         },
         cockheadfit: (char: Character, args: string) => {
-            if (char.torso.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
-                const cocksThatFit = char.torso.cocks.filter(Cock.CockThatFits(+args));
-                if (cocksThatFit.length >= 0) return Desc.Cock.describeCockHead(cocksThatFit[0]);
-                else return Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.SmallestCockArea)[0]);
+                const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
+                if (cocksThatFit.length >= 0) return describeCockHead(cocksThatFit[0]);
+                else return describeCock(char, char.body.cocks.sort(Cock.Smallest)[0]);
             }
         },
         cockheadfit2: (char: Character, args: string) => {
-            if (char.torso.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
-                const cocksThatFit = char.torso.cocks.filter(Cock.CockThatFits(+args));
-                if (cocksThatFit.length >= 0) return Desc.Cock.describeCockHead(cocksThatFit[1]);
-                else return Desc.Cock.describeCock(char, char.torso.cocks.sort(Cock.SmallestCockArea)[0]);
+                const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
+                if (cocksThatFit.length >= 0) return describeCockHead(cocksThatFit[1]);
+                else return describeCock(char, char.body.cocks.sort(Cock.Smallest)[0]);
             }
         },
         cock: (char: Character, args: string) => {
-            if (char.torso.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cockIndex = +args - 1;
-                if (cockIndex >= 0 && cockIndex - 1 < char.torso.cocks.count) return Desc.Cock.describeCock(char, char.torso.cocks.get(cockIndex));
+                if (cockIndex >= 0 && cockIndex - 1 < char.body.cocks.count) return describeCock(char, char.body.cocks.get(cockIndex));
                 else return "<b>(Attempt To Parse CockDescript for Invalid Cock)</b>";
             }
         },
         cockhead: (char: Character, args: string) => {
-            if (char.torso.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cockIndex = +args - 1;
-                if (cockIndex >= 0 && cockIndex - 1 < char.torso.cocks.count) return Desc.Cock.describeCockHead(char.torso.cocks.get(cockIndex));
+                if (cockIndex >= 0 && cockIndex - 1 < char.body.cocks.count) return describeCockHead(char.body.cocks.get(cockIndex));
                 else return "<b>(Attempt To Parse CockDescript for Invalid Cock)</b>";
             }
         },

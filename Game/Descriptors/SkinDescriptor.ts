@@ -4,12 +4,12 @@ import { Character } from '../Character/Character';
 export function skinFurScales(character: Character): string {
     let skinzilla: string = "";
     // Adjectives first!
-    if (character.skin.adj !== "")
-        skinzilla += character.skin.adj + ", ";
+    if (character.body.skin.adj !== "")
+        skinzilla += character.body.skin.adj + ", ";
     // Fur handled a little differently since it uses
     // haircolor
-    skinzilla += character.skin.type === SkinType.FUR ? character.torso.neck.head.hair.color + " " : character.skin.tone + " ";
-    skinzilla += character.skin.desc;
+    skinzilla += character.body.skin.type === SkinType.FUR ? character.body.hair.color + " " : character.body.skin.tone + " ";
+    skinzilla += character.body.skin.desc;
     return skinzilla;
 }
 
@@ -18,8 +18,8 @@ export function skin(character: Character, noAdj: boolean = false, noTone: boole
     // Only show stuff other than skin.desc if justSkin is false
     if (!noAdj) {
         // Adjectives first!
-        if (character.skin.adj !== "" && !noTone && character.skin.tone !== "rough gray") {
-            skinzilla += character.skin.adj;
+        if (character.body.skin.adj !== "" && !noTone && character.body.skin.tone !== "rough gray") {
+            skinzilla += character.body.skin.adj;
             if (noTone)
                 skinzilla += " ";
             else
@@ -27,12 +27,12 @@ export function skin(character: Character, noAdj: boolean = false, noTone: boole
         }
     }
     if (!noTone)
-        skinzilla += character.skin.tone + " ";
+        skinzilla += character.body.skin.tone + " ";
     // Fur handled a little differently since it uses
     // haircolor
-    if (character.skin.type === 1)
+    if (character.body.skin.type === 1)
         skinzilla += "skin";
     else
-        skinzilla += character.skin.desc;
+        skinzilla += character.body.skin.desc;
     return skinzilla;
 }

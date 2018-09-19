@@ -3,7 +3,7 @@ import { LegType } from '../Body/Legs';
 import { Character } from '../Character/Character';
 
 export function describeLeg(character: Character): string {
-    switch (character.torso.hips.legs.type) {
+    switch (character.body.legs.type) {
         case LegType.HUMAN:
         case LegType.HOOFED:
         case LegType.DOG:
@@ -45,8 +45,8 @@ export function describeLeg(character: Character): string {
     }
 }
 
-export function describeLegs(body: Character): string {
-    switch (body.torso.hips.legs.type) {
+export function describeLegs(character: Character): string {
+    switch (character.body.legs.type) {
         case LegType.HUMAN:
         case LegType.HOOFED:
         case LegType.DOG:
@@ -88,8 +88,8 @@ export function describeLegs(body: Character): string {
     }
 }
 
-export function describeFoot(body: Character): string {
-    switch (body.torso.hips.legs.type) {
+export function describeFoot(character: Character): string {
+    switch (character.body.legs.type) {
         case LegType.HUMAN:
             return "foot";
         case LegType.HOOFED:
@@ -135,8 +135,8 @@ export function describeFoot(body: Character): string {
     }
 }
 
-export function describeFeet(body: Character): string {
-    switch (body.torso.hips.legs.type) {
+export function describeFeet(char: Character): string {
+    switch (char.body.legs.type) {
         case LegType.HUMAN:
             return "feet";
         case LegType.HOOFED:

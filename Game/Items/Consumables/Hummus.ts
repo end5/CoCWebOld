@@ -6,7 +6,7 @@ import { BreastRow } from '../../Body/BreastRow';
 import { Cock } from '../../Body/Cock';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
-import { AntennaeType } from '../../Body/Head';
+import { AntennaeType } from '../../Body/Antennae';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
 import { RaceScore } from '../../Body/RaceScore';
@@ -15,8 +15,9 @@ import { TongueType } from '../../Body/Tongue';
 import { Vagina, VaginaType } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
 import { Character } from '../../Character/Character';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
+import { Gender } from '../../Body/GenderIdentity';
 
 export class Hummus extends Consumable {
     public constructor() {
@@ -39,76 +40,76 @@ export class Hummus extends Consumable {
         character.stats.lib = 25;
         character.stats.cor = 5;
         character.stats.lust = 10;
-        character.torso.neck.head.hair.type = 0;
+        character.body.hair.type = 0;
         if (RaceScore.humanScore(character) > 4) {
             DisplayText("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?");
         }
         else {
             DisplayText("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
         }
-        character.torso.arms.type = ArmType.HUMAN;
-        character.torso.neck.head.face.eyes.type = EyeType.HUMAN;
-        character.torso.neck.head.face.tongue.type = TongueType.HUMAN;
-        character.torso.neck.head.face.type = FaceType.HUMAN;
-        character.torso.neck.head.horns.amount = 0;
-        character.torso.neck.head.horns.type = HornType.NONE;
-        character.torso.neck.head.antennae = AntennaeType.NONE;
-        character.torso.hips.legs.type = LegType.HUMAN;
-        character.torso.wings.type = WingType.NONE;
-        character.torso.wings.desc = "non-existant";
-        character.torso.tails.clear();
-        character.skin.type = SkinType.PLAIN;
-        character.skin.desc = "skin";
-        character.skin.adj = "";
-        if (character.fertility > 15) character.fertility = 15;
-        if (character.cumMultiplier > 50) character.cumMultiplier = 50;
+        character.body.arms.type = ArmType.HUMAN;
+        character.body.eyes.type = EyeType.HUMAN;
+        character.body.tongue.type = TongueType.HUMAN;
+        character.body.face.type = FaceType.HUMAN;
+        character.body.horns.count = 0;
+        character.body.horns.type = HornType.NONE;
+        character.body.antennae.type = AntennaeType.NONE;
+        character.body.legs.type = LegType.HUMAN;
+        character.body.wings.type = WingType.NONE;
+        character.body.wings.desc = "non-existant";
+        character.body.tails.clear();
+        character.body.skin.type = SkinType.PLAIN;
+        character.body.skin.desc = "skin";
+        character.body.skin.adj = "";
+        if (character.body.fertility > 15) character.body.fertility = 15;
+        if (character.body.cumMultiplier > 50) character.body.cumMultiplier = 50;
         // Clear cocks
-        character.torso.cocks.clear();
+        character.body.cocks.clear();
         // Reset dongs!
         if (character.gender === Gender.MALE || character.gender === Gender.HERM) {
-            character.torso.cocks.add(new Cock(6, 1));
-            character.torso.balls.size = 2;
-            if (character.torso.balls.quantity > 2) character.torso.balls.quantity = 2;
+            character.body.cocks.add(new Cock(6, 1));
+            character.body.balls.size = 2;
+            if (character.body.balls.count > 2) character.body.balls.count = 2;
         }
         // Non duders lose any nuts
         else {
-            character.torso.balls.quantity = 0;
-            character.torso.balls.size = 2;
+            character.body.balls.count = 0;
+            character.body.balls.size = 2;
         }
         // Clear vaginas
         let virgin: boolean = false;
-        for (const vagina of character.torso.vaginas) {
+        for (const vagina of character.body.vaginas) {
             if (vagina.virgin) {
                 virgin = true;
                 break;
             }
         }
-        character.torso.vaginas.clear();
+        character.body.vaginas.clear();
         // Reset vaginal virginity to correct state
         if (character.gender >= 2) {
             const newVagina = new Vagina();
             newVagina.virgin = virgin;
             newVagina.type = VaginaType.HUMAN;
-            character.torso.vaginas.add(newVagina);
+            character.body.vaginas.add(newVagina);
         }
-        character.torso.clit.length = .25;
+        character.body.clit.length = .25;
         // Tighten butt!
-        character.torso.butt.rating = 2;
-        character.torso.hips.rating = 2;
-        if (character.torso.butt.looseness > 1) character.torso.butt.looseness = 1;
-        if (character.torso.butt.wetness > 1) character.torso.butt.wetness = 1;
+        character.body.butt.rating = 2;
+        character.body.hips.rating = 2;
+        if (character.body.butt.looseness > 1) character.body.butt.looseness = 1;
+        if (character.body.butt.wetness > 1) character.body.butt.wetness = 1;
         // Clear breasts
-        character.torso.chest.clear();
+        character.body.chest.clear();
         const newBreastRow = new BreastRow();
         newBreastRow.nipples.length = .25;
-        character.torso.chest.add(newBreastRow);
+        character.body.chest.add(newBreastRow);
         // Girls and herms get bewbs back
         if (character.gender > 2) {
-            character.torso.chest.get(0).rating = 2;
+            character.body.chest.get(0).rating = 2;
         }
-        else character.torso.chest.get(0).rating = 0;
-        character.torso.neck.gills = false;
-        character.statusAffects.remove(StatusAffectType.Uniball);
-        character.statusAffects.remove(StatusAffectType.BlackNipples);
+        else character.body.chest.get(0).rating = 0;
+        character.body.neck.gills = false;
+        character.statusAffects.remove(StatusEffectType.Uniball);
+        character.statusAffects.remove(StatusEffectType.BlackNipples);
     }
 }

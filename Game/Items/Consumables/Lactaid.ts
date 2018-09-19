@@ -4,9 +4,9 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../Body/BreastRow';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
+import { describeNipple } from '../../Descriptors/BreastDescriptor';
 
 export class Lactaid extends Consumable {
     public constructor() {
@@ -18,26 +18,26 @@ export class Lactaid extends Consumable {
         DisplayText().clear();
         DisplayText("You gulp down the bottle of lactaid, easily swallowing the creamy liquid.");
         // Bump up size!
-        if (character.torso.chest.reduce(BreastRow.AverageRating, 0) < 8) {
+        if (character.body.chest.reduce(BreastRow.AverageSize, 0) < 8) {
             DisplayText("\n\n");
-            if (character.torso.chest.count === 1)
+            if (character.body.chest.count === 1)
                 Mod.Breast.growSmallestBreastRow(character, (1 + randInt(5)), 1, true);
-            else Mod.Breast.growSmallestBreastRow(character, 1 + randInt(2), character.torso.chest.count, true);
+            else Mod.Breast.growSmallestBreastRow(character, 1 + randInt(2), character.body.chest.count, true);
         }
         // Character doesn't lactate
-        if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 1) {
+        if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier < 1) {
             DisplayText("\n\n");
-            DisplayText("You feel your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s become tight and engorged.  A single droplet of milk escapes each, rolling down the curves of your breasts.  <b>You are now lactating!</b>");
-            for (let index = 0; index < character.torso.chest.count; index++) {
-                character.torso.chest.get(index).lactationMultiplier += 2;
+            DisplayText("You feel your " + describeNipple(character, character.body.chest.get(0)) + "s become tight and engorged.  A single droplet of milk escapes each, rolling down the curves of your breasts.  <b>You are now lactating!</b>");
+            for (let index = 0; index < character.body.chest.count; index++) {
+                character.body.chest.get(index).lactationMultiplier += 2;
             }
         }
         // Boost lactation
         else {
             DisplayText("\n\n");
-            DisplayText("Milk leaks from your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s in thick streams.  You're lactating even more!");
-            for (let index = 0; index < character.torso.chest.count; index++) {
-                character.torso.chest.get(index).lactationMultiplier += 1 + randInt(10) / 10;
+            DisplayText("Milk leaks from your " + describeNipple(character, character.body.chest.get(0)) + "s in thick streams.  You're lactating even more!");
+            for (let index = 0; index < character.body.chest.count; index++) {
+                character.body.chest.get(index).lactationMultiplier += 1 + randInt(10) / 10;
             }
         }
         character.stats.lust += 10;

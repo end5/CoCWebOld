@@ -24,8 +24,8 @@ export const TailNameTable =
 export function describeTail(character: Character): string {
     let description: string = "";
 
-    if (character.torso.tails.count > 0) {
-        const kitsuneTailCount = character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length;
+    if (character.body.tails.count > 0) {
+        const kitsuneTailCount = character.body.tails.filter(Tail.FilterType(TailType.FOX)).length;
         if (kitsuneTailCount > 0) {
             if (kitsuneTailCount > 1) {
                 if (kitsuneTailCount === 2) description += "pair ";
@@ -39,7 +39,7 @@ export function describeTail(character: Character): string {
             else description += "kitsune tail";
         }
         else {
-            description += TailNameTable[character.torso.tails.get(0).type];
+            description += TailNameTable[character.body.tails.get(0).type];
             description += " tail";
         }
     }
@@ -49,8 +49,8 @@ export function describeTail(character: Character): string {
 export function describeOneTail(character: Character): string {
     let description: string = "";
 
-    if (character.torso.tails.count > 0) {
-        const kitsuneTailCount = character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length;
+    if (character.body.tails.count > 0) {
+        const kitsuneTailCount = character.body.tails.filter(Tail.FilterType(TailType.FOX)).length;
         if (kitsuneTailCount === 1) {
             description += "your kitsune tail";
         }
@@ -58,7 +58,7 @@ export function describeOneTail(character: Character): string {
             description += "one of your kitsune tails";
         }
         else {
-            description += "your " + TailNameTable[character.torso.tails.get(0).type] + " tail";
+            description += "your " + TailNameTable[character.body.tails.get(0).type] + " tail";
         }
     }
     return description;

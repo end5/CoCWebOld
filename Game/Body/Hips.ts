@@ -1,4 +1,3 @@
-import { Legs } from './Legs';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum HipRating {
@@ -7,17 +6,14 @@ export enum HipRating {
 
 export class Hips implements ISerializable<Hips> {
     public rating: HipRating = HipRating.BOYISH;
-    public readonly legs: Legs = new Legs();
 
     public serialize(): object | undefined {
         return {
             rating: this.rating,
-            legs: this.legs.serialize()
         };
     }
 
     public deserialize(saveObject: Hips) {
         this.rating = saveObject.rating;
-        this.legs.deserialize(saveObject.legs);
     }
 }

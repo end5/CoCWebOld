@@ -3,9 +3,8 @@ import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { SkinType } from '../Body/Skin';
 import { Character } from '../Character/Character';
-import { CharacterType } from '../Character/CharacterType';
 import { PerkType } from '../Effects/PerkType';
-import { StatusAffectType } from '../Effects/StatusAffectType';
+import { StatusEffectType } from '../Effects/StatusEffectType';
 import { WeaponPerkType } from '../Items/Weapons/WeaponPerk';
 import { User } from '../User';
 
@@ -55,8 +54,8 @@ export class CombatStats extends CharacterHolder {
         //     this.char.stats.lust += value / 2;
         // }
         // Interrupt gigaflare if necessary.
-        if (this.char.statusAffects.has(StatusAffectType.Gigafire))
-            this.char.statusAffects.get(StatusAffectType.Gigafire).value1 += value;
+        if (this.char.statusAffects.has(StatusEffectType.Gigafire))
+            this.char.statusAffects.get(StatusEffectType.Gigafire).value1 += value;
         const oldHP = this.char.stats.HP;
         this.char.stats.HP -= value;
         return oldHP - this.char.stats.HP;
@@ -84,13 +83,13 @@ export class CombatStats extends CharacterHolder {
         // EZ MOAD half damage
         if (User.settings.easyMode && this.char === User.char)
             damage /= 2;
-        if (this.char.statusAffects.has(StatusAffectType.Shielding)) {
+        if (this.char.statusAffects.has(StatusEffectType.Shielding)) {
             damage -= 30;
             if (damage < 1)
                 damage = 1;
         }
         // Black cat beer = 25% reduction!
-        if (this.char.statusAffects.has(StatusAffectType.BlackCatBeer) && this.char.statusAffects.get(StatusAffectType.BlackCatBeer).value1 > 0)
+        if (this.char.statusAffects.has(StatusEffectType.BlackCatBeer) && this.char.statusAffects.get(StatusEffectType.BlackCatBeer).value1 > 0)
             damage = Math.round(damage * .75);
 
         // Take damage you masochist!
@@ -148,15 +147,15 @@ export class CombatStats extends CharacterHolder {
         // Skin armor perk
         if (this.char.perks.has(PerkType.ThickSkin)) {
             armorDef += 2;
-            if (this.char.skin.type > SkinType.PLAIN) armorDef += 1;
+            if (this.char.body.skin.type > SkinType.PLAIN) armorDef += 1;
         }
         // If no skin armor perk scales rock
         else {
-            if (this.char.skin.type === SkinType.FUR) armorDef += 1;
-            if (this.char.skin.type === SkinType.SCALES) armorDef += 3;
+            if (this.char.body.skin.type === SkinType.FUR) armorDef += 1;
+            if (this.char.body.skin.type === SkinType.SCALES) armorDef += 3;
         }
         // 'Thick' dermis descriptor adds 1!
-        if (this.char.skin.adj === "smooth") armorDef += 1;
+        if (this.char.body.skin.adj === "smooth") armorDef += 1;
         // Agility boosts armor ratings!
         if (this.char.perks.has(PerkType.Agility)) {
             if (this.char.inventory.equipment.armor.armorClass === "Light")
@@ -165,16 +164,16 @@ export class CombatStats extends CharacterHolder {
                 armorDef += Math.round(this.char.stats.spe / 13);
         }
         // Berzerking removes armor
-        if (this.char.statusAffects.has(StatusAffectType.Berzerking)) {
+        if (this.char.statusAffects.has(StatusEffectType.Berzerking)) {
             armorDef = 0;
         }
-        if (this.char.statusAffects.has(StatusAffectType.CoonWhip)) {
-            armorDef -= this.char.statusAffects.get(StatusAffectType.CoonWhip).value1;
+        if (this.char.statusAffects.has(StatusEffectType.CoonWhip)) {
+            armorDef -= this.char.statusAffects.get(StatusEffectType.CoonWhip).value1;
             if (armorDef < 0)
                 armorDef = 0;
         }
-        if (this.char.statusAffects.has(StatusAffectType.TailWhip)) {
-            armorDef -= this.char.statusAffects.get(StatusAffectType.TailWhip).value1;
+        if (this.char.statusAffects.has(StatusEffectType.TailWhip)) {
+            armorDef -= this.char.statusAffects.get(StatusEffectType.TailWhip).value1;
             if (armorDef < 0)
                 armorDef = 0;
         }
@@ -187,10 +186,10 @@ export class CombatStats extends CharacterHolder {
             attack *= 2;
         if (this.char.perks.has(PerkType.LightningStrikes) && this.char.stats.spe >= 60 && !this.char.inventory.equipment.weapon.perks.has("Large"))
             attack += Math.round((this.char.stats.spe - 50) / 3);
-        if (this.char.statusAffects.has(StatusAffectType.Berzerking))
+        if (this.char.statusAffects.has(StatusEffectType.Berzerking))
             attack += 30;
-        if (this.char.statusAffects.has(StatusAffectType.ChargeWeapon))
-            attack += this.char.statusAffects.get(StatusAffectType.ChargeWeapon).value1;
+        if (this.char.statusAffects.has(StatusEffectType.ChargeWeapon))
+            attack += this.char.statusAffects.get(StatusEffectType.ChargeWeapon).value1;
         return attack;
     }
 

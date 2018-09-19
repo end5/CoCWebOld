@@ -2,7 +2,7 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 
 export class FishFillet extends Consumable {
@@ -21,7 +21,7 @@ export class FishFillet extends Consumable {
         // Increase HP by quite a bit!)
         // (Slight chance at increasing Toughness?)
         // (If lake has been tainted, +1 Corruption?)
-        if (character.statusAffects.has(StatusAffectType.FactoryOverload)) character.stats.cor += 0.5;
+        if (character.statusAffects.has(StatusEffectType.FactoryOverload)) character.stats.cor += 0.5;
         character.stats.cor += 0.1;
         character.stats.HP += Math.round(character.stats.maxHP() * .25);
     }

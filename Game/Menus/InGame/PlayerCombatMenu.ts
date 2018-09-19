@@ -2,12 +2,12 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { CombatAction } from '../../Combat/Actions/CombatAction';
 import { CombatManager } from '../../Combat/CombatManager';
-import { Desc } from '../../Descriptors/Descriptors';
 import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
-import { ClickOption, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
+import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 
-export function display(character: Character): NextScreenChoices {
+export function combatMenu(character: Character): NextScreenChoices {
     DisplayText().clear();
     const enemies = CombatManager.getEnemyParty(character);
     for (const enemy of enemies.ableMembers) {
@@ -93,12 +93,12 @@ function enemyDescription(character: Character, enemy: Character): void {
     // 	else
     DisplayText("<b>You are fighting ");
     DisplayText(enemy.desc.a + enemy.desc.short + ":</b> (Level: " + enemy.stats.level + ")\n");
-    if (character.statusAffects.has(StatusAffectType.Blind)) DisplayText("It's impossible to see anything!\n");
+    if (character.statusAffects.has(StatusEffectType.Blind)) DisplayText("It's impossible to see anything!\n");
     else {
         DisplayText(enemy.desc.long + "\n");
         // Bonus sand trap stuff
-        if (enemy.statusAffects.has(StatusAffectType.Level)) {
-            const sandTrapLevel = enemy.statusAffects.get(StatusAffectType.Level).value1;
+        if (enemy.statusAffects.has(StatusEffectType.Level)) {
+            const sandTrapLevel = enemy.statusAffects.get(StatusEffectType.Level).value1;
             // [(new PG for PC height levels)PC level 4:
             DisplayText("\n");
             if (sandTrapLevel === 4) DisplayText("You are right at the edge of its pit.  If you can just manage to keep your footing here, you'll be safe.");
@@ -129,13 +129,13 @@ function enemyDescription(character: Character, enemy: Character): void {
 
 function showMonsterLust(enemy: Character): void {
     // Entrapped
-    if (enemy.statusAffects.has(StatusAffectType.Constricted)) {
+    if (enemy.statusAffects.has(StatusEffectType.Constricted)) {
         DisplayText(enemy.desc.capitalA + enemy.desc.short + " is currently wrapped up in your tail-coils!  ");
     }
     // Venom stuff!
-    if (enemy.statusAffects.has(StatusAffectType.NagaVenom)) {
+    if (enemy.statusAffects.has(StatusEffectType.NagaVenom)) {
         if (enemy.desc.plural) {
-            if (enemy.statusAffects.get(StatusAffectType.NagaVenom).value1 <= 1) {
+            if (enemy.statusAffects.get(StatusEffectType.NagaVenom).value1 <= 1) {
                 DisplayText("You notice " + enemy.desc.subjectivePronoun + " are beginning to show signs of weakening, but there still appears to be plenty of fight left in " + enemy.desc.objectivePronoun + ".  ");
             }
             else {
@@ -144,7 +144,7 @@ function showMonsterLust(enemy: Character): void {
         }
         // Not plural
         else {
-            if (enemy.statusAffects.get(StatusAffectType.NagaVenom).value1 <= 1) {
+            if (enemy.statusAffects.get(StatusEffectType.NagaVenom).value1 <= 1) {
                 DisplayText("You notice " + enemy.desc.subjectivePronoun + " is beginning to show signs of weakening, but there still appears to be plenty of fight left in " + enemy.desc.objectivePronoun + ".  ");
             }
             else {
@@ -152,8 +152,8 @@ function showMonsterLust(enemy: Character): void {
             }
         }
 
-        enemy.stats.spe -= enemy.statusAffects.get(StatusAffectType.NagaVenom).value1;
-        enemy.stats.str -= enemy.statusAffects.get(StatusAffectType.NagaVenom).value1;
+        enemy.stats.spe -= enemy.statusAffects.get(StatusEffectType.NagaVenom).value1;
+        enemy.stats.str -= enemy.statusAffects.get(StatusEffectType.NagaVenom).value1;
         if (enemy.stats.spe < 1) enemy.stats.spe = 1;
         if (enemy.stats.str < 1) enemy.stats.str = 1;
     }
@@ -238,7 +238,7 @@ function showMonsterLust(enemy: Character): void {
         // High
         else if (enemy.stats.lust > 30) {
             // High (redhead only)
-            if (enemy.torso.neck.head.hair.color === "red") DisplayText("The kitsune is openly aroused, unable to hide the obvious bulge in her robes as she seems to be struggling not to stroke it right here and now.");
+            if (enemy.body.hair.color === "red") DisplayText("The kitsune is openly aroused, unable to hide the obvious bulge in her robes as she seems to be struggling not to stroke it right here and now.");
             else DisplayText("The kitsune is openly aroused, licking her lips frequently and desperately trying to hide the trail of fluids dripping down her leg.");
         }
     }
@@ -251,25 +251,25 @@ function showMonsterLust(enemy: Character): void {
         if (enemy.desc.plural) {
             if (enemy.stats.lust > 50 && enemy.stats.lust < 60) DisplayText(enemy.desc.capitalA + enemy.desc.short + "' skin remains flushed with the beginnings of arousal.  ");
             if (enemy.stats.lust >= 60 && enemy.stats.lust < 70) DisplayText(enemy.desc.capitalA + enemy.desc.short + "' eyes constantly dart over your most sexual parts, betraying " + enemy.desc.possessivePronoun + " lust.  ");
-            if (enemy.torso.cocks.count > 0) {
+            if (enemy.body.cocks.count > 0) {
                 if (enemy.stats.lust >= 70 && enemy.stats.lust < 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " are having trouble moving due to the rigid protrusion in " + enemy.desc.possessivePronoun + " groins.  ");
                 if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " are panting and softly whining, each movement seeming to make " + enemy.desc.possessivePronoun + " bulges more pronounced.  You don't think " + enemy.desc.subjectivePronoun + " can hold out much longer.  ");
             }
-            if (enemy.torso.vaginas.count > 0) {
+            if (enemy.body.vaginas.count > 0) {
                 if (enemy.stats.lust >= 70 && enemy.stats.lust < 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " are obviously turned on, you can smell " + enemy.desc.possessivePronoun + " arousal in the air.  ");
-                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "' " + Desc.Vagina.describeVagina(enemy, enemy.torso.vaginas.get(0)) + "s are practically soaked with their lustful secretions.  ");
+                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "' " + describeVagina(enemy, enemy.body.vaginas.get(0)) + "s are practically soaked with their lustful secretions.  ");
             }
         }
         else {
             if (enemy.stats.lust > 50 && enemy.stats.lust < 60) DisplayText(enemy.desc.capitalA + enemy.desc.short + "'s skin remains flushed with the beginnings of arousal.  ");
             if (enemy.stats.lust >= 60 && enemy.stats.lust < 70) DisplayText(enemy.desc.capitalA + enemy.desc.short + "'s eyes constantly dart over your most sexual parts, betraying " + enemy.desc.possessivePronoun + " lust.  ");
-            if (enemy.torso.cocks.count > 0) {
+            if (enemy.body.cocks.count > 0) {
                 if (enemy.stats.lust >= 70 && enemy.stats.lust < 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " is having trouble moving due to the rigid protrusion in " + enemy.desc.possessivePronoun + " groin.  ");
                 if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " is panting and softly whining, each movement seeming to make " + enemy.desc.possessivePronoun + " bulge more pronounced.  You don't think " + enemy.desc.subjectivePronoun + " can hold out much longer.  ");
             }
-            if (enemy.torso.vaginas.count > 0) {
+            if (enemy.body.vaginas.count > 0) {
                 if (enemy.stats.lust >= 70 && enemy.stats.lust < 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " is obviously turned on, you can smell " + enemy.desc.possessivePronoun + " arousal in the air.  ");
-                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "'s " + Desc.Vagina.describeVagina(enemy, enemy.torso.vaginas.get(0)) + " is practically soaked with her lustful secretions.  ");
+                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "'s " + describeVagina(enemy, enemy.body.vaginas.get(0)) + " is practically soaked with her lustful secretions.  ");
             }
         }
     }

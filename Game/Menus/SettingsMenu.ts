@@ -1,10 +1,11 @@
-import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
 import { NextScreenChoices } from '../ScreenDisplay';
 import { User } from '../User';
+import { mainMenu } from './MainMenu';
+import { controlsMenu } from './ControlsMenu';
 
-export function display(): NextScreenChoices {
+export function settingsMenu(): NextScreenChoices {
     MainScreen.getTopButton(TopButton.MainMenu).show();
     MainScreen.getTopButton(TopButton.Data).show();
 
@@ -64,14 +65,14 @@ export function display(): NextScreenChoices {
                 ["Sprite Toggle", toggleSpritesFlag],
                 ["EZ Mode", toggleEasyModeFlag],
                 ["Larger Font", incFontSize],
-                ["Controls", Menus.Controls],
+                ["Controls", controlsMenu],
                 ["Hyper Happy", toggleHyperHappy],
                 ["Low Standards", toggleStandards],
                 ["Silly Toggle", toggleSillyFlag],
                 ["Smaller Font", decFontSize],
         ],
         persistantChoices: [
-            ["Back", Menus.Main]
+            ["Back", mainMenu]
         ]
     };
 }
@@ -79,41 +80,41 @@ export function display(): NextScreenChoices {
 function incFontSize(): NextScreenChoices {
     User.settings.customFontSize++;
     DisplayText().style.fontSize = User.settings.customFontSize + "px";
-    return display();
+    return settingsMenu();
 }
 
 function decFontSize(): NextScreenChoices {
     User.settings.customFontSize--;
     DisplayText().style.fontSize = User.settings.customFontSize + "px";
-    return display();
+    return settingsMenu();
 }
 
 function toggleStandards(): NextScreenChoices {
     User.settings.lowStandards = !User.settings.lowStandards;
-    return display();
+    return settingsMenu();
 }
 
 function toggleHyperHappy(): NextScreenChoices {
     User.settings.hyperHappy = !User.settings.hyperHappy;
-    return display();
+    return settingsMenu();
 }
 
 function toggleDebug(): NextScreenChoices {
     User.settings.debug = !User.settings.debug;
-    return display();
+    return settingsMenu();
 }
 
 function toggleEasyModeFlag(): NextScreenChoices {
     User.settings.easyMode = !User.settings.easyMode;
-    return display();
+    return settingsMenu();
 }
 
 function toggleSpritesFlag(): NextScreenChoices {
     User.settings.showSprites = !User.settings.showSprites;
-    return display();
+    return settingsMenu();
 }
 
 function toggleSillyFlag(): NextScreenChoices {
     User.settings.sillyMode = !User.settings.sillyMode;
-    return display();
+    return settingsMenu();
 }

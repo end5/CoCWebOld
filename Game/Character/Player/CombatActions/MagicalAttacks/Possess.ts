@@ -27,7 +27,7 @@ export class Possess implements CombatAction {
             DisplayText("There is nothing to possess inside the golem.");
         }
         // Sample possession text (>79 int, perhaps?):
-        else if ((monster.torso.cocks.count <= 0 && monster.torso.vaginas.count <= 0) || monster.stats.lustVuln === 0 || monster.stats.int === 0 || monster.stats.int > 100) {
+        else if ((monster.body.cocks.count <= 0 && monster.body.vaginas.count <= 0) || monster.stats.lustVuln === 0 || monster.stats.int === 0 || monster.stats.int > 100) {
             DisplayText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into the opponent's frame.  Unfortunately, it seems ");
             if (monster.stats.int > 100)
                 DisplayText("they were FAR more mentally prepared than anything you can handle, and you're summarily thrown out of their body before you're even able to have fun with them.  Darn, you muse.\n\n");

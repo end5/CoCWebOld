@@ -2,10 +2,10 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
+import { describeButthole } from '../../Descriptors/ButtDescriptor';
 
 export class Coal extends Consumable {
     public constructor() {
@@ -26,11 +26,11 @@ export class Coal extends Consumable {
         }
         else {
             // Boost anal capacity without gaping
-            if (character.statusAffects.get(StatusAffectType.BonusACapacity).value1 < 80) {
-                if (!character.statusAffects.has(StatusAffectType.BonusACapacity))
-                    character.statusAffects.add(StatusAffectType.BonusACapacity, 0, 0, 0, 0);
-                character.statusAffects.get(StatusAffectType.BonusACapacity).value1 = 5;
-                DisplayText("\n\nYou feel... more accommodating somehow.  Your " + Desc.Butt.describeButthole(character.torso.butt) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.");
+            if (character.statusAffects.get(StatusEffectType.BonusACapacity).value1 < 80) {
+                if (!character.statusAffects.has(StatusEffectType.BonusACapacity))
+                    character.statusAffects.add(StatusEffectType.BonusACapacity, 0, 0, 0, 0);
+                character.statusAffects.get(StatusEffectType.BonusACapacity).value1 = 5;
+                DisplayText("\n\nYou feel... more accommodating somehow.  Your " + describeButthole(character.body.butt) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.");
                 changes++;
             }
             else {

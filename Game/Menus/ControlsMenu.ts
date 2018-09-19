@@ -1,16 +1,14 @@
-import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { ButtonElement } from '../../Engine/Display/Elements/ButtonElement';
 import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
-import { ParagraphElement } from '../../Engine/display/Elements/ParagraphElement';
 import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
 import { BindableAction } from '../../Engine/Input/BindableAction';
 import { InputManager } from '../../Engine/Input/InputManager';
 import { KeyCombination } from '../../Engine/Input/KeyCombination';
-import { Character } from '../Character/Character';
 import { NextScreenChoices } from '../ScreenDisplay';
+import { settingsMenu } from './SettingsMenu';
 
-export function display(): NextScreenChoices {
+export function controlsMenu(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("<b>Keyboard Control Bindings:</b>\n\n");
     DisplayText("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
@@ -53,7 +51,7 @@ export function display(): NextScreenChoices {
     listBindableAction(bindListElement, "Button 9", BindableAction.Button8);
     listBindableAction(bindListElement, "Button 10", BindableAction.Button9);
 
-    return { choices: [["Reset Ctrls", resetControls], ["Clear Ctrls", clearControls]], persistantChoices: [["Back", Menus.Settings]] };
+    return { choices: [["Reset Ctrls", resetControls], ["Clear Ctrls", clearControls]], persistantChoices: [["Back", settingsMenu]] };
 }
 
 function listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {
@@ -75,7 +73,7 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
             key.ctrlKey = event.ctrlKey;
             key.metaKey = event.metaKey;
             InputManager.get(bindableAction).primaryKey = key;
-            display();
+            controlsMenu();
             document.removeEventListener("keypress", keyBind);
         });
     });
@@ -94,7 +92,7 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
             key.ctrlKey = event.ctrlKey;
             key.metaKey = event.metaKey;
             InputManager.get(bindableAction).secondaryKey = key;
-            display();
+            controlsMenu();
             document.removeEventListener("keypress", keyBind);
         });
     });
@@ -109,7 +107,7 @@ function resetControls(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Are you sure you want to reset all of the currently bound controls to their defaults?");
 
-    return { yes: resetControlsYes, no: display };
+    return { yes: resetControlsYes, no: controlsMenu };
 }
 
 function resetControlsYes(): NextScreenChoices {
@@ -118,7 +116,7 @@ function resetControlsYes(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Controls have been reset to defaults!");
 
-    return { next: display };
+    return { next: controlsMenu };
 }
 
 function clearControls(): NextScreenChoices {
@@ -126,7 +124,7 @@ function clearControls(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Are you sure you want to clear all of the currently bound controls?");
 
-    return { yes: clearControlsYes, no: display };
+    return { yes: clearControlsYes, no: controlsMenu };
 }
 
 function clearControlsYes(): NextScreenChoices {
@@ -135,7 +133,7 @@ function clearControlsYes(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Controls have been cleared!");
 
-    return { next: display };
+    return { next: controlsMenu };
 }
 
 /*

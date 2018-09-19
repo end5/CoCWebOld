@@ -2,13 +2,13 @@
 import { randInt } from '../../Engine/Utilities/SMath';
 import { BreastRow } from '../Body/BreastRow';
 import { Character } from '../Character/Character';
-import { Desc } from '../Descriptors/Descriptors';
 import { PerkType } from '../Effects/PerkType';
-import { StatusAffectType } from '../Effects/StatusAffectType';
+import { StatusEffectType } from '../Effects/StatusEffectType';
 import { User } from '../User';
+import { breastCup, describeBreastRow } from '../Descriptors/BreastDescriptor';
 
 export function growSmallestBreastRow(character: Character, amount: number, rowsGrown: number, display: boolean) {
-    const chest = character.torso.chest;
+    const chest = character.body.chest;
     if (chest.count === 0)
         return;
 
@@ -18,7 +18,7 @@ export function growSmallestBreastRow(character: Character, amount: number, rows
     // Select smallest breast, grow it, move on
     while (rowsGrown > 0) {
         let growthAmount: number = amount;
-        const smallestBreastRow = chest.sort(BreastRow.BreastRatingSmallest)[0];
+        const smallestBreastRow = chest.sort(BreastRow.Smallest)[0];
         if (!User.settings.hyperHappy) {
             // Diminishing returns!
             if (character.perks.has(PerkType.BigTits)) {
@@ -34,7 +34,7 @@ export function growSmallestBreastRow(character: Character, amount: number, rows
 }
 
 export function growTopBreastRowDownwards(character: Character, amount: number, rowsGrown: number, display: boolean) {
-    const chest = character.torso.chest;
+    const chest = character.body.chest;
     if (chest.count === 0)
         return;
 
@@ -65,7 +65,7 @@ export function growTopBreastRowDownwards(character: Character, amount: number, 
 }
 
 export function growTopBreastRow(character: Character, amount: number, rowsGrown: number, display: boolean) {
-    const chest = character.torso.chest;
+    const chest = character.body.chest;
     if (chest.count === 0)
         return;
 
@@ -108,8 +108,8 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
     if (User.settings.hyperHappy && !ignoreHyperHappy) {
         return;
     }
-    if (character.torso.chest.count === 1) {
-        const topRow: BreastRow = character.torso.chest.get(0);
+    if (character.body.chest.count === 1) {
+        const topRow: BreastRow = character.body.chest.get(0);
         if (topRow.rating > 0) {
             // Shrink if bigger than N/A cups
             let superShrink: boolean = false;
@@ -121,29 +121,29 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
             }
             if (topRow.rating < 0) topRow.rating = 0;
             // Talk about shrinkage
-            if (!superShrink) DisplayText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + Desc.Breast.breastCup(topRow.rating) + "s.");
-            if (superShrink) DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + Desc.Breast.breastCup(topRow.rating) + "s.");
+            if (!superShrink) DisplayText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(topRow.rating) + "s.");
+            if (superShrink) DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(topRow.rating) + "s.");
         }
     }
-    else if (character.torso.chest.count > 1) {
+    else if (character.body.chest.count > 1) {
         // multiple
         DisplayText("\n");
         // temp2 = amount changed
         // temp3 = counter
         let shrinkAmount: number = 0;
-        let breastRowIndex: number = character.torso.chest.count;
+        let breastRowIndex: number = character.body.chest.count;
         while (breastRowIndex > 0) {
             breastRowIndex--;
-            if (character.torso.chest.get(breastRowIndex).rating > 0) {
-                character.torso.chest.get(breastRowIndex).rating--;
-                if (character.torso.chest.get(breastRowIndex).rating < 0) character.torso.chest.get(breastRowIndex).rating = 0;
+            if (character.body.chest.get(breastRowIndex).rating > 0) {
+                character.body.chest.get(breastRowIndex).rating--;
+                if (character.body.chest.get(breastRowIndex).rating < 0) character.body.chest.get(breastRowIndex).rating = 0;
                 shrinkAmount++;
                 DisplayText("\n");
-                if (breastRowIndex < character.torso.chest.count - 1) DisplayText("...and y");
+                if (breastRowIndex < character.body.chest.count - 1) DisplayText("...and y");
                 else DisplayText("Y");
-                DisplayText("our " + Desc.Breast.describeBreastRow(character.torso.chest.get(breastRowIndex)) + " shrink, dropping to " + Desc.Breast.breastCup(character.torso.chest.get(breastRowIndex).rating) + "s.");
+                DisplayText("our " + describeBreastRow(character.body.chest.get(breastRowIndex)) + " shrink, dropping to " + breastCup(character.body.chest.get(breastRowIndex).rating) + "s.");
             }
-            if (character.torso.chest.get(breastRowIndex).rating < 0) character.torso.chest.get(breastRowIndex).rating = 0;
+            if (character.body.chest.get(breastRowIndex).rating < 0) character.body.chest.get(breastRowIndex).rating = 0;
         }
         if (shrinkAmount === 2) DisplayText("\nYou feel so much lighter after the change.");
         if (shrinkAmount === 3) DisplayText("\nWithout the extra weight you feel particularly limber.");
@@ -153,27 +153,27 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
 
 // TODO: Fix this function
 export function boostLactation(character: Character, boostAmt: number): number {
-    if (character.torso.chest.count <= 0)
+    if (character.body.chest.count <= 0)
         return 0;
     let breasts: BreastRow;
     let changes: number = 0;
     let temp2: number = 0;
     // Prevent lactation decrease if lactating.
     if (boostAmt >= 0) {
-        if (character.statusAffects.has(StatusAffectType.LactationReduction))
-            character.statusAffects.get(StatusAffectType.LactationReduction).value1 = 0;
-        if (character.statusAffects.has(StatusAffectType.LactationReduc0))
-            character.statusAffects.remove(StatusAffectType.LactationReduc0);
-        if (character.statusAffects.has(StatusAffectType.LactationReduc1))
-            character.statusAffects.remove(StatusAffectType.LactationReduc1);
-        if (character.statusAffects.has(StatusAffectType.LactationReduc2))
-            character.statusAffects.remove(StatusAffectType.LactationReduc2);
-        if (character.statusAffects.has(StatusAffectType.LactationReduc3))
-            character.statusAffects.remove(StatusAffectType.LactationReduc3);
+        if (character.statusAffects.has(StatusEffectType.LactationReduction))
+            character.statusAffects.get(StatusEffectType.LactationReduction).value1 = 0;
+        if (character.statusAffects.has(StatusEffectType.LactationReduc0))
+            character.statusAffects.remove(StatusEffectType.LactationReduc0);
+        if (character.statusAffects.has(StatusEffectType.LactationReduc1))
+            character.statusAffects.remove(StatusEffectType.LactationReduc1);
+        if (character.statusAffects.has(StatusEffectType.LactationReduc2))
+            character.statusAffects.remove(StatusEffectType.LactationReduc2);
+        if (character.statusAffects.has(StatusEffectType.LactationReduc3))
+            character.statusAffects.remove(StatusEffectType.LactationReduc3);
     }
     if (boostAmt > 0) {
         while (boostAmt > 0) {
-            breasts = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
+            breasts = character.body.chest.sort(BreastRow.Largest)[0];
             boostAmt -= .1;
             temp2 = .1;
             if (breasts.lactationMultiplier > 1.5)
@@ -189,7 +189,7 @@ export function boostLactation(character: Character, boostAmt: number): number {
     else {
         while (boostAmt < 0) {
             if (boostAmt > -.1) {
-                breasts = character.torso.chest.sort(BreastRow.LactationMultipierSmallest)[0];
+                breasts = character.body.chest.sort(BreastRow.LactationLeast)[0];
                 // trace(biggestLactation());
                 breasts.lactationMultiplier += boostAmt;
                 if (breasts.lactationMultiplier < 0)
@@ -198,7 +198,7 @@ export function boostLactation(character: Character, boostAmt: number): number {
             }
             else {
                 boostAmt += .1;
-                breasts = character.torso.chest.sort(BreastRow.LactationMultipierSmallest)[0];
+                breasts = character.body.chest.sort(BreastRow.LactationLeast)[0];
                 temp2 = boostAmt;
                 changes += temp2;
                 breasts.lactationMultiplier += temp2;

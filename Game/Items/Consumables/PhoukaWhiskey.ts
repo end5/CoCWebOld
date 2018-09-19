@@ -4,10 +4,15 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { Character } from '../../Character/Character';
-import { PlayerFlags } from '../../Character/Player/PlayerFlags';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
-import { User } from '../../User';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
+import { User } from '../../User';
+
+export const PhoukaWhiskeyFlags = {
+    PREGNANCY_CORRUPTION: 0,
+};
+
+User.flags.set('PhoukaWhiskey', PhoukaWhiskeyFlags);
 
 export class PhoukaWhiskey extends Consumable {
     public constructor() {
@@ -50,7 +55,7 @@ export class PhoukaWhiskey extends Consumable {
             case 3: // Child is a faerie, hates phouka whiskey
                 DisplayText("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
         }
-        (User.flags.get("Player") as PlayerFlags).PREGNANCY_CORRUPTION++; // Faerie or phouka babies become more corrupted, no effect if the character is not pregnant or on other types of babies
+        PhoukaWhiskeyFlags.PREGNANCY_CORRUPTION++; // Faerie or phouka babies become more corrupted, no effect if the character is not pregnant or on other types of babies
         this.phoukaWhiskeyAddStatus(character);
     }
 
@@ -63,7 +68,7 @@ export class PhoukaWhiskey extends Consumable {
             else if (character.pregnancy.buttWomb.isPregnantWith(PregnancyType.SATYR)) return 2;
             return -2;
         }
-        if (!character.torso.butt) { // Single pregnancy, carried in the womb
+        if (!character.body.butt) { // Single pregnancy, carried in the womb
             if (character.pregnancy.womb.isPregnantWith(PregnancyType.SATYR)) return 1;
             if (character.pregnancy.womb.isPregnantWith(PregnancyType.FAERIE)) return 1;
             return -1;
@@ -82,8 +87,8 @@ export class PhoukaWhiskey extends Consumable {
         // 			3 = Character is pregnant with a faerie that will remain a faerie after this drink
         if (!character.pregnancy.womb.isPregnant() && !character.pregnancy.buttWomb.isPregnant()) return 0;
         if (character.pregnancy.womb.isPregnantWith(PregnancyType.FAERIE)) {
-            if ((User.flags.get("Player") as PlayerFlags).PREGNANCY_CORRUPTION === 0) return 2;
-            if ((User.flags.get("Player") as PlayerFlags).PREGNANCY_CORRUPTION < 0) return 3;
+            if (PhoukaWhiskeyFlags.PREGNANCY_CORRUPTION === 0) return 2;
+            if (PhoukaWhiskeyFlags.PREGNANCY_CORRUPTION < 0) return 3;
         }
         return 1; // Pregnancy has to be either a satyr or a phouka
     }
@@ -93,15 +98,15 @@ export class PhoukaWhiskey extends Consumable {
         const sensChange: number = (character.stats.sens < 10 ? character.stats.sens : 10);
         const speedChange: number = (character.stats.spe < 20 ? character.stats.spe : 20);
         const intChange: number = (character.stats.int < 20 ? character.stats.int : 20);
-        if (character.statusAffects.has(StatusAffectType.PhoukaWhiskeyAffect)) {
-            const drinksSoFar: number = character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value2;
+        if (character.statusAffects.has(StatusEffectType.PhoukaWhiskeyAffect)) {
+            const drinksSoFar: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
             if (drinksSoFar < 4)
-                character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value1 = 8 - (2 * drinksSoFar);
+                character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 8 - (2 * drinksSoFar);
             else
-                character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value1 = 1; // Always get at least one more hour of drunkenness
-            character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value2 = 1;
-            character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value3 = 256 * libidoChange + sensChange;
-            character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value4 = 256 * speedChange + intChange;
+                character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 1; // Always get at least one more hour of drunkenness
+            character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value2 = 1;
+            character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value3 = 256 * libidoChange + sensChange;
+            character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value4 = 256 * speedChange + intChange;
             DisplayText("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
             character.stats.lib += libidoChange;
             character.stats.sens -= sensChange;
@@ -109,7 +114,7 @@ export class PhoukaWhiskey extends Consumable {
             character.stats.int -= intChange;
         }
         else { // First time
-            character.statusAffects.add(StatusAffectType.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange);
+            character.statusAffects.add(StatusEffectType.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange);
             // The four stats we’re affecting get paired together to save space. This way we don’t need a second StatusAffect to store more info.
             character.stats.lib += libidoChange;
             character.stats.sens -= sensChange;
@@ -119,9 +124,9 @@ export class PhoukaWhiskey extends Consumable {
     }
 
     public phoukaWhiskeyExpires(character: Character) {
-        const numDrunk: number = character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value2;
-        const libidoSensCombined: number = character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value3;
-        const intSpeedCombined: number = character.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value4;
+        const numDrunk: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
+        const libidoSensCombined: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value3;
+        const intSpeedCombined: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value4;
 
         const sensChange: number = libidoSensCombined & 255;
         const libidoChange: number = (libidoSensCombined - sensChange) / 256;
@@ -132,7 +137,7 @@ export class PhoukaWhiskey extends Consumable {
         character.stats.sens += sensChange;
         character.stats.spe += speedChange;
         character.stats.int += intChange;
-        character.statusAffects.remove(StatusAffectType.PhoukaWhiskeyAffect);
+        character.statusAffects.remove(StatusEffectType.PhoukaWhiskeyAffect);
         if (numDrunk > 3)
             DisplayText("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
         else if (numDrunk > 1)

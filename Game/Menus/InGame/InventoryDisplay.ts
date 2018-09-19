@@ -3,7 +3,7 @@ import { Character } from '../../Character/Character';
 import { Inventory } from '../../Inventory/Inventory';
 import { ItemStack } from '../../Inventory/ItemStack';
 import { Item } from '../../Items/Item';
-import { ClickOption, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
+import { ClickOption, NextScreenChoices, ScreenChoice, ClickFunction } from '../../ScreenDisplay';
 import { User } from '../../User';
 
 /* better inventory system
@@ -38,7 +38,7 @@ type ReverseAction = () => void;
 interface AddItemsRequest<T extends Item> {
     character: Character;
     itemList: ItemStack<T>[];
-    menuToDisplayUponFinish: ClickOption;
+    menuToDisplayUponFinish: ClickFunction;
     otherInventory: Inventory<T>;
     reverseActionFunc: ReverseAction;
 }
@@ -141,7 +141,7 @@ function createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpIte
  * @param itemsToAdd The items that cannot be added to the characters inventory.
  * @param nextMenu The menu to go to once the decision is made.
  */
-export function displayCharInventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickOption): NextScreenChoices {
+export function displayCharInventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction): NextScreenChoices {
     if (itemsToAdd.length > 0) {
         const request = createAddItemsRequest(character, itemsToAdd, nextMenu);
         invFull(request);
@@ -194,7 +194,7 @@ function discardFromInventory<T extends Item>(request: AddItemsRequest<T>, slotI
     };
 }
 
-function createAddItemsRequest<T extends Item>(character: Character, itemStackList: ItemStack<T>[], prevMenu: ClickOption, otherInventory?: Inventory<T>): AddItemsRequest<T> {
+function createAddItemsRequest<T extends Item>(character: Character, itemStackList: ItemStack<T>[], prevMenu: ClickFunction, otherInventory?: Inventory<T>): AddItemsRequest<T> {
     return {
         character,
         itemList: itemStackList,

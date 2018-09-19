@@ -2,7 +2,7 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 
 export class BlackSpellbook extends Consumable {
@@ -30,21 +30,21 @@ export class BlackSpellbook extends Consumable {
             character.stats.int += 0.6;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 25 && !character.statusAffects.has(StatusAffectType.KnowsArouse)) {
+        if (character.stats.int >= 25 && !character.statusAffects.has(StatusEffectType.KnowsArouse)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Arouse.</b>");
-            character.statusAffects.add(StatusAffectType.KnowsArouse, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.KnowsArouse, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 30 && !character.statusAffects.has(StatusAffectType.KnowsHeal)) {
+        if (character.stats.int >= 30 && !character.statusAffects.has(StatusEffectType.KnowsHeal)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Heal.</b>");
-            character.statusAffects.add(StatusAffectType.KnowsHeal, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.KnowsHeal, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 40 && !character.statusAffects.has(StatusAffectType.KnowsMight)) {
+        if (character.stats.int >= 40 && !character.statusAffects.has(StatusEffectType.KnowsMight)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Might.</b>");
-            character.statusAffects.add(StatusAffectType.KnowsMight, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.KnowsMight, 0, 0, 0, 0);
         }
     }
 }

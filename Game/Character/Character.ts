@@ -6,7 +6,6 @@ import { Creature } from '../Body/Creature';
 import { LegType } from '../Body/Legs';
 import { Tail, TailType } from '../Body/Tail';
 import { CombatContainer } from '../Combat/CombatContainer';
-import { CombatParty } from '../Combat/CombatParty';
 import { CharacterInventory } from '../Inventory/CharacterInventory';
 import { generateUUID } from '../Utilities/Uuid';
 
@@ -102,7 +101,7 @@ export abstract class Character extends Creature implements ISerializable<Charac
         if (delta === 0) {
             return delta;
         }
-        this.cumMultiplier += delta;
+        this.body.cumMultiplier += delta;
         return delta;
     }
 
@@ -113,9 +112,9 @@ export abstract class Character extends Creature implements ISerializable<Charac
 
     // commented out for reminder that isNaga can no longer be checked here
     public hasLongTail(): boolean {
-        if (this.torso.hips.legs.type === LegType.NAGA)
+        if (this.body.legs.type === LegType.NAGA)
             return true;
-        return this.torso.tails.filter((tail) => {
+        return this.body.tails.filter((tail) => {
             switch (tail.type) {
                 case TailType.DOG:
                 case TailType.DEMONIC:
@@ -134,11 +133,11 @@ export abstract class Character extends Creature implements ISerializable<Charac
     }
 
     public canOvipositSpider(): boolean {
-        return this.pregnancy.ovipositor.canOviposit() && this.torso.hips.legs.isDrider() && this.torso.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).length > 0;
+        return this.pregnancy.ovipositor.canOviposit() && this.body.legs.isDrider() && this.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).length > 0;
     }
 
     public canOvipositBee(): boolean {
-        return this.pregnancy.ovipositor.canOviposit() && this.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0;
+        return this.pregnancy.ovipositor.canOviposit() && this.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0;
     }
 
     public slimeFeed() {

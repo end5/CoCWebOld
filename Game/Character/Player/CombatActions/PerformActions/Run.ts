@@ -7,7 +7,7 @@ import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Desc } from '../../../../Descriptors/Descriptors';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
@@ -30,7 +30,7 @@ export class Run implements CombatAction {
             return;
         }
         // Rut doesnt let you run from dicks.
-        if (character.statusAffects.has(StatusAffectType.Rut) && target.torso.cocks.count > 0) {
+        if (character.statusAffects.has(StatusEffectType.Rut) && target.body.cocks.count > 0) {
             DisplayText("The thought of another male in your area competing for all the pussy infuriates you!  No way will you run!");
             return;
         }/*
@@ -100,25 +100,25 @@ export class Run implements CombatAction {
         // if(debug) escapeMod -= 300;
         if (character.canFly()) escapeMod -= 20;
         if (
-            character.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) &&
-            character.torso.neck.head.ears.type === EarType.RACCOON &&
+            character.body.tails.reduce(Tail.HasType(TailType.RACCOON), false) &&
+            character.body.ears.type === EarType.RACCOON &&
             character.perks.has(PerkType.Runner)
         )
             escapeMod -= 25;
 
         // Big tits doesn't matter as much if ya can fly!
         else {
-            if (character.torso.chest.count > 0) {
-                const largestBreastSize: number = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating;
+            if (character.body.chest.count > 0) {
+                const largestBreastSize: number = character.body.chest.sort(BreastRow.Largest)[0].rating;
                 if (largestBreastSize >= 35) escapeMod += 5;
                 if (largestBreastSize >= 66) escapeMod += 10;
             }
-            if (character.torso.hips.rating >= 20) escapeMod += 5;
-            if (character.torso.butt.rating >= 20) escapeMod += 5;
-            if (character.torso.balls.quantity > 0) {
-                if (character.torso.balls.size >= 24) escapeMod += 5;
-                if (character.torso.balls.size >= 48) escapeMod += 10;
-                if (character.torso.balls.size >= 120) escapeMod += 10;
+            if (character.body.hips.rating >= 20) escapeMod += 5;
+            if (character.body.butt.rating >= 20) escapeMod += 5;
+            if (character.body.balls.count > 0) {
+                if (character.body.balls.size >= 24) escapeMod += 5;
+                if (character.body.balls.size >= 48) escapeMod += 10;
+                if (character.body.balls.size >= 120) escapeMod += 10;
             }
         }
 
@@ -168,7 +168,7 @@ export class Run implements CombatAction {
             if (character.canFly())
                 DisplayText(target.desc.capitalA + target.desc.short + " can't catch you.");
             // sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
-            else if (character.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner)) {
+            else if (character.body.tails.reduce(Tail.HasType(TailType.RACCOON), false) && character.body.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner)) {
                 DisplayText("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " + target.desc.subjectivePronoun + " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air!  You leave " + target.desc.objectivePronoun + " behind with your clumsy, jerky, short-range flight.");
             }
             // Non-fliers flee
@@ -196,61 +196,61 @@ export class Run implements CombatAction {
             // Flyers get special failure message.
             if (character.canFly()) {
                 if (target.desc.plural)
-                    DisplayText(target.desc.capitalA + target.desc.short + " manage to grab your " + Desc.Leg.describeLegs(character) + " and drag you back to the ground before you can fly away!");
+                    DisplayText(target.desc.capitalA + target.desc.short + " manage to grab your " + describeLegs(character) + " and drag you back to the ground before you can fly away!");
                 else
-                    DisplayText(target.desc.capitalA + target.desc.short + " manages to grab your " + Desc.Leg.describeLegs(character) + " and drag you back to the ground before you can fly away!");
+                    DisplayText(target.desc.capitalA + target.desc.short + " manages to grab your " + describeLegs(character) + " and drag you back to the ground before you can fly away!");
             }
             // fail
-            else if (character.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner))
+            else if (character.body.tails.reduce(Tail.HasType(TailType.RACCOON), false) && character.body.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner))
                 DisplayText("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
             // Nonflyer messages
             else {
                 // Huge balls messages
-                if (character.torso.balls.quantity > 0 && character.torso.balls.size >= 24) {
-                    if (character.torso.balls.size < 48)
-                        DisplayText("With your " + Desc.Balls.describeBalls(true, true, character) + " swinging ponderously beneath you, getting away is far harder than it should be.  ");
+                if (character.body.balls.count > 0 && character.body.balls.size >= 24) {
+                    if (character.body.balls.size < 48)
+                        DisplayText("With your " + describeBalls(true, true, character) + " swinging ponderously beneath you, getting away is far harder than it should be.  ");
                     else
-                        DisplayText("With your " + Desc.Balls.describeBalls(true, true, character) + " dragging along the ground, getting away is far harder than it should be.  ");
+                        DisplayText("With your " + describeBalls(true, true, character) + " dragging along the ground, getting away is far harder than it should be.  ");
                 }
                 // FATASS BODY MESSAGES
-                const largestBreastRating: number = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating;
-                if (largestBreastRating >= 35 || character.torso.butt.rating >= 20 || character.torso.hips.rating >= 20) {
+                const largestBreastRating: number = character.body.chest.sort(BreastRow.Largest)[0].rating;
+                if (largestBreastRating >= 35 || character.body.butt.rating >= 20 || character.body.hips.rating >= 20) {
                     // FOR PLAYERS WITH GIANT BREASTS
                     if (largestBreastRating >= 35 && largestBreastRating < 66) {
-                        if (character.torso.hips.rating >= 20) {
-                            DisplayText("Your " + Desc.Hip.describeHips(character) + " forces your gait to lurch slightly side to side, which causes the fat of your " + character.skin.tone + " ");
-                            if (character.torso.butt.rating >= 20)
-                                DisplayText(Desc.Butt.describeButt(character) + " and ");
-                            DisplayText(Desc.Breast.describeChest(character) + " to wobble immensely, throwing you off balance and preventing you from moving quick enough to escape.");
+                        if (character.body.hips.rating >= 20) {
+                            DisplayText("Your " + describeHips(character) + " forces your gait to lurch slightly side to side, which causes the fat of your " + character.body.skin.tone + " ");
+                            if (character.body.butt.rating >= 20)
+                                DisplayText(describeButt(character) + " and ");
+                            DisplayText(describeChest(character) + " to wobble immensely, throwing you off balance and preventing you from moving quick enough to escape.");
                         }
-                        else if (character.torso.butt.rating >= 20)
-                            DisplayText("Your " + character.skin.tone + Desc.Butt.describeButt(character) + " and " + Desc.Breast.describeChest(character) + " wobble and bounce heavily, throwing you off balance and preventing you from moving quick enough to escape.");
+                        else if (character.body.butt.rating >= 20)
+                            DisplayText("Your " + character.body.skin.tone + describeButt(character) + " and " + describeChest(character) + " wobble and bounce heavily, throwing you off balance and preventing you from moving quick enough to escape.");
                         else
-                            DisplayText("Your " + Desc.Breast.describeChest(character) + " jiggle and wobble side to side like the " + character.skin.tone + " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
+                            DisplayText("Your " + describeChest(character) + " jiggle and wobble side to side like the " + character.body.skin.tone + " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
                     }
                     // FOR PLAYERS WITH MASSIVE BREASTS
                     else if (largestBreastRating >= 66) {
-                        if (character.torso.hips.rating >= 20) {
-                            DisplayText("Your " + Desc.Breast.describeChest(character) + " nearly drag along the ground while your " + Desc.Hip.describeHips(character) + " swing side to side ");
-                            if (character.torso.butt.rating >= 20)
-                                DisplayText("causing the fat of your " + character.skin.tone + Desc.Butt.describeButt(character) + " to wobble heavily, ");
+                        if (character.body.hips.rating >= 20) {
+                            DisplayText("Your " + describeChest(character) + " nearly drag along the ground while your " + describeHips(character) + " swing side to side ");
+                            if (character.body.butt.rating >= 20)
+                                DisplayText("causing the fat of your " + character.body.skin.tone + describeButt(character) + " to wobble heavily, ");
                             DisplayText("forcing your body off balance and preventing you from moving quick enough to get escape.");
                         }
-                        else if (character.torso.butt.rating >= 20)
-                            DisplayText("Your " + Desc.Breast.describeChest(character) + " nearly drag along the ground while the fat of your " + character.skin.tone + Desc.Butt.describeButt(character) + " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
+                        else if (character.body.butt.rating >= 20)
+                            DisplayText("Your " + describeChest(character) + " nearly drag along the ground while the fat of your " + character.body.skin.tone + describeButt(character) + " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
                         else
-                            DisplayText("Your " + Desc.Breast.describeChest(character) + " nearly drag along the ground, preventing you from moving quick enough to get escape.");
+                            DisplayText("Your " + describeChest(character) + " nearly drag along the ground, preventing you from moving quick enough to get escape.");
                     }
                     // FOR PLAYERS WITH EITHER GIANT HIPS OR BUTT BUT NOT THE BREASTS
-                    else if (character.torso.hips.rating >= 20) {
-                        DisplayText("Your " + Desc.Hip.describeHips(character) + " swing heavily from side to side ");
-                        if (character.torso.butt.rating >= 20)
-                            DisplayText("causing your " + character.skin.tone + Desc.Butt.describeButt(character) + " to wobble obscenely ");
+                    else if (character.body.hips.rating >= 20) {
+                        DisplayText("Your " + describeHips(character) + " swing heavily from side to side ");
+                        if (character.body.butt.rating >= 20)
+                            DisplayText("causing your " + character.body.skin.tone + describeButt(character) + " to wobble obscenely ");
                         DisplayText("and forcing your body into an awkward gait that slows you down, preventing you from escaping.");
                     }
                     // JUST DA BOOTAH
-                    else if (character.torso.butt.rating >= 20)
-                        DisplayText("Your " + character.skin.tone + Desc.Butt.describeButt(character) + " wobbles so heavily that you're unable to move quick enough to escape.");
+                    else if (character.body.butt.rating >= 20)
+                        DisplayText("Your " + character.body.skin.tone + describeButt(character) + " wobbles so heavily that you're unable to move quick enough to escape.");
                 }
                 // NORMAL RUN FAIL MESSAGES
                 else if (target.desc.plural)

@@ -33,15 +33,15 @@ export class Player extends Character {
         this.stats.level = 1;
         this.stats.HP = this.stats.maxHP();
         // this.inventory.gems = Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS];
-        this.skin.type = SkinType.PLAIN;
-        this.torso.neck.head.face.type = FaceType.HUMAN;
-        this.torso.neck.head.face.tongue.type = TongueType.HUMAN;
-        this.skin.desc = "skin";
-        this.cumMultiplier = 1;
+        this.body.skin.type = SkinType.PLAIN;
+        this.body.skin.desc = "skin";
+        this.body.face.type = FaceType.HUMAN;
+        this.body.tongue.type = TongueType.HUMAN;
+        this.body.cumMultiplier = 1;
         this.hoursSinceCum = 0;
-        this.torso.butt.looseness = ButtLooseness.VIRGIN;
-        this.torso.butt.wetness = ButtWetness.DRY;
-        this.torso.butt.fullness = 0;
+        this.body.butt.looseness = ButtLooseness.VIRGIN;
+        this.body.butt.wetness = ButtWetness.DRY;
+        this.body.butt.fullness = 0;
         this.stats.fatigue = 0;
 
         // Inventory

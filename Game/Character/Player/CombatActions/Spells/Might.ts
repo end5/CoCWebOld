@@ -2,7 +2,7 @@ import { BlackMagic } from './BlackMagic';
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Desc } from '../../../../Descriptors/Descriptors';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
@@ -11,11 +11,11 @@ export class Might extends BlackMagic {
     public readonly baseCost: number = 25;
 
     public isPossible(character: Character): boolean {
-        return character.statusAffects.has(StatusAffectType.KnowsMight);
+        return character.statusAffects.has(StatusEffectType.KnowsMight);
     }
 
     public canUse(character: Character): boolean {
-        if (character.statusAffects.has(StatusAffectType.Might)) {
+        if (character.statusAffects.has(StatusEffectType.Might)) {
             this.reasonCannotUse = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
             return false;
         }
@@ -29,28 +29,28 @@ export class Might extends BlackMagic {
         // 25% backfire!
         if (randInt(4) === 0) {
             DisplayText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
-            if (character.gender === Gender.NONE) DisplayText(Desc.Butt.describeButthole(character.torso.butt) + " tingles with a desire to be filled as your libido spins out of control.");
+            if (character.gender === Gender.NONE) DisplayText(describeButthole(character.body.butt) + " tingles with a desire to be filled as your libido spins out of control.");
             if (character.gender === Gender.MALE) {
-                if (character.torso.cocks.count === 1) DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
-                else DisplayText(Desc.Cock.describeMultiCockShort(character) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
+                if (character.body.cocks.count === 1) DisplayText(describeCock(character, character.body.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+                else DisplayText(describeMultiCockShort(character) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
             }
-            if (character.gender === Gender.FEMALE) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
-            if (character.gender === Gender.HERM) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and " + Desc.Cock.describeMultiCockShort(character) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
+            if (character.gender === Gender.FEMALE) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
+            if (character.gender === Gender.HERM) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " and " + describeMultiCockShort(character) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
             character.stats.lib += .25;
             character.stats.lust += 15;
         }
         else {
             DisplayText("The rush of success and power flows through your body.  You feel like you can do anything!");
-            character.statusAffects.add(StatusAffectType.Might, 0, 0, 0, 0);
+            character.statusAffects.add(StatusEffectType.Might, 0, 0, 0, 0);
             const temp = 5 * character.combat.stats.spellMod();
             let tempStr = temp;
             let tempTou = temp;
             if (character.stats.str + temp > 100) tempStr = 100 - character.stats.str;
             if (character.stats.tou + temp > 100) tempTou = 100 - character.stats.tou;
-            character.statusAffects.get(StatusAffectType.Might).value1 = tempStr;
-            character.statusAffects.get(StatusAffectType.Might).value2 = tempTou;
-            character.stats.str += character.statusAffects.get(StatusAffectType.Might).value1;
-            character.stats.tou += character.statusAffects.get(StatusAffectType.Might).value2;
+            character.statusAffects.get(StatusEffectType.Might).value1 = tempStr;
+            character.statusAffects.get(StatusEffectType.Might).value2 = tempTou;
+            character.stats.str += character.statusAffects.get(StatusEffectType.Might).value1;
+            character.stats.tou += character.statusAffects.get(StatusEffectType.Might).value2;
         }
         DisplayText("\n\n");
         return;

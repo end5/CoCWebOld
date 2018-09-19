@@ -1,7 +1,7 @@
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { PlayerSpellAction } from '../PlayerSpellAction';
@@ -19,7 +19,7 @@ export class CorruptedFoxFire extends PlayerSpellAction {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.statusAffects.has(StatusAffectType.ThroatPunch) || character.statusAffects.has(StatusAffectType.WebSilence)) {
+        if (character.statusAffects.has(StatusEffectType.ThroatPunch) || character.statusAffects.has(StatusEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }

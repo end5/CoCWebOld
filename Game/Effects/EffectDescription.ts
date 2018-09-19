@@ -3,7 +3,7 @@ export class EffectDescription {
     public readonly name: string;
     private readonly desc: string;
     public readonly longDesc: string;
-    constructor(key: string, name: string, desc: string, longDesc: string = undefined) {
+    constructor(key: string, name: string, desc: string, longDesc?: string) {
         this.key = key;
         this.name = name;
         this.desc = desc || this.name;

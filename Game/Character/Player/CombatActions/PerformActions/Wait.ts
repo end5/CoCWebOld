@@ -112,7 +112,7 @@ export class Wait implements CombatAction {
         // else {
         DisplayText().clear();
         DisplayText("You decide not to take any action this round.\n\n");
-        return { next: Menus.Combat };
+        return { next: combatMenu };
         // }
     }
 }

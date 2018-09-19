@@ -4,7 +4,7 @@ import { SkinType } from '../Body/Skin';
 import { Character } from '../Character/Character';
 
 export function hairOrFur(character: Character): string {
-    if (character.skin.type === SkinType.FUR)
+    if (character.body.skin.type === SkinType.FUR)
         return "fur";
     else
         return "hair";
@@ -12,53 +12,51 @@ export function hairOrFur(character: Character): string {
 
 export function describeHair(character: Character): string {
     let description: string = "";
-    const head = character.torso.neck.head;
-
-    if (head.hair.length === 0) {
+    if (character.body.hair.length === 0) {
         return randomChoice("shaved",
             "bald",
             "smooth",
             "hairless",
             "glabrous") + " head";
     }
-    else if (head.hair.length < 1) {
+    else if (character.body.hair.length < 1) {
         description += randomChoice(
             "close-cropped, ",
             "trim, ",
             "very short, ");
     }
-    else if (head.hair.length >= 1 && head.hair.length < 3)
+    else if (character.body.hair.length >= 1 && character.body.hair.length < 3)
         description += "short, ";
-    else if (head.hair.length >= 3 && head.hair.length < 6)
+    else if (character.body.hair.length >= 3 && character.body.hair.length < 6)
         description += "shaggy, ";
-    else if (head.hair.length >= 6 && head.hair.length < 10)
+    else if (character.body.hair.length >= 6 && character.body.hair.length < 10)
         description += "moderately long, ";
-    else if (head.hair.length >= 10 && head.hair.length < 16) {
+    else if (character.body.hair.length >= 10 && character.body.hair.length < 16) {
         if (percentChance(50))
             description += "long, ";
         else
             description += "shoulder-length, ";
     }
-    else if (head.hair.length >= 16 && head.hair.length < 26) {
+    else if (character.body.hair.length >= 16 && character.body.hair.length < 26) {
         if (percentChance(50))
             description += "very long, ";
         else
             description += "flowing locks of ";
     }
-    else if (head.hair.length >= 26 && head.hair.length < 40)
+    else if (character.body.hair.length >= 26 && character.body.hair.length < 40)
         description += "ass-length, ";
-    else if (head.hair.length >= 40 && head.hair.length < character.tallness)
+    else if (character.body.hair.length >= 40 && character.body.hair.length < character.body.tallness)
         description += "obscenely long, ";
-    else if (head.hair.length >= character.tallness) {
+    else if (character.body.hair.length >= character.body.tallness) {
         if (percentChance(50))
             description += "floor-length, ";
         else
             description += "floor-dragging, ";
     }
 
-    description += head.hair.color + " ";
+    description += character.body.hair.color + " ";
 
-    switch (head.hair.type) {
+    switch (character.body.hair.type) {
         case HairType.FEATHER:
             description += "feather-";
             break;
@@ -81,7 +79,7 @@ export function describeHair(character: Character): string {
         }*/
 
     // If furry and longish hair sometimes call it a mane (50%)
-    if (character.skin.type === SkinType.FUR && head.hair.length > 3 && percentChance(50))
+    if (character.body.skin.type === SkinType.FUR && character.body.hair.length > 3 && percentChance(50))
         description += "mane";
     else
         description += "hair";

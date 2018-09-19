@@ -1,4 +1,3 @@
-import { CockSockList } from './CockSockList';
 import { EquipSlot } from './EquipSlot';
 import { EquipSlotList } from './EquipSlotList';
 import { PiercingInventory } from './PiercingInventory';
@@ -29,7 +28,7 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
         this.piercings = new PiercingInventory(character);
         this.cockSocks = new EquipSlotList<CockSock>(character);
         this.cocksMonitor = new ListMonitor(this.cockSocks, EquipSlot, character);
-        character.torso.cocks.attach(this.cocksMonitor);
+        character.body.cocks.attach(this.cocksMonitor);
         this.armorDescMod = "";
         this.character = character;
     }

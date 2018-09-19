@@ -9,15 +9,15 @@ export class MonsterToPlayerTease {
         }
         else if (character.stats.lust < 65) {
             DisplayText("The push of the " + monster.desc.short + "' sweaty, seductive bodies sliding over yours is deliciously arousing and you feel your ");
-            if (character.torso.cocks.count > 0)
-                DisplayText(Desc.Cock.describeMultiCockShort(character) + " hardening ");
-            else if (character.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " get wetter ");
+            if (character.body.cocks.count > 0)
+                DisplayText(describeMultiCockShort(character) + " hardening ");
+            else if (character.body.vaginas.count > 0) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " get wetter ");
             DisplayText("in response to all the friction.");
         }
         else {
             DisplayText("As the " + monster.desc.short + " mill around you, their bodies rub constantly over yours, and it becomes harder and harder to keep your thoughts on the fight or resist reaching out to touch a well lubricated cock or pussy as it slips past.  You keep subconsciously moving your ");
-            if (character.gender === Gender.MALE) DisplayText(Desc.Cock.describeMultiCockShort(character) + " towards the nearest inviting hole.");
-            if (character.gender === Gender.FEMALE) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " towards the nearest swinging cock.");
+            if (character.gender === Gender.MALE) DisplayText(describeMultiCockShort(character) + " towards the nearest inviting hole.");
+            if (character.gender === Gender.FEMALE) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " towards the nearest swinging cock.");
             if (character.gender === Gender.HERM) DisplayText("aching cock and thirsty pussy towards the nearest thing willing to fuck it.");
             if (character.gender === Gender.NONE) DisplayText("groin, before remember there is nothing there to caress.");
         }

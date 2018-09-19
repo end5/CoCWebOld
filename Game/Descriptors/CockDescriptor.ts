@@ -4,13 +4,13 @@ import { SkinType } from '../Body/Skin';
 import { Character } from '../Character/Character';
 
 export function describeCock(character: Character, cock: Cock): string {
-    if (character.torso.cocks.count > 0 || !cock)
+    if (character.body.cocks.count > 0 || !cock)
         return "<b>ERROR: CockDescript Called But No Cock Present</b>";
 
     // Only describe as pierced or sock covered if the creature has just one cock
-    const isPierced: boolean = character.inventory.equipment.piercings.cocks.get(character.torso.cocks.indexOf(cock)).isEquipped();
-    const hasSock: boolean = character.inventory.equipment.cockSocks.get(character.torso.cocks.indexOf(cock)).isEquipped();
-    const isGooey: boolean = (character.skin.type === SkinType.GOO);
+    const isPierced: boolean = character.inventory.equipment.piercings.cocks.get(character.body.cocks.indexOf(cock)).isEquipped();
+    const hasSock: boolean = character.inventory.equipment.cockSocks.get(character.body.cocks.indexOf(cock)).isEquipped();
+    const isGooey: boolean = (character.body.skin.type === SkinType.GOO);
     if (percentChance(50)) {
         if (cock.type === CockType.HUMAN)
             return adjectiveCock(character, cock, character.stats.lust, character.cumQ(), isGooey) + " " + nounCock(cock.type);
@@ -195,8 +195,8 @@ export function nounCock(cockType: CockType): string {
 // New cock adjectives.  The old one sucked dicks
 // This function handles all cockAdjectives. Previously there were separate functions for the player, monsters and NPCs.
 export function adjectiveCock(character: Character, cock: Cock, lust: number = 50, cumQ: number = 10, isGooey: boolean = false): string {
-    const isPierced: boolean = character.inventory.equipment.piercings.cocks.get(character.torso.cocks.indexOf(cock)).isEquipped();
-    const hasSock: boolean = character.inventory.equipment.cockSocks.get(character.torso.cocks.indexOf(cock)).isEquipped();
+    const isPierced: boolean = character.inventory.equipment.piercings.cocks.get(character.body.cocks.indexOf(cock)).isEquipped();
+    const hasSock: boolean = character.inventory.equipment.cockSocks.get(character.body.cocks.indexOf(cock)).isEquipped();
     // First, the three possible special cases
     if (isPierced && percentChance(20))
         return "pierced";
@@ -475,9 +475,9 @@ export function nounMultiCock(cockType: CockType): string {
  */
 export function describeMultiCockSimpleOne(character: Character, caps: boolean = false): string {
     if (caps)
-        return (character.torso.cocks.count > 1 ? "One of your " : "Your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.count > 1 ? "One of your " : "Your ") + cockMultiLDescriptionShort(character);
     else
-        return (character.torso.cocks.count > 1 ? "one of your " : "your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.count > 1 ? "one of your " : "your ") + cockMultiLDescriptionShort(character);
 }
 
 /**
@@ -487,13 +487,13 @@ export function describeMultiCockSimpleOne(character: Character, caps: boolean =
  */
 export function describeMultiCockSimpleEach(character: Character, caps: boolean = false): string {
     if (caps)
-        return (character.torso.cocks.count > 1 ? "Each of your " : "Your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.count > 1 ? "Each of your " : "Your ") + cockMultiLDescriptionShort(character);
     else
-        return (character.torso.cocks.count > 1 ? "each of your " : "your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.count > 1 ? "each of your " : "your ") + cockMultiLDescriptionShort(character);
 }
 
 function cockMultiLDescriptionShort(character: Character): string {
-    const cocks = character.torso.cocks;
+    const cocks = character.body.cocks;
     if (cocks.count >= 1) {
         if (cocks.count === 1) { // For a single cock return the default description
             return describeCock(character, cocks.get(0));
@@ -607,7 +607,7 @@ export function describeCockShort(cock: Cock): string {
 
 export function describeMultiCockShort(character: Character): string {
     let description: string = "";
-    const cocks = character.torso.cocks;
+    const cocks = character.body.cocks;
     const cockCount = cocks.count;
     const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
 
@@ -629,7 +629,7 @@ export function describeMultiCockShort(character: Character): string {
     else if (cockCount > 3)
         description += randomChoice("bundle of ", "obscene group of ", "cluster of ", "wriggling bunch of ");
 
-    description += adjectiveCock(character, cocks.sort(Cock.LargestCockArea)[0], character.stats.lust, character.cumQ(), character.skin.type === SkinType.GOO);
+    description += adjectiveCock(character, cocks.sort(Cock.Largest)[0], character.stats.lust, character.cumQ(), character.body.skin.type === SkinType.GOO);
 
     if (cocksSameType)
         description += ", " + nounCock(cocks[0].cockType) + "s";
@@ -641,7 +641,7 @@ export function describeMultiCockShort(character: Character): string {
 
 export function describeMultiCock(character: Character): string {
     let description: string = "";
-    const cocks = character.torso.cocks;
+    const cocks = character.body.cocks;
     const cockCount: number = cocks.count;
     const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
 
@@ -663,7 +663,7 @@ export function describeMultiCock(character: Character): string {
     else if (cockCount > 3)
         description += randomChoice("a bundle of ", "an obscene group of ", "a cluster of ", "a wriggling group of ");
 
-    description += adjectiveCock(character, cocks.sort(Cock.LargestCockArea)[0], character.stats.lust, character.cumQ(), character.skin.type === SkinType.GOO);
+    description += adjectiveCock(character, cocks.sort(Cock.Largest)[0], character.stats.lust, character.cumQ(), character.body.skin.type === SkinType.GOO);
 
     if (cocksSameType)
         description += ", " + nounCock(cocks[0].cockType) + "s";

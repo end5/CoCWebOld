@@ -10,13 +10,17 @@ import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
 import { Tail, TailType } from '../../Body/Tail';
 import { Character } from '../../Character/Character';
-import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { numToOrdinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
+import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeCock, nounCock } from '../../Descriptors/CockDescriptor';
+import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { describeBreastRow } from '../../Descriptors/BreastDescriptor';
+import { describeFeet } from '../../Descriptors/LegDescriptor';
 
 export class WhiskerFruit extends Consumable {
     public constructor() {
@@ -74,7 +78,7 @@ export class WhiskerFruit extends Consumable {
         // Intelliloss
         if (randInt(4) === 0 && changes < changeLimit) {
             // low intelligence
-            if (character.stats.int < 15) DisplayText("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + Desc.Face.describeFace(character) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.");
+            if (character.stats.int < 15) DisplayText("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + describeFace(character) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.");
             // medium intelligence
             else if (character.stats.int < 50) {
                 DisplayText("\n\nYour mind feels somewhat sluggish, and you wonder if you should just lie down ");
@@ -96,9 +100,9 @@ export class WhiskerFruit extends Consumable {
         // Libido gain
         if (character.stats.lib < 80 && changes < changeLimit && randInt(4) === 0) {
             // Cat dicked folks
-            if (character.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0) {
-                const catCock: Cock = character.torso.cocks.filter(Cock.FilterType(CockType.CAT))[0];
-                DisplayText("\n\nYou feel your " + Desc.Cock.describeCock(character, catCock) + " growing hard, the barbs becoming more sensitive. You gently run your hands down them and imagine the feeling of raking the insides of a cunt as you pull.  The fantasy continues, and after ejaculating and hearing the female yowl with pleasure, you shake your head and try to drive off the image.  ");
+            if (character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0) {
+                const catCock: Cock = character.body.cocks.filter(Cock.FilterType(CockType.CAT))[0];
+                DisplayText("\n\nYou feel your " + describeCock(character, catCock) + " growing hard, the barbs becoming more sensitive. You gently run your hands down them and imagine the feeling of raking the insides of a cunt as you pull.  The fantasy continues, and after ejaculating and hearing the female yowl with pleasure, you shake your head and try to drive off the image.  ");
                 if (character.stats.cor < 33) DisplayText("You need to control yourself better.");
                 else if (character.stats.cor < 66) DisplayText("You're not sure how you feel about the fantasy.");
                 else DisplayText("You hope to find a willing partner to make this a reality.");
@@ -117,50 +121,50 @@ export class WhiskerFruit extends Consumable {
         // Sexual changes would go here if I wasn't a tard.
         // Heat
         if (randInt(4) === 0 && changes < changeLimit) {
-            const intensified: boolean = character.statusAffects.has(StatusAffectType.Heat);
+            const intensified: boolean = character.statusAffects.has(StatusEffectType.Heat);
 
-            if (character.torso.vaginas.count > 0) {
+            if (character.body.vaginas.count > 0) {
                 if (intensified) {
-                    if (randInt(2) === 0) DisplayText("\n\nThe itch inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " is growing stronger, and you desperately want to find a nice cock to massage the inside.");
-                    else DisplayText("\n\nThe need inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " grows even stronger.  You desperately need to find a mate to 'scratch your itch' and fill your womb with kittens.  It's difficult NOT to think about a cock slipping inside your moist fuck-tunnel, and at this point you'll have a hard time resisting ANY male who approaches.");
+                    if (randInt(2) === 0) DisplayText("\n\nThe itch inside your " + describeVagina(character, character.body.vaginas.get(0)) + " is growing stronger, and you desperately want to find a nice cock to massage the inside.");
+                    else DisplayText("\n\nThe need inside your " + describeVagina(character, character.body.vaginas.get(0)) + " grows even stronger.  You desperately need to find a mate to 'scratch your itch' and fill your womb with kittens.  It's difficult NOT to think about a cock slipping inside your moist fuck-tunnel, and at this point you'll have a hard time resisting ANY male who approaches.");
                 }
                 else {
-                    DisplayText("\n\nThe interior of your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " clenches tightly, squeezing with reflexive, aching need.  Your skin flushes hot ");
-                    if (character.skin.type === SkinType.FUR) DisplayText("underneath your fur ");
+                    DisplayText("\n\nThe interior of your " + describeVagina(character, character.body.vaginas.get(0)) + " clenches tightly, squeezing with reflexive, aching need.  Your skin flushes hot ");
+                    if (character.body.skin.type === SkinType.FUR) DisplayText("underneath your fur ");
                     DisplayText("as images and fantasies ");
                     if (character.stats.cor < 50) DisplayText("assault ");
                     else DisplayText("fill ");
-                    DisplayText(" your mind.  Lithe cat-boys with their perfect, spine-covered cocks line up behind you, and you bend over to present your needy pussy to them.  You tremble with the desire to feel the exotic texture of their soft barbs rubbing your inner walls, smearing your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " with their cum as you're impregnated.  Shivering, you recover from the fantasy and pull your fingers from your aroused sex.  <b>It would seem you've gone into heat!</b>");
+                    DisplayText(" your mind.  Lithe cat-boys with their perfect, spine-covered cocks line up behind you, and you bend over to present your needy pussy to them.  You tremble with the desire to feel the exotic texture of their soft barbs rubbing your inner walls, smearing your " + describeVagina(character, character.body.vaginas.get(0)) + " with their cum as you're impregnated.  Shivering, you recover from the fantasy and pull your fingers from your aroused sex.  <b>It would seem you've gone into heat!</b>");
                 }
                 changes++;
             }
         }
 
         // Shrink the boobalies down to A for men or C for girls.
-        if (character.torso.chest.count > 0 && changes < changeLimit && randInt(4) === 0 && !User.settings.hyperHappy) {
+        if (character.body.chest.count > 0 && changes < changeLimit && randInt(4) === 0 && !User.settings.hyperHappy) {
             let breastShrinkageThreshold: number = 0;
             let shrinkingHappened: boolean = false;
             // Determine if shrinkage is required
-            if (character.torso.vaginas.count <= 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 2) breastShrinkageThreshold = 2;
-            else if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4) breastShrinkageThreshold = 4;
+            if (character.body.vaginas.count <= 0 && character.body.chest.sort(BreastRow.Largest)[0].rating > 2) breastShrinkageThreshold = 2;
+            else if (character.body.chest.sort(BreastRow.Largest)[0].rating > 4) breastShrinkageThreshold = 4;
             // IT IS!
             if (breastShrinkageThreshold > 0) {
                 let selectedBreastRow: BreastRow;
-                for (let index: number = 0; index < character.torso.chest.count; index++) {
+                for (let index: number = 0; index < character.body.chest.count; index++) {
                     // If this row is over threshhold
-                    selectedBreastRow = character.torso.chest.get(index);
+                    selectedBreastRow = character.body.chest.get(index);
                     if (selectedBreastRow.rating > breastShrinkageThreshold) {
                         // Big change
                         if (selectedBreastRow.rating > 10) {
                             selectedBreastRow.rating -= 2 + randInt(3);
-                            if (!shrinkingHappened) DisplayText("\n\nThe " + Desc.Breast.describeBreastRow(selectedBreastRow) + " on your chest wobble for a second, then tighten up, losing several cup-sizes in the process!");
-                            else DisplayText("  The change moves down to your " + numToOrdinalText(index + 1) + " row of " + Desc.Breast.describeBreastRow(selectedBreastRow) + ". They shrink greatly, losing a couple cup-sizes.");
+                            if (!shrinkingHappened) DisplayText("\n\nThe " + describeBreastRow(selectedBreastRow) + " on your chest wobble for a second, then tighten up, losing several cup-sizes in the process!");
+                            else DisplayText("  The change moves down to your " + numToOrdinalText(index + 1) + " row of " + describeBreastRow(selectedBreastRow) + ". They shrink greatly, losing a couple cup-sizes.");
                         }
                         // Small change
                         else {
                             selectedBreastRow.rating -= 1;
-                            if (!shrinkingHappened) DisplayText("\n\nAll at once, your sense of gravity shifts.  Your back feels a sense of relief, and it takes you a moment to realize your " + Desc.Breast.describeBreastRow(selectedBreastRow) + " have shrunk!");
-                            else DisplayText("  Your " + numToOrdinalText(index + 1) + " row of " + Desc.Breast.describeBreastRow(selectedBreastRow) + " gives a tiny jiggle as it shrinks, losing some off its mass.");
+                            if (!shrinkingHappened) DisplayText("\n\nAll at once, your sense of gravity shifts.  Your back feels a sense of relief, and it takes you a moment to realize your " + describeBreastRow(selectedBreastRow) + " have shrunk!");
+                            else DisplayText("  Your " + numToOrdinalText(index + 1) + " row of " + describeBreastRow(selectedBreastRow) + " gives a tiny jiggle as it shrinks, losing some off its mass.");
                         }
                         // Increment changed rows
                         shrinkingHappened = true;
@@ -171,17 +175,17 @@ export class WhiskerFruit extends Consumable {
             if (shrinkingHappened) changes++;
         }
         // Cat dangly-doo.
-        if (character.torso.cocks.count > 0 && character.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length < character.torso.cocks.count &&
+        if (character.body.cocks.count > 0 && character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length < character.body.cocks.count &&
             changes < changeLimit && randInt(4) === 0) {
             // loop through and find a non-cat wang.
             let selectedCock: Cock;
-            for (let index: number = 0; index < character.torso.cocks.count; index++) {
-                selectedCock = character.torso.cocks.get(index);
+            for (let index: number = 0; index < character.body.cocks.count; index++) {
+                selectedCock = character.body.cocks.get(index);
                 if (selectedCock.type === CockType.CAT) {
-                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " swells up with near-painful arousal and begins to transform.  It turns pink and begins to narrow until the tip is barely wide enough to accommodate your urethra.  Barbs begin to sprout from its flesh, if you can call the small, fleshy nubs barbs. They start out thick around the base of your " + Desc.Cock.nounCock(CockType.HUMAN) + " and shrink towards the tip. The smallest are barely visible. <b>Your new feline dong throbs powerfully</b> and spurts a few droplets of cum.  ");
+                    DisplayText("\n\nYour " + describeCock(character, selectedCock) + " swells up with near-painful arousal and begins to transform.  It turns pink and begins to narrow until the tip is barely wide enough to accommodate your urethra.  Barbs begin to sprout from its flesh, if you can call the small, fleshy nubs barbs. They start out thick around the base of your " + nounCock(CockType.HUMAN) + " and shrink towards the tip. The smallest are barely visible. <b>Your new feline dong throbs powerfully</b> and spurts a few droplets of cum.  ");
                     if (!selectedCock.hasSheath()) {
                         DisplayText("Then, it begins to shrink and sucks itself inside your body.  Within a few moments, a fleshy sheath is formed.");
-                        if (character.torso.balls.quantity > 0) DisplayText("  Thankfully, your balls appear untouched.");
+                        if (character.body.balls.count > 0) DisplayText("  Thankfully, your balls appear untouched.");
                     }
                     else DisplayText("Then, it disappears back into your sheath.");
                     selectedCock.type = CockType.CAT;
@@ -191,23 +195,23 @@ export class WhiskerFruit extends Consumable {
             changes++;
         }
         // Cat penorz shrink
-        if (character.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0 && randInt(3) === 0 && changes < changeLimit && !User.settings.hyperHappy) {
+        if (character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0 && randInt(3) === 0 && changes < changeLimit && !User.settings.hyperHappy) {
             // loop through and find a cat wang.
-            let selectedCock: Cock = undefined;
+            let selectedCock: Cock;
             let changedCock: number = 0;
-            for (let index: number = 0; index < character.torso.cocks.count; index++) {
-                selectedCock = character.torso.cocks.get(index);
+            for (let index: number = 0; index < character.body.cocks.count; index++) {
+                selectedCock = character.body.cocks.get(index);
                 if (selectedCock.type === CockType.CAT && selectedCock.length > 6) {
                     // lose 33% size until under 10, then lose 2" at a time
                     if (selectedCock.length > 16) {
                         if (changedCock === 0)
-                            DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " tingles, making your sheath feel a little less tight.  It dwindles in size, losing a full third of its length and a bit of girth before the change finally stops.");
+                            DisplayText("\n\nYour " + describeCock(character, selectedCock) + " tingles, making your sheath feel a little less tight.  It dwindles in size, losing a full third of its length and a bit of girth before the change finally stops.");
                         selectedCock.length *= .66;
                         changedCock++;
                     }
                     else if (selectedCock.length > 6) {
                         if (changedCock === 0)
-                            DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " tingles and withdraws further into your sheath.  If you had to guess, you'd say you've lost about two inches of total length and perhaps some girth.");
+                            DisplayText("\n\nYour " + describeCock(character, selectedCock) + " tingles and withdraws further into your sheath.  If you had to guess, you'd say you've lost about two inches of total length and perhaps some girth.");
                         selectedCock.length -= 2;
                         changedCock++;
                     }
@@ -219,15 +223,15 @@ export class WhiskerFruit extends Consumable {
             DisplayText("  Although the package is smaller, it feels even more sensitive � as if it retained all sensation of its larger size in its smaller form.");
             character.stats.sens += 5;
             // Make note of other dicks changing
-            if (changedCock > 1) DisplayText("  Upon further inspection, all your " + Desc.Cock.nounCock(CockType.CAT) + "s have shrunk!");
+            if (changedCock > 1) DisplayText("  Upon further inspection, all your " + nounCock(CockType.CAT) + "s have shrunk!");
             changes++;
         }
 
         // Body type changes.  Teh rarest of the rare.
         // DA EARZ
-        if (character.torso.neck.head.ears.type !== EarType.CAT && randInt(5) === 0 && changes < changeLimit) {
+        if (character.body.ears.type !== EarType.CAT && randInt(5) === 0 && changes < changeLimit) {
             // human to cat:
-            if (character.torso.neck.head.ears.type === EarType.HUMAN) {
+            if (character.body.ears.type === EarType.HUMAN) {
                 if (randInt(2) === 0) DisplayText("\n\nThe skin on the sides of your face stretches painfully as your ears migrate upwards, towards the top of your head. They shift and elongate a little, fur growing on them as they become feline in nature. <b>You now have cat ears.</b>");
                 else DisplayText("\n\nYour ears begin to tingle. You reach up with one hand and gently rub them. They appear to be growing fur. Within a few moments, they've migrated up to the top of your head and increased in size. The tingling stops and you find yourself hearing noises in a whole new way. <b>You now have cat ears.</b>");
             }
@@ -236,55 +240,55 @@ export class WhiskerFruit extends Consumable {
                 if (randInt(2) === 0) DisplayText("\n\nYour ears change shape, morphing into pointed, feline ears!  They swivel about reflexively as you adjust to them.  <b>You now have cat ears.</b>");
                 else DisplayText("\n\nYour ears tingle and begin to change shape. Within a few moments, they've become long and feline.  Thanks to the new fuzzy organs, you find yourself able to hear things that eluded your notice up until now. <b>You now have cat ears.</b>");
             }
-            character.torso.neck.head.ears.type = EarType.CAT;
+            character.body.ears.type = EarType.CAT;
             changes++;
         }
         // DA TailType (IF ALREADY HAZ URZ)
-        if (!character.torso.tails.reduce(Tail.HasType(TailType.CAT), false) && character.torso.neck.head.ears.type === EarType.CAT && randInt(5) === 0 && changes < changeLimit) {
-            if (character.torso.tails.count === 0) {
+        if (!character.body.tails.reduce(Tail.HasType(TailType.CAT), false) && character.body.ears.type === EarType.CAT && randInt(5) === 0 && changes < changeLimit) {
+            if (character.body.tails.count === 0) {
                 const chance: number = randInt(3);
                 if (chance === 0) DisplayText("\n\nA pressure builds in your backside. You feel under your " + character.inventory.equipment.armor.displayName + " and discover an odd bump that seems to be growing larger by the moment. In seconds it passes between your fingers, bursts out the back of your clothes and grows most of the way to the ground. A thick coat of fur springs up to cover your new tail. You instinctively keep adjusting it to improve your balance. <b>You now have a cat-tail.</b>");
                 if (chance === 1) DisplayText("\n\nYou feel your backside shift and change, flesh molding and displacing into a long, flexible tail! <b>You now have a cat tail.</b>");
-                if (chance === 2) DisplayText("\n\nYou feel an odd tingling in your spine and your tail bone starts to throb and then swell. Within a few moments it begins to grow, adding new bones to your spine. Before you know it, you have a tail. Just before you think it's over, the tail begins to sprout soft, glossy " + character.torso.neck.head.hair.color + " fur. <b>You now have a cat tail.</b>");
+                if (chance === 2) DisplayText("\n\nYou feel an odd tingling in your spine and your tail bone starts to throb and then swell. Within a few moments it begins to grow, adding new bones to your spine. Before you know it, you have a tail. Just before you think it's over, the tail begins to sprout soft, glossy " + character.body.hair.color + " fur. <b>You now have a cat tail.</b>");
             }
             else DisplayText("\n\nYou pause and tilt your head... something feels different.  Ah, that's what it is; you turn around and look down at your tail as it starts to change shape, narrowing and sprouting glossy fur. <b>You now have a cat tail.</b>");
-            character.torso.tails.clear();
-            character.torso.tails.add(new Tail(TailType.CAT));
+            character.body.tails.clear();
+            character.body.tails.add(new Tail(TailType.CAT));
             changes++;
         }
         // Da paws (if already haz ears & tail)
-        if (character.torso.tails.reduce(Tail.HasType(TailType.CAT), false) && character.torso.neck.head.ears.type === EarType.CAT && randInt(5) === 0 && changes < changeLimit && character.torso.hips.legs.type !== LegType.CAT) {
+        if (character.body.tails.reduce(Tail.HasType(TailType.CAT), false) && character.body.ears.type === EarType.CAT && randInt(5) === 0 && changes < changeLimit && character.body.legs.type !== LegType.CAT) {
             // hoof to cat:
-            if (character.torso.hips.legs.type === LegType.HOOFED || character.torso.hips.legs.type === LegType.CENTAUR) {
+            if (character.body.legs.type === LegType.HOOFED || character.body.legs.type === LegType.CENTAUR) {
                 DisplayText("\n\nYou feel your hooves suddenly splinter, growing into five unique digits. Their flesh softens as your hooves reshape into furred cat paws. <b>You now have cat paws.</b>");
-                if (character.torso.hips.legs.type === LegType.CENTAUR) DisplayText("  You feel woozy and collapse on your side.  When you wake, you're no longer a centaur and your body has returned to a humanoid shape.");
+                if (character.body.legs.type === LegType.CENTAUR) DisplayText("  You feel woozy and collapse on your side.  When you wake, you're no longer a centaur and your body has returned to a humanoid shape.");
             }
             // Goo to cat
-            else if (character.torso.hips.legs.type === LegType.GOO) {
+            else if (character.body.legs.type === LegType.GOO) {
                 DisplayText("\n\nYour lower body rushes inward, molding into two leg-like shapes that gradually stiffen up.  In moments they solidify into digitigrade legs, complete with soft, padded cat-paws.  <b>You now have cat-paws!</b>");
             }
             // non hoof to cat:
-            else DisplayText("\n\nYou scream in agony as you feel the bones in your " + Desc.Leg.describeFeet(character) + " break and begin to rearrange. When the pain fades, you feel surprisingly well-balanced. <b>You now have cat paws.</b>");
-            character.torso.hips.legs.type = LegType.CAT;
+            else DisplayText("\n\nYou scream in agony as you feel the bones in your " + describeFeet(character) + " break and begin to rearrange. When the pain fades, you feel surprisingly well-balanced. <b>You now have cat paws.</b>");
+            character.body.legs.type = LegType.CAT;
             changes++;
         }
         // TURN INTO A FURRAH!  OH SHIT
-        if (character.torso.tails.reduce(Tail.HasType(TailType.CAT), false) &&
-            character.torso.neck.head.ears.type === EarType.CAT &&
-            character.torso.hips.legs.type === LegType.CAT &&
-            character.skin.type !== SkinType.FUR &&
+        if (character.body.tails.reduce(Tail.HasType(TailType.CAT), false) &&
+            character.body.ears.type === EarType.CAT &&
+            character.body.legs.type === LegType.CAT &&
+            character.body.skin.type !== SkinType.FUR &&
             randInt(5) === 0 && changes < changeLimit) {
-            DisplayText("\n\nYour " + character.skin.desc + " begins to tingle, then itch. You reach down to scratch your arm absent-mindedly and pull your fingers away to find strands of " + character.torso.neck.head.hair.color + " fur. Wait, fur?  What just happened?! You spend a moment examining yourself and discover that <b>you are now covered in glossy, soft fur.</b>\n\n");
-            character.skin.type = SkinType.FUR;
-            character.skin.desc = "fur";
+            DisplayText("\n\nYour " + character.body.skin.desc + " begins to tingle, then itch. You reach down to scratch your arm absent-mindedly and pull your fingers away to find strands of " + character.body.hair.color + " fur. Wait, fur?  What just happened?! You spend a moment examining yourself and discover that <b>you are now covered in glossy, soft fur.</b>\n\n");
+            character.body.skin.type = SkinType.FUR;
+            character.body.skin.desc = "fur";
             changes++;
         }
         // CAT-FaceType!  FULL ON FURRY!  RAGE AWAY NEKOZ
-        if (character.torso.tails.reduce(Tail.HasType(TailType.CAT), false) &&
-            character.torso.neck.head.ears.type === EarType.CAT &&
-            character.torso.hips.legs.type === LegType.CAT &&
-            character.skin.type === SkinType.FUR &&
-            character.torso.neck.head.face.type !== FaceType.CAT &&
+        if (character.body.tails.reduce(Tail.HasType(TailType.CAT), false) &&
+            character.body.ears.type === EarType.CAT &&
+            character.body.legs.type === LegType.CAT &&
+            character.body.skin.type === SkinType.FUR &&
+            character.body.face.type !== FaceType.CAT &&
             randInt(5) === 0 &&
             changes < changeLimit) {
             // Gain cat face, replace old face
@@ -292,12 +296,12 @@ export class WhiskerFruit extends Consumable {
             if (chance === 0) DisplayText("\n\nYour face is wracked with pain. You throw back your head and scream in agony as you feel your cheekbones breaking and shifting, reforming into something... different. You find a puddle to view your reflection and discover <b>your face is now a cross between human and feline features.</b>");
             else if (chance === 1) DisplayText("\n\nMind-numbing pain courses through you as you feel your facial bones rearranging.  You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your facial characteristics with those of a feline. <b>You now have an anthropomorphic cat-face.</b>");
             else DisplayText("\n\nYour face is wracked with pain. You throw back your head and scream in agony as you feel your cheekbones breaking and shifting, reforming into something else. <b>Your facial features rearrange to take on many feline aspects.</b>");
-            character.torso.neck.head.face.type = FaceType.CAT;
+            character.body.face.type = FaceType.CAT;
             changes++;
         }
-        if (randInt(4) === 0 && character.torso.neck.gills && changes < changeLimit) {
+        if (randInt(4) === 0 && character.body.neck.gills && changes < changeLimit) {
             DisplayText("\n\nYour chest itches, and as you reach up to scratch it, you realize your gills have withdrawn into your skin.");
-            character.torso.neck.gills = false;
+            character.body.neck.gills = false;
             changes++;
         }
         // FAILSAFE CHANGE

@@ -2,7 +2,7 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { LegType } from '../../../../Body/Legs';
 import { Character } from '../../../../Character/Character';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
@@ -12,7 +12,7 @@ export class Constrict extends PlayerPhysicalAction {
     public readonly baseCost: number = 10;
 
     public isPossible(player: Player): boolean {
-        return player.torso.hips.legs.type === LegType.NAGA;
+        return player.body.legs.type === LegType.NAGA;
     }
 
     public canUse(player: Player, monster: Character): boolean {
@@ -35,7 +35,7 @@ export class Constrict extends PlayerPhysicalAction {
     public use(player: Player, monster: Character): NextScreenChoices {
         // Amily!
         DisplayText().clear();
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -48,7 +48,7 @@ export class Constrict extends PlayerPhysicalAction {
             else {
                 DisplayText("You launch yourself at " + monster.desc.a + monster.desc.short + " and wrap yourself around " + monster.desc.objectivePronoun + ". You squeeze " + monster.desc.objectivePronoun + " tightly and hear " + monster.desc.objectivePronoun + " cry out in pain.");
             }
-            monster.statusAffects.add(StatusAffectType.Constricted, 1 + randInt(4), 0, 0, 0);
+            monster.statusAffects.add(StatusEffectType.Constricted, 1 + randInt(4), 0, 0, 0);
         }
         // Failure
         else {

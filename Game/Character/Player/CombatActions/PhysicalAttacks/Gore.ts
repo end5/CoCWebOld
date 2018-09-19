@@ -2,7 +2,7 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { HornType } from '../../../../Body/Horns';
 import { Character } from '../../../../Character/Character';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
@@ -13,7 +13,7 @@ export class Gore extends PlayerPhysicalAction {
     public readonly baseCost: number = 15;
 
     public isPossible(player: Player): boolean {
-        return player.torso.neck.head.horns.type === HornType.COW_MINOTAUR && player.torso.neck.head.horns.amount >= 6;
+        return player.body.horns.type === HornType.COW_MINOTAUR && player.body.horns.count >= 6;
     }
 
     public canUse(player: Player): boolean {
@@ -28,22 +28,22 @@ export class Gore extends PlayerPhysicalAction {
         }
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Bigger horns = better success chance.
         // Small horns - 60% hit
         let hitChance: number = 0;
-        if (player.torso.neck.head.horns.amount >= 6 && player.torso.neck.head.horns.amount < 12) {
+        if (player.body.horns.count >= 6 && player.body.horns.count < 12) {
             hitChance = 60;
         }
         // bigger horns - 75% hit
-        if (player.torso.neck.head.horns.amount >= 12 && player.torso.neck.head.horns.amount < 20) {
+        if (player.body.horns.count >= 12 && player.body.horns.count < 20) {
             hitChance = 75;
         }
         // huge horns - 90% hit
-        if (player.torso.neck.head.horns.amount >= 20) {
+        if (player.body.horns.count >= 20) {
             hitChance = 80;
         }
         // Vala dodgy bitch!
@@ -56,7 +56,7 @@ export class Gore extends PlayerPhysicalAction {
         hitChance += player.stats.spe / 2;
         // Hit & calculation
         if (hitChance >= randInt(100)) {
-            const horns = player.torso.neck.head.horns;
+            const horns = player.body.horns;
             let damage: number = 0;
             if (horns.amount > 40) horns.amount = 40;
             // normal
@@ -72,7 +72,7 @@ export class Gore extends PlayerPhysicalAction {
                 DisplayText("You lower your head and charge, slamming into " + monster.desc.a + monster.desc.short + " and burying both your horns into " + monster.desc.objectivePronoun + "!  ");
             }
             // Bonus damage for rut!
-            if (player.statusAffects.has(StatusAffectType.Rut) && monster.torso.cocks.count > 0) {
+            if (player.statusAffects.has(StatusEffectType.Rut) && monster.body.cocks.count > 0) {
                 DisplayText("The fury of your rut lent you strength, increasing the damage!  ");
                 damage += 5;
             }

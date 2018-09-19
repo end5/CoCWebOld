@@ -1,6 +1,6 @@
 import { Character } from './Character';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import { Desc } from '../Descriptors/Descriptors';
+import { mfn } from '../Descriptors/GenderDescriptor';
 
 export class CharacterDescription implements ISerializable<CharacterDescription> {
     protected character: Character;
@@ -24,9 +24,9 @@ export class CharacterDescription implements ISerializable<CharacterDescription>
     }
 
     public update() {
-        this.subjective = this.plural ? "they" : Desc.Gender.mfn(this.character.gender, "he", "she", "it");
-        this.objective = this.plural ? "them" : Desc.Gender.mfn(this.character.gender, "him", "her", "it");
-        this.possessive = this.plural ? "their" : Desc.Gender.mfn(this.character.gender, "his", "her", "its");
+        this.subjective = this.plural ? "they" : mfn(this.character.gender, "he", "she", "it");
+        this.objective = this.plural ? "them" : mfn(this.character.gender, "him", "her", "it");
+        this.possessive = this.plural ? "their" : mfn(this.character.gender, "his", "her", "its");
         if (this.article === ("a" || "the"))
             this.article = this.plural ? "the" : "a";
     }

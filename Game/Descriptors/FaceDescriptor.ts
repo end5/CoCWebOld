@@ -23,7 +23,7 @@ export function describeTongue(tongueType: TongueType): string {
 
 export function describeFace(character: Character): string {
     let stringo: string = "";
-    const face = character.torso.neck.head.face;
+    const face = character.body.face;
     const faceType = face.type;
     if (faceType === FaceType.HUMAN)
         return "face";
@@ -66,7 +66,7 @@ export function describeFace(character: Character): string {
  */
 export function describeFaceOther(character: Character): string {
     let description: string = "";
-    if (character.femininity < 10) {
+    if (character.body.femininity < 10) {
         description = "a square chin";
         // beard doesn't exist
         //
@@ -75,7 +75,7 @@ export function describeFaceOther(character: Character): string {
         // else
         //    description += ", chiseled jawline, and " + body.beard();
     }
-    else if (character.femininity < 20) {
+    else if (character.body.femininity < 20) {
         description = "a rugged looking " + describeFace(character) + " ";
         // beard doesn't exist
         //
@@ -83,21 +83,21 @@ export function describeFaceOther(character: Character): string {
         //    description += "and " + body.beard();
         description += "that's surely handsome";
     }
-    else if (character.femininity < 28)
+    else if (character.body.femininity < 28)
         description = "a well-defined jawline and a fairly masculine profile";
-    else if (character.femininity < 35)
+    else if (character.body.femininity < 35)
         description = "a somewhat masculine, angular jawline";
-    else if (character.femininity < 45)
+    else if (character.body.femininity < 45)
         description = "the barest hint of masculinity on its features";
-    else if (character.femininity <= 55)
+    else if (character.body.femininity <= 55)
         description = "an androgynous set of features that would look normal on a male or female";
-    else if (character.femininity <= 65)
-        description = "a tiny touch of character.femininity to it, with gentle curves";
-    else if (character.femininity <= 72)
+    else if (character.body.femininity <= 65)
+        description = "a tiny touch of femininity to it, with gentle curves";
+    else if (character.body.femininity <= 72)
         description = "a nice set of cheekbones and lips that have the barest hint of pout";
-    else if (character.femininity <= 80)
+    else if (character.body.femininity <= 80)
         description = "a beautiful, feminine shapeliness that's sure to draw the attention of males";
-    else if (character.femininity <= 90)
+    else if (character.body.femininity <= 90)
         description = "a gorgeous profile with full lips, a button nose, and noticeable eyelashes";
     else
         description = "a jaw-droppingly feminine shape with full, pouting lips, an adorable nose, and long, beautiful eyelashes";
@@ -105,7 +105,7 @@ export function describeFaceOther(character: Character): string {
 }
 
 export function describeBeard(character: Character): string {
-    if (character.torso.neck.head.face.hasBeard())
+    if (character.body.beard.hasBeard())
         return "beard";
     else {
         // CoC_User.settings.error("");

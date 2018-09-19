@@ -1,7 +1,7 @@
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
@@ -20,7 +20,7 @@ export class SuperWhisperAttack extends PlayerSpellAction {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.statusAffects.has(StatusAffectType.ThroatPunch) || character.statusAffects.has(StatusAffectType.WebSilence)) {
+        if (character.statusAffects.has(StatusEffectType.ThroatPunch) || character.statusAffects.has(StatusEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
@@ -40,7 +40,7 @@ export class SuperWhisperAttack extends PlayerSpellAction {
             return;
         }
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has(StatusAffectType.Shell)) {
+        if (monster.statusAffects.has(StatusEffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -62,6 +62,6 @@ export class SuperWhisperAttack extends PlayerSpellAction {
             return;
         }
         DisplayText("You reach for your enemy's mind, watching as its sudden fear petrifies your foe.\n\n");
-        monster.statusAffects.add(StatusAffectType.Fear, 1, 0, 0, 0);
+        monster.statusAffects.add(StatusEffectType.Fear, 1, 0, 0, 0);
     }
 }

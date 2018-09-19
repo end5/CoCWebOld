@@ -14,19 +14,19 @@ export enum BreastCup {
 }
 
 export class BreastRow implements ISerializable<BreastRow> {
-    public static readonly BreastRatingLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+    public static readonly Largest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.rating - b.rating;
     }
 
-    public static readonly BreastRatingSmallest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+    public static readonly Smallest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.rating - a.rating;
     }
 
-    public static readonly LactationMultipierLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+    public static readonly LactationMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.lactationMultiplier - b.lactationMultiplier;
     }
 
-    public static readonly LactationMultipierSmallest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+    public static readonly LactationLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.lactationMultiplier - a.lactationMultiplier;
     }
 
@@ -54,11 +54,11 @@ export class BreastRow implements ISerializable<BreastRow> {
         return b.nipples.count - a.nipples.count;
     }
 
-    public static readonly MostBreastsPerRow: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+    public static readonly BreastsPerRowMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.count - b.count;
     }
 
-    public static readonly LeastBreastsPerRow: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+    public static readonly BreastsPerRowLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.count - a.count;
     }
 
@@ -82,7 +82,7 @@ export class BreastRow implements ISerializable<BreastRow> {
         return !a.nipples.fuckable;
     }
 
-    public static readonly AverageRating: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly AverageSize: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
             return previousValue + currentValue.rating / array.length;
     }
 
@@ -96,6 +96,10 @@ export class BreastRow implements ISerializable<BreastRow> {
 
     public static readonly AverageNippleLength: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
         return previousValue + currentValue.nipples.length / array.length;
+    }
+
+    public static readonly NippleCount: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+        return previousValue + currentValue.nipples.count;
     }
 
     public rating: BreastCup;

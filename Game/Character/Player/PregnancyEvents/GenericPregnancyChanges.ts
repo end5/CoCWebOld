@@ -5,8 +5,8 @@ import { Character } from '../../Character';
 
 // Increase lactation!
 export function lactationIncrease(character: Character) {
-    const largestBreastRating: number = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating;
-    const largestLactationMultiplier: number = character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier;
+    const largestBreastRating: number = character.body.chest.sort(BreastRow.Largest)[0].rating;
+    const largestLactationMultiplier: number = character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier;
     if (largestBreastRating >= 3 && largestLactationMultiplier >= 1 && largestLactationMultiplier < 2) {
         DisplayText("\nYour breasts feel swollen with all the extra milk they're accumulating.\n");
         Mod.Breast.boostLactation(character, .5);
