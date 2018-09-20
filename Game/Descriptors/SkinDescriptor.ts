@@ -13,7 +13,7 @@ export function skinFurScales(character: Character): string {
     return skinzilla;
 }
 
-export function skin(character: Character, noAdj: boolean = false, noTone: boolean = false): string {
+export function describeSkin(character: Character, noAdj: boolean = false, noTone: boolean = false): string {
     let skinzilla: string = "";
     // Only show stuff other than skin.desc if justSkin is false
     if (!noAdj) {

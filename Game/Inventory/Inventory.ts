@@ -12,7 +12,7 @@ import { Item } from '../Items/Item';
 import { ItemFactory } from '../Items/ItemFactory';
 import { ItemType } from '../Items/ItemType';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
-import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
+import { ClickOption, NextScreenChoices, ClickFunction } from '../ScreenDisplay';
 
 export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     private itemSlots: List<ItemStack<T>> = new List();
@@ -50,7 +50,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * @param itemsToAdd List of ItemStack to be added.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public addList(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickOption): NextScreenChoices {
+    public addList(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction): NextScreenChoices {
         return displayCharInventoryFull(characterAddingItems, this.addItems(itemsToAdd), nextMenu);
     }
 
@@ -62,11 +62,11 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * @param itemName The item name.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickOption): NextScreenChoices {
+    public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickFunction): NextScreenChoices {
         return this.addList(characterAddingItems, [ItemFactory.create(itemType, itemName)], nextMenu);
     }
 
-    public add(characterAddingItems: Character, item: Item, nextMenu: ClickOption): NextScreenChoices {
+    public add(characterAddingItems: Character, item: Item, nextMenu: ClickFunction): NextScreenChoices {
         return this.addList(characterAddingItems, [new ItemStack<Item>(item, 1)], nextMenu);
     }
     /**
@@ -77,7 +77,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
         const returnList = [];
         while (itemsToAdd.length > 0) {
             const itemToAdd = itemsToAdd.shift();
-            const filteredInventory = this.filterName(itemToAdd.item.name).filter(Inventory.NotMaxStack).sort(Inventory.HighestQuantity).concat(this.filter(Inventory.EmptySlot));
+            const filteredInventory = this.filter(Inventory.FilterName(itemToAdd.item.name)).filter(Inventory.NotMaxStack).sort(Inventory.HighestQuantity).concat(this.filter(Inventory.EmptySlot));
             while (filteredInventory.length > 0 && itemToAdd.quantity > 0) {
                 const item = filteredInventory.shift();
                 if (item.quantity + itemToAdd.quantity > item.maxQuantity) {

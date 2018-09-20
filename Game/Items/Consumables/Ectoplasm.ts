@@ -8,7 +8,7 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
-import { skin } from '../../Descriptors/SkinDescriptor';
+import { describeSkin } from '../../Descriptors/SkinDescriptor';
 import { describeCock } from '../../Descriptors/CockDescriptor';
 import { describeHips } from '../../Descriptors/HipDescriptor';
 import { describeLegs } from '../../Descriptors/LegDescriptor';
@@ -43,7 +43,7 @@ export class Ectoplasm extends Consumable {
         }
         // Effect script 2:  (lower sensitivity)
         if (character.stats.sens >= 20 && randInt(3) === 0 && changes < changeLimit) {
-            DisplayText("\n\nWoah, what the... you pinch your " + skin(character) + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.");
+            DisplayText("\n\nWoah, what the... you pinch your " + describeSkin(character) + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.");
             character.stats.sens -= 2;
             if (character.stats.sens >= 75)
                 character.stats.sens -= 2;

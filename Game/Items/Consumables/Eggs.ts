@@ -1,7 +1,7 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { DisplayText } from '../../../Engine/display/DisplayText';
-import { randInt } from '../../../Engine/Utilities/SMath';
+import { randInt, randomChoice } from '../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../Body/BreastRow';
 import { SkinType } from '../../Body/Skin';
 import { Character } from '../../Character/Character';
@@ -21,6 +21,48 @@ export const EggFlags = {
 };
 
 User.flags.set('Egg', EggFlags);
+
+export function randLargeEgg(): ConsumableName {
+    return randomChoice(
+        ConsumableName.LargeEggBlack,
+        ConsumableName.LargeEggBlue,
+        ConsumableName.LargeEggBrown,
+        ConsumableName.LargeEggPink,
+        ConsumableName.LargeEggPurple,
+        ConsumableName.LargeEggWhite,
+    );
+}
+
+export function randEgg(): ConsumableName {
+    return randomChoice(
+        ConsumableName.EggBlack,
+        ConsumableName.EggBlue,
+        ConsumableName.EggBrown,
+        ConsumableName.EggPink,
+        ConsumableName.EggPurple,
+        ConsumableName.EggWhite,
+    );
+}
+
+export function randAnySizeEgg(): ConsumableName {
+    return randomChoice(
+        ConsumableName.LargeEggBlack,
+        ConsumableName.LargeEggBlue,
+        ConsumableName.LargeEggBrown,
+        ConsumableName.LargeEggPink,
+        ConsumableName.LargeEggPurple,
+        ConsumableName.LargeEggWhite,
+        ConsumableName.EggBlack,
+        ConsumableName.EggBlue,
+        ConsumableName.EggBrown,
+        ConsumableName.EggPink,
+        ConsumableName.EggPurple,
+        ConsumableName.EggWhite,
+    );
+
+}
+
+function 
 
 export enum EggType {
     Black,

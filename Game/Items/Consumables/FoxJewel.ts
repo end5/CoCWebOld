@@ -13,7 +13,7 @@ import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
-import { skinFurScales, skin } from '../../Descriptors/SkinDescriptor';
+import { skinFurScales, describeSkin } from '../../Descriptors/SkinDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeNipple } from '../../Descriptors/BreastDescriptor';
@@ -236,7 +236,7 @@ export class FoxJewel extends Consumable {
         }
         // [Change Skin Type: remove fur or scales, change skin to Tan, Olive, or Light]
         if (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES && ((this.mystic) || (!this.mystic && randInt(2) === 0))) {
-            DisplayText("\n\nYou begin to tingle all over your " + skin(character) + ", starting as a cool, pleasant sensation but gradually worsening until you are furiously itching all over.");
+            DisplayText("\n\nYou begin to tingle all over your " + describeSkin(character) + ", starting as a cool, pleasant sensation but gradually worsening until you are furiously itching all over.");
             if (character.body.skin.type === SkinType.FUR) DisplayText("  You stare in horror as you pull your fingers away holding a handful of " + character.body.hair.color + " fur!  Your fur sloughs off your body in thick clumps, falling away to reveal patches of bare, " + character.body.skin.tone + " skin.");
             else if (character.body.skin.type === SkinType.SCALES) DisplayText("  You stare in horror as you pull your fingers away holding a handful of dried up scales!  Your scales continue to flake and peel off your skin in thick patches, revealing the tender " + character.body.skin.tone + " skin underneath.");
             DisplayText("  Your skin slowly turns raw and red under your severe scratching, the tingling sensations raising goosebumps across your whole body.  Over time, the itching fades, and your flushed skin resolves into a natural-looking ");
@@ -258,7 +258,7 @@ export class FoxJewel extends Consumable {
                 else character.body.skin.tone = "milky white";
             }
             DisplayText(character.body.skin.tone + " complexion.");
-            DisplayText("  <b>You now have " + skin(character) + "!</b>");
+            DisplayText("  <b>You now have " + describeSkin(character) + "!</b>");
             changes++;
         }
         // Change skin tone if not changed you!
@@ -270,7 +270,7 @@ export class FoxJewel extends Consumable {
             else if (mtoneTemp === 2) character.body.skin.tone = "ashen";
             else if (mtoneTemp === 3) character.body.skin.tone = "sable";
             else character.body.skin.tone = "milky white";
-            DisplayText(skin(character) + "!</b>");
+            DisplayText(describeSkin(character) + "!</b>");
             changes++;
         }
         // Change skin tone if not changed you!
@@ -280,7 +280,7 @@ export class FoxJewel extends Consumable {
             if (toneTemp === 0) character.body.skin.tone = "tan";
             else if (toneTemp === 1) character.body.skin.tone = "olive";
             else character.body.skin.tone = "light";
-            DisplayText(skin(character) + "!</b>");
+            DisplayText(describeSkin(character) + "!</b>");
             changes++;
         }
         // [Change Skin Color: add "Tattoos"]

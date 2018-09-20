@@ -119,7 +119,7 @@ function fixText(text: string): string {
             lines[index] = lines[index].replace('override ', '');
 
         if (lines[index].trimLeft().startsWith('internal '))
-            lines[index] = lines[index].replace('internal ', '');
+            lines[index] = lines[index].replace('internal ', 'private ');
 
         if (lines[index].trimLeft().startsWith('public function ' + className + 'Scene'))
             lines[index] = lines[index].replace('public function ' + className + 'Scene', 'public constructor');
@@ -259,6 +259,7 @@ function fixText(text: string): string {
     text = text.replace(escRegex('HAIR_'), 'HairType.');
     text = text.replace(escRegex('FACE_'), 'FaceType.');
     text = text.replace(escRegex('TONGUE_'), 'TongueType.');
+    text = text.replace(escRegex('TONUGE_'), 'TongueType.');
     text = text.replace(escRegex('EYES_'), 'EyeType.');
     text = text.replace(escRegex('EARS_'), 'EarType.');
     text = text.replace(escRegex('HORNS_'), 'HornType.');
@@ -277,13 +278,26 @@ function fixText(text: string): string {
     text = text.replace(escRegex('HIP_RATING_'), 'HipRating.');
     text = text.replace(escRegex('BUTT_RATING_'), 'ButtRating.');
 
+    // Inventory
+    text = text.replace(
+        /inventory\.takeItem\(\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+)\)/g,
+        (match, p1, p2) => {
+            const type = p1.split('Name')[0];
+            return `player.inventory.items.createAdd(player, ItemType.${type}, ${p1}, ${p2})`;
+        }
+    );
+    text = text.replace(escRegex('inventory.hasItemInStorage'), 'player.inventory.items.has');
+    text = text.replace(escRegex('inventory.consumeItemInStorage'), 'player.inventory.items.consumeItem');
+
     // Special post cases
+    text = text.replace(/player\.stats\.lus=/g, (match, p1) => `player.stats.lustNoResist${p1}`);
     text = text.replace(/player\.stats\.lus([^t])/g, (match, p1) => `player.stats.lust${p1}`);
     text = text.replace(/player\.stats\.sen([^t])/g, (match, p1) => `player.stats.sens${p1}`);
     text = text.replace(escRegex('player.butt'), 'player.body.butt');
     text = text.replace(escRegex('clearOutput()'), 'CView.clear()');
     text = text.replace(escRegex('export function timeChange'), 'public timeChange');
     text = text.replace(escRegex('export function timeChangeLarge'), 'public timeChangeLarge');
+    text = text.replace(/player\.body\.\w+\.get\(([^\d](?:[^,(]|\([^)]*\))*?)\)/g, '$1');
 
     return text;
 }
@@ -504,7 +518,7 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(escRegex('cleanupAfterCombat'), 'returnToCampUseOneHour');
     // Manual - combatRoundOver
     // Manual - enemyAI
-    text = text.replace(/spriteSelect\(\d+\)/g, `CView.sprite(SpriteName.${className})`);
+    text = text.replace(/spriteSelect\((\d+)\);/g, (match, p1) => `CView.sprite(SpriteName.${className}); // ${p1}`);
     text = text.replace(escRegex('hideStats()'), '');
     text = text.replace(escRegex('hideUpDown()'), '');
     text = text.replace(escRegex('createCallBackFunction'), 'partial');
@@ -531,7 +545,7 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(/outputText\(([^\n]+)\)/g, (match, p1) => p1 === '""' ? '' : `CView.text(${p1})`);
 
     // Special - clearOutput
-    text = text.replace(/doNext\(([^;]+)\)/g, 'return { next: $1 }');
+    text = text.replace(/doNext\(([^;]+)\);/g, 'return { next: $1 };');
     text = text.replace(escRegex('menu();'), '');
     text = text.replace(escRegex('hideMenus()'), 'MainScreen.hideTopButtons()');
     text = text.replace(
@@ -544,7 +558,7 @@ function fixBaseContent(text: string, className: string): string {
                 ]
             };`
     );
-    text = text.replace(/doYesNo\((\w+),\s*([^)\n]+)\)/g, (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} }`
+    text = text.replace(/doYesNo\((\w+),\s*([^;]+)\);/g, (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`
     );
     // Unknown - addButton
     // Unused - hasButton
@@ -588,7 +602,15 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(
         /dynStats\(([^;]+)\);/g,
         (match, p1) =>
-            trimLeft`${p1.replace(/\s*"((?:[^,(]|\([^)]*\))+)",\s*((?:[^,(]|\([^)]*\))+),?/g, 'player.stats.$1 += $2;\n')}`
+            trimLeft`${p1.replace(
+                /\s*"((?:[^,(]|\([^)]*\))+)",\s*((?:[^,(]|\([^)]*\))+),?/g,
+                (valueMatch, expr, val) => {
+                    if (expr.endsWith('='))
+                        return `player.stats.${expr} = ${val};\n`;
+                    else
+                        return `player.stats.${expr} += ${val};\n`;
+                }
+            )}`
     );
     text = text.replace(escRegex('silly()'), 'User.settings.silly()');
     text = text.replace(
@@ -947,7 +969,7 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.gills`), `${name}.body.gills`);
     text = text.replace(escRegex(`${name}.cocks`), `${name}.body.cocks`);
     text = text.replace(escRegex(`${name}.balls`), `${name}.body.balls.count`);
-    // OK - cumMultiplier
+    text = text.replace(escRegex(`${name}.cumMultiplier`), `${name}.body.cumMultiplier`);
     text = text.replace(escRegex(`${name}.ballSize`), `${name}.body.balls.size`);
     // OK - hoursSinceCum
     text = text.replace(escRegex(`${name}.vaginas`), `${name}.body.vaginas`);
@@ -1004,21 +1026,27 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.shortestCockIndex()`), `${name}.body.cocks.sort(Cock.Shortest)[0]`);
     text = text.replace(escRegex(`${name}.shortestCockLength()`), `${name}.body.cocks.sort(Cock.Shortest)[0].length`);
     text = text.replace(
-        combineStrRegex(name, /\.cockThatFits\(((?:[^(]|\([^)]*\))+?),\s*("area"|"length")\)([ ><=\d]+)?/g),
-        (match, p1, p2, p3) =>
-            p2 === "area" ?
-                `${/\s*<\s*\d/.test(p3) ? '!' : ''}${name}.body.cocks.find(Cock.CockThatFits(${p1}))` :
-                `${/\s*<\s*\d/.test(p3) ? '!' : ''}${name}.body.cocks.find(Cock.CockThatFitsLength(${p1}))`
-    );
-    text = text.replace(
-        combineStrRegex(name, /\.cockThatFits\(((?:[^(]|\([^)]*\))+?)\)([ ><=\d]+)?/g),
-        (match, p1, p2) =>
-            `${/\s*<\s*\d/.test(p2) ? '!' : ''}${name}.body.cocks.find(Cock.CockThatFits(${p1}))`
-    );
-    text = text.replace(
-        combineStrRegex(name, /\.cockThatFits2\(([\w\d]+)\)([ ><=\d]+)/g),
-        (match, p1, p2) =>
-            `${/\s*<\s*\d/.test(p2) ? '!' : ''}${name}.body.cocks.find(Cock.CockThatFits(${p1}))`
+        combineStrRegex(name, /\.cockThatFits(2?)\(((?:[^(]|\([^)]*\))+?)(?:,\s*("area"|"length"))?\)(?:\s*([!><=]+)\s*([-\d]+))?/g),
+        (match, second, arg1, arg2, compOp, compVal) => {
+            let str = '';
+            if (compOp && compOp.match(/<=?|==/) && +compVal <= 0)
+                str += '!';
+
+            if (second)
+                str += name + '.body.cocks.filter(Cock.CocksThatFit';
+            else
+                str += name + '.body.cocks.find(Cock.CockThatFits';
+
+            if (arg2 === "length")
+                str += 'Length';
+
+            str += '(' + arg1 + '))';
+
+            if (second)
+                str += '[1]';
+
+            return str;
+        }
     );
     text = text.replace(escRegex(`${name}.smallestCockArea()`), `${name}.body.cocks.sort(Cock.Smallest)[0].area`);
     text = text.replace(escRegex(`${name}.cocks[${name}.smallestCock()]`), `${name}.body.cocks.sort(Cock.Smallest)[0]`);

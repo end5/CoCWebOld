@@ -24,7 +24,7 @@ import { PiercingType } from '../../Items/Misc/Piercing';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { numToCardinalCapText, numToCardinalText } from '../../Utilities/NumToText';
 import { describeRace, describeBody } from '../../Descriptors/BodyDescriptor';
-import { skin, skinFurScales } from '../../Descriptors/SkinDescriptor';
+import { describeSkin, skinFurScales } from '../../Descriptors/SkinDescriptor';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeHips } from '../../Descriptors/HipDescriptor';
@@ -99,11 +99,11 @@ function heightRace(character: Character) {
 function face(character: Character) {
     if (character.body.face.type === FaceType.HUMAN || character.body.face.type === FaceType.SHARK_TEETH || character.body.face.type === FaceType.BUNNY || character.body.face.type === FaceType.SPIDER_FANGS || character.body.face.type === FaceType.FERRET_MASK) {
         if (character.body.skin.type === SkinType.PLAIN || character.body.skin.type === SkinType.GOO)
-            DisplayText("  Your face is human in shape and structure, with " + skin(character) + ".");
+            DisplayText("  Your face is human in shape and structure, with " + describeSkin(character) + ".");
         if (character.body.skin.type === SkinType.FUR)
-            DisplayText("  Under your " + skinFurScales(character) + " you have a human-shaped head with " + skin(character, true) + ".");
+            DisplayText("  Under your " + skinFurScales(character) + " you have a human-shaped head with " + describeSkin(character, true) + ".");
         if (character.body.skin.type === SkinType.SCALES)
-            DisplayText("  Your face is fairly human in shape, but is covered in " + skin(character) + ".");
+            DisplayText("  Your face is fairly human in shape, but is covered in " + describeSkin(character) + ".");
         if (character.body.face.type === FaceType.SHARK_TEETH)
             DisplayText("  A set of razor-sharp, retractable shark-teeth fill your mouth and gives your visage a slightly angular appearance.");
         else if (character.body.face.type === FaceType.BUNNY)
@@ -122,7 +122,7 @@ function face(character: Character) {
     else if (character.body.face.type === FaceType.RACCOON_MASK) {
         // appearance for skinheads
         if (character.body.skin.type !== SkinType.FUR && character.body.skin.type !== SkinType.SCALES) {
-            DisplayText("  Your face is human in shape and structure, with " + skin(character));
+            DisplayText("  Your face is human in shape and structure, with " + describeSkin(character));
             if ((character.body.skin.tone === "ebony" || character.body.skin.tone === "black") && (character.body.skin.type === SkinType.PLAIN || character.body.skin.type === SkinType.GOO))
                 DisplayText(", though with your dusky hue, the black raccoon mask you sport isn't properly visible.");
             else DisplayText(", though it is decorated with a sly-looking raccoon mask over your eyes.");
@@ -133,7 +133,7 @@ function face(character: Character) {
             if (((character.body.hair.color === "black" || character.body.hair.color === "midnight") && (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES)))
                 DisplayText("  Under your " + skinFurScales(character) + " hides a black raccoon mask, barely visible due to your inky hue, and");
             else DisplayText("  Your " + skinFurScales(character) + " are decorated with a sly-looking raccoon mask, and under them");
-            DisplayText(" you have a human-shaped head with " + skin(character, true) + ".");
+            DisplayText(" you have a human-shaped head with " + describeSkin(character, true) + ".");
         }
     }
     else if (character.body.face.type === FaceType.RACCOON) {
@@ -155,7 +155,7 @@ function face(character: Character) {
     }
     else if (character.body.face.type === FaceType.BUCKTEETH) {
         // appearance
-        DisplayText("  Your face is generally human in shape and structure, with " + skin(character));
+        DisplayText("  Your face is generally human in shape and structure, with " + describeSkin(character));
         if (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES)
             DisplayText(" under your " + skinFurScales(character));
         DisplayText(" and mousey buckteeth.");
@@ -164,16 +164,16 @@ function face(character: Character) {
         // appearance
         DisplayText("  You have a snubby, tapered mouse's face, with whiskers, a little pink nose, and ");
         if (character.body.skin.type !== SkinType.FUR && character.body.skin.type !== SkinType.SCALES)
-            DisplayText(skin(character));
-        else DisplayText(skin(character) + " under your " + skinFurScales(character));
+            DisplayText(describeSkin(character));
+        else DisplayText(describeSkin(character) + " under your " + skinFurScales(character));
         DisplayText(".  Two large incisors complete it.");
     }
     // Naga
     if (character.body.face.type === FaceType.SNAKE_FANGS) {
         if (character.body.skin.type === SkinType.PLAIN || character.body.skin.type === SkinType.GOO)
-            DisplayText("  You have a fairly normal face, with " + skin(character) + ".  The only oddity is your pair of dripping fangs which often hang over your lower lip.");
+            DisplayText("  You have a fairly normal face, with " + describeSkin(character) + ".  The only oddity is your pair of dripping fangs which often hang over your lower lip.");
         if (character.body.skin.type === SkinType.FUR)
-            DisplayText("  Under your " + skinFurScales(character) + " you have a human-shaped head with " + skin(character, true) + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.");
+            DisplayText("  Under your " + skinFurScales(character) + " you have a human-shaped head with " + describeSkin(character, true) + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.");
         if (character.body.skin.type === SkinType.SCALES)
             DisplayText("  Your face is fairly human in shape, but is covered in " + skinFurScales(character) + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.");
     }
@@ -182,7 +182,7 @@ function face(character: Character) {
         if (character.body.skin.type === SkinType.PLAIN || character.body.skin.type === SkinType.GOO)
             DisplayText("  Your face is equine in shape and structure.  The odd visage is hairless and covered with " + skinFurScales(character) + ".");
         if (character.body.skin.type === SkinType.FUR)
-            DisplayText("  Your face is almost entirely equine in appearance, even having " + skinFurScales(character) + ".  Underneath the fur, you believe you have " + skin(character, true) + ".");
+            DisplayText("  Your face is almost entirely equine in appearance, even having " + skinFurScales(character) + ".  Underneath the fur, you believe you have " + describeSkin(character, true) + ".");
         if (character.body.skin.type === SkinType.SCALES)
             DisplayText("  You have the face and head structure of a horse, overlaid with glittering " + skinFurScales(character) + ".");
     }
@@ -191,16 +191,16 @@ function face(character: Character) {
         if (character.body.skin.type === SkinType.PLAIN || character.body.skin.type === SkinType.GOO)
             DisplayText("  You have a dog-like face, complete with a wet nose.  The odd visage is hairless and covered with " + skinFurScales(character) + ".");
         if (character.body.skin.type === SkinType.FUR)
-            DisplayText("  You have a dog's face, complete with wet nose and panting tongue.  You've got " + skinFurScales(character) + ", hiding your " + skin(character, true) + " underneath your furry visage.");
+            DisplayText("  You have a dog's face, complete with wet nose and panting tongue.  You've got " + skinFurScales(character) + ", hiding your " + describeSkin(character, true) + " underneath your furry visage.");
         if (character.body.skin.type === SkinType.SCALES)
             DisplayText("  You have the facial structure of a dog, wet nose and all, but overlaid with glittering " + skinFurScales(character) + ".");
     }
     // cat-face
     if (character.body.face.type === FaceType.CAT) {
         if (character.body.skin.type === SkinType.PLAIN || character.body.skin.type === SkinType.GOO)
-            DisplayText("  You have a cat-like face, complete with a cute, moist nose and whiskers.  The " + skin(character) + " that is revealed by your lack of fur looks quite unusual on so feline a face.");
+            DisplayText("  You have a cat-like face, complete with a cute, moist nose and whiskers.  The " + describeSkin(character) + " that is revealed by your lack of fur looks quite unusual on so feline a face.");
         if (character.body.skin.type === SkinType.FUR)
-            DisplayText("  You have a cat-like face, complete with moist nose and whiskers.  Your " + character.body.skin.desc + " is " + character.body.hair.color + ", hiding your " + skin(character, true) + " underneath.");
+            DisplayText("  You have a cat-like face, complete with moist nose and whiskers.  Your " + character.body.skin.desc + " is " + character.body.hair.color + ", hiding your " + describeSkin(character, true) + " underneath.");
         if (character.body.skin.type === SkinType.SCALES)
             DisplayText("  Your facial structure blends humanoid features with those of a cat.  A moist nose and whiskers are included, but overlaid with glittering " + skinFurScales(character) + ".");
         if (character.body.eyes.type !== EyeType.BLACK_EYES_SAND_TRAP)
@@ -218,7 +218,7 @@ function face(character: Character) {
     // Lizard-face
     if (character.body.face.type === FaceType.LIZARD) {
         if (character.body.skin.type === SkinType.PLAIN || character.body.skin.type === SkinType.GOO)
-            DisplayText("  You have a face resembling that of a lizard, and with your toothy maw, you have quite a fearsome visage.  The reptilian visage does look a little odd with just " + skin(character) + ".");
+            DisplayText("  You have a face resembling that of a lizard, and with your toothy maw, you have quite a fearsome visage.  The reptilian visage does look a little odd with just " + describeSkin(character) + ".");
         if (character.body.skin.type === SkinType.FUR)
             DisplayText("  You have a face resembling that of a lizard.  Between the toothy maw, pointed snout, and the layer of " + skinFurScales(character) + " covering your face, you have quite the fearsome visage.");
         if (character.body.skin.type === SkinType.SCALES)

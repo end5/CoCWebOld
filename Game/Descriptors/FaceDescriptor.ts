@@ -64,7 +64,7 @@ export function describeFaceShort(character: Character): string {
  * prev faceDesc from Character
  * @param character
  */
-export function describeFaceShort(character: Character): string {
+export function describeFace(character: Character): string {
     let description: string = "";
     if (character.body.femininity < 10) {
         description = "a square chin";

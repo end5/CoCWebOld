@@ -20,7 +20,7 @@ import { ItemDesc } from '../ItemDesc';
 import { describeCock, nounCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
 import { describeAllBreasts, breastCup, describeBreastRow, describeNipple } from '../../Descriptors/BreastDescriptor';
-import { skin, skinFurScales } from '../../Descriptors/SkinDescriptor';
+import { describeSkin, skinFurScales } from '../../Descriptors/SkinDescriptor';
 import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 
 export const foxBerryFlags = {
@@ -258,11 +258,11 @@ export class FoxBerry extends Consumable {
                     else {
                         chance = randInt(3);
                         if (chance === 1)
-                            DisplayText("\n\nA faint warmth buzzes to the surface of your " + describeBreastRow(currentRow) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + skin(character) + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + describeNipple(character, currentRow) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
+                            DisplayText("\n\nA faint warmth buzzes to the surface of your " + describeBreastRow(currentRow) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + describeSkin(character) + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + describeNipple(character, currentRow) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
                         else if (chance === 2)
                             DisplayText("\n\nA faintly muffled gurgle emanates from your " + describeBreastRow(currentRow) + " for a split-second, just before your flesh shudders and shakes, stretching your " + skinFurScales(character) + " outward with newly grown breast.  Idly, you cup your hands to your swelling bosom, and though it stops soon, you realize that your breasts have grown closer in size to the pair above.");
                         else {
-                            DisplayText("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + describeBreastRow(currentRow) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + skin(character) + " growing flushed with arousal and your " + describeNipple(character, currentRow) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.");
+                            DisplayText("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + describeBreastRow(currentRow) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + describeSkin(character) + " growing flushed with arousal and your " + describeNipple(character, currentRow) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.");
                         }
                     }
                     // Bigger change!
