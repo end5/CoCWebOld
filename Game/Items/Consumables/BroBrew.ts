@@ -35,7 +35,7 @@ export class BroBrew extends Consumable {
             DisplayText("\n\n");
 
             // female
-            if (character.body.cocks.count <= 0) {
+            if (character.body.cocks.length <= 0) {
                 DisplayText("The beverage isn't done yet, however, and it makes it perfectly clear with a building pleasure in your groin.  You can only cry in ecstasy and loosen the bottoms of your " + character.inventory.equipment.armor.displayName + " just in time for a little penis to spring forth.  You watch, enthralled, as blood quickly stiffens the shaft to its full length � then keeps on going!  Before long, you have a quivering 10-inch maleness, just ready to stuff into a welcoming box.");
                 character.body.cocks.add(new Cock(10, 2));
                 if (character.body.balls.count === 0) {
@@ -88,16 +88,16 @@ export class BroBrew extends Consumable {
         DisplayText(".\n\n");
 
         // (Tits b' gone)
-        if (character.body.chest.count > 0) {
+        if (character.body.chest.length > 0) {
             const topBreastRow = character.body.chest.get(0);
             if (topBreastRow.rating >= 1) {
                 DisplayText("A tingle starts in your " + describeNipple(character, topBreastRow) + "s before the tight buds grow warm, hot even.  ");
                 if (topBreastRow.lactationMultiplier >= 1)
                     DisplayText("Somehow, you know that the milk you had been producing is gone, reabsorbed by your body.  ");
                 DisplayText("They pinch in towards your core, shrinking along with your flattening " + describeAllBreasts(character) + ".  You shudder and flex in response.  Your chest isn't just shrinking, it's reforming, sculping itself into a massive pair of chiseled pecs.  ");
-                if (character.body.chest.count > 1) {
+                if (character.body.chest.length > 1) {
                     DisplayText("The breasts below vanish entirely.  ");
-                    let chestCount: number = character.body.chest.count;
+                    let chestCount: number = character.body.chest.length;
                     while (chestCount > 1) {
                         character.body.chest.remove(chestCount - 1);
                         chestCount--;
@@ -110,7 +110,7 @@ export class BroBrew extends Consumable {
                 if (topBreastRow.nipples.length > .5)
                     topBreastRow.nipples.length = .25;
                 topBreastRow.lactationMultiplier = 0;
-                character.statusAffects.remove(StatusEffectType.Feeder);
+                character.effects.remove(StatusEffectType.Feeder);
                 character.perks.remove(PerkType.Feeder);
                 DisplayText("All too soon, your boobs are gone.  Whoa!\n\n");
             }
@@ -124,7 +124,7 @@ export class BroBrew extends Consumable {
         DisplayText("Whoah, you're fucking ripped and strong, not at all like the puny weakling you were before.  Yet, you feel oddly wool-headed.  Your thoughts seem to be coming slower and slower, like they're plodding through a marsh.  You grunt in frustration at the realization.  Sure, you're a muscle-bound hunk now, but what good is it if you're as dumb as a box of rocks?  Your muscles flex in the most beautiful way, so you stop and strike a pose, mesmerized by your own appearance.  Fuck thinking, that shit's for losers!\n\n");
 
         // (has dick less than 10 inches)
-        if (character.body.cocks.count > 0) {
+        if (character.body.cocks.length > 0) {
             const cock = character.body.cocks.get(0);
             if (cock.length < 10) {
                 DisplayText("As if on cue, the familiar tingling gathers in your groin, and you dimly remember you have one muscle left to enlarge.  If only you had the intelligence left to realize that your penis is not a muscle.  In any event, your " + describeCock(character, cock) + " swells in size, ");
@@ -159,9 +159,9 @@ export class BroBrew extends Consumable {
             }
         }
         // (Pussy b gone)
-        if (character.body.vaginas.count > 0) {
+        if (character.body.vaginas.length > 0) {
             DisplayText("At the same time, your " + describeVagina(character, character.body.vaginas.get(0)) + " burns hot, nearly feeling on fire.  You cuss in a decidedly masculine way for a moment before the pain fades to a dull itch.  Scratching it, you discover your lady-parts are gone.  Only a sensitive patch of skin remains.\n\n");
-            while (character.body.vaginas.count > 0) {
+            while (character.body.vaginas.length > 0) {
                 character.body.vaginas.remove(0);
             }
         }

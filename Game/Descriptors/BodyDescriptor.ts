@@ -225,7 +225,7 @@ export function describeRace(character: Character): string {
 }
 
 export function assholeOrPussy(character: Character): string {
-    if (character.body.vaginas.count > 0)
+    if (character.body.vaginas.length > 0)
         return describeVagina(character, character.body.vaginas.get(0));
     return describeButthole(character.body.butt);
 }

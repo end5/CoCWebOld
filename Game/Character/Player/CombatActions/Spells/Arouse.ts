@@ -12,12 +12,12 @@ export class Arouse extends BlackMagic {
     public readonly baseCost: number = 15;
 
     public isPossible(character: Character): boolean {
-        return character.statusAffects.has(StatusEffectType.KnowsArouse);
+        return character.effects.has(StatusEffectType.KnowsArouse);
     }
 
     public castSpell(character: Character, monster: Character): NextScreenChoices {
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has(StatusEffectType.Shell)) {
+        if (monster.effects.has(StatusEffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -47,15 +47,15 @@ export class Arouse extends BlackMagic {
             if (!monster.desc.plural) DisplayText("s");
             DisplayText(" eyes glaze over with desire for a moment.  ");
         }
-        if (monster.body.cocks.count > 0) {
-            if (monster.stats.lust >= 60 && monster.body.cocks.count > 0)
+        if (monster.body.cocks.length > 0) {
+            if (monster.stats.lust >= 60 && monster.body.cocks.length > 0)
                 DisplayText("You see " + monster.desc.possessivePronoun + " " + describeMultiCockShort(character) + " dribble pre-cum.  ");
-            if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.body.cocks.count === 1)
+            if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.body.cocks.length === 1)
                 DisplayText(monster.desc.capitalA + monster.desc.short + "'s " + describeCockShort(character.body.cocks.get(0)) + " hardens, distracting " + monster.desc.objectivePronoun + " further.  ");
-            if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.body.cocks.count > 1)
+            if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.body.cocks.length > 1)
                 DisplayText("You see " + monster.desc.possessivePronoun + " " + describeMultiCockShort(character) + " harden uncomfortably.  ");
         }
-        if (monster.body.vaginas.count > 0) {
+        if (monster.body.vaginas.length > 0) {
             const firstVagina: Vagina = character.body.vaginas.get(0);
             if (monster.desc.plural) {
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.NORMAL)

@@ -33,15 +33,15 @@ export class CeruleanPotion extends Consumable {
         else {
             DisplayText("The liquid tastes rather bland and goes down easily. ");
             // Special repeat texts
-            if (character.statusAffects.has(StatusEffectType.RepeatSuccubi))
+            if (character.effects.has(StatusEffectType.RepeatSuccubi))
                 DisplayText("You look forwards to tonight's encounter.");
             // First timer huh?
             else DisplayText("You do not notice any real effects.  Did the merchant con you?");
         }
-        if (character.statusAffects.has(StatusEffectType.SuccubiNight))
-            if (character.statusAffects.get(StatusEffectType.SuccubiNight).value1 < 3)
-                character.statusAffects.get(StatusEffectType.SuccubiNight).value1 = 1;
+        if (character.effects.has(StatusEffectType.SuccubiNight))
+            if (character.effects.get(StatusEffectType.SuccubiNight).value1 < 3)
+                character.effects.get(StatusEffectType.SuccubiNight).value1 = 1;
             else
-                character.statusAffects.add(StatusEffectType.SuccubiNight, 1, 0, 0, 0);
+                character.effects.add(StatusEffectType.SuccubiNight, 1, 0, 0, 0);
     }
 }

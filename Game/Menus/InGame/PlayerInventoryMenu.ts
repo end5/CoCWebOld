@@ -55,7 +55,7 @@ export function inventoryMenu(player: Character): NextScreenChoices {
         DisplayText("\nYou have no usable items.");
         return { next: Player.display };
     }*/
-    if (CombatManager.inCombat && player.statusAffects.has(StatusEffectType.Sealed) && player.statusAffects.get(StatusEffectType.Sealed).value1 === 3) {
+    if (CombatManager.inCombat && player.effects.has(StatusEffectType.Sealed) && player.effects.get(StatusEffectType.Sealed).value1 === 3) {
         DisplayText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
     }
 

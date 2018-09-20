@@ -15,8 +15,8 @@ export class BeeButtPreg implements IPregnancyEvent {
         if (incubationTime === 20) {
             DisplayText("\nA honey-scented fluid drips from your rectum.").bold();
             DisplayText("  At first it worries you, but as the smell fills the air around you, you realize anything with such a beautiful scent must be good.  ");
-            if (player.body.cocks.count > 0) DisplayText("The aroma seems to permeate your very being, slowly congregating in your ");
-            if (player.body.cocks.count === 1) {
+            if (player.body.cocks.length > 0) DisplayText("The aroma seems to permeate your very being, slowly congregating in your ");
+            if (player.body.cocks.length === 1) {
                 const firstCock = player.body.cocks.get(0);
                 DisplayText(describeCock(player, firstCock));
                 if (player.body.cocks.filter(Cock.FilterType(CockType.HORSE)).length === 1) DisplayText(", each inhalation making it bigger, harder, and firmer.  You suck in huge lungfuls of air, until your " + describeCock(player, firstCock) + " is twitching and dripping, the flare swollen and purple.  ");
@@ -25,7 +25,7 @@ export class BeeButtPreg implements IPregnancyEvent {
                 // FAILSAFE FOR NEW COCKS
                 if (player.body.cocks.filter(Cock.FilterType(CockType.HUMAN)).length === 0 && player.body.cocks.filter(Cock.FilterType(CockType.DOG)).length === 0 && player.body.cocks.filter(Cock.FilterType(CockType.HORSE)).length === 0) DisplayText(", each inhalation making it bigger, harder, and firmer.  You suck in huge lungfuls of air until your " + describeCock(player, firstCock) + " is twitching and dripping.  ");
             }
-            if (player.body.cocks.count > 1) DisplayText("groin.  Your " + describeMultiCockShort(player) + " fill and grow with every lungful of the stuff you breathe in.  You suck in great lungfuls of the tainted air, desperate for more, your cocks twitching and dripping with need.  ");
+            if (player.body.cocks.length > 1) DisplayText("groin.  Your " + describeMultiCockShort(player) + " fill and grow with every lungful of the stuff you breathe in.  You suck in great lungfuls of the tainted air, desperate for more, your cocks twitching and dripping with need.  ");
             DisplayText("You smile knowing you couldn't stop from masturbating if you wanted to.\n");
             player.stats.int += -.5;
             player.stats.lust += 500;
@@ -39,8 +39,8 @@ export class BeeButtPreg implements IPregnancyEvent {
     public birthScene(player: Player) {
         DisplayText().newline();
         DisplayText("There is a sudden gush of honey-colored fluids from your ass.  Before panic can set in, a wonderful scent overtakes you, making everything ok.  ");
-        if (player.body.cocks.count > 0) DisplayText("The muzzy feeling that fills your head seems to seep downwards, making your equipment hard and tight.  ");
-        if (player.body.vaginas.count > 0) DisplayText("Your " + describeVagina(player, player.body.vaginas.get(0)) + " becomes engorged and sensitive.  ");
+        if (player.body.cocks.length > 0) DisplayText("The muzzy feeling that fills your head seems to seep downwards, making your equipment hard and tight.  ");
+        if (player.body.vaginas.length > 0) DisplayText("Your " + describeVagina(player, player.body.vaginas.get(0)) + " becomes engorged and sensitive.  ");
         DisplayText("Your hand darts down to the amber, scooping up a handful of the sticky stuff.  You wonder what your hand is doing as it brings it up to your mouth, which instinctively opens.  You shudder in revulsion as you swallow the sweet-tasting stuff, your mind briefly wondering why it would do that.  The stuff seems to radiate warmth, quickly pushing those nagging thoughts away as you scoop up more.\n\n");
         DisplayText("A sudden slip from below surprises you; a white sphere escapes from your anus along with another squirt of honey.  Your drugged brain tries to understand what's happening, but it gives up, your hands idly slathering honey over your loins.  The next orb pops out moments later, forcing a startled moan from your mouth.  That felt GOOD.  You begin masturbating to the thought of laying more eggs... yes, that's what those are.  You nearly cum as egg number three squeezes out.  ");
         if (player.body.chest.reduce(BreastRow.AverageLactation, 0) >= 1 && player.body.chest.sort(BreastRow.Largest)[0].rating > 2) DisplayText("Seeking even greater sensation, your hands gather the honey and massage it into your " + describeBreastRow(player.body.chest.get(0)) + ", slowly working up to your nipples.  Milk immediately begins pouring out from the attention, flooding your chest with warmth.  ");

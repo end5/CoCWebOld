@@ -26,7 +26,7 @@ export class NagaBite extends PlayerPhysicalAction {
         DisplayText().clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
+        if (monster.effects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -45,10 +45,10 @@ export class NagaBite extends PlayerPhysicalAction {
             monster.stats.spe -= 5 + randInt(5);
             if (monster.stats.str < 1) monster.stats.str = 1;
             if (monster.stats.spe < 1) monster.stats.spe = 1;
-            if (monster.statusAffects.has(StatusEffectType.NagaVenom)) {
-                monster.statusAffects.get(StatusEffectType.NagaVenom).value1 += 1;
+            if (monster.effects.has(StatusEffectType.NagaVenom)) {
+                monster.effects.get(StatusEffectType.NagaVenom).value1 += 1;
             }
-            else monster.statusAffects.add(StatusEffectType.NagaVenom, 1, 0, 0, 0);
+            else monster.effects.add(StatusEffectType.NagaVenom, 1, 0, 0, 0);
         }
         else {
             DisplayText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.");

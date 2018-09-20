@@ -178,7 +178,7 @@ export function describeNipple(character: Character, breastRow: BreastRow): stri
             "slippery "];
         description += randomChoice(options);
     }
-    if (!haveDescription && character.statusAffects.has(StatusEffectType.BlackNipples)) {
+    if (!haveDescription && character.effects.has(StatusEffectType.BlackNipples)) {
         options = ["black ",
             "ebony ",
             "sable "];
@@ -309,7 +309,7 @@ export function describeBreastSize(size: number): string {
 export function describeAllBreasts(character: Character): string {
     const chest: Chest = character.body.chest;
     let desciption: string = "";
-    switch (chest.count / 2) {
+    switch (chest.length / 2) {
         case 0:
             return "unremarkable chest muscles ";
         case 2:
@@ -329,16 +329,16 @@ export function describeAllBreasts(character: Character): string {
 export function describeBreastGrowth(player: Player, amount: number, chest: Chest): string {
     let text = "";
     if (amount <= 2) {
-        if (chest.count > 1) text += "Your rows of " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
-        if (chest.count === 1) text += "Your " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
+        if (chest.length > 1) text += "Your rows of " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
+        if (chest.length === 1) text += "Your " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
     }
     else if (amount <= 4) {
-        if (chest.count > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
-        if (chest.count === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
+        if (chest.length > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
+        if (chest.length === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
     }
     else {
-        if (chest.count > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your " + describeBreastRow(player.body.chest.get(0)) + " tingle strongly, growing disturbingly large.";
-        if (chest.count === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + describeBreastRow(player.body.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
+        if (chest.length > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your " + describeBreastRow(player.body.chest.get(0)) + " tingle strongly, growing disturbingly large.";
+        if (chest.length === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + describeBreastRow(player.body.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
     }
     if (chest.sort(BreastRow.Largest)[0].rating >= 8.5 && chest.sort(BreastRow.Largest)[0].nipples.length < 2) {
         text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
@@ -363,16 +363,16 @@ export function describeTopRowBreastGrowth(amount: number, character: Character,
     const topBreastRow = chest.get(0);
     let text = "";
     if (amount <= 2) {
-        if (chest.count > 1) text += "Your top row of " + describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
-        if (chest.count === 1) text += "Your row of " + describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
+        if (chest.length > 1) text += "Your top row of " + describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
+        if (chest.length === 1) text += "Your row of " + describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
     }
     if (amount > 2 && amount <= 4) {
-        if (chest.count > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + describeBreastRow(topBreastRow) + " expand significantly.";
-        if (chest.count === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(topBreastRow) + " expand significantly.";
+        if (chest.length > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + describeBreastRow(topBreastRow) + " expand significantly.";
+        if (chest.length === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(topBreastRow) + " expand significantly.";
     }
     if (amount > 4) {
-        if (chest.count > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + describeBreastRow(topBreastRow) + " tingle strongly, growing disturbingly large.";
-        if (chest.count === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + describeBreastRow(topBreastRow) + " intensifies as they continue to grow at an obscene rate.";
+        if (chest.length > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + describeBreastRow(topBreastRow) + " tingle strongly, growing disturbingly large.";
+        if (chest.length === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + describeBreastRow(topBreastRow) + " intensifies as they continue to grow at an obscene rate.";
     }
     if (topBreastRow.rating >= 8.5 && topBreastRow.nipples.length < 2) {
         text += "  A tender ache starts at your " + describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";

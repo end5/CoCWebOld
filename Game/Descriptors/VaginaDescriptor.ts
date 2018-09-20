@@ -85,10 +85,10 @@ export function describeVagina(character: Character, vagina: Vagina): string {
 }
 
 export function describeAllVagina(character: Character): string {
-    if (character.body.vaginas.count === 1)
-        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.count - 1)));
-    if (character.body.vaginas.count > 1)
-        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.count - 1))) + "s";
+    if (character.body.vaginas.length === 1)
+        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.length - 1)));
+    if (character.body.vaginas.length > 1)
+        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.length - 1))) + "s";
 }
 
 export function describeClit(character: Character): string {

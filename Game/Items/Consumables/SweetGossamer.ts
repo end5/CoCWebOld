@@ -19,7 +19,7 @@ import { ItemDesc } from '../ItemDesc';
 import { skinFurScales } from '../../Descriptors/SkinDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeButthole, describeButt } from '../../Descriptors/ButtDescriptor';
-import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBreastRow, describeNipple, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
 
@@ -96,7 +96,7 @@ export class SweetGossamer extends Consumable {
             spiderbutts[0].recharge += 5;
         }
         // (tightens vagina to 1, increases lust/libido)
-        if (character.body.vaginas.count > 0) {
+        if (character.body.vaginas.length > 0) {
             if (character.body.vaginas.get(0).looseness > 1 && changes < changeLimit && randInt(3) === 0) {
                 DisplayText("\n\nWith a gasp, you feel your " + describeVagina(character, character.body.vaginas.get(0)) + " tightening, making you leak sticky girl-juice. After a few seconds, it stops, and you rub on your " + describeVagina(character, character.body.vaginas.get(0)) + " excitedly. You can't wait to try this out!");
                 character.stats.lib += 2;
@@ -115,10 +115,10 @@ export class SweetGossamer extends Consumable {
         }
         // [Requires penises]
         // (Thickens all cocks to a ratio of 1\" thickness per 5.5\"
-        if (character.body.cocks.count > 0 && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.cocks.length > 0 && changes < changeLimit && randInt(4) === 0) {
             // Use temp to see if any dicks can be thickened
             let cockGotThickened: boolean = false;
-            for (let index: number = 0; index < character.body.cocks.count; index++) {
+            for (let index: number = 0; index < character.body.cocks.length; index++) {
                 if (character.body.cocks.get(index).thickness * 5.5 < character.body.cocks.get(index).length) {
                     character.body.cocks.get(index).thickness += .1;
                     cockGotThickened = true;
@@ -126,18 +126,18 @@ export class SweetGossamer extends Consumable {
             }
             // If something got thickened
             if (cockGotThickened) {
-                DisplayText("\n\nYou can feel your " + describeMultiCockShort(character) + " filling out in your " + character.inventory.equipment.armor.displayName + ". Pulling ");
-                if (character.body.cocks.count === 1) DisplayText("it");
+                DisplayText("\n\nYou can feel your " + describeCocksLight(character) + " filling out in your " + character.inventory.equipment.armor.displayName + ". Pulling ");
+                if (character.body.cocks.length === 1) DisplayText("it");
                 else DisplayText("them");
                 DisplayText(" out, you look closely.  ");
-                if (character.body.cocks.count === 1) DisplayText("It's");
+                if (character.body.cocks.length === 1) DisplayText("It's");
                 else DisplayText("They're");
                 DisplayText(" definitely thicker.");
                 changes++;
             }
         }
         // [Increase to Breast Size] - up to Large DD
-        if (character.body.chest.count > 0) {
+        if (character.body.chest.length > 0) {
             const smallestBreastRow = character.body.chest.sort(BreastRow.Smallest)[0];
             if (smallestBreastRow.rating < 6 && changes < changeLimit && randInt(4) === 0) {
                 DisplayText("\n\nAfter eating it, your chest aches and tingles, and your hands reach up to scratch at it unthinkingly.  Silently, you hope that you aren't allergic to it.  Just as you start to scratch at your " + describeBreastRow(smallestBreastRow) + ", your chest pushes out in slight but sudden growth.");
@@ -179,18 +179,18 @@ export class SweetGossamer extends Consumable {
             changes++;
         }
         // -Remove breast rows over 2.
-        if (changes < changeLimit && character.body.chest.count > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
+        if (changes < changeLimit && character.body.chest.length > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
-            const bottomBreastRow: BreastRow = character.body.chest.get(character.body.chest.count - 1);
+            const bottomBreastRow: BreastRow = character.body.chest.get(character.body.chest.length - 1);
             DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
-            if (character.body.chest.count >= 3) DisplayText("abdomen");
+            if (character.body.chest.length >= 3) DisplayText("abdomen");
             else DisplayText("chest");
             DisplayText(". The " + describeNipple(character, bottomBreastRow) + "s even fade until nothing but ");
             if (character.body.skin.type === SkinType.FUR) DisplayText(character.body.hair.color + " " + character.body.skin.desc);
             else DisplayText(character.body.skin.tone + " " + character.body.skin.desc);
             DisplayText(" remains. <b>You've lost a row of breasts!</b>");
             character.stats.sens += -5;
-            character.body.chest.remove(character.body.chest.count - 1);
+            character.body.chest.remove(character.body.chest.length - 1);
         }
         // -Nipples reduction to 1 per tit.
         if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
@@ -199,14 +199,14 @@ export class SweetGossamer extends Consumable {
             else DisplayText("breast.");
             changes++;
             // Loop through and reset nipples
-            for (let index: number = 0; index < character.body.chest.count; index++) {
+            for (let index: number = 0; index < character.body.chest.length; index++) {
                 character.body.chest.get(index).nipples.count = 1;
             }
         }
         // Nipples Turn Black:
-        if (!character.statusAffects.has(StatusEffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
+        if (!character.effects.has(StatusEffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
             DisplayText("\n\nA tickling sensation plucks at your nipples and you cringe, trying not to giggle.  Looking down you are in time to see the last spot of flesh tone disappear from your [nipples].  They have turned an onyx black!");
-            character.statusAffects.add(StatusEffectType.BlackNipples, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.BlackNipples, 0, 0, 0, 0);
             changes++;
         }
         // eyes!
@@ -250,7 +250,7 @@ export class SweetGossamer extends Consumable {
             changes++;
         }
         // Drider butt
-        if (!this.sweet && !character.perks.has(PerkType.SpiderOvipositor) && character.body.legs.isDrider() && character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && changes < changeLimit && randInt(3) === 0 && (character.body.vaginas.count > 0 || randInt(2) === 0)) {
+        if (!this.sweet && !character.perks.has(PerkType.SpiderOvipositor) && character.body.legs.isDrider() && character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && changes < changeLimit && randInt(3) === 0 && (character.body.vaginas.length > 0 || randInt(2) === 0)) {
             DisplayText("\n\nAn odd swelling sensation floods your spider half.  Curling your abdomen underneath you for a better look, you gasp in recognition at your new 'equipment'!  Your semi-violent run-ins with the swamp's population have left you <i>intimately</i> familiar with the new appendage.  <b>It's a drider ovipositor!</b>  A few light prods confirm that it's just as sensitive as any of your other sexual organs.  You idly wonder what laying eggs with this thing will feel like...");
             DisplayText("\n\n(<b>Perk Gained:  Spider Ovipositor - Allows you to lay eggs in your foes!</b>)");
             // V1 - Egg Count
@@ -280,7 +280,7 @@ export class SweetGossamer extends Consumable {
         if (!character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && (character.body.legs.type === LegType.CHITINOUS_SPIDER_LEGS || character.body.legs.type === LegType.DRIDER_LOWER_BODY) && character.body.arms.type === ArmType.SPIDER && randInt(4) === 0) {
             DisplayText("\n\n");
             // (Pre-existing tails)
-            if (character.body.tails.count > 0) DisplayText("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + describeButt(character) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + describeButt(character) + "!</b>\n\n");
+            if (character.body.tails.length > 0) DisplayText("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + describeButt(character) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + describeButt(character) + "!</b>\n\n");
             // (No tail)
             else DisplayText("A burst of pain hits you just above your " + describeButt(character) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + skinFurScales(character) + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + describeButt(character) + "!</b>");
             character.body.tails.clear();

@@ -21,7 +21,7 @@ export function describeTongue(tongueType: TongueType): string {
     }
 }
 
-export function describeFace(character: Character): string {
+export function describeFaceShort(character: Character): string {
     let stringo: string = "";
     const face = character.body.face;
     const faceType = face.type;
@@ -64,7 +64,7 @@ export function describeFace(character: Character): string {
  * prev faceDesc from Character
  * @param character
  */
-export function describeFaceOther(character: Character): string {
+export function describeFaceShort(character: Character): string {
     let description: string = "";
     if (character.body.femininity < 10) {
         description = "a square chin";
@@ -76,7 +76,7 @@ export function describeFaceOther(character: Character): string {
         //    description += ", chiseled jawline, and " + body.beard();
     }
     else if (character.body.femininity < 20) {
-        description = "a rugged looking " + describeFace(character) + " ";
+        description = "a rugged looking " + describeFaceShort(character) + " ";
         // beard doesn't exist
         //
         // if (body.hasBeard())

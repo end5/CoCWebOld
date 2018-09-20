@@ -13,11 +13,11 @@ export class Kiss implements CombatAction {
     public reasonCannotUse: string = "There's no way you'd be able to find their lips while you're blind!";
 
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has(StatusEffectType.LustStickApplied);
+        return player.effects.has(StatusEffectType.LustStickApplied);
     }
 
     public canUse(player: Player): boolean {
-        return !player.statusAffects.has(StatusEffectType.Blind);
+        return !player.effects.has(StatusEffectType.Blind);
     }
 
     public use(player: Player, monster: Character): NextScreenChoices {
@@ -70,7 +70,7 @@ export class Kiss implements CombatAction {
             return;
         }
         // Success but no effect:
-        if (monster.stats.lustVuln <= 0 || monster.body.cocks.count <= 0) {
+        if (monster.stats.lustVuln <= 0 || monster.body.cocks.length <= 0) {
             if (monster.desc.plural) DisplayText("  Mouth presses against mouth, and you allow your tongue to stick out to taste the saliva of one of their number, making sure to give them a big dose.  Pulling back, you look at " + monster.desc.a + monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n");
             else DisplayText("  Mouth presses against mouth, and you allow your tongue to stick to taste " + monster.desc.possessivePronoun + "'s saliva as you make sure to give them a big dose.  Pulling back, you look at " + monster.desc.a + monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n");
             return;
@@ -104,10 +104,10 @@ export class Kiss implements CombatAction {
                 break;
         }
         // Add status if not already drugged
-        if (!monster.statusAffects.has(StatusEffectType.LustStick))
-            monster.statusAffects.add(StatusEffectType.LustStick, 0, 0, 0, 0);
+        if (!monster.effects.has(StatusEffectType.LustStick))
+            monster.effects.add(StatusEffectType.LustStick, 0, 0, 0, 0);
         // Else add bonus to round damage
-        else monster.statusAffects.get(StatusEffectType.LustStick).value2 = Math.round(damage / 10);
+        else monster.effects.get(StatusEffectType.LustStick).value2 = Math.round(damage / 10);
         // Deal damage
         monster.stats.lust += Math.round(monster.stats.lustVuln * damage);
         // Sets up for end of combat, and if not, goes to AI.

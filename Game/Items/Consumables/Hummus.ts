@@ -109,7 +109,7 @@ export class Hummus extends Consumable {
         }
         else character.body.chest.get(0).rating = 0;
         character.body.neck.gills = false;
-        character.statusAffects.remove(StatusEffectType.Uniball);
-        character.statusAffects.remove(StatusEffectType.BlackNipples);
+        character.effects.remove(StatusEffectType.Uniball);
+        character.effects.remove(StatusEffectType.BlackNipples);
     }
 }

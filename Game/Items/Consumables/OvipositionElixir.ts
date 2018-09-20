@@ -13,7 +13,7 @@ export class OvipositionElixir extends Consumable {
     }
 
     public canUse(character: Character): boolean {
-        if (character.body.vaginas.count > 0) return true;
+        if (character.body.vaginas.length > 0) return true;
         DisplayText("You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.\n\n");
         return false;
     }
@@ -45,17 +45,17 @@ export class OvipositionElixir extends Consumable {
         if (!character.pregnancy.womb.isPregnant()) { // If the character is not pregnant, get preggers with eggs!
             DisplayText("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
             character.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS), 1, true);
-            character.statusAffects.add(StatusEffectType.Eggs, randInt(6), 0, randInt(3) + 5, 0);
+            character.effects.add(StatusEffectType.Eggs, randInt(6), 0, randInt(3) + 5, 0);
             return;
         }
         let changeOccurred: boolean = false;
         if (character.pregnancy.womb.isPregnantWith(PregnancyType.OVIELIXIR_EGGS)) { // If character already has eggs, chance of size increase!
-            if (character.statusAffects.has(StatusEffectType.Eggs)) {
+            if (character.effects.has(StatusEffectType.Eggs)) {
                 // If eggs are small, chance of increase!
-                if (character.statusAffects.get(StatusEffectType.Eggs).value2 === 0) {
+                if (character.effects.get(StatusEffectType.Eggs).value2 === 0) {
                     // 1 in 2 chance!
                     if (randInt(3) === 0) {
-                        character.statusAffects.get(StatusEffectType.Eggs).value2 = 1;
+                        character.effects.get(StatusEffectType.Eggs).value2 = 1;
                         DisplayText("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
                         changeOccurred = true;
                     }
@@ -63,7 +63,7 @@ export class OvipositionElixir extends Consumable {
                 // Chance of quantity increase!
                 if (randInt(2) === 0) {
                     DisplayText("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
-                    character.statusAffects.get(StatusEffectType.Eggs).value3 = randInt(4 + 1);
+                    character.effects.get(StatusEffectType.Eggs).value3 = randInt(4 + 1);
                     changeOccurred = true;
                 }
             }

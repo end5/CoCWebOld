@@ -21,7 +21,7 @@ export class Release implements CombatAction {
         DisplayText().clear();
         DisplayText("You release " + target.desc.a + target.desc.short + " from " + target.desc.possessivePronoun + " bonds, and " + target.desc.subjectivePronoun + " drops to the ground, catching " + target.desc.possessivePronoun + " breath before " + target.desc.subjectivePronoun + " stands back up, apparently prepared to fight some more.");
         DisplayText("\n\n");
-        target.statusAffects.remove(StatusEffectType.Constricted);
+        target.effects.remove(StatusEffectType.Constricted);
         return;
     }
 }

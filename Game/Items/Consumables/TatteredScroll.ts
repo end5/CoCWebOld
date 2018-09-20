@@ -18,7 +18,7 @@ export class TatteredScroll extends Consumable {
         DisplayText("Your wobbly " + describeLegs(character) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
         if (character.body.hair.color === "sandy blonde") {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>Tresed eht retaw llahs klim ruoy.</i>\"\n\n");
-            if (character.body.chest.count === 0) {
+            if (character.body.chest.length === 0) {
                 DisplayText("You grow a perfectly rounded pair of C-cup breasts!  ");
                 const newBreastRow: BreastRow = new BreastRow();
                 newBreastRow.rating = 3;
@@ -47,7 +47,7 @@ export class TatteredScroll extends Consumable {
                 }
                 if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 1) {
                     DisplayText("A dark spot appears on each breast, rapidly forming into a sensitive nipple.  ");
-                    for (let index = 0; index < character.body.chest.count; index++) {
+                    for (let index = 0; index < character.body.chest.length; index++) {
                         // If that breast didnt have nipples reset length
                         if (character.body.chest.get(index).nipples.count < 1)
                             character.body.chest.get(index).nipples.length = .2;

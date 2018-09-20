@@ -17,7 +17,7 @@ import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { numToCardinalText, numToOrdinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
-import { describeCock, nounCock, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCock, nounCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
 import { describeAllBreasts, breastCup, describeBreastRow, describeNipple } from '../../Descriptors/BreastDescriptor';
 import { skin, skinFurScales } from '../../Descriptors/SkinDescriptor';
@@ -156,7 +156,7 @@ export class FoxBerry extends Consumable {
         }
 
         // dog cocks!
-        if (changes < changeLimit && randInt(3) === 0 && character.body.cocks.filter(Cock.FilterType(CockType.DOG)).length < character.body.cocks.count) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.cocks.filter(Cock.FilterType(CockType.DOG)).length < character.body.cocks.length) {
             const cockChoices = character.body.cocks.filter(Cock.FilterType(CockType.DOG));
             if (cockChoices.length !== 0) {
                 const selectedCock = randomChoice(cockChoices);
@@ -196,7 +196,7 @@ export class FoxBerry extends Consumable {
 
         }
         // Cum Multiplier Xform
-        if (character.cumQ() < 5000 && randInt(3) === 0 && changes < changeLimit && character.body.cocks.count > 0) {
+        if (character.cumQ() < 5000 && randInt(3) === 0 && changes < changeLimit && character.body.cocks.length > 0) {
             let cumMultiplierChange: number = 2 + randInt(4);
             // Lots of cum raises cum multiplier cap to 2 instead of 1.5
             if (character.perks.has(PerkType.MessyOrgasms)) cumMultiplierChange += randInt(10);
@@ -204,7 +204,7 @@ export class FoxBerry extends Consumable {
             // Flavor text
             if (character.body.balls.count === 0) DisplayText("\n\nYou feel a churning inside your gut as something inside you changes.");
             if (character.body.balls.count > 0) DisplayText("\n\nYou feel a churning in your " + describeBalls(true, true, character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
-            DisplayText("  A bit of milky pre dribbles from your " + describeMultiCockShort(character) + ", pushed out by the change.");
+            DisplayText("  A bit of milky pre dribbles from your " + describeCocksLight(character) + ", pushed out by the change.");
             changes++;
         }
         if (changes < changeLimit && character.body.balls.count > 0 && character.body.balls.size > 4 && randInt(3) === 0) {
@@ -220,8 +220,8 @@ export class FoxBerry extends Consumable {
             DisplayText("  You now have a [balls].");
         }
         // Sprouting more!
-        if (changes < changeLimit && this.enhanced && character.body.chest.count < 4 && character.body.chest.get(character.body.chest.count - 1).rating > 1) {
-            const bottomBreastRow = character.body.chest.get(character.body.chest.count - 1);
+        if (changes < changeLimit && this.enhanced && character.body.chest.length < 4 && character.body.chest.get(character.body.chest.length - 1).rating > 1) {
+            const bottomBreastRow = character.body.chest.get(character.body.chest.length - 1);
             DisplayText("\n\nYour belly rumbles unpleasantly for a second as the ");
             if (!this.enhanced) DisplayText("berry ");
             else DisplayText("drink ");
@@ -232,7 +232,7 @@ export class FoxBerry extends Consumable {
             DisplayText("\n\nA closer examination reveals your new nipples to be just like the ones above in size and shape");
             if (bottomBreastRow.nipples.count > 1) DisplayText(", not to mention number");
             else if (bottomBreastRow.nipples.fuckable) DisplayText(", not to mention penetrability");
-            DisplayText(".  While you continue to explore your body's newest addition, a strange heat builds behind the new nubs. Soft, jiggly breastflesh begins to fill your cupped hands.  Radiant warmth spreads through you, eliciting a moan of pleasure from your lips as your new breasts catch up to the pair above.  They stop at " + breastCup(bottomBreastRow.rating) + "s.  <b>You have " + numToCardinalText(character.body.chest.count + 1) + " rows of breasts!</b>");
+            DisplayText(".  While you continue to explore your body's newest addition, a strange heat builds behind the new nubs. Soft, jiggly breastflesh begins to fill your cupped hands.  Radiant warmth spreads through you, eliciting a moan of pleasure from your lips as your new breasts catch up to the pair above.  They stop at " + breastCup(bottomBreastRow.rating) + "s.  <b>You have " + numToCardinalText(character.body.chest.length + 1) + " rows of breasts!</b>");
             const newBreastRow = new BreastRow();
             newBreastRow.rating = bottomBreastRow.rating;
             newBreastRow.lactationMultiplier = bottomBreastRow.lactationMultiplier;
@@ -244,12 +244,12 @@ export class FoxBerry extends Consumable {
             character.stats.lust += 30;
             changes++;
         }
-        if (character.body.chest.count > 1) {
+        if (character.body.chest.length > 1) {
             let tits: boolean = false;
             let currentRow: BreastRow;
             let rowAboveCurrentRow: BreastRow;
             let chance: number;
-            for (let indexReverseChestCompare: number = character.body.chest.count - 1; indexReverseChestCompare > 1; indexReverseChestCompare--) {
+            for (let indexReverseChestCompare: number = character.body.chest.length - 1; indexReverseChestCompare > 1; indexReverseChestCompare--) {
                 currentRow = character.body.chest.get(indexReverseChestCompare);
                 rowAboveCurrentRow = character.body.chest.get(indexReverseChestCompare - 1);
                 if (currentRow.rating <= rowAboveCurrentRow.rating - 1 && changes < changeLimit && randInt(2) === 0) {
@@ -282,7 +282,7 @@ export class FoxBerry extends Consumable {
             }
         }
         // HEAT!
-        if (character.statusAffects.get(StatusEffectType.Heat).value2 < 30 && randInt(6) === 0 && changes < changeLimit) {
+        if (character.effects.get(StatusEffectType.Heat).value2 < 30 && randInt(6) === 0 && changes < changeLimit) {
             if (Mod.Body.displayGoIntoHeat(character)) {
                 changes++;
             }
@@ -340,7 +340,7 @@ export class FoxBerry extends Consumable {
         // FIRST
         if (!character.body.tails.reduce(Tail.HasType(TailType.FOX), false) && changes < changeLimit && randInt(4) === 0) {
             // from no tail
-            if (character.body.tails.count === 0) DisplayText("\n\nA pressure builds on your backside.  You feel under your [armor] and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it had a mind of its own.  <b>You now have a fox's tail!</b>");
+            if (character.body.tails.length === 0) DisplayText("\n\nA pressure builds on your backside.  You feel under your [armor] and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it had a mind of its own.  <b>You now have a fox's tail!</b>");
             // from another type of tail
             else DisplayText("\n\nPain lances through your lower back as your tail shifts violently.  With one final aberrant twitch, it fluffs out into a long, bushy fox tail that whips around in an almost hypnotic fashion.  <b>You now have a fox's tail!</b>");
             const newTail = new Tail();
@@ -363,13 +363,13 @@ export class FoxBerry extends Consumable {
             character.body.tone -= 4;
         }
         // Nipples Turn Back:
-        if (character.statusAffects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
+        if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
             DisplayText("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
-            character.statusAffects.remove(StatusEffectType.BlackNipples);
+            character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.count > 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN) {
             DisplayText("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
             character.body.vaginas.get(0).type = VaginaType.HUMAN;
             changes++;

@@ -16,6 +16,6 @@ export class HerbalContraceptive extends Consumable {
         // Placeholder, sue me
         DisplayText("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
 
-        character.statusAffects.add(StatusEffectType.Contraceptives, 1, 48, 0, 0);
+        character.effects.add(StatusEffectType.Contraceptives, 1, 48, 0, 0);
     }
 }

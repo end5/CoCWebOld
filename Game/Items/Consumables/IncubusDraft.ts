@@ -9,7 +9,7 @@ import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
-import { describeCock, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { Tail, TailType } from '../../Body/Tail';
 import { HornType } from '../../Body/Horns';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
@@ -66,7 +66,7 @@ export class IncubusDraft extends Consumable {
     }
 
     private lowLevelChanges(character: Character) {
-        const cockCount: number = character.body.cocks.count;
+        const cockCount: number = character.body.cocks.length;
         let selectedCock: Cock;
         let cockGrowth: number;
         if (cockCount === 1) {
@@ -114,10 +114,10 @@ export class IncubusDraft extends Consumable {
             character.stats.lust += 5 + cockGrowth * 3;
             character.stats.cor += this.tainted ? 1 : 0;
 
-            if (character.body.cocks.count === 2)
-                DisplayText("\n\nBoth of your " + describeMultiCockShort(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
+            if (character.body.cocks.length === 2)
+                DisplayText("\n\nBoth of your " + describeCocksLight(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
             else
-                DisplayText("\n\nAll of your " + describeMultiCockShort(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
+                DisplayText("\n\nAll of your " + describeCocksLight(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
 
             if (cockGrowth < .5)
                 DisplayText("  It stops almost as soon as it starts, growing only a tiny bit longer.");
@@ -127,7 +127,7 @@ export class IncubusDraft extends Consumable {
                 DisplayText("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.");
             if (cockGrowth > 2)
                 DisplayText("  You smile and idly stroke your lengthening " + describeCock(character, selectedCock) + " as a few more inches sprout.");
-            DisplayText("  With the transformation complete, your " + describeMultiCockShort(character) + " return to their normal coloration.");
+            DisplayText("  With the transformation complete, your " + describeCocksLight(character) + " return to their normal coloration.");
         }
         // NO CAWKS?
         if (cockCount === 0) {
@@ -153,7 +153,7 @@ export class IncubusDraft extends Consumable {
     }
 
     private midLevelChanges(character: Character) {
-        const cockCount: number = character.body.cocks.count;
+        const cockCount: number = character.body.cocks.length;
         let selectedCock: Cock;
         let cockGrowth: number;
         let thickness: number;
@@ -194,16 +194,16 @@ export class IncubusDraft extends Consumable {
             Mod.Cock.displayLengthChange(character, cockGrowth, cockCount);
             // Display the degree of thickness change.
             if (thickness >= 1) {
-                if (character.body.cocks.count === 1) DisplayText("  Your cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                if (character.body.cocks.length === 1) DisplayText("  Your cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
                 else DisplayText("  Your cocks spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
             }
             if (thickness <= .5) {
-                if (character.body.cocks.count > 1) DisplayText("  Your cocks feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                if (character.body.cocks.length > 1) DisplayText("  Your cocks feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
                 else DisplayText("  Your cock feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
             }
             if (thickness > .5 && cockGrowth < 1) {
-                if (character.body.cocks.count === 1) DisplayText("  Your cock seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                if (character.body.cocks.count > 1) DisplayText("  Your cocks seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                if (character.body.cocks.length === 1) DisplayText("  Your cock seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                if (character.body.cocks.length > 1) DisplayText("  Your cocks seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
             }
             character.stats.lib += 3;
             character.stats.sens += 5;
@@ -234,7 +234,7 @@ export class IncubusDraft extends Consumable {
     }
 
     private highLevelChanges(character: Character) {
-        if (character.body.cocks.count < 10) {
+        if (character.body.cocks.length < 10) {
             if (randInt(10) < Math.floor(character.stats.cor / 25)) {
                 DisplayText("\n\n");
                 this.growDemonCock(character, randInt(2) + 2);
@@ -274,7 +274,7 @@ export class IncubusDraft extends Consumable {
 export function demonChanges(character: Character): void {
     // Change tail if already horned.
     if (!character.body.tails.reduce(Tail.HasType(TailType.DEMONIC), false) && character.body.horns.count > 0) {
-        if (character.body.tails.count === 0) {
+        if (character.body.tails.length === 0) {
             DisplayText("\n\n");
             if (character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) || character.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false))
                 DisplayText("You feel a tingling in your insectile abdomen as it stretches, narrowing, the exoskeleton flaking off as it transforms into a flexible demon-tail, complete with a round spaded tip.  ");
@@ -312,9 +312,9 @@ export function demonChanges(character: Character): void {
         }
     }
     // Nipples Turn Back:
-    if (character.statusAffects.has(StatusEffectType.BlackNipples) && randInt(3) === 0) {
+    if (character.effects.has(StatusEffectType.BlackNipples) && randInt(3) === 0) {
         DisplayText("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
-        character.statusAffects.remove(StatusEffectType.BlackNipples);
+        character.effects.remove(StatusEffectType.BlackNipples);
     }
     // remove fur
     if ((character.body.face.type !== FaceType.HUMAN || character.body.skin.type !== SkinType.PLAIN) && randInt(3) === 0) {

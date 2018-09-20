@@ -12,7 +12,7 @@ import { describeButt } from '../../Descriptors/ButtDescriptor';
 import { describeHips } from '../../Descriptors/HipDescriptor';
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { describeMultiCock, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocks, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBreastRow, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 
@@ -156,7 +156,7 @@ export class Eggs extends Consumable {
         DisplayText("You devour the egg, momentarily sating your hunger.\n\n");
         if (!this.large) {
             // Remove a dick
-            if (character.body.cocks.count > 0) {
+            if (character.body.cocks.length > 0) {
                 character.body.cocks.remove(0);
                 DisplayText("\n\n");
                 character.updateGender();
@@ -174,7 +174,7 @@ export class Eggs extends Consumable {
                 }
             }
             // Fertility boost
-            if (character.body.vaginas.count > 0 && character.body.fertility < 40) {
+            if (character.body.vaginas.length > 0 && character.body.fertility < 40) {
                 DisplayText("You feel a tingle deep inside your body, just above your " + describeVagina(character, character.body.vaginas.get(0)) + ", as if you were becoming more fertile.\n\n");
                 character.body.fertility += 5;
             }
@@ -182,7 +182,7 @@ export class Eggs extends Consumable {
         // LARGE
         else {
             // Remove a dick
-            if (character.body.cocks.count > 0) {
+            if (character.body.cocks.length > 0) {
                 Mod.Cock.displayKillCocks(character, -1);
                 DisplayText("\n\n");
                 character.updateGender();
@@ -193,7 +193,7 @@ export class Eggs extends Consumable {
                 DisplayText("Your scrotum slowly shrinks, eventually disappearing entirely!  <b>You've lost your balls!</b>\n\n");
             }
             // Fertility boost
-            if (character.body.vaginas.count > 0 && character.body.fertility < 70) {
+            if (character.body.vaginas.length > 0 && character.body.fertility < 70) {
                 DisplayText("You feel a powerful tingle deep inside your body, just above your " + describeVagina(character, character.body.vaginas.get(0)) + ". Instinctively you know you have become more fertile.\n\n");
                 character.body.fertility += 10;
             }
@@ -212,7 +212,7 @@ export class Eggs extends Consumable {
         DisplayText("You devour the egg, momentarily sating your hunger.");
         if (!this.large) {
             // Kill pussies!
-            if (character.body.vaginas.count > 0) {
+            if (character.body.vaginas.length > 0) {
                 DisplayText("\n\nYour vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it! <b> Your vagina is gone!</b>");
                 character.body.vaginas.remove(0);
                 // -- Don't understand this
@@ -220,55 +220,55 @@ export class Eggs extends Consumable {
                 character.updateGender();
             }
             // Dickz
-            if (character.body.cocks.count > 0) {
+            if (character.body.cocks.length > 0) {
                 // Multiz
-                if (character.body.cocks.count > 1) {
-                    DisplayText("\n\nYour " + describeMultiCock(character) + " fill to full-size... and begin growing obscenely.");
+                if (character.body.cocks.length > 1) {
+                    DisplayText("\n\nYour " + describeCocks(character) + " fill to full-size... and begin growing obscenely.");
 
                     for (const cock of character.body.cocks) {
                         cockAmountLengthened += Mod.Cock.growCock(character, cock, randInt(3) + 2);
                         cockAmountThickened += Mod.Cock.thickenCock(cock, 1);
                     }
-                    cockAmountLengthened /= character.body.cocks.count;
-                    cockAmountThickened /= character.body.cocks.count;
+                    cockAmountLengthened /= character.body.cocks.length;
+                    cockAmountThickened /= character.body.cocks.length;
 
-                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, character.body.cocks.count);
+                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, character.body.cocks.length);
 
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.count === 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("\n\nYour " + describeMultiCockShort(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else DisplayText("\n\nYour " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.count > 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("\n\nYour " + describeMultiCockShort(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else DisplayText("\n\nYour " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.count === 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.count > 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;
                     character.stats.lust += 20;
                 }
                 // SINGLEZ
-                if (character.body.cocks.count === 1) {
-                    DisplayText("\n\nYour " + describeMultiCockShort(character) + " fills to its normal size... and begins growing... ");
+                if (character.body.cocks.length === 1) {
+                    DisplayText("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing... ");
                     cockAmountThickened = Mod.Cock.thickenCock(character.body.cocks.get(0), 1);
                     cockAmountLengthened = Mod.Cock.growCock(character, character.body.cocks.get(0), randInt(3) + 2);
                     Mod.Cock.displayLengthChange(character, cockAmountLengthened, 1);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.count === 1) DisplayText("  Your " + describeMultiCockShort(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("  Your " + describeMultiCockShort(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else DisplayText("  Your " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.count > 1) DisplayText("  Your " + describeMultiCockShort(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("  Your " + describeMultiCockShort(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else DisplayText("  Your " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.count === 1) DisplayText("  Your " + describeMultiCockShort(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.count > 1) DisplayText("  Your " + describeMultiCockShort(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;
@@ -280,12 +280,12 @@ export class Eggs extends Consumable {
         // LARGE
         else {
             // New lines if changes
-            if (character.body.chest.count > 1 || character.body.butt.rating > 5 || character.body.hips.rating > 5 || character.body.vaginas.count > 0)
+            if (character.body.chest.length > 1 || character.body.butt.rating > 5 || character.body.hips.rating > 5 || character.body.vaginas.length > 0)
                 DisplayText("\n\n");
             // Kill pussies!
-            if (character.body.vaginas.count > 0) {
+            if (character.body.vaginas.length > 0) {
                 DisplayText("Your vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it!\n\n");
-                if (character.body.chest.count > 1 || character.body.butt.rating > 5 || character.body.hips.rating > 5)
+                if (character.body.chest.length > 1 || character.body.butt.rating > 5 || character.body.hips.rating > 5)
                     DisplayText("  ");
                 character.body.vaginas.remove(0);
                 // -- Don't understand this
@@ -293,11 +293,11 @@ export class Eggs extends Consumable {
                 character.updateGender();
             }
             // Kill extra boobages
-            if (character.body.chest.count > 1) {
-                DisplayText("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + describeBreastRow(character.body.chest.get(character.body.chest.count - 1)) + " have vanished.</b>");
+            if (character.body.chest.length > 1) {
+                DisplayText("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + describeBreastRow(character.body.chest.get(character.body.chest.length - 1)) + " have vanished.</b>");
                 if (character.body.butt.rating > 5 || character.body.hips.rating > 5) DisplayText("  ");
                 // Remove lowest row.
-                character.body.chest.remove(character.body.chest.count - 1);
+                character.body.chest.remove(character.body.chest.length - 1);
             }
             // Ass/hips shrinkage!
             if (character.body.butt.rating > 5) {
@@ -313,53 +313,53 @@ export class Eggs extends Consumable {
             if (character.body.chest.sort(BreastRow.Largest)[0].rating > 0) {
                 Mod.Breast.shrinkTits(character);
             }
-            if (character.body.cocks.count > 0) {
+            if (character.body.cocks.length > 0) {
                 // Multiz
-                if (character.body.cocks.count > 1) {
-                    DisplayText("\n\nYour " + describeMultiCock(character) + " fill to full-size... and begin growing obscenely.  ");
+                if (character.body.cocks.length > 1) {
+                    DisplayText("\n\nYour " + describeCocks(character) + " fill to full-size... and begin growing obscenely.  ");
                     for (const cock of character.body.cocks) {
                         cockAmountLengthened += Mod.Cock.growCock(character, cock, randInt(3) + 5);
                         cockAmountThickened += Mod.Cock.thickenCock(cock, 1.5);
                     }
-                    cockAmountLengthened /= character.body.cocks.count;
-                    cockAmountThickened /= character.body.cocks.count;
+                    cockAmountLengthened /= character.body.cocks.length;
+                    cockAmountThickened /= character.body.cocks.length;
 
-                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, character.body.cocks.count);
+                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, character.body.cocks.length);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.count === 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("\n\nYour " + describeMultiCockShort(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else DisplayText("\n\nYour " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.count > 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("\n\nYour " + describeMultiCockShort(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else DisplayText("\n\nYour " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.count === 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.count > 1) DisplayText("\n\nYour " + describeMultiCockShort(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;
                     character.stats.lust += 20;
                 }
                 // SINGLEZ
-                if (character.body.cocks.count === 1) {
-                    DisplayText("\n\nYour " + describeMultiCockShort(character) + " fills to its normal size... and begins growing...");
+                if (character.body.cocks.length === 1) {
+                    DisplayText("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing...");
                     cockAmountThickened = Mod.Cock.thickenCock(character.body.cocks.get(0), 1.5);
                     cockAmountLengthened = Mod.Cock.growCock(character, character.body.cocks.get(0), randInt(3) + 5);
                     Mod.Cock.displayLengthChange(character, cockAmountLengthened, 1);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.count === 1) DisplayText("  Your " + describeMultiCockShort(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("  Your " + describeMultiCockShort(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else DisplayText("  Your " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.count > 1) DisplayText("  Your " + describeMultiCockShort(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("  Your " + describeMultiCockShort(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else DisplayText("  Your " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.count === 1) DisplayText("  Your " + describeMultiCockShort(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.count > 1) DisplayText("  Your " + describeMultiCockShort(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;

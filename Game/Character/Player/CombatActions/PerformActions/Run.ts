@@ -30,7 +30,7 @@ export class Run implements CombatAction {
             return;
         }
         // Rut doesnt let you run from dicks.
-        if (character.statusAffects.has(StatusEffectType.Rut) && target.body.cocks.count > 0) {
+        if (character.effects.has(StatusEffectType.Rut) && target.body.cocks.length > 0) {
             DisplayText("The thought of another male in your area competing for all the pussy infuriates you!  No way will you run!");
             return;
         }/*
@@ -108,7 +108,7 @@ export class Run implements CombatAction {
 
         // Big tits doesn't matter as much if ya can fly!
         else {
-            if (character.body.chest.count > 0) {
+            if (character.body.chest.length > 0) {
                 const largestBreastSize: number = character.body.chest.sort(BreastRow.Largest)[0].rating;
                 if (largestBreastSize >= 35) escapeMod += 5;
                 if (largestBreastSize >= 66) escapeMod += 10;

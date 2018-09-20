@@ -14,9 +14,9 @@ import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { Gender } from '../../Body/GenderIdentity';
 import { describeBalls, describeSack } from '../../Descriptors/BallsDescriptor';
-import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
 
 export class SharkTooth extends Consumable {
@@ -74,14 +74,14 @@ export class SharkTooth extends Consumable {
         }
         // Smexual stuff!
         // -TIGGERSHARK ONLY: Grow a cunt (guaranteed if no gender)
-        if (this.enhanced && (character.gender === Gender.NONE || (character.body.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0))) {
+        if (this.enhanced && (character.gender === Gender.NONE || (character.body.vaginas.length <= 0 && changes < changeLimit && randInt(3) === 0))) {
             changes++;
             // (balls)
             if (character.body.balls.count > 0)
                 DisplayText("\n\nAn itch starts behind your " + describeBalls(true, true, character) + ", but before you can reach under to scratch it, the discomfort fades. A moment later a warm, wet feeling brushes your " + describeSack(character) + ", and curious about the sensation, <b>you lift up your balls to reveal your new vagina.</b>");
             // (dick)
-            else if (character.body.cocks.count > 0)
-                DisplayText("\n\nAn itch starts on your groin, just below your " + describeMultiCockShort(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
+            else if (character.body.cocks.length > 0)
+                DisplayText("\n\nAn itch starts on your groin, just below your " + describeCocksLight(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
             else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
             const newVagina: Vagina = new Vagina();
@@ -90,9 +90,9 @@ export class SharkTooth extends Consumable {
             character.updateGender();
         }
         // WANG GROWTH - TIGGERSHARK ONLY
-        if (this.enhanced && (character.body.cocks.count <= 0) && changes < changeLimit && randInt(3) === 0) {
+        if (this.enhanced && (character.body.cocks.length <= 0) && changes < changeLimit && randInt(3) === 0) {
             // Genderless:
-            if (character.body.vaginas.count <= 0) DisplayText("\n\nYou feel a sudden stabbing pain in your featureless crotch and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of a new human-shaped penis");
+            if (character.body.vaginas.length <= 0) DisplayText("\n\nYou feel a sudden stabbing pain in your featureless crotch and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of a new human-shaped penis");
             // Female:
             else DisplayText("\n\nYou feel a sudden stabbing pain just above your " + describeVagina(character, character.body.vaginas.get(0)) + " and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of not only a " + describeVagina(character, character.body.vaginas.get(0)) + ", but a new human-shaped penis");
             if (character.body.balls.count === 0) {
@@ -110,7 +110,7 @@ export class SharkTooth extends Consumable {
             changes++;
         }
         // (Requires the character having two testicles)
-        if (this.enhanced && (character.body.balls.count === 0 || character.body.balls.count === 2) && character.body.cocks.count > 0 && changes < changeLimit && randInt(3) === 0) {
+        if (this.enhanced && (character.body.balls.count === 0 || character.body.balls.count === 2) && character.body.cocks.length > 0 && changes < changeLimit && randInt(3) === 0) {
             if (character.body.balls.count === 2) {
                 DisplayText("\n\nYou gasp in shock as a sudden pain racks your abdomen. Within seconds, two more testes drop down into your " + describeSack(character) + ", your skin stretching out to accommodate them. Once the pain clears, you examine <b>your new quartet of testes.</b>");
                 character.body.balls.count = 4;
@@ -129,7 +129,7 @@ export class SharkTooth extends Consumable {
         // Mouth TF
         if (character.body.face.type !== FaceType.SHARK_TEETH && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\n");
-            if (character.body.face.type > FaceType.HUMAN && character.body.face.type < FaceType.SHARK_TEETH) DisplayText("Your " + describeFace(character) + " explodes with agony, reshaping into a more human-like visage.  ");
+            if (character.body.face.type > FaceType.HUMAN && character.body.face.type < FaceType.SHARK_TEETH) DisplayText("Your " + describeFaceShort(character) + " explodes with agony, reshaping into a more human-like visage.  ");
             character.body.face.type = FaceType.SHARK_TEETH;
             DisplayText("You firmly grasp your mouth, an intense pain racking your oral cavity. Your gums shift around and the bones in your jaw reset. You blink a few times wondering what just happened. You move over to a puddle to catch sight of your reflection, and you are thoroughly surprised by what you see. A set of retractable shark fangs have grown in front of your normal teeth, and your face has elongated slightly to accommodate them!  They even scare you a little.\n(Gain: 'Bite' special attack)");
             changes++;
@@ -150,7 +150,7 @@ export class SharkTooth extends Consumable {
         // Tail TF
         if (character.body.tails.reduce(Tail.HasType(TailType.SHARK), false) && randInt(3) === 0 && changes < changeLimit) {
             changes++;
-            if (character.body.tails.count >= 1) DisplayText("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your brand new shark tail.");
+            if (character.body.tails.length >= 1) DisplayText("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your brand new shark tail.");
             else DisplayText("\n\nJets of pain shoot down your spine into your tail.  You feel the tail bulging out until it explodes into a large and flexible shark-tail.  You swish it about experimentally, and find it quite easy to control.");
             character.body.tails.clear();
             character.body.tails.add(new Tail(TailType.SHARK));

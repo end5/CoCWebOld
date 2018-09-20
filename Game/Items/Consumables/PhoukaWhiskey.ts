@@ -98,15 +98,15 @@ export class PhoukaWhiskey extends Consumable {
         const sensChange: number = (character.stats.sens < 10 ? character.stats.sens : 10);
         const speedChange: number = (character.stats.spe < 20 ? character.stats.spe : 20);
         const intChange: number = (character.stats.int < 20 ? character.stats.int : 20);
-        if (character.statusAffects.has(StatusEffectType.PhoukaWhiskeyAffect)) {
-            const drinksSoFar: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
+        if (character.effects.has(StatusEffectType.PhoukaWhiskeyAffect)) {
+            const drinksSoFar: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
             if (drinksSoFar < 4)
-                character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 8 - (2 * drinksSoFar);
+                character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 8 - (2 * drinksSoFar);
             else
-                character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 1; // Always get at least one more hour of drunkenness
-            character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value2 = 1;
-            character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value3 = 256 * libidoChange + sensChange;
-            character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value4 = 256 * speedChange + intChange;
+                character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 1; // Always get at least one more hour of drunkenness
+            character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value2 = 1;
+            character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value3 = 256 * libidoChange + sensChange;
+            character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value4 = 256 * speedChange + intChange;
             DisplayText("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
             character.stats.lib += libidoChange;
             character.stats.sens -= sensChange;
@@ -114,7 +114,7 @@ export class PhoukaWhiskey extends Consumable {
             character.stats.int -= intChange;
         }
         else { // First time
-            character.statusAffects.add(StatusEffectType.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange);
+            character.effects.add(StatusEffectType.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange);
             // The four stats we’re affecting get paired together to save space. This way we don’t need a second StatusAffect to store more info.
             character.stats.lib += libidoChange;
             character.stats.sens -= sensChange;
@@ -124,9 +124,9 @@ export class PhoukaWhiskey extends Consumable {
     }
 
     public phoukaWhiskeyExpires(character: Character) {
-        const numDrunk: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
-        const libidoSensCombined: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value3;
-        const intSpeedCombined: number = character.statusAffects.get(StatusEffectType.PhoukaWhiskeyAffect).value4;
+        const numDrunk: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
+        const libidoSensCombined: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value3;
+        const intSpeedCombined: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value4;
 
         const sensChange: number = libidoSensCombined & 255;
         const libidoChange: number = (libidoSensCombined - sensChange) / 256;
@@ -137,7 +137,7 @@ export class PhoukaWhiskey extends Consumable {
         character.stats.sens += sensChange;
         character.stats.spe += speedChange;
         character.stats.int += intChange;
-        character.statusAffects.remove(StatusEffectType.PhoukaWhiskeyAffect);
+        character.effects.remove(StatusEffectType.PhoukaWhiskeyAffect);
         if (numDrunk > 3)
             DisplayText("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
         else if (numDrunk > 1)

@@ -11,7 +11,7 @@ export class Heal extends BlackMagic {
     public readonly baseCost: number = 20;
 
     public isPossible(character: Character): boolean {
-        return character.statusAffects.has(StatusEffectType.KnowsHeal);
+        return character.effects.has(StatusEffectType.KnowsHeal);
     }
 
     public castSpell(character: Character, monster: Character): NextScreenChoices {
@@ -23,7 +23,7 @@ export class Heal extends BlackMagic {
             DisplayText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
             if (character.gender === Gender.NONE) DisplayText(describeButthole(character.body.butt) + " tingles with a desire to be filled as your libido spins out of control.");
             if (character.gender === Gender.MALE) {
-                if (character.body.cocks.count === 1) DisplayText(describeCock(character, character.body.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+                if (character.body.cocks.length === 1) DisplayText(describeCock(character, character.body.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
                 else DisplayText(describeMultiCockShort(character) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
             }
             if (character.gender === Gender.FEMALE) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");

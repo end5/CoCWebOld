@@ -13,7 +13,7 @@ import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
-import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { Gender } from '../../Body/GenderIdentity';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
 
@@ -48,13 +48,13 @@ export class TrapOil extends Consumable {
             changes++;
         }
         // Sensitivity Increase:
-        if (character.stats.sens < 70 && character.body.cocks.count > 0 && randInt(3) === 0 && changes < changeLimit) {
+        if (character.stats.sens < 70 && character.body.cocks.length > 0 && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\nA light breeze brushes over you and your skin tingles.  You have become more sensitive to physical sensation.");
             character.stats.sens += 5;
             changes++;
         }
         // Libido Increase:
-        if (character.stats.lib < 70 && character.body.vaginas.count > 0 && randInt(3) === 0 && changes < changeLimit) {
+        if (character.stats.lib < 70 && character.body.vaginas.length > 0 && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\nYou feel your blood quicken and rise, and a desire to... hunt builds within you.");
             character.stats.lib += 2;
             if (character.stats.lib < 30) character.stats.lib += 2;
@@ -80,12 +80,12 @@ export class TrapOil extends Consumable {
             character.body.hips.rating++;
             changes++;
         }
-        if (character.body.chest.count > 0) {
+        if (character.body.chest.length > 0) {
             // Breast Loss: (towards A cup)
             if (character.body.chest.sort(BreastRow.Largest)[0].rating > 1 && randInt(4) === 0 && changes < changeLimit) {
                 DisplayText("\n\nYou gasp as you feel a compressing sensation in your chest and around your [fullChest].  The feeling quickly fades however, leaving you feeling like you have lost a considerable amount of weight from your upper body.");
                 let selectedBreastRow: BreastRow;
-                for (let index: number = 0; index < character.body.chest.count; index++) {
+                for (let index: number = 0; index < character.body.chest.length; index++) {
                     selectedBreastRow = character.body.chest.get(index);
                     if (selectedBreastRow.rating > 70) selectedBreastRow.rating -= randInt(3) + 15;
                     else if (selectedBreastRow.rating > 50) selectedBreastRow.rating -= randInt(3) + 10;
@@ -99,28 +99,28 @@ export class TrapOil extends Consumable {
             // Breast Gain: (towards A cup)
             if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1 || character.body.chest.get(0).rating < 1 && randInt(4) === 0 && changes < changeLimit) {
                 DisplayText("\n\nYou feel a vague swelling sensation in your [fullChest], and you frown downwards.  You seem to have gained a little weight on your chest.  Not enough to stand out, but- you cup yourself carefully- certainly giving you the faintest suggestion of boobs.");
-                for (let index: number = 0; index < character.body.chest.count; index++)
+                for (let index: number = 0; index < character.body.chest.length; index++)
                     if (character.body.chest.get(index).rating < 1)
                         character.body.chest.get(index).rating = 1;
                 changes++;
             }
         }
         // Penis Reduction towards 3.5 Inches:
-        if (character.body.cocks.count > 0 && character.body.cocks.sort(Cock.Longest)[0].length >= 3.5 && character.body.cocks.count > 0 && randInt(2) === 0 && changes < changeLimit) {
-            DisplayText("\n\nYou flinch and gasp as your " + describeMultiCockShort(character) + " suddenly become");
-            if (character.body.cocks.count === 1) DisplayText("s");
+        if (character.body.cocks.length > 0 && character.body.cocks.sort(Cock.Longest)[0].length >= 3.5 && character.body.cocks.length > 0 && randInt(2) === 0 && changes < changeLimit) {
+            DisplayText("\n\nYou flinch and gasp as your " + describeCocksLight(character) + " suddenly become");
+            if (character.body.cocks.length === 1) DisplayText("s");
             DisplayText(" incredibly sensitive and retract into your body.  Anxiously you pull down your underclothes to examine your nether regions.  To your relief ");
-            if (character.body.cocks.count === 1) DisplayText("it is");
+            if (character.body.cocks.length === 1) DisplayText("it is");
             else DisplayText("they are");
             DisplayText(" still present, and as you touch ");
-            if (character.body.cocks.count === 1) DisplayText("it");
+            if (character.body.cocks.length === 1) DisplayText("it");
             else DisplayText("them");
             DisplayText(", the sensitivity fades, however - a blush comes to your cheeks - ");
-            if (character.body.cocks.count === 1) DisplayText("it seems");
+            if (character.body.cocks.length === 1) DisplayText("it seems");
             else DisplayText("they seem");
             DisplayText(" to have become smaller.");
             let selectedCock: Cock;
-            for (let index: number = 0; index < character.body.cocks.count; index++) {
+            for (let index: number = 0; index < character.body.cocks.length; index++) {
                 selectedCock = character.body.cocks.get(index);
                 if (selectedCock.length >= 3.5) {
                     // Shrink said cock
@@ -137,7 +137,7 @@ export class TrapOil extends Consumable {
             changes++;
         }
         // Testicle Reduction:
-        if (character.body.balls.count > 0 && character.body.cocks.count > 0 && (character.body.balls.size > 1 || !character.statusAffects.has(StatusEffectType.Uniball)) && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.balls.count > 0 && character.body.cocks.length > 0 && (character.body.balls.size > 1 || !character.effects.has(StatusEffectType.Uniball)) && randInt(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nYou feel a delicate tightening sensation around your [balls].  The sensation upon this most sensitive part of your anatomy isn't painful, but the feeling of your balls getting smaller is intense enough that you stifle anything more than a sharp intake of breath only with difficulty.");
             character.body.balls.size--;
             if (character.body.balls.size > 8) character.body.balls.size--;
@@ -146,11 +146,11 @@ export class TrapOil extends Consumable {
             if (character.body.balls.size > 15) character.body.balls.size--;
             if (character.body.balls.size > 20) character.body.balls.size--;
             // Testicle Reduction final:
-            if (character.body.balls.size < 1 && !character.statusAffects.has(StatusEffectType.Uniball)) {
-                DisplayText("  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " + describeMultiCockShort(character) + ", but press perkily upwards.  Heat ringing your ears, you explore your new sack with a careful hand.  You are deeply grateful you apparently haven't reversed puberty, but you discover that though you still have " + numToCardinalText(character.body.balls.count) + ", your balls now look and feel like one: one cute, tight little sissy parcel, its warm, insistent pressure upwards upon the joining of your thighs a never-ending reminder of it.");
+            if (character.body.balls.size < 1 && !character.effects.has(StatusEffectType.Uniball)) {
+                DisplayText("  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " + describeCocksLight(character) + ", but press perkily upwards.  Heat ringing your ears, you explore your new sack with a careful hand.  You are deeply grateful you apparently haven't reversed puberty, but you discover that though you still have " + numToCardinalText(character.body.balls.count) + ", your balls now look and feel like one: one cute, tight little sissy parcel, its warm, insistent pressure upwards upon the joining of your thighs a never-ending reminder of it.");
                 // [Note: Balls description should no longer say �swings heavily beneath�.  For simplicity's sake sex scenes should continue to assume two balls]
                 character.body.balls.size = 1;
-                character.statusAffects.add(StatusEffectType.Uniball, 0, 0, 0, 0);
+                character.effects.add(StatusEffectType.Uniball, 0, 0, 0, 0);
             }
             else if (character.body.balls.size < 1) character.body.balls.size = 1;
             changes++;
@@ -167,7 +167,7 @@ export class TrapOil extends Consumable {
             character.stats.sens += 2;
         }
         // Fertility Decrease:
-        if (character.body.vaginas.count > 0 && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.vaginas.length > 0 && randInt(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nThe vague numbness in your skin sinks slowly downwards, and you put a hand on your lower stomach as the sensation centers itself there.  ");
             character.stats.sens += -2;
             // High fertility:
@@ -241,9 +241,9 @@ export class TrapOil extends Consumable {
             }
         }
         // Nipples Turn Black:
-        if (!character.statusAffects.has(StatusEffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
+        if (!character.effects.has(StatusEffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
             DisplayText("\n\nA tickling sensation plucks at your nipples and you cringe, trying not to giggle.  Looking down you are in time to see the last spot of flesh tone disappear from your [nipples].  They have turned an onyx black!");
-            character.statusAffects.add(StatusEffectType.BlackNipples, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.BlackNipples, 0, 0, 0, 0);
             changes++;
         }
         // Remove odd eyes
@@ -262,7 +262,7 @@ export class TrapOil extends Consumable {
             changes++;
         }
         // Vagina Turns Black:
-        if (character.body.vaginas.count > 0 && character.body.vaginas.get(0).type !== VaginaType.BLACK_SAND_TRAP && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).type !== VaginaType.BLACK_SAND_TRAP && randInt(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nYour [vagina] feels... odd.  You undo your clothes and gingerly inspect your nether regions.  The tender pink color of your sex has disappeared, replaced with smooth, marble blackness starting at your lips and working inwards.");
             // (Wet:
             if (character.body.vaginas.get(0).wetness >= 3) DisplayText("  Your natural lubrication makes it gleam invitingly.");

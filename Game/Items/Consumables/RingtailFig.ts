@@ -53,7 +53,7 @@ export class RingtailFig extends Consumable {
         }
 
         // Sex stuff
-        if (character.body.cocks.count > 0) {
+        if (character.body.cocks.length > 0) {
             // gain ball size
             if (character.body.balls.count > 0 && character.body.balls.size < 15 && randInt(4) === 0 && changes < changeLimit) {
                 DisplayText("\n\nYour [balls] inflate, stretching the skin of your sack.  Exposing them, you can see that they've grown several inches!  How magical!");
@@ -78,7 +78,7 @@ export class RingtailFig extends Consumable {
         if (character.body.tails.reduce(Tail.HasType(TailType.RACCOON), false) && randInt(4) === 0 && changes < changeLimit) {
             // grow da tail
             // from no tail:
-            if (character.body.tails.count >= 1) {
+            if (character.body.tails.length >= 1) {
                 DisplayText("\n\nPain shivers through your spine and forces you onto the ground; your body locks up despite your attempt to rise again.  You can feel a tug on your spine from your backside, as if someone is trying to pull it out!  Several nodules form along your back, growing into new vertebrae and pushing the old ones downward and into your [armor].  An uncomfortable pressure grows there, as whatever development is taking place fights to free itself from the constriction.  Finally the shifting stops, and you're able to move again; the first thing you do is loosen your bottoms, allowing a matted tail to slide out.  <b>It twitches involuntarily, fluffing out into a ringed raccoon tail!</b>");
             }
             // from other tail:

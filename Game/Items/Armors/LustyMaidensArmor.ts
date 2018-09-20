@@ -6,7 +6,7 @@ import { Vagina } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
-import { describeMultiCockShort, describeCockShort, describeCockHead } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight, describeCockShort, describeCockHead } from '../../Descriptors/CockDescriptor';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { mf } from '../../Descriptors/GenderDescriptor';
 import { returnToCampUseOneHour } from '../../Scenes/Camp';
@@ -36,16 +36,16 @@ export class LustyMaidensArmor extends Armor {
         DisplayText("\n\nYou shake your head and smile ruefully - maybe once you finish getting dressed!  There's still a bottom to put on, after all.  Regardless, one of your hands keeps coming to rest on your boob, idly groping and fondling your heavy tit whenever you have a free moment.  This sure is some fun armor!");
         character.stats.lustNoResist += 25;
         DisplayText("\n\nNow, the bottom is a leather thong and skirt combination.  The thong itself is leather dyed radiant white, with intricate gold filigree covering the front triangle.  On the back triangle, there's a similar pattern, though you could swear that from a distance the pattern looks a bit like arrows pointing towards where your [asshole] will be with golden sperm surrounding them. No, that has to be your imagination.  All this time in this strange land must really be getting to you!  Both pieces are molded to accentuate the female form, with a crease in the gusset that will rest over your vagina, ensuring ");
-        if (character.body.cocks.count > 0 || character.body.balls.count > 0) {
+        if (character.body.cocks.length > 0 || character.body.balls.count > 0) {
             DisplayText("that it won't fit you ");
-            if (character.body.cocks.count > 0)
-                DisplayText("or your " + describeMultiCockShort(character));
+            if (character.body.cocks.length > 0)
+                DisplayText("or your " + describeCocksLight(character));
             else
                 DisplayText("or your [balls]");
             DisplayText(" at all!  <b>You put your old gear back on with a sigh</b>.");
             return false;
         }
-        else if (character.body.vaginas.count <= 0) {
+        else if (character.body.vaginas.length <= 0) {
             DisplayText("that it will dig uncomfortably into your featureless groin.  <b>You put your old gear back on with a sigh</b>.");
             return false;
         }

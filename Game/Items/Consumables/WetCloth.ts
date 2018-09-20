@@ -118,7 +118,7 @@ export class WetCloth extends Consumable {
             return;
         }
         // 3a. Grow vagina if none
-        if (character.body.vaginas.count <= 0) {
+        if (character.body.vaginas.length <= 0) {
             DisplayText("\n\nA wet warmth spreads through your slimey groin as a narrow gash appears on the surface of your groin.  <b>You have grown a vagina.</b>");
             const newVagina: Vagina = new Vagina();
             newVagina.wetness = VaginaWetness.DROOLING;
@@ -131,9 +131,9 @@ export class WetCloth extends Consumable {
         }
         // 3b.Infinite Vagina
         if (character.vaginalCapacity() < 9000) {
-            if (!character.statusAffects.has(StatusEffectType.BonusVCapacity))
-                character.statusAffects.add(StatusEffectType.BonusVCapacity, 9000, 0, 0, 0);
-            else character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 = 9000;
+            if (!character.effects.has(StatusEffectType.BonusVCapacity))
+                character.effects.add(StatusEffectType.BonusVCapacity, 9000, 0, 0, 0);
+            else character.effects.get(StatusEffectType.BonusVCapacity).value1 = 9000;
             DisplayText("\n\nYour " + describeVagina(character, character.body.vaginas.get(0)) + "'s internal walls feel a tingly wave of strange tightness.  Experimentally, you slip a few fingers, then your hand, then most of your forearm inside yourself.  <b>It seems you're now able to accommodate just about ANYTHING inside your sex.</b>");
             return;
         }
@@ -145,13 +145,13 @@ export class WetCloth extends Consumable {
         }
         // Big slime girl
         else {
-            if (!character.statusAffects.has(StatusEffectType.SlimeCraving)) {
+            if (!character.effects.has(StatusEffectType.SlimeCraving)) {
                 DisplayText("\n\nYou feel a growing gnawing in your gut.  You feel... hungry, but not for food.  No, you need something wet and goopy pumped into you.  You NEED it.  You can feel it in your bones.  <b>If you don't feed that need... you'll get weaker and maybe die.</b>");
-                character.statusAffects.add(StatusEffectType.SlimeCraving, 0, 0, 0, 1); // Value four indicates this tracks strength and speed separately
+                character.effects.add(StatusEffectType.SlimeCraving, 0, 0, 0, 1); // Value four indicates this tracks strength and speed separately
             }
             else {
                 DisplayText("\n\nYou feel full for a moment, but you know it's just a temporary respite from your constant need to be 'injected' with fluid.");
-                character.statusAffects.get(StatusEffectType.SlimeCraving).value1 = 0;
+                character.effects.get(StatusEffectType.SlimeCraving).value1 = 0;
             }
         }
         if (randInt(2) === 0) DisplayText(Mod.Body.displayModFem(character, 85, 3));

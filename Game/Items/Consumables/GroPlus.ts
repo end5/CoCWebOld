@@ -12,7 +12,7 @@ import { ItemType } from '../ItemType';
 import { describeSack, describeBallsShort } from '../../Descriptors/BallsDescriptor';
 import { describeAllBreasts, describeNipple } from '../../Descriptors/BreastDescriptor';
 import { describeClit } from '../../Descriptors/VaginaDescriptor';
-import { describeMultiCockShort, describeCock } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight, describeCock } from '../../Descriptors/CockDescriptor';
 import { inventoryMenu } from '../../Menus/InGame/PlayerInventoryMenu';
 
 export class GroPlus extends Consumable {
@@ -26,9 +26,9 @@ export class GroPlus extends Consumable {
 
     public use(character: Character): NextScreenChoices {
         const gpBalls: ClickOption = (character.body.balls.count > 0 ? this.growPlusBalls : undefined);
-        const gpBreasts: ClickOption = (character.body.chest.count > 0 ? this.growPlusBreasts : undefined);
-        const gpClit: ClickOption = (character.body.vaginas.count > 0 ? this.growPlusClit : undefined);
-        const gpCock: ClickOption = (character.body.cocks.count > 0 ? this.growPlusCock : undefined);
+        const gpBreasts: ClickOption = (character.body.chest.length > 0 ? this.growPlusBreasts : undefined);
+        const gpClit: ClickOption = (character.body.vaginas.length > 0 ? this.growPlusClit : undefined);
+        const gpCock: ClickOption = (character.body.cocks.length > 0 ? this.growPlusCock : undefined);
         const gpNipples: ClickOption = (character.body.chest.reduce(BreastRow.NippleCount, 0) > 0 ? this.growPlusNipples : undefined);
         DisplayText().clear();
         DisplayText("You ponder the needle in your hand knowing it will enlarge the injection site.  What part of your body will you use it on?  ");
@@ -61,10 +61,10 @@ export class GroPlus extends Consumable {
         DisplayText().clear();
         character.slimeFeed();
         DisplayText("You sink the needle into the flesh of your " + describeAllBreasts(character) + " injecting each with a portion of the needle.\n\n");
-        if (character.body.chest.count === 1)
+        if (character.body.chest.length === 1)
             Mod.Breast.growSmallestBreastRow(character, randInt(5) + 1, 1, true);
         else
-            Mod.Breast.growSmallestBreastRow(character, randInt(2) + 1, character.body.chest.count, true);
+            Mod.Breast.growSmallestBreastRow(character, randInt(2) + 1, character.body.chest.length, true);
         character.stats.lust += 10;
         return { next: inventoryMenu };
     }
@@ -84,8 +84,8 @@ export class GroPlus extends Consumable {
     private growPlusCock(character: Character): NextScreenChoices {
         DisplayText().clear();
         character.slimeFeed();
-        DisplayText("You sink the needle into the base of your " + describeMultiCockShort(character) + ".  It hurts like hell, but as you depress the plunger, the pain vanishes, replaced by a tingling pleasure as the chemicals take effect.\n\n");
-        if (character.body.cocks.count === 1) {
+        DisplayText("You sink the needle into the base of your " + describeCocksLight(character) + ".  It hurts like hell, but as you depress the plunger, the pain vanishes, replaced by a tingling pleasure as the chemicals take effect.\n\n");
+        if (character.body.cocks.length === 1) {
             DisplayText("Your " + describeCock(character, character.body.cocks.get(0)) + " twitches and thickens, pouring more than an inch of thick new length from your ");
             Mod.Cock.growCock(character, character.body.cocks.get(0), 4);
             character.body.cocks.get(0).length += 1; // This was forcing "what was said" to match "what actually happened" no matter what increase/growCock /actually/ did.
@@ -93,8 +93,8 @@ export class GroPlus extends Consumable {
         }
         // MULTI
         else {
-            DisplayText("Your " + describeMultiCockShort(character) + " twitch and thicken, each member pouring out more than an inch of new length from your ");
-            for (let index: number = 0; index < character.body.cocks.count; index++) {
+            DisplayText("Your " + describeCocksLight(character) + " twitch and thicken, each member pouring out more than an inch of new length from your ");
+            for (let index: number = 0; index < character.body.cocks.length; index++) {
                 Mod.Cock.growCock(character, character.body.cocks.get(index), 2);
                 character.body.cocks.get(index).length += 1;
                 character.body.cocks.get(index).thickness += 0.5;
@@ -114,7 +114,7 @@ export class GroPlus extends Consumable {
         DisplayText("You sink the needle into each of your " + describeNipple(character, character.body.chest.get(0)) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
         // Grow nipples
         DisplayText("Your nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");
-        character.body.chest.get(randInt(character.body.chest.count - 1)).nipples.length += (randInt(2) + 3) / 10;
+        character.body.chest.get(randInt(character.body.chest.length - 1)).nipples.length += (randInt(2) + 3) / 10;
         character.stats.lust += 15;
         // NIPPLECUNTZZZ
         if (character.body.chest.find(BreastRow.NonFuckableNipples) && randInt(4) === 0) {

@@ -19,7 +19,7 @@ export class KitsuneTerror extends PlayerSpellAction {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.statusAffects.has(StatusEffectType.ThroatPunch) || character.statusAffects.has(StatusEffectType.WebSilence)) {
+        if (character.effects.has(StatusEffectType.ThroatPunch) || character.effects.has(StatusEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
@@ -29,7 +29,7 @@ export class KitsuneTerror extends PlayerSpellAction {
     public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // Fatigue Cost: 25
-        if (monster.statusAffects.has(StatusEffectType.Shell)) {
+        if (monster.effects.has(StatusEffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -44,7 +44,7 @@ export class KitsuneTerror extends PlayerSpellAction {
         // (succeed)
         if (character.stats.int / 10 + randInt(20) + 1 > monster.stats.int / 10 + 10) {
             DisplayText("  They cower in horror as they succumb to your illusion, believing themselves beset by eldritch horrors beyond their wildest nightmares.\n\n");
-            monster.statusAffects.add(StatusEffectType.Fear, 1, 0, 0, 0);
+            monster.effects.add(StatusEffectType.Fear, 1, 0, 0, 0);
             monster.stats.spe -= 5;
             if (monster.stats.spe < 1)
                 monster.stats.spe = 1;

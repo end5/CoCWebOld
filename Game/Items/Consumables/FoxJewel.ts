@@ -132,20 +132,20 @@ export class FoxJewel extends Consumable {
             changes++;
         }
         // [Increase Vaginal Capacity] - requires vagina, of course
-        if (character.body.vaginas.count > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 < 200 && changes < changeLimit) {
+        if (character.body.vaginas.length > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && character.effects.get(StatusEffectType.BonusVCapacity).value1 < 200 && changes < changeLimit) {
             DisplayText("\n\nA gurgling sound issues from your abdomen, and you double over as a trembling ripple passes through your womb.  The flesh of your stomach roils as your internal organs begin to shift, and when the sensation finally passes, you are instinctively aware that your " + describeVagina(character, character.body.vaginas.get(0)) + " is a bit deeper than it was before.");
-            if (!character.statusAffects.has(StatusEffectType.BonusVCapacity)) {
-                character.statusAffects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
+            if (!character.effects.has(StatusEffectType.BonusVCapacity)) {
+                character.effects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
             }
-            character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 = 5 + randInt(10);
+            character.effects.get(StatusEffectType.BonusVCapacity).value1 = 5 + randInt(10);
             changes++;
         }
         // [Vag of Holding] - rare effect, only if PC has high vaginal looseness
-        else if (character.body.vaginas.count > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 >= 200 && character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 < 8000 && changes < changeLimit) {
+        else if (character.body.vaginas.length > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && character.effects.get(StatusEffectType.BonusVCapacity).value1 >= 200 && character.effects.get(StatusEffectType.BonusVCapacity).value1 < 8000 && changes < changeLimit) {
             DisplayText("\n\nYou clutch your stomach with both hands, dropping to the ground in pain as your internal organs begin to twist and shift violently inside you.  As you clench your eyes shut in agony, you are overcome with a sudden calm.  The pain in your abdomen subsides, and you feel at one with the unfathomable infinity of the universe, warmth radiating through you from the vast swirling cosmos contained within your womb.");
             if (User.settings.silly()) DisplayText("  <b>Your vagina has become a universe unto itself, capable of accepting colossal insertions beyond the scope of human comprehension!</b>");
             else DisplayText("  <b>Your vagina is now capable of accepting even the most ludicrously sized insertions with no ill effects.</b>");
-            character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 = 8000;
+            character.effects.get(StatusEffectType.BonusVCapacity).value1 = 8000;
             changes++;
         }
 
@@ -155,7 +155,7 @@ export class FoxJewel extends Consumable {
         // [Grow Fox Tail]
         if (!character.body.tails.reduce(Tail.HasType(TailType.FOX), false) && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0))) {
             // if PC has no tail
-            if (character.body.tails.count >= 1) {
+            if (character.body.tails.length >= 1) {
                 DisplayText("\n\nA pressure builds on your backside.  You feel under your " + character.inventory.equipment.armor.displayName + " and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it has a mind of its own.  <b>You now have a fox-tail.</b>");
             }
             // if PC has another type of tail
@@ -294,13 +294,13 @@ export class FoxJewel extends Consumable {
             //9999 - pending tats system
         }*/
         // Nipples Turn Back:
-        if (character.statusAffects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
+        if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
             DisplayText("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
-            character.statusAffects.remove(StatusEffectType.BlackNipples);
+            character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN && character.body.vaginas.count > 0) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN && character.body.vaginas.length > 0) {
             DisplayText("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
             character.body.vaginas.get(0).type = VaginaType.HUMAN;
             changes++;

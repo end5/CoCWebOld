@@ -10,11 +10,11 @@ export class ImmolationSpell implements CombatAction {
     public reasonCannotUse: string = "";
 
     public isPossible(character: Character): boolean {
-        return character.statusAffects.has(StatusEffectType.ImmolationSpell);
+        return character.effects.has(StatusEffectType.ImmolationSpell);
     }
 
     public canUse(character: Character): boolean {
-        return character.statusAffects.has(StatusEffectType.ImmolationSpell);
+        return character.effects.has(StatusEffectType.ImmolationSpell);
     }
 
     public use(character: Character, monster: Character): NextScreenChoices {
@@ -23,7 +23,7 @@ export class ImmolationSpell implements CombatAction {
         let damage: number = Math.floor(75 + (character.stats.int / 3 + randInt(character.stats.int / 2)) * character.combat.stats.spellMod());
         damage = monster.combat.stats.loseHP(damage, character);
         DisplayText(" (" + damage + ")\n\n");
-        character.statusAffects.remove(StatusEffectType.ImmolationSpell);
+        character.effects.remove(StatusEffectType.ImmolationSpell);
         // Scenes.arianScene.clearTalisman();
         return;
     }

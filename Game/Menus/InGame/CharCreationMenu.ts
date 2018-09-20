@@ -342,7 +342,7 @@ function chooseEndowment(player: Player): NextScreenChoices {
         ["Libido", confirmEndowmentLibido],
         ["Touch", confirmEndowmentTouch]
     ];
-    if (player.body.cocks.count > 0) {
+    if (player.body.cocks.length > 0) {
         choices.push(["Big Cock", confirmEndowmentBigCock], ["Lots of Jizz", confirmEndowmentMessyOrgasms]);
     }
     else {
@@ -570,7 +570,7 @@ function confirmHistory(choice: PerkType): NextScreenChoices {
 function setHistory(player: Player, choice: PerkType): NextScreenChoices {
     player.perks.set(choice, PerkFactory.create(choice));
     if (choice === PerkType.HistorySlut || choice === PerkType.HistoryWhore) {
-        if (player.body.vaginas.count > 0) {
+        if (player.body.vaginas.length > 0) {
             player.body.vaginas.get(0).virgin = false;
             player.body.vaginas.get(0).looseness = VaginaLooseness.LOOSE;
         }

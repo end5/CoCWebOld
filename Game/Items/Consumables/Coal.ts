@@ -26,10 +26,10 @@ export class Coal extends Consumable {
         }
         else {
             // Boost anal capacity without gaping
-            if (character.statusAffects.get(StatusEffectType.BonusACapacity).value1 < 80) {
-                if (!character.statusAffects.has(StatusEffectType.BonusACapacity))
-                    character.statusAffects.add(StatusEffectType.BonusACapacity, 0, 0, 0, 0);
-                character.statusAffects.get(StatusEffectType.BonusACapacity).value1 = 5;
+            if (character.effects.get(StatusEffectType.BonusACapacity).value1 < 80) {
+                if (!character.effects.has(StatusEffectType.BonusACapacity))
+                    character.effects.add(StatusEffectType.BonusACapacity, 0, 0, 0, 0);
+                character.effects.get(StatusEffectType.BonusACapacity).value1 = 5;
                 DisplayText("\n\nYou feel... more accommodating somehow.  Your " + describeButthole(character.body.butt) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.");
                 changes++;
             }

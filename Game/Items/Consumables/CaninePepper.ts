@@ -17,7 +17,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
-import { describeCock, nounCock, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCock, nounCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBalls, describeSack, describeBallsShort } from '../../Descriptors/BallsDescriptor';
 import { describeBreastRow, breastCup } from '../../Descriptors/BreastDescriptor';
 import { Gender } from '../../Body/GenderIdentity';
@@ -111,7 +111,7 @@ export class CaninePepper extends Consumable {
             character.body.legs.type === LegType.DOG &&
             character.body.tails.get(0).type === TailType.DOG &&
             randInt(2) === 0 &&
-            character.statusAffects.has(StatusEffectType.DogWarning)) {
+            character.effects.has(StatusEffectType.DogWarning)) {
             if (randInt(2) === 0) {
                 DisplayText("\n\nAs you swallow the pepper, you note that the spicy hotness on your tongue seems to be spreading. Your entire body seems to tingle and burn, making you feel far warmer than normal, feverish even. Unable to stand it any longer you tear away your clothes, hoping to cool down a little. Sadly, this does nothing to aid you with your problem. On the bright side, the sudden feeling of vertigo you've developed is more than enough to take your mind off your temperature issues. You fall forward onto your hands and knees, well not really hands and knees to be honest. More like paws and knees. That can't be good, you think for a moment, before the sensation of your bones shifting into a quadrupedal configuration robs you of your concentration. After that, it is only a short time before your form is remade completely into that of a large dog, or perhaps a wolf. The distinction would mean little to you now, even if you were capable of comprehending it. ");
                 if (character.perks.has(PerkType.MarblesMilk))
@@ -134,7 +134,7 @@ export class CaninePepper extends Consumable {
             // If character has NO dogdicks
             if (character.body.cocks.filter(Cock.FilterType(CockType.DOG)).length === 0) {
                 // Dickless - grow two dogpeckers
-                if (character.body.cocks.count === 0) {
+                if (character.body.cocks.length === 0) {
                     character.body.cocks.add(new Cock(7 + randInt(7), 1.5 + randInt(10) / 10));
                     character.body.cocks.add(new Cock(7 + randInt(7), 1.5 + randInt(10) / 10));
                     DisplayText("\n\nA painful lump forms on your groin, nearly doubling you over as it presses against your " + character.inventory.equipment.armor.displayName + ".  You rip open your gear and watch, horrified as the discolored skin splits apart, revealing a pair of red-tipped points.  A feeling of relief, and surprising lust grows as they push forward, glistening red and thickening.  The skin bunches up into an animal-like sheath, while a pair of fat bulges pop free.  You now have two nice thick dog-cocks, with decent sized knots.  Both pulse and dribble animal-pre, arousing you in spite of your attempts at self-control.");
@@ -145,7 +145,7 @@ export class CaninePepper extends Consumable {
                     character.stats.lust += 50;
                 }
                 // 1 dick - grow 1 and convert 1
-                else if (character.body.cocks.count === 1) {
+                else if (character.body.cocks.length === 1) {
                     DisplayText("\n\nYour " + describeCock(character, character.body.cocks.get(0)) + " vibrates, the veins clearly visible as it reddens and distorts.  The head narrows into a pointed tip while a gradually widening bulge forms around the base.  Where it meets your crotch, the skin bunches up around it, forming a canine-like sheath.  ");
                     character.body.cocks.get(0).type = CockType.DOG;
                     character.body.cocks.get(0).knotMultiplier = 1.5;
@@ -170,7 +170,7 @@ export class CaninePepper extends Consumable {
             // If character has 1 dogdicks
             else {
                 // if character has 1 total
-                if (character.body.cocks.count === 1) {
+                if (character.body.cocks.length === 1) {
                     DisplayText("\n\nYou feel something slippery wiggling inside your sheath, and another red point peeks out.  In spite of yourself, you start getting turned on by the change, and the new dick slowly slides free, eventually stopping once the thick knot pops free.  The pair of dog-dicks hang there, leaking pre-cum and arousing you far beyond normal.");
                     character.body.cocks.add(new Cock(7 + randInt(7), 1.5 + randInt(10) / 10));
                     character.body.cocks.get(1).type = CockType.DOG;
@@ -179,7 +179,7 @@ export class CaninePepper extends Consumable {
                     character.stats.lust += 50;
                 }
                 // if character has more
-                if (character.body.cocks.count >= 1) {
+                if (character.body.cocks.length >= 1) {
                     // if first dick is already doggi'ed
                     if (character.body.cocks.get(0).type === CockType.DOG) {
                         DisplayText("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + describeCock(character, character.body.cocks.get(1)) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
@@ -203,7 +203,7 @@ export class CaninePepper extends Consumable {
     private knottyPepperTF(character: Character, crit: number) {
         const cocks = character.body.cocks;
         // Cocks only!
-        if (cocks.count > 0) {
+        if (cocks.length > 0) {
             // biggify knots
             if (cocks.filter(Cock.FilterType(CockType.DOG)).length > 0) {
                 const smallestKnottedDogCock = character.body.cocks.filter(Cock.FilterType(CockType.DOG)).sort(Cock.KnotSmallest)[0];
@@ -277,12 +277,12 @@ export class CaninePepper extends Consumable {
         // OVERDOSE Bad End!
         this.overdoseBadEnd(character, crit);
         // WARNING, overdose VERY close!
-        if (this.pepperType <= 0 && character.body.skin.type === SkinType.FUR && character.body.face.type === FaceType.DOG && character.body.tails.reduce(Tail.HasType(TailType.DOG), false) && character.body.ears.type === EarType.DOG && character.body.legs.type === LegType.DOG && character.statusAffects.has(StatusEffectType.DogWarning) && randInt(3) === 0) {
+        if (this.pepperType <= 0 && character.body.skin.type === SkinType.FUR && character.body.face.type === FaceType.DOG && character.body.tails.reduce(Tail.HasType(TailType.DOG), false) && character.body.ears.type === EarType.DOG && character.body.legs.type === LegType.DOG && character.effects.has(StatusEffectType.DogWarning) && randInt(3) === 0) {
             DisplayText("<b>\n\nEating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
         }
         // WARNING, overdose is close!
-        if (this.pepperType <= 0 && character.body.skin.type === SkinType.FUR && character.body.face.type === FaceType.DOG && character.body.tails.reduce(Tail.HasType(TailType.DOG), false) && character.body.ears.type === EarType.DOG && character.body.legs.type === LegType.DOG && !character.statusAffects.has(StatusEffectType.DogWarning)) {
-            character.statusAffects.add(StatusEffectType.DogWarning, 0, 0, 0, 0);
+        if (this.pepperType <= 0 && character.body.skin.type === SkinType.FUR && character.body.face.type === FaceType.DOG && character.body.tails.reduce(Tail.HasType(TailType.DOG), false) && character.body.ears.type === EarType.DOG && character.body.legs.type === LegType.DOG && !character.effects.has(StatusEffectType.DogWarning)) {
+            character.effects.add(StatusEffectType.DogWarning, 0, 0, 0, 0);
             DisplayText("<b>\n\nEating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
         }
         if (this.pepperType === 3) {
@@ -353,7 +353,7 @@ export class CaninePepper extends Consumable {
         // 1. Cock Xform
         // 2. Knot Size++
         // 3. cumMultiplier++ (to max of 1.5)
-        if (cocks.count > 0) {
+        if (cocks.length > 0) {
             // Grow knot on smallest knotted dog cock
             if (this.pepperType !== CaninePepperType.Knotty &&
                 cocks.filter(Cock.FilterType(CockType.DOG)).length > 0 &&
@@ -374,11 +374,11 @@ export class CaninePepper extends Consumable {
                 changes++;
             }
             // Cock Xform if character has free cocks.
-            if (cocks.filter(Cock.FilterType(CockType.DOG)).length < cocks.count &&
+            if (cocks.filter(Cock.FilterType(CockType.DOG)).length < cocks.length &&
                 ((changes < changeLimit && randInt(1.6)) || this.pepperType === CaninePepperType.Oversized) === 0) {
                 // Select first not dog cock
                 let firstNotDogCock: Cock;
-                for (let index = 0; index < cocks.count; index++)
+                for (let index = 0; index < cocks.length; index++)
                     if (cocks.get(index).type !== CockType.DOG)
                         firstNotDogCock = cocks.get(index);
 
@@ -446,7 +446,7 @@ export class CaninePepper extends Consumable {
                     if (character.body.balls.count > 0)
                         DisplayText("\n\nYou feel a churning in your " + describeBallsShort(character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
                     if (crit > 1)
-                        DisplayText("  A bit of milky pre dribbles from your " + describeMultiCockShort(character) + ", pushed out by the change.");
+                        DisplayText("  A bit of milky pre dribbles from your " + describeCocksLight(character) + ", pushed out by the change.");
                 }
                 changes++;
             }
@@ -457,7 +457,7 @@ export class CaninePepper extends Consumable {
                 character.stats.sens += 1;
                 character.stats.lust += 10;
 
-                if (cocks.count >= 1 && shortestCock.thickness <= 2)
+                if (cocks.length >= 1 && shortestCock.thickness <= 2)
                     Mod.Cock.thickenCock(shortestCock, 1);
 
                 if (cockGrowthAmount > 2)
@@ -470,23 +470,23 @@ export class CaninePepper extends Consumable {
         }
         // Female Stuff
         // Multiboobages
-        if (chest.count > 0) {
+        if (chest.length > 0) {
             // if bigger than A cup
-            if (chest.get(0).rating > 0 && character.body.vaginas.count > 0) {
+            if (chest.get(0).rating > 0 && character.body.vaginas.length > 0) {
                 // Doggies only get 3 rows of tits! FENOXO HAS SPOKEN
-                if (chest.count < 3 && randInt(2) === 0 && changes < changeLimit) {
+                if (chest.length < 3 && randInt(2) === 0 && changes < changeLimit) {
                     const newBreastRow = new BreastRow();
                     chest.add(newBreastRow);
                     // Breasts are too small to grow a new row, so they get bigger first
                     // But ONLY if character has a vagina (dont want dudes weirded out)
-                    if (vaginas.count > 0 && chest.get(0).rating <= chest.count) {
+                    if (vaginas.length > 0 && chest.get(0).rating <= chest.length) {
                         DisplayText("\n\nYour " + describeBreastRow(chest.get(0)) + " feel constrained and painful against your top as they grow larger by the moment, finally stopping as they reach ");
                         chest.get(0).rating += 2;
                         DisplayText(breastCup(chest.get(0).rating) + " size.  But it doesn't stop there, you feel a tightness beginning lower on your torso...");
                         changes++;
                     }
                     // Had 1 row to start
-                    if (chest.count === 2) {
+                    if (chest.length === 2) {
                         // 1 size below primary breast row!
                         newBreastRow.rating = chest.get(0).rating - 1;
                         if (chest.get(0).rating - 1 === 0)
@@ -499,11 +499,11 @@ export class CaninePepper extends Consumable {
                         changes++;
                     }
                     // Many breast Rows - requires larger primary tits...
-                    if (chest.count > 2 && chest.get(0).rating > chest.count) {
+                    if (chest.length > 2 && chest.get(0).rating > chest.length) {
                         character.stats.sens += 6;
                         character.stats.lust += 5;
                         // New row's size = the size of the row above -1
-                        const rowAboveNewBreastRow: BreastRow = chest.get(chest.count - 2);
+                        const rowAboveNewBreastRow: BreastRow = chest.get(chest.length - 2);
                         newBreastRow.rating = rowAboveNewBreastRow.rating - 1;
                         // If second row are super small but primary row is huge it could go negative.
                         // This corrects that problem.
@@ -536,10 +536,10 @@ export class CaninePepper extends Consumable {
                 // If already has max doggie breasts!
                 else if (randInt(2) === 0) {
                     // Check for size mismatches, and move closer to spec!
-                    const chestCount: number = chest.count;
+                    const chestCount: number = chest.length;
                     let uneven: boolean = false;
                     // Check each row, and if the row above or below it is
-                    for (let index: number = chest.count - 1; index > 0; index--) {
+                    for (let index: number = chest.length - 1; index > 0; index--) {
                         if (chest.get(index).rating + 1 < chest.get(index - 1).rating) {
                             if (!uneven) {
                                 uneven = true;
@@ -590,7 +590,7 @@ export class CaninePepper extends Consumable {
                 DisplayText("bounding through the woods, hunting with your master.  Feeling the wind in your fur and the thrill of the hunt coursing through your veins intoxicates you.  You have your nose to the ground, tracking your quarry as you run, until a heavenly scent stops you in your tracks.");
                 character.stats.lust += 5 + character.stats.lib / 20;
                 // break1
-                if (character.stats.cor < 33 || cocks.count === 0)
+                if (character.stats.cor < 33 || cocks.length === 0)
                     DisplayText("\nYou shake your head to clear the unwanted fantasy from your mind, repulsed by it.");
                 else {
                     DisplayText("  Heart pounding, your shaft pops free of its sheath on instinct, as you take off after the new scent.  Caught firmly in the grip of a female's heat, you ignore your master's cry as you disappear into the wild, " + nounCock(CockType.DOG) + " growing harder as you near your quarry.  You burst through a bush, spotting a white-furred female.  She drops, exposing her dripping fem-sex to you, the musky scent of her sex channeling straight through your nose and sliding into your " + nounCock(CockType.DOG) + ".");
@@ -603,7 +603,7 @@ export class CaninePepper extends Consumable {
                         character.stats.lust += 5 + character.stats.lib / 20;
                         // break3
                         if (character.stats.cor < 80) {
-                            if (character.body.vaginas.count > 0)
+                            if (character.body.vaginas.length > 0)
                                 DisplayText("\nYou reluctantly pry your hand from your aching " + describeVagina(character, vaginas.get(0)) + " as you drag yourself out of your fantasy.");
                             else DisplayText("\nYou reluctantly pry your hand from your aching " + describeCock(character, character.body.cocks.get(0)) + " as you drag yourself out of your fantasy.");
                         }
@@ -615,7 +615,7 @@ export class CaninePepper extends Consumable {
                 }
             }
             // Pure female fantasies
-            else if (character.body.vaginas.count > 0) {
+            else if (character.body.vaginas.length > 0) {
                 DisplayText("wagging your dripping " + describeVagina(character, vaginas.get(0)) + " before a pack of horny wolves, watching their shiny red doggie-pricks practically jump out of their sheaths at your fertile scent.");
                 character.stats.lust += 5 + character.stats.lib / 20;
                 // BREAK 1
@@ -737,7 +737,7 @@ export class CaninePepper extends Consumable {
         }
         // Grow tail if not dog-tailed
         if (randInt(3) === 0 && changes < changeLimit && character.body.tails.get(0).type !== TailType.DOG) {
-            if (character.body.tails.count === 0) DisplayText("\n\nA pressure builds on your backside.  You feel under your clothes and discover an odd bump that seems to be growing larger by the moment.  In seconds it passes between your fingers, bursts out the back of your clothes, and grows most of the way to the ground.  A thick coat of fur springs up to cover your new tail.  ");
+            if (character.body.tails.length === 0) DisplayText("\n\nA pressure builds on your backside.  You feel under your clothes and discover an odd bump that seems to be growing larger by the moment.  In seconds it passes between your fingers, bursts out the back of your clothes, and grows most of the way to the ground.  A thick coat of fur springs up to cover your new tail.  ");
             if (character.body.tails.reduce(Tail.HasType(TailType.HORSE), false)) DisplayText("\n\nYou feel a tightness in your rump, matched by the tightness with which the strand(s of your tail clump together.  In seconds they fuse into a single tail, rapidly sprouting thick fur.  ");
             if (character.body.tails.reduce(Tail.HasType(TailType.DEMONIC), false)) DisplayText("\n\nThe tip of your tail feels strange.  As you pull it around to check on it, the spaded tip disappears, quickly replaced by a thick coat of fur over the entire surface of your tail.  ");
             // Generic message for now

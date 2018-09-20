@@ -19,9 +19,9 @@ import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
-import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { describeMultiCockSimpleOne, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeOneOfYourCocks, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeNipple, describeBreastRow, breastCup } from '../../Descriptors/BreastDescriptor';
 import { describeBallsShort, describeSack } from '../../Descriptors/BallsDescriptor';
@@ -97,9 +97,9 @@ export class GoldenSeed extends Consumable {
             if (character.stats.lib < 90) character.stats.lib += 1;
             // (sub 40 lib)
             if (character.stats.lib < 40) {
-                DisplayText("\n\nA passing flush colors your " + describeFace(character) + " for a second as you daydream about sex. You blink it away, realizing the item seems to have affected your libido.");
-                if (character.body.vaginas.count > 0) DisplayText(" The moistness of your " +  describeVagina(character, character.body.vaginas.get(0)) + " seems to agree.");
-                else if (character.body.cocks.count > 0) DisplayText(" The hardness of " + describeMultiCockSimpleOne(character) + " seems to agree.");
+                DisplayText("\n\nA passing flush colors your " + describeFaceShort(character) + " for a second as you daydream about sex. You blink it away, realizing the item seems to have affected your libido.");
+                if (character.body.vaginas.length > 0) DisplayText(" The moistness of your " +  describeVagina(character, character.body.vaginas.get(0)) + " seems to agree.");
+                else if (character.body.cocks.length > 0) DisplayText(" The hardness of " + describeOneOfYourCocks(character) + " seems to agree.");
                 character.stats.lust += 5;
             }
             // (sub 75 lib)
@@ -113,25 +113,25 @@ export class GoldenSeed extends Consumable {
                 character.stats.lust += character.stats.lib / 5 + 10;
                 // (herm � either or!)
                 // Cocks!
-                if (character.body.cocks.count > 0 && (character.gender !== 3 || randInt(2) === 0)) {
+                if (character.body.cocks.length > 0 && (character.gender !== 3 || randInt(2) === 0)) {
                     // (male 1)
                     if (randInt(2) === 0) {
-                        DisplayText("In your fantasy you're winging through the sky, " + describeMultiCockSimpleOne(character) + " already hard and drizzling with male moisture while you circle an attractive harpy's nest. Her plumage is as blue as the sky, her eyes the shining teal of the sea, and legs splayed in a way that shows you how ready she is to be bred. You fold your wings and dive, wind whipping through your " + describeHair(character) + " as she grows larger and larger. With a hard, body-slapping impact you land on top of her, plunging your hard, ready maleness into her hungry box. ");
-                        if (character.body.cocks.count > 1) {
+                        DisplayText("In your fantasy you're winging through the sky, " + describeOneOfYourCocks(character) + " already hard and drizzling with male moisture while you circle an attractive harpy's nest. Her plumage is as blue as the sky, her eyes the shining teal of the sea, and legs splayed in a way that shows you how ready she is to be bred. You fold your wings and dive, wind whipping through your " + describeHair(character) + " as she grows larger and larger. With a hard, body-slapping impact you land on top of her, plunging your hard, ready maleness into her hungry box. ");
+                        if (character.body.cocks.length > 1) {
                             DisplayText("The extra penis");
-                            if (character.body.cocks.count > 2) DisplayText("es rub ");
+                            if (character.body.cocks.length > 2) DisplayText("es rub ");
                             else DisplayText("rubs ");
                             DisplayText("the skin over her taut, empty belly, drooling your need atop her.  ");
-                            DisplayText("You jolt from the vision unexpectedly, finding your " + describeMultiCockSimpleOne(character) + " is as hard as it was in the dream. The inside of your " + character.inventory.equipment.armor.displayName + " is quite messy from all the pre-cum you've drooled. Perhaps you can find a harpy nearby to lie with.");
+                            DisplayText("You jolt from the vision unexpectedly, finding your " + describeOneOfYourCocks(character) + " is as hard as it was in the dream. The inside of your " + character.inventory.equipment.armor.displayName + " is quite messy from all the pre-cum you've drooled. Perhaps you can find a harpy nearby to lie with.");
                         }
                     }
                     // (male 2)
                     else {
-                        DisplayText("In your fantasy you're lying back in the nest your harem built for you, stroking your dick and watching the sexy bird-girl spread her thighs to deposit another egg onto the pile. The lewd moans do nothing to sate your need, and you beckon for another submissive harpy to approach. She does, her thick thighs swaying to show her understanding of your needs. The bird-woman crawls into your lap, sinking down atop your shaft to snuggle it with her molten heat. She begins kissing you, smearing your mouth with her drugged lipstick until you release the first of many loads. You sigh, riding the bliss, secure in the knowledge that this 'wife' won't let up until she's gravid with another egg. Then it'll be her sister-wife's turn. The tightness of " + describeMultiCockSimpleOne(character) + " inside your " + character.inventory.equipment.armor.displayName + " rouses you from the dream, reminding you that you're just standing there, leaking your need into your gear.");
+                        DisplayText("In your fantasy you're lying back in the nest your harem built for you, stroking your dick and watching the sexy bird-girl spread her thighs to deposit another egg onto the pile. The lewd moans do nothing to sate your need, and you beckon for another submissive harpy to approach. She does, her thick thighs swaying to show her understanding of your needs. The bird-woman crawls into your lap, sinking down atop your shaft to snuggle it with her molten heat. She begins kissing you, smearing your mouth with her drugged lipstick until you release the first of many loads. You sigh, riding the bliss, secure in the knowledge that this 'wife' won't let up until she's gravid with another egg. Then it'll be her sister-wife's turn. The tightness of " + describeOneOfYourCocks(character) + " inside your " + character.inventory.equipment.armor.displayName + " rouses you from the dream, reminding you that you're just standing there, leaking your need into your gear.");
                     }
                 }
                 // Cunts!
-                else if (character.body.vaginas.count > 0) {
+                else if (character.body.vaginas.length > 0) {
                     // (female 1)
                     if (randInt(2) === 0) {
                         DisplayText("In your fantasy you're a happy harpy mother, your womb stretched by the sizable egg it contains. The surging hormones in your body arouse you again, and you turn to the father of your children, planting a wet kiss on his slobbering, lipstick-gilt cock. The poor adventurer writhes, hips pumping futilely in the air. He's been much more agreeable since you started keeping his cock coated with your kisses. You mount the needy boy, fantasizing about that first time when you found him near the portal, in the ruins of your old camp. The feeling of your stiff nipples ");
@@ -151,12 +151,12 @@ export class GoldenSeed extends Consumable {
         //   Sexual:
         // ****************
         // -Grow a cunt (guaranteed if no gender)
-        if (character.gender === Gender.NONE || (character.body.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0)) {
+        if (character.gender === Gender.NONE || (character.body.vaginas.length <= 0 && changes < changeLimit && randInt(3) === 0)) {
             changes++;
             // (balls)
             if (character.body.balls.count > 0) DisplayText("\n\nAn itch starts behind your " + describeBallsShort(character) + ", but before you can reach under to scratch it, the discomfort fades. A moment later a warm, wet feeling brushes your " + describeSack(character) + ", and curious about the sensation, <b>you lift up your balls to reveal your new vagina.</b>");
             // (dick)
-            else if (character.body.cocks.count > 0) DisplayText("\n\nAn itch starts on your groin, just below your " + describeMultiCockShort(character) + ". You pull your manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
+            else if (character.body.cocks.length > 0) DisplayText("\n\nAn itch starts on your groin, just below your " + describeCocksLight(character) + ". You pull your manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
             else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
             character.body.clit.length = 0.25;
@@ -166,22 +166,22 @@ export class GoldenSeed extends Consumable {
             character.updateGender();
         }
         // -Remove extra breast rows
-        if (changes < changeLimit && character.body.chest.count > 1 && randInt(3) === 0 && !User.settings.hyperHappy) {
+        if (changes < changeLimit && character.body.chest.length > 1 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
-            const bottomBreastRow = character.body.chest.get(character.body.chest.count - 1);
+            const bottomBreastRow = character.body.chest.get(character.body.chest.length - 1);
             DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
-            if (character.body.chest.count >= 3) DisplayText("abdomen");
+            if (character.body.chest.length >= 3) DisplayText("abdomen");
             else DisplayText("chest");
             DisplayText(". The " + describeNipple(character, bottomBreastRow) + "s even fade until nothing but ");
             if (character.body.skin.type === SkinType.FUR) DisplayText(character.body.hair.color + " " + character.body.skin.desc);
             else DisplayText(character.body.skin.tone + " " + character.body.skin.desc);
             DisplayText(" remains. <b>You've lost a row of breasts!</b>");
             character.stats.sens += -5;
-            character.body.chest.remove(character.body.chest.count - 1);
+            character.body.chest.remove(character.body.chest.length - 1);
         }
         // -Shrink tits if above DDs.
         // Cannot happen at same time as row removal
-        else if (changes < changeLimit && character.body.chest.count === 1 && randInt(3) === 0 && character.body.chest.get(0).rating >= 7 && !User.settings.hyperHappy) {
+        else if (changes < changeLimit && character.body.chest.length === 1 && randInt(3) === 0 && character.body.chest.get(0).rating >= 7 && !User.settings.hyperHappy) {
             changes++;
             // (Use standard breast shrinking mechanism if breasts are under 'h')
             if (character.body.chest.get(0).rating < 19) {
@@ -281,7 +281,7 @@ export class GoldenSeed extends Consumable {
         // -Feathery Tail
         if (!character.body.tails.reduce(Tail.HasType(TailType.HARPY), false) && changes < changeLimit && (this.enhanced || character.body.wings.type === WingType.FEATHERED_LARGE) && randInt(4) === 0) {
             // (tail)
-            if (character.body.tails.count > 0) DisplayText("\n\nYour tail shortens, folding into the crack of your " + describeButt(character) + " before it disappears. A moment later, a fan of feathers erupts in its place, fluffing up and down instinctively every time the breeze shifts. <b>You have a feathery harpy tail!</b>");
+            if (character.body.tails.length > 0) DisplayText("\n\nYour tail shortens, folding into the crack of your " + describeButt(character) + " before it disappears. A moment later, a fan of feathers erupts in its place, fluffing up and down instinctively every time the breeze shifts. <b>You have a feathery harpy tail!</b>");
             // (no tail)
             else DisplayText("\n\nA tingling tickles the base of your spine, making you squirm in place. A moment later, it fades, but a fan of feathers erupts from your " + character.body.skin.desc + " in its place. The new tail fluffs up and down instinctively with every shift of the breeze. <b>You have a feathery harpy tail!</b>");
             character.body.tails.clear();
@@ -319,7 +319,7 @@ export class GoldenSeed extends Consumable {
         }
         // -Human face
         if (character.body.face.type !== FaceType.HUMAN && changes < changeLimit && (this.enhanced || (character.body.ears.type === EarType.HUMAN || character.body.ears.type === EarType.ELFIN)) && randInt(4) === 0) {
-            DisplayText("\n\nSudden agony sweeps over your " + describeFace(character) + ", your visage turning hideous as bones twist and your jawline shifts. The pain slowly vanishes, leaving you weeping into your fingers. When you pull your hands away you realize you've been left with a completely normal, human face.");
+            DisplayText("\n\nSudden agony sweeps over your " + describeFaceShort(character) + ", your visage turning hideous as bones twist and your jawline shifts. The pain slowly vanishes, leaving you weeping into your fingers. When you pull your hands away you realize you've been left with a completely normal, human face.");
             character.body.face.type = FaceType.HUMAN;
             changes++;
         }
@@ -348,13 +348,13 @@ export class GoldenSeed extends Consumable {
             changes++;
         }
         // Nipples Turn Back:
-        if (character.statusAffects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
+        if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
             DisplayText("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
-            character.statusAffects.remove(StatusEffectType.BlackNipples);
+            character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.count > 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN) {
             DisplayText("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
             character.body.vaginas.get(0).type = VaginaType.HUMAN;
             changes++;

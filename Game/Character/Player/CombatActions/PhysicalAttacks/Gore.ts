@@ -28,7 +28,7 @@ export class Gore extends PlayerPhysicalAction {
         }
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
+        if (monster.effects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -72,7 +72,7 @@ export class Gore extends PlayerPhysicalAction {
                 DisplayText("You lower your head and charge, slamming into " + monster.desc.a + monster.desc.short + " and burying both your horns into " + monster.desc.objectivePronoun + "!  ");
             }
             // Bonus damage for rut!
-            if (player.statusAffects.has(StatusEffectType.Rut) && monster.body.cocks.count > 0) {
+            if (player.effects.has(StatusEffectType.Rut) && monster.body.cocks.length > 0) {
                 DisplayText("The fury of your rut lent you strength, increasing the damage!  ");
                 damage += 5;
             }

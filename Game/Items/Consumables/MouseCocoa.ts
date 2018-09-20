@@ -59,9 +59,9 @@ export class MouseCocoa extends Consumable {
 
         // SEXYYYYYYYYYYY
         // vag-anal capacity up for non-goo (available after PC < 5 ft; capacity ceiling reasonable but not horse-like or gooey)
-        if (character.body.tallness < 60 && (character.analCapacity() < 100 || (character.vaginalCapacity() < 100 && character.body.vaginas.count > 0)) && changes < changeLimit && randInt(3) === 0) {
+        if (character.body.tallness < 60 && (character.analCapacity() < 100 || (character.vaginalCapacity() < 100 && character.body.vaginas.length > 0)) && changes < changeLimit && randInt(3) === 0) {
             DisplayText("\n\nYour ");
-            if (character.vaginalCapacity() < 100 && character.body.vaginas.count > 0) DisplayText("[vagina]");
+            if (character.vaginalCapacity() < 100 && character.body.vaginas.length > 0) DisplayText("[vagina]");
             else DisplayText("[asshole]");
             DisplayText(" itches, and you shyly try to scratch it, looking around to see if you're watched.  ");
             if (character.body.legs.isTaur()) DisplayText("Backing up to a likely rock, you rub your hindquarters against it, only to be surprised when you feel your hole part smoothly against the surface, wider than you're used to!");
@@ -72,23 +72,23 @@ export class MouseCocoa extends Consumable {
             DisplayText(".");
             // adds some lust
             character.stats.lust += character.stats.sens / 5;
-            if (character.vaginalCapacity() < 100 && character.body.vaginas.count > 0) {
-                if (!character.statusAffects.has(StatusEffectType.BonusVCapacity))
-                    character.statusAffects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
-                character.statusAffects.get(StatusEffectType.BonusVCapacity).value1 = 5;
+            if (character.vaginalCapacity() < 100 && character.body.vaginas.length > 0) {
+                if (!character.effects.has(StatusEffectType.BonusVCapacity))
+                    character.effects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
+                character.effects.get(StatusEffectType.BonusVCapacity).value1 = 5;
             }
             else {
-                if (!character.statusAffects.has(StatusEffectType.BonusACapacity))
-                    character.statusAffects.add(StatusEffectType.BonusACapacity, 0, 0, 0, 0);
-                character.statusAffects.get(StatusEffectType.BonusACapacity).value1 = 5;
+                if (!character.effects.has(StatusEffectType.BonusACapacity))
+                    character.effects.add(StatusEffectType.BonusACapacity, 0, 0, 0, 0);
+                character.effects.get(StatusEffectType.BonusACapacity).value1 = 5;
             }
             changes++;
         }
         // fem fertility up and heat (suppress if pregnant)
         // not already in heat (add heat and lust)
-        if (character.statusAffects.get(StatusEffectType.Heat).value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
-            const intensified: boolean = character.statusAffects.has(StatusEffectType.Heat);
-            if (character.statusAffects.add(StatusEffectType.Heat)) {
+        if (character.effects.get(StatusEffectType.Heat).value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
+            const intensified: boolean = character.effects.has(StatusEffectType.Heat);
+            if (character.effects.add(StatusEffectType.Heat)) {
             // if (character.goIntoHeat()) {
                 if (intensified) {
                     DisplayText("\n\nYour womb feels achingly empty, and your temperature shoots up.  Try as you might, you can't stop fantasizing about being filled with semen, drenched inside and out with it, enough to make a baker's dozen offspring.  ");
@@ -130,7 +130,7 @@ export class MouseCocoa extends Consumable {
         // from no tail
         if (character.body.ears.type === EarType.MOUSE && !character.body.tails.reduce(Tail.HasType(TailType.MOUSE), false) && changes < changeLimit && randInt(4) === 0) {
             // from other tail
-            if (character.body.tails.count > 0) {
+            if (character.body.tails.length > 0) {
                 DisplayText("\n\nYour tail clenches and itches simultaneously, leaving you wondering whether to cry out or try to scratch it.  The question is soon answered as the pain takes the forefront; looking backward is a horrible strain, but when you manage it, you can see your old appendage ");
                 if (character.body.tails.reduce(Tail.HasType(TailType.HORSE), false)) DisplayText("elongating");
                 else DisplayText("compressing");
@@ -171,7 +171,7 @@ export class MouseCocoa extends Consumable {
                 DisplayText("\n\nYour " + skinFurScales(character) + " itch");
                 if (character.body.skin.type > SkinType.PLAIN) DisplayText("es");
                 DisplayText(" all over");
-                if (character.body.tails.count > 0) DisplayText(", except on your tail");
+                if (character.body.tails.length > 0) DisplayText(", except on your tail");
                 DisplayText(".  Alarmed and suspicious, you tuck in your hands, trying to will yourself not to scratch, but it doesn't make much difference.  Tufts of ");
                 if (randInt(10) < 8) {
                     DisplayText("brown");

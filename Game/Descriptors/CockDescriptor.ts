@@ -4,7 +4,7 @@ import { SkinType } from '../Body/Skin';
 import { Character } from '../Character/Character';
 
 export function describeCock(character: Character, cock: Cock): string {
-    if (character.body.cocks.count > 0 || !cock)
+    if (character.body.cocks.length > 0 || !cock)
         return "<b>ERROR: CockDescript Called But No Cock Present</b>";
 
     // Only describe as pierced or sock covered if the creature has just one cock
@@ -374,7 +374,7 @@ export function adjectivesCock(cock: Cock, character: Character): string {
     return description;
 }
 
-export function nounMultiCock(cockType: CockType): string {
+export function nounCocks(cockType: CockType): string {
     if (cockType === CockType.HUMAN)
         return randomChoice("cock",
             "cock",
@@ -473,11 +473,11 @@ export function nounMultiCock(cockType: CockType): string {
  * @param character
  * @param caps
  */
-export function describeMultiCockSimpleOne(character: Character, caps: boolean = false): string {
+export function describeOneOfYourCocks(character: Character, caps?: boolean): string {
     if (caps)
-        return (character.body.cocks.count > 1 ? "One of your " : "Your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.length > 1 ? "One of your " : "Your ") + cockMultiLDescriptionShort(character);
     else
-        return (character.body.cocks.count > 1 ? "one of your " : "your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.length > 1 ? "one of your " : "your ") + cockMultiLDescriptionShort(character);
 }
 
 /**
@@ -485,17 +485,17 @@ export function describeMultiCockSimpleOne(character: Character, caps: boolean =
  * @param character
  * @param caps
  */
-export function describeMultiCockSimpleEach(character: Character, caps: boolean = false): string {
+export function describeEachOfYourCocks(character: Character, caps?: boolean): string {
     if (caps)
-        return (character.body.cocks.count > 1 ? "Each of your " : "Your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.length > 1 ? "Each of your " : "Your ") + cockMultiLDescriptionShort(character);
     else
-        return (character.body.cocks.count > 1 ? "each of your " : "your ") + cockMultiLDescriptionShort(character);
+        return (character.body.cocks.length > 1 ? "each of your " : "your ") + cockMultiLDescriptionShort(character);
 }
 
 function cockMultiLDescriptionShort(character: Character): string {
     const cocks = character.body.cocks;
-    if (cocks.count >= 1) {
-        if (cocks.count === 1) { // For a single cock return the default description
+    if (cocks.length >= 1) {
+        if (cocks.length === 1) { // For a single cock return the default description
             return describeCock(character, cocks.get(0));
         }
         if (cocks.get(0).type === CockType.DOG || cocks.get(0).type === CockType.FOX) {
@@ -605,10 +605,10 @@ export function describeCockShort(cock: Cock): string {
     return description;
 }
 
-export function describeMultiCockShort(character: Character): string {
+export function describeCocksLight(character: Character): string {
     let description: string = "";
     const cocks = character.body.cocks;
-    const cockCount = cocks.count;
+    const cockCount = cocks.length;
     const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
 
     if (cockCount === 1)
@@ -639,10 +639,10 @@ export function describeMultiCockShort(character: Character): string {
     return description;
 }
 
-export function describeMultiCock(character: Character): string {
+export function describeCocks(character: Character): string {
     let description: string = "";
     const cocks = character.body.cocks;
-    const cockCount: number = cocks.count;
+    const cockCount: number = cocks.length;
     const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
 
     if (cockCount === 1)

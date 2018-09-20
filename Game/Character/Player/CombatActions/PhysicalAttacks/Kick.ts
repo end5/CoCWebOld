@@ -50,12 +50,12 @@ export class Kick extends PlayerPhysicalAction {
             return;
         }
         // Amily!
-        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
+        if (monster.effects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Blind
-        if (player.statusAffects.has(StatusEffectType.Blind)) {
+        if (player.effects.has(StatusEffectType.Blind)) {
             DisplayText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
         // Worms are special
@@ -77,7 +77,7 @@ export class Kick extends PlayerPhysicalAction {
         }
         let damage: number;
         // Determine if dodged!
-        if ((player.statusAffects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
+        if ((player.effects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             // Akbal dodges special education
             if (monster.desc.short === "Akbal") DisplayText("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n");

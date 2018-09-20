@@ -16,7 +16,7 @@ import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { numToOrdinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
-import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeCock, nounCock } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeBreastRow } from '../../Descriptors/BreastDescriptor';
@@ -78,7 +78,7 @@ export class WhiskerFruit extends Consumable {
         // Intelliloss
         if (randInt(4) === 0 && changes < changeLimit) {
             // low intelligence
-            if (character.stats.int < 15) DisplayText("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + describeFace(character) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.");
+            if (character.stats.int < 15) DisplayText("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + describeFaceShort(character) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.");
             // medium intelligence
             else if (character.stats.int < 50) {
                 DisplayText("\n\nYour mind feels somewhat sluggish, and you wonder if you should just lie down ");
@@ -121,9 +121,9 @@ export class WhiskerFruit extends Consumable {
         // Sexual changes would go here if I wasn't a tard.
         // Heat
         if (randInt(4) === 0 && changes < changeLimit) {
-            const intensified: boolean = character.statusAffects.has(StatusEffectType.Heat);
+            const intensified: boolean = character.effects.has(StatusEffectType.Heat);
 
-            if (character.body.vaginas.count > 0) {
+            if (character.body.vaginas.length > 0) {
                 if (intensified) {
                     if (randInt(2) === 0) DisplayText("\n\nThe itch inside your " + describeVagina(character, character.body.vaginas.get(0)) + " is growing stronger, and you desperately want to find a nice cock to massage the inside.");
                     else DisplayText("\n\nThe need inside your " + describeVagina(character, character.body.vaginas.get(0)) + " grows even stronger.  You desperately need to find a mate to 'scratch your itch' and fill your womb with kittens.  It's difficult NOT to think about a cock slipping inside your moist fuck-tunnel, and at this point you'll have a hard time resisting ANY male who approaches.");
@@ -141,16 +141,16 @@ export class WhiskerFruit extends Consumable {
         }
 
         // Shrink the boobalies down to A for men or C for girls.
-        if (character.body.chest.count > 0 && changes < changeLimit && randInt(4) === 0 && !User.settings.hyperHappy) {
+        if (character.body.chest.length > 0 && changes < changeLimit && randInt(4) === 0 && !User.settings.hyperHappy) {
             let breastShrinkageThreshold: number = 0;
             let shrinkingHappened: boolean = false;
             // Determine if shrinkage is required
-            if (character.body.vaginas.count <= 0 && character.body.chest.sort(BreastRow.Largest)[0].rating > 2) breastShrinkageThreshold = 2;
+            if (character.body.vaginas.length <= 0 && character.body.chest.sort(BreastRow.Largest)[0].rating > 2) breastShrinkageThreshold = 2;
             else if (character.body.chest.sort(BreastRow.Largest)[0].rating > 4) breastShrinkageThreshold = 4;
             // IT IS!
             if (breastShrinkageThreshold > 0) {
                 let selectedBreastRow: BreastRow;
-                for (let index: number = 0; index < character.body.chest.count; index++) {
+                for (let index: number = 0; index < character.body.chest.length; index++) {
                     // If this row is over threshhold
                     selectedBreastRow = character.body.chest.get(index);
                     if (selectedBreastRow.rating > breastShrinkageThreshold) {
@@ -175,11 +175,11 @@ export class WhiskerFruit extends Consumable {
             if (shrinkingHappened) changes++;
         }
         // Cat dangly-doo.
-        if (character.body.cocks.count > 0 && character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length < character.body.cocks.count &&
+        if (character.body.cocks.length > 0 && character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length < character.body.cocks.length &&
             changes < changeLimit && randInt(4) === 0) {
             // loop through and find a non-cat wang.
             let selectedCock: Cock;
-            for (let index: number = 0; index < character.body.cocks.count; index++) {
+            for (let index: number = 0; index < character.body.cocks.length; index++) {
                 selectedCock = character.body.cocks.get(index);
                 if (selectedCock.type === CockType.CAT) {
                     DisplayText("\n\nYour " + describeCock(character, selectedCock) + " swells up with near-painful arousal and begins to transform.  It turns pink and begins to narrow until the tip is barely wide enough to accommodate your urethra.  Barbs begin to sprout from its flesh, if you can call the small, fleshy nubs barbs. They start out thick around the base of your " + nounCock(CockType.HUMAN) + " and shrink towards the tip. The smallest are barely visible. <b>Your new feline dong throbs powerfully</b> and spurts a few droplets of cum.  ");
@@ -199,7 +199,7 @@ export class WhiskerFruit extends Consumable {
             // loop through and find a cat wang.
             let selectedCock: Cock;
             let changedCock: number = 0;
-            for (let index: number = 0; index < character.body.cocks.count; index++) {
+            for (let index: number = 0; index < character.body.cocks.length; index++) {
                 selectedCock = character.body.cocks.get(index);
                 if (selectedCock.type === CockType.CAT && selectedCock.length > 6) {
                     // lose 33% size until under 10, then lose 2" at a time
@@ -245,7 +245,7 @@ export class WhiskerFruit extends Consumable {
         }
         // DA TailType (IF ALREADY HAZ URZ)
         if (!character.body.tails.reduce(Tail.HasType(TailType.CAT), false) && character.body.ears.type === EarType.CAT && randInt(5) === 0 && changes < changeLimit) {
-            if (character.body.tails.count === 0) {
+            if (character.body.tails.length === 0) {
                 const chance: number = randInt(3);
                 if (chance === 0) DisplayText("\n\nA pressure builds in your backside. You feel under your " + character.inventory.equipment.armor.displayName + " and discover an odd bump that seems to be growing larger by the moment. In seconds it passes between your fingers, bursts out the back of your clothes and grows most of the way to the ground. A thick coat of fur springs up to cover your new tail. You instinctively keep adjusting it to improve your balance. <b>You now have a cat-tail.</b>");
                 if (chance === 1) DisplayText("\n\nYou feel your backside shift and change, flesh molding and displacing into a long, flexible tail! <b>You now have a cat tail.</b>");

@@ -18,14 +18,14 @@ import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
-import { describeMultiCockShort, describeCock, nounCock } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight, describeCock, nounCock } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
 import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
 import { Gender } from '../../Body/GenderIdentity';
 import { describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
-import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { User } from '../../User';
 
 export const ReptilumFlags = {
@@ -40,7 +40,7 @@ export class Reptilum extends Consumable {
     }
 
     private getFirstNonLizzyCock(character: Character): Cock {
-        for (let index: number = 0; index < character.body.cocks.count; index++) {
+        for (let index: number = 0; index < character.body.cocks.length; index++) {
             if (character.body.cocks.get(index).type !== CockType.LIZARD) {
                 return character.body.cocks.get(index);
             }
@@ -78,13 +78,13 @@ export class Reptilum extends Consumable {
         if (character.stats.lib < 100 && changes < changeLimit && randInt(3) === 0) {
             DisplayText("\n\nA knot of fire in your gut doubles you over but passes after a few moments.  As you straighten you can feel the heat seeping into you, ");
             // (DICK)
-            if (character.body.cocks.count > 0 && (character.gender !== 3 || randInt(2) === 0)) {
+            if (character.body.cocks.length > 0 && (character.gender !== 3 || randInt(2) === 0)) {
                 DisplayText("filling ");
-                if (character.body.cocks.count > 1) DisplayText("each of ");
-                DisplayText("your " + describeMultiCockShort(character) + " with the desire to breed.  You get a bit hornier when you realize your sex-drive has gotten a boost.");
+                if (character.body.cocks.length > 1) DisplayText("each of ");
+                DisplayText("your " + describeCocksLight(character) + " with the desire to breed.  You get a bit hornier when you realize your sex-drive has gotten a boost.");
             }
             // (COOCH)
-            else if (character.body.vaginas.count > 0)
+            else if (character.body.vaginas.length > 0)
                 DisplayText("puddling in your " + describeVagina(character, character.body.vaginas.get(0)) + ".  An instinctive desire to mate and lay eggs spreads through you, increasing your lust and boosting your sex-drive.");
             // (TARDS)
             else DisplayText("puddling in your featureless crotch for a split-second before it slides into your " + describeButt(character) + ".  You want to be fucked, filled, and perhaps even gain a proper gender again.  Through the lust you realize your sex-drive has been permanently increased.");
@@ -119,7 +119,7 @@ export class Reptilum extends Consumable {
 
         // Sexual Changes:
         // -Lizard dick - first one
-        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && character.body.cocks.count > 0 && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && character.body.cocks.length > 0 && changes < changeLimit && randInt(4) === 0) {
             // Find the first non-lizzy dick
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
             DisplayText("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
@@ -130,7 +130,7 @@ export class Reptilum extends Consumable {
             else if (character.stats.cor < 66) DisplayText("is a little strange for your tastes.");
             else {
                 DisplayText("looks like it might be more fun to receive than use on others.  ");
-                if (character.body.vaginas.count > 0) DisplayText("Maybe you could find someone else with one to ride?");
+                if (character.body.vaginas.length > 0) DisplayText("Maybe you could find someone else with one to ride?");
                 else DisplayText("Maybe you should test it out on someone and ask them exactly how it feels?");
             }
             DisplayText("  <b>You now have a bulbous, lizard-like cock.</b>");
@@ -147,10 +147,10 @@ export class Reptilum extends Consumable {
         }
         // (CHANGE OTHER DICK)
         // Requires 1 lizard cock, multiple cocks
-        if (character.body.cocks.count > 1 && character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0 && character.body.cocks.count > character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.cocks.length > 1 && character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0 && character.body.cocks.length > character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length && randInt(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nA familiar tingle starts in your crotch, and before you can miss the show, you pull open your " + character.inventory.equipment.armor.displayName + ".  As if operating on a cue, ");
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
-            if (character.body.cocks.count === 2) DisplayText("your other dick");
+            if (character.body.cocks.length === 2) DisplayText("your other dick");
             else DisplayText("another one of your dicks");
             DisplayText(" starts to change into the strange reptilian shape you've grown familiar with.  It warps visibly, trembling and radiating pleasurable feelings back to you as the transformation progresses.  ");
             if (character.cumQ() < 50) DisplayText("pre-cum oozes from the tip");
@@ -169,7 +169,7 @@ export class Reptilum extends Consumable {
             character.stats.lust += 10;
         }
         // -Grows second lizard dick if only 1 dick
-        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === 1 && character.body.cocks.count === 1 && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === 1 && character.body.cocks.length === 1 && randInt(4) === 0 && changes < changeLimit) {
             const firstCock = character.body.cocks.get(0);
             DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + describeFeet(character) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + character.body.skin.desc + ", adjacent to your " + describeCock(character, firstCock) + ".  The flesh darkens, turning purple");
             if (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES)
@@ -187,11 +187,11 @@ export class Reptilum extends Consumable {
         }
         // --Worms leave if 100% lizard dicks?
         // Require mammals?
-        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === character.body.cocks.count && changes < changeLimit && character.statusAffects.has(StatusEffectType.Infested)) {
+        if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === character.body.cocks.length && changes < changeLimit && character.effects.has(StatusEffectType.Infested)) {
             DisplayText("\n\nLike rats from a sinking ship, worms escape from your body in a steady stream.  Surprisingly, the sensation is remarkably pleasant, similar to the pleasure of sexual release in a way.  Though they seem inexhaustible, the tiny, cum-slimed invertebrates slow to a trickle.  The larger worm-kin inside you stirs as if disturbed from a nap, coming loose from whatever moorings it had attached itself to in the interior of your form.  It slowly works its way up your urethra, stretching to an almost painful degree with every lurching motion.  Your dick bloats out around the base, stretched like the ovipositor on a bee-girl in order to handle the parasitic creature, but thankfully, the ordeal is a brief one.");
             if (character.body.balls.count > 1) DisplayText("  The remaining " + numToCardinalText(character.body.balls.count - 1) + " slither out the pre-stretched holes with ease, though the last one hangs from your tip for a moment before dropping to the ground.");
             DisplayText("  The white creature joins its kin on the ground and slowly slithers away.  Perhaps they prefer mammals? In any event, <b>you are no longer infected with worms</b>.");
-            character.statusAffects.remove(StatusEffectType.Infested);
+            character.effects.remove(StatusEffectType.Infested);
             changes++;
         }
         // -Breasts vanish to 0 rating if male
@@ -206,7 +206,7 @@ export class Reptilum extends Consumable {
             // (BOTH - no new PG)
             DisplayText("  With the change in weight and gravity, you find it's gotten much easier to move about.");
             // Loop through behind the scenes and adjust all tits.
-            for (let index: number = 0; index < character.body.chest.count; index++) {
+            for (let index: number = 0; index < character.body.chest.length; index++) {
                 const breasts = character.body.chest.get(index);
                 if (breasts.rating > 8)
                     breasts.rating /= 2;
@@ -224,14 +224,14 @@ export class Reptilum extends Consumable {
             DisplayText(" nipples relax.  It's a strange feeling, and you pull back your top to touch one.  It feels fine, though there doesn't seem to be any milk leaking out.  You give it a squeeze and marvel when nothing ");
             if (character.body.chest.find(BreastRow.FuckableNipples)) DisplayText("but sexual fluid ");
             DisplayText("escapes it.  <b>You are no longer lactating.</b>  That makes sense, only mammals lactate!  Smiling, you muse at how much time this will save you when cleaning your gear.");
-            if (character.perks.has(PerkType.Feeder) || character.statusAffects.has(StatusEffectType.Feeder)) {
+            if (character.perks.has(PerkType.Feeder) || character.effects.has(StatusEffectType.Feeder)) {
                 DisplayText("\n\n(<b>Feeder perk lost!</b>)");
                 character.perks.remove(PerkType.Feeder);
-                character.statusAffects.remove(StatusEffectType.Feeder);
+                character.effects.remove(StatusEffectType.Feeder);
             }
             changes++;
             // Loop through and reset lactation
-            for (let index: number = 0; index < character.body.chest.count; index++) {
+            for (let index: number = 0; index < character.body.chest.length; index++) {
                 character.body.chest.get(index).lactationMultiplier = 0;
             }
         }
@@ -242,12 +242,12 @@ export class Reptilum extends Consumable {
             else DisplayText("breast.");
             changes++;
             // Loop through and reset nipples
-            for (let index: number = 0; index < character.body.chest.count; index++) {
+            for (let index: number = 0; index < character.body.chest.length; index++) {
                 character.body.chest.get(index).nipples.count = 1;
             }
         }
         // -VAGs
-        if (character.body.vaginas.count > 0 && !character.perks.has(PerkType.Oviposition) && changes < changeLimit && randInt(5) === 0 && RaceScore.lizardScore(character) > 3) {
+        if (character.body.vaginas.length > 0 && !character.perks.has(PerkType.Oviposition) && changes < changeLimit && randInt(5) === 0 && RaceScore.lizardScore(character) > 3) {
             DisplayText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n");
             DisplayText("(<b>Perk Gained: Oviposition</b>)");
             character.perks.add(PerkType.Oviposition, 0, 0, 0, 0);
@@ -338,7 +338,7 @@ export class Reptilum extends Consumable {
         // -Tail - sinuous lizard tail
         if (character.body.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.body.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
             // No tail
-            if (character.body.tails.count >= 1) DisplayText("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + describeButt(character) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>");
+            if (character.body.tails.length >= 1) DisplayText("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + describeButt(character) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>");
             // Yes tail
             else DisplayText("\n\nYou drop to the ground as your tail twists and grows, changing its shape in order to gradually taper to a point.  It flicks back and forth, prehensile and totally under your control.  <b>You now have a reptilian tail.</b>");
             character.body.tails.clear();
@@ -409,7 +409,7 @@ export class Reptilum extends Consumable {
         }
         // -Lizard-like face.
         if (character.body.face.type !== FaceType.LIZARD && character.body.skin.type === SkinType.SCALES && character.body.ears.type === EarType.LIZARD && character.body.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.body.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
-            DisplayText("\n\nTerrible agony wracks your " + describeFace(character) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>");
+            DisplayText("\n\nTerrible agony wracks your " + describeFaceShort(character) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>");
             character.body.face.type = FaceType.LIZARD;
         }
         if (randInt(4) === 0 && character.body.neck.gills && changes < changeLimit) {

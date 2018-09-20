@@ -3,7 +3,7 @@ import { Gender } from '../Body/GenderIdentity';
 import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
-import { describeFaceOther, describeFace, describeBeard } from '../Descriptors/FaceDescriptor';
+import { describeFaceShort, describeFaceShort, describeBeard } from '../Descriptors/FaceDescriptor';
 import { describeVagina } from '../Descriptors/VaginaDescriptor';
 import { describeCock } from '../Descriptors/CockDescriptor';
 
@@ -67,7 +67,7 @@ export function displayModTone(character: Character, goal: number, strength: num
 // Modify this.femininity!
 export function displayModFem(character: Character, goal: number, strength: number = 1): string {
     let output: string = "";
-    const old: string = describeFaceOther(character);
+    const old: string = describeFaceShort(character);
     const oldN: number = character.body.femininity;
     let Changed: boolean = false;
     // If already perfect!
@@ -96,7 +96,7 @@ export function displayModFem(character: Character, goal: number, strength: numb
     if (!Changed)
         return "";
     // See if a change happened!
-    if (old !== describeFaceOther(character)) {
+    if (old !== describeFaceShort(character)) {
         // Gain fem?
         if (goal > oldN)
             output = "\n\n<b>Your facial features soften as your body becomes more feminine. (+" + strength + ")</b>";
@@ -106,9 +106,9 @@ export function displayModFem(character: Character, goal: number, strength: numb
     // Barely noticable change!
     else {
         if (goal > oldN)
-            output = "\n\nThere's a tingling in your " + describeFace(character) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
+            output = "\n\nThere's a tingling in your " + describeFaceShort(character) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
         else if (goal < oldN)
-            output = "\n\nThere's a tingling in your " + describeFace(character) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
+            output = "\n\nThere's a tingling in your " + describeFaceShort(character) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
     }
     return output;
 }
@@ -153,13 +153,13 @@ export function displayFixFemininity(character: Character): string {
             character.body.femininity = 70;
         }
         if (character.body.femininity > 40 && character.body.beard.hasBeard()) {
-            output += "\n<b>Your beard falls out, leaving you with " + describeFace(character) + ".</b>\n";
+            output += "\n<b>Your beard falls out, leaving you with " + describeFaceShort(character) + ".</b>\n";
             character.body.beard.length = 0;
             character.body.beard.style = "";
         }
     }
     if (character.gender !== 1 && character.body.beard.hasBeard()) {
-        output += "\n<b>Your beard falls out, leaving you with " + describeFace(character) + ".</b>\n";
+        output += "\n<b>Your beard falls out, leaving you with " + describeFaceShort(character) + ".</b>\n";
         character.body.beard.length = 0;
         character.body.beard.style = "";
     }
@@ -175,9 +175,9 @@ export function displayFixFemininity(character: Character): string {
 // duration and intensity. Defaults to 1.
 export function displayGoIntoHeat(character: Character, intensity: number = 1) {
     // Already in heat, intensify further.
-    if (character.statusAffects.has(StatusEffectType.Heat)) {
+    if (character.effects.has(StatusEffectType.Heat)) {
         DisplayText("\n\nYour mind clouds as your " + describeVagina(character, character.body.vaginas.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.");
-        const statusAffectHeat = character.statusAffects.get(StatusEffectType.Heat);
+        const statusAffectHeat = character.effects.get(StatusEffectType.Heat);
         statusAffectHeat.value1 += 5 * intensity;
         statusAffectHeat.value2 += 5 * intensity;
         statusAffectHeat.value3 += 48 * intensity;
@@ -186,7 +186,7 @@ export function displayGoIntoHeat(character: Character, intensity: number = 1) {
     // Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
     else {
         DisplayText("\n\nYour mind clouds as your " + describeVagina(character, character.body.vaginas.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>");
-        character.statusAffects.add(StatusEffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0);
+        character.effects.add(StatusEffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0);
         character.stats.libBimbo += 15 * intensity;
     }
 }
@@ -200,9 +200,9 @@ export function displayGoIntoHeat(character: Character, intensity: number = 1) {
 // duration and intensity. Defaults to 1.
 export function displayGoIntoRut(character: Character, intensity: number = 1) {
     // Has rut, intensify it!
-    if (character.statusAffects.has(StatusEffectType.Rut)) {
+    if (character.effects.has(StatusEffectType.Rut)) {
         DisplayText("\n\nYour " + describeCock(character, character.body.cocks.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.");
-        const statusAffectRut = character.statusAffects.get(StatusEffectType.Rut);
+        const statusAffectRut = character.effects.get(StatusEffectType.Rut);
         statusAffectRut.value1 = 100 * intensity;
         statusAffectRut.value2 = 5 * intensity;
         statusAffectRut.value3 = 48 * intensity;
@@ -213,7 +213,7 @@ export function displayGoIntoRut(character: Character, intensity: number = 1) {
         // v1 - bonus cum production
         // v2 - bonus libido
         // v3 - time remaining!
-        character.statusAffects.add(StatusEffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0);
+        character.effects.add(StatusEffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0);
         character.stats.libBimbo += 5 * intensity;
     }
 }

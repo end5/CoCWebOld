@@ -24,7 +24,7 @@ export const TailNameTable =
 export function describeTail(character: Character): string {
     let description: string = "";
 
-    if (character.body.tails.count > 0) {
+    if (character.body.tails.length > 0) {
         const kitsuneTailCount = character.body.tails.filter(Tail.FilterType(TailType.FOX)).length;
         if (kitsuneTailCount > 0) {
             if (kitsuneTailCount > 1) {
@@ -49,7 +49,7 @@ export function describeTail(character: Character): string {
 export function describeOneTail(character: Character): string {
     let description: string = "";
 
-    if (character.body.tails.count > 0) {
+    if (character.body.tails.length > 0) {
         const kitsuneTailCount = character.body.tails.filter(Tail.FilterType(TailType.FOX)).length;
         if (kitsuneTailCount === 1) {
             description += "your kitsune tail";

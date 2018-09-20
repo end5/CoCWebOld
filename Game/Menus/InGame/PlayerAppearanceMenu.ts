@@ -25,10 +25,10 @@ import { NextScreenChoices } from '../../ScreenDisplay';
 import { numToCardinalCapText, numToCardinalText } from '../../Utilities/NumToText';
 import { describeRace, describeBody } from '../../Descriptors/BodyDescriptor';
 import { skin, skinFurScales } from '../../Descriptors/SkinDescriptor';
-import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeHips } from '../../Descriptors/HipDescriptor';
-import { describeMultiCock, describeCock, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocks, describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeVagina, describeClit } from '../../Descriptors/VaginaDescriptor';
 import { describeButt, describeButthole } from '../../Descriptors/ButtDescriptor';
 import { describeLeg, describeLegs } from '../../Descriptors/LegDescriptor';
@@ -235,7 +235,7 @@ function face(character: Character) {
         DisplayText(" and shaped like that of a kangaroo, somewhat rabbit-like except for the extreme length of your odd visage.");
     }
     // M/F stuff!
-    DisplayText("  It has " + describeFace(character) + ".");
+    DisplayText("  It has " + describeFaceShort(character) + ".");
 }
 
 function eyes(character: Character) {
@@ -455,9 +455,9 @@ function hips(character: Character) {
                     DisplayText(" that give your ");
                     if (character.body.balls.count > 0)
                         DisplayText("balls plenty of room to breathe");
-                    else if (character.body.cocks.count > 0)
-                        DisplayText(describeMultiCock(character) + " plenty of room to swing");
-                    else if (character.body.vaginas.count > 0)
+                    else if (character.body.cocks.length > 0)
+                        DisplayText(describeCocks(character) + " plenty of room to swing");
+                    else if (character.body.vaginas.length > 0)
                         DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " a nice, wide berth");
                     else DisplayText("vacant groin plenty of room");
                     DisplayText(", and");
@@ -591,9 +591,9 @@ function tail(character: Character) {
         DisplayText(", tail extends from your " + describeButt(character) + ", bouncing up and down as you move and helping to counterbalance you.");
     }
     else if (character.body.tails.reduce(Tail.HasType(TailType.FOX), false)) {
-        if (character.body.tails.count === 1)
+        if (character.body.tails.length === 1)
             DisplayText("  A swishing " + character.body.hair.color + " fox's brush extends from your " + describeButt(character) + ", curling around your body - the soft fur feels lovely.");
-        else DisplayText("  " + numToCardinalCapText(character.body.tails.count) + " swishing " + character.body.hair.color + " fox's tails extend from your " + describeButt(character) + ", curling around your body - the soft fur feels lovely.");
+        else DisplayText("  " + numToCardinalCapText(character.body.tails.length) + " swishing " + character.body.hair.color + " fox's tails extend from your " + describeButt(character) + ", curling around your body - the soft fur feels lovely.");
     }
     else if (character.body.tails.reduce(Tail.HasType(TailType.DRACONIC), false)) {
         DisplayText("  A thin, scaly, prehensile reptilian tail, almost as long as you are tall, swings behind you like a living bullwhip.  Its tip menaces with spikes of bone, meant to deliver painful blows.");
@@ -651,7 +651,7 @@ function lowerBody(character: Character) {
         DisplayText("  Of course, your " + describeLegs(character) + " are partially transparent due to their ghostly nature.");
 
     DisplayText("\n");
-    if (character.statusAffects.has(StatusEffectType.GooStuffed)) {
+    if (character.effects.has(StatusEffectType.GooStuffed)) {
         DisplayText("Your gravid-looking belly is absolutely stuffed full of goo. There's no way you can get pregnant like this, but at the same time, you look like some fat-bellied breeder.");
     }
 }
@@ -663,7 +663,7 @@ function pregnancy(character: Character) {
     if (buttWomb.isPregnantWith(PregnancyType.FROG_GIRL) || buttWomb.isPregnantWith(PregnancyType.SATYR)) {
         if (womb.isPregnantWith(PregnancyType.OVIELIXIR_EGGS)) {
             // Compute size
-            const eggAmount = character.statusAffects.get(StatusEffectType.Eggs).value3 + character.statusAffects.get(StatusEffectType.Eggs).value2 * 10;
+            const eggAmount = character.effects.get(StatusEffectType.Eggs).value3 + character.effects.get(StatusEffectType.Eggs).value2 * 10;
             const wombPreg = womb.pregnancy;
             if (wombPreg.incubation <= 50 && wombPreg.incubation > 20) {
                 DisplayText("Your swollen pregnant belly is as large as a ").bold();
@@ -786,7 +786,7 @@ function neck(character: Character) {
 
 function chest(character: Character) {
     const charChest = character.body.chest;
-    if (charChest.count === 1) {
+    if (charChest.length === 1) {
         const firstRow = charChest.get(0);
         DisplayText("You have " + numToCardinalText(2) + " " + describeBreastRow(firstRow) + ", each supporting ");
         if (firstRow.nipples.count === 1)
@@ -799,8 +799,8 @@ function chest(character: Character) {
             DisplayText("  You could easily fill a " + breastCup(firstRow.rating) + " bra.");
     }
     else {
-        DisplayText("You have " + numToCardinalText(charChest.count) + " rows of breasts, the topmost pair starting at your chest.");
-        for (let rowIndex = 0; rowIndex < charChest.count; rowIndex++) {
+        DisplayText("You have " + numToCardinalText(charChest.length) + " rows of breasts, the topmost pair starting at your chest.");
+        for (let rowIndex = 0; rowIndex < charChest.length; rowIndex++) {
             const breastRow = charChest.get(rowIndex);
             if (rowIndex === 0)
                 DisplayText("--Your uppermost rack houses ");
@@ -829,7 +829,7 @@ function lowerBodySex(character: Character) {
     // Crotchial stuff - mention snake
     if (character.body.legs.type === LegType.NAGA && character.gender > 0) {
         DisplayText("Your sex");
-        if (character.gender === Gender.HERM || character.body.cocks.count > 1)
+        if (character.gender === Gender.HERM || character.body.cocks.length > 1)
             DisplayText("es are ");
         else DisplayText(" is ");
         DisplayText("concealed within a cavity in your tail when not in use, though when the need arises, you can part your concealing slit and reveal your true self.");
@@ -839,7 +839,7 @@ function lowerBodySex(character: Character) {
 function cocks(character: Character) {
     // Cock stuff!
     const charCocks = character.body.cocks;
-    if (charCocks.count === 1) {
+    if (charCocks.length === 1) {
         const firstCock = charCocks.get(0);
         if (character.body.legs.type === LegType.CENTAUR)
             DisplayText("Ever since becoming a centaur, your equipment has shifted to lie between your rear legs, like a horse.");
@@ -899,18 +899,18 @@ function cocks(character: Character) {
             DisplayText("  It's a long, smooth black shaft that's rigid to the touch.  Its base is ringed with a layer of four inch long soft bee hair.  The tip has a much finer layer of short yellow hairs.  The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it.");
         }
         // Worm flavor
-        if (character.statusAffects.has(StatusEffectType.Infested))
+        if (character.effects.has(StatusEffectType.Infested))
             DisplayText("  Every now and again a slimy worm coated in spunk slips partway out of your " + describeCock(character, firstCock) + ", tasting the air like a snake's tongue.");
         if (character.inventory.equipment.cockSocks.get(0).isEquipped())
             sockDescript(character.inventory.equipment.cockSocks.get(0).item.name as CockSockName, firstCock.type);
     }
-    if (charCocks.count > 1) {
+    if (charCocks.length > 1) {
         if (character.body.legs.type === LegType.CENTAUR)
-            DisplayText("Where a horse's penis would usually be located, you have instead grown " + describeMultiCock(character) + "!");
+            DisplayText("Where a horse's penis would usually be located, you have instead grown " + describeCocks(character) + "!");
         else
-            DisplayText("Where a penis would normally be located, you have instead grown " + describeMultiCock(character) + "!");
+            DisplayText("Where a penis would normally be located, you have instead grown " + describeCocks(character) + "!");
 
-        for (let cockIndex = 0; cockIndex < charCocks.count; cockIndex++) {
+        for (let cockIndex = 0; cockIndex < charCocks.length; cockIndex++) {
             const curCock = charCocks.get(cockIndex);
             switch (randInt(4)) {
                 case 0: {
@@ -1014,20 +1014,20 @@ function cocks(character: Character) {
             }
         }
         // Worm flavor
-        if (character.statusAffects.has(StatusEffectType.Infested))
-            DisplayText("Every now and again slimy worms coated in spunk slip partway out of your " + describeMultiCockShort(character) + ", tasting the air like tongues of snakes.");
+        if (character.effects.has(StatusEffectType.Infested))
+            DisplayText("Every now and again slimy worms coated in spunk slip partway out of your " + describeCocksLight(character) + ", tasting the air like tongues of snakes.");
     }
 }
 
 function balls(character: Character) {
     if (character.body.balls.count > 0) {
-        if (character.statusAffects.has(StatusEffectType.Uniball)) {
+        if (character.effects.has(StatusEffectType.Uniball)) {
             if (character.body.skin.type !== SkinType.GOO)
                 DisplayText("Your [sack] clings tightly to your groin, holding " + describeBalls(false, true, character, true) + " snugly against you.");
             else if (character.body.skin.type === SkinType.GOO)
                 DisplayText("Your [sack] clings tightly to your groin, dripping and holding " + describeBalls(false, true, character, true) + " snugly against you.");
         }
-        else if (character.body.cocks.count === 0) {
+        else if (character.body.cocks.length === 0) {
             if (character.body.skin.type === SkinType.PLAIN)
                 DisplayText("A " + describeSack(character) + " with " + describeBalls(false, true, character, true) + " swings heavily under where a penis would normally grow.");
             if (character.body.skin.type === SkinType.FUR)
@@ -1039,13 +1039,13 @@ function balls(character: Character) {
         }
         else {
             if (character.body.skin.type === SkinType.PLAIN)
-                DisplayText("A " + describeSack(character) + " with " + describeBalls(false, true, character, true) + " swings heavily beneath your " + describeMultiCockShort(character) + ".");
+                DisplayText("A " + describeSack(character) + " with " + describeBalls(false, true, character, true) + " swings heavily beneath your " + describeCocksLight(character) + ".");
             if (character.body.skin.type === SkinType.FUR)
-                DisplayText("A fuzzy " + describeSack(character) + " filled with " + describeBalls(false, true, character, true) + " swings low under your " + describeMultiCockShort(character) + ".");
+                DisplayText("A fuzzy " + describeSack(character) + " filled with " + describeBalls(false, true, character, true) + " swings low under your " + describeCocksLight(character) + ".");
             if (character.body.skin.type === SkinType.SCALES)
                 DisplayText("A scaley " + describeSack(character) + " hugs your " + describeBalls(false, true, character, true) + " tightly against your body.");
             if (character.body.skin.type === SkinType.GOO)
-                DisplayText("An oozing, semi-solid sack with " + describeBalls(false, true, character, true) + " swings heavily beneath your " + describeMultiCockShort(character) + ".");
+                DisplayText("An oozing, semi-solid sack with " + describeBalls(false, true, character, true) + " swings heavily beneath your " + describeCocksLight(character) + ".");
         }
         DisplayText("  You estimate each of them to be about " + numToCardinalText(Math.round(character.body.balls.size)) + " ");
         if (Math.round(character.body.balls.size) === 1)
@@ -1057,18 +1057,18 @@ function balls(character: Character) {
 
 function vaginas(character: Character) {
     const charVaginas = character.body.vaginas;
-    if (charVaginas.count > 0) {
+    if (charVaginas.length > 0) {
         const firstVagina = charVaginas.get(0);
         if (character.gender === Gender.FEMALE && character.body.legs.type === LegType.CENTAUR)
             DisplayText("Ever since becoming a centaur, your womanly parts have shifted to lie between your rear legs, in a rather equine fashion.");
         DisplayText("\n");
-        if (charVaginas.count === 1)
+        if (charVaginas.length === 1)
             DisplayText("You have a " + describeVagina(character, firstVagina) + ", with a " + character.body.clit.length + "-inch clit");
         if (firstVagina.virgin)
             DisplayText(" and an intact hymen");
         DisplayText(".  ");
-        if (charVaginas.count > 1)
-            DisplayText("You have " + charVaginas.count + " " + describeVagina(character, firstVagina) + "s, with " + character.body.clit.length + "-inch clits each.  ");
+        if (charVaginas.length > 1)
+            DisplayText("You have " + charVaginas.length + " " + describeVagina(character, firstVagina) + "s, with " + character.body.clit.length + "-inch clits each.  ");
         if (character.stats.lib < 50 && character.stats.lust < 50) { // not particularly horny
             // Wetness
             if (firstVagina.wetness >= VaginaWetness.WET && firstVagina.wetness < VaginaWetness.DROOLING)
@@ -1128,7 +1128,7 @@ function vaginas(character: Character) {
 }
 
 function noReproductiveOrgans(character: Character) {
-    if (character.body.cocks.count === 0 && character.body.vaginas.count === 0) {
+    if (character.body.cocks.length === 0 && character.body.vaginas.length === 0) {
         DisplayText("You have a curious lack of any sexual endowments.");
     }
 }

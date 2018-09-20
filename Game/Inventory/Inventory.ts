@@ -26,13 +26,13 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
 
     public lock(amount: number = 1) {
         while (amount > 0) {
-            this.itemSlots.remove(this.itemSlots.count - 1);
+            this.itemSlots.remove(this.itemSlots.length - 1);
             amount--;
         }
     }
 
     public get slotCount(): number {
-        return this.itemSlots.count;
+        return this.itemSlots.length;
     }
 
     public has(itemName: string): boolean {

@@ -25,7 +25,7 @@ export class FireBow extends PlayerPhysicalAction {
         // ??????????????????????????????????????????????????????????????
         // ??????????????????????????????????????????????????????????????
         // wat VVVVVVVVVVVVVVVV
-        if (monster.statusAffects.has(StatusEffectType.BowDisabled)) {
+        if (monster.effects.has(StatusEffectType.BowDisabled)) {
             this.reasonCannotUse = "You can't use your bow right now!";
             return false;
         }
@@ -38,29 +38,29 @@ export class FireBow extends PlayerPhysicalAction {
         // Keep logic sane if this attack brings victory
         // This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         // Amily!
-        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
+        if (monster.effects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Prep messages vary by skill.
-        if (player.statusAffects.get(StatusEffectType.Kelt).value1 < 30) {
+        if (player.effects.get(StatusEffectType.Kelt).value1 < 30) {
             DisplayText("Fumbling a bit, you nock an arrow and fire!\n");
         }
-        else if (player.statusAffects.get(StatusEffectType.Kelt).value1 < 50) {
+        else if (player.effects.get(StatusEffectType.Kelt).value1 < 50) {
             DisplayText("You pull an arrow and fire it at " + monster.desc.a + monster.desc.short + "!\n");
         }
-        else if (player.statusAffects.get(StatusEffectType.Kelt).value1 < 80) {
+        else if (player.effects.get(StatusEffectType.Kelt).value1 < 80) {
             DisplayText("With one smooth motion you draw, nock, and fire your deadly arrow at your opponent!\n");
         }
-        else if (player.statusAffects.get(StatusEffectType.Kelt).value1 <= 99) {
+        else if (player.effects.get(StatusEffectType.Kelt).value1 <= 99) {
             DisplayText("In the blink of an eye you draw and fire your bow directly at " + monster.desc.a + monster.desc.short + ".\n");
         }
         else {
             DisplayText("You casually fire an arrow at " + monster.desc.a + monster.desc.short + " with supreme skill.\n");
             // Keep it from going over 100
-            player.statusAffects.get(StatusEffectType.Kelt).value1 = 100;
+            player.effects.get(StatusEffectType.Kelt).value1 = 100;
         }
-        if (monster.statusAffects.has(StatusEffectType.Sandstorm) && randInt(10) > 1) {
+        if (monster.effects.has(StatusEffectType.Sandstorm) && randInt(10) > 1) {
             DisplayText("Your shot is blown off target by the tornado of sand and wind.  Damn!\n\n");
             return;
         }
@@ -85,17 +85,17 @@ export class FireBow extends PlayerPhysicalAction {
             return;
         }
         // Blind miss chance
-        if (player.statusAffects.has(StatusEffectType.Blind)) {
+        if (player.effects.has(StatusEffectType.Blind)) {
             DisplayText("The arrow hits something, but blind as you are, you don't have a chance in hell of hitting anything with a bow.\n\n");
             return;
         }
         // Miss chance 10% based on speed + 10% based on int + 20% based on skill
-        if (monster.desc.short !== "pod" && player.stats.spe / 10 + player.stats.int / 10 + player.statusAffects.get(StatusEffectType.Kelt).value1 / 5 + 60 < randInt(101)) {
+        if (monster.desc.short !== "pod" && player.stats.spe / 10 + player.stats.int / 10 + player.effects.get(StatusEffectType.Kelt).value1 / 5 + 60 < randInt(101)) {
             DisplayText("The arrow goes wide, disappearing behind your foe.\n\n");
             return;
         }
         // Hit!  Damage calc! 20 +
-        let damage: number = Math.floor((20 + player.stats.str / 3 + player.statusAffects.get(StatusEffectType.Kelt).value1 / 1.2) + player.stats.spe / 3 - randInt(monster.stats.tou) - monster.combat.stats.defense());
+        let damage: number = Math.floor((20 + player.stats.str / 3 + player.effects.get(StatusEffectType.Kelt).value1 / 1.2) + player.stats.spe / 3 - randInt(monster.stats.tou) - monster.combat.stats.defense());
         if (damage < 0) damage = 0;
         if (damage === 0) {
             if (monster.stats.int > 0)

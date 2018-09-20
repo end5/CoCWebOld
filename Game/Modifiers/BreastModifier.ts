@@ -9,7 +9,7 @@ import { breastCup, describeBreastRow } from '../Descriptors/BreastDescriptor';
 
 export function growSmallestBreastRow(character: Character, amount: number, rowsGrown: number, display: boolean) {
     const chest = character.body.chest;
-    if (chest.count === 0)
+    if (chest.length === 0)
         return;
 
     // Chance for "big tits" perked characters to grow larger!
@@ -35,7 +35,7 @@ export function growSmallestBreastRow(character: Character, amount: number, rows
 
 export function growTopBreastRowDownwards(character: Character, amount: number, rowsGrown: number, display: boolean) {
     const chest = character.body.chest;
-    if (chest.count === 0)
+    if (chest.length === 0)
         return;
 
     if (character.perks.has(PerkType.BigTits) && randInt(3) === 0 && amount < 1)
@@ -56,7 +56,7 @@ export function growTopBreastRowDownwards(character: Character, amount: number, 
     let breastIndex: number = 0;
     // Start at top and keep growing down, back to top if hit bottom before done.
     while (rowsGrown > 0) {
-        if (breastIndex + 1 > chest.count)
+        if (breastIndex + 1 > chest.length)
             breastIndex = 0;
         chest.get(breastIndex).rating += amount;
         breastIndex++;
@@ -66,7 +66,7 @@ export function growTopBreastRowDownwards(character: Character, amount: number, 
 
 export function growTopBreastRow(character: Character, amount: number, rowsGrown: number, display: boolean) {
     const chest = character.body.chest;
-    if (chest.count === 0)
+    if (chest.length === 0)
         return;
 
     if (character.perks.has(PerkType.BigTits) && randInt(3) === 0 && amount < 1)
@@ -108,7 +108,7 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
     if (User.settings.hyperHappy && !ignoreHyperHappy) {
         return;
     }
-    if (character.body.chest.count === 1) {
+    if (character.body.chest.length === 1) {
         const topRow: BreastRow = character.body.chest.get(0);
         if (topRow.rating > 0) {
             // Shrink if bigger than N/A cups
@@ -125,13 +125,13 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
             if (superShrink) DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(topRow.rating) + "s.");
         }
     }
-    else if (character.body.chest.count > 1) {
+    else if (character.body.chest.length > 1) {
         // multiple
         DisplayText("\n");
         // temp2 = amount changed
         // temp3 = counter
         let shrinkAmount: number = 0;
-        let breastRowIndex: number = character.body.chest.count;
+        let breastRowIndex: number = character.body.chest.length;
         while (breastRowIndex > 0) {
             breastRowIndex--;
             if (character.body.chest.get(breastRowIndex).rating > 0) {
@@ -139,7 +139,7 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
                 if (character.body.chest.get(breastRowIndex).rating < 0) character.body.chest.get(breastRowIndex).rating = 0;
                 shrinkAmount++;
                 DisplayText("\n");
-                if (breastRowIndex < character.body.chest.count - 1) DisplayText("...and y");
+                if (breastRowIndex < character.body.chest.length - 1) DisplayText("...and y");
                 else DisplayText("Y");
                 DisplayText("our " + describeBreastRow(character.body.chest.get(breastRowIndex)) + " shrink, dropping to " + breastCup(character.body.chest.get(breastRowIndex).rating) + "s.");
             }
@@ -153,23 +153,23 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
 
 // TODO: Fix this function
 export function boostLactation(character: Character, boostAmt: number): number {
-    if (character.body.chest.count <= 0)
+    if (character.body.chest.length <= 0)
         return 0;
     let breasts: BreastRow;
     let changes: number = 0;
     let temp2: number = 0;
     // Prevent lactation decrease if lactating.
     if (boostAmt >= 0) {
-        if (character.statusAffects.has(StatusEffectType.LactationReduction))
-            character.statusAffects.get(StatusEffectType.LactationReduction).value1 = 0;
-        if (character.statusAffects.has(StatusEffectType.LactationReduc0))
-            character.statusAffects.remove(StatusEffectType.LactationReduc0);
-        if (character.statusAffects.has(StatusEffectType.LactationReduc1))
-            character.statusAffects.remove(StatusEffectType.LactationReduc1);
-        if (character.statusAffects.has(StatusEffectType.LactationReduc2))
-            character.statusAffects.remove(StatusEffectType.LactationReduc2);
-        if (character.statusAffects.has(StatusEffectType.LactationReduc3))
-            character.statusAffects.remove(StatusEffectType.LactationReduc3);
+        if (character.effects.has(StatusEffectType.LactationReduction))
+            character.effects.get(StatusEffectType.LactationReduction).value1 = 0;
+        if (character.effects.has(StatusEffectType.LactationReduc0))
+            character.effects.remove(StatusEffectType.LactationReduc0);
+        if (character.effects.has(StatusEffectType.LactationReduc1))
+            character.effects.remove(StatusEffectType.LactationReduc1);
+        if (character.effects.has(StatusEffectType.LactationReduc2))
+            character.effects.remove(StatusEffectType.LactationReduc2);
+        if (character.effects.has(StatusEffectType.LactationReduc3))
+            character.effects.remove(StatusEffectType.LactationReduc3);
     }
     if (boostAmt > 0) {
         while (boostAmt > 0) {

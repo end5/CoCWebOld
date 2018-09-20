@@ -21,7 +21,7 @@ export class DragonBreath extends PlayerSpellAction {
             return false;
         }
         // Not Ready Yet:
-        if (character.statusAffects.has(StatusEffectType.DragonBreathCooldown)) {
+        if (character.effects.has(StatusEffectType.DragonBreathCooldown)) {
             this.reasonCannotUse = "You try to tap into the power within you, but your burning throat reminds you that you're not yet ready to unleash it again...";
             return false;
         }
@@ -31,19 +31,19 @@ export class DragonBreath extends PlayerSpellAction {
     public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
-        character.statusAffects.add(StatusEffectType.DragonBreathCooldown, 0, 0, 0, 0);
+        character.effects.add(StatusEffectType.DragonBreathCooldown, 0, 0, 0, 0);
         let damage: number = Math.floor(character.stats.level * 8 + 25 + randInt(10));
-        if (character.statusAffects.has(StatusEffectType.DragonBreathBoost)) {
-            character.statusAffects.remove(StatusEffectType.DragonBreathBoost);
+        if (character.effects.has(StatusEffectType.DragonBreathBoost)) {
+            character.effects.remove(StatusEffectType.DragonBreathBoost);
             damage *= 1.5;
         }
         // Shell
-        if (monster.statusAffects.has(StatusEffectType.Shell)) {
+        if (monster.effects.has(StatusEffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
         // Amily!
-        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
+        if (monster.effects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -52,12 +52,12 @@ export class DragonBreath extends PlayerSpellAction {
             return;
         }
         DisplayText("Tapping into the power deep within you, you let loose a bellowing roar at your enemy, so forceful that even the environs crumble around " + monster.desc.objectivePronoun + ".  " + monster.desc.capitalA + monster.desc.short + " does " + monster.desc.possessivePronoun + " best to avoid it, but the wave of force is too fast.");
-        if (monster.statusAffects.has(StatusEffectType.Sandstorm)) {
+        if (monster.effects.has(StatusEffectType.Sandstorm)) {
             DisplayText("  <b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>");
             damage = Math.round(0.2 * damage);
         }
         // Miss:
-        if ((character.statusAffects.has(StatusEffectType.Blind) && randInt(2) === 0) || (monster.stats.spe - character.stats.spe > 0 && Math.floor(Math.random() * (((monster.stats.spe - character.stats.spe) / 4) + 80)) > 80)) {
+        if ((character.effects.has(StatusEffectType.Blind) && randInt(2) === 0) || (monster.stats.spe - character.stats.spe > 0 && Math.floor(Math.random() * (((monster.stats.spe - character.stats.spe) / 4) + 80)) > 80)) {
             DisplayText("  Despite the heavy impact caused by your roar, " + monster.desc.a + monster.desc.short + " manages to take it at an angle and remain on " + monster.desc.possessivePronoun + " feet and focuses on you, ready to keep fighting.");
         }
         // Special enemy avoidances
@@ -82,13 +82,13 @@ export class DragonBreath extends PlayerSpellAction {
                 monster.perks.add(PerkType.Acid, 0, 0, 0, 0);
             damage = Math.round(damage * 1.5);
             damage = monster.combat.stats.loseHP(damage, character);
-            monster.statusAffects.add(StatusEffectType.Stunned, 0, 0, 0, 0);
+            monster.effects.add(StatusEffectType.Stunned, 0, 0, 0, 0);
             DisplayText("(" + damage + ")\n\n");
         }
         else {
             if (!monster.perks.has(PerkType.Resolute)) {
                 DisplayText("  " + monster.desc.capitalA + monster.desc.short + " reels as your wave of force slams into " + monster.desc.objectivePronoun + " like a ton of rock!  The impact sends " + monster.desc.objectivePronoun + " crashing to the ground, too dazed to strike back.");
-                monster.statusAffects.add(StatusEffectType.Stunned, 1, 0, 0, 0);
+                monster.effects.add(StatusEffectType.Stunned, 1, 0, 0, 0);
             }
             else {
                 DisplayText("  " + monster.desc.capitalA + monster.desc.short + " reels as your wave of force slams into " + monster.desc.objectivePronoun + " like a ton of rock!  The impact sends " + monster.desc.objectivePronoun + " staggering back, but <b>" + monster.desc.subjectivePronoun + " ");

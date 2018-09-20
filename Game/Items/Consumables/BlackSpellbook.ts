@@ -30,21 +30,21 @@ export class BlackSpellbook extends Consumable {
             character.stats.int += 0.6;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 25 && !character.statusAffects.has(StatusEffectType.KnowsArouse)) {
+        if (character.stats.int >= 25 && !character.effects.has(StatusEffectType.KnowsArouse)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Arouse.</b>");
-            character.statusAffects.add(StatusEffectType.KnowsArouse, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsArouse, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 30 && !character.statusAffects.has(StatusEffectType.KnowsHeal)) {
+        if (character.stats.int >= 30 && !character.effects.has(StatusEffectType.KnowsHeal)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Heal.</b>");
-            character.statusAffects.add(StatusEffectType.KnowsHeal, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsHeal, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
-        if (character.stats.int >= 40 && !character.statusAffects.has(StatusEffectType.KnowsMight)) {
+        if (character.stats.int >= 40 && !character.effects.has(StatusEffectType.KnowsMight)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Might.</b>");
-            character.statusAffects.add(StatusEffectType.KnowsMight, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsMight, 0, 0, 0, 0);
         }
     }
 }

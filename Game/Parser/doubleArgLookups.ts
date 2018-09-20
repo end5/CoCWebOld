@@ -46,7 +46,7 @@ const cockHeadLookups = // For subject: "cockHead"
 const twoWordNumericTagsLookup =
     {
         cockfit: (char: Character, args: string) => {
-            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.length <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
                 if (cocksThatFit.length >= 0) return describeCock(char, cocksThatFit[0]);
@@ -54,7 +54,7 @@ const twoWordNumericTagsLookup =
             }
         },
         cockfit2: (char: Character, args: string) => {
-            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.length <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
                 if (cocksThatFit.length >= 0) return describeCock(char, cocksThatFit[1]);
@@ -62,7 +62,7 @@ const twoWordNumericTagsLookup =
             }
         },
         cockheadfit: (char: Character, args: string) => {
-            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.length <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
                 if (cocksThatFit.length >= 0) return describeCockHead(cocksThatFit[0]);
@@ -70,7 +70,7 @@ const twoWordNumericTagsLookup =
             }
         },
         cockheadfit2: (char: Character, args: string) => {
-            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.length <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cocksThatFit = char.body.cocks.filter(Cock.CockThatFits(+args));
                 if (cocksThatFit.length >= 0) return describeCockHead(cocksThatFit[1]);
@@ -78,18 +78,18 @@ const twoWordNumericTagsLookup =
             }
         },
         cock: (char: Character, args: string) => {
-            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.length <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cockIndex = +args - 1;
-                if (cockIndex >= 0 && cockIndex - 1 < char.body.cocks.count) return describeCock(char, char.body.cocks.get(cockIndex));
+                if (cockIndex >= 0 && cockIndex - 1 < char.body.cocks.length) return describeCock(char, char.body.cocks.get(cockIndex));
                 else return "<b>(Attempt To Parse CockDescript for Invalid Cock)</b>";
             }
         },
         cockhead: (char: Character, args: string) => {
-            if (char.body.cocks.count <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
+            if (char.body.cocks.length <= 0) return "<b>(Attempt to parse cock when none present.)</b>";
             else {
                 const cockIndex = +args - 1;
-                if (cockIndex >= 0 && cockIndex - 1 < char.body.cocks.count) return describeCockHead(char.body.cocks.get(cockIndex));
+                if (cockIndex >= 0 && cockIndex - 1 < char.body.cocks.length) return describeCockHead(char.body.cocks.get(cockIndex));
                 else return "<b>(Attempt To Parse CockDescript for Invalid Cock)</b>";
             }
         },

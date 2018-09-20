@@ -19,7 +19,7 @@ import { ItemDesc } from '../ItemDesc';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeBreastRow, describeNipple, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
-import { describeMultiCockShort, describeCock } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight, describeCock } from '../../Descriptors/CockDescriptor';
 import { describeRace } from '../../Descriptors/BodyDescriptor';
 
 export class BeeHoney extends Consumable {
@@ -47,7 +47,7 @@ export class BeeHoney extends Consumable {
     }
 
     public canUse(character: Character) {
-        if (this.value === BeeHoney.SPECIAL_HONEY_VALUE && character.statusAffects.get(StatusEffectType.Exgartuan).value1 === 1) { // Exgartuan doesn't like the special honey
+        if (this.value === BeeHoney.SPECIAL_HONEY_VALUE && character.effects.get(StatusEffectType.Exgartuan).value1 === 1) { // Exgartuan doesn't like the special honey
             DisplayText("You uncork the bottle only to hear Exgartuan suddenly speak up.  <i>“Hey kid, this beautiful cock here doesn’t need any of that special bee shit.  Cork that bottle up right now or I’m going to make it so that you can’t drink anything but me.”</i>  You give an exasperated sigh and put the cork back in the bottle.");
             return false;
         }
@@ -148,11 +148,11 @@ export class BeeHoney extends Consumable {
             changes++;
         }
         // -Remove extra breast rows
-        if (changes < changeLimit && chest.count > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
+        if (changes < changeLimit && chest.length > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
-            const lastBreastRow = chest.get(chest.count - 1);
+            const lastBreastRow = chest.get(chest.length - 1);
             DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
-            if (chest.count >= 3)
+            if (chest.length >= 3)
                 DisplayText("abdomen");
             else
                 DisplayText("chest");
@@ -205,8 +205,8 @@ export class BeeHoney extends Consumable {
             changes++;
         }
         // Bee butt - 66% lower chance if already has a tail
-        if (changes < changeLimit && (character.body.tails.count === 0 || randInt(1.5) === 0) && randInt(4) === 0) {
-            if (character.body.tails.count > 0) DisplayText("\n\nPainful swelling just above your " + describeButt(character) + " doubles you over, and you hear the sound of your tail dropping off onto the ground!  Before you can consider the implications, the pain gets worse, and you feel your backside bulge outward sickeningly, cracking and popping as a rounded bee-like abdomen grows in place of your old tail.  It grows large enough to be impossible to hide, and with a note of finality, your stinger slides free with an audible 'snick'.");
+        if (changes < changeLimit && (character.body.tails.length === 0 || randInt(1.5) === 0) && randInt(4) === 0) {
+            if (character.body.tails.length > 0) DisplayText("\n\nPainful swelling just above your " + describeButt(character) + " doubles you over, and you hear the sound of your tail dropping off onto the ground!  Before you can consider the implications, the pain gets worse, and you feel your backside bulge outward sickeningly, cracking and popping as a rounded bee-like abdomen grows in place of your old tail.  It grows large enough to be impossible to hide, and with a note of finality, your stinger slides free with an audible 'snick'.");
             else DisplayText("\n\nPainful swelling just above your " + describeButt(character) + " doubles you over.  It gets worse and worse as the swollen lump begins to protrude from your backside, swelling and rounding with a series of pops until you have a bulbous abdomen hanging just above your butt.  The whole thing is covered in a hard chitinous material, and large enough to be impossible to hide.  You sigh as your stinger slides into place with a 'snick', finishing the transformation.  <b>You have a bee's abdomen.</b>");
             character.body.tails.clear();
             const newTail = new Tail();
@@ -259,7 +259,7 @@ export class BeeHoney extends Consumable {
         }
         if (special) { // All the speical honey effects occur after any normal bee transformations (if the character wasn't a full bee morph)
             let selectedCock: Cock;
-            if (cocks.count > 0) {
+            if (cocks.length > 0) {
                 DisplayText("\n\nYou double over in pain as the effects start to concentrate into your groin.  You need to get release, but what you’ve got just isn’t cutting it.  You fall to the ground and grab at your crotch, trying desperately to get the release you need.  Finally, it happens.  With a sudden burst of intense relief and sexual satisfaction, a new human looking penis bursts from your skin and sprays your seed all over the ground in front of you.  When you’re able to recover and take a look at your new possession.  <b>You now have an eight inch long human cock that is very sensitive to stimulation.</b>");
                 selectedCock = new Cock();
                 selectedCock.length = randInt(3) + 8;
@@ -267,10 +267,10 @@ export class BeeHoney extends Consumable {
                 cocks.add(selectedCock);
                 character.stats.sens += 10;
             }
-            else if (character.body.cocks.count > 1) {
+            else if (character.body.cocks.length > 1) {
                 const largestCock = cocks.sort(Cock.Largest)[0];
                 selectedCock = cocks.get(0);
-                DisplayText("\n\nThe effects of the honey move towards your groin, and into your " + describeMultiCockShort(character) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + describeCock(character, largestCock) + " is absorbed into your " + describeCock(character, selectedCock) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + describeCock(character, selectedCock) + " seems a lot more sensative now...");
+                DisplayText("\n\nThe effects of the honey move towards your groin, and into your " + describeCocksLight(character) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + describeCock(character, largestCock) + " is absorbed into your " + describeCock(character, selectedCock) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + describeCock(character, selectedCock) + " seems a lot more sensative now...");
                 selectedCock.length += 5 * Math.sqrt(0.2 * largestCock.area);
                 selectedCock.thickness += Math.sqrt(0.2 * largestCock.area);
                 cocks.remove(cocks.indexOf(largestCock));

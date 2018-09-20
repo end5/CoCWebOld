@@ -12,9 +12,9 @@ export class CombatCleanup {
         }
 
         // Really annoying and dont know how to handle or what does
-        if (mainCharacter.statusAffects.has(StatusEffectType.TwuWuv)) {
-            mainCharacter.stats.int += enemyParty[0].statusAffects.get(StatusEffectType.TwuWuv).value1;
-            mainCharacter.statusAffects.remove(StatusEffectType.TwuWuv);
+        if (mainCharacter.effects.has(StatusEffectType.TwuWuv)) {
+            mainCharacter.stats.int += enemyParty[0].effects.get(StatusEffectType.TwuWuv).value1;
+            mainCharacter.effects.remove(StatusEffectType.TwuWuv);
         }
     }
 }

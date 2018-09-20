@@ -21,7 +21,7 @@ export class FishFillet extends Consumable {
         // Increase HP by quite a bit!)
         // (Slight chance at increasing Toughness?)
         // (If lake has been tainted, +1 Corruption?)
-        if (character.statusAffects.has(StatusEffectType.FactoryOverload)) character.stats.cor += 0.5;
+        if (character.effects.has(StatusEffectType.FactoryOverload)) character.stats.cor += 0.5;
         character.stats.cor += 0.1;
         character.stats.HP += Math.round(character.stats.maxHP() * .25);
     }

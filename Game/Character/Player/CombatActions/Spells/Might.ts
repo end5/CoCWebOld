@@ -11,11 +11,11 @@ export class Might extends BlackMagic {
     public readonly baseCost: number = 25;
 
     public isPossible(character: Character): boolean {
-        return character.statusAffects.has(StatusEffectType.KnowsMight);
+        return character.effects.has(StatusEffectType.KnowsMight);
     }
 
     public canUse(character: Character): boolean {
-        if (character.statusAffects.has(StatusEffectType.Might)) {
+        if (character.effects.has(StatusEffectType.Might)) {
             this.reasonCannotUse = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
             return false;
         }
@@ -31,7 +31,7 @@ export class Might extends BlackMagic {
             DisplayText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
             if (character.gender === Gender.NONE) DisplayText(describeButthole(character.body.butt) + " tingles with a desire to be filled as your libido spins out of control.");
             if (character.gender === Gender.MALE) {
-                if (character.body.cocks.count === 1) DisplayText(describeCock(character, character.body.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+                if (character.body.cocks.length === 1) DisplayText(describeCock(character, character.body.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
                 else DisplayText(describeMultiCockShort(character) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
             }
             if (character.gender === Gender.FEMALE) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
@@ -41,16 +41,16 @@ export class Might extends BlackMagic {
         }
         else {
             DisplayText("The rush of success and power flows through your body.  You feel like you can do anything!");
-            character.statusAffects.add(StatusEffectType.Might, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.Might, 0, 0, 0, 0);
             const temp = 5 * character.combat.stats.spellMod();
             let tempStr = temp;
             let tempTou = temp;
             if (character.stats.str + temp > 100) tempStr = 100 - character.stats.str;
             if (character.stats.tou + temp > 100) tempTou = 100 - character.stats.tou;
-            character.statusAffects.get(StatusEffectType.Might).value1 = tempStr;
-            character.statusAffects.get(StatusEffectType.Might).value2 = tempTou;
-            character.stats.str += character.statusAffects.get(StatusEffectType.Might).value1;
-            character.stats.tou += character.statusAffects.get(StatusEffectType.Might).value2;
+            character.effects.get(StatusEffectType.Might).value1 = tempStr;
+            character.effects.get(StatusEffectType.Might).value2 = tempTou;
+            character.stats.str += character.effects.get(StatusEffectType.Might).value1;
+            character.stats.tou += character.effects.get(StatusEffectType.Might).value2;
         }
         DisplayText("\n\n");
         return;

@@ -7,7 +7,7 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { User } from '../../User';
-import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeClit, describeVagina } from '../../Descriptors/VaginaDescriptor';
 
 export const MinotaurCumFlags = {
@@ -43,13 +43,13 @@ export class MinotaurCum extends Consumable {
         else if (character.stats.cor < 75) character.stats.cor += 0.5;
         else character.stats.cor += 0.25;
         DisplayText("\n\nIntermittent waves of numbness wash through your body, turning into a warm tingling that makes you feel sensitive all over.  The warmth flows through you, converging in your loins and bubbling up into lust.");
-        if (character.body.cocks.count > 0) {
+        if (character.body.cocks.length > 0) {
             DisplayText("  ");
-            if (character.body.cocks.count === 1) DisplayText("Y");
+            if (character.body.cocks.length === 1) DisplayText("Y");
             else DisplayText("Each of y");
-            DisplayText("our " + describeMultiCockShort(character) + " aches, flooding with blood until it's bloating and trembling.");
+            DisplayText("our " + describeCocksLight(character) + " aches, flooding with blood until it's bloating and trembling.");
         }
-        if (character.body.vaginas.count > 0) {
+        if (character.body.vaginas.length > 0) {
             const vagina: Vagina = character.body.vaginas.get(0);
             DisplayText("  Your " + describeClit(character) + " engorges, ");
             if (character.body.clit.length < 3) DisplayText("parting your lips.");

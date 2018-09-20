@@ -13,7 +13,7 @@ import { describeSack, describeBallsShort } from '../../Descriptors/BallsDescrip
 import { describeAllBreasts, describeNipple } from '../../Descriptors/BreastDescriptor';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
 import { describeClit, describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { describeCock, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { inventoryMenu } from '../../Menus/InGame/PlayerInventoryMenu';
 
 export class Reducto extends Consumable {
@@ -27,12 +27,12 @@ export class Reducto extends Consumable {
 
     public use(character: Character): NextScreenChoices {
         const rdtBalls: ClickOption = (character.body.balls.count > 0 && character.body.balls.size > 1 ? this.reductoBalls : undefined);
-        const rdtBreasts: ClickOption = (character.body.chest.count > 0 && character.body.chest.sort(BreastRow.Largest)[0].rating > 0 ? this.reductoBreasts : undefined);
+        const rdtBreasts: ClickOption = (character.body.chest.length > 0 && character.body.chest.sort(BreastRow.Largest)[0].rating > 0 ? this.reductoBreasts : undefined);
         const rdtButt: ClickOption = (character.body.butt.rating > 1 ? this.reductoButt : undefined);
-        const rdtClit: ClickOption = (character.body.vaginas.count > 0 && character.body.clit.length > 0.25 ? this.reductoClit : undefined);
-        const rdtCock: ClickOption = (character.body.cocks.count > 0 && character.body.cocks.sort(Cock.Largest)[0].area > 6 ? this.reductoCock : undefined);
+        const rdtClit: ClickOption = (character.body.vaginas.length > 0 && character.body.clit.length > 0.25 ? this.reductoClit : undefined);
+        const rdtCock: ClickOption = (character.body.cocks.length > 0 && character.body.cocks.sort(Cock.Largest)[0].area > 6 ? this.reductoCock : undefined);
         const rdtHips: ClickOption = (character.body.hips.rating > 2 ? this.reductoHips : undefined);
-        const rdtNipples: ClickOption = (character.body.chest.count > 0 && character.body.chest.sort(BreastRow.Largest)[0].nipples.length > 0.25 ? this.reductoNipples : undefined);
+        const rdtNipples: ClickOption = (character.body.chest.length > 0 && character.body.chest.sort(BreastRow.Largest)[0].nipples.length > 0.25 ? this.reductoNipples : undefined);
         DisplayText().clear();
         DisplayText("You ponder the paste in your hand and wonder what part of your body you would like to shrink.  What will you use it on?");
         return {
@@ -108,15 +108,15 @@ export class Reducto extends Consumable {
             firstCock.type = CockType.HUMAN;
         }
         else {
-            DisplayText("You smear the repulsive smelling paste over your " + describeMultiCockShort(character) + ".  It immediately begins to grow warm, almost uncomfortably so, as your " + describeMultiCockShort(character) + " begins to shrink.\n\n");
-            if (character.body.cocks.count === 1) {
+            DisplayText("You smear the repulsive smelling paste over your " + describeCocksLight(character) + ".  It immediately begins to grow warm, almost uncomfortably so, as your " + describeCocksLight(character) + " begins to shrink.\n\n");
+            if (character.body.cocks.length === 1) {
                 DisplayText("Your " + describeCock(character, firstCock) + " twitches as it shrinks, disappearing steadily into your " + (firstCock.hasSheath() ? "sheath" : "crotch") + " until it has lost about a third of its old size.");
                 firstCock.length *= 2 / 3;
                 firstCock.thickness *= 2 / 3;
             }
             else { // MULTI
-                DisplayText("Your " + describeMultiCockShort(character) + " twitch and shrink, each member steadily disappearing into your " + (character.body.cocks.find(Cock.HasSheath) ? "sheath" : "crotch") + " until they've lost about a third of their old size.");
-                for (let index: number = 0; index < character.body.cocks.count; index++) {
+                DisplayText("Your " + describeCocksLight(character) + " twitch and shrink, each member steadily disappearing into your " + (character.body.cocks.find(Cock.HasSheath) ? "sheath" : "crotch") + " until they've lost about a third of their old size.");
+                for (let index: number = 0; index < character.body.cocks.length; index++) {
                     character.body.cocks.get(index).length *= 2 / 3;
                     character.body.cocks.get(index).thickness *= 2 / 3;
                 }

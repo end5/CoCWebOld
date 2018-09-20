@@ -23,14 +23,14 @@ export function mfn(gender: Gender, male: string, female: string, neuter: string
 }
 
 export function mf(character: Character, male: string, female: string) {
-    if (character.body.cocks.count > 0) {
-        if (character.body.vaginas.count > 0)
+    if (character.body.cocks.length > 0) {
+        if (character.body.vaginas.length > 0)
             return female;
         else
             return male;
     }
     else {
-        if (character.body.vaginas.count > 0)
+        if (character.body.vaginas.length > 0)
             return female;
         else {
             if (character.body.chest.find(BreastRow.FemaleBreasts))

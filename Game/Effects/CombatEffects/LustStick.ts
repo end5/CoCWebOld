@@ -11,7 +11,7 @@ import { mf } from '../../Descriptors/GenderDescriptor';
 export class LustStick extends CombatEffect {
     public update(character: Character, enemy: Character) {
         if (character.charType === CharacterType.Player) {
-            if (character.body.cocks.count > 0 && (enemy.charType === CharacterType.Harpy || enemy.charType === CharacterType.Sophie)) {
+            if (character.body.cocks.length > 0 && (enemy.charType === CharacterType.Harpy || enemy.charType === CharacterType.Sophie)) {
                 // Chance to cleanse!
                 if (character.perks.has(PerkType.Medicine) && randInt(100) <= 14) {
                     character.combat.effects.remove(CombatEffectType.LustStick);

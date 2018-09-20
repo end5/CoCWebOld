@@ -14,7 +14,7 @@ export class Squeeze implements CombatAction {
     }
 
     public canUse(character: Character, target?: Character): boolean {
-        return !!target && target.statusAffects.has(StatusEffectType.Constricted);
+        return !!target && target.effects.has(StatusEffectType.Constricted);
     }
 
     public use(character: Character, target: Character): NextScreenChoices {

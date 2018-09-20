@@ -54,7 +54,7 @@ class CombatManager {
     }
 
     private loadCombatEffects(character: Character) {
-        for (const type of character.statusAffects.keys()) {
+        for (const type of character.effects.keys()) {
             if (CombatEffectType[type])
                 character.combat.effects.add(CombatEffectType[type] as CombatEffectType);
         }

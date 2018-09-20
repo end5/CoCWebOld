@@ -8,7 +8,7 @@ export class Chest extends ObservableList<BreastRow> {
     }
 
     public remove(index: number) {
-        if (this.count - 1 >= 1)
+        if (this.length - 1 >= 1)
             super.remove(index);
     }
 

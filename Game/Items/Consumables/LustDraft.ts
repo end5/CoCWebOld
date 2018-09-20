@@ -5,7 +5,7 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
-import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { Gender } from '../../Body/GenderIdentity';
 
@@ -38,13 +38,13 @@ export class LustDraft extends Consumable {
         // ORGAZMO
         if (character.stats.lust >= 100){ // && !Game.inCombat) {
             DisplayText("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + character.inventory.equipment.armor.displayName + " and look down as your ");
-            if (character.body.cocks.count > 0) {
-                DisplayText(describeMultiCockShort(character) + " erupts in front of you, liberally spraying the ground around you.  ");
+            if (character.body.cocks.length > 0) {
+                DisplayText(describeCocksLight(character) + " erupts in front of you, liberally spraying the ground around you.  ");
             }
-            if (character.body.cocks.count > 0 && character.body.vaginas.count > 0) {
+            if (character.body.cocks.length > 0 && character.body.vaginas.length > 0) {
                 DisplayText("At the same time your ");
             }
-            if (character.body.vaginas.count > 0) {
+            if (character.body.vaginas.length > 0) {
                 DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " soaks your thighs.  ");
             }
             if (character.gender === Gender.NONE) DisplayText("body begins to quiver with orgasmic bliss.  ");

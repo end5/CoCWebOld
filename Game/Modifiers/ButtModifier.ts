@@ -13,8 +13,8 @@ export function stretchButt(character: Character, buttArea: number): boolean {
             character.body.butt.looseness++;
         stretched = true;
         // Reset butt stretchin recovery time
-        if (character.statusAffects.has(StatusEffectType.ButtStretched))
-            character.statusAffects.get(StatusEffectType.ButtStretched).value1 = 0;
+        if (character.effects.has(StatusEffectType.ButtStretched))
+            character.effects.get(StatusEffectType.ButtStretched).value1 = 0;
     }
     // If within top 10% of capacity, 25% stretch
     if (buttArea < character.analCapacity() && buttArea >= .9 * character.analCapacity() && randInt(4) === 0) {
@@ -34,11 +34,11 @@ export function stretchButt(character: Character, buttArea: number): boolean {
     // Delay un-stretching
     if (buttArea >= .5 * character.analCapacity()) {
         // Butt Stretched used to determine how long since last enlargement
-        if (!character.statusAffects.has(StatusEffectType.ButtStretched))
-            character.statusAffects.add(StatusEffectType.ButtStretched, 0, 0, 0, 0);
+        if (!character.effects.has(StatusEffectType.ButtStretched))
+            character.effects.add(StatusEffectType.ButtStretched, 0, 0, 0, 0);
         // Reset the timer on it to 0 when restretched.
         else
-            character.statusAffects.get(StatusEffectType.ButtStretched).value1 = 0;
+            character.effects.get(StatusEffectType.ButtStretched).value1 = 0;
     }
     if (stretched) {
         console.trace("BUTT STRETCHED TO " + (character.body.butt.looseness) + ".");

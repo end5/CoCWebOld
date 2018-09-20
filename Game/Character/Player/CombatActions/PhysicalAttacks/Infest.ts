@@ -9,7 +9,7 @@ export class Infest implements CombatAction {
     public reasonCannotUse: string = "";
 
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has(StatusEffectType.Infested) && player.statusAffects.get(StatusEffectType.Infested).value1 === 5 && player.body.cocks.count > 0;
+        return player.effects.has(StatusEffectType.Infested) && player.effects.get(StatusEffectType.Infested).value1 === 5 && player.body.cocks.length > 0;
     }
 
     public canUse(player: Player): boolean {

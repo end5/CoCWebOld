@@ -28,7 +28,7 @@ export class Sting implements CombatAction {
         }
         // Determine if dodged!
         // Amily!
-        if (monster.statusAffects.has(StatusEffectType.Concentration)) {
+        if (monster.effects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -57,8 +57,8 @@ export class Sting implements CombatAction {
         else if (player.stats.level < 20) damage += 30 + (player.stats.level - 10) * 2;
         else damage += 50;
         monster.stats.lust += monster.stats.lustVuln * damage;
-        if (!monster.statusAffects.has(StatusEffectType.lustvenom))
-            monster.statusAffects.add(StatusEffectType.lustvenom, 0, 0, 0, 0);
+        if (!monster.effects.has(StatusEffectType.lustvenom))
+            monster.effects.add(StatusEffectType.lustvenom, 0, 0, 0, 0);
         /* IT used to paralyze 50% of the time, this is no longer the case!
         Paralise the other 50%!
         else {

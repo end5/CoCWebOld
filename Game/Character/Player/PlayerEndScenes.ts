@@ -51,7 +51,7 @@ export class PlayerEndScenes extends EndScenes {
 
     public readonly hasDefeatScene = false;
     protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
-        if (enemy.statusAffects.get(StatusEffectType.Sparring).value1 === 2) {
+        if (enemy.effects.get(StatusEffectType.Sparring).value1 === 2) {
             DisplayText().clear();
             DisplayText("The cow-girl has defeated you in a practice fight!");
             DisplayText("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
@@ -59,7 +59,7 @@ export class PlayerEndScenes extends EndScenes {
             this.char.stats.HP = 1;
             return { next: returnToCampUseOneHour };
         }
-        else if (enemy.statusAffects.has(StatusEffectType.PeachLootLoss)) {
+        else if (enemy.effects.has(StatusEffectType.PeachLootLoss)) {
             // Game.inCombat = false;
             this.char.stats.HP = 1;
             return;

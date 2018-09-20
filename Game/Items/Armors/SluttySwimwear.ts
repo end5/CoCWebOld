@@ -8,7 +8,7 @@ import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
-import { describeCock, describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 
 export class SluttySwimwear extends ArmorWithPerk {
     public constructor() {
@@ -23,7 +23,7 @@ export class SluttySwimwear extends ArmorWithPerk {
             DisplayText("The bikini top clings tightly to your bustline, sending a shiver of pleasure through your body. It serves to turn you on quite nicely.  ");
             character.stats.lust += 5;
         }
-        if (character.body.cocks.count <= 0) {
+        if (character.body.cocks.length <= 0) {
             DisplayText("The thong moves over your smooth groin, clinging onto your buttocks nicely.  ");
             if (character.body.balls.count > 0) {
                 if (character.body.balls.size > 5)
@@ -33,11 +33,11 @@ export class SluttySwimwear extends ArmorWithPerk {
             }
         }
         else {
-            if (character.body.cocks.count === 1) {
+            if (character.body.cocks.length === 1) {
                 DisplayText("You grunt in discomfort, your " + describeCock(character, character.body.cocks.get(0)) + " flopping free from the thong's confines. The tight material rubbing against your dick does manage to turn you on slightly.  ");
             }
             else {
-                DisplayText("You grunt in discomfort, your " + describeMultiCockShort(character) + " flopping free from the thong's confines. The tight material rubbing against your dicks does manage to turn you on slightly.  ");
+                DisplayText("You grunt in discomfort, your " + describeCocksLight(character) + " flopping free from the thong's confines. The tight material rubbing against your dicks does manage to turn you on slightly.  ");
             }
             character.stats.lust += 5;
             if (character.body.cocks.sort(Cock.Largest)[0].area >= 20)

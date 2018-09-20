@@ -31,7 +31,7 @@ export class CombatDrops {
     }
 
     public static dropItem(character: Character, enemy: Character): Item {
-        if (enemy.statusAffects.has(StatusEffectType.NoLoot)) {
+        if (enemy.effects.has(StatusEffectType.NoLoot)) {
             return;
         }
         let item: Item = enemy.combat.rewards.drop().roll();

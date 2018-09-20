@@ -7,7 +7,7 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
-import { describeMultiCockSimpleOne } from '../../Descriptors/CockDescriptor';
+import { describeOneOfYourCocks } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeButthole } from '../../Descriptors/ButtDescriptor';
 
@@ -26,24 +26,24 @@ export class NumbRock extends Consumable {
             character.stats.lust -= 20 + randInt(40);
         }
         if (randInt(5) === 0) {
-            if (!character.statusAffects.has(StatusEffectType.Dysfunction)) {
+            if (!character.effects.has(StatusEffectType.Dysfunction)) {
                 DisplayText("\n\nUnfortunately, the skin of ");
-                if (character.body.cocks.count > 0) {
-                    DisplayText(describeMultiCockSimpleOne(character));
-                    if (character.body.vaginas.count > 0) DisplayText(" and");
+                if (character.body.cocks.length > 0) {
+                    DisplayText(describeOneOfYourCocks(character));
+                    if (character.body.vaginas.length > 0) DisplayText(" and");
                     DisplayText(" ");
                 }
-                if (character.body.vaginas.count > 0) {
-                    if (character.body.cocks.count <= 0) DisplayText("your ");
+                if (character.body.vaginas.length > 0) {
+                    if (character.body.cocks.length <= 0) DisplayText("your ");
                     DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " ");
                 }
-                if (!(character.body.cocks.count > 0 || character.body.vaginas.count > 0)) DisplayText(describeButthole(character.body.butt) + " ");
+                if (!(character.body.cocks.length > 0 || character.body.vaginas.length > 0)) DisplayText(describeButthole(character.body.butt) + " ");
                 DisplayText(" numbs up too.  You give yourself a gentle touch, but are quite disturbed when you realize you can barely feel it.  You can probably still fuck something to get off, but regular masturbation is out of the question...");
-                character.statusAffects.add(StatusEffectType.Dysfunction, 50 + randInt(100), 0, 0, 0);
+                character.effects.add(StatusEffectType.Dysfunction, 50 + randInt(100), 0, 0, 0);
             }
             else {
                 DisplayText("\n\nSadly your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
-                character.statusAffects.get(StatusEffectType.Dysfunction).value1 = 50 + randInt(100);
+                character.effects.get(StatusEffectType.Dysfunction).value1 = 50 + randInt(100);
             }
         }
         else if (randInt(4) === 0 && character.stats.int > 15) {

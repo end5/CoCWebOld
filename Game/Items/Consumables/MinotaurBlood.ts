@@ -157,7 +157,7 @@ export class MinotaurBlood extends Consumable {
         }
         if (!User.settings.hyperHappy) {
             // Kills vagina size (and eventually the whole vagina)
-            if (vaginas.count > 0) {
+            if (vaginas.length > 0) {
                 const topVagina = vaginas.get(0);
                 if (topVagina.looseness > VaginaLooseness.TIGHT) {
                     // tighten that bitch up!
@@ -168,7 +168,7 @@ export class MinotaurBlood extends Consumable {
                     DisplayText("\n\nA tightness in your groin is the only warning you get before your <b>" + describeVagina(character, topVagina) + " disappears forever</b>!");
                     // Goodbye womanhood!
                     vaginas.remove(0);
-                    if (cocks.count === 0) {
+                    if (cocks.length === 0) {
                         DisplayText("  Strangely, your clit seems to have resisted the change, and is growing larger by the moment... shifting into the shape of a small ribbed minotaur-like penis!  <b>You now have a horse-cock!</b>");
                         const newCock = new Cock();
                         newCock.length = character.body.clit.length + 2;
@@ -181,23 +181,23 @@ export class MinotaurBlood extends Consumable {
                 changes++;
             }
             // -Remove extra breast rows
-            if (changes < changeLimit && character.body.chest.count > 1 && randInt(3) === 0) {
-                const lastBreastRow = chest.get(chest.count - 1);
+            if (changes < changeLimit && character.body.chest.length > 1 && randInt(3) === 0) {
+                const lastBreastRow = chest.get(chest.length - 1);
                 changes++;
                 DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
-                if (character.body.chest.count >= 3) DisplayText("abdomen");
+                if (character.body.chest.length >= 3) DisplayText("abdomen");
                 else DisplayText("chest");
                 DisplayText(". The " + describeNipple(character, lastBreastRow) + "s even fade until nothing but ");
                 if (character.body.skin.type === SkinType.FUR) DisplayText(character.body.hair.color + " " + character.body.skin.desc);
                 else DisplayText(character.body.skin.tone + " " + character.body.skin.desc);
                 DisplayText(" remains. <b>You've lost a row of breasts!</b>");
                 character.stats.sens += -5;
-                chest.remove(chest.count - 1);
+                chest.remove(chest.length - 1);
             }
             // Shrink boobages till they are normal
-            else if (randInt(2) === 0 && changes < changeLimit && chest.count > 0) {
+            else if (randInt(2) === 0 && changes < changeLimit && chest.length > 0) {
                 // Single row
-                if (chest.count === 1) {
+                if (chest.length === 1) {
                     // Shrink if bigger than B cups
                     if (chest.get(0).rating >= 1) {
                         let superShrink = false;
@@ -221,7 +221,7 @@ export class MinotaurBlood extends Consumable {
                     let growthAmount: number = 0;
                     if (chest.sort(BreastRow.Largest)[0].rating >= 1)
                         DisplayText("\n");
-                    for (let index: number = 0; index < chest.count; index++) {
+                    for (let index: number = 0; index < chest.length; index++) {
                         if (chest.get(index).rating >= 1) {
                             chest.get(index).rating--;
                             growthAmount++;
@@ -240,9 +240,9 @@ export class MinotaurBlood extends Consumable {
             }
         }
         // Boosts cock size up to 36"x5".
-        if (changes < changeLimit && randInt(2) === 0 && cocks.count > 0) {
+        if (changes < changeLimit && randInt(2) === 0 && cocks.length > 0) {
             let selectedCock: Cock;
-            for (let index: number = 0; index < cocks.count; index++) {
+            for (let index: number = 0; index < cocks.length; index++) {
                 if (cocks.get(index).type === CockType.HORSE && (cocks.get(index).length < 36 || cocks.get(index).thickness < 5)) {
                     selectedCock = cocks.get(index);
                     break;
@@ -276,9 +276,9 @@ export class MinotaurBlood extends Consumable {
             }
         }
         // Morph dick to horsediiiiick
-        if (cocks.count > 0 && randInt(2) === 0 && changes < changeLimit) {
+        if (cocks.length > 0 && randInt(2) === 0 && changes < changeLimit) {
             let selectedCock: Cock;
-            for (let index: number = 0; index < cocks.count; index++) {
+            for (let index: number = 0; index < cocks.length; index++) {
                 if (cocks.get(index).type !== CockType.HORSE) {
                     selectedCock = cocks.get(index);
                     break;
@@ -308,11 +308,11 @@ export class MinotaurBlood extends Consumable {
         }
 
         // Anti-masturbation status
-        if (randInt(4) === 0 && changes < changeLimit && !character.statusAffects.has(StatusEffectType.Dysfunction)) {
-            if (cocks.count > 0) DisplayText("\n\nYour " + describeCock(character, cocks.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
-            else if (vaginas.count > 0) DisplayText("\n\nYour " + describeVagina(character, vaginas.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
-            if (cocks.count > 0 || vaginas.count > 0) {
-                character.statusAffects.add(StatusEffectType.Dysfunction, 96, 0, 0, 0);
+        if (randInt(4) === 0 && changes < changeLimit && !character.effects.has(StatusEffectType.Dysfunction)) {
+            if (cocks.length > 0) DisplayText("\n\nYour " + describeCock(character, cocks.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
+            else if (vaginas.length > 0) DisplayText("\n\nYour " + describeVagina(character, vaginas.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
+            if (cocks.length > 0 || vaginas.length > 0) {
+                character.effects.add(StatusEffectType.Dysfunction, 96, 0, 0, 0);
                 changes++;
             }
         }
@@ -348,7 +348,7 @@ export class MinotaurBlood extends Consumable {
                 // Get bigger if character has horns
                 if (character.body.horns.type === HornType.COW_MINOTAUR) {
                     // Fems horns.amount don't get bigger.
-                    if (vaginas.count > 0) {
+                    if (vaginas.length > 0) {
                         if (character.body.horns.count > 4) {
                             DisplayText("\n\nYou feel a pressure in your head around your horns, but they don't grow any larger.  ");
                             DisplayText("Your headache clears as lust washes through you unnaturally.  You feel as if you haven't cum in months.");
@@ -406,9 +406,9 @@ export class MinotaurBlood extends Consumable {
         }
         // +cow tail
         if (changes < changeLimit && randInt(2) === 0 && !character.body.tails.reduce(Tail.HasType(TailType.COW), false)) {
-            if (character.body.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + describeButt(character) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
+            if (character.body.tails.length === 0) DisplayText("\n\nYou feel the flesh above your " + describeButt(character) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
             else {
-                if (character.body.tails.count > 0) {
+                if (character.body.tails.length > 0) {
                     DisplayText("\n\nYour tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
                 }
                 // insect

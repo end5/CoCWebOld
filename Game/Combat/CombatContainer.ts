@@ -42,7 +42,7 @@ export class CombatContainer {
         StatusEffectType.KnowsBlind,
         StatusEffectType.KnowsWhitefire]
             .filter((name: StatusEffectType) => {
-                return this.character.statusAffects.has(name);
+                return this.character.effects.has(name);
             })
             .length;
     }

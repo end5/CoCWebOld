@@ -9,9 +9,9 @@ export class MonsterToPlayerTease {
         }
         else if (character.stats.lust < 65) {
             DisplayText("The push of the " + monster.desc.short + "' sweaty, seductive bodies sliding over yours is deliciously arousing and you feel your ");
-            if (character.body.cocks.count > 0)
+            if (character.body.cocks.length > 0)
                 DisplayText(describeMultiCockShort(character) + " hardening ");
-            else if (character.body.vaginas.count > 0) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " get wetter ");
+            else if (character.body.vaginas.length > 0) DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " get wetter ");
             DisplayText("in response to all the friction.");
         }
         else {

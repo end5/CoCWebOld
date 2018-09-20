@@ -19,7 +19,7 @@ export class FoxFire extends PlayerSpellAction {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.statusAffects.has(StatusEffectType.ThroatPunch) || character.statusAffects.has(StatusEffectType.WebSilence)) {
+        if (character.effects.has(StatusEffectType.ThroatPunch) || character.effects.has(StatusEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
@@ -29,7 +29,7 @@ export class FoxFire extends PlayerSpellAction {
     public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has(StatusEffectType.Shell)) {
+        if (monster.effects.has(StatusEffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }

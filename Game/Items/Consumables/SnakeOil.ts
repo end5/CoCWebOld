@@ -10,7 +10,7 @@ import { WingType } from '../../Body/Wings';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
-import { describeFace } from '../../Descriptors/FaceDescriptor';
+import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeLegs, describeFeet } from '../../Descriptors/LegDescriptor';
 
 // 9)  Transformation Item - Snake Oil (S. Oil)
@@ -85,7 +85,7 @@ export class SnakeOil extends Consumable {
         if (changes === 0 && character.body.tongue.type === TongueType.SNAKE && character.body.face.type !== FaceType.SNAKE_FANGS && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\nWithout warning, you feel your canine teeth jump almost an inch in size, clashing on your gums, cutting yourself quite badly. As you attempt to find a new way to close your mouth without dislocating your jaw, you notice that they are dripping with a bitter, khaki liquid.  Watch out, and <b>try not to bite your tongue with your poisonous fangs!</b>");
             if (character.body.face.type !== FaceType.HUMAN && character.body.face.type !== FaceType.SHARK_TEETH && character.body.face.type !== FaceType.BUNNY && character.body.face.type !== FaceType.SPIDER_FANGS) {
-                DisplayText("  As the change progresses, your " + describeFace(character) + " reshapes.  The sensation is far more pleasant than teeth cutting into gums, and as the tingling transformation completes, <b>you've gained with a normal-looking, human visage.</b>");
+                DisplayText("  As the change progresses, your " + describeFaceShort(character) + " reshapes.  The sensation is far more pleasant than teeth cutting into gums, and as the tingling transformation completes, <b>you've gained with a normal-looking, human visage.</b>");
             }
             character.body.face.type = FaceType.SNAKE_FANGS;
             changes++;

@@ -85,7 +85,7 @@ export class FerretFruit extends Consumable {
             changes++;
         }
         // - If male with a hip rating >4 or a female/herm with a hip rating >6:
-        if (((cocks.count <= 0 && character.body.hips.rating > 6) || (cocks.count > 0 && character.body.hips.rating > 4)) && randInt(3) === 0 && changes < changeLimit) {
+        if (((cocks.length <= 0 && character.body.hips.rating > 6) || (cocks.length > 0 && character.body.hips.rating > 4)) && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\nA warm, tingling sensation arises in your [hips].  Immediately, you reach down to them, concerned.  You can feel a small portion of your [hips] dwindling away under your hands.");
             character.body.hips.rating--;
             if (character.body.hips.rating > 10) character.body.hips.rating--;
@@ -106,16 +106,16 @@ export class FerretFruit extends Consumable {
         }
 
         // -If male with breasts or female/herm with breasts > B cup:
-        if (!User.settings.hyperHappy && (chest.sort(BreastRow.Largest)[0].rating > 2 || (cocks.count > 0 && chest.sort(BreastRow.Largest)[0].rating >= 1)) && randInt(2) === 0 && changes < changeLimit) {
+        if (!User.settings.hyperHappy && (chest.sort(BreastRow.Largest)[0].rating > 2 || (cocks.length > 0 && chest.sort(BreastRow.Largest)[0].rating >= 1)) && randInt(2) === 0 && changes < changeLimit) {
             DisplayText("\n\nYou cup your tits as they begin to tingle strangely.  You can actually feel them getting smaller in your hands!");
             for (const breastRow of chest)
-                if (breastRow.rating > 2 || (cocks.count > 0 && breastRow.rating >= 1))
+                if (breastRow.rating > 2 || (cocks.length > 0 && breastRow.rating >= 1))
                     breastRow.rating--;
             changes++;
             // (this will occur incrementally until they become flat, manly breasts for males, or until they are A or B cups for females/herms)
         }
         // -If penis size is > 6 inches:
-        if (cocks.count > 0) {
+        if (cocks.length > 0) {
             // Find longest cock
             const longestCock = cocks.sort(Cock.Longest)[0];
             if (randInt(2) === 0 && changes < changeLimit) {
@@ -213,7 +213,7 @@ export class FerretFruit extends Consumable {
         // Tail TFs!
         if (!character.body.tails.reduce(Tail.HasType(TailType.FERRET), false) && character.body.ears.type === EarType.FERRET && randInt(3) === 0 && changes < changeLimit) {
             // If ears are ferret, no tail:
-            if (character.body.tails.count === 0) {
+            if (character.body.tails.length === 0) {
                 DisplayText("\n\nYou slump to the ground as you feel your spine lengthening and twisting, sprouting fur as it finishes growing.  Luckily the new growth does not seem to have ruined your [armor].  <b>You now have a ferret tail!</b>");
             }
             // Placeholder for any future TFs that will need to be made compatible with this one

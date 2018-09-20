@@ -19,7 +19,7 @@ export class CorruptedFoxFire extends PlayerSpellAction {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.statusAffects.has(StatusEffectType.ThroatPunch) || character.statusAffects.has(StatusEffectType.WebSilence)) {
+        if (character.effects.has(StatusEffectType.ThroatPunch) || character.effects.has(StatusEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }

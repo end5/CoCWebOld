@@ -14,13 +14,13 @@ export class Berserk implements CombatAction {
     }
 
     public canUse(character: Character): boolean {
-        return !character.statusAffects.has(StatusEffectType.Berzerking);
+        return !character.effects.has(StatusEffectType.Berzerking);
     }
 
     public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         DisplayText("You roar and unleash your savage fury, forgetting about defense in order to destroy your foe!\n\n");
-        character.statusAffects.add(StatusEffectType.Berzerking, 0, 0, 0, 0);
+        character.effects.add(StatusEffectType.Berzerking, 0, 0, 0, 0);
         return;
     }
 }

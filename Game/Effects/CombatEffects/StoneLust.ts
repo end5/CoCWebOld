@@ -6,7 +6,7 @@ import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 export class StoneLust extends CombatEffect {
     public update(character: Character) {
         character.stats.lust += 7 + character.stats.sens / 10;
-        if (character.body.vaginas.count > 0) {
+        if (character.body.vaginas.length > 0) {
             if (character.stats.lust < 40)
                 DisplayText("You squirm as the smooth stone orb vibrates within you.");
             if (character.stats.lust >= 40 && character.stats.lust < 70)

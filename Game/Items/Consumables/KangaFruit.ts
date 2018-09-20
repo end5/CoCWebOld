@@ -159,7 +159,7 @@ export class KangaFruit extends Consumable {
         // Find biggest dick!
         const biggestCock = character.body.cocks.sort(Cock.Largest)[0];
         // -Shrink dicks down to 8\" max.
-        if (character.body.cocks.count > 0) {
+        if (character.body.cocks.length > 0) {
             if (biggestCock.length >= 16 && changes < changeLimit && randInt(5) === 0) {
                 DisplayText("\n\nA roiling inferno of heat blazes in your " + describeCock(character, biggestCock) + ", doubling you over in the dirt.  You rock back and forth while tears run unchecked down your cheeks.  Once the pain subsides and you're able to move again, you find the poor member has lost nearly half its size.");
                 biggestCock.length /= 2;
@@ -170,13 +170,13 @@ export class KangaFruit extends Consumable {
                 changes++;
             }
             // COCK TF!
-            if (character.body.cocks.filter(Cock.FilterType(CockType.KANGAROO)).length < character.body.cocks.count && (this.enhanced && randInt(2) === 0) && changes < changeLimit) {
+            if (character.body.cocks.filter(Cock.FilterType(CockType.KANGAROO)).length < character.body.cocks.length && (this.enhanced && randInt(2) === 0) && changes < changeLimit) {
                 DisplayText("\n\nYou feel a sharp pinch at the end of your penis and whip down your clothes to check.  Before your eyes, the tip of it collapses into a narrow point and the shaft begins to tighten behind it, assuming a conical shape before it retracts into ");
                 if (character.body.cocks.find(Cock.HasSheath)) DisplayText("your sheath");
                 else DisplayText("a sheath that forms at the base of it");
                 DisplayText(".  <b>You now have a kangaroo-penis!</b>");
                 // Find first non-roocock!
-                for (let index: number = 0; index < character.body.cocks.count; index++) {
+                for (let index: number = 0; index < character.body.cocks.length; index++) {
                     if (character.body.cocks.get(index).type !== CockType.KANGAROO) {
                         character.body.cocks.get(index).type = CockType.KANGAROO;
                         character.body.cocks.get(index).knotMultiplier = 1;
@@ -222,7 +222,7 @@ export class KangaFruit extends Consumable {
         // -Roo tail (Req: Ears)
         if (!character.body.tails.reduce(Tail.HasType(TailType.KANGAROO), false) && changes < changeLimit && randInt(4) === 0 && (!this.enhanced || character.body.ears.type === EarType.KANGAROO)) {
             // gain roo tail:
-            if (character.body.tails.count >= 1) DisplayText("\n\nA painful pressure in your lower body causes you to stand straight and lock up.  At first you think it might be gas.  No... something is growing at the end of your tailbone.  As you hold stock still so as not to exacerbate the pain, something thick pushes out from the rear of your garments.  The pain subsides and you crane your neck around to look; a long, tapered tail is now attached to your butt and a thin coat of fur is already growing in!  <b>You now have a kangaroo tail!</b>");
+            if (character.body.tails.length >= 1) DisplayText("\n\nA painful pressure in your lower body causes you to stand straight and lock up.  At first you think it might be gas.  No... something is growing at the end of your tailbone.  As you hold stock still so as not to exacerbate the pain, something thick pushes out from the rear of your garments.  The pain subsides and you crane your neck around to look; a long, tapered tail is now attached to your butt and a thin coat of fur is already growing in!  <b>You now have a kangaroo tail!</b>");
             // gain roo tail from bee tail:
             else if (character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) || character.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
                 DisplayText("\n\nYour chitinous backside shakes and cracks once you finish eating.  Peering at it as best you can, it appears as though the fuzz is falling out in clumps and the chitin is flaking off.  As convulsions begin to wrack your body and force you to collapse, the ");
@@ -251,7 +251,7 @@ export class KangaFruit extends Consumable {
         }
         // UBEROOOO
         // kangaroo perk: - any liquid or food intake will accelerate a pregnancy, but it will not progress otherwise
-        if (!character.perks.has(PerkType.Diapause) && RaceScore.kangaScore(character) > 4 && randInt(4) === 0 && changes < changeLimit && character.body.vaginas.count > 0) {
+        if (!character.perks.has(PerkType.Diapause) && RaceScore.kangaScore(character) > 4 && randInt(4) === 0 && changes < changeLimit && character.body.vaginas.length > 0) {
             // Perk name and description:
             character.perks.add(PerkType.Diapause, 0, 0, 0, 0);
             DisplayText("\n\nYour womb rumbles as something inside it changes.\n<b>(You have gained the Diapause perk.  Pregnancies will not progress when fluid intake is scarce, and will progress much faster when it isn't.)");

@@ -22,7 +22,7 @@ export class Creature implements ISerializable<Creature> {
 
     protected baseStats: Stats = new Stats();
     public stats: StatsModifier = new StatsModifier(this, this.baseStats);
-    public statusAffects: StatusEffectDict = new StatusEffectDict();
+    public effects: StatusEffectDict = new StatusEffectDict();
     public perks: PerkDict = new PerkDict();
 
     public get gender(): Gender {
@@ -38,7 +38,7 @@ export class Creature implements ISerializable<Creature> {
     }
 
     public vaginalCapacity(): number {
-        if (this.body.vaginas.count > 0) {
+        if (this.body.vaginas.length > 0) {
             let bonus: number = 0;
             // Centaurs = +50 capacity
             if (this.body.legs.type === LegType.CENTAUR)
@@ -68,7 +68,7 @@ export class Creature implements ISerializable<Creature> {
     // Calculate bonus virility rating!
     // anywhere from 5% to 100% of normal cum effectiveness thru herbs!
     public virilityQ(): number {
-        if (this.body.cocks.count > 0) {
+        if (this.body.cocks.length > 0) {
             let percent: number = 0.01;
             if (this.cumQ() >= 250)
                 percent += 0.01;
@@ -85,7 +85,7 @@ export class Creature implements ISerializable<Creature> {
 
     // Calculate cum return
     public cumQ(): number {
-        if (this.body.cocks.count > 0) {
+        if (this.body.cocks.length > 0) {
             let quantity: number = 0;
             // Base value is ballsize * ballQ * cumefficiency by a factor of 2.
             // Other things that affect it:
@@ -136,11 +136,11 @@ export class Creature implements ISerializable<Creature> {
     }
 
     public canGoIntoHeat() {
-        return this.body.vaginas.count > 0 && !this.pregnancy.womb.isPregnant();
+        return this.body.vaginas.length > 0 && !this.pregnancy.womb.isPregnant();
     }
 
     public canGoIntoRut(): boolean {
-        return this.body.cocks.count > 0;
+        return this.body.cocks.length > 0;
     }
 
     public totalFertility(): number {
@@ -154,7 +154,7 @@ export class Creature implements ISerializable<Creature> {
             torso: this.body.serialize(),
             pregnancy: this.pregnancy.serialize(),
             baseStats: this.baseStats.serialize(),
-            statusAffects: DictionarySerializer.serialize(this.statusAffects),
+            statusAffects: DictionarySerializer.serialize(this.effects),
             perks: DictionarySerializer.serialize(this.perks),
         };
     }
@@ -165,7 +165,7 @@ export class Creature implements ISerializable<Creature> {
         this.body.deserialize(saveObject.body);
         this.pregnancy.deserialize(saveObject.pregnancy);
         this.baseStats.deserialize(saveObject.baseStats);
-        this.statusAffects.deserialize(saveObject.statusAffects);
+        this.effects.deserialize(saveObject.effects);
         this.perks.deserialize(saveObject.perks);
     }
 }

@@ -42,7 +42,7 @@ export class BimboLiqueur extends Consumable {
                 largestBreasts.rating = 7;
             }
             // If vagina = 2tight:
-            if (character.body.vaginas.count <= 0) {
+            if (character.body.vaginas.length <= 0) {
                 DisplayText("  Before you can even take a breath, an extremely peculiar sensation emanates from your crotch.  You can't see through your " + character.inventory.equipment.armor.displayName + ", but you can certainly feel the vagina splitting " + (character.body.balls.count > 0 ? "from behind your testicles" : "your groin") + ".  Luckily, the cunt-forming doesn't yield any discomfort - on the contrary, you feel yourself falling farther into your chemically-dulled, libido-fueled rut.");
                 if (character.body.hips.rating < 12 || character.body.butt.rating < 12) DisplayText("  As if realizing the necessity of womanly proportions to attract the hard cocks your body now craves, your waist pinches slightly inward and your hips and butt swell.  You can't help but run a hand across your newly-feminized pelvis, admiring it.");
                 character.body.vaginas.add(new Vagina());
@@ -89,7 +89,7 @@ export class BimboLiqueur extends Consumable {
             }
 
             DisplayText("Moaning lewdly, you begin to sway your hips from side to side, putting on a show for anyone who might manage to see you.   You just feel so... sexy.  Too sexy to hide it.  Your body aches to show itself and feel the gaze of someone, anyone upon it.  Mmmm, it makes you so wet!  ");
-            if (character.body.vaginas.count <= 0) {
+            if (character.body.vaginas.length <= 0) {
                 character.body.vaginas.add(new Vagina());
                 character.body.clit.length = 0.25;
                 character.body.vaginas.get(0).wetness = VaginaWetness.SLICK;
@@ -117,12 +117,12 @@ export class BimboLiqueur extends Consumable {
                 character.body.balls.size = 3;
                 character.body.cumMultiplier = 2;
             }
-            if (character.body.cocks.count > 0) {
+            if (character.body.cocks.length > 0) {
                 DisplayText("\n\n[EachCock] seems to be responding to the liqueur in its own way.  Clenching and relaxing obscenely, your genitals begin to drizzle cum onto the ground in front of you, throwing you into paroxysms of bliss.  The flow of cum is steady but weak, and each droplet that leaves you lets [eachCock] go more flaccid.  Even once you're soft and little, it doesn't stop.  You cum your way down to nothing, a tiny droplet heralding your new, girlish groin.  <b>You no longer have ");
-                if (character.body.cocks.count === 1) DisplayText("a penis");
+                if (character.body.cocks.length === 1) DisplayText("a penis");
                 else DisplayText("penises");
                 DisplayText("!</b>");
-                while (character.body.cocks.count > 0) {
+                while (character.body.cocks.length > 0) {
                     character.body.cocks.remove(0);
                 }
             }

@@ -7,7 +7,7 @@ import { StatusEffectType } from '../Effects/StatusEffectType';
 import { describeVagina } from '../Descriptors/VaginaDescriptor';
 
 export function stretchVagina(character: Character, vaginaArea: number): boolean {
-    if (character.body.vaginas.count <= 0)
+    if (character.body.vaginas.length <= 0)
         return false;
     let stretched: boolean = false;
     const loosestVagina = character.body.vaginas.sort(Vagina.LoosenessMost)[0];
@@ -37,11 +37,11 @@ export function stretchVagina(character: Character, vaginaArea: number): boolean
     // Delay anti-stretching
     if (vaginaArea >= .5 * character.vaginalCapacity()) {
         // Cunt Stretched used to determine how long since last enlargement
-        if (!character.statusAffects.has(StatusEffectType.CuntStretched))
-            character.statusAffects.add(StatusEffectType.CuntStretched, 0, 0, 0, 0);
+        if (!character.effects.has(StatusEffectType.CuntStretched))
+            character.effects.add(StatusEffectType.CuntStretched, 0, 0, 0, 0);
         // Reset the timer on it to 0 when restretched.
         else
-            character.statusAffects.get(StatusEffectType.CuntStretched).value1 = 0;
+            character.effects.get(StatusEffectType.CuntStretched).value1 = 0;
     }
     return stretched;
 }
@@ -55,7 +55,7 @@ export function stretchVagina(character: Character, vaginaArea: number): boolean
  * @param spacingsB
  */
 export function displayStretchVagina(character: Character, cArea: number, display: boolean, spacingsF: boolean = false, spacingsB: boolean = true): boolean {
-    if (character.body.vaginas.count <= 0)
+    if (character.body.vaginas.length <= 0)
         return false;
     const firstVagina: Vagina = character.body.vaginas.get(0);
     const wasVirgin: boolean = firstVagina.virgin;

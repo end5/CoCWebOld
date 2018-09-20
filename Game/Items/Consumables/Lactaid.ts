@@ -20,15 +20,15 @@ export class Lactaid extends Consumable {
         // Bump up size!
         if (character.body.chest.reduce(BreastRow.AverageSize, 0) < 8) {
             DisplayText("\n\n");
-            if (character.body.chest.count === 1)
+            if (character.body.chest.length === 1)
                 Mod.Breast.growSmallestBreastRow(character, (1 + randInt(5)), 1, true);
-            else Mod.Breast.growSmallestBreastRow(character, 1 + randInt(2), character.body.chest.count, true);
+            else Mod.Breast.growSmallestBreastRow(character, 1 + randInt(2), character.body.chest.length, true);
         }
         // Character doesn't lactate
         if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier < 1) {
             DisplayText("\n\n");
             DisplayText("You feel your " + describeNipple(character, character.body.chest.get(0)) + "s become tight and engorged.  A single droplet of milk escapes each, rolling down the curves of your breasts.  <b>You are now lactating!</b>");
-            for (let index = 0; index < character.body.chest.count; index++) {
+            for (let index = 0; index < character.body.chest.length; index++) {
                 character.body.chest.get(index).lactationMultiplier += 2;
             }
         }
@@ -36,7 +36,7 @@ export class Lactaid extends Consumable {
         else {
             DisplayText("\n\n");
             DisplayText("Milk leaks from your " + describeNipple(character, character.body.chest.get(0)) + "s in thick streams.  You're lactating even more!");
-            for (let index = 0; index < character.body.chest.count; index++) {
+            for (let index = 0; index < character.body.chest.length; index++) {
                 character.body.chest.get(index).lactationMultiplier += 1 + randInt(10) / 10;
             }
         }

@@ -36,22 +36,22 @@ export class Equinum extends Consumable {
         if (character.body.skin.type === SkinType.FUR && character.body.face.type === FaceType.HORSE && character.body.tails.reduce(Tail.HasType(TailType.HORSE), false) && (character.body.legs.type !== LegType.HOOFED)) {
             // WARNINGS
             // Repeat warnings
-            if (character.statusAffects.has(StatusEffectType.HorseWarning) && randInt(3) === 0) {
-                if (character.statusAffects.get(StatusEffectType.HorseWarning).value1 === 0) DisplayText("<b>\n\nYou feel a creeping chill down your back as your entire body shivers, as if rejecting something foreign.  Maybe you ought to cut back on the horse potions.</b>");
-                if (character.statusAffects.get(StatusEffectType.HorseWarning).value1 > 0) DisplayText("<b>\n\nYou wonder how many more of these you can drink before you become a horse...</b>");
-                character.statusAffects.get(StatusEffectType.HorseWarning).value1 = 1;
+            if (character.effects.has(StatusEffectType.HorseWarning) && randInt(3) === 0) {
+                if (character.effects.get(StatusEffectType.HorseWarning).value1 === 0) DisplayText("<b>\n\nYou feel a creeping chill down your back as your entire body shivers, as if rejecting something foreign.  Maybe you ought to cut back on the horse potions.</b>");
+                if (character.effects.get(StatusEffectType.HorseWarning).value1 > 0) DisplayText("<b>\n\nYou wonder how many more of these you can drink before you become a horse...</b>");
+                character.effects.get(StatusEffectType.HorseWarning).value1 = 1;
             }
             // First warning
-            if (!character.statusAffects.has(StatusEffectType.HorseWarning)) {
+            if (!character.effects.has(StatusEffectType.HorseWarning)) {
                 DisplayText("<b>\n\nWhile you drink the tasty potion, you realize how horse-like you already are, and wonder what else the potion could possibly change...</b>");
-                character.statusAffects.add(StatusEffectType.HorseWarning, 0, 0, 0, 0);
+                character.effects.add(StatusEffectType.HorseWarning, 0, 0, 0, 0);
             }
             // Bad End
-            if (randInt(4) === 0 && character.statusAffects.has(StatusEffectType.HorseWarning)) {
+            if (randInt(4) === 0 && character.effects.has(StatusEffectType.HorseWarning)) {
                 // Must have been warned first...
-                if (character.statusAffects.get(StatusEffectType.HorseWarning).value1 > 0) {
+                if (character.effects.get(StatusEffectType.HorseWarning).value1 > 0) {
                     // If character has dicks check for horsedicks
-                    if (character.body.cocks.count > 0) {
+                    if (character.body.cocks.length > 0) {
                         // If character has horsedicks
                         if (character.body.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
                             DisplayText("\n\nSoon after you drink the Equinum, a burning sensation fills your chest. You have consumed too much of the potion, and the overdose starts to provoke dramatic changes in your body.  You collapse suddenly, twitching in pain as all the bones and muscles in your body break and reform. Eventually, you pass out from the strain you are put through.\n\nYou wake up after a few minutes. Once you get up on your legs, doubt fills your mind. You rush to a nearby pond and look down, nearly jumping when the reflection of a ");
@@ -195,11 +195,11 @@ export class Equinum extends Consumable {
         // MALENESS.
         if ((character.gender === Gender.MALE || character.gender === Gender.HERM) && randInt(1.5) === 0 && changes < changeLimit) {
             // If cocks that aren't horsified!
-            if ((cocks.filter(Cock.FilterType(CockType.HORSE)).length + cocks.filter(Cock.FilterType(CockType.DEMON)).length) < cocks.count) {
+            if ((cocks.filter(Cock.FilterType(CockType.HORSE)).length + cocks.filter(Cock.FilterType(CockType.DEMON)).length) < cocks.length) {
                 // Transform a cock and store it's index value to talk about it.
                 // Single cock
                 let selectedCock: Cock = cocks.get(0);
-                if (cocks.count === 1) {
+                if (cocks.length === 1) {
                     let cockTF: boolean = false;
                     if (selectedCock.type === CockType.HUMAN) {
                         DisplayText("\n\nYour " + describeCock(character, selectedCock) + " begins to feel strange... you pull down your pants to take a look and see it darkening as you feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your cock's base, tightening and pulling your cock inside its depths.  A hot feeling envelops your member as it suddenly grows into a horse penis, dwarfing its old size.  The skin is mottled brown and black and feels more sensitive than normal.  Your hands are irresistibly drawn to it, and you jerk yourself off, splattering cum with intense force.");
@@ -246,7 +246,7 @@ export class Equinum extends Consumable {
                     character.stats.sens += 4;
                     character.stats.lust += 35;
                     // Find first non horse cock
-                    for (let index = 0; index < cocks.count; index++)
+                    for (let index = 0; index < cocks.length; index++)
                         if (cocks.get(index).type !== CockType.HORSE && cocks.get(index).type !== CockType.DEMON) {
                             selectedCock = cocks.get(index);
                             break;
@@ -275,7 +275,7 @@ export class Equinum extends Consumable {
                 let growthAmount: number = 0;
                 // single cock
                 let selectedCock: Cock;
-                if (cocks.count === 1) {
+                if (cocks.length === 1) {
                     selectedCock = cocks.get(0);
                     growthAmount = Mod.Cock.growCock(character, selectedCock, randInt(3) + 1);
                     character.stats.sens += 1;
@@ -338,7 +338,7 @@ export class Equinum extends Consumable {
         // FEMALE
         if (character.gender === Gender.FEMALE || character.gender === Gender.HERM) {
             // Single vag
-            if (vaginas.count === 1) {
+            if (vaginas.length === 1) {
                 if (vaginas.get(0).looseness <= VaginaLooseness.GAPING && changes < changeLimit && randInt(2) === 0) {
                     DisplayText("\n\nYou grip your gut in pain as you feel your organs shift slightly.  When the pressure passes, you realize your " + describeVagina(character, vaginas.get(0)) + " has grown larger, in depth AND size.");
                     vaginas.get(0).looseness++;
@@ -367,7 +367,7 @@ export class Equinum extends Consumable {
                     changes++;
                 }
             }
-            if (character.statusAffects.get(StatusEffectType.Heat).value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
+            if (character.effects.get(StatusEffectType.Heat).value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
                 if (Mod.Body.displayGoIntoHeat(character)) {
                     changes++;
                 }
@@ -378,7 +378,7 @@ export class Equinum extends Consumable {
                     // Shrink B's!
                     // Single row
                     const selectedBreastRow = chest.get(0);
-                    if (chest.count === 1) {
+                    if (chest.length === 1) {
                         let majorShrinkage: boolean = false;
                         // Shrink if bigger than B cups
                         if (selectedBreastRow.rating > 3) {
@@ -402,12 +402,12 @@ export class Equinum extends Consumable {
                         let shrinkAmount: number = 0;
                         if (chest.sort(BreastRow.Largest)[0].rating > 3)
                             DisplayText("\n");
-                        for (let index = 0; index < chest.count; index++) {
+                        for (let index = 0; index < chest.length; index++) {
                             if (chest.get(index).rating > 3) {
                                 chest.get(index).rating--;
                                 shrinkAmount++;
                                 DisplayText("\n");
-                                if (index < chest.count)
+                                if (index < chest.length)
                                     DisplayText("...and y");
                                 else
                                     DisplayText("Y");
@@ -482,7 +482,7 @@ export class Equinum extends Consumable {
         // Tail - no-prereq
         if (character.body.tails.filter(Tail.FilterType(TailType.HORSE)).length < 0 && randInt(2) === 0 && changes < changeLimit) {
             // no tail
-            if (character.body.tails.count === 0) {
+            if (character.body.tails.length === 0) {
                 DisplayText("\n\nThere is a sudden tickling on your ass, and you notice you have sprouted a long shiny horsetail of the same " + character.body.hair.color + " color as your hair.");
 
                 const firstTail = character.body.tails.get(0);

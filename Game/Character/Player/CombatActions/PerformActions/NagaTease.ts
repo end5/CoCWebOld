@@ -17,13 +17,13 @@ export class NagaTease implements CombatAction {
         return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Tease ? true : false;
     }
     public canUse(character: Character, target?: Character): boolean {
-        return target.statusAffects.has(StatusEffectType.Constricted);
+        return target.effects.has(StatusEffectType.Constricted);
     }
 
     public use(character: Character, target: Character): NextScreenChoices {
         DisplayText().clear();
         // (if poisoned)
-        if (target.statusAffects.has(StatusEffectType.NagaVenom)) {
+        if (target.effects.has(StatusEffectType.NagaVenom)) {
             DisplayText("You attempt to stimulate " + target.desc.a + target.desc.short + " by rubbing " + target.desc.possessivePronoun + " nether regions, but " + target.desc.possessivePronoun + " seems too affected by your poison to react.\n\n");
         }
         else if (target.gender === Gender.NONE) {

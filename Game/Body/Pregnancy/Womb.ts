@@ -27,7 +27,7 @@ export class Womb implements ISerializable<Womb> {
     }
 
     public canKnockUp(): boolean {
-        return !this.pregnancy && this.body.body.vaginas.count > 0;
+        return !this.pregnancy && this.body.body.vaginas.length > 0;
     }
 
     private removeHeat() {
@@ -59,7 +59,7 @@ export class Womb implements ISerializable<Womb> {
     }
 
     public birth() {
-        if (this.body.body.vaginas.count <= 0) {
+        if (this.body.body.vaginas.length <= 0) {
             // if (this.body instanceof Player)
             //     DisplayText("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ");
             this.body.body.vaginas.add(new Vagina());

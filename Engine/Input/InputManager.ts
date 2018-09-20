@@ -20,7 +20,7 @@ class InputManager implements ISerializable<InputManager> {
     }
 
     public resetAll() {
-        for (let index = 0; index < this.keyBinds.count; index++) {
+        for (let index = 0; index < this.keyBinds.length; index++) {
             this.reset(index);
         }
     }
@@ -31,7 +31,7 @@ class InputManager implements ISerializable<InputManager> {
     }
 
     public clearAll() {
-        for (let index = 0; index < this.keyBinds.count; index++) {
+        for (let index = 0; index < this.keyBinds.length; index++) {
             this.clear(index);
         }
     }

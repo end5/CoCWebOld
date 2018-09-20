@@ -23,7 +23,7 @@ export class TailWhip implements CombatAction {
     public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // miss
-        if ((player.statusAffects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
+        if ((player.effects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             DisplayText("Twirling like a top, you swing your tail, but connect with only empty air.");
         }
@@ -32,8 +32,8 @@ export class TailWhip implements CombatAction {
                 DisplayText("Twirling like a top, you bat your opponent with your tail.  For a moment, " + monster.desc.subjectivePronoun + " looks disbelieving, as if " + monster.desc.possessivePronoun + " world turned upside down, but " + monster.desc.subjectivePronoun + " soon becomes irate and redoubles " + monster.desc.possessivePronoun + " offense, leaving large holes in " + monster.desc.possessivePronoun + " guard.  If you're going to take advantage, it had better be right away; " + monster.desc.subjectivePronoun + "'ll probably cool off very quickly.");
             else
                 DisplayText("Twirling like a top, you bat your opponent with your tail.  For a moment, " + monster.desc.subjectivePronoun + " look disbelieving, as if " + monster.desc.possessivePronoun + " world turned upside down, but " + monster.desc.subjectivePronoun + " soon become irate and redouble " + monster.desc.possessivePronoun + " offense, leaving large holes in " + monster.desc.possessivePronoun + " guard.  If you're going to take advantage, it had better be right away; " + monster.desc.subjectivePronoun + "'ll probably cool off very quickly.");
-            if (!monster.statusAffects.has(StatusEffectType.CoonWhip))
-                monster.statusAffects.add(StatusEffectType.CoonWhip, Math.round(monster.combat.stats.defense() * .75), !player.body.tails.reduce(Tail.HasType(TailType.RACCOON), false) ? 2 : 4, 0, 0);
+            if (!monster.effects.has(StatusEffectType.CoonWhip))
+                monster.effects.add(StatusEffectType.CoonWhip, Math.round(monster.combat.stats.defense() * .75), !player.body.tails.reduce(Tail.HasType(TailType.RACCOON), false) ? 2 : 4, 0, 0);
         }
         DisplayText("\n\n");
         return;

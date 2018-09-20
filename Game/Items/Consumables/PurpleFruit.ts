@@ -19,11 +19,11 @@ export class PurpleFruit extends Consumable {
             DisplayText("  At first you think nothing has changed, but a second look confirms that your breasts now sport the same quartet of cow-like nipples the bovine plant-girl bears.");
             if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 4)
                 character.body.chest.sort(BreastRow.Largest)[0].nipples.length = 4;
-            for (let index: number = 0; index < character.body.chest.count; index++)
+            for (let index: number = 0; index < character.body.chest.length; index++)
                 character.body.chest.get(index).nipples.count = 4;
         }
         // [Character gains quad nipples, milk production and libido way up]
         character.stats.lib += 5;
-        Mod.Breast.boostLactation(character, 3 * character.body.chest.count);
+        Mod.Breast.boostLactation(character, 3 * character.body.chest.length);
     }
 }

@@ -34,7 +34,7 @@ export class List<Entry> implements Iterable<Entry> {
         this.list = [];
     }
 
-    public get count(): number {
+    public get length(): number {
         return this.list.length;
     }
 

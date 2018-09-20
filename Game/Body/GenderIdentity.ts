@@ -14,11 +14,11 @@ export class GenderIdentity {
     }
 
     private update() {
-        if (this.creature.body.cocks.count > 0 && this.creature.body.vaginas.count > 0)
+        if (this.creature.body.cocks.length > 0 && this.creature.body.vaginas.length > 0)
             this.sex = Gender.HERM;
-        else if (this.creature.body.cocks.count > 0)
+        else if (this.creature.body.cocks.length > 0)
             this.sex = Gender.MALE;
-        else if (this.creature.body.vaginas.count > 0)
+        else if (this.creature.body.vaginas.length > 0)
             this.sex = Gender.FEMALE;
         else
             this.sex = Gender.NONE;

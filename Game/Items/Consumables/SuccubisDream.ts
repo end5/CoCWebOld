@@ -7,7 +7,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
 import { describeBalls, describeSack } from '../../Descriptors/BallsDescriptor';
-import { describeMultiCockShort } from '../../Descriptors/CockDescriptor';
+import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 
 export class SuccubisDream extends Consumable {
     public constructor() {
@@ -59,7 +59,7 @@ export class SuccubisDream extends Consumable {
             changes++;
         }
         // Makes your balls biggah! (Or cummultiplier higher if futa!)
-        if (randInt(1.5) === 0 && changes < changeLimit && character.body.balls.count > 0 && character.body.cocks.count > 0) {
+        if (randInt(1.5) === 0 && changes < changeLimit && character.body.balls.count > 0 && character.body.cocks.length > 0) {
             character.body.balls.size++;
             // They grow slower as they get bigger...
             if (character.body.balls.size > 10) character.body.balls.size -= .5;
@@ -70,7 +70,7 @@ export class SuccubisDream extends Consumable {
             character.stats.lust += 3;
         }
         // Boost cum multiplier
-        if (changes < changeLimit && randInt(2) === 0 && character.body.cocks.count > 0) {
+        if (changes < changeLimit && randInt(2) === 0 && character.body.cocks.length > 0) {
             if (character.body.cumMultiplier < 6 && randInt(2) === 0 && changes < changeLimit) {
                 // Temp is the max it can be raised to
                 let maxCumMultiplier: number = 3;
@@ -84,7 +84,7 @@ export class SuccubisDream extends Consumable {
                     // Flavor text
                     if (character.body.balls.count === 0) DisplayText("\n\nYou feel a churning inside your body as something inside you changes.");
                     if (character.body.balls.count > 0) DisplayText("\n\nYou feel a churning in your " + describeBalls(true, true, character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
-                    if (crit > 1) DisplayText("  A bit of milky pre dribbles from your " + describeMultiCockShort(character) + ", pushed out by the change.");
+                    if (crit > 1) DisplayText("  A bit of milky pre dribbles from your " + describeCocksLight(character) + ", pushed out by the change.");
                     character.stats.lib += 1;
                 }
                 changes++;
