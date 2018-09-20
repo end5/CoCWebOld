@@ -13,7 +13,7 @@ const extentions: string[] = [".jpg", ".png", ".jpeg"];
 const lib: Dictionary<string[]> = new Dictionary<string[]>();
 const promises = {};
 
-export function getImage(name: ImageName): string {
+export function getImage(name: string): string {
     if (lib.get(name))
         return randomChoice(lib.get(name));
     else return "";
