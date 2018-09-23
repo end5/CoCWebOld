@@ -98,7 +98,7 @@ export class BreastRow implements ISerializable<BreastRow> {
         return previousValue + currentValue.nipples.length / array.length;
     }
 
-    public static readonly NippleCount: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly TotalNipples: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
         return previousValue + currentValue.nipples.count;
     }
 

@@ -13,7 +13,7 @@ export class ButtWomb extends Womb {
         // Contraceptives cancel!
         if (guarantee || this.canKnockUp()) {
             // If unpregnant and fertility wins out:
-            if (guarantee || this.body.totalFertility() > randInt(virility)) {
+            if (guarantee || this.creature.totalFertility() > randInt(virility)) {
                 this.currentPregnancy = pregnancy;
                 // this.pregEvent = ButtPregnancyEventFactory.create(pregnancy.type);
             }
@@ -21,7 +21,7 @@ export class ButtWomb extends Womb {
     }
 
     public birth() {
-        this.pregEvent.birthScene(this.body);
+        this.pregEvent.birthScene(this.creature);
         this.currentPregnancy = undefined;
     }
 }

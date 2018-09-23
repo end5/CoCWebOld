@@ -285,7 +285,7 @@ export class SweetGossamer extends Consumable {
             else DisplayText("A burst of pain hits you just above your " + describeButt(character) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + skinFurScales(character) + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + describeButt(character) + "!</b>");
             character.body.tails.clear();
             const newTail = new Tail(TailType.SPIDER_ABDOMEN);
-            newTail.vemon = 5;
+            newTail.venom = 5;
             newTail.recharge = 5;
             character.body.tails.add(newTail);
             changes++;

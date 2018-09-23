@@ -17,7 +17,7 @@ export function inventoryMenu(player: Character): NextScreenChoices {
     MainScreen.hideTopButtons();
     DisplayText().clear();
     DisplayText("<b><u>Equipment:</u></b>\n");
-    DisplayText("<b>Weapon</b>: " + player.inventory.equipment.weapon.displayname + " (Attack - " + player.inventory.equipment.weapon.attack + ")\n");
+    DisplayText("<b>Weapon</b>: " + player.inventory.equipment.weapon.displayName + " (Attack - " + player.inventory.equipment.weapon.attack + ")\n");
     DisplayText("<b>Armor : </b>" + player.inventory.equipment.armor.displayName + " (Defense - " + player.inventory.equipment.armor.defense + ")\n");
     if (player.inventory.keyItems.keys().length > 0)
         DisplayText("<b><u>\nKey Items:</u></b>\n");

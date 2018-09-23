@@ -502,7 +502,7 @@ export class Equinum extends Consumable {
             character.body.tails.clear();
             const newTail = new Tail();
             newTail.type = TailType.HORSE;
-            newTail.vemon = 0;
+            newTail.venom = 0;
             newTail.recharge = 0;
             character.body.tails.add(newTail);
             changes++;

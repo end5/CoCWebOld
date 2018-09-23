@@ -7,11 +7,11 @@ export enum TailType {
 
 export class Tail implements ISerializable<Tail> {
     public static VenomMost: SortOption<Tail> = (a: Tail, b: Tail) => {
-        return a.vemon - b.vemon;
+        return a.venom - b.venom;
     }
 
     public static VenomLeast: SortOption<Tail> = (a: Tail, b: Tail) => {
-        return b.vemon - a.vemon;
+        return b.venom - a.venom;
     }
 
     public static RechargeMost: SortOption<Tail> = (a: Tail, b: Tail) => {
@@ -36,13 +36,13 @@ export class Tail implements ISerializable<Tail> {
 
     public type: TailType;
     /** Tail venom is a 0-100 slider used for tail attacks. Recharges per hour. */
-    public vemon: number;
+    public venom: number;
     /** Tail recharge determines how fast venom/webs comes back per hour. */
     public recharge: number;
 
     public constructor(type: TailType = TailType.HORSE, vemon: number = 0, recharge: number = 0) {
         this.type = type;
-        this.vemon = vemon;
+        this.venom = vemon;
         this.recharge = recharge;
     }
 
@@ -53,14 +53,14 @@ export class Tail implements ISerializable<Tail> {
     public serialize(): object | undefined {
         return {
             type: this.type,
-            vemon: this.vemon,
+            venom: this.venom,
             recharge: this.recharge
         };
     }
 
     public deserialize(saveObject: Tail) {
         this.type = saveObject.type;
-        this.vemon = saveObject.vemon;
+        this.venom = saveObject.venom;
         this.recharge = saveObject.recharge;
     }
 }

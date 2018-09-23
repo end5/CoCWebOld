@@ -1,17 +1,17 @@
 import { IPregnancyEvent } from './IPregnancyEvent';
 import { Pregnancy, PregnancyType } from './Pregnancy';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Creature } from '../Creature';
 import { Vagina } from '../Vagina';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class Womb implements ISerializable<Womb> {
     protected currentPregnancy: Pregnancy;
     protected pregEvent: IPregnancyEvent;
-    protected body: Creature;
-    public constructor(body: Creature) {
-        this.body = body;
+    protected creature: Creature;
+    public constructor(creature: Creature) {
+        this.creature = creature;
     }
 
     public get pregnancy(): Pregnancy {
@@ -27,11 +27,11 @@ export class Womb implements ISerializable<Womb> {
     }
 
     public canKnockUp(): boolean {
-        return !this.pregnancy && this.body.body.vaginas.length > 0;
+        return !this.pregnancy && this.creature.body.vaginas.length > 0;
     }
 
     private removeHeat() {
-        DisplayText("\nYou calm down a bit and realize you no longer fantasize about getting fucked constantly.  It seems your heat has ended.\n");
+        CView.text("\nYou calm down a bit and realize you no longer fantasize about getting fucked constantly.  It seems your heat has ended.\n");
     }
 
     // fertility must be >= random(0-beat)
@@ -42,30 +42,29 @@ export class Womb implements ISerializable<Womb> {
             this.removeHeat();
 
             // If unpregnant and fertility wins out:
-            if (guarantee || this.body.totalFertility() > randInt(virility)) {
+            if (guarantee || this.creature.totalFertility() > randInt(virility)) {
                 this.currentPregnancy = pregnancy;
                 // this.pregEvent = PregnancyEventFactory.create(pregnancy.type);
             }
 
             // Chance for eggs fertilization - ovi elixir and imps excluded!
             if (pregnancy.type !== PregnancyType.IMP && pregnancy.type !== PregnancyType.OVIELIXIR_EGGS && pregnancy.type !== PregnancyType.ANEMONE &&
-                (guarantee || this.body.totalFertility() > randInt(virility)))
-                this.body.pregnancy.ovipositor.fertilizeEggs();
+                (guarantee || this.creature.totalFertility() > randInt(virility)))
+                this.creature.pregnancy.ovipositor.fertilizeEggs();
         }
     }
 
     public canBirth(): boolean {
-        return this.pregEvent.canBirth(this.body, this.currentPregnancy.incubation);
+        return this.pregEvent.canBirth(this.creature, this.currentPregnancy.incubation);
     }
 
     public birth() {
-        if (this.body.body.vaginas.length <= 0) {
-            // if (this.body instanceof Player)
-            //     DisplayText("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ");
-            this.body.body.vaginas.add(new Vagina());
-            this.body.updateGender();
+        if (this.creature.body.vaginas.length <= 0) {
+            // if (this.creature. instanceof Player)
+            //     CView.text("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ");
+            this.creature.body.vaginas.add(new Vagina());
         }
-        this.pregEvent.birthScene(this.body);
+        this.pregEvent.birthScene(this.creature);
         this.currentPregnancy = undefined;
     }
 
@@ -76,7 +75,7 @@ export class Womb implements ISerializable<Womb> {
                 this.birth();
             }
             else {
-                this.pregEvent.incubationDisplay(this.body, this.currentPregnancy.incubation);
+                this.pregEvent.incubationDisplay(this.creature, this.currentPregnancy.incubation);
             }
         }
     }

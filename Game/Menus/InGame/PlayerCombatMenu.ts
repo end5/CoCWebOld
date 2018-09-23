@@ -105,7 +105,7 @@ function enemyDescription(character: Character, enemy: Character): void {
             else if (sandTrapLevel === 3) DisplayText("The sand sinking beneath your feet has carried you almost halfway into the creature's pit.");
             else DisplayText("The dunes tower above you and the hissing of sand fills your ears.  <b>The leering sandtrap is almost on top of you!</b>");
             // no new PG)
-            DisplayText("  You could try attacking it with your " + character.inventory.equipment.weapon.displayname + ", but that will carry you straight to the bottom.  Alternately, you could try to tease it or hit it at range, or wait and maintain your footing until you can clamber up higher.");
+            DisplayText("  You could try attacking it with your " + character.inventory.equipment.weapon.displayName + ", but that will carry you straight to the bottom.  Alternately, you could try to tease it or hit it at range, or wait and maintain your footing until you can clamber up higher.");
             DisplayText("\n");
         }
         if (enemy.desc.plural) {

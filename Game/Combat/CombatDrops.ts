@@ -39,7 +39,7 @@ export class CombatDrops {
             item = ItemFactory.get(ItemType.Consumable, ConsumableName.MinotaurCum);
         }
         if (enemy.charType === CharacterType.Minotaur) {
-            if (enemy.inventory.equipment.weapon.displayname === "axe") {
+            if (enemy.inventory.equipment.weapon.displayName === "axe") {
                 if (randInt(2) === 0) {
                     // 50% breakage!
                     if (randInt(2) === 0) {

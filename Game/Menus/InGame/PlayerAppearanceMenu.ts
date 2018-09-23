@@ -92,8 +92,8 @@ function heightRace(character: Character) {
     // Height and race.
     DisplayText("You are a " + Math.floor(character.body.tallness / 12) + " foot " + character.body.tallness % 12 + " inch tall " + race + ", with " + describeBody(character) + ".");
     if (character.inventory.equipment.armor.displayName === "comfortable clothes")
-        DisplayText("  You are currently wearing " + character.inventory.equipment.armor.displayName + " and using your " + character.inventory.equipment.weapon.displayname + " as a weapon.").bold();
-    else DisplayText("  You are currently wearing your " + character.inventory.equipment.armor.displayName + " and using your " + character.inventory.equipment.weapon.displayname + " as a weapon.").bold();
+        DisplayText("  You are currently wearing " + character.inventory.equipment.armor.displayName + " and using your " + character.inventory.equipment.weapon.displayName + " as a weapon.").bold();
+    else DisplayText("  You are currently wearing your " + character.inventory.equipment.armor.displayName + " and using your " + character.inventory.equipment.weapon.displayName + " as a weapon.").bold();
 }
 
 function face(character: Character) {
@@ -553,21 +553,21 @@ function tail(character: Character) {
     if (character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
         DisplayText("  A large, spherical spider-abdomen has grown out from your backside, covered in shiny black chitin.  Though it's heavy and bobs with every motion, it doesn't seem to slow you down.");
         const spiderButt = character.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).sort(Tail.VenomMost)[0];
-        if (spiderButt.vemon > 50 && spiderButt.vemon < 80)
+        if (spiderButt.venom > 50 && spiderButt.venom < 80)
             DisplayText("  Your bulging arachnid posterior feels fairly full of webbing.");
-        if (spiderButt.vemon >= 80 && spiderButt.vemon < 100)
+        if (spiderButt.venom >= 80 && spiderButt.venom < 100)
             DisplayText("  Your arachnid rear bulges and feels very full of webbing.");
-        if (spiderButt.vemon === 100)
+        if (spiderButt.venom === 100)
             DisplayText("  Your swollen spider-butt is distended with the sheer amount of webbing it's holding.");
     }
     if (character.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
         const beeButt = character.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).sort(Tail.VenomMost)[0];
         DisplayText("  A large insectile bee-abdomen dangles from just above your backside, bobbing with its own weight as you shift.  It is covered in hard chitin with black and yellow stripes, and tipped with a dagger-like stinger.");
-        if (beeButt.vemon > 50 && beeButt.vemon < 80)
+        if (beeButt.venom > 50 && beeButt.venom < 80)
             DisplayText("  A single drop of poison hangs from your exposed stinger.");
-        if (beeButt.vemon >= 80 && beeButt.vemon < 100)
+        if (beeButt.venom >= 80 && beeButt.venom < 100)
             DisplayText("  Poisonous bee venom coats your stinger completely.");
-        if (beeButt.vemon === 100)
+        if (beeButt.venom === 100)
             DisplayText("  Venom drips from your poisoned stinger regularly.");
     }
     if (character.body.tails.reduce(Tail.HasType(TailType.SHARK), false)) {

@@ -1,22 +1,21 @@
 import { WeaponName } from './WeaponName';
 import { WeaponPerk, WeaponPerkLib, WeaponPerkType } from './WeaponPerk';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Dictionary } from '../../../Engine/Utilities/Dictionary';
-import { List } from '../../../Engine/Utilities/List';
 import { Character } from '../../Character/Character';
 import { EquipableItem } from '../EquipableItem';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class Weapon extends EquipableItem {
     public readonly verb: string;
     private attackValue: number;
     public readonly perks: Dictionary<WeaponPerk>;
-    public readonly displayname: string;
+    public readonly displayName: string;
 
     public constructor(name: WeaponName, desc: ItemDesc, displayname: string, verb: string, attack: number, value?: number, perks?: WeaponPerkType[]) {
         super(name, ItemType.Weapon, desc, value);
-        this.displayname = displayname;
+        this.displayName = displayname;
         this.verb = verb;
         this.attackValue = attack;
         this.perks = new Dictionary();
@@ -35,7 +34,7 @@ export class Weapon extends EquipableItem {
     }
 
     public useText(character: Character) {
-        DisplayText("You equip " + this.desc.longName + ".  ");
+        CView.text("You equip " + this.desc.longName + ".  ");
     }
 
     public describe(): string {

@@ -23,7 +23,7 @@ export class ChargeWeapon extends WhiteMagic {
     public castSpell(character: Character, monster: Character): NextScreenChoices {
         character.stats.fatigueMagic(this.baseCost);
         DisplayText().clear();
-        DisplayText("You utter words of power, summoning an electrical charge around your " + character.inventory.equipment.weapon.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
+        DisplayText("You utter words of power, summoning an electrical charge around your " + character.inventory.equipment.weapon.displayName + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
         character.effects.add(StatusEffectType.ChargeWeapon, 10 * character.combat.stats.spellMod(), 0, 0, 0);
         return;
     }

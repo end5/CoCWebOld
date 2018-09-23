@@ -29,7 +29,7 @@ export class GroPlus extends Consumable {
         const gpBreasts: ClickOption = (character.body.chest.length > 0 ? this.growPlusBreasts : undefined);
         const gpClit: ClickOption = (character.body.vaginas.length > 0 ? this.growPlusClit : undefined);
         const gpCock: ClickOption = (character.body.cocks.length > 0 ? this.growPlusCock : undefined);
-        const gpNipples: ClickOption = (character.body.chest.reduce(BreastRow.NippleCount, 0) > 0 ? this.growPlusNipples : undefined);
+        const gpNipples: ClickOption = (character.body.chest.reduce(BreastRow.TotalNipples, 0) > 0 ? this.growPlusNipples : undefined);
         DisplayText().clear();
         DisplayText("You ponder the needle in your hand knowing it will enlarge the injection site.  What part of your body will you use it on?  ");
         return {

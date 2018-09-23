@@ -219,7 +219,7 @@ export class Reptilum extends Consumable {
         }
         // -Lactation stoppage.
         if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 1 && changes < changeLimit && randInt(4) === 0) {
-            if (character.body.chest.reduce(BreastRow.NippleCount, 0) === 2) DisplayText("\n\nBoth of your");
+            if (character.body.chest.reduce(BreastRow.TotalNipples, 0) === 2) DisplayText("\n\nBoth of your");
             else DisplayText("\n\nAll of your many");
             DisplayText(" nipples relax.  It's a strange feeling, and you pull back your top to touch one.  It feels fine, though there doesn't seem to be any milk leaking out.  You give it a squeeze and marvel when nothing ");
             if (character.body.chest.find(BreastRow.FuckableNipples)) DisplayText("but sexual fluid ");

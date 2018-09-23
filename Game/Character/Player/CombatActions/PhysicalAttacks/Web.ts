@@ -16,12 +16,12 @@ export class Web implements CombatAction {
     }
 
     public canUse(player: Player): boolean {
-        return player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].vemon >= 33;
+        return player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].venom >= 33;
     }
 
     public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
-        player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].vemon -= 33;
+        player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].venom -= 33;
         // Amily!
         if (monster.effects.has(StatusEffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");

@@ -1,10 +1,10 @@
 import { Weapon } from './Weapon';
 import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class BeautifulSword extends Weapon {
     public constructor() {
@@ -18,7 +18,7 @@ export class BeautifulSword extends Weapon {
     public canUse(character: Character): boolean {
         if (character.stats.cor < 35)
             return true;
-        DisplayText("You grab hold of the handle of the sword only to have it grow burning hot.  You're forced to let it go lest you burn yourself.  Something within the sword must be displeased.  ");
+        CView.text("You grab hold of the handle of the sword only to have it grow burning hot.  You're forced to let it go lest you burn yourself.  Something within the sword must be displeased.  ");
         return false;
     }
 }

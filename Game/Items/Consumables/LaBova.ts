@@ -211,7 +211,7 @@ export class LaBova extends Consumable {
                         if (character.body.chest.length >= 9) character.body.chest.get(8).nipples.count = 4;
                     }
                     character.body.chest.get(2).nipples.count = 4;
-                    DisplayText("  <b>You have a total of " + numToCardinalText(character.body.chest.reduce(BreastRow.NippleCount, 0)) + " nipples.</b>");
+                    DisplayText("  <b>You have a total of " + numToCardinalText(character.body.chest.reduce(BreastRow.TotalNipples, 0)) + " nipples.</b>");
                 }
             }
             // QUAD DAMAGE IF WEIRD SHIT BROKE BEFORE

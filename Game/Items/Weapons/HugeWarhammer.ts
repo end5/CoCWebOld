@@ -1,9 +1,9 @@
 import { Weapon } from './Weapon';
 import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class HugeWarhammer extends Weapon {
     public constructor() {
@@ -13,7 +13,7 @@ export class HugeWarhammer extends Weapon {
     public canUse(character: Character): boolean {
         if (character.stats.str >= 80)
             return true;
-        DisplayText("You aren't strong enough to handle such a heavy weapon!  ");
+        CView.text("You aren't strong enough to handle such a heavy weapon!  ");
         return false;
     }
 }

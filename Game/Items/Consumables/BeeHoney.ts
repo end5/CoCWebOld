@@ -212,7 +212,7 @@ export class BeeHoney extends Consumable {
             const newTail = new Tail();
             character.body.tails.add(newTail);
             newTail.type = TailType.BEE_ABDOMEN;
-            newTail.vemon = 10;
+            newTail.venom = 10;
             newTail.recharge = 2;
             changes++;
         }
@@ -222,8 +222,8 @@ export class BeeHoney extends Consumable {
                 if (beeButt.recharge < 5) beeButt.recharge += 1;
                 if (beeButt.recharge < 10) beeButt.recharge += 1;
                 if (beeButt.recharge < 15) beeButt.recharge += 1;
-                beeButt.vemon += 50;
-                if (beeButt.vemon > 100) beeButt.vemon = 100;
+                beeButt.venom += 50;
+                if (beeButt.venom > 100) beeButt.venom = 100;
                 DisplayText("\n\nYour abdomen swells with vitality and a drop of venom escapes your stinger as it begins producing it in slightly larger quantities.");
                 changes++;
             }

@@ -16,7 +16,7 @@ export class Sting implements CombatAction {
     }
 
     public canUse(player: Player): boolean {
-        return player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].vemon >= 33;
+        return player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].venom >= 33;
     }
 
     public use(player: Player, monster: Character): NextScreenChoices {
@@ -75,6 +75,6 @@ export class Sting implements CombatAction {
         // New line before monster attack
         DisplayText("\n\n");
         // Use tail mp
-        player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].vemon -= 25;
+        player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].venom -= 25;
     }
 }

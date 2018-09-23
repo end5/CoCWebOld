@@ -65,8 +65,8 @@ const singleArgConverters =
         vag: (char: Character) => describeVagina(char, char.body.vaginas.get(0)),
         vagina: (char: Character) => describeVagina(char, char.body.vaginas.get(0)),
         vagorass: (char: Character) => (char.body.vaginas.length > 0 ? describeVagina(char, char.body.vaginas.get(0)) : describeButthole(char.body.butt)),
-        weapon: (char: Character) => char.inventory.equipment.weapon.displayname,
-        weaponname: (char: Character) => char.inventory.equipment.weapon.displayname,
+        weapon: (char: Character) => char.inventory.equipment.weapon.displayName,
+        weaponname: (char: Character) => char.inventory.equipment.weapon.displayName,
 
         // latexyname: (char: Character) => Flags.list[FlagEnum.GOO_NAME],
         // bathgirlname: (char: Character) => Flags.list[FlagEnum.MILK_NAME],

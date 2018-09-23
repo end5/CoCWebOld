@@ -18,7 +18,7 @@ export class SpriteLibrary extends Dictionary<string> {
         this.set(SpriteName.Ceraph_Clothed, dir + "ceraph goblin.png");
         this.set(SpriteName.Ceraph_Goblin, dir + "ceraph.png");
         this.set(SpriteName.Cerulean_Succubus, dir + "cerulean succubus.png");
-        this.set(SpriteName.Chameleon, dir + "chameleon.png");
+        this.set(SpriteName.ChameleonGirl, dir + "chameleon.png");
         this.set(SpriteName.Chicken_Harpy, dir + "chicken harpy.png");
         this.set(SpriteName.Chilly_Smith, dir + "chilly smith.png");
         this.set(SpriteName.Christmas_Elf, dir + "christmas elf.png");
@@ -94,8 +94,8 @@ export class SpriteLibrary extends Dictionary<string> {
         this.set(SpriteName.Rogar, dir + "rogar.png");
         this.set(SpriteName.Rubi_Hornless, dir + "rubi hornless.png");
         this.set(SpriteName.Rubi_Horns, dir + "rubi horns.png");
-        this.set(SpriteName.Sandtrap, dir + "sandtrap.png");
-        this.set(SpriteName.Sandwich, dir + "sandwich.png");
+        this.set(SpriteName.SandTrap, dir + "sandtrap.png");
+        this.set(SpriteName.SandWitch, dir + "sandwich.png");
         this.set(SpriteName.Satyr, dir + "satyr.png");
         this.set(SpriteName.Scylla, dir + "scylla and bear.png");
         this.set(SpriteName.Scylla_And_Bear, dir + "scylla.png");

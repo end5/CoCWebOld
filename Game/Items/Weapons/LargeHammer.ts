@@ -1,9 +1,9 @@
 import { Weapon } from './Weapon';
 import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class LargeHammer extends Weapon {
     public constructor() {
@@ -13,7 +13,7 @@ export class LargeHammer extends Weapon {
     public canUse(character: Character): boolean {
         if (character.body.tallness >= 60)
             return true;
-        DisplayText("This hammer is too large for you to wield effectively.  ");
+        CView.text("This hammer is too large for you to wield effectively.  ");
         return false;
     }
 }

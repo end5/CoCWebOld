@@ -65,7 +65,7 @@ export class FoxBerry extends Consumable {
                 else DisplayText("berries ");
                 DisplayText("with an uncommonly voracious appetite, taking particular enjoyment in the succulent, tart flavor.  As you carefully suck the last drops of ochre juice from your fingers, you note that it tastes so much more vibrant than you remember.  Your train of thought is violently interrupted by the sound of bones snapping, and you cry out in pain, doubling over as a flaming heat boils through your ribs.");
                 DisplayText("\n\nWrithing on the ground, you clutch your hand to your chest, looking on in horror through tear-streaked eyes as the bones in your fingers pop and fuse, rearranging themselves into a dainty paw covered in coarse black fur, fading to a ruddy orange further up.  You desperately try to call out to someone - anyone - for help, but all that comes out is a high-pitched, ear-splitting yap.");
-                if (character.body.tails.filter(Tail.FilterType(TailType.FOX))[0].vemon > 1) DisplayText("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
+                if (character.body.tails.filter(Tail.FilterType(TailType.FOX))[0].venom > 1) DisplayText("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
                 DisplayText("\n\nA sharp spark of pain jolts through your spinal column as the bones shift themselves around, the joints in your hips migrating forward.  You continue to howl in agony even as you feel your intelligence slipping away.  In a way, it's a blessing - as your thoughts grow muddied, the pain is dulled, until you are finally left staring blankly at the sky above, tilting your head curiously.");
                 DisplayText("\n\nYou roll over and crawl free of the " + character.inventory.equipment.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
                 return { next: gameOverMenu };
@@ -345,7 +345,7 @@ export class FoxBerry extends Consumable {
             else DisplayText("\n\nPain lances through your lower back as your tail shifts violently.  With one final aberrant twitch, it fluffs out into a long, bushy fox tail that whips around in an almost hypnotic fashion.  <b>You now have a fox's tail!</b>");
             const newTail = new Tail();
             newTail.type = TailType.FOX;
-            newTail.vemon = 1;
+            newTail.venom = 1;
             character.body.tails.add(newTail);
             changes++;
         }

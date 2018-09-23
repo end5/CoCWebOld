@@ -323,7 +323,7 @@ function determineTeaseChoice(character: Character, monster: Character, bimbo: b
         choices[TeaseType.Rut] += 5;
     }
     // 24 Poledance - req's staff! - Req's gender!  Req's TITS!
-    if (character.inventory.equipment.weapon.displayname === "wizard's staff" && largestBreastRating >= 1 && character.gender > 0) {
+    if (character.inventory.equipment.weapon.displayName === "wizard's staff" && largestBreastRating >= 1 && character.gender > 0) {
         choices[TeaseType.Poledance] += 5;
     }
     // 25 Tall Tease! - Reqs 2+ feet & PC Cunt!
@@ -810,7 +810,7 @@ export class Tease implements CombatAction {
                 break;
             // Magic Tease
             case TeaseType.Smartness:
-                DisplayText("Seeing a lull in the battle, you plant your " + character.inventory.equipment.weapon.displayname + " on the ground and let your magic flow through you.  You summon a trickle of magic into a thick, slowly growing black ball of lust.  You wave the ball in front of you, making a little dance and striptease out of the affair as you slowly saturate the area with latent sexual magics.");
+                DisplayText("Seeing a lull in the battle, you plant your " + character.inventory.equipment.weapon.displayName + " on the ground and let your magic flow through you.  You summon a trickle of magic into a thick, slowly growing black ball of lust.  You wave the ball in front of you, making a little dance and striptease out of the affair as you slowly saturate the area with latent sexual magics.");
                 chance++;
                 damage += 2;
                 break;
