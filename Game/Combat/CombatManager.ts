@@ -10,8 +10,8 @@ import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
 class CombatManager {
     public readonly itemsOnFloor: List<Item> = new List();
     public encounter: Encounter;
-    public beginBattle(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]): NextScreenChoices {
-        this.encounter = new Encounter(mainCharacter, allyParty, enemyParty);
+    public beginBattle(mainCharacter: Character, ...enemies: Character[]): NextScreenChoices {
+        this.encounter = new Encounter(mainCharacter, [], enemies);
         return this.startCombat();
     }
 

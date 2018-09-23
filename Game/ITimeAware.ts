@@ -1,5 +1,7 @@
+import { ISerializable } from "../Engine/Utilities/ISerializable";
+
 // Call CoC.timeAwareClassAdd if you want a class that implements this interface to receive time changes
-export interface ITimeAware {
+export interface ITimeAware extends ISerializable<ITimeAware> {
     /*	Called for every Class in the _timeAwareClassList each time the game time advances.
         Should be used for code with no screen output and short text output which can be bundled with
         other game text. Larger scenes which require an immediate pause should go in timeChangeLarge instead.
