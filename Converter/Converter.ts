@@ -1,4 +1,4 @@
-import { readFile, writeFile, readdir, PathLike, stat, Stats, rename, writeFileSync, readFileSync, renameSync } from 'fs';
+import { readdir, PathLike, stat, writeFileSync, readFileSync, renameSync } from 'fs';
 
 function walk(dir: PathLike, modify: (file: string) => void, done: (err: NodeJS.ErrnoException, res?: string[]) => void) {
     let results: string[] = [];
@@ -219,7 +219,7 @@ function fixText(text: string): string {
         text = text.replace(new RegExp(/(\w*)([ \t]*)/.source + scene + /\((?:([^;]+))?\)/.source, 'g'),
             (match, p1, p2, p3) => {
                 if (p1 !== 'function' && !p1.includes('.')) {
-                    console.log(`scene ${scene}\n\tp1 ${p1}\n\tp2 ${p2}\n\tp3 ${p3}\n`);
+                    // console.log(`scene ${scene}\n\tp1 ${p1}\n\tp2 ${p2}\n\tp3 ${p3}\n`);
                     if (p3 !== undefined)
                         return p1 + p2 + 'return ' + scene + '(player, ' + p3 + ')';
                     else
@@ -843,9 +843,9 @@ function fixPlayerClass(text: string): string {
         /player\.growTits\(([^,\n]+),\s*([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g,
         (match, p1, p2, p3, p4) => {
             switch (p4) {
-                case 1: return `growSmallestBreastRow(player, ${p1}, ${p2}, ${p3})`;
-                case 2: return `growTopBreastRowDownwards(player, ${p1}, ${p2}, ${p3})`;
-                case 3: return `growTopBreastRow(player, ${p1}, ${p2}, ${p3})`;
+                case '1': return `growSmallestBreastRow(player, ${p1}, ${p2}, ${p3})`;
+                case '2': return `growTopBreastRowDownwards(player, ${p1}, ${p2}, ${p3})`;
+                case '3': return `growTopBreastRow(player, ${p1}, ${p2}, ${p3})`;
             }
         });
     text = text.replace(escRegex('player.minLust'), 'player.stats.minLust');
@@ -1073,8 +1073,8 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.removeStatusAffect`), `${name}.effects.remove`);
     text = text.replace(combineStrRegex(name, /\.findStatusAffect\(([\w.]+)\) ?>= ?0/g), (match, p1) => `${name}.effects.has(${p1})`);
     text = text.replace(combineStrRegex(name, /\.findStatusAffect\(([\w.]+)\) ?< ?0/g), (match, p1) => `!${name}.effects.has(${p1})`);
-    text = text.replace(combineStrRegex(name, /\.changeStatusAffectValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.effects.get(${p1}).value${p2} = ${p3}`);
-    text = text.replace(combineStrRegex(name, /\.addStatusAffectValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.effects.get(${p1}).value${p2} += ${p3}`);
+    text = text.replace(combineStrRegex(name, /\.changeStatusValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.effects.get(${p1}).value${p2} = ${p3}`);
+    text = text.replace(combineStrRegex(name, /\.addStatusValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.effects.get(${p1}).value${p2} += ${p3}`);
     text = text.replace(combineStrRegex(name, /\.statusAffect\(([\w\d]+)\)/g), (match, p1) => `${name}.effects.get(${p1})`);
     text = text.replace(combineStrRegex(name, /\.statusAffectv([1-4])\(([\w.]+)\)/g), (match, p1, p2) => `${name}.effects.get(${p2}).value${p1}`);
     // Unused - removeStatuses
