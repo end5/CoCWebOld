@@ -25,18 +25,20 @@ function walk(dir: PathLike, modify: (file: string) => void, done: (err: NodeJS.
     });
 }
 
-fix('Converter/test.as');
+walk('Converter/Test', (file) => fix(file), (err) => console.error(err));
 // walk('Game/Scenes', (file) => fix(file, true), (err) => console.error(err));
 
 function fix(file: string, overwrite?: boolean) {
-    console.log('Fixing ' + file);
+    if (file.endsWith('.as')) {
+        console.log('Fixing ' + file);
 
-    const data = readFileSync(file, 'utf-8');
-    const newValue = fixText(data);
-    const newFile = file.replace('.as', '.ts');
-    if (overwrite)
-        renameSync(file, newFile);
-    writeFileSync(newFile, newValue, 'utf-8');
+        const data = readFileSync(file, 'utf-8');
+        const newValue = fixText(data);
+        const newFile = file.replace('.as', '.ts');
+        if (overwrite)
+            renameSync(file, newFile);
+        writeFileSync(newFile, newValue, 'utf-8');
+    }
 }
 
 function trimLeft(strings: TemplateStringsArray, ...values: any[]) {
@@ -57,6 +59,7 @@ function fixText(text: string): string {
     let removeCurlyBraceOpen = 0;
     let removeCurlyBraceClose = 0;
     let timeAwareClass = false;
+    let monster = false;
     let className: string;
     const flags: Set<string> = new Set();
     const scenes: Set<string> = new Set();
@@ -88,6 +91,10 @@ function fixText(text: string): string {
             className = lines[index].match(/public class ([\w\d_]+)/)[1];
             if (className.endsWith('Scene'))
                 className = className.substr(0, className.length - 5);
+
+            if (/public class [\w\d_ ]+ extends Monster/.test(lines[index]))
+                monster = true;
+
             if (/public class [\w\d_ ]+ implements TimeAwareInterface/.test(lines[index])) {
                 lines[index] = lines[index].replace('public class', 'export class');
                 lines[index] = lines[index].replace('TimeAwareInterface', 'ITimeAware');
@@ -124,34 +131,67 @@ function fixText(text: string): string {
         if (lines[index].trimLeft().startsWith('public function ' + className + 'Scene'))
             lines[index] = lines[index].replace('public function ' + className + 'Scene', 'public constructor');
 
-        function fixNextScene(match, p1, p2, p3) {
-            let str = `${p1}`;
-            // Function returns nothing
-            if (p3 === undefined || /:\s*void/.test(p3)) {
-                scenes.add(p1.trimLeft());
-                str += '(player: Character';
-                if (p2 === undefined)
-                    str += ')';
-                else
-                    str += `, ${p2})`;
-                str += ': NextScreenChoices';
+        if (lines[index].trimLeft().startsWith('public function ' + className)) {
+            if (monster) {
+                lines.splice(index, 0, `export class ${className} extends Character {`);
+                index++;
             }
-            else {
-                if (p2 === undefined)
-                    str += `()${p3}`;
-                else
-                    str += `(${p2})${p3}`;
+
+            lines[index] = lines[index].replace('public function ' + className, 'public constructor');
+
+            if (monster) {
+                while (!lines[index].includes('{'))
+                    index++;
+                index++;
+                lines.splice(index, 0, `super(CharacterType.${className});`);
+                index++;
+                monster = false;
+
+                let tempIndex = index;
+                while (!lines[tempIndex].includes('}'))
+                    tempIndex++;
+                lines[tempIndex] = lines[tempIndex] + '}';
             }
-            return str;
+        }
+
+        function fixNextScene(line: string): string {
+            return line.replace(
+                /function ([ \w]+)\s*\((?:([^)]+))?\)(?:(:\s*\w+))?/,
+                (match, p1, p2, p3) => {
+                    let str = `function ${p1}`;
+                    // Function returns nothing
+                    if (p3 === undefined || /:\s*void/.test(p3)) {
+                        scenes.add(p1.trimLeft());
+                        str += '(player: Character';
+                        if (p2 === undefined)
+                            str += ')';
+                        else
+                            str += `, ${p2})`;
+                        str += ': NextScreenChoices';
+                    }
+                    else {
+                        if (p2 === undefined)
+                            str += `()${p3}`;
+                        else
+                            str += `(${p2})${p3}`;
+                    }
+                    return str;
+                }
+            );
         }
 
         if (lines[index].trimLeft().startsWith('public function')) {
-            lines[index] = lines[index].replace(/(\s*\w+)\s*\((?:([^)]+))?\)(?:(:\s*\w+))?/, fixNextScene);
+            lines[index] = fixNextScene(lines[index]);
             lines[index] = lines[index].replace('public function', 'export function');
         }
 
+        if (lines[index].trimLeft().startsWith('protected function')) {
+            lines[index] = fixNextScene(lines[index]);
+            lines[index] = lines[index].replace('protected function', 'function');
+        }
+
         if (lines[index].trimLeft().startsWith('private function')) {
-            lines[index] = lines[index].replace(/(\s*\w+)\s*\((?:([^)]+))?\)(?:(:\s*\w+))?/, fixNextScene);
+            lines[index] = fixNextScene(lines[index]);
             lines[index] = lines[index].replace('private function', 'function');
         }
 
@@ -178,11 +218,13 @@ function fixText(text: string): string {
     for (const scene of scenes) {
         text = text.replace(new RegExp(/(\w*)([ \t]*)/.source + scene + /\((?:([^;]+))?\)/.source, 'g'),
             (match, p1, p2, p3) => {
-                if (p1 !== 'function' && !p1.includes('.'))
+                if (p1 !== 'function' && !p1.includes('.')) {
+                    console.log(`scene ${scene}\n\tp1 ${p1}\n\tp2 ${p2}\n\tp3 ${p3}\n`);
                     if (p3 !== undefined)
                         return p1 + p2 + 'return ' + scene + '(player, ' + p3 + ')';
                     else
                         return p1 + p2 + 'return ' + scene + '(player)';
+                }
                 else
                     return match;
             }
@@ -225,6 +267,7 @@ function fixText(text: string): string {
     text = text.replace(escRegex('Appearance.'), '');
     text = text.replace(escRegex('game.'), '');
     text = text.replace(escRegex('kGAMECLASS.'), '');
+    text = text.replace(escRegex('CoC.'), '');
     text = text.replace(escRegex('kFLAGS.'), `${className}Flags.`);
     // Unused - whitney
     // Manual - monk
@@ -233,6 +276,9 @@ function fixText(text: string): string {
 
     text = text.replace(escRegex('model.time.hours'), 'Time.hour');
     text = text.replace(escRegex('model.time.day'), 'Time.day');
+
+    text = text.replace(escRegex('gameOver()'), 'return gameOverMenu()');
+    text = text.replace(escRegex('cockNoun('), 'nounCock(');
 
     // Classes
     text = fixUtils(text);
@@ -243,6 +289,7 @@ function fixText(text: string): string {
     text = fixCockClass(text);
     text = fixCreatureClass(text, 'player');
     text = fixCreatureClass(text, 'monster');
+    text = fixCreatureClass(text, 'this');
     text = fixCharacterClass(text);
     text = fixPlayerClass(text);
     text = fixMonsterClass(text);
@@ -273,8 +320,8 @@ function fixText(text: string): string {
     text = text.replace(escRegex('VAGINA_TYPE_'), 'VaginaType.');
     text = text.replace(escRegex('VAGINA_WETNESS_'), 'VaginaWetness.');
     text = text.replace(escRegex('VAGINA_LOOSENESS_'), 'VaginaLooseness.');
-    text = text.replace(escRegex('ANAL_WETNESS_'), 'AnalWetness.');
-    text = text.replace(escRegex('ANAL_LOOSENESS_'), 'AnalLooseness.');
+    text = text.replace(escRegex('ANAL_WETNESS_'), 'ButtWetness.');
+    text = text.replace(escRegex('ANAL_LOOSENESS_'), 'ButtLooseness.');
     text = text.replace(escRegex('HIP_RATING_'), 'HipRating.');
     text = text.replace(escRegex('BUTT_RATING_'), 'ButtRating.');
 
@@ -283,7 +330,7 @@ function fixText(text: string): string {
         /inventory\.takeItem\(\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+)\)/g,
         (match, p1, p2) => {
             const type = p1.split('Name')[0];
-            return `player.inventory.items.createAdd(player, ItemType.${type}, ${p1}, ${p2})`;
+            return `return player.inventory.items.createAdd(player, ItemType.${type}, ${p1}, ${p2})`;
         }
     );
     text = text.replace(escRegex('inventory.hasItemInStorage'), 'player.inventory.items.has');
@@ -292,7 +339,7 @@ function fixText(text: string): string {
     // Special post cases
     text = text.replace(/player\.stats\.lus=/g, (match, p1) => `player.stats.lustNoResist${p1}`);
     text = text.replace(/player\.stats\.lus([^t])/g, (match, p1) => `player.stats.lust${p1}`);
-    text = text.replace(/player\.stats\.sen([^t])/g, (match, p1) => `player.stats.sens${p1}`);
+    text = text.replace(/player\.stats\.sen([^s])/g, (match, p1) => `player.stats.sens${p1}`);
     text = text.replace(escRegex('player.butt'), 'player.body.butt');
     text = text.replace(escRegex('clearOutput()'), 'CView.clear()');
     text = text.replace(escRegex('export function timeChange'), 'public timeChange');
@@ -523,15 +570,15 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(escRegex('hideUpDown()'), '');
     text = text.replace(escRegex('createCallBackFunction'), 'partial');
     text = text.replace(escRegex('createCallBackFunction2'), 'partial');
-    text = text.replace(escRegex('startCombat('), 'CombatManager.beginBattle(player, ');
+    text = text.replace(escRegex('startCombat('), 'return CombatManager.beginBattle(player, ');
     // Manual - startCombatImmediate
     // Unused - rawOutputText
     text = text.replace(
-        /outputText\(([^\n]+),\s*(\w+)?\)/g,
+        /outputText\(((?:[^(]|\([^)]*\))+?)(?:,\s*(\w+))?\);/g,
         (match, p1, p2) => {
             let fixed = '';
             if (p1.startsWith('images')) {
-                return p1.replace(/images\.showImage\(\"([^\"]+)\"\)/, 'CView.image("$1")');
+                return p1.replace(/images\.showImage\(\"([^\"]+)\"\)/, 'CView.image("$1");');
             }
             if (p2 === 'true') {
                 fixed += '.clear()';
@@ -539,13 +586,15 @@ function fixBaseContent(text: string, className: string): string {
             if (p1 !== '""') {
                 fixed += `.text(${p1})`;
             }
-            return fixed ? `CView${fixed}` : '';
+            if (p1 === '""') {
+                return '';
+            }
+            return fixed ? `CView${fixed};` : '';
         }
     );
-    text = text.replace(/outputText\(([^\n]+)\)/g, (match, p1) => p1 === '""' ? '' : `CView.text(${p1})`);
 
     // Special - clearOutput
-    text = text.replace(/doNext\(([^;]+)\);/g, 'return { next: $1 };');
+    text = text.replace(/doNext\(([^;]+?)\);/g, 'return { next: $1 };');
     text = text.replace(escRegex('menu();'), '');
     text = text.replace(escRegex('hideMenus()'), 'MainScreen.hideTopButtons()');
     text = text.replace(
@@ -558,7 +607,7 @@ function fixBaseContent(text: string, className: string): string {
                 ]
             };`
     );
-    text = text.replace(/doYesNo\((\w+),\s*([^;]+)\);/g, (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`
+    text = text.replace(/doYesNo\(\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\);/g, (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`
     );
     // Unknown - addButton
     // Unused - hasButton
@@ -579,25 +628,25 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(escRegex('ballDescript()'), 'describeBalls(false, false, player)');
     text = text.replace(escRegex('ballsDescript()'), 'describeBalls(false, true, player, true)');
     text = text.replace(escRegex('simpleBallsDescript()'), 'describeBalls(false, true, player)');
-    text = text.replace(escRegex('assholeDescript()'), 'describeButthole(player)');
-    text = text.replace(escRegex('eAssholeDescript()'), 'describeButthole(monster)');
+    text = text.replace(escRegex('assholeDescript()'), 'describeButthole(player.body.butt)');
+    text = text.replace(escRegex('eAssholeDescript()'), 'describeButthole(monster.body.butt)');
     text = text.replace(escRegex('hipDescript()'), 'describeHips(player)');
     text = text.replace(escRegex('assDescript()'), 'describeButt(player)');
     text = text.replace(escRegex('buttDescript()'), 'describeButt(player)');
     text = text.replace(escRegex('assholeOrPussy()'), 'assholeOrPussy(player)');
-    text = text.replace(/nippleDescript\(([^)\n]+)\)/g, (match, p1) => `describeNipple(player, player.body.chest.get(${p1}))`);
+    text = text.replace(/nippleDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeNipple(player, player.body.chest.get(${p1}))`);
     text = text.replace(escRegex('cockDescript()'), 'describeCock(player, player.body.cocks.get(0))');
-    text = text.replace(/cockDescript\((\w+)\)/g, (match, p1) => `describeCock(player, player.body.cocks.get(${p1}))`);
+    text = text.replace(/cockDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeCock(player, player.body.cocks.get(${p1}))`);
     text = text.replace(escRegex('multiCockDescript()'), 'describeCocks(player)');
     text = text.replace(escRegex('multiCockDescriptLight()'), 'describeCocksLight(player)');
-    text = text.replace(/breastDescript\(([^)\n]+)\)/g, (match, p1) => `describeBreastRow(player.body.chest.get(${p1}))`);
-    text = text.replace(/breastSize\(([^)\n]+)\)/g, (match, p1) => `describeBreastRowRating(${p1})`);
+    text = text.replace(/breastDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeBreastRow(player.body.chest.get(${p1}))`);
+    text = text.replace(/breastSize\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeBreastRowRating(${p1})`);
     text = text.replace(escRegex('biggestBreastSizeDescript()'), 'describeBiggestBreastRow(player)');
     text = text.replace(escRegex('hairDescript()'), 'describeHair(player)');
     text = text.replace(escRegex('hairOrFur()'), 'hairOrFur(player)');
     text = text.replace(escRegex('clitDescript()'), 'describeClit(player)');
     text = text.replace(escRegex('vaginaDescript()'), 'describeVagina(player, player.body.vaginas.get(0))');
-    text = text.replace(/vaginaDescript\(([^)\n]+)\)/g, (match, p1) => `describeVagina(player, player.body.vaginas.get(${p1}))`);
+    text = text.replace(/vaginaDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeVagina(player, player.body.vaginas.get(${p1}))`);
     text = text.replace(escRegex('allVaginaDescript()'), 'describeEveryVagina(player)');
     text = text.replace(
         /dynStats\(([^;]+)\);/g,
@@ -606,7 +655,9 @@ function fixBaseContent(text: string, className: string): string {
                 /\s*"((?:[^,(]|\([^)]*\))+)",\s*((?:[^,(]|\([^)]*\))+),?/g,
                 (valueMatch, expr, val) => {
                     if (expr.endsWith('='))
-                        return `player.stats.${expr} = ${val};\n`;
+                        return `player.stats.${expr.substr(0, expr.length - 1)} = ${val};\n`;
+                    else if (expr.endsWith('+'))
+                        return `player.stats.${expr.substr(0, expr.length - 1)} += ${val};\n`;
                     else
                         return `player.stats.${expr} += ${val};\n`;
                 }
@@ -614,20 +665,19 @@ function fixBaseContent(text: string, className: string): string {
     );
     text = text.replace(escRegex('silly()'), 'User.settings.silly()');
     text = text.replace(
-        /HPChange\(([^,\n]+),\s*([^)\n]+)\)/g,
+        /HPChange\(((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\)/g,
         (match, p1, p2) =>
             p2 === 'true' || p2 !== 'false' ?
                 `displayCharacterHPChange(player, ${p1})` :
                 `player.stats.HP += ${p1}`
     );
     text = text.replace(
-        /fatigue\(([^,\n]+),\s*([^)\n]+)\)/g,
+        /fatigue\(((?:[^,(]|\([^)]*\))+?)(?:,\s*((?:[^(]|\([^)]*\))+?))?\)/g,
         (match, p1, p2) =>
             p2 === '1' ? `player.stats.fatigueMagical(${p1})` :
                 (p2 === '2' ? `player.stats.fatiguePhysical(${p1})` :
                     `player.stats.fatigue += ${p1}`)
     );
-    text = text.replace(/fatigue\(([^)\n]+)\)/g, (match, p1) => `player.stats.fatigue += ${p1}`);
     text = text.replace(escRegex('playerMenu'), 'campMenu');
     text = text.replace(escRegex('showStatDown'), '');
     text = text.replace(escRegex('showStatUp'), '');
@@ -668,6 +718,7 @@ function fixCockClass(text: string): string {
 
 function fixMonsterClass(text: string): string {
     text = text.replace(escRegex('monster.bonusHP'), 'monster.stats.bonusHP');
+    text = text.replace(escRegex('this.bonusHP'), 'this.baseStats.bonusHP');
     text = text.replace(escRegex('monster.long'), 'monster.desc.long');
     text = text.replace(escRegex('monster.plural'), 'monster.desc.plural');
     text = text.replace(escRegex('monster.lustVuln'), 'monster.stats.lustVuln');
@@ -698,6 +749,25 @@ function fixMonsterClass(text: string): string {
     // Manual - handleAwardItemText
     // Manual - handleAwardText
     // Manual - handleCombatLossText
+
+    text = text.replace(
+        /initStrTouSpeInte\(((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\);/g,
+        (match, str, tou, spe, int) =>
+            trimLeft`this.baseStats.str = ${str};
+                this.baseStats.tou = ${tou};
+                this.baseStats.spe = ${spe};
+                this.baseStats.int = ${int};`
+    );
+    text = text.replace(
+        /initLibSensCor\(((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\);/g,
+        (match, lib, sens, cor) =>
+            trimLeft`this.baseStats.lib = ${lib};
+                this.baseStats.sens = ${sens};
+                this.baseStats.cor = ${cor};`
+    );
+    text = text.replace(/createBreastRow\(([^)\n]+)\)/g, (match, p1) => `this.body.chest.add(new BreastRow(${p1}))`);
+    text = text.replace(escRegex('createBreastRow()'), 'this.body.chest.add(new BreastRow())');
+
     return text;
 }
 
@@ -708,11 +778,11 @@ function fixPlayerClass(text: string): string {
     text = text.replace(escRegex('player.teaseLevel'), 'player.stats.teaseLevel');
     text = text.replace(escRegex('player.teaseXP'), 'player.stats.teaseXP');
     text = text.replace(escRegex('player.perkPoints'), 'player.stats.perkPoints');
-    text = text.replace(escRegex('player.explored'), 'exploreFlags.BEYOND_CAMP');
-    text = text.replace(escRegex('player.exploredForest'), 'exploreFlags.FOREST');
-    text = text.replace(escRegex('player.exploredDesert'), 'exploreFlags.DESERT');
-    text = text.replace(escRegex('player.exploredMountain'), 'exploreFlags.MOUNTAIN');
-    text = text.replace(escRegex('player.exploredLake'), 'exploreFlags.LAKE');
+    text = text.replace(escRegex('player.explored'), 'ExplorationFlags.BEYOND_CAMP');
+    text = text.replace(escRegex('player.exploredForest'), 'ExplorationFlags.FOREST');
+    text = text.replace(escRegex('player.exploredDesert'), 'ExplorationFlags.DESERT');
+    text = text.replace(escRegex('player.exploredMountain'), 'ExplorationFlags.MOUNTAIN');
+    text = text.replace(escRegex('player.exploredLake'), 'ExplorationFlags.LAKE');
     // Unused - pregnancyUpdate
     // Manual - itemSlot[1-5]
     text = text.replace(escRegex('player.modArmorName'), 'player.inventory.equipment.modifiedArmorDesc');
@@ -818,32 +888,32 @@ function fixCharacterClass(text: string): string {
     text = text.replace(escRegex('player.keyItems'), 'player.inventory.keyItems');
     text = text.replace(escRegex('player.faceDesc()'), 'describeFace(player)');
     text = text.replace(/player\.modFem\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `modFem(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.modFem\(([^)\n]+)\)/g, (match, p1) => `modFem(player, ${p1})`);
+    text = text.replace(/player\.modFem\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `modFem(player, ${p1})`);
     text = text.replace(/player\.modThickness\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `modThickness(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.modThickness\(([^)\n]+)\)/g, (match, p1) => `modThickness(player, ${p1})`);
+    text = text.replace(/player\.modThickness\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `modThickness(player, ${p1})`);
     text = text.replace(/player\.modTone\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `modTone(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.modTone\(([^)\n]+)\)/g, (match, p1) => `modTone(player, ${p1})`);
+    text = text.replace(/player\.modTone\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `modTone(player, ${p1})`);
     // OK - fixFemininity
     text = text.replace(escRegex('player.hasBeard'), 'player.body.beard.length > 0');
     text = text.replace(escRegex('player.beard()'), 'describeBeard(player)');
     text = text.replace(escRegex('player.skin()'), 'describeSkin(player)');
     text = text.replace(/player\.skin\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `describeSkin(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.skin\(([^)\n]+)\)/g, (match, p1) => `describeSkin(player, ${p1})`);
+    text = text.replace(/player\.skin\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeSkin(player, ${p1})`);
     text = text.replace(escRegex('player.hasMuzzle()'), 'player.body.face.hasMuzzle()');
     text = text.replace(escRegex('player.face()'), 'describeFaceShort(player)');
     // OK - hasLongTail
     text = text.replace(escRegex('player.isPregnant()'), 'player.pregnancy.womb.isPregnant()');
-    text = text.replace(escRegex('player.isButtPregnant()'), 'player.pregnancy.butt.isPregnant()');
+    text = text.replace(escRegex('player.isButtPregnant()'), 'player.pregnancy.buttWomb.isPregnant()');
 
     text = text.replace(/player\.knockUp\(([^,\n]+),\s*([^,\n]+),\s*([^,\n]+),\s*1\)/g, (match, p1, p2, p3) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3}, true)`);
     text = text.replace(/player\.knockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3})`);
     text = text.replace(/player\.knockUp\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}))`);
     text = text.replace(/player\.knockUpForce\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}), 0, true)`);
 
-    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+),\s*1\)/g, (match, p1, p2, p3) => `player.pregnancy.butt.knockUp(new Pregnancy(${p1}, ${p2}), ${p3}, true)`);
-    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3) => `player.pregnancy.butt.knockUp(new Pregnancy(${p1}, ${p2}), ${p3})`);
-    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.butt.knockUp(new Pregnancy(${p1}, ${p2}))`);
-    text = text.replace(/player\.buttKnockUpForce\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.butt.knockUp(new Pregnancy(${p1}, ${p2}), 0, true)`);
+    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+),\s*1\)/g, (match, p1, p2, p3) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3}, true)`);
+    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3})`);
+    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}))`);
+    text = text.replace(/player\.buttKnockUpForce\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}), 0, true)`);
     // Remove - pregnancyAdvance
     // Remove - pregnancyUpdate
 
@@ -852,8 +922,13 @@ function fixCharacterClass(text: string): string {
     // Manual - addKeyValue
     text = text.replace(/player\.keyItemv([1-4])\((\w+)\)/g, (match, p1, p2) => `player.inventory.keyItems.get(${p2}).value${p1}`);
     // Unused - removeKeyItems
-    text = text.replace(/player\.hasKeyItem\(("(?:[^"]|\\")+")\)\s*<\s*0/g, (match, p1) => `player.inventory.keyItems.has(${p1})`);
-    text = text.replace(/player\.hasKeyItem\(("(?:[^"]|\\")+")\)\s*>=\s*1/g, (match, p1) => `!player.inventory.keyItems.has(${p1})`);
+    text = text.replace(
+        /player\.hasKeyItem\(("(?:[^"]|\\")+")\)(?:\s*([!><=]+)\s*([-\d]+))?/g,
+        (match, p1, compOp, compVal) => {
+            if (compOp && compOp.match(/<=?|==/) && +compVal <= 0)
+                return `!player.inventory.keyItems.has(${p1})`;
+            return `player.inventory.keyItems.has(${p1})`;
+        });
 
     // Unknown - viridianChange
     text = text.replace(escRegex('player.hasKnot()'), 'player.body.cocks.get(0).hasKnot()');
@@ -922,8 +997,8 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.hornType`), `${name}.body.horns.type`);
     text = text.replace(escRegex(`${name}.horns`), `${name}.body.horns.count`);
 
-    text = text.replace(escRegex(`${name}.wingType`), `${name}.body.wing.type`);
-    text = text.replace(escRegex(`${name}.wingDesc`), `${name}.body.wing.desc`);
+    text = text.replace(escRegex(`${name}.wingType`), `${name}.body.wings.type`);
+    text = text.replace(escRegex(`${name}.wingDesc`), `${name}.body.wings.desc`);
 
     text = text.replace(escRegex(`${name}.lowerBody`), `${name}.body.legs.type`);
 
@@ -1053,13 +1128,14 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.smallestCock()`), `${name}.body.cocks.sort(Cock.Smallest)[0]`);
     text = text.replace(escRegex(`${name}.cocks[${name}.biggestCockIndex()]`), `${name}.body.cocks.sort(Cock.Largest)[0]`);
     text = text.replace(escRegex(`${name}.biggestCockIndex()`), `${name}.body.cocks.sort(Cock.Largest)[0]`);
-    text = text.replace(escRegex(`${name}.cocks[${name}.biggestCockIndex2()]`), `${name}.body.cocks.sort(Cock.Largest)[0]`);
-    text = text.replace(escRegex(`${name}.biggestCockIndex2()`), `${name}.body.cocks.sort(Cock.Largest)[0]`);
+    text = text.replace(escRegex(`${name}.cocks[${name}.biggestCockIndex2()]`), `${name}.body.cocks.sort(Cock.Largest)[1]`);
+    text = text.replace(escRegex(`${name}.biggestCockIndex2()`), `${name}.body.cocks.sort(Cock.Largest)[1]`);
     text = text.replace(escRegex(`${name}.cocks[${name}.smallestCockIndex2()]`), `${name}.body.cocks.sort(Cock.Smallest)[1]`);
     text = text.replace(escRegex(`${name}.smallestCockIndex2()`), `${name}.body.cocks.sort(Cock.Smallest)[1]`);
     text = text.replace(escRegex(`${name}.cocks[${name}.biggestCockIndex3()]`), `${name}.body.cocks.sort(Cock.Largest)[2]`);
     text = text.replace(escRegex(`${name}.biggestCockIndex3()`), `${name}.body.cocks.sort(Cock.Largest)[2]`);
-    text = text.replace(escRegex(`${name}.cockDescript()`), `describeCock(${name}, ${name}.body.cocks.get(0)`);
+    text = text.replace(escRegex(`${name}.cockDescript()`), `describeCock(${name}, ${name}.body.cocks.get(0))`);
+    text = text.replace(combineStrRegex(name, /\.cockDescript\((\d+)\)/g), (match, p1) => `describeCock(${name}, ${name}.body.cocks.get(${p1}))`);
     text = text.replace(combineStrRegex(name, /\.cockDescript\((\w+)\)/g), (match, p1) => `describeCock(${name}, ${p1})`);
     text = text.replace(escRegex(`${name}.cockAdjective()`), `describeCockAdj(${name}, ${name}.body.cocks.get(0)`);
     text = text.replace(combineStrRegex(name, /\.cockAdjective\((\w+)\)/g), (match, p1) => `describeCockAdj(${name}, ${p1})`);
@@ -1223,12 +1299,12 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.cockMultiLDescriptionShort()`), `describeCocksShort(${name})`);
     text = text.replace(escRegex(`${name}.hasSheath()`), `${name}.body.cocks.find(Cock.HasSheath)`);
     text = text.replace(escRegex(`${name}.sheathDescription()`), `describeSheath(${name})`);
-    text = text.replace(escRegex(`${name}.vaginaDescript()`), `describeVagina(${name}, ${name}.body.vagina.get(0))`);
-    text = text.replace(combineStrRegex(name, /\.vaginaDescript\(([^)\n]+)\)/g), (match, p1) => `describeVagina(${name}, ${name}.body.vagina.get(${p1}))`);
+    text = text.replace(escRegex(`${name}.vaginaDescript()`), `describeVagina(${name}, ${name}.body.vaginas.get(0))`);
+    text = text.replace(combineStrRegex(name, /\.vaginaDescript\(([^)\n]+)\)/g), (match, p1) => `describeVagina(${name}, ${name}.body.vaginas.get(${p1}))`);
     text = text.replace(combineStrRegex(name, /\.nippleDescript\(([^)\n]+)\)/g), (match, p1) => `describeNipple(${name}, ${name}.body.chest.get(${p1}))`);
     text = text.replace(escRegex(`${name}.chestDesc()`), `describeChest(${name})`);
     text = text.replace(escRegex(`${name}.allChestDesc()`), `describeEntireChest(${name})`);
-    text = text.replace(escRegex(`${name}.clitDescript()`), `describeClit(${name}.body.clit)`);
+    text = text.replace(escRegex(`${name}.clitDescript()`), `describeClit(${name})`);
     text = text.replace(escRegex(`${name}.cockHead()`), `describeCockHead(${name}.body.cocks.get(0))`);
     text = text.replace(combineStrRegex(name, /\.cockHead\(([^)\n]+)\)/g), (match, p1) => `describeCockHead(${name}.body.cocks.get(${p1}))`);
     text = text.replace(escRegex(`${name}.cockDescriptShort()`), `describeCockShort(${name}.body.cocks.get(0))`);

@@ -1,6 +1,9 @@
 {
-    "extends": "tslint:recommended",
-    "rulesDirectory": [],
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
     "rules": {
         "max-line-length": false,
         "one-line": false,
@@ -17,5 +20,6 @@
         "object-literal-sort-keys": false,
         "no-console": false,
         "no-null-keyword": true
-    }
+    },
+    "rulesDirectory": []
 }
