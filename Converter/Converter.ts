@@ -1,4 +1,5 @@
 import { readdir, PathLike, stat, writeFileSync, readFileSync, renameSync } from 'fs';
+import { funcReplacer, escRegex, trimLeft, combineStrRegex } from './Utils';
 
 function walk(dir: PathLike, modify: (file: string) => void, done: (err: NodeJS.ErrnoException, res?: string[]) => void) {
     let results: string[] = [];
@@ -27,6 +28,7 @@ function walk(dir: PathLike, modify: (file: string) => void, done: (err: NodeJS.
 
 walk('Converter/Test', (file) => fix(file), (err) => console.error(err));
 // walk('Game/Scenes', (file) => fix(file, true), (err) => console.error(err));
+// fix('Game/Scenes/Camp.as', true);
 
 function fix(file: string, overwrite?: boolean) {
     if (file.endsWith('.as')) {
@@ -39,18 +41,6 @@ function fix(file: string, overwrite?: boolean) {
             renameSync(file, newFile);
         writeFileSync(newFile, newValue, 'utf-8');
     }
-}
-
-function trimLeft(strings: TemplateStringsArray, ...values: any[]) {
-    return strings.reduce((prev, curr, index) => prev + curr.trimLeft() + (values[index] || ''), '');
-}
-
-function escRegex(str: string): RegExp {
-    return new RegExp(str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-}
-
-function combineStrRegex(str: string, regex: RegExp): RegExp {
-    return new RegExp(new RegExp(str).source + regex.source, 'g');
 }
 
 function fixText(text: string): string {
@@ -155,25 +145,21 @@ function fixText(text: string): string {
         }
 
         function fixNextScene(line: string): string {
-            return line.replace(
-                /function ([ \w]+)\s*\((?:([^)]+))?\)(?:(:\s*\w+))?/,
-                (match, p1, p2, p3) => {
-                    let str = `function ${p1}`;
+            return funcReplacer(line, /function ([ \w]+)\s*\(/, /\)(?:(:\s*\w+))?/,
+                (match, name, ...args) => {
+                    const outType = args.pop();
+                    let str = `function ${name}`;
                     // Function returns nothing
-                    if (p3 === undefined || /:\s*void/.test(p3)) {
-                        scenes.add(p1.trimLeft());
-                        str += '(player: Character';
-                        if (p2 === undefined)
-                            str += ')';
-                        else
-                            str += `, ${p2})`;
+                    if (outType === undefined || /:\s*void/.test(outType)) {
+                        scenes.add(name.trimLeft());
+                        str += '(' + ['player: Character'].concat(args).join(', ') + ')';
                         str += ': NextScreenChoices';
                     }
                     else {
-                        if (p2 === undefined)
-                            str += `()${p3}`;
+                        if (args === undefined)
+                            str += `()${outType}`;
                         else
-                            str += `(${p2})${p3}`;
+                            str += `(${args.join(', ')})${outType}`;
                     }
                     return str;
                 }
@@ -216,14 +202,14 @@ function fixText(text: string): string {
     }
 
     for (const scene of scenes) {
-        text = text.replace(new RegExp(/(\w*)([ \t]*)/.source + scene + /\((?:([^;]+))?\)/.source, 'g'),
-            (match, p1, p2, p3) => {
-                if (p1 !== 'function' && !p1.includes('.')) {
+        text = funcReplacer(text, new RegExp(/(\w*)([ \t]*)/.source + escRegex(scene + '(').source), ')',
+            (match, prev, space, ...args) => {
+                if (prev !== 'function' && !prev.includes('.')) {
                     // console.log(`scene ${scene}\n\tp1 ${p1}\n\tp2 ${p2}\n\tp3 ${p3}\n`);
-                    if (p3 !== undefined)
-                        return p1 + p2 + 'return ' + scene + '(player, ' + p3 + ')';
+                    if (args !== undefined)
+                        return prev + space + 'return ' + scene + '(player, ' + args.join(', ') + ')';
                     else
-                        return p1 + p2 + 'return ' + scene + '(player)';
+                        return prev + space + 'return ' + scene + '(player)';
                 }
                 else
                     return match;
@@ -262,7 +248,7 @@ function fixText(text: string): string {
     }
     // flagText += 'const player = User.char;';
 
-    text = text.replace(/rand\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `randInt(${p1})`);
+    text = funcReplacer(text, 'rand(', ')', (match, arg) => `randInt(${arg})`);
     text = text.replace(escRegex('camp.'), '');
     text = text.replace(escRegex('Appearance.'), '');
     text = text.replace(escRegex('game.'), '');
@@ -326,15 +312,7 @@ function fixText(text: string): string {
     text = text.replace(escRegex('BUTT_RATING_'), 'ButtRating.');
 
     // Inventory
-    text = text.replace(
-        /inventory\.takeItem\(\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+)\)/g,
-        (match, p1, p2) => {
-            const type = p1.split('Name')[0];
-            return `return player.inventory.items.createAdd(player, ItemType.${type}, ${p1}, ${p2})`;
-        }
-    );
-    text = text.replace(escRegex('inventory.hasItemInStorage'), 'player.inventory.items.has');
-    text = text.replace(escRegex('inventory.consumeItemInStorage'), 'player.inventory.items.consumeItem');
+    text = fixInventory(text);
 
     // Special post cases
     text = text.replace(/player\.stats\.lus=/g, (match, p1) => `player.stats.lustNoResist${p1}`);
@@ -344,8 +322,20 @@ function fixText(text: string): string {
     text = text.replace(escRegex('clearOutput()'), 'CView.clear()');
     text = text.replace(escRegex('export function timeChange'), 'public timeChange');
     text = text.replace(escRegex('export function timeChangeLarge'), 'public timeChangeLarge');
-    text = text.replace(/player\.body\.\w+\.get\(([^\d](?:[^,(]|\([^)]*\))*?)\)/g, '$1');
+    text = funcReplacer(text, /player\.body\.\w+\.get\(([^\d])/, ')', (match, p1, p2) => p1 + p2);
 
+    return text;
+}
+
+function fixInventory(text: string): string {
+    text = funcReplacer(text, 'inventory.takeItem(', ')',
+        (match, item, next) => {
+            const type = item.split('Name')[0];
+            return `return player.inventory.items.createAdd(player, ItemType.${type}, ${item}, ${next})`;
+        }
+    );
+    text = text.replace(escRegex('inventory.hasItemInStorage'), 'player.inventory.items.has');
+    text = text.replace(escRegex('inventory.consumeItemInStorage'), 'player.inventory.items.consumeItem');
     return text;
 }
 
@@ -565,7 +555,7 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(escRegex('cleanupAfterCombat'), 'returnToCampUseOneHour');
     // Manual - combatRoundOver
     // Manual - enemyAI
-    text = text.replace(/spriteSelect\((\d+)\);/g, (match, p1) => `CView.sprite(SpriteName.${className}); // ${p1}`);
+    text = funcReplacer(text, 'spriteSelect(', ')', (match, ...sprite) => `CView.sprite(SpriteName.${className}); // ${sprite}`);
     text = text.replace(escRegex('hideStats()'), '');
     text = text.replace(escRegex('hideUpDown()'), '');
     text = text.replace(escRegex('createCallBackFunction'), 'partial');
@@ -573,20 +563,19 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(escRegex('startCombat('), 'return CombatManager.beginBattle(player, ');
     // Manual - startCombatImmediate
     // Unused - rawOutputText
-    text = text.replace(
-        /outputText\(((?:[^(]|\([^)]*\))+?)(?:,\s*(\w+))?\);/g,
-        (match, p1, p2) => {
+    text = funcReplacer(text, 'outputText(', ');',
+        (match, quoteText, flag) => {
             let fixed = '';
-            if (p1.startsWith('images')) {
-                return p1.replace(/images\.showImage\(\"([^\"]+)\"\)/, 'CView.image("$1");');
+            if (quoteText.startsWith('images')) {
+                return quoteText.replace(/images\.showImage\(\"([^\"]+)\"\)/, 'CView.image("$1");');
             }
-            if (p2 === 'true') {
+            if (flag === 'true') {
                 fixed += '.clear()';
             }
-            if (p1 !== '""') {
-                fixed += `.text(${p1})`;
+            if (quoteText !== '""') {
+                fixed += `.text(${quoteText})`;
             }
-            if (p1 === '""') {
+            if (quoteText === '""') {
                 return '';
             }
             return fixed ? `CView${fixed};` : '';
@@ -594,20 +583,20 @@ function fixBaseContent(text: string, className: string): string {
     );
 
     // Special - clearOutput
-    text = text.replace(/doNext\(([^;]+?)\);/g, 'return { next: $1 };');
+    text = funcReplacer(text, 'doNext(', ');', (match, func) => `return { next: ${func} };`);
     text = text.replace(escRegex('menu();'), '');
     text = text.replace(escRegex('hideMenus()'), 'MainScreen.hideTopButtons()');
-    text = text.replace(
-        /(?:choices|simpleChoices)\(([^;]+)\);/g,
-        (match, p1) =>
-            trimLeft`
-            return {
-                choices: [
-                    ${p1.replace(/\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+),?/g, '\t\t[$1, $2],\n')}
-                ]
-            };`
+    text = funcReplacer(text,
+        /(?:choices|simpleChoices)\(/, ')',
+        (match, ...choices) =>
+            'return { choices: [ ' +
+            choices.reduce(
+                (prev, curr, index) =>
+                    prev + (!(index % 2) ? `[${curr}, ` : `${curr}], `),
+                '') +
+            ' ] }'
     );
-    text = text.replace(/doYesNo\(\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\);/g, (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`
+    text = funcReplacer(text, 'doYesNo(', ');', (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`
     );
     // Unknown - addButton
     // Unused - hasButton
@@ -634,49 +623,56 @@ function fixBaseContent(text: string, className: string): string {
     text = text.replace(escRegex('assDescript()'), 'describeButt(player)');
     text = text.replace(escRegex('buttDescript()'), 'describeButt(player)');
     text = text.replace(escRegex('assholeOrPussy()'), 'assholeOrPussy(player)');
-    text = text.replace(/nippleDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeNipple(player, player.body.chest.get(${p1}))`);
+    text = funcReplacer(text, 'nippleDescript(', ')', (match, index) => `describeNipple(player, player.body.chest.get(${index}))`);
     text = text.replace(escRegex('cockDescript()'), 'describeCock(player, player.body.cocks.get(0))');
-    text = text.replace(/cockDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeCock(player, player.body.cocks.get(${p1}))`);
+    text = funcReplacer(text, 'cockDescript(', ')', (match, index) => `describeCock(player, player.body.cocks.get(${index}))`);
     text = text.replace(escRegex('multiCockDescript()'), 'describeCocks(player)');
     text = text.replace(escRegex('multiCockDescriptLight()'), 'describeCocksLight(player)');
-    text = text.replace(/breastDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeBreastRow(player.body.chest.get(${p1}))`);
-    text = text.replace(/breastSize\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeBreastRowRating(${p1})`);
+    text = funcReplacer(text, 'breastDescript(', ')', (match, index) => `describeBreastRow(player.body.chest.get(${index}))`);
+    text = funcReplacer(text, 'breastSize(', ')', (match, size) => `describeBreastSize(${size})`);
     text = text.replace(escRegex('biggestBreastSizeDescript()'), 'describeBiggestBreastRow(player)');
     text = text.replace(escRegex('hairDescript()'), 'describeHair(player)');
     text = text.replace(escRegex('hairOrFur()'), 'hairOrFur(player)');
     text = text.replace(escRegex('clitDescript()'), 'describeClit(player)');
     text = text.replace(escRegex('vaginaDescript()'), 'describeVagina(player, player.body.vaginas.get(0))');
-    text = text.replace(/vaginaDescript\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeVagina(player, player.body.vaginas.get(${p1}))`);
+    text = funcReplacer(text, 'vaginaDescript(', ')', (match, index) => `describeVagina(player, player.body.vaginas.get(${index}))`);
     text = text.replace(escRegex('allVaginaDescript()'), 'describeEveryVagina(player)');
-    text = text.replace(
-        /dynStats\(([^;]+)\);/g,
-        (match, p1) =>
-            trimLeft`${p1.replace(
-                /\s*"((?:[^,(]|\([^)]*\))+)",\s*((?:[^,(]|\([^)]*\))+),?/g,
-                (valueMatch, expr, val) => {
-                    if (expr.endsWith('='))
-                        return `player.stats.${expr.substr(0, expr.length - 1)} = ${val};\n`;
-                    else if (expr.endsWith('+'))
-                        return `player.stats.${expr.substr(0, expr.length - 1)} += ${val};\n`;
+    text = funcReplacer(text, 'dynStats(', ');',
+        (match, ...stats) => {
+            let op;
+            return stats.reduce((prev, curr, index) => {
+                if (!(index % 2)) {
+                    op = curr[curr.length - 1];
+                    if (op === '=' || op === '+' || op === '-')
+                        return prev + `player.stats.${curr.substr(1, curr.length - 3)} `;
                     else
-                        return `player.stats.${expr} += ${val};\n`;
+                        return prev + `player.stats.${curr.substr(1, curr.length - 2)} `;
                 }
-            )}`
+                else {
+                    if (op === '=')
+                        return prev + `= ${curr};\n`;
+                    else if (op === '+')
+                        return prev + `+= ${curr};\n`;
+                    else if (op === '-')
+                        return prev + `-= ${curr};\n`;
+                    else
+                        return prev + `+= ${curr};\n`;
+                }
+            }, '');
+        }
     );
     text = text.replace(escRegex('silly()'), 'User.settings.silly()');
-    text = text.replace(
-        /HPChange\(((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\)/g,
-        (match, p1, p2) =>
-            p2 === 'true' || p2 !== 'false' ?
-                `displayCharacterHPChange(player, ${p1})` :
-                `player.stats.HP += ${p1}`
+    text = funcReplacer(text, 'HPChange(', ')',
+        (match, amt, display) =>
+            display === 'true' || display !== 'false' ?
+                `displayCharacterHPChange(player, ${amt})` :
+                `player.stats.HP += ${amt} `
     );
-    text = text.replace(
-        /fatigue\(((?:[^,(]|\([^)]*\))+?)(?:,\s*((?:[^(]|\([^)]*\))+?))?\)/g,
-        (match, p1, p2) =>
-            p2 === '1' ? `player.stats.fatigueMagical(${p1})` :
-                (p2 === '2' ? `player.stats.fatiguePhysical(${p1})` :
-                    `player.stats.fatigue += ${p1}`)
+    text = funcReplacer(text, 'fatigue(', ')',
+        (match, amt, type) =>
+            type === '1' ? `player.stats.fatigueMagical(${amt})` :
+                (type === '2' ? `player.stats.fatiguePhysical(${amt})` :
+                    `player.stats.fatigue += ${amt} `)
     );
     text = text.replace(escRegex('playerMenu'), 'campMenu');
     text = text.replace(escRegex('showStatDown'), '');
@@ -685,13 +681,13 @@ function fixBaseContent(text: string, className: string): string {
 }
 
 function fixBreastRowClass(text: string): string {
-    text = text.replace(/breastRows\[([^\]]+)\]\.nipplesPerBreast/g, (match, p1) => `breastRows.get(${p1}).nipples.count`);
-    text = text.replace(/breastRows\[([^\]]+)\]\.fuckable/g, (match, p1) => `breastRows.get(${p1}).nipples.fuckable`);
-    text = text.replace(/breastRows\[([^\]]+)\]\.breasts/g, (match, p1) => `breastRows.get(${p1}).count`);
-    text = text.replace(/breastRows\[([^\]]+)\]\.breastRating/g, (match, p1) => `breastRows.get(${p1}).rating`);
-    text = text.replace(/breastRows\[([^\]]+)\]\.lactationMultiplier/g, (match, p1) => `breastRows.get(${p1}).lactationMultiplier`);
-    text = text.replace(/breastRows\[([^\]]+)\]\.milkFullness/g, (match, p1) => `breastRows.get(${p1}).milkFullness`);
-    text = text.replace(/breastRows\[([^\]]+)\]\.fullness/g, (match, p1) => `breastRows.get(${p1}).fullness`);
+    text = text.replace(/breastRows\[([^\]]+)\]\.nipplesPerBreast/g, (match, index) => `breastRows.get(${index}).nipples.count`);
+    text = text.replace(/breastRows\[([^\]]+)\]\.fuckable/g, (match, index) => `breastRows.get(${index}).nipples.fuckable`);
+    text = text.replace(/breastRows\[([^\]]+)\]\.breasts/g, (match, index) => `breastRows.get(${index}).count`);
+    text = text.replace(/breastRows\[([^\]]+)\]\.breastRating/g, (match, index) => `breastRows.get(${index}).rating`);
+    text = text.replace(/breastRows\[([^\]]+)\]\.lactationMultiplier/g, (match, index) => `breastRows.get(${index}).lactationMultiplier`);
+    text = text.replace(/breastRows\[([^\]]+)\]\.milkFullness/g, (match, index) => `breastRows.get(${index}).milkFullness`);
+    text = text.replace(/breastRows\[([^\]]+)\]\.fullness/g, (match, index) => `breastRows.get(${index}).fullness`);
     return text;
 }
 
@@ -702,17 +698,17 @@ function fixAssClass(text: string): string {
 }
 
 function fixVaginaClass(text: string): string {
-    text = text.replace(/vaginas\[([^\]]+)\]\.vaginalWetness/g, (match, p1) => `vaginas.get(${p1}).wetness`);
-    text = text.replace(/vaginas\[([^\]]+)\]\.vaginalLooseness/g, (match, p1) => `vaginas.get(${p1}).looseness`);
-    text = text.replace(/vaginas\[([^\]]+)\]\.virgin/g, (match, p1) => `vaginas.get(${p1}).virgin`);
+    text = text.replace(/vaginas\[([^\]]+)\]\.vaginalWetness/g, (match, index) => `vaginas.get(${index}).wetness`);
+    text = text.replace(/vaginas\[([^\]]+)\]\.vaginalLooseness/g, (match, index) => `vaginas.get(${index}).looseness`);
+    text = text.replace(/vaginas\[([^\]]+)\]\.virgin/g, (match, index) => `vaginas.get(${index}).virgin`);
     return text;
 }
 
 function fixCockClass(text: string): string {
-    text = text.replace(/cocks\[([^\]]+)\]\.cockLength/g, (match, p1) => `cocks.get(${p1}).length`);
-    text = text.replace(/cocks\[([^\]]+)\]\.cockThickness/g, (match, p1) => `cocks.get(${p1}).thickness`);
-    text = text.replace(/cocks\[([^\]]+)\]\.cockType/g, (match, p1) => `cocks.get(${p1}).type`);
-    text = text.replace(/cocks\[([^\]]+)\]\.knotMultiplier/g, (match, p1) => `cocks.get(${p1}).knotMultiplier`);
+    text = text.replace(/cocks\[([^\]]+)\]\.cockLength/g, (match, index) => `cocks.get(${index}).length`);
+    text = text.replace(/cocks\[([^\]]+)\]\.cockThickness/g, (match, index) => `cocks.get(${index}).thickness`);
+    text = text.replace(/cocks\[([^\]]+)\]\.cockType/g, (match, index) => `cocks.get(${index}).type`);
+    text = text.replace(/cocks\[([^\]]+)\]\.knotMultiplier/g, (match, index) => `cocks.get(${index}).knotMultiplier`);
     return text;
 }
 
@@ -750,22 +746,20 @@ function fixMonsterClass(text: string): string {
     // Manual - handleAwardText
     // Manual - handleCombatLossText
 
-    text = text.replace(
-        /initStrTouSpeInte\(((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\);/g,
+    text = funcReplacer(text, 'initStrTouSpeInte(', ');',
         (match, str, tou, spe, int) =>
             trimLeft`this.baseStats.str = ${str};
-                this.baseStats.tou = ${tou};
-                this.baseStats.spe = ${spe};
-                this.baseStats.int = ${int};`
+            this.baseStats.tou = ${tou};
+            this.baseStats.spe = ${spe};
+            this.baseStats.int = ${int};`
     );
-    text = text.replace(
-        /initLibSensCor\(((?:[^,(]|\([^)]*\))+),\s*((?:[^,(]|\([^)]*\))+),\s*((?:[^(]|\([^)]*\))+?)\);/g,
+    text = funcReplacer(text, 'initLibSensCor(', ');',
         (match, lib, sens, cor) =>
             trimLeft`this.baseStats.lib = ${lib};
-                this.baseStats.sens = ${sens};
-                this.baseStats.cor = ${cor};`
+            this.baseStats.sens = ${sens};
+            this.baseStats.cor = ${cor};`
     );
-    text = text.replace(/createBreastRow\(([^)\n]+)\)/g, (match, p1) => `this.body.chest.add(new BreastRow(${p1}))`);
+    text = funcReplacer(text, 'createBreastRow(', ')', (match, ...args) => `this.body.chest.add(new BreastRow(${args.join(', ')}))`);
     text = text.replace(escRegex('createBreastRow()'), 'this.body.chest.add(new BreastRow())');
 
     return text;
@@ -789,10 +783,10 @@ function fixPlayerClass(text: string): string {
     // Unused - armorBaseDef
     // Unused - weaponBaseAttack
     text = text.replace(escRegex('player.armor'), 'player.inventory.equipment.armor');
-    text = text.replace(/player\.setArmor\(([^)\n]+)\)/g, (match, p1) => `player.inventory.equipment.equippedArmorSlot.equip(${p1})`);
+    text = funcReplacer(text, 'player.setArmor(', ')', (match, armor) => `player.inventory.equipment.equippedArmorSlot.equip(${armor})`);
     // Unused - setArmorHiddenField
     text = text.replace(escRegex('player.weapon'), 'player.inventory.equipment.weapon');
-    text = text.replace(/player\.setWeapon\(([^)\n]+)\)/g, (match, p1) => `player.inventory.equipment.equippedWeaponSlot.equip(${p1})`);
+    text = funcReplacer(text, 'player.setWeapon(', ')', (match, weapon) => `player.inventory.equipment.equippedWeaponSlot.equip(${weapon})`);
     // Unused - setWeaponHiddenField
     // Unused - reduceDamage
     // Manual - takeDamage
@@ -825,12 +819,8 @@ function fixPlayerClass(text: string): string {
     text = text.replace(escRegex('player.mutantScore()'), 'mutantRaceScore(player)');
     // OK - lactationQ
     // OK - isLactating
-    text = text.replace(/player\.cuntChange\(([^,\n]+),\s*([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3, p4) => `displayStretchVagina(player, ${p1}, ${p2}, ${p3}, ${p4})`);
-    text = text.replace(/player\.cuntChange\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3) => `displayStretchVagina(player, ${p1}, ${p2}, ${p3})`);
-    text = text.replace(/player\.cuntChange\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `displayStretchVagina(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.buttChange\(([^,\n]+),\s*([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3, p4) => `displayStretchButt(player, ${p1}, ${p2}, ${p3}, ${p4})`);
-    text = text.replace(/player\.buttChange\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3) => `displayStretchButt(player, ${p1}, ${p2}, ${p3})`);
-    text = text.replace(/player\.buttChange\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `displayStretchButt(player, ${p1}, ${p2})`);
+    text = funcReplacer(text, 'player.cuntChange(', ')', (match, ...args) => 'displayStretchVagina(player, ' + args.join(', ') + ')');
+    text = funcReplacer(text, 'player.buttChange(', ')', (match, ...args) => 'displayStretchButt(player, ' + args.join(', ') + ')');
     text = text.replace(escRegex('player.buttChangeDisplay()'), 'stretchButtText(player)');
     // OK - slimeFeed
     // OK - minoCumAddiction
@@ -839,13 +829,12 @@ function fixPlayerClass(text: string): string {
     text = text.replace(escRegex('player.hairDescript()'), 'describeHair(player)');
     text = text.replace(escRegex('player.shrinkTits()'), 'shrinkTits(player)');
     text = text.replace(escRegex('player.shrinkTits(true)'), 'shrinkTits(player, true)');
-    text = text.replace(
-        /player\.growTits\(([^,\n]+),\s*([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g,
-        (match, p1, p2, p3, p4) => {
-            switch (p4) {
-                case '1': return `growSmallestBreastRow(player, ${p1}, ${p2}, ${p3})`;
-                case '2': return `growTopBreastRowDownwards(player, ${p1}, ${p2}, ${p3})`;
-                case '3': return `growTopBreastRow(player, ${p1}, ${p2}, ${p3})`;
+    text = funcReplacer(text, 'player.growTits(', ')',
+        (match, arg1, arg2, arg3, type) => {
+            switch (type) {
+                case '1': return `growSmallestBreastRow(player, ${arg1}, ${arg2}, ${arg3})`;
+                case '2': return `growTopBreastRowDownwards(player, ${arg1}, ${arg2}, ${arg3})`;
+                case '3': return `growTopBreastRow(player, ${arg1}, ${arg2}, ${arg3})`;
             }
         });
     text = text.replace(escRegex('player.minLust'), 'player.stats.minLust');
@@ -856,21 +845,21 @@ function fixPlayerClass(text: string): string {
     text = text.replace(escRegex('player.consumeItem'), 'player.inventory.items.consumeItem');
     // Unused - getLowestSlot
     text = text.replace(escRegex('player.hasItem'), 'player.inventory.items.has');
-    text = text.replace(/player\.itemCount\(([^)\n]+)\)/g, (match, p1) => `player.inventory.items.filter(Inventory.FilterName(${p1})).reduce(Inventory.TotalQuantity, 0)`);
+    text = funcReplacer(text, 'player.itemCount(', ')', (match, itemName) => `player.inventory.items.filter(Inventory.FilterName(${itemName})).reduce(Inventory.TotalQuantity, 0)`);
     // Unused - roomInExistingStack
-    text = text.replace(/player\.roomInExistingStack\(([^)\n]+)\)/g, (match, p1) => `player.inventory.items.filter(Inventory.FilterName(${p1})).length`);
+    text = funcReplacer(text, 'player.roomInExistingStack(', ')', (match, itemName) => `player.inventory.items.filter(Inventory.FilterName(${itemName})).length`);
     // Unsed - itemSlot
     // Unsed - emptySlot
     text = text.replace(escRegex('player.destroyItems'), 'player.inventory.items.consumeItem');
-    text = text.replace(/player\.lengthChange\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `displayLengthChange(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.killCocks\(([^)\n]+)\)/g, (match, p1) => `displayKillCocks(player, ${p1})`);
+    text = funcReplacer(text, 'player.lengthChange(', ')', (match, arg1, arg2) => `displayLengthChange(player, ${arg1}, ${arg2})`);
+    text = funcReplacer(text, 'player.killCocks(', ')', (match, amt) => `displayKillCocks(player, ${amt})`);
     // OK - modCumMultiplier
-    text = text.replace(/player\.increaseCock\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `growCock(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.increaseEachCock\(([^)\n]+)\)/g, (match, p1) => `growEachCock(player, ${p1})`);
-    text = text.replace(escRegex('player.goIntoHeat(false)'), 'player.canGoIntoHeat()');
-    text = text.replace(/player\.goIntoHeat\(true,\s*([^)\n]+)\)/g, (match, p1, p2) => `displayGoIntoHeat(player, ${p1})`);
-    text = text.replace(escRegex('player.goIntoRut(false)'), 'player.canGoIntoRut()');
-    text = text.replace(/player\.goIntoRut\(true,\s*([^)\n]+)\)/g, (match, p1, p2) => `displayGoIntoRut(player, ${p1})`);
+    text = funcReplacer(text, 'player.increaseCock(', ')', (match, arg1, arg2) => `growCock(player, ${arg1}, ${arg2})`);
+    text = funcReplacer(text, 'player.increaseEachCock(', ')', (match, amt) => `growEachCock(player, ${amt})`);
+    text = text.replace(escRegex('player.goIntoHeat(false)'), 'player.goIntoHeat()');
+    text = funcReplacer(text, 'player.goIntoHeat(true,', ')', (match, amt) => `displayGoIntoHeat(player, ${amt})`);
+    text = text.replace(escRegex('player.goIntoRut(false)'), 'player.goIntoRut()');
+    text = funcReplacer(text, 'player.goIntoRut(true,', ')', (match, amt) => `displayGoIntoRut(player, ${amt})`);
 
     return text;
 }
@@ -887,52 +876,57 @@ function fixCharacterClass(text: string): string {
     // Manual - buttPregnancyIncubation
     text = text.replace(escRegex('player.keyItems'), 'player.inventory.keyItems');
     text = text.replace(escRegex('player.faceDesc()'), 'describeFace(player)');
-    text = text.replace(/player\.modFem\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `modFem(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.modFem\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `modFem(player, ${p1})`);
-    text = text.replace(/player\.modThickness\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `modThickness(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.modThickness\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `modThickness(player, ${p1})`);
-    text = text.replace(/player\.modTone\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `modTone(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.modTone\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `modTone(player, ${p1})`);
+    text = funcReplacer(text, 'player.modFem(', ')', (match, ...args) => `modFem(player, ${args.join(', ')})`);
+    text = funcReplacer(text, 'player.modThickness(', ')', (match, ...args) => `modThickness(player, ${args.join(', ')})`);
+    text = funcReplacer(text, 'player.modTone(', ')', (match, ...args) => `modTone(player, ${args.join(', ')})`);
     // OK - fixFemininity
     text = text.replace(escRegex('player.hasBeard'), 'player.body.beard.length > 0');
     text = text.replace(escRegex('player.beard()'), 'describeBeard(player)');
     text = text.replace(escRegex('player.skin()'), 'describeSkin(player)');
-    text = text.replace(/player\.skin\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `describeSkin(player, ${p1}, ${p2})`);
-    text = text.replace(/player\.skin\(((?:[^(]|\([^)]*\))+?)\)/g, (match, p1) => `describeSkin(player, ${p1})`);
+    text = funcReplacer(text, 'player.skin(', ')', (match, ...args) => `describeSkin(player, ${args.join(', ')})`);
     text = text.replace(escRegex('player.hasMuzzle()'), 'player.body.face.hasMuzzle()');
     text = text.replace(escRegex('player.face()'), 'describeFaceShort(player)');
     // OK - hasLongTail
     text = text.replace(escRegex('player.isPregnant()'), 'player.pregnancy.womb.isPregnant()');
     text = text.replace(escRegex('player.isButtPregnant()'), 'player.pregnancy.buttWomb.isPregnant()');
 
-    text = text.replace(/player\.knockUp\(([^,\n]+),\s*([^,\n]+),\s*([^,\n]+),\s*1\)/g, (match, p1, p2, p3) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3}, true)`);
-    text = text.replace(/player\.knockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3})`);
-    text = text.replace(/player\.knockUp\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}))`);
-    text = text.replace(/player\.knockUpForce\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.womb.knockUp(new Pregnancy(${p1}, ${p2}), 0, true)`);
+    text = funcReplacer(text, 'player.knockUp(', ')', (match, type, time, chance, gurantee) => {
+        if (gurantee)
+            return `player.pregnancy.womb.knockUp(new Pregnancy(${type}, ${time}), ${chance}, true)`;
+        else if (chance)
+            return `player.pregnancy.womb.knockUp(new Pregnancy(${type}, ${time}), ${chance})`;
+        else
+            return `player.pregnancy.womb.knockUp(new Pregnancy(${type}, ${time}))`;
+    });
+    text = funcReplacer(text, 'player.knockUpForce(', ')', (match, type, time) => `player.pregnancy.womb.knockUp(new Pregnancy(${type}, ${time}), 0, true)`);
 
-    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+),\s*1\)/g, (match, p1, p2, p3) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3}, true)`);
-    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2, p3) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}), ${p3})`);
-    text = text.replace(/player\.buttKnockUp\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}))`);
-    text = text.replace(/player\.buttKnockUpForce\(([^,\n]+),\s*([^)\n]+)\)/g, (match, p1, p2) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${p1}, ${p2}), 0, true)`);
+    text = funcReplacer(text, 'player.buttKnockUp(', ')', (match, type, time, chance, gurantee) => {
+        if (gurantee)
+            return `player.pregnancy.buttWomb.knockUp(new Pregnancy(${type}, ${time}), ${chance}, true)`;
+        else if (chance)
+            return `player.pregnancy.buttWomb.knockUp(new Pregnancy(${type}, ${time}), ${chance})`;
+        else
+            return `player.pregnancy.buttWomb.knockUp(new Pregnancy(${type}, ${time}))`;
+    });
+    text = funcReplacer(text, 'player.buttKnockUpForce(', ')', (match, type, time) => `player.pregnancy.buttWomb.knockUp(new Pregnancy(${type}, ${time}), 0, true)`);
     // Remove - pregnancyAdvance
     // Remove - pregnancyUpdate
 
     text = text.replace(escRegex('player.createKeyItem'), 'player.inventory.keyItems.add');
-    text = text.replace(/player\.removeKeyItem\((".+")\)/g, (match, p1) => `player.inventory.keyItems.remove(${p1})`);
+    text = funcReplacer(text, 'player.removeKeyItem(', ')', (match, item) => `player.inventory.keyItems.remove(${item})`);
     // Manual - addKeyValue
-    text = text.replace(/player\.keyItemv([1-4])\((\w+)\)/g, (match, p1, p2) => `player.inventory.keyItems.get(${p2}).value${p1}`);
+    text = funcReplacer(text, /player\.keyItemv([1-4])\(/, ')', (match, index, item) => `player.inventory.keyItems.get(${item}).value${index} `);
     // Unused - removeKeyItems
-    text = text.replace(
-        /player\.hasKeyItem\(("(?:[^"]|\\")+")\)(?:\s*([!><=]+)\s*([-\d]+))?/g,
-        (match, p1, compOp, compVal) => {
+    text = funcReplacer(text, 'player.hasKeyItem(', /\)(?:\s*([!><=]+)\s*([-\d]+))?/,
+        (match, item, compOp, compVal) => {
             if (compOp && compOp.match(/<=?|==/) && +compVal <= 0)
-                return `!player.inventory.keyItems.has(${p1})`;
-            return `player.inventory.keyItems.has(${p1})`;
+                return `!player.inventory.keyItems.has(${item})`;
+            return `player.inventory.keyItems.has(${item})`;
         });
 
     // Unknown - viridianChange
     text = text.replace(escRegex('player.hasKnot()'), 'player.body.cocks.get(0).hasKnot()');
-    text = text.replace(/player\.hasKnot\(([^)\n]+)\)/g, (match, p1) => `player.body.cocks.get(${p1}).hasKnot()`);
+    text = funcReplacer(text, 'player.hasKnot(', ')', (match, index) => `player.body.cocks.get(${index}).hasKnot()`);
     text = text.replace(escRegex('player.maxHP()'), 'player.stats.maxHP');
     text = text.replace(escRegex('player.buttDescript()'), 'describeButt(player)');
 
@@ -940,8 +934,8 @@ function fixCharacterClass(text: string): string {
 }
 
 function fixCreatureClass(text: string, name: string): string {
-    text = text.replace(combineStrRegex(name, /\.short([^\w])/g), (match, p1) => `${name}.desc.name${p1}`);
-    text = text.replace(combineStrRegex(name, /\.a([^\w])/g), (match, p1) => `${name}.desc.a${p1}`);
+    text = text.replace(combineStrRegex(name, /\.short([^\w])/g), (match, p1) => `${name}.desc.name${p1} `);
+    text = text.replace(combineStrRegex(name, /\.a([^\w])/g), (match, p1) => `${name}.desc.a${p1} `);
     text = text.replace(escRegex(`${name}.capitalA`), `${name}.desc.capitalA`);
 
     text = text.replace(escRegex(`${name}.weaponName`), `${name}.inventory.equipment.weapon.displayName`);
@@ -1052,7 +1046,7 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.clitLength`), `${name}.body.clit.length`);
     // Manual - nippleLength
     text = text.replace(escRegex(`${name}.breastRows`), `${name}.body.chest`);
-    text = text.replace(combineStrRegex(name, /\.ass([^\w])/g), (match, p1) => `${name}.body.butt${p1}`);
+    text = text.replace(combineStrRegex(name, /\.ass([^\w])/g), (match, p1) => `${name}.body.butt${p1} `);
     // Unused - perk()
     // Unused - perks()
     text = text.replace(escRegex(`${name}.numPerks`), `${name}.perks.length`);
@@ -1061,25 +1055,33 @@ function fixCreatureClass(text: string, name: string): string {
     // OK - orgasm()
     text = text.replace(escRegex(`${name}.createPerk`), `${name}.perks.add`);
     text = text.replace(escRegex(`${name}.removePerk`), `${name}.perks.remove`);
-    text = text.replace(combineStrRegex(name, /\.findPerk\(([\w.]+)\) ?>= ?0/g), (match, p1) => `${name}.perks.has(${p1})`);
-    text = text.replace(combineStrRegex(name, /\.findPerk\(([\w.]+)\) ?< ?0/g), (match, p1) => `!${name}.perks.has(${p1})`);
+    text = funcReplacer(text, name + '.findPerk(', /\)(?:\s*([!><=]+)\s*([-\d]+))?/,
+        (match, item, compOp, compVal) => {
+            if (compOp && compOp.match(/<=?|==/) && +compVal <= 0)
+                return `!${name}.perks.has(${item})`;
+            return `${name}.perks.has(${item})`;
+        });
     // Unused - perkDuplicated
     // Unused - removePerks
-    text = text.replace(combineStrRegex(name, /\.addPerkValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.perks.get(${p1}).value${p2} += ${p3}`);
-    text = text.replace(combineStrRegex(name, /\.setPerkValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.perks.get(${p1}).value${p2} = ${p3}`);
-    text = text.replace(combineStrRegex(name, /\.perkv([1-4])\(([\w.]+)\)/g), (match, p1, p2) => `${name}.perks.get(${p2}).value${p1}`);
+    text = funcReplacer(text, name + '.addPerkValue(', ')', (match, type, index, arg) => `${name}.perks.get(${type}).value${index} += ${arg} `);
+    text = funcReplacer(text, name + '.setPerkValue(', ')', (match, type, index, arg) => `${name}.perks.get(${type}).value${index} = ${arg} `);
+    text = funcReplacer(text, combineStrRegex(name, /\.perkv([1-4])\(/), ')', (match, index, type) => `${name}.perks.get(${type}).value${index} `);
 
     text = text.replace(escRegex(`${name}.createStatusAffect`), `${name}.effects.add`);
     text = text.replace(escRegex(`${name}.removeStatusAffect`), `${name}.effects.remove`);
-    text = text.replace(combineStrRegex(name, /\.findStatusAffect\(([\w.]+)\) ?>= ?0/g), (match, p1) => `${name}.effects.has(${p1})`);
-    text = text.replace(combineStrRegex(name, /\.findStatusAffect\(([\w.]+)\) ?< ?0/g), (match, p1) => `!${name}.effects.has(${p1})`);
-    text = text.replace(combineStrRegex(name, /\.changeStatusValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.effects.get(${p1}).value${p2} = ${p3}`);
-    text = text.replace(combineStrRegex(name, /\.addStatusValue\(([\w.]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.effects.get(${p1}).value${p2} += ${p3}`);
-    text = text.replace(combineStrRegex(name, /\.statusAffect\(([\w\d]+)\)/g), (match, p1) => `${name}.effects.get(${p1})`);
-    text = text.replace(combineStrRegex(name, /\.statusAffectv([1-4])\(([\w.]+)\)/g), (match, p1, p2) => `${name}.effects.get(${p2}).value${p1}`);
+    text = funcReplacer(text, name + '.findStatusAffect(', /\)(?:\s*([!><=]+)\s*([-\d]+))?/,
+        (match, item, compOp, compVal) => {
+            if (compOp && compOp.match(/<=?|==/) && +compVal <= 0)
+                return `!${name}.effects.has(${item})`;
+            return `${name}.effects.has(${item})`;
+        });
+    text = funcReplacer(text, name + '.changeStatusValue(', ')', (match, type, index, arg) => `${name}.effects.get(${type}).value${index} = ${arg} `);
+    text = funcReplacer(text, name + '.addStatusValue(', ')', (match, type, index, arg) => `${name}.effects.get(${type}).value${index} += ${arg} `);
+    text = funcReplacer(text, name + '.statusAffect(', ')', (match, type) => `${name}.effects.get(${type})`);
+    text = funcReplacer(text, combineStrRegex(name, /\.statusAffectv([1-4])\(/), ')', (match, index, type) => `${name}.effects.get(${type}).value${index}`);
     // Unused - removeStatuses
     text = text.replace(escRegex(`${name}.biggestTitSize()`), `${name}.body.chest.sort(BreastRow.Largest)[0].rating`);
-    text = text.replace(combineStrRegex(name, /\.cockArea\(([\w\d]+)\)/g), (match, p1) => `${name}.body.cocks.get(${p1}).area`);
+    text = funcReplacer(text, name + '.cockArea(', ')', (match, index) => `${name}.body.cocks.get(${index}).area`);
     text = text.replace(escRegex(`${name}.biggestCockLength()`), `${name}.body.cocks.sort(Cock.Largest)[0].length`);
     text = text.replace(escRegex(`${name}.biggestCockArea()`), `${name}.body.cocks.sort(Cock.Largest)[0].area`);
     text = text.replace(escRegex(`${name}.biggestCockArea2()`), `${name}.body.cocks.sort(Cock.Largest)[1].area`);
@@ -1100,8 +1102,8 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.cocks[${name}.shortestCockIndex()]`), `${name}.body.cocks.sort(Cock.Shortest)[0]`);
     text = text.replace(escRegex(`${name}.shortestCockIndex()`), `${name}.body.cocks.sort(Cock.Shortest)[0]`);
     text = text.replace(escRegex(`${name}.shortestCockLength()`), `${name}.body.cocks.sort(Cock.Shortest)[0].length`);
-    text = text.replace(
-        combineStrRegex(name, /\.cockThatFits(2?)\(((?:[^(]|\([^)]*\))+?)(?:,\s*("area"|"length"))?\)(?:\s*([!><=]+)\s*([-\d]+))?/g),
+    text = funcReplacer(text,
+        combineStrRegex(name, /\.cockThatFits(2?)\(/), /\)(?:\s*([!><=]+)\s*([-\d]+))?/,
         (match, second, arg1, arg2, compOp, compVal) => {
             let str = '';
             if (compOp && compOp.match(/<=?|==/) && +compVal <= 0)
@@ -1135,10 +1137,18 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.cocks[${name}.biggestCockIndex3()]`), `${name}.body.cocks.sort(Cock.Largest)[2]`);
     text = text.replace(escRegex(`${name}.biggestCockIndex3()`), `${name}.body.cocks.sort(Cock.Largest)[2]`);
     text = text.replace(escRegex(`${name}.cockDescript()`), `describeCock(${name}, ${name}.body.cocks.get(0))`);
-    text = text.replace(combineStrRegex(name, /\.cockDescript\((\d+)\)/g), (match, p1) => `describeCock(${name}, ${name}.body.cocks.get(${p1}))`);
-    text = text.replace(combineStrRegex(name, /\.cockDescript\((\w+)\)/g), (match, p1) => `describeCock(${name}, ${p1})`);
-    text = text.replace(escRegex(`${name}.cockAdjective()`), `describeCockAdj(${name}, ${name}.body.cocks.get(0)`);
-    text = text.replace(combineStrRegex(name, /\.cockAdjective\((\w+)\)/g), (match, p1) => `describeCockAdj(${name}, ${p1})`);
+    text = funcReplacer(text, name + '.cockDescript(', ')',
+        (match, arg) =>
+            !isNaN(+arg) ?
+                `describeCock(${name}, ${name}.body.cocks.get(${arg}))` :
+                `describeCock(${name}, ${arg})`
+    );
+    text = funcReplacer(text, name + '.cockAdjective(', ')',
+        (match, arg) =>
+            arg ?
+                `describeCockAdj(${name}, ${arg})` :
+                `describeCockAdj(${name}, ${name}.body.cocks.get(0)`
+    );
     text = text.replace(escRegex(`${name}.wetness()`), `${name}.body.vaginas.get(0).wetness`);
     // Manual - vaginaType()
     text = text.replace(escRegex(`${name}.looseness()`), `${name}.body.vaginas.get(0).looseness`);
@@ -1155,11 +1165,11 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.foxScore()`), `foxRaceScore(${name})`);
     text = text.replace(escRegex(`${name}.biggestLactation()`), `${name}.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier`);
     // OK - milked()
-    text = text.replace(combineStrRegex(name, /\.boostLactation\(([^\(]+)\)/g), (match, p1) => `boostLactation(${name}, ${p1})`);
+    text = funcReplacer(text, name + '.boostLactation(', ')', (match, arg) => `boostLactation(${name}, ${arg})`);
     text = text.replace(escRegex(`${name}.averageLactation()`), `${name}.body.chest.reduce(BreastRow.AverageLactation, 0)`);
     // OK - virilityQ()
     // OK - cumQ()
-    text = text.replace(combineStrRegex(name, /\.countCocksOfType\(([^)\n]+)\)/g), (match, p1) => `${name}.body.cocks.filter(Cock.FilterType(${p1})).length`);
+    text = funcReplacer(text, name + '.countCocksOfType(', ')', (match, type) => `${name}.body.cocks.filter(Cock.FilterType(${type})).length`);
     text = text.replace(escRegex(`${name}.anemoneCocks()`), `${name}.body.cocks.filter(Cock.FilterType(CockType.ANEMONE)).length`);
     text = text.replace(escRegex(`${name}.catCocks()`), `${name}.body.cocks.filter(Cock.FilterType(CockType.CAT)).length`);
     text = text.replace(escRegex(`${name}.demonCocks()`), `${name}.body.cocks.filter(Cock.FilterType(CockType.DEMON)).length`);
@@ -1192,8 +1202,8 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.guyGirl()`), `guyGirl(${name})`);
     text = text.replace(escRegex(`${name}.guyGirl(true)`), `guyGirl(${name}, true)`);
     text = text.replace(escRegex(`${name}.guyGirl(false)`), `guyGirl(${name}, false)`);
-    text = text.replace(combineStrRegex(name, /\.mfn\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `mfn(${name}, ${p1}, ${p2}, ${p3})`);
-    text = text.replace(combineStrRegex(name, /\.mf\(([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2) => `mf(${name}, ${p1}, ${p2})`);
+    text = funcReplacer(text, name + '.mfn(', ')', (match, gender, male, female) => `mfn(${name}, ${gender}, ${male}, ${female})`);
+    text = funcReplacer(text, name + '.mf(', ')', (match, male, female) => `mf(${name}, ${male}, ${female})`);
     text = text.replace(escRegex(`${name}.boyGirl()`), `boyGirl(${name})`);
     text = text.replace(escRegex(`${name}.boyGirl(true)`), `boyGirl(${name}, true)`);
     text = text.replace(escRegex(`${name}.boyGirl(false)`), `boyGirl(${name}, false)`);
@@ -1212,45 +1222,38 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.sirMadam()`), `sirMadam(${name})`);
     text = text.replace(escRegex(`${name}.sirMadam(true)`), `sirMadam(${name}, true)`);
     text = text.replace(escRegex(`${name}.sirMadam(false)`), `sirMadam(${name}, false)`);
-    text = text.replace(combineStrRegex(name, /\.createCock\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.body.cocks.add(new Cock(${p1}, ${p2}, ${p3}))`);
-    text = text.replace(combineStrRegex(name, /\.createCock\(([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2) => `${name}.body.cocks.add(new Cock(${p1}, ${p2}))`);
-    text = text.replace(combineStrRegex(name, /\.createCock\(([^)\n]+)\)/g), (match, p1) => `${name}.body.cocks.add(new Cock(${p1}))`);
-    text = text.replace(escRegex(`${name}.createCock()`), `${name}.body.cocks.add(new Cock())`);
-    text = text.replace(combineStrRegex(name, /\.createVagina\(([^,\n]+),\s*([^,\n]+),\s*([^)\n]+)\)/g), (match, p1, p2, p3) => `${name}.body.vaginas.add(new Vagina(${p2}, ${p3}, ${p1}))`);
+    text = funcReplacer(text, name + '.createCock(', ')', (match, ...args) => `${name}.body.cocks.add(new Cock(${args.join(', ')}))`);
+    text = funcReplacer(text, name + '.createVagina(', ')', (match, arg1, arg2, arg3) => `${name}.body.vaginas.add(new Vagina(${arg2}, ${arg3}, ${arg1}))`);
     // Manual - createVagina(virgin, vaginalWetness)
     // Manual - createVagina(virgin)
     text = text.replace(escRegex(`${name}.createVagina()`), `${name}.body.vaginas.add(new Vagina())`);
     // Manual - createBreastRow(size, nipplesPerBreast)
-    text = text.replace(combineStrRegex(name, /\.createBreastRow\(([^)\n]+)\)/g), (match, p1) => `${name}.body.chest.add(new BreastRow(${p1}))`);
+    text = funcReplacer(text, name + '.createBreastRow(', ')', (match, ...args) => `${name}.body.chest.add(new BreastRow(${args.join(', ')}))`);
     text = text.replace(escRegex(`${name}.createBreastRow()`), `${name}.body.chest.add(new BreastRow())`);
     // Remove - genderCheck
-    text = text.replace(escRegex(`${name}.genderCheck();`), '');
-    text = text.replace(
-        combineStrRegex(name, /\.removeCock\(([^,\n]+),\s*([^)\n]+)\)/g),
-        (match, p1, p2) => p2 === 1 ?
-            `${name}.body.cocks.remove(${p1})` :
-            trimLeft`for (let cockIndex = 0; cockIndex < ${p2}; cockIndex++)
-            ${name}.body.cocks.remove(${p1} + cockIndex)`
+    text = text.replace(escRegex(`${name}.genderCheck(); `), '');
+    text = funcReplacer(text, name + '.removeCock(', ')',
+        (match, index, amt) => amt === '1' ?
+            `${name}.body.cocks.remove(${index})` :
+            trimLeft`for (let cockIndex = 0; cockIndex < ${amt}; cockIndex++)
+                ${name}.body.cocks.remove(${index} + cockIndex)`
     );
-    text = text.replace(
-        combineStrRegex(name, /\.removeVagina\(([^,\n]+),\s*([^)\n]+)\)/g),
-        (match, p1, p2) => p2 === 1 ?
-            `${name}.body.vaginas.remove(${p1})` :
-            trimLeft`for (let vagIndex = 0; vagIndex < ${p2}; vagIndex++)
-            ${name}.body.vaginas.remove(${p1} + vagIndex)`
+    text = funcReplacer(text, name + '.removeVagina(', ')',
+        (match, index, amt) => amt === '1' ?
+            `${name}.body.vaginas.remove(${index})` :
+            trimLeft`for (let vagIndex = 0; vagIndex < ${amt}; vagIndex++)
+                ${name}.body.vaginas.remove(${index} + vagIndex)`
     );
-    text = text.replace(combineStrRegex(name, /\.removeVagina\(([^)\n]+)\)/g), (match, p1) => `${name}.body.vaginas.remove(${p1})`);
     text = text.replace(escRegex(`${name}.removeVagina()`), `${name}.body.vaginas.remove(0)`);
-    text = text.replace(
-        combineStrRegex(name, /\.removeBreastRow\(([^,\n]+),\s*([^)\n]+)\)/g),
-        (match, p1, p2) => p2 === 1 ?
-            `${name}.body.chest.remove(${p1})` :
-            trimLeft`for (let breastRowIndex = 0; breastRowIndex < ${p2}; breastRowIndex++)
-            ${name}.body.chest.remove(${p1} + breastRowIndex)`
+    text = funcReplacer(text, name + '.removeBreastRow(', ')',
+        (match, index, amt) => amt === '1' ?
+            `${name}.body.chest.remove(${index})` :
+            trimLeft`for (let breastRowIndex = 0; breastRowIndex < ${amt}; breastRowIndex++)
+                ${name}.body.chest.remove(${index} + breastRowIndex)`
     );
     // Remove - fixFuckingCockTypesEnum
-    text = text.replace(combineStrRegex(name, /\.buttChangeNoDisplay\(([^)\n]+)\)/g), (match, p1) => `stretchButt(${name}, ${p1})`);
-    text = text.replace(combineStrRegex(name, /\.cuntChangeNoDisplay\(([^)\n]+)\)/g), (match, p1) => `stretchVagina(${name}, ${p1})`);
+    text = funcReplacer(text, name + '.buttChangeNoDisplay(', ')', (match, amt) => `stretchButt(${name}, ${amt})`);
+    text = funcReplacer(text, name + '.cuntChangeNoDisplay(', ')', (match, amt) => `stretchVagina(${name}, ${amt})`);
     text = text.replace(escRegex(`${name}.inHeat()`), `${name}.effects.has(Effect.Heat)`);
     text = text.replace(escRegex(`${name}.inRut()`), `${name}.effects.has(Effect.Rut)`);
     // OK - bonusFertility
@@ -1275,7 +1278,7 @@ function fixCreatureClass(text: string, name: string): string {
     // Unused - setEggs
     text = text.replace(escRegex(`${name}.fertilizedEggs()`), `${name}.pregnancy.ovipositor.fertilizedEggs`);
     text = text.replace(escRegex(`${name}.fertilizeEggs()`), `${name}.pregnancy.ovipositor.fertilizeEggs()`);
-    text = text.replace(combineStrRegex(name, /\.breastCup\(([^)\n]+)\)/g), (match, p1) => `breastCup(${name}.body.chest.get(${p1}))`);
+    text = funcReplacer(text, name + '.breastCup(', ')', (match, index) => `breastCup(${name}.body.chest.get(${index}))`);
     text = text.replace(escRegex(`${name}.bRows()`), `${name}.body.chest.length`);
     text = text.replace(escRegex(`${name}.totalBreasts()`), `${name}.body.chest.reduce(BreastRow.TotalBreasts, 0)`);
     text = text.replace(escRegex(`${name}.totalNipples()`), `${name}.body.chest.reduce(BreastRow.TotalNipples, 0)`);
@@ -1300,15 +1303,15 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.hasSheath()`), `${name}.body.cocks.find(Cock.HasSheath)`);
     text = text.replace(escRegex(`${name}.sheathDescription()`), `describeSheath(${name})`);
     text = text.replace(escRegex(`${name}.vaginaDescript()`), `describeVagina(${name}, ${name}.body.vaginas.get(0))`);
-    text = text.replace(combineStrRegex(name, /\.vaginaDescript\(([^)\n]+)\)/g), (match, p1) => `describeVagina(${name}, ${name}.body.vaginas.get(${p1}))`);
-    text = text.replace(combineStrRegex(name, /\.nippleDescript\(([^)\n]+)\)/g), (match, p1) => `describeNipple(${name}, ${name}.body.chest.get(${p1}))`);
+    text = funcReplacer(text, name + '.vaginaDescript(', ')', (match, index) => `describeVagina(${name}, ${name}.body.vaginas.get(${index}))`);
+    text = funcReplacer(text, name + '.nippleDescript(', ')', (match, index) => `describeNipple(${name}, ${name}.body.chest.get(${index}))`);
     text = text.replace(escRegex(`${name}.chestDesc()`), `describeChest(${name})`);
     text = text.replace(escRegex(`${name}.allChestDesc()`), `describeEntireChest(${name})`);
     text = text.replace(escRegex(`${name}.clitDescript()`), `describeClit(${name})`);
     text = text.replace(escRegex(`${name}.cockHead()`), `describeCockHead(${name}.body.cocks.get(0))`);
-    text = text.replace(combineStrRegex(name, /\.cockHead\(([^)\n]+)\)/g), (match, p1) => `describeCockHead(${name}.body.cocks.get(${p1}))`);
+    text = funcReplacer(text, name + '.cockHead(', ')', (match, index) => `describeCockHead(${name}.body.cocks.get(${index}))`);
     text = text.replace(escRegex(`${name}.cockDescriptShort()`), `describeCockShort(${name}.body.cocks.get(0))`);
-    text = text.replace(combineStrRegex(name, /\.cockDescriptShort\(([^)\n]+)\)/g), (match, p1) => `describeCockShort(${name}.body.cocks.get(${p1}))`);
+    text = funcReplacer(text, name + '.cockDescriptShort(', ')', (match, index) => `describeCockShort(${name}.body.cocks.get(${index}))`);
     text = text.replace(escRegex(`${name}.assholeOrPussy()`), `assholeOrPussy(${name})`);
     text = text.replace(escRegex(`${name}.multiCockDescriptLight()`), `describeCocksLight(${name})`);
     text = text.replace(escRegex(`${name}.multiCockDescript()`), `describeCocks(${name})`);
@@ -1316,7 +1319,7 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.ballsDescriptLight(true)`), `describeBalls(true, true, ${name})`);
     text = text.replace(escRegex(`${name}.ballsDescriptLight(false)`), `describeBalls(false, true, ${name})`);
     text = text.replace(escRegex(`${name}.sackDescript()`), `describeBallsack(${name})`);
-    text = text.replace(combineStrRegex(name, /\.breastDescript\(([^)\n]+)\)/g), (match, p1) => `describeBreastRow(${name}.body.chest.get(${p1}))`);
-    text = text.replace(combineStrRegex(name, /\.breastSize\(([^)\n]+)\)/g), (match, p1) => `describeBreastRowRating(${p1})`);
+    text = funcReplacer(text, name + '.breastDescript(', ')', (match, index) => `describeBreastRow(${name}.body.chest.get(${index}))`);
+    text = funcReplacer(text, name + '.breastSize(', ')', (match, size) => `describeBreastRowRating(${size})`);
     return text;
 }
