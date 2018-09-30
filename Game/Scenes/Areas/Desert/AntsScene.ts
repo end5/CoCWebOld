@@ -254,7 +254,7 @@ function playHero(player: Character): NextScreenChoices {
 
 // ►Console ant-morph
 // After whuppin' demons!
-function consolePhylla(player: Character): NextScreenChoices {
+export function consolePhylla(player: Character): NextScreenChoices {
     CView.clear();
     CView.text("As the demons flee over the dunes, you gather your thoughts and survey the chaotic scene.  The woman you saved has taken refuge under the ruined cart, trying to conceal herself.  Her upper torso, at least, is 'hidden' inside it, but her large abdomen and black legs jut outward, giving away her poor attempts at stealth.  ");
     if (player.stats.lib >= 50) CView.text("After taking an eyeful of her smooth, enticing pussy, revealed in her current position by the inadequacies of her loincloth, y");

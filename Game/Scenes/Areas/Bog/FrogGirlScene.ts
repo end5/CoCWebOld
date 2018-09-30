@@ -6,7 +6,6 @@ import { CView } from "../../../../Engine/Display/ContentView";
 import { displayStretchButt } from "../../../Modifiers/ButtModifier";
 import { Pregnancy, PregnancyType, IncubationTime } from "../../../Body/Pregnancy/Pregnancy";
 import { returnToCampUseTwoHours, returnToCampUseOneHour } from "../../Camp";
-import { TailType } from "../../../Body/Tail";
 import { displayStretchVagina } from "../../../Modifiers/VaginaModifier";
 import { Vagina, VaginaWetness } from "../../../Body/Vagina";
 

@@ -158,7 +158,7 @@ export function nagaEncounter(player: Character): NextScreenChoices {
         CView.text("You walk in the desert for what feels like an eternity, thinking of how much easier it was to move across the sand back when you had a tail, but then you're brought back to reality by a familiar hissing. The identity of your follower is no secret to you. As you open your mouth to greet your naga friend, you find yourself unable to pronounce any words. The girl comes towards you and slithers around in a confused way, trying to communicate. But the sounds that once formed words and phrases now seem to slip through you; all you can do is stand there, unable to grasp what she's trying to tell you. Realizing that you're not who you used to be anymore, she sadly looks down and turns around. The naga slithers away into the distance until she's nothing but a blink on the horizon.");
         return { next: returnToCampUseOneHour };
     }
-    return CombatManager.beginBattle(player, [new Naga()]);
+    return CombatManager.beginBattle(player, new Naga());
 }
 
 function gooNagaRape(player: Character, monster: Character): NextScreenChoices {

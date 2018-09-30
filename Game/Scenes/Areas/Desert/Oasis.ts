@@ -22,7 +22,6 @@ import { displayStretchButt } from "../../../Modifiers/ButtModifier";
 import { BreastRow } from "../../../Body/BreastRow";
 import { describeAllBreasts, describeNipple } from "../../../Descriptors/BreastDescriptor";
 import { gameOverMenu } from "../../../Menus/InGame/GameOverMenu";
-import { partial } from "../../../Utilities/Partial";
 
 export const OasisFlags = {
     ANTS_PC_FAILED_PHYLLA: 0,
@@ -68,7 +67,7 @@ function oasisRunAway(player: Character): NextScreenChoices {
     }
 }
 
-function oasisTalk(player: Character, monster: Character): NextScreenChoices {
+function oasisTalk(player: Character): NextScreenChoices {
     CView.sprite(SpriteName.Oasis_Demons); // 46
     // Nice weather...
     CView.clear().text("You rise cautiously from the shade of your scraggly little bush and look over the demons arrayed before you. Briefly you wonder how exactly conversations start in a desert oasis, before settling on 'nice weather we're having.' The reaction is mixed. Some laugh, some stare in utter confusion. The ludicrously endowed leader in the snakeskin cloak throws his head back and produces a deep, thundering laugh. When he regains his composure he brings his head back around to level a deadly smile full of sharp teeth in your direction. 'Yes,' he says '...nice.'\n\n");
@@ -77,7 +76,7 @@ function oasisTalk(player: Character, monster: Character): NextScreenChoices {
     CView.text("<b>Do you stay or try to leave?</b>");
     return {
         choices: [
-            ["Stay", partial(oasisTalkAccept, player, monster)],
+            ["Stay", oasisTalkAccept],
             ["", undefined],
             ["", undefined],
             ["", undefined],
@@ -93,7 +92,8 @@ function oasisTalkDecline(player: Character): NextScreenChoices {
     CView.text("The demons begin to circle menacingly, and you can do nothing but prepare to defend yourself.");
     return CombatManager.beginBattle(player, new DemonPack());
 }
-function oasisTalkAccept(player: Character, monster: Character): NextScreenChoices {
+
+function oasisTalkAccept(player: Character): NextScreenChoices {
     CView.sprite(SpriteName.Oasis_Demons); // 46
     // You slut!
     CView.clear().text("The leader smiles in genuine delight and excited chatter rises up from the group of demons. 'This is excellent. It has been so long since we last had one of your kind join us.' Behind him the demons begin to slide free of their tattered rags, hardening, dampening and licking their lips. As the leader steps forward to caress the curves and angles of your body you begin to suspect that the hunger this feast is to satisfy is not for food, but all that is forgotten as the demons swarm silently around you and you stumble back onto the hot sand, ");
@@ -107,9 +107,10 @@ function oasisTalkAccept(player: Character, monster: Character): NextScreenChoic
         player.effects.get(StatusEffectType.VoluntaryDemonpack).value1 = 1;
 
     // TO THE SECKSIN!
-    return { next: partial(oasisSexing, player, monster) };
+    return { next: oasisSexing };
 }
-function oasisSexing(player: Character, monster: Character): NextScreenChoices {
+function oasisSexing(player: Character): NextScreenChoices {
+    const monster = new DemonPack();
     CView.sprite(SpriteName.Oasis_Demons); // 46
     player.slimeFeed();
     // New screen
