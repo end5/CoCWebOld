@@ -261,6 +261,7 @@ function fixText(text: string): string {
     // Manual - giacomo
 
     text = text.replace(escRegex('model.time.hours'), 'Time.hour');
+    text = text.replace(escRegex('model.time.days'), 'Time.day');
     text = text.replace(escRegex('model.time.day'), 'Time.day');
 
     text = text.replace(escRegex('gameOver()'), 'return gameOverMenu()');
@@ -323,6 +324,7 @@ function fixText(text: string): string {
     text = text.replace(escRegex('export function timeChange'), 'public timeChange');
     text = text.replace(escRegex('export function timeChangeLarge'), 'public timeChangeLarge');
     text = funcReplacer(text, /player\.body\.\w+\.get\(([^\d])/, ')', (match, p1, p2) => p1 + p2);
+    text = text.replace(/player\.body\.tail\.type\s*>\s*TailType.NONE/g, 'player.body.tails.length > 0');
 
     return text;
 }
@@ -592,13 +594,12 @@ function fixBaseContent(text: string, className: string): string {
             'return { choices: [ ' +
             choices.reduce(
                 (prev, curr, index) =>
-                    prev + (!(index % 2) ? `[${curr}, ` : `${curr}], `),
+                    prev + (index % 2 === 0 ? `[${curr}, ` : `${curr}], `),
                 '') +
             ' ] }'
     );
-    text = funcReplacer(text, 'doYesNo(', ');', (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`
-    );
-    // Unknown - addButton
+    text = funcReplacer(text, 'doYesNo(', ');', (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`);
+    text = funcReplacer(text, 'addButton(', ')', (match, index, choiceText, choiceFunc, ...args) => `choices[${index}] = [${choiceText}, ${args ? [choiceFunc].concat(args).join(', ') : choiceFunc }]`);
     // Unused - hasButton
     text = text.replace(escRegex('sackDescript()'), 'describeSack(player)');
     // Manual - cockClit
@@ -641,8 +642,8 @@ function fixBaseContent(text: string, className: string): string {
         (match, ...stats) => {
             let op;
             return stats.reduce((prev, curr, index) => {
-                if (!(index % 2)) {
-                    op = curr[curr.length - 1];
+                if (index % 2 === 0) {
+                    op = curr[curr.length - 2];
                     if (op === '=' || op === '+' || op === '-')
                         return prev + `player.stats.${curr.substr(1, curr.length - 3)} `;
                     else
@@ -1223,7 +1224,7 @@ function fixCreatureClass(text: string, name: string): string {
     text = text.replace(escRegex(`${name}.sirMadam(true)`), `sirMadam(${name}, true)`);
     text = text.replace(escRegex(`${name}.sirMadam(false)`), `sirMadam(${name}, false)`);
     text = funcReplacer(text, name + '.createCock(', ')', (match, ...args) => `${name}.body.cocks.add(new Cock(${args.join(', ')}))`);
-    text = funcReplacer(text, name + '.createVagina(', ')', (match, arg1, arg2, arg3) => `${name}.body.vaginas.add(new Vagina(${arg2}, ${arg3}, ${arg1}))`);
+    text = funcReplacer(text, name + '.createVagina(', ')', (match, ...args) => args.length !== 3 ? match : `${name}.body.vaginas.add(new Vagina(${args[1]}, ${args[2]}, ${args[0]}))`);
     // Manual - createVagina(virgin, vaginalWetness)
     // Manual - createVagina(virgin)
     text = text.replace(escRegex(`${name}.createVagina()`), `${name}.body.vaginas.add(new Vagina())`);
@@ -1254,8 +1255,8 @@ function fixCreatureClass(text: string, name: string): string {
     // Remove - fixFuckingCockTypesEnum
     text = funcReplacer(text, name + '.buttChangeNoDisplay(', ')', (match, amt) => `stretchButt(${name}, ${amt})`);
     text = funcReplacer(text, name + '.cuntChangeNoDisplay(', ')', (match, amt) => `stretchVagina(${name}, ${amt})`);
-    text = text.replace(escRegex(`${name}.inHeat()`), `${name}.effects.has(Effect.Heat)`);
-    text = text.replace(escRegex(`${name}.inRut()`), `${name}.effects.has(Effect.Rut)`);
+    text = text.replace(escRegex(`${name}.inHeat`), `${name}.effects.has(StatusEffectType.Heat)`);
+    text = text.replace(escRegex(`${name}.inRut`), `${name}.effects.has(StatusEffectType.Rut)`);
     // OK - bonusFertility
     // OK - totalFertility
     text = text.replace(escRegex(`${name}.isBiped()`), `${name}.body.legs.isBiped()`);
