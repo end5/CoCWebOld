@@ -18,11 +18,11 @@ export function randomChoice<T>(arg: T | T[], ...args: T[]): T {
 }
 
 /**
- * Returns the floor of a rand( number from 0 to max. The maximum is exclusive and the minimum is inclusive.
+ * Returns the floor of a random number from 0 to max. The maximum is exclusive and the minimum is inclusive.
  * @param max
  */
 export function randInt(max: number): number {
-    return Math.floor(Math.random() * Math.floor(max)); //
+    return Math.floor(Math.random() * Math.floor(max));
 }
 
 export function percentChance(percent: number): boolean {

@@ -5,14 +5,14 @@ import {
     List,
     ReduceOption,
     SortOption
-    } from '../../Engine/Utilities/List';
+} from '../../Engine/Utilities/List';
 import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
 import { Character } from '../Character/Character';
 import { Item } from '../Items/Item';
 import { ItemFactory } from '../Items/ItemFactory';
 import { ItemType } from '../Items/ItemType';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
-import { ClickOption, NextScreenChoices, ClickFunction } from '../ScreenDisplay';
+import { NextScreenChoices, ClickFunction } from '../ScreenDisplay';
 
 export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     private itemSlots: List<ItemStack<T>> = new List();
@@ -36,7 +36,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     }
 
     public has(itemName: string): boolean {
-        return this.filterName(itemName).length > 0;
+        return !!this.itemSlots.find(Inventory.FilterName(itemName));
     }
 
     public get(index: number): ItemStack<T> {
@@ -129,6 +129,13 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
 
     public static TotalQuantity: ReduceOption<ItemStack<Item>, number> = (previousValue: number, currentValue: ItemStack<Item>, index: number, array: ItemStack<Item>[]) => {
         return previousValue + currentValue.quantity;
+    }
+
+    public static TotalQuantityOf(name: string): ReduceOption<ItemStack<Item>, number> {
+        return (prev: number, curr: ItemStack<Item>) => {
+            if (curr.item.name === name)
+                return prev + curr.quantity;
+        };
     }
 
     public static EmptySlot: FilterOption<ItemStack<Item>> = (a: ItemStack<Item>) => {

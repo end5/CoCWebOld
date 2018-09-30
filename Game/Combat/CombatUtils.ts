@@ -2,6 +2,15 @@
 import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 
+/**
+ * Performs a combat dodge calculation
+ * @param char The current char
+ * @param dodgingChar The char performing the dodge
+ */
+export function combatDodge(char: Character, dodgingChar: Character): boolean {
+    return combatMiss(dodgingChar, char) || combatEvade(dodgingChar, char) || combatFlexibility(dodgingChar, char) || combatMisdirect(dodgingChar, char);
+}
+
 export function combatMiss(character: Character, monster: Character): boolean {
     return character.stats.spe - monster.stats.spe > 0 && randInt(((character.stats.spe - monster.stats.spe) / 4) + 80) > 80;
 

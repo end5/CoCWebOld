@@ -1,5 +1,5 @@
 import { Character } from '../../Character/Character';
-import { ClickOption, NextScreenChoices } from '../../ScreenDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 
 export interface CombatAction {
     /**
@@ -25,5 +25,5 @@ export interface CombatAction {
     /**
      * Call for using the Combat Action.
      */
-    use(character: Character, target: Character): NextScreenChoices;
+    use(character: Character, target: Character): void | NextScreenChoices;
 }

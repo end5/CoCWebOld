@@ -102,6 +102,10 @@ export class BreastRow implements ISerializable<BreastRow> {
         return previousValue + currentValue.nipples.count;
     }
 
+    public static readonly TotalBreasts: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+        return previousValue + currentValue.count;
+    }
+
     public rating: BreastCup;
     public lactationMultiplier: number;
     // Fullness used for lactation....if 75 or greater warning bells start going off!

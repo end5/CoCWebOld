@@ -85,4 +85,7 @@ export abstract class EndScenes extends CharacterHolder {
             return enemy.combat.endScenes.defeatScene(howYouWon, this.char);
         }
     }
+
+    protected abstract defeatAwardScene(): NextScreenChoices;
+    protected abstract victoryAwardScene(): NextScreenChoices;
 }
