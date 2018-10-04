@@ -1,8 +1,8 @@
 import { Material } from './Material';
 import { MaterialName } from './MaterialName';
 import { Character } from '../../Character/Character';
-import { Scenes } from '../../Scenes/Scenes';
 import { ItemDesc } from '../ItemDesc';
+import { kitsuneStatue } from '../../Scenes/Areas/Forest/KitsuneScene';
 
 export class KitsuneStatue extends Material {
     public constructor() {
@@ -16,6 +16,6 @@ export class KitsuneStatue extends Material {
     }
 
     public useText(character: Character) {
-        Scenes.forest.kitsuneScene.kitsuneStatue(character);
+        kitsuneStatue(character);
     }
 }

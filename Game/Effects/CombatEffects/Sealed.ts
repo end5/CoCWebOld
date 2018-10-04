@@ -1,7 +1,7 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class Sealed extends CombatEffect {
     public update(character: Character) {
@@ -11,8 +11,8 @@ export class Sealed extends CombatEffect {
             if (character.combat.effects.get(CombatEffectType.Sealed).value1 <= 0)
                 character.combat.effects.remove(CombatEffectType.Sealed);
             else {
-                DisplayText("One of your combat abilities is currently sealed by magic!").bold();
-                DisplayText("\n\n");
+                CView.text("<b>One of your combat abilities is currently sealed by magic!</b>");
+                CView.text("\n\n");
             }
         }
     }

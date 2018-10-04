@@ -1,6 +1,5 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { ArmType } from '../../Body/Arms';
 import { BreastRow } from '../../Body/BreastRow';
 import { Cock } from '../../Body/Cock';
@@ -9,7 +8,6 @@ import { FaceType } from '../../Body/Face';
 import { AntennaeType } from '../../Body/Antennae';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
-import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
 import { TongueType } from '../../Body/Tongue';
 import { Vagina, VaginaType } from '../../Body/Vagina';
@@ -18,6 +16,8 @@ import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 import { Gender } from '../../Body/GenderIdentity';
+import { CView } from '../../../Engine/Display/ContentView';
+import { humanRaceScore } from '../../Body/RaceScore';
 
 export class Hummus extends Consumable {
     public constructor() {
@@ -25,13 +25,13 @@ export class Hummus extends Consumable {
     }
 
     public use(character: Character) {
-        DisplayText().clear();
+        CView.clear();
         /*if (Game.debug) {
-            DisplayText("You're about to eat the humus when you see it has bugs in it. Not wanting to eat bugged humus or try to debug it you throw it into the portal and find something else to eat.");
+            CView.text("You're about to eat the humus when you see it has bugs in it. Not wanting to eat bugged humus or try to debug it you throw it into the portal and find something else to eat.");
             character.inventory.items.destroyItems(consumables.HUMMUS_, 1);
             return;
         }*/
-        DisplayText("You shovel the stuff into your face, not sure WHY you're eating it, but once you start, you just can't stop.  It tastes incredibly bland, and with a slight hint of cheese.");
+        CView.text("You shovel the stuff into your face, not sure WHY you're eating it, but once you start, you just can't stop.  It tastes incredibly bland, and with a slight hint of cheese.");
         character.stats.str = 30;
         character.stats.spe = 30;
         character.stats.tou = 30;
@@ -41,11 +41,11 @@ export class Hummus extends Consumable {
         character.stats.cor = 5;
         character.stats.lust = 10;
         character.body.hair.type = 0;
-        if (RaceScore.humanScore(character) > 4) {
-            DisplayText("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?");
+        if (humanRaceScore(character) > 4) {
+            CView.text("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?");
         }
         else {
-            DisplayText("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
+            CView.text("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
         }
         character.body.arms.type = ArmType.HUMAN;
         character.body.eyes.type = EyeType.HUMAN;

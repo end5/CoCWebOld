@@ -61,7 +61,7 @@ export abstract class Character extends Creature implements ISerializable<Charac
     }
 
     public update(hours: number) {
-        this.pregnancy.update(hours);
+        this.body.update(hours);
         this.regeneration();
     }
 
@@ -133,11 +133,11 @@ export abstract class Character extends Creature implements ISerializable<Charac
     }
 
     public canOvipositSpider(): boolean {
-        return this.pregnancy.ovipositor.canOviposit() && this.body.legs.isDrider() && this.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).length > 0;
+        return this.body.ovipositor.canOviposit() && this.body.legs.isDrider() && this.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).length > 0;
     }
 
     public canOvipositBee(): boolean {
-        return this.pregnancy.ovipositor.canOviposit() && this.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0;
+        return this.body.ovipositor.canOviposit() && this.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0;
     }
 
     public slimeFeed() {

@@ -1,10 +1,10 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
-import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
+import { displayModTone } from '../../Modifiers/BodyModifier';
 
 export class VitalityTincture extends Consumable {
     public constructor() {
@@ -13,8 +13,8 @@ export class VitalityTincture extends Consumable {
 
     public use(character: Character) {
         character.slimeFeed();
-        DisplayText().clear();
-        DisplayText("You down the contents of the bottle. The liquid is thick and tastes remarkably like cherries. Within moments, you feel much more fit and healthy.");
+        CView.clear();
+        CView.text("You down the contents of the bottle. The liquid is thick and tastes remarkably like cherries. Within moments, you feel much more fit and healthy.");
         // str change
         let strChange: number = randInt(3);
         character.stats.str = strChange;
@@ -31,9 +31,9 @@ export class VitalityTincture extends Consumable {
         // Chance of fitness change
         if (character.stats.HP + 50 !== character.stats.maxHP()) {
             character.stats.HP += 50;
-            DisplayText("  Any aches, pains and bruises you have suffered no longer hurt and you feel much better.");
+            CView.text("  Any aches, pains and bruises you have suffered no longer hurt and you feel much better.");
         }
         if (randInt(3) === 0)
-            DisplayText(Mod.Body.displayModTone(character, 95, 3));
+            CView.text(displayModTone(character, 95, 3));
     }
 }

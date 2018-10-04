@@ -12,6 +12,16 @@ export class Womb implements ISerializable<Womb> {
         return a.isPregnant();
     }
 
+    public static readonly NotPregnant: FilterOption<Womb> = (a: Womb) => {
+        return !a.isPregnant();
+    }
+
+    public static PregnantWithType(type: PregnancyType): FilterOption<Womb> {
+        return (a: Womb) => {
+            return a.isPregnant() && a.pregnancy.type === type;
+        };
+    }
+
     protected currentPregnancy: Pregnancy;
     protected pregEvent: IPregnancyEvent;
     protected body: Body;

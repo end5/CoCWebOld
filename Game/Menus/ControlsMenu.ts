@@ -1,4 +1,3 @@
-import { DisplayText } from '../../Engine/display/DisplayText';
 import { ButtonElement } from '../../Engine/Display/Elements/ButtonElement';
 import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
 import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
@@ -7,18 +6,19 @@ import { InputManager } from '../../Engine/Input/InputManager';
 import { KeyCombination } from '../../Engine/Input/KeyCombination';
 import { NextScreenChoices } from '../ScreenDisplay';
 import { settingsMenu } from './SettingsMenu';
+import { CView } from '../../Engine/Display/ContentView';
 
 export function controlsMenu(): NextScreenChoices {
-    DisplayText().clear();
-    DisplayText("<b>Keyboard Control Bindings:</b>\n\n");
-    DisplayText("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
-    DisplayText("Custom bindings are stored inside your save game files.\n\n");
-    DisplayText("Duplicate keys are automatically unbound from their old control action.\n\n");
-    DisplayText("<b>Reset Ctrls</b> will reset all of the control bindings to their defaults.\n\n");
-    DisplayText("<b>Clear Ctrls</b> will remove all of the current control bindings, leaving everything Unbound.\n\n");
+    CView.clear();
+    CView.text("<b>Keyboard Control Bindings:</b>\n\n");
+    CView.text("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
+    CView.text("Custom bindings are stored inside your save game files.\n\n");
+    CView.text("Duplicate keys are automatically unbound from their old control action.\n\n");
+    CView.text("<b>Reset Ctrls</b> will reset all of the control bindings to their defaults.\n\n");
+    CView.text("<b>Clear Ctrls</b> will remove all of the current control bindings, leaving everything Unbound.\n\n");
 
     const bindListElement = new UnorderedListElement();
-    DisplayText().appendElement(bindListElement);
+    CView.textElement.appendElement(bindListElement);
 
     listBindableAction(bindListElement, "Stats", BindableAction.Stats);
     listBindableAction(bindListElement, "Level Up", BindableAction.LevelUp);
@@ -104,8 +104,8 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
 }
 
 function resetControls(): NextScreenChoices {
-    DisplayText().clear();
-    DisplayText("Are you sure you want to reset all of the currently bound controls to their defaults?");
+    CView.clear();
+    CView.text("Are you sure you want to reset all of the currently bound controls to their defaults?");
 
     return { yes: resetControlsYes, no: controlsMenu };
 }
@@ -113,16 +113,16 @@ function resetControls(): NextScreenChoices {
 function resetControlsYes(): NextScreenChoices {
     InputManager.resetAll();
 
-    DisplayText().clear();
-    DisplayText("Controls have been reset to defaults!");
+    CView.clear();
+    CView.text("Controls have been reset to defaults!");
 
     return { next: controlsMenu };
 }
 
 function clearControls(): NextScreenChoices {
 
-    DisplayText().clear();
-    DisplayText("Are you sure you want to clear all of the currently bound controls?");
+    CView.clear();
+    CView.text("Are you sure you want to clear all of the currently bound controls?");
 
     return { yes: clearControlsYes, no: controlsMenu };
 }
@@ -130,8 +130,8 @@ function clearControls(): NextScreenChoices {
 function clearControlsYes(): NextScreenChoices {
     InputManager.clearAll();
 
-    DisplayText().clear();
-    DisplayText("Controls have been cleared!");
+    CView.clear();
+    CView.text("Controls have been cleared!");
 
     return { next: controlsMenu };
 }

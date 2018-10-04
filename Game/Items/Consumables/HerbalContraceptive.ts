@@ -1,9 +1,9 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class HerbalContraceptive extends Consumable {
     public constructor() {
@@ -11,10 +11,10 @@ export class HerbalContraceptive extends Consumable {
     }
 
     public use(character: Character) {
-        DisplayText().clear();
+        CView.clear();
 
         // Placeholder, sue me
-        DisplayText("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
+        CView.text("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
 
         character.effects.add(StatusEffectType.Contraceptives, 1, 48, 0, 0);
     }

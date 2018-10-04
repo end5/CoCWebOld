@@ -1,11 +1,10 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { CombatEffect } from '../CombatEffect';
-import { CombatEffectFactory } from '../CombatEffectFactory';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class UBERWEB extends CombatEffect {
     public update(character: Character) {
-        DisplayText("You're pinned under a pile of webbing!  You should probably struggle out of it and get back in the fight!").bold();
-        DisplayText("\n\n");
+        CView.text("<b>You're pinned under a pile of webbing!  You should probably struggle out of it and get back in the fight!</b>");
+        CView.text("\n\n");
     }
 }

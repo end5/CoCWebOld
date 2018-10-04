@@ -1,13 +1,13 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
-import { Mod } from '../../Modifiers/Modifiers';
 import { ItemDesc } from '../ItemDesc';
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { Gender } from '../../Body/GenderIdentity';
+import { CView } from '../../../Engine/Display/ContentView';
+import { displayGoIntoHeat, displayGoIntoRut } from '../../Modifiers/BodyModifier';
 
 export class LustDraft extends Consumable {
     private enhanced: boolean;
@@ -21,40 +21,40 @@ export class LustDraft extends Consumable {
 
     public use(character: Character) {
         character.slimeFeed();
-        DisplayText().clear();
-        DisplayText("You drink the ");
-        if (this.enhanced) DisplayText("red");
-        else DisplayText("pink");
-        DisplayText(" potion, and its unnatural warmth immediately flows to your groin.");
+        CView.clear();
+        CView.text("You drink the ");
+        if (this.enhanced) CView.text("red");
+        else CView.text("pink");
+        CView.text(" potion, and its unnatural warmth immediately flows to your groin.");
         character.stats.lustNoResist += 30 + randInt(character.stats.lib / 10);
 
         // Heat/Rut for those that can have them if "fuck draft"
         if (this.enhanced) {
             // Try to go into intense heat.
-            Mod.Body.displayGoIntoHeat(character, 2);
+            displayGoIntoHeat(character, 2);
             // Males go into rut
-            Mod.Body.displayGoIntoRut(character);
+            displayGoIntoRut(character);
         }
         // ORGAZMO
         if (character.stats.lust >= 100){ // && !Game.inCombat) {
-            DisplayText("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + character.inventory.equipment.armor.displayName + " and look down as your ");
+            CView.text("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + character.inventory.equipment.armor.displayName + " and look down as your ");
             if (character.body.cocks.length > 0) {
-                DisplayText(describeCocksLight(character) + " erupts in front of you, liberally spraying the ground around you.  ");
+                CView.text(describeCocksLight(character) + " erupts in front of you, liberally spraying the ground around you.  ");
             }
             if (character.body.cocks.length > 0 && character.body.vaginas.length > 0) {
-                DisplayText("At the same time your ");
+                CView.text("At the same time your ");
             }
             if (character.body.vaginas.length > 0) {
-                DisplayText(describeVagina(character, character.body.vaginas.get(0)) + " soaks your thighs.  ");
+                CView.text(describeVagina(character, character.body.vaginas.get(0)) + " soaks your thighs.  ");
             }
-            if (character.gender === Gender.NONE) DisplayText("body begins to quiver with orgasmic bliss.  ");
-            DisplayText("Once you've had a chance to calm down, you notice that the explosion of pleasure you just experienced has rocked you to your core.  You are a little hornier than you were before.");
+            if (character.gender === Gender.NONE) CView.text("body begins to quiver with orgasmic bliss.  ");
+            CView.text("Once you've had a chance to calm down, you notice that the explosion of pleasure you just experienced has rocked you to your core.  You are a little hornier than you were before.");
             // increase character libido, and maybe sensitivity too?
             character.orgasm();
             character.stats.lib += 2;
             character.stats.sens += 1;
         }
         if (character.stats.lust > 100) character.stats.lust = 100;
-        DisplayText("\n\n");
+        CView.text("\n\n");
     }
 }

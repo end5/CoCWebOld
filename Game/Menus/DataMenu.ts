@@ -1,4 +1,3 @@
-import { DisplayText } from '../../Engine/display/DisplayText';
 import { AnchorElement } from '../../Engine/Display/Elements/AnchorElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Character } from '../Character/Character';
@@ -8,18 +7,19 @@ import { saveMenu } from './SaveMenu';
 import { loadMenu } from './LoadMenu';
 import { deleteMenu } from './DeleteMenu';
 import { mainMenu } from './MainMenu';
+import { CView } from '../../Engine/Display/ContentView';
 
 function displayInfo() {
-    DisplayText().clear();
-    DisplayText("<b>Where are my saves located?</b>\n");
-    DisplayText("<i>In Windows Vista/7 (IE/FireFox/Other): <pre>Users/{username}/Appdata/Roaming/Macromedia/Flash Character/#Shared Objects/{GIBBERISH}/</pre>\n\n");
-    DisplayText("In Windows Vista/7 (Chrome): <pre>Users/{username}/AppData/Local/Google/Chrome/User Data/Default/Pepper Data/Shockwave Flash/WritableRoot/#SharedObjects/{GIBBERISH}/</pre>\n\n");
-    DisplayText("Inside that folder it will saved in a folder corresponding to where it was played from.  If you saved the CoC.swf to your HDD, then it will be in a folder called localhost.  If you played from my website, it will be in fenoxo.com.  The save files will be labelled CoC_1.sol, CoC_2.sol, CoC_3.sol, etc.</i>\n\n");
-    DisplayText("<b>Why do my saves disappear all the time?</b>\n<i>There are numerous things that will wipe out flash local shared files.  If your browser or character is set to delete flash cookies or data, that will do it.  CCleaner will also remove them.  CoC or its updates will never remove your savegames - if they disappear something else is wiping them out.</i>\n\n");
-    DisplayText("<b>When I play from my HDD I have one set of saves, and when I play off your site I have a different set of saves.  Why?</b>\n<i>Flash stores saved data relative to where it was accessed from.  Playing from your HDD will store things in a different location than fenoxo.com or FurAffinity.</i>\n");
-    DisplayText("<i>If you want to be absolutely sure you don't lose a character, copy the .sol file for that slot out and back it up! <b>For more information, google flash shared objects.</b></i>\n\n");
-    DisplayText("<b>Why does the Save File and Load File option not work?</b>\n");
-    DisplayText("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
+    CView.clear();
+    CView.text("<b>Where are my saves located?</b>\n");
+    CView.text("<i>In Windows Vista/7 (IE/FireFox/Other): <pre>Users/{username}/Appdata/Roaming/Macromedia/Flash Character/#Shared Objects/{GIBBERISH}/</pre>\n\n");
+    CView.text("In Windows Vista/7 (Chrome): <pre>Users/{username}/AppData/Local/Google/Chrome/User Data/Default/Pepper Data/Shockwave Flash/WritableRoot/#SharedObjects/{GIBBERISH}/</pre>\n\n");
+    CView.text("Inside that folder it will saved in a folder corresponding to where it was played from.  If you saved the CoC.swf to your HDD, then it will be in a folder called localhost.  If you played from my website, it will be in fenoxo.com.  The save files will be labelled CoC_1.sol, CoC_2.sol, CoC_3.sol, etc.</i>\n\n");
+    CView.text("<b>Why do my saves disappear all the time?</b>\n<i>There are numerous things that will wipe out flash local shared files.  If your browser or character is set to delete flash cookies or data, that will do it.  CCleaner will also remove them.  CoC or its updates will never remove your savegames - if they disappear something else is wiping them out.</i>\n\n");
+    CView.text("<b>When I play from my HDD I have one set of saves, and when I play off your site I have a different set of saves.  Why?</b>\n<i>Flash stores saved data relative to where it was accessed from.  Playing from your HDD will store things in a different location than fenoxo.com or FurAffinity.</i>\n");
+    CView.text("<i>If you want to be absolutely sure you don't lose a character, copy the .sol file for that slot out and back it up! <b>For more information, google flash shared objects.</b></i>\n\n");
+    CView.text("<b>Why does the Save File and Load File option not work?</b>\n");
+    CView.text("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
 }
 
 export function dataMenu(character: Character): NextScreenChoices {
@@ -62,7 +62,7 @@ function autosaveToggle(character: Character): NextScreenChoices {
 function saveToFile(character: Character): NextScreenChoices {
     const saveFile = generateSave();
     const anchor = new AnchorElement();
-    DisplayText().appendElement(anchor);
+    CView.textElement.appendElement(anchor);
     const blob = new Blob([JSON.stringify(saveFile)], { type: 'text/json' });
     // tslint:disable-next-line:no-string-literal
     if (!!window["StyleMedia"]) // IE Edge

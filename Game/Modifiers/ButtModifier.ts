@@ -1,9 +1,9 @@
-﻿import { DisplayText } from '../../Engine/display/DisplayText';
-import { randInt } from '../../Engine/Utilities/SMath';
+﻿import { randInt } from '../../Engine/Utilities/SMath';
 import { ButtLooseness } from '../Body/Butt';
 import { Character } from '../Character/Character';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { describeButthole } from '../Descriptors/ButtDescriptor';
+import { CView } from '../../Engine/Display/ContentView';
 
 export function stretchButt(character: Character, buttArea: number): boolean {
     let stretched: boolean = false;
@@ -50,13 +50,13 @@ export function displayStretchButt(character: Character, cArea: number, display:
     const stretched: boolean = stretchButt(character, cArea);
     // STRETCH SUCCESSFUL - begin flavor text if outputting it!
     if (stretched && display) {
-        if (spacingsF) DisplayText("  ");
-        if (character.body.butt.looseness === 5) DisplayText("<b>Your " + describeButthole(character.body.butt) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
-        if (character.body.butt.looseness === 4) DisplayText("<b>Your " + describeButthole(character.body.butt) + " becomes so stretched that it gapes continually.</b>");
-        if (character.body.butt.looseness === 3) DisplayText("<b>Your " + describeButthole(character.body.butt) + " is now very loose.</b>");
-        if (character.body.butt.looseness === 2) DisplayText("<b>Your " + describeButthole(character.body.butt) + " is now a little loose.</b>");
-        if (character.body.butt.looseness === 1) DisplayText("<b>You have lost your anal virginity.</b>");
-        if (spacingsB) DisplayText("  ");
+        if (spacingsF) CView.text("  ");
+        if (character.body.butt.looseness === 5) CView.text("<b>Your " + describeButthole(character.body.butt) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
+        if (character.body.butt.looseness === 4) CView.text("<b>Your " + describeButthole(character.body.butt) + " becomes so stretched that it gapes continually.</b>");
+        if (character.body.butt.looseness === 3) CView.text("<b>Your " + describeButthole(character.body.butt) + " is now very loose.</b>");
+        if (character.body.butt.looseness === 2) CView.text("<b>Your " + describeButthole(character.body.butt) + " is now a little loose.</b>");
+        if (character.body.butt.looseness === 1) CView.text("<b>You have lost your anal virginity.</b>");
+        if (spacingsB) CView.text("  ");
     }
     return stretched;
 }

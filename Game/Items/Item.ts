@@ -2,7 +2,6 @@ import { ItemDesc } from './ItemDesc';
 import { ItemType } from './ItemType';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { Character } from '../Character/Character';
-import { NextScreenChoices } from '../ScreenDisplay';
 
 export abstract class Item implements ISerializable<Item> {
     public static readonly DefaultValue: number = 6;

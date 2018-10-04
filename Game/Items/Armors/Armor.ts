@@ -1,10 +1,10 @@
 import { ArmorName } from './ArmorName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { EquipableItem } from '../EquipableItem';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
 
@@ -34,7 +34,7 @@ export class Armor extends EquipableItem {
     }
 
     public useText(character: Character): void {
-        DisplayText("You equip " + this.desc.longName + ".  ");
+        CView.text("You equip " + this.desc.longName + ".  ");
     }
 
     public describe(): string {

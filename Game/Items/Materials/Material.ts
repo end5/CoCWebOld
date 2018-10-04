@@ -1,9 +1,9 @@
 import { MaterialName } from './MaterialName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { Item } from '../Item';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class Material extends Item {
     private readonly useDesc: string;
@@ -19,6 +19,6 @@ export class Material extends Item {
     public use(character: Character) { }
 
     public useText(character: Character) {
-        DisplayText(this.useDesc);
+        CView.text(this.useDesc);
     }
 }

@@ -1,12 +1,13 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 import { User } from '../../User';
+import { CView } from '../../../Engine/Display/ContentView';
+import { Womb } from '../../Body/Pregnancy/Womb';
 
 export const PhoukaWhiskeyFlags = {
     PREGNANCY_CORRUPTION: 0,
@@ -22,16 +23,16 @@ export class PhoukaWhiskey extends Consumable {
     public canUse(character: Character): boolean {
         switch (this.phoukaWhiskeyAcceptable(character)) {
             case -4:
-                DisplayText("You stare at the bottle for a moment, but decide not to risk harming one of the children growing inside you.\n\n");
+                CView.text("You stare at the bottle for a moment, but decide not to risk harming one of the children growing inside you.\n\n");
                 return false;
             case -3:
-                DisplayText("You stare at the bottle for a moment, but decide not to risk harming either of the children growing inside you.\n\n");
+                CView.text("You stare at the bottle for a moment, but decide not to risk harming either of the children growing inside you.\n\n");
                 return false;
             case -2:
-                DisplayText("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your colon.\n\n");
+                CView.text("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your colon.\n\n");
                 return false;
             case -1:
-                DisplayText("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your womb.\n\n");
+                CView.text("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your womb.\n\n");
                 return false;
             default:
         }
@@ -42,18 +43,18 @@ export class PhoukaWhiskey extends Consumable {
         character.slimeFeed();
         switch (this.phoukaWhiskeyDrink(character)) {
             case 0: // Character isn't pregnant
-                DisplayText("You uncork the bottle and drink some whiskey, hoping it will let you relax for a while.\n\nIt's strong stuff and afterwards you worry a bit less about the future.  Surely things will right themselves in the end.");
+                CView.text("You uncork the bottle and drink some whiskey, hoping it will let you relax for a while.\n\nIt's strong stuff and afterwards you worry a bit less about the future.  Surely things will right themselves in the end.");
                 character.stats.cor += randInt(2) + 1; // These gains are permanent
                 character.stats.lust += randInt(8) + 1;
                 break;
             case 1: // Child is a phouka or satyr, loves alcohol
-                DisplayText("You uncork the bottle and drink some whiskey, hoping it will help with the gnawing hunger for alcohol you've had since this baby started growing inside you.\n\nYou down the booze in one shot and a wave of contentment washes over you.  It seems your passenger enjoyed the meal.");
+                CView.text("You uncork the bottle and drink some whiskey, hoping it will help with the gnawing hunger for alcohol you've had since this baby started growing inside you.\n\nYou down the booze in one shot and a wave of contentment washes over you.  It seems your passenger enjoyed the meal.");
                 break;
             case 2: // Child is a faerie but will become a phouka with this drink
-                DisplayText("At first you feel your baby struggle against the whiskey, then it seems to grow content and enjoy it.");
+                CView.text("At first you feel your baby struggle against the whiskey, then it seems to grow content and enjoy it.");
                 break;
             case 3: // Child is a faerie, hates phouka whiskey
-                DisplayText("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
+                CView.text("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
         }
         PhoukaWhiskeyFlags.PREGNANCY_CORRUPTION++; // Faerie or phouka babies become more corrupted, no effect if the character is not pregnant or on other types of babies
         this.phoukaWhiskeyAddStatus(character);
@@ -63,19 +64,19 @@ export class PhoukaWhiskey extends Consumable {
         // This function provides a single common test that can be used both by this class and the PhoukaScene class
         // Returns:	0 = canUse (not pregnant), 1 = canUse (single pregnancy, womb), 2 = canUse (single pregnancy, colon), 3 = canUse (double pregnancy, both OK),
         // 			-1 = No (single pregnancy, womb), -2 = No (single pregnancy, colon), -3 = No (double pregnancy, both not OK), -4 = No (double pregnancy, one OK, one not)
-        if (!character.pregnancy.womb.isPregnant()) {
-            if (!character.pregnancy.buttWomb.isPregnant()) return 0; // No baby. Simplest, most common case
-            else if (character.pregnancy.buttWomb.isPregnantWith(PregnancyType.SATYR)) return 2;
+        if (character.body.wombs.find(Womb.NotPregnant)) {
+            if (!character.body.buttWomb.isPregnant()) return 0; // No baby. Simplest, most common case
+            else if (character.body.buttWomb.isPregnantWith(PregnancyType.SATYR)) return 2;
             return -2;
         }
         if (!character.body.butt) { // Single pregnancy, carried in the womb
-            if (character.pregnancy.womb.isPregnantWith(PregnancyType.SATYR)) return 1;
-            if (character.pregnancy.womb.isPregnantWith(PregnancyType.FAERIE)) return 1;
+            if (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.SATYR))) return 1;
+            if (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.FAERIE))) return 1;
             return -1;
         }
         // Double pregnancy
-        const wombBabyLikesAlcohol = (character.pregnancy.womb.isPregnantWith(PregnancyType.SATYR) || character.pregnancy.womb.isPregnantWith(PregnancyType.FAERIE));
-        const colonBabyLikesAlcohol = character.pregnancy.buttWomb.isPregnantWith(PregnancyType.SATYR);
+        const wombBabyLikesAlcohol = (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.SATYR)) || character.body.wombs.find(Womb.PregnantWithType(PregnancyType.FAERIE)));
+        const colonBabyLikesAlcohol = character.body.buttWomb.isPregnantWith(PregnancyType.SATYR);
         if (wombBabyLikesAlcohol && colonBabyLikesAlcohol) return 3;
         if (!wombBabyLikesAlcohol && !colonBabyLikesAlcohol) return -3;
         return -4;
@@ -85,8 +86,8 @@ export class PhoukaWhiskey extends Consumable {
         // This function provides a single common test that can be used both by this class and the PhoukaScene class
         // Returns:	0 = Character is not pregnant, 1 = Character is pregnant with a satyr or phouka, 2 = Character is pregnant with a faerie that will become a phouka with this drink,
         // 			3 = Character is pregnant with a faerie that will remain a faerie after this drink
-        if (!character.pregnancy.womb.isPregnant() && !character.pregnancy.buttWomb.isPregnant()) return 0;
-        if (character.pregnancy.womb.isPregnantWith(PregnancyType.FAERIE)) {
+        if (character.body.wombs.find(Womb.NotPregnant) && !character.body.buttWomb.isPregnant()) return 0;
+        if (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.FAERIE))) {
             if (PhoukaWhiskeyFlags.PREGNANCY_CORRUPTION === 0) return 2;
             if (PhoukaWhiskeyFlags.PREGNANCY_CORRUPTION < 0) return 3;
         }
@@ -107,7 +108,7 @@ export class PhoukaWhiskey extends Consumable {
             character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value2 = 1;
             character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value3 = 256 * libidoChange + sensChange;
             character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value4 = 256 * speedChange + intChange;
-            DisplayText("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
+            CView.text("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
             character.stats.lib += libidoChange;
             character.stats.sens -= sensChange;
             character.stats.spe -= speedChange;
@@ -139,10 +140,10 @@ export class PhoukaWhiskey extends Consumable {
         character.stats.int += intChange;
         character.effects.remove(StatusEffectType.PhoukaWhiskeyAffect);
         if (numDrunk > 3)
-            DisplayText("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
+            CView.text("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
         else if (numDrunk > 1)
-            DisplayText("\n<b>The fuzzy, happy feeling ebbs away.  With it goes the warmth and carefree feelings.  Your head aches and you wonder if you should have another whiskey, just to tide you over</b>\n");
+            CView.text("\n<b>The fuzzy, happy feeling ebbs away.  With it goes the warmth and carefree feelings.  Your head aches and you wonder if you should have another whiskey, just to tide you over</b>\n");
         else
-            DisplayText("\n<b>The fuzzy, happy feeling ebbs away.  The weight of the world’s problems seems to settle on you once more.  It was nice while it lasted and you wouldn’t mind having another whiskey.</b>\n");
+            CView.text("\n<b>The fuzzy, happy feeling ebbs away.  The weight of the world’s problems seems to settle on you once more.  It was nice while it lasted and you wouldn’t mind having another whiskey.</b>\n");
     }
 }

@@ -1,8 +1,8 @@
 import { Armor } from './Armor';
 import { ArmorName } from './ArmorName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class LeatherArmorSegments extends Armor {
     public constructor() {
@@ -10,7 +10,7 @@ export class LeatherArmorSegments extends Armor {
     }
 
     public unequipText(): void {
-        DisplayText("You have your old set of " + this.desc.longName + " left over.  ");
+        CView.text("You have your old set of " + this.desc.longName + " left over.  ");
     }
 
     public onUnequip(character: Character): void {

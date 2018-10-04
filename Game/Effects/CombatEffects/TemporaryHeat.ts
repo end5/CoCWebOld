@@ -1,4 +1,3 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { CombatEffect } from '../CombatEffect';
@@ -8,13 +7,14 @@ import { Gender } from '../../Body/GenderIdentity';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeCock } from '../../Descriptors/CockDescriptor';
 import { describeButthole } from '../../Descriptors/ButtDescriptor';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class TemporaryHeat extends CombatEffect {
     public update(character: Character) {
         if (character.perks.has(PerkType.Medicine) && randInt(100) <= 14) {
             character.combat.effects.remove(CombatEffectType.TemporaryHeat);
-            DisplayText("You manage to cleanse the heat and rut drug from your system with your knowledge of medicine!");
-            DisplayText("\n\n");
+            CView.text("You manage to cleanse the heat and rut drug from your system with your knowledge of medicine!");
+            CView.text("\n\n");
         }
         else {
             character.stats.lust += (character.stats.lib / 12 + 5 + randInt(5));
@@ -28,8 +28,8 @@ export class TemporaryHeat extends CombatEffect {
             if (character.gender === Gender.NONE) {
                 out = "You feel a tingle in your " + describeButthole(character.body.butt) + ", and the need to touch and fill it nearly overwhelms you.  ";
             }
-            DisplayText(out + "If you don't finish this soon you'll give in to this potent drug!");
-            DisplayText("\n\n");
+            CView.text(out + "If you don't finish this soon you'll give in to this potent drug!");
+            CView.text("\n\n");
         }
     }
 }

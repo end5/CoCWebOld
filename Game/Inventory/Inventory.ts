@@ -157,8 +157,8 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     }
 
     public consumeItem(itemName: string, amount: number = 1) {
-        if (this.filterName(itemName).length >= amount) {
-            const lowestItemStacks = this.filterName(itemName).sort(Inventory.LowestQuantity);
+        if (this.filter(Inventory.FilterName(itemName)).length >= amount) {
+            const lowestItemStacks = this.filter(Inventory.FilterName(itemName)).sort(Inventory.LowestQuantity);
             for (const itemStack of lowestItemStacks) {
                 if (itemStack.quantity === 0)
                     continue;

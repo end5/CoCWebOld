@@ -2,6 +2,7 @@ import { Weapon } from './Weapon';
 import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
 import { ItemDesc } from '../ItemDesc';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 
 export class JeweledRapier extends Weapon {
     public constructor() {
@@ -9,6 +10,6 @@ export class JeweledRapier extends Weapon {
     }
 
     public get attack(): number {
-        return (13 + playerFlags.RAPHAEL_RAPIER_TRANING * 2);
+        return (13 + PlayerFlags.RAPHAEL_RAPIER_TRANING * 2);
     }
 }

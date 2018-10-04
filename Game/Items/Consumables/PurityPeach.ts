@@ -1,8 +1,8 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class PurityPeach extends Consumable {
     public constructor() {
@@ -10,8 +10,8 @@ export class PurityPeach extends Consumable {
     }
 
     public use(character: Character) {
-        DisplayText().clear();
-        DisplayText("You bite into the sweet, juicy peach, feeling a sensation of energy sweeping through your limbs and your mind.  You feel revitalized, refreshed, and somehow cleansed.");
+        CView.clear();
+        CView.text("You bite into the sweet, juicy peach, feeling a sensation of energy sweeping through your limbs and your mind.  You feel revitalized, refreshed, and somehow cleansed.");
         character.stats.fatigue -= 15;
         character.stats.HP += Math.round(character.stats.maxHP() * 0.25);
     }

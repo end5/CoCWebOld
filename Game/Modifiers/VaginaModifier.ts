@@ -1,10 +1,10 @@
-﻿import { DisplayText } from '../../Engine/display/DisplayText';
-import { randInt } from '../../Engine/Utilities/SMath';
+﻿import { randInt } from '../../Engine/Utilities/SMath';
 import { Vagina, VaginaLooseness } from '../Body/Vagina';
 import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { describeVagina } from '../Descriptors/VaginaDescriptor';
+import { CView } from '../../Engine/Display/ContentView';
 
 export function stretchVagina(character: Character, vaginaArea: number): boolean {
     if (character.body.vaginas.length <= 0)
@@ -62,32 +62,32 @@ export function displayStretchVagina(character: Character, cArea: number, displa
     const stretched: boolean = stretchVagina(character, cArea);
     const devirgined: boolean = wasVirgin && !firstVagina.virgin;
     if (devirgined) {
-        if (spacingsF) DisplayText("  ");
-        DisplayText("<b>Your hymen is torn, robbing you of your virginity.</b>");
-        if (spacingsB) DisplayText("  ");
+        if (spacingsF) CView.text("  ");
+        CView.text("<b>Your hymen is torn, robbing you of your virginity.</b>");
+        if (spacingsB) CView.text("  ");
     }
     // STRETCH SUCCESSFUL - begin flavor text if outputting it!
     if (display && stretched) {
         // Virgins get different formatting
         if (devirgined) {
             // If no spaces after virgin loss
-            if (!spacingsB) DisplayText("  ");
+            if (!spacingsB) CView.text("  ");
         }
         // Non virgins as usual
-        else if (spacingsF) DisplayText("  ");
+        else if (spacingsF) CView.text("  ");
         if (firstVagina.looseness === VaginaLooseness.LEVEL_CLOWN_CAR)
-            DisplayText("<b>Your " + describeVagina(character, firstVagina) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
+            CView.text("<b>Your " + describeVagina(character, firstVagina) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
         if (firstVagina.looseness === VaginaLooseness.GAPING_WIDE)
-            DisplayText("<b>Your " + describeVagina(character, firstVagina) + " is stretched so wide that it gapes continually.</b>");
+            CView.text("<b>Your " + describeVagina(character, firstVagina) + " is stretched so wide that it gapes continually.</b>");
         if (firstVagina.looseness === VaginaLooseness.GAPING)
-            DisplayText("<b>Your " + describeVagina(character, firstVagina) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
+            CView.text("<b>Your " + describeVagina(character, firstVagina) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
         if (firstVagina.looseness === VaginaLooseness.LOOSE)
-            DisplayText("<b>Your " + describeVagina(character, firstVagina) + " is now very loose.</b>");
+            CView.text("<b>Your " + describeVagina(character, firstVagina) + " is now very loose.</b>");
         if (firstVagina.looseness === VaginaLooseness.NORMAL)
-            DisplayText("<b>Your " + describeVagina(character, firstVagina) + " is now a little loose.</b>");
+            CView.text("<b>Your " + describeVagina(character, firstVagina) + " is now a little loose.</b>");
         if (firstVagina.looseness === VaginaLooseness.TIGHT)
-            DisplayText("<b>Your " + describeVagina(character, firstVagina) + " is stretched out to a more normal size.</b>");
-        if (spacingsB) DisplayText("  ");
+            CView.text("<b>Your " + describeVagina(character, firstVagina) + " is stretched out to a more normal size.</b>");
+        if (spacingsB) CView.text("  ");
     }
     return stretched;
 }

@@ -1,11 +1,9 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt, randomChoice } from '../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../Body/BreastRow';
 import { SkinType } from '../../Body/Skin';
 import { Character } from '../../Character/Character';
-import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
@@ -15,6 +13,10 @@ import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeCocks, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBreastRow, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
+import { CView } from '../../../Engine/Display/ContentView';
+import { displayModThickness, displayModFem } from '../../Modifiers/BodyModifier';
+import { displayKillCocks, growCock, thickenCock, displayLengthChange } from '../../Modifiers/CockModifier';
+import { shrinkTits } from '../../Modifiers/BreastModifier';
 
 export const EggFlags = {
     PC_KNOWS_ABOUT_BLACK_EGGS: 0,
@@ -61,8 +63,6 @@ export function randAnySizeEgg(): ConsumableName {
     );
 
 }
-
-function 
 
 export enum EggType {
     Black,
@@ -154,70 +154,69 @@ export class Eggs extends Consumable {
 
     // butt expansion
     private brownEgg(character: Character): void {
-        DisplayText().clear();
-        DisplayText("You devour the egg, momentarily sating your hunger.\n\n");
+        CView.clear();
+        CView.text("You devour the egg, momentarily sating your hunger.\n\n");
         if (!this.large) {
-            DisplayText("You feel a bit of additional weight on your backside as your " + describeButt(character) + " gains a bit more padding.");
+            CView.text("You feel a bit of additional weight on your backside as your " + describeButt(character) + " gains a bit more padding.");
             character.body.butt.rating++;
         }
         else {
-            DisplayText("Your " + describeButt(character) + " wobbles, nearly throwing you off balance as it grows much bigger!");
+            CView.text("Your " + describeButt(character) + " wobbles, nearly throwing you off balance as it grows much bigger!");
             character.body.butt.rating += 2 + randInt(3);
         }
         if (randInt(3) === 0) {
             if (this.large)
-                DisplayText(Mod.Body.displayModThickness(character, 100, 8));
+                CView.text(displayModThickness(character, 100, 8));
             else
-                DisplayText(Mod.Body.displayModThickness(character, 95, 3));
+                CView.text(displayModThickness(character, 95, 3));
         }
     }
 
     // hip expansion
     private purpleEgg(character: Character): void {
-        DisplayText().clear();
-        DisplayText("You devour the egg, momentarily sating your hunger.\n\n");
+        CView.clear();
+        CView.text("You devour the egg, momentarily sating your hunger.\n\n");
         if (!this.large || character.body.hips.rating > 20) {
-            DisplayText("You stumble as you feel your " + describeHips(character) + " widen, altering your gait slightly.");
+            CView.text("You stumble as you feel your " + describeHips(character) + " widen, altering your gait slightly.");
             character.body.hips.rating++;
         }
         else {
-            DisplayText("You stagger wildly as your hips spread apart, widening by inches.  When the transformation finishes you feel as if you have to learn to walk all over again.");
+            CView.text("You stagger wildly as your hips spread apart, widening by inches.  When the transformation finishes you feel as if you have to learn to walk all over again.");
             character.body.hips.rating += 2 + randInt(2);
         }
         if (randInt(3) === 0) {
             if (this.large)
-                DisplayText(Mod.Body.displayModThickness(character, 80, 8));
+                CView.text(displayModThickness(character, 80, 8));
             else
-                DisplayText(Mod.Body.displayModThickness(character, 80, 3));
+                CView.text(displayModThickness(character, 80, 3));
         }
     }
 
     // Femminess
     private pinkEgg(character: Character): void {
-        DisplayText().clear();
-        DisplayText("You devour the egg, momentarily sating your hunger.\n\n");
+        CView.clear();
+        CView.text("You devour the egg, momentarily sating your hunger.\n\n");
         if (!this.large) {
             // Remove a dick
             if (character.body.cocks.length > 0) {
                 character.body.cocks.remove(0);
-                DisplayText("\n\n");
-                character.updateGender();
+                CView.text("\n\n");
             }
             // remove balls
             if (character.body.balls.count > 0) {
                 if (character.body.balls.size > 15) {
                     character.body.balls.size -= 8;
-                    DisplayText("Your scrotum slowly shrinks, settling down at a MUCH smaller size.  <b>Your " + describeBalls(true, true, character) + " are much smaller.</b>\n\n");
+                    CView.text("Your scrotum slowly shrinks, settling down at a MUCH smaller size.  <b>Your " + describeBalls(true, true, character) + " are much smaller.</b>\n\n");
                 }
                 else {
                     character.body.balls.count = 0;
                     character.body.balls.size = 1;
-                    DisplayText("Your scrotum slowly shrinks, eventually disappearing entirely!  <b>You've lost your balls!</b>\n\n");
+                    CView.text("Your scrotum slowly shrinks, eventually disappearing entirely!  <b>You've lost your balls!</b>\n\n");
                 }
             }
             // Fertility boost
             if (character.body.vaginas.length > 0 && character.body.fertility < 40) {
-                DisplayText("You feel a tingle deep inside your body, just above your " + describeVagina(character, character.body.vaginas.get(0)) + ", as if you were becoming more fertile.\n\n");
+                CView.text("You feel a tingle deep inside your body, just above your " + describeVagina(character, character.body.vaginas.get(0)) + ", as if you were becoming more fertile.\n\n");
                 character.body.fertility += 5;
             }
         }
@@ -225,24 +224,23 @@ export class Eggs extends Consumable {
         else {
             // Remove a dick
             if (character.body.cocks.length > 0) {
-                Mod.Cock.displayKillCocks(character, -1);
-                DisplayText("\n\n");
-                character.updateGender();
+                displayKillCocks(character, -1);
+                CView.text("\n\n");
             }
             if (character.body.balls.count > 0) {
                 character.body.balls.count = 0;
                 character.body.balls.size = 1;
-                DisplayText("Your scrotum slowly shrinks, eventually disappearing entirely!  <b>You've lost your balls!</b>\n\n");
+                CView.text("Your scrotum slowly shrinks, eventually disappearing entirely!  <b>You've lost your balls!</b>\n\n");
             }
             // Fertility boost
             if (character.body.vaginas.length > 0 && character.body.fertility < 70) {
-                DisplayText("You feel a powerful tingle deep inside your body, just above your " + describeVagina(character, character.body.vaginas.get(0)) + ". Instinctively you know you have become more fertile.\n\n");
+                CView.text("You feel a powerful tingle deep inside your body, just above your " + describeVagina(character, character.body.vaginas.get(0)) + ". Instinctively you know you have become more fertile.\n\n");
                 character.body.fertility += 10;
             }
         }
         if (randInt(3) === 0) {
-            if (this.large) DisplayText(Mod.Body.displayModFem(character, 100, 8));
-            else DisplayText(Mod.Body.displayModFem(character, 95, 3));
+            if (this.large) CView.text(displayModFem(character, 100, 8));
+            else CView.text(displayModFem(character, 95, 3));
         }
     }
 
@@ -250,44 +248,42 @@ export class Eggs extends Consumable {
     private blueEgg(character: Character): void {
         let cockAmountLengthened: number = 0;
         let cockAmountThickened: number = 0;
-        DisplayText().clear();
-        DisplayText("You devour the egg, momentarily sating your hunger.");
+        CView.clear();
+        CView.text("You devour the egg, momentarily sating your hunger.");
         if (!this.large) {
             // Kill pussies!
             if (character.body.vaginas.length > 0) {
-                DisplayText("\n\nYour vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it! <b> Your vagina is gone!</b>");
+                CView.text("\n\nYour vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it! <b> Your vagina is gone!</b>");
                 character.body.vaginas.remove(0);
-                // -- Don't understand this
-                // character.torso.vaginaSpot.get(0).clitLength = .5;
-                character.updateGender();
+                character.body.clit.length = .5;
             }
             // Dickz
             if (character.body.cocks.length > 0) {
                 // Multiz
                 if (character.body.cocks.length > 1) {
-                    DisplayText("\n\nYour " + describeCocks(character) + " fill to full-size... and begin growing obscenely.");
+                    CView.text("\n\nYour " + describeCocks(character) + " fill to full-size... and begin growing obscenely.");
 
                     for (const cock of character.body.cocks) {
-                        cockAmountLengthened += Mod.Cock.growCock(character, cock, randInt(3) + 2);
-                        cockAmountThickened += Mod.Cock.thickenCock(cock, 1);
+                        cockAmountLengthened += growCock(character, cock, randInt(3) + 2);
+                        cockAmountThickened += thickenCock(cock, 1);
                     }
                     cockAmountLengthened /= character.body.cocks.length;
                     cockAmountThickened /= character.body.cocks.length;
 
-                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, character.body.cocks.length);
+                    displayLengthChange(character, cockAmountLengthened, character.body.cocks.length);
 
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("\n\nYour " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) CView.text("\n\nYour " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else CView.text("\n\nYour " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("\n\nYour " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) CView.text("\n\nYour " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else CView.text("\n\nYour " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) CView.text("\n\nYour " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) CView.text("\n\nYour " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;
@@ -295,22 +291,22 @@ export class Eggs extends Consumable {
                 }
                 // SINGLEZ
                 if (character.body.cocks.length === 1) {
-                    DisplayText("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing... ");
-                    cockAmountThickened = Mod.Cock.thickenCock(character.body.cocks.get(0), 1);
-                    cockAmountLengthened = Mod.Cock.growCock(character, character.body.cocks.get(0), randInt(3) + 2);
-                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, 1);
+                    CView.text("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing... ");
+                    cockAmountThickened = thickenCock(character.body.cocks.get(0), 1);
+                    cockAmountLengthened = growCock(character, character.body.cocks.get(0), randInt(3) + 2);
+                    displayLengthChange(character, cockAmountLengthened, 1);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("  Your " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) CView.text("  Your " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else CView.text("  Your " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("  Your " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) CView.text("  Your " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else CView.text("  Your " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) CView.text("  Your " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) CView.text("  Your " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;
@@ -323,62 +319,60 @@ export class Eggs extends Consumable {
         else {
             // New lines if changes
             if (character.body.chest.length > 1 || character.body.butt.rating > 5 || character.body.hips.rating > 5 || character.body.vaginas.length > 0)
-                DisplayText("\n\n");
+                CView.text("\n\n");
             // Kill pussies!
             if (character.body.vaginas.length > 0) {
-                DisplayText("Your vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it!\n\n");
+                CView.text("Your vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it!\n\n");
                 if (character.body.chest.length > 1 || character.body.butt.rating > 5 || character.body.hips.rating > 5)
-                    DisplayText("  ");
+                    CView.text("  ");
                 character.body.vaginas.remove(0);
-                // -- Don't understand this
-                // character.torso.vaginaSpot.get(0).clitLength = .5;
-                character.updateGender();
+                character.body.clit.length = .5;
             }
             // Kill extra boobages
             if (character.body.chest.length > 1) {
-                DisplayText("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + describeBreastRow(character.body.chest.get(character.body.chest.length - 1)) + " have vanished.</b>");
-                if (character.body.butt.rating > 5 || character.body.hips.rating > 5) DisplayText("  ");
+                CView.text("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + describeBreastRow(character.body.chest.get(character.body.chest.length - 1)) + " have vanished.</b>");
+                if (character.body.butt.rating > 5 || character.body.hips.rating > 5) CView.text("  ");
                 // Remove lowest row.
                 character.body.chest.remove(character.body.chest.length - 1);
             }
             // Ass/hips shrinkage!
             if (character.body.butt.rating > 5) {
-                DisplayText("Muscles firm and tone as you feel your " + describeButt(character) + " become smaller and tighter.");
-                if (character.body.hips.rating > 5) DisplayText("  ");
+                CView.text("Muscles firm and tone as you feel your " + describeButt(character) + " become smaller and tighter.");
+                if (character.body.hips.rating > 5) CView.text("  ");
                 character.body.butt.rating -= 2;
             }
             if (character.body.hips.rating > 5) {
-                DisplayText("Feeling the sudden burning of lactic acid in your " + describeHips(character) + ", you realize they have slimmed down and firmed up some.");
+                CView.text("Feeling the sudden burning of lactic acid in your " + describeHips(character) + ", you realize they have slimmed down and firmed up some.");
                 character.body.hips.rating -= 2;
             }
             // Shrink tits!
             if (character.body.chest.sort(BreastRow.Largest)[0].rating > 0) {
-                Mod.Breast.shrinkTits(character);
+                shrinkTits(character);
             }
             if (character.body.cocks.length > 0) {
                 // Multiz
                 if (character.body.cocks.length > 1) {
-                    DisplayText("\n\nYour " + describeCocks(character) + " fill to full-size... and begin growing obscenely.  ");
+                    CView.text("\n\nYour " + describeCocks(character) + " fill to full-size... and begin growing obscenely.  ");
                     for (const cock of character.body.cocks) {
-                        cockAmountLengthened += Mod.Cock.growCock(character, cock, randInt(3) + 5);
-                        cockAmountThickened += Mod.Cock.thickenCock(cock, 1.5);
+                        cockAmountLengthened += growCock(character, cock, randInt(3) + 5);
+                        cockAmountThickened += thickenCock(cock, 1.5);
                     }
                     cockAmountLengthened /= character.body.cocks.length;
                     cockAmountThickened /= character.body.cocks.length;
 
-                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, character.body.cocks.length);
+                    displayLengthChange(character, cockAmountLengthened, character.body.cocks.length);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("\n\nYour " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) CView.text("\n\nYour " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else CView.text("\n\nYour " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("\n\nYour " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) CView.text("\n\nYour " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else CView.text("\n\nYour " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.length === 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.length > 1) DisplayText("\n\nYour " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) CView.text("\n\nYour " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) CView.text("\n\nYour " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;
@@ -386,22 +380,22 @@ export class Eggs extends Consumable {
                 }
                 // SINGLEZ
                 if (character.body.cocks.length === 1) {
-                    DisplayText("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing...");
-                    cockAmountThickened = Mod.Cock.thickenCock(character.body.cocks.get(0), 1.5);
-                    cockAmountLengthened = Mod.Cock.growCock(character, character.body.cocks.get(0), randInt(3) + 5);
-                    Mod.Cock.displayLengthChange(character, cockAmountLengthened, 1);
+                    CView.text("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing...");
+                    cockAmountThickened = thickenCock(character.body.cocks.get(0), 1.5);
+                    cockAmountLengthened = growCock(character, character.body.cocks.get(0), randInt(3) + 5);
+                    displayLengthChange(character, cockAmountLengthened, 1);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
-                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                        else DisplayText("  Your " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                        if (character.body.cocks.length === 1) CView.text("  Your " + describeCocksLight(character) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                        else CView.text("  Your " + describeCocksLight(character) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
                     }
                     if (cockAmountThickened <= .5) {
-                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                        else DisplayText("  Your " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                        if (character.body.cocks.length > 1) CView.text("  Your " + describeCocksLight(character) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                        else CView.text("  Your " + describeCocksLight(character) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
                     }
                     if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
-                        if (character.body.cocks.length === 1) DisplayText("  Your " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                        if (character.body.cocks.length > 1) DisplayText("  Your " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                        if (character.body.cocks.length === 1) CView.text("  Your " + describeCocksLight(character) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                        if (character.body.cocks.length > 1) CView.text("  Your " + describeCocksLight(character) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
                     }
                     character.stats.lib += 1;
                     character.stats.sens += 1;
@@ -411,20 +405,20 @@ export class Eggs extends Consumable {
             }
         }
         if (randInt(3) === 0) {
-            if (this.large) DisplayText(Mod.Body.displayModFem(character, 0, 8));
-            else DisplayText(Mod.Body.displayModFem(character, 5, 3));
+            if (this.large) CView.text(displayModFem(character, 0, 8));
+            else CView.text(displayModFem(character, 5, 3));
         }
     }
 
     // Nipplezzzzz
     private whiteEgg(character: Character): void {
         let gainedNippleCunts: boolean = false;
-        DisplayText().clear();
-        DisplayText("You devour the egg, momentarily sating your hunger.");
+        CView.clear();
+        CView.text("You devour the egg, momentarily sating your hunger.");
         if (!this.large) {
             // Grow nipples
             if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 3 && character.body.chest.sort(BreastRow.Largest)[0].rating > 0) {
-                DisplayText("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.");
+                CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.");
                 character.body.chest.sort(BreastRow.Largest)[0].nipples.length += .2;
                 character.stats.lust += 15;
             }
@@ -433,7 +427,7 @@ export class Eggs extends Consumable {
         else {
             // Grow nipples
             if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 3 && character.body.chest.sort(BreastRow.Largest)[0].rating > 0) {
-                DisplayText("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.");
+                CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.");
                 character.body.chest.sort(BreastRow.Largest)[0].nipples.length += (randInt(2) + 3) / 10;
                 character.stats.lust += 15;
             }
@@ -448,22 +442,22 @@ export class Eggs extends Consumable {
             }
             // Talk about if anything was changed.
             if (gainedNippleCunts)
-                DisplayText("\n\nYour " + describeAllBreasts(character) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>");
+                CView.text("\n\nYour " + describeAllBreasts(character) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>");
         }
     }
 
     private blackRubberEgg(character: Character): void {
-        DisplayText().clear();
-        DisplayText("You devour the egg, momentarily sating your hunger.");
+        CView.clear();
+        CView.text("You devour the egg, momentarily sating your hunger.");
         // Small
         if (!this.large) {
             // Change skin to normal if not flawless!
             if ((character.body.skin.adj !== "smooth" && character.body.skin.adj !== "latex" && character.body.skin.adj !== "rubber") || character.body.skin.desc !== "skin") {
-                DisplayText("\n\nYour " + character.body.skin.desc + " tingles delightfully as it ");
-                if (character.body.skin.type === SkinType.PLAIN) DisplayText(" loses its blemishes, becoming flawless smooth skin.");
-                if (character.body.skin.type === SkinType.FUR) DisplayText(" falls out in clumps, revealing smooth skin underneath.");
-                if (character.body.skin.type === SkinType.SCALES) DisplayText(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.");
-                if (character.body.skin.type > SkinType.SCALES) DisplayText(" shifts and changes into flawless smooth skin.");
+                CView.text("\n\nYour " + character.body.skin.desc + " tingles delightfully as it ");
+                if (character.body.skin.type === SkinType.PLAIN) CView.text(" loses its blemishes, becoming flawless smooth skin.");
+                if (character.body.skin.type === SkinType.FUR) CView.text(" falls out in clumps, revealing smooth skin underneath.");
+                if (character.body.skin.type === SkinType.SCALES) CView.text(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.");
+                if (character.body.skin.type > SkinType.SCALES) CView.text(" shifts and changes into flawless smooth skin.");
                 character.body.skin.desc = "skin";
                 character.body.skin.adj = "smooth";
                 if (character.body.skin.tone === "rough gray") character.body.skin.tone = "gray";
@@ -475,14 +469,14 @@ export class Eggs extends Consumable {
                 if (character.body.hair.color.indexOf("rubbery") === -1 && character.body.hair.color.indexOf("latex-textured") && character.body.hair.length !== 0) {
                     // if skin is already one...
                     if (character.body.skin.desc === "skin" && character.body.skin.adj === "rubber") {
-                        DisplayText("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
-                        DisplayText(" thick rubbery hair.");
+                        CView.text("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
+                        CView.text(" thick rubbery hair.");
                         character.body.hair.color = "rubbery " + character.body.hair.color;
                         character.stats.cor += 2;
                     }
                     if (character.body.skin.desc === "skin" && character.body.skin.adj === "latex") {
-                        DisplayText("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
-                        DisplayText(" shiny latex hair.");
+                        CView.text("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
+                        CView.text(" shiny latex hair.");
                         character.body.hair.color = "latex-textured " + character.body.hair.color;
                         character.stats.cor += 2;
                     }
@@ -493,20 +487,20 @@ export class Eggs extends Consumable {
         else {
             // Change skin to latex if smooth.
             if (character.body.skin.desc === "skin" && character.body.skin.adj === "smooth") {
-                DisplayText("\n\nYour already flawless smooth skin begins to tingle as it changes again.  It becomes shinier as its texture changes subtly.  You gasp as you touch yourself and realize your skin has become ");
+                CView.text("\n\nYour already flawless smooth skin begins to tingle as it changes again.  It becomes shinier as its texture changes subtly.  You gasp as you touch yourself and realize your skin has become ");
                 if (randInt(2) === 0) {
                     character.body.skin.desc = "skin";
                     character.body.skin.adj = "latex";
-                    DisplayText("a layer of pure latex.  ");
+                    CView.text("a layer of pure latex.  ");
                 }
                 else {
                     character.body.skin.desc = "skin";
                     character.body.skin.adj = "rubber";
-                    DisplayText("a layer of sensitive rubber.  ");
+                    CView.text("a layer of sensitive rubber.  ");
                 }
                 EggFlags.PC_KNOWS_ABOUT_BLACK_EGGS = 1;
-                if (character.stats.cor < 66) DisplayText("You feel like some kind of freak.");
-                else DisplayText("You feel like some kind of sexy " + character.body.skin.desc + " love-doll.");
+                if (character.stats.cor < 66) CView.text("You feel like some kind of freak.");
+                else CView.text("You feel like some kind of sexy " + character.body.skin.desc + " love-doll.");
                 character.stats.spe -= 3;
                 character.stats.sens += 8;
                 character.stats.lust += 10;
@@ -514,11 +508,11 @@ export class Eggs extends Consumable {
             }
             // Change skin to normal if not flawless!
             if ((character.body.skin.adj !== "smooth" && character.body.skin.adj !== "latex" && character.body.skin.adj !== "rubber") || character.body.skin.desc !== "skin") {
-                DisplayText("\n\nYour " + character.body.skin.desc + " tingles delightfully as it ");
-                if (character.body.skin.type === SkinType.PLAIN) DisplayText(" loses its blemishes, becoming flawless smooth skin.");
-                if (character.body.skin.type === SkinType.FUR) DisplayText(" falls out in clumps, revealing smooth skin underneath.");
-                if (character.body.skin.type === SkinType.SCALES) DisplayText(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.");
-                if (character.body.skin.type > SkinType.SCALES) DisplayText(" shifts and changes into flawless smooth skin.");
+                CView.text("\n\nYour " + character.body.skin.desc + " tingles delightfully as it ");
+                if (character.body.skin.type === SkinType.PLAIN) CView.text(" loses its blemishes, becoming flawless smooth skin.");
+                if (character.body.skin.type === SkinType.FUR) CView.text(" falls out in clumps, revealing smooth skin underneath.");
+                if (character.body.skin.type === SkinType.SCALES) CView.text(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.");
+                if (character.body.skin.type > SkinType.SCALES) CView.text(" shifts and changes into flawless smooth skin.");
                 character.body.skin.desc = "skin";
                 character.body.skin.adj = "smooth";
                 if (character.body.skin.tone === "rough gray") character.body.skin.tone = "gray";
@@ -530,14 +524,14 @@ export class Eggs extends Consumable {
                 if (character.body.hair.color.indexOf("rubbery") === -1 && character.body.hair.color.indexOf("latex-textured") && character.body.hair.length !== 0) {
                     // if skin is already one...
                     if (character.body.skin.adj === "rubber" && character.body.skin.desc === "skin") {
-                        DisplayText("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
-                        DisplayText(" thick rubbery hair.");
+                        CView.text("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
+                        CView.text(" thick rubbery hair.");
                         character.body.hair.color = "rubbery " + character.body.hair.color;
                         character.stats.cor += 2;
                     }
                     if (character.body.skin.adj === "latex" && character.body.skin.desc === "skin") {
-                        DisplayText("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
-                        DisplayText(" shiny latex hair.");
+                        CView.text("\n\nYour scalp tingles and your " + describeHair(character) + " thickens, the strands merging into ");
+                        CView.text(" shiny latex hair.");
                         character.body.hair.color = "latex-textured " + character.body.hair.color;
                         character.stats.cor += 2;
                     }

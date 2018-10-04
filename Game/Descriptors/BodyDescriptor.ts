@@ -1,5 +1,5 @@
 ﻿import { BreastRow } from '../Body/BreastRow';
-import { RaceScore } from '../Body/RaceScore';
+import * as RaceScore from '../Body/RaceScore';
 import { Character } from '../Character/Character';
 import { Gender } from '../Body/GenderIdentity';
 import { mf } from './GenderDescriptor';
@@ -123,9 +123,9 @@ export function describeRace(character: Character): string {
         race = "centaur";
     if (character.body.legs.type === 11)
         race = "pony-kin";
-    if (RaceScore.catScore(character) >= 4)
+    if (RaceScore.catRaceScore(character) >= 4)
         race = "cat-" + mf(character, "boy", "girl");
-    if (RaceScore.lizardScore(character) >= 4) {
+    if (RaceScore.lizardRaceScore(character) >= 4) {
         if (character.gender === Gender.NONE)
             race = "lizan";
         else if (character.gender === Gender.MALE)
@@ -135,78 +135,78 @@ export function describeRace(character: Character): string {
         else
             race = "hermaphrodite lizan";
     }
-    if (RaceScore.dragonScore(character) >= 4) {
+    if (RaceScore.dragonRaceScore(character) >= 4) {
         race = "dragon-morph";
         if (character.body.face.type === 0)
             race = "dragon-" + mf(character, "man", "girl");
     }
-    if (RaceScore.raccoonScore(character) >= 4) {
+    if (RaceScore.raccoonRaceScore(character) >= 4) {
         race = "raccoon-morph";
         if (character.body.balls.count > 0 && character.body.balls.size > 5)
             race = "tanuki-morph";
     }
-    if (RaceScore.dogScore(character) >= 4) {
+    if (RaceScore.dogRaceScore(character) >= 4) {
         race = "dog-morph";
         if (character.body.face.type === 0)
             race = "dog-" + mf(character, "man", "girl");
     }
-    if (RaceScore.foxScore(character) >= 4) {
+    if (RaceScore.foxRaceScore(character) >= 4) {
         if (character.body.skin.type === 1)
             race = "fox-morph";
         else
             race = "fox-" + mf(character, "morph", "girl");
     }
-    if (RaceScore.ferretScore(character) >= 4) {
+    if (RaceScore.ferretRaceScore(character) >= 4) {
         if (character.body.skin.type === 1)
             race = "ferret-morph";
         else
             race = "ferret-" + mf(character, "morph", "girl");
     }
-    if (RaceScore.kitsuneScore(character) >= 4) {
+    if (RaceScore.kitsuneRaceScore(character) >= 4) {
         race = "kitsune";
     }
-    if (RaceScore.horseScore(character) >= 3) {
+    if (RaceScore.horseRaceScore(character) >= 3) {
         if (character.body.legs.type === 4)
             race = "centaur-morph";
         else
             race = "equine-morph";
     }
-    if (RaceScore.mutantScore(character) >= 5 && race === "human")
+    if (RaceScore.mutantRaceScore(character) >= 5 && race === "human")
         race = "corrupted mutant";
-    if (RaceScore.minotaurScore(character) >= 4)
+    if (RaceScore.minotaurRaceScore(character) >= 4)
         race = "minotaur-morph";
-    if (RaceScore.cowScore(character) > 5) {
+    if (RaceScore.cowRaceScore(character) > 5) {
         race = "cow-";
         race += mf(character, "morph", "girl");
     }
-    if (RaceScore.beeScore(character) >= 5)
+    if (RaceScore.beeRaceScore(character) >= 5)
         race = "bee-morph";
-    if (RaceScore.goblinScore(character) >= 5)
+    if (RaceScore.goblinRaceScore(character) >= 5)
         race = "goblin";
-    if (RaceScore.humanScore(character) >= 5 && race === "corrupted mutant")
+    if (RaceScore.humanRaceScore(character) >= 5 && race === "corrupted mutant")
         race = "somewhat human mutant";
-    if (RaceScore.demonScore(character) > 4)
+    if (RaceScore.demonRaceScore(character) > 4)
         race = "demon-morph";
-    if (RaceScore.sharkScore(character) >= 3)
+    if (RaceScore.sharkRaceScore(character) >= 3)
         race = "shark-morph";
-    if (RaceScore.bunnyScore(character) >= 4)
+    if (RaceScore.bunnyRaceScore(character) >= 4)
         race = "bunny-" + mf(character, "boy", "girl");
-    if (RaceScore.harpyScore(character) >= 4) {
+    if (RaceScore.harpyRaceScore(character) >= 4) {
         if (character.gender >= 2)
             race = "harpy";
         else
             race = "avian";
     }
-    if (RaceScore.spiderScore(character) >= 4) {
+    if (RaceScore.spiderRaceScore(character) >= 4) {
         race = "spider-morph";
         if (mf(character, "no", "yes") === "yes")
             race = "spider-girl";
         if (character.body.legs.type === 16)
             race = "drider";
     }
-    if (RaceScore.kangaScore(character) >= 4)
+    if (RaceScore.kangaRaceScore(character) >= 4)
         race = "kangaroo-morph";
-    if (RaceScore.mouseScore(character) >= 3) {
+    if (RaceScore.mouseRaceScore(character) >= 3) {
         if (character.body.face.type !== 16)
             race = "mouse-" + mf(character, "boy", "girl");
         else
@@ -217,7 +217,7 @@ export function describeRace(character: Character): string {
     if (character.body.legs.type === 4)
         race = "centaur";
 
-    if (RaceScore.gooScore(character) >= 3) {
+    if (RaceScore.gooRaceScore(character) >= 3) {
         race = "goo-";
         race += mf(character, "boi", "girl");
     }

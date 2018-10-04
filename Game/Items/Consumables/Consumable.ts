@@ -6,7 +6,7 @@ import { ItemType } from '../ItemType';
 
 export class Consumable extends Item {
     private readonly mutationFunc: () => void;
-    constructor(key: ConsumableName, itemDesc: ItemDesc, value?: number, mutationFunc: () => void = undefined) {
+    constructor(key: ConsumableName, itemDesc: ItemDesc, value?: number, mutationFunc?: () => void) {
         super(key, ItemType.Consumable, itemDesc, value);
         this.mutationFunc = mutationFunc;
     }

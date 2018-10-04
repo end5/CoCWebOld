@@ -1,8 +1,8 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class SheepMilk extends Consumable {
     public constructor() {
@@ -10,8 +10,8 @@ export class SheepMilk extends Consumable {
     }
 
     public use(character: Character) {
-        DisplayText().clear();
-        DisplayText("You gulp the bottle's contents, and its sweet taste immediately invigorates you, making you feel calm and concentrated");
+        CView.clear();
+        CView.text("You gulp the bottle's contents, and its sweet taste immediately invigorates you, making you feel calm and concentrated");
         // -30 fatigue, -2 libido, -10 lust]
         character.stats.fatigue -= 30;
         character.stats.lib += -.25;

@@ -1,9 +1,9 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
 import { describeHair } from '../../Descriptors/HairDescriptor';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export enum HairDyeType {
     Auburn,
@@ -94,20 +94,20 @@ export class HairDye extends Consumable {
     }
 
     public use(character: Character) {
-        DisplayText().clear();
+        CView.clear();
         if (character.body.hair.color.indexOf("rubbery") !== -1 || character.body.hair.color.indexOf("latex-textured") !== -1) {
-            DisplayText("You massage the dye into your " + describeHair(character) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
+            CView.text("You massage the dye into your " + describeHair(character) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
             return;
         }
         if (character.body.hair.length === 0) {
-            DisplayText("You rub the dye into your bald head, but it has no effect.");
+            CView.text("You rub the dye into your bald head, but it has no effect.");
             return;
         }
-        DisplayText("You rub the dye into your " + describeHair(character) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
+        CView.text("You rub the dye into your " + describeHair(character) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
         character.body.hair.color = this.getColor();
-        DisplayText("You now have " + describeHair(character) + ".");
+        CView.text("You now have " + describeHair(character) + ".");
         if (character.stats.lust > 50) {
-            DisplayText("\n\nThe cool water calms your urges somewhat, letting you think more clearly.");
+            CView.text("\n\nThe cool water calms your urges somewhat, letting you think more clearly.");
             character.stats.lust += -15;
         }
     }

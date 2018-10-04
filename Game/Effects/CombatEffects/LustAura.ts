@@ -1,8 +1,8 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
 import { CombatEffect } from '../CombatEffect';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class LustAura extends CombatEffect {
     public update(character: Character, enemy: Character) {
@@ -20,8 +20,8 @@ export class LustAura extends CombatEffect {
                 if (randomNumber === 1) out += "You swoon and lick your lips, tasting the scent of the demon's pussy in the air.";
                 if (randomNumber === 3) out += "She winks at you and licks her lips, and you can't help but imagine her tongue sliding all over your body.  You regain composure moments before throwing yourself at her.  That was close.";
             }
-            DisplayText(out);
-            DisplayText("\n\n");
+            CView.text(out);
+            CView.text("\n\n");
         }
     }
 }

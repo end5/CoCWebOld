@@ -1,8 +1,8 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class IsabellaMilk extends Consumable {
     public constructor() {
@@ -10,9 +10,9 @@ export class IsabellaMilk extends Consumable {
     }
 
     public use(character: Character) {
-        DisplayText().clear();
-        DisplayText("You swallow down the bottle of Isabella's milk.");
-        if (character.stats.fatigue > 0) DisplayText("  You feel much less tired! (-33 fatigue)");
+        CView.clear();
+        CView.text("You swallow down the bottle of Isabella's milk.");
+        if (character.stats.fatigue > 0) CView.text("  You feel much less tired! (-33 fatigue)");
         character.stats.fatigue -= 33;
     }
 }

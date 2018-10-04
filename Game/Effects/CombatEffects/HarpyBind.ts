@@ -1,15 +1,16 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { CombatEffect } from '../CombatEffect';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class HarpyBind extends CombatEffect {
     public update(character: Character) {
-        if (playerFlags.FETISH >= 2) {
+        if (PlayerFlags.FETISH >= 2) {
             character.stats.lust += 3;
-            DisplayText("The harpies are holding you down and restraining you, making the struggle all the sweeter!");
+            CView.text("The harpies are holding you down and restraining you, making the struggle all the sweeter!");
         }
         else
-            DisplayText("You're restrained by the harpies so that they can beat on you with impunity.  You'll need to struggle to break free!");
-        DisplayText("\n\n");
+            CView.text("You're restrained by the harpies so that they can beat on you with impunity.  You'll need to struggle to break free!");
+        CView.text("\n\n");
     }
 }

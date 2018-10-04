@@ -10,10 +10,10 @@ export abstract class EquipableItem extends Item {
      */
     public abstract onEquip(character: Character): void;
 
-    public equip(slot: EquipSlot<EquipableItem>): void {
-        this.slot = slot;
-        slot.equip(this);
-    }
+    // public equip(slot: EquipSlot<EquipableItem>): void {
+    //     this.slot = slot;
+    //     slot.equip(this);
+    // }
 
     /**
      * This item is being unequiped by the character. Remove any perks, etc. - This should only handle mechanics, not text output
@@ -21,11 +21,11 @@ export abstract class EquipableItem extends Item {
      */
     public abstract onUnequip(character: Character): void;
 
-    public unequip(): EquipableItem {
-        this.slot.unequip();
-        this.slot = undefined;
-        return this;
-    }
+    // public unequip(): this {
+    //     this.slot.unequip();
+    //     this.slot = undefined;
+    //     return this;
+    // }
 
     /**
      * Produces any text seen when equiping the item normally

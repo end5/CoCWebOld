@@ -3,7 +3,6 @@ import { ImageElement } from "./Elements/ImageElement";
 import { ParagraphElement } from "./Elements/ParagraphElement";
 import { loadFromId } from "../Utilities/Html";
 import { SpriteName } from "./Images/SpriteName";
-import { ImageName } from "./Images/ImageName";
 import { getImage } from "./Images/ImageLibrary";
 
 function parse(text: string): string {
@@ -11,9 +10,9 @@ function parse(text: string): string {
 }
 
 class ContentView {
-    private imageElement: ImageElement = new ImageElement();
-    private textElement: ParagraphElement = new ParagraphElement();
-    private spriteElement: ImageElement = new ImageElement();
+    public readonly imageElement: ImageElement = new ImageElement();
+    public readonly textElement: ParagraphElement = new ParagraphElement();
+    public readonly spriteElement: ImageElement = new ImageElement();
     private spriteLib: SpriteLibrary = new SpriteLibrary();
 
     public constructor() {

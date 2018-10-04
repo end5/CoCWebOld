@@ -1,11 +1,11 @@
-import { DisplayText } from '../../Engine/display/DisplayText';
 import { Gender } from '../Body/GenderIdentity';
 import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
-import { describeFaceShort, describeFaceShort, describeBeard } from '../Descriptors/FaceDescriptor';
 import { describeVagina } from '../Descriptors/VaginaDescriptor';
 import { describeCock } from '../Descriptors/CockDescriptor';
+import { describeFaceShort, describeBeard } from '../Descriptors/FaceDescriptor';
+import { CView } from '../../Engine/Display/ContentView';
 
 export function displayModThickness(character: Character, goal: number, strength: number = 1): string {
     if (goal === character.body.thickness)
@@ -176,7 +176,7 @@ export function displayFixFemininity(character: Character): string {
 export function displayGoIntoHeat(character: Character, intensity: number = 1) {
     // Already in heat, intensify further.
     if (character.effects.has(StatusEffectType.Heat)) {
-        DisplayText("\n\nYour mind clouds as your " + describeVagina(character, character.body.vaginas.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.");
+        CView.text("\n\nYour mind clouds as your " + describeVagina(character, character.body.vaginas.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.");
         const statusAffectHeat = character.effects.get(StatusEffectType.Heat);
         statusAffectHeat.value1 += 5 * intensity;
         statusAffectHeat.value2 += 5 * intensity;
@@ -185,7 +185,7 @@ export function displayGoIntoHeat(character: Character, intensity: number = 1) {
     }
     // Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
     else {
-        DisplayText("\n\nYour mind clouds as your " + describeVagina(character, character.body.vaginas.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>");
+        CView.text("\n\nYour mind clouds as your " + describeVagina(character, character.body.vaginas.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>");
         character.effects.add(StatusEffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0);
         character.stats.libBimbo += 15 * intensity;
     }
@@ -201,7 +201,7 @@ export function displayGoIntoHeat(character: Character, intensity: number = 1) {
 export function displayGoIntoRut(character: Character, intensity: number = 1) {
     // Has rut, intensify it!
     if (character.effects.has(StatusEffectType.Rut)) {
-        DisplayText("\n\nYour " + describeCock(character, character.body.cocks.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.");
+        CView.text("\n\nYour " + describeCock(character, character.body.cocks.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.");
         const statusAffectRut = character.effects.get(StatusEffectType.Rut);
         statusAffectRut.value1 = 100 * intensity;
         statusAffectRut.value2 = 5 * intensity;
@@ -209,7 +209,7 @@ export function displayGoIntoRut(character: Character, intensity: number = 1) {
         character.stats.libBimbo += 5 * intensity;
     }
     else {
-        DisplayText("\n\nYou stand up a bit straighter and look around, sniffing the air and searching for a mate.  Wait, what!?  It's hard to shake the thought from your head - you really could use a nice fertile hole to impregnate.  You slap your forehead and realize <b>you've gone into rut</b>!");
+        CView.text("\n\nYou stand up a bit straighter and look around, sniffing the air and searching for a mate.  Wait, what!?  It's hard to shake the thought from your head - you really could use a nice fertile hole to impregnate.  You slap your forehead and realize <b>you've gone into rut</b>!");
         // v1 - bonus cum production
         // v2 - bonus libido
         // v3 - time remaining!

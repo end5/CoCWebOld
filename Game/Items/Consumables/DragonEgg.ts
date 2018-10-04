@@ -1,10 +1,10 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class DragonEgg extends Consumable {
     public constructor() {
@@ -12,16 +12,16 @@ export class DragonEgg extends Consumable {
     }
 
     public use(character: Character) {
-        DisplayText().clear();
+        CView.clear();
         // Effect:
         // Boosts the special effect of Dragonbreath by 20% for 1 use. ie: if Tainted's breath weapon has a 80% chance to stun on hit, +20% equals 100% chance to stun.
-        DisplayText("You crack the shell easily and swallow the large yolk and the copious amounts of albumen - the yolk is blue, while the rest is crimson-tinted.  It tastes like... well, it tastes mostly of spiced mint, you think.");
+        CView.text("You crack the shell easily and swallow the large yolk and the copious amounts of albumen - the yolk is blue, while the rest is crimson-tinted.  It tastes like... well, it tastes mostly of spiced mint, you think.");
         if (character.perks.has(PerkType.Dragonfire)) {
             if (character.effects.has(StatusEffectType.DragonBreathCooldown)) character.effects.remove(StatusEffectType.DragonBreathCooldown);
             else if (!character.effects.has(StatusEffectType.DragonBreathBoost))
                 character.effects.add(StatusEffectType.DragonBreathBoost, 0, 0, 0, 0);
             // (if PC has breath weapon)
-            DisplayText("\n\nA sudden surge of energy fills your being and you feel like you could blast anything to atoms with a single breath, like the mighty dragons of legends.");
+            CView.text("\n\nA sudden surge of energy fills your being and you feel like you could blast anything to atoms with a single breath, like the mighty dragons of legends.");
         }
         character.stats.fatigue -= 20;
     }

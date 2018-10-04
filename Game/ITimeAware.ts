@@ -1,5 +1,6 @@
 import { ISerializable } from "../Engine/Utilities/ISerializable";
 import { Character } from "./Character/Character";
+import { NextScreenChoices } from "./ScreenDisplay";
 
 // Call CoC.timeAwareClassAdd if you want a class that implements this interface to receive time changes
 export interface ITimeAware extends ISerializable<ITimeAware> {
@@ -17,7 +18,7 @@ export interface ITimeAware extends ISerializable<ITimeAware> {
         The text above has been changed. If you need time to stop, pause it from the TimeManager.
         Rememeber to unpause it.
     */
-    timeChange(player: Character);
+    timeChange(player: Character): boolean;
 
     /*	Called for every Class in the _timeAwareClassList each time the game time advances.
         Should be used only for large scenes that need their own next button before proceeding with
@@ -31,5 +32,5 @@ export interface ITimeAware extends ISerializable<ITimeAware> {
         The text above has been changed. If you need time to stop, pause it from the TimeManager.
         Rememeber to unpause it.
     */
-    timeChangeLarge(player: Character);
+    timeChangeLarge(player: Character): NextScreenChoices | void;
 }

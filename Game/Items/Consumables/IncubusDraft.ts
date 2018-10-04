@@ -1,11 +1,9 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Cock, CockType } from '../../Body/Cock';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import { Mod } from '../../Modifiers/Modifiers';
 import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
@@ -20,6 +18,10 @@ import { TongueType } from '../../Body/Tongue';
 import { LegType } from '../../Body/Legs';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
 import { WingType } from '../../Body/Wings';
+import { CView } from '../../../Engine/Display/ContentView';
+import { displayModFem, displayModThickness } from '../../Modifiers/BodyModifier';
+import { growCock, thickenCock, displayLengthChange } from '../../Modifiers/CockModifier';
+import { shrinkTits } from '../../Modifiers/BreastModifier';
 
 export class IncubusDraft extends Consumable {
     public readonly tainted: boolean;
@@ -36,16 +38,16 @@ export class IncubusDraft extends Consumable {
         let changeAmount: number = randInt(100);
         if (character.perks.has(PerkType.HistoryAlchemist))
             changeAmount += 10;
-        DisplayText().clear();
-        DisplayText("The draft is slick and sticky, ");
+        CView.clear();
+        CView.text("The draft is slick and sticky, ");
         if (character.stats.cor <= 33)
-            DisplayText("just swallowing it makes you feel unclean.");
+            CView.text("just swallowing it makes you feel unclean.");
         if (character.stats.cor > 33 && character.stats.cor <= 66)
-            DisplayText("reminding you of something you just can't place.");
+            CView.text("reminding you of something you just can't place.");
         if (character.stats.cor > 66)
-            DisplayText("deliciously sinful in all the right ways.");
+            CView.text("deliciously sinful in all the right ways.");
         if (character.stats.cor >= 90)
-            DisplayText("  You're sure it must be distilled from the cum of an incubus.");
+            CView.text("  You're sure it must be distilled from the cum of an incubus.");
         // Lowlevel changes..
         if (changeAmount < 50)
             this.lowLevelChanges(character);
@@ -58,11 +60,10 @@ export class IncubusDraft extends Consumable {
         // Demonic changes - higher chance with higher corruption.
         if (randInt(40) + character.stats.cor / 3 > 35 && this.tainted)
             demonChanges(character);
-        character.updateGender();
         if (randInt(4) === 0 && this.tainted)
-            DisplayText(Mod.Body.displayModFem(character, 5, 2));
+            CView.text(displayModFem(character, 5, 2));
         if (randInt(4) === 0 && this.tainted)
-            DisplayText(Mod.Body.displayModThickness(character, 30, 2));
+            CView.text(displayModThickness(character, 30, 2));
     }
 
     private lowLevelChanges(character: Character) {
@@ -73,13 +74,13 @@ export class IncubusDraft extends Consumable {
             cockGrowth = 0;
             selectedCock = character.body.cocks.get(0);
             if (selectedCock.type !== CockType.DEMON)
-                DisplayText("\n\nYour " + describeCock(character, selectedCock) + " becomes shockingly hard.  It turns a shiny inhuman purple and spasms, dribbling hot demon-like cum as it begins to grow.");
+                CView.text("\n\nYour " + describeCock(character, selectedCock) + " becomes shockingly hard.  It turns a shiny inhuman purple and spasms, dribbling hot demon-like cum as it begins to grow.");
             else
-                DisplayText("\n\nYour " + describeCock(character, selectedCock) + " becomes shockingly hard.  It dribbles hot demon-like cum as it begins to grow.");
+                CView.text("\n\nYour " + describeCock(character, selectedCock) + " becomes shockingly hard.  It dribbles hot demon-like cum as it begins to grow.");
             if (randInt(4) === 0)
-                cockGrowth = Mod.Cock.growCock(character, selectedCock, 3);
+                cockGrowth = growCock(character, selectedCock, 3);
             else
-                cockGrowth = Mod.Cock.growCock(character, selectedCock, 3);
+                cockGrowth = growCock(character, selectedCock, 3);
 
             character.stats.int += 1;
             character.stats.lib += 2;
@@ -88,25 +89,25 @@ export class IncubusDraft extends Consumable {
             character.stats.cor += this.tainted ? 1 : 0;
 
             if (cockGrowth < .5)
-                DisplayText("  It stops almost as soon as it starts, growing only a tiny bit longer.");
+                CView.text("  It stops almost as soon as it starts, growing only a tiny bit longer.");
             if (cockGrowth >= .5 && cockGrowth < 1)
-                DisplayText("  It grows slowly, stopping after roughly half an inch of growth.");
+                CView.text("  It grows slowly, stopping after roughly half an inch of growth.");
             if (cockGrowth >= 1 && cockGrowth <= 2)
-                DisplayText("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.");
+                CView.text("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.");
             if (cockGrowth > 2)
-                DisplayText("  You smile and idly stroke your lengthening " + describeCock(character, selectedCock) + " as a few more inches sprout.");
+                CView.text("  You smile and idly stroke your lengthening " + describeCock(character, selectedCock) + " as a few more inches sprout.");
             if (selectedCock.type !== CockType.DEMON)
-                DisplayText("  With the transformation complete, your " + describeCock(character, selectedCock) + " returns to its normal coloration.");
+                CView.text("  With the transformation complete, your " + describeCock(character, selectedCock) + " returns to its normal coloration.");
             else
-                DisplayText("  With the transformation complete, your " + describeCock(character, selectedCock) + " throbs in an almost happy way as it goes flaccid once more.");
+                CView.text("  With the transformation complete, your " + describeCock(character, selectedCock) + " throbs in an almost happy way as it goes flaccid once more.");
         }
         if (cockCount > 1) {
             selectedCock = character.body.cocks.sort(Cock.Shortest)[0];
             cockGrowth = 0;
             if (randInt(4) === 0)
-                cockGrowth = Mod.Cock.growCock(character, selectedCock, 3);
+                cockGrowth = growCock(character, selectedCock, 3);
             else
-                cockGrowth = Mod.Cock.growCock(character, selectedCock, 1);
+                cockGrowth = growCock(character, selectedCock, 1);
 
             character.stats.int += 1;
             character.stats.lib += 2;
@@ -115,19 +116,19 @@ export class IncubusDraft extends Consumable {
             character.stats.cor += this.tainted ? 1 : 0;
 
             if (character.body.cocks.length === 2)
-                DisplayText("\n\nBoth of your " + describeCocksLight(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
+                CView.text("\n\nBoth of your " + describeCocksLight(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
             else
-                DisplayText("\n\nAll of your " + describeCocksLight(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
+                CView.text("\n\nAll of your " + describeCocksLight(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + describeCock(character, selectedCock) + " begins to grow.");
 
             if (cockGrowth < .5)
-                DisplayText("  It stops almost as soon as it starts, growing only a tiny bit longer.");
+                CView.text("  It stops almost as soon as it starts, growing only a tiny bit longer.");
             if (cockGrowth >= .5 && cockGrowth < 1)
-                DisplayText("  It grows slowly, stopping after roughly half an inch of growth.");
+                CView.text("  It grows slowly, stopping after roughly half an inch of growth.");
             if (cockGrowth >= 1 && cockGrowth <= 2)
-                DisplayText("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.");
+                CView.text("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.");
             if (cockGrowth > 2)
-                DisplayText("  You smile and idly stroke your lengthening " + describeCock(character, selectedCock) + " as a few more inches sprout.");
-            DisplayText("  With the transformation complete, your " + describeCocksLight(character) + " return to their normal coloration.");
+                CView.text("  You smile and idly stroke your lengthening " + describeCock(character, selectedCock) + " as a few more inches sprout.");
+            CView.text("  With the transformation complete, your " + describeCocksLight(character) + " return to their normal coloration.");
         }
         // NO CAWKS?
         if (cockCount === 0) {
@@ -136,8 +137,8 @@ export class IncubusDraft extends Consumable {
             selectedCock.thickness = 1;
             character.body.cocks.add(selectedCock);
 
-            DisplayText("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
-            DisplayText("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + describeCock(character, selectedCock) + " fades to a more normal " + character.body.skin.tone + " tone.");
+            CView.text("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
+            CView.text("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + describeCock(character, selectedCock) + " fades to a more normal " + character.body.skin.tone + " tone.");
 
             character.stats.lib += 3;
             character.stats.sens += 5;
@@ -147,7 +148,7 @@ export class IncubusDraft extends Consumable {
         // TIT CHANGE 25% chance of shrinkage
         if (randInt(4) === 0) {
             if (!User.settings.hyperHappy) {
-                Mod.Breast.shrinkTits(character);
+                shrinkTits(character);
             }
         }
     }
@@ -158,28 +159,28 @@ export class IncubusDraft extends Consumable {
         let cockGrowth: number;
         let thickness: number;
         if (cockCount > 1) {
-            DisplayText("\n\nYour cocks fill to full-size... and begin growing obscenely.  ");
+            CView.text("\n\nYour cocks fill to full-size... and begin growing obscenely.  ");
             for (let index: number = 0; index < cockCount; index++) {
                 selectedCock = character.body.cocks.get(index);
-                cockGrowth = Mod.Cock.growCock(character, selectedCock, randInt(3) + 2);
-                thickness = Mod.Cock.thickenCock(selectedCock, 1);
+                cockGrowth = growCock(character, selectedCock, randInt(3) + 2);
+                thickness = thickenCock(selectedCock, 1);
                 if (thickness < .1)
                     selectedCock.thickness += .05;
             }
-            Mod.Cock.displayLengthChange(character, cockGrowth, cockCount);
+            displayLengthChange(character, cockGrowth, cockCount);
 
             // Display the degree of thickness change.
             if (thickness >= 1) {
-                if (cockCount === 1) DisplayText("\n\nYour cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                else DisplayText("\n\nYour cocks spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                if (cockCount === 1) CView.text("\n\nYour cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                else CView.text("\n\nYour cocks spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
             }
             if (thickness <= .5) {
-                if (cockCount > 1) DisplayText("\n\nYour cocks feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                else DisplayText("\n\nYour cock feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                if (cockCount > 1) CView.text("\n\nYour cocks feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                else CView.text("\n\nYour cock feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
             }
             if (thickness > .5 && cockGrowth < 1) {
-                if (cockCount === 1) DisplayText("\n\nYour cock seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                if (cockCount > 1) DisplayText("\n\nYour cocks seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                if (cockCount === 1) CView.text("\n\nYour cock seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                if (cockCount > 1) CView.text("\n\nYour cocks seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
             }
             character.stats.lib += 3;
             character.stats.sens += 5;
@@ -187,23 +188,23 @@ export class IncubusDraft extends Consumable {
             character.stats.cor += this.tainted ? 3 : 0;
         }
         if (cockCount === 1) {
-            DisplayText("\n\nYour cock fills to its normal size and begins growing... ");
+            CView.text("\n\nYour cock fills to its normal size and begins growing... ");
             selectedCock = character.body.cocks.get(0);
-            thickness = Mod.Cock.thickenCock(selectedCock, 1);
-            cockGrowth = Mod.Cock.growCock(character, selectedCock, randInt(3) + 2);
-            Mod.Cock.displayLengthChange(character, cockGrowth, cockCount);
+            thickness = thickenCock(selectedCock, 1);
+            cockGrowth = growCock(character, selectedCock, randInt(3) + 2);
+            displayLengthChange(character, cockGrowth, cockCount);
             // Display the degree of thickness change.
             if (thickness >= 1) {
-                if (character.body.cocks.length === 1) DisplayText("  Your cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
-                else DisplayText("  Your cocks spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
+                if (character.body.cocks.length === 1) CView.text("  Your cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
+                else CView.text("  Your cocks spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.");
             }
             if (thickness <= .5) {
-                if (character.body.cocks.length > 1) DisplayText("  Your cocks feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
-                else DisplayText("  Your cock feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
+                if (character.body.cocks.length > 1) CView.text("  Your cocks feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.");
+                else CView.text("  Your cock feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.");
             }
             if (thickness > .5 && cockGrowth < 1) {
-                if (character.body.cocks.length === 1) DisplayText("  Your cock seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
-                if (character.body.cocks.length > 1) DisplayText("  Your cocks seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
+                if (character.body.cocks.length === 1) CView.text("  Your cock seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.");
+                if (character.body.cocks.length > 1) CView.text("  Your cocks seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.");
             }
             character.stats.lib += 3;
             character.stats.sens += 5;
@@ -216,8 +217,8 @@ export class IncubusDraft extends Consumable {
             selectedCock.thickness = 1;
             character.body.cocks.add(selectedCock);
 
-            DisplayText("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
-            DisplayText("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + describeCock(character, selectedCock) + " fades to a more normal " + character.body.skin.tone + " tone.");
+            CView.text("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
+            CView.text("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + describeCock(character, selectedCock) + " fades to a more normal " + character.body.skin.tone + " tone.");
 
             character.stats.lib += 3;
             character.stats.sens += 5;
@@ -228,7 +229,7 @@ export class IncubusDraft extends Consumable {
         // TIT CHANGE 50% chance of shrinkage
         if (randInt(2) === 0) {
             if (!User.settings.hyperHappy) {
-                Mod.Breast.shrinkTits(character);
+                shrinkTits(character);
             }
         }
     }
@@ -236,7 +237,7 @@ export class IncubusDraft extends Consumable {
     private highLevelChanges(character: Character) {
         if (character.body.cocks.length < 10) {
             if (randInt(10) < Math.floor(character.stats.cor / 25)) {
-                DisplayText("\n\n");
+                CView.text("\n\n");
                 this.growDemonCock(character, randInt(2) + 2);
                 character.stats.lib += 3;
                 character.stats.sens += 5;
@@ -248,8 +249,8 @@ export class IncubusDraft extends Consumable {
             }
         }
         if (!User.settings.hyperHappy) {
-            Mod.Breast.shrinkTits(character);
-            Mod.Breast.shrinkTits(character);
+            shrinkTits(character);
+            shrinkTits(character);
         }
     }
 
@@ -260,13 +261,13 @@ export class IncubusDraft extends Consumable {
             growCocks--;
             numOfCockGrown++;
         }
-        DisplayText("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
+        CView.text("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
         if (numOfCockGrown === 1)
-            DisplayText("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  In time it fades to a more normal coloration and human-like texture.  ");
+            CView.text("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  In time it fades to a more normal coloration and human-like texture.  ");
         else
-            DisplayText("The skin bulges obscenely, darkening and splitting around " + numToCardinalText(numOfCockGrown) + " of your new dicks.  For an instant they turn a demonic purple and dribble in thick spasms of scalding demon-cum.  After, they return to a more humanoid coloration.  ");
+            CView.text("The skin bulges obscenely, darkening and splitting around " + numToCardinalText(numOfCockGrown) + " of your new dicks.  For an instant they turn a demonic purple and dribble in thick spasms of scalding demon-cum.  After, they return to a more humanoid coloration.  ");
         if (numOfCockGrown > 4)
-            DisplayText("Your tender bundle of new cocks feels deliciously sensitive, and you cannot stop yourself from wrapping your hands around the slick demonic bundle and pleasuring them.\n\nNearly an hour later, you finally pull your slick body away from the puddle you left on the ground.  When you look back, you notice it has already been devoured by the hungry earth.");
+            CView.text("Your tender bundle of new cocks feels deliciously sensitive, and you cannot stop yourself from wrapping your hands around the slick demonic bundle and pleasuring them.\n\nNearly an hour later, you finally pull your slick body away from the puddle you left on the ground.  When you look back, you notice it has already been devoured by the hungry earth.");
         character.orgasm();
     }
 }
@@ -275,15 +276,15 @@ export function demonChanges(character: Character): void {
     // Change tail if already horned.
     if (!character.body.tails.reduce(Tail.HasType(TailType.DEMONIC), false) && character.body.horns.count > 0) {
         if (character.body.tails.length === 0) {
-            DisplayText("\n\n");
+            CView.text("\n\n");
             if (character.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) || character.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false))
-                DisplayText("You feel a tingling in your insectile abdomen as it stretches, narrowing, the exoskeleton flaking off as it transforms into a flexible demon-tail, complete with a round spaded tip.  ");
+                CView.text("You feel a tingling in your insectile abdomen as it stretches, narrowing, the exoskeleton flaking off as it transforms into a flexible demon-tail, complete with a round spaded tip.  ");
             else
-                DisplayText("You feel a tingling in your tail.  You are amazed to discover it has shifted into a flexible demon-tail, complete with a round spaded tip.  ");
-            DisplayText("<b>Your tail is now demonic in appearance.</b>");
+                CView.text("You feel a tingling in your tail.  You are amazed to discover it has shifted into a flexible demon-tail, complete with a round spaded tip.  ");
+            CView.text("<b>Your tail is now demonic in appearance.</b>");
         }
         else
-            DisplayText("\n\nA pain builds in your backside... growing more and more pronounced.  The pressure suddenly disappears with a loud ripping and tearing noise.  <b>You realize you now have a demon tail</b>... complete with a cute little spade.");
+            CView.text("\n\nA pain builds in your backside... growing more and more pronounced.  The pressure suddenly disappears with a loud ripping and tearing noise.  <b>You realize you now have a demon tail</b>... complete with a cute little spade.");
         character.stats.cor += 4;
         const newTail = new Tail();
         newTail.type = TailType.DEMONIC;
@@ -292,11 +293,11 @@ export function demonChanges(character: Character): void {
     // grow horns!
     if (character.body.horns.count === 0 || (randInt(character.body.horns.count + 3) === 0)) {
         if (character.body.horns.count < 12 && (character.body.horns.type === HornType.NONE || character.body.horns.type === HornType.DEMON)) {
-            DisplayText("\n\n");
+            CView.text("\n\n");
             if (character.body.horns.count === 0) {
-                DisplayText("A small pair of demon horns.amount erupts from your forehead.  They actually look kind of cute.  <b>You have horns!</b>");
+                CView.text("A small pair of demon horns.amount erupts from your forehead.  They actually look kind of cute.  <b>You have horns!</b>");
             }
-            else DisplayText("Another pair of demon horns, larger than the last, forms behind the first row.");
+            else CView.text("Another pair of demon horns, larger than the last, forms behind the first row.");
             if (character.body.horns.type === HornType.NONE) character.body.horns.type = HornType.DEMON;
             character.body.horns.count++;
             character.body.horns.count++;
@@ -304,8 +305,8 @@ export function demonChanges(character: Character): void {
         }
         // Text for shifting horns
         else if (character.body.horns.type > HornType.DEMON) {
-            DisplayText("\n\n");
-            DisplayText("Your horns.amount shift, shrinking into two small demonic-looking horns.");
+            CView.text("\n\n");
+            CView.text("Your horns.amount shift, shrinking into two small demonic-looking horns.");
             character.body.horns.count = 2;
             character.body.horns.type = HornType.DEMON;
             character.stats.cor += 3;
@@ -313,29 +314,29 @@ export function demonChanges(character: Character): void {
     }
     // Nipples Turn Back:
     if (character.effects.has(StatusEffectType.BlackNipples) && randInt(3) === 0) {
-        DisplayText("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+        CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
         character.effects.remove(StatusEffectType.BlackNipples);
     }
     // remove fur
     if ((character.body.face.type !== FaceType.HUMAN || character.body.skin.type !== SkinType.PLAIN) && randInt(3) === 0) {
         // Remove face before fur!
         if (character.body.face.type !== FaceType.HUMAN) {
-            DisplayText("\n\n");
-            DisplayText("Your visage twists painfully, returning to a more normal human shape, albeit with flawless skin.  <b>Your face is human again!</b>");
+            CView.text("\n\n");
+            CView.text("Your visage twists painfully, returning to a more normal human shape, albeit with flawless skin.  <b>Your face is human again!</b>");
             character.body.face.type = FaceType.HUMAN;
         }
         // De-fur
         else if (character.body.skin.type !== SkinType.PLAIN) {
-            DisplayText("\n\n");
-            if (character.body.skin.type === SkinType.FUR) DisplayText("Your skin suddenly feels itchy as your fur begins falling out in clumps, <b>revealing inhumanly smooth skin</b> underneath.");
-            if (character.body.skin.type === SkinType.SCALES) DisplayText("Your scales begin to itch as they begin falling out in droves, <b>revealing your inhumanly smooth " + character.body.skin.tone + " skin</b> underneath.");
+            CView.text("\n\n");
+            if (character.body.skin.type === SkinType.FUR) CView.text("Your skin suddenly feels itchy as your fur begins falling out in clumps, <b>revealing inhumanly smooth skin</b> underneath.");
+            if (character.body.skin.type === SkinType.SCALES) CView.text("Your scales begin to itch as they begin falling out in droves, <b>revealing your inhumanly smooth " + character.body.skin.tone + " skin</b> underneath.");
             character.body.skin.type = SkinType.PLAIN;
             character.body.skin.desc = "skin";
         }
     }
     // Demon tongue
     if (character.body.tongue.type === TongueType.SNAKE && randInt(3) === 0) {
-        DisplayText("\n\nYour snake-like tongue tingles, thickening in your mouth until it feels more like your old human tongue, at least for the first few inches.  It bunches up inside you, and when you open up your mouth to release it, roughly two feet of tongue dangles out.  You find it easy to move and control, as natural as walking.  <b>You now have a long demon-tongue.</b>");
+        CView.text("\n\nYour snake-like tongue tingles, thickening in your mouth until it feels more like your old human tongue, at least for the first few inches.  It bunches up inside you, and when you open up your mouth to release it, roughly two feet of tongue dangles out.  You find it easy to move and control, as natural as walking.  <b>You now have a long demon-tongue.</b>");
         character.body.tongue.type = TongueType.DEMONIC;
     }
     // foot changes - requires furless
@@ -343,15 +344,15 @@ export function demonChanges(character: Character): void {
         // Males/genderless get clawed feet
         if (character.gender <= 1) {
             if (character.body.legs.type !== LegType.DEMONIC_CLAWS) {
-                DisplayText("\n\n");
-                DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + describeFeet(character) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>");
+                CView.text("\n\n");
+                CView.text("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + describeFeet(character) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>");
                 character.body.legs.type = LegType.DEMONIC_CLAWS;
             }
         }
         // Females/futa get high heels
         else if (character.body.legs.type !== LegType.DEMONIC_HIGH_HEELS) {
-            DisplayText("\n\n");
-            DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + describeFeet(character) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.");
+            CView.text("\n\n");
+            CView.text("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + describeFeet(character) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.");
             character.body.legs.type = LegType.DEMONIC_HIGH_HEELS;
         }
     }
@@ -359,38 +360,38 @@ export function demonChanges(character: Character): void {
     if (character.body.wings.type !== WingType.BAT_LIKE_LARGE && randInt(8) === 0 && character.stats.cor >= 50) {
         // grow smalls to large
         if (character.body.wings.type === WingType.BAT_LIKE_TINY && character.stats.cor >= 75) {
-            DisplayText("\n\n");
-            DisplayText("Your small demonic wings stretch and grow, tingling with the pleasure of being attached to such a tainted body.  You stretch over your shoulder to stroke them as they unfurl, turning into full-sized demon-wings.  <b>Your demonic wings have grown!</b>");
+            CView.text("\n\n");
+            CView.text("Your small demonic wings stretch and grow, tingling with the pleasure of being attached to such a tainted body.  You stretch over your shoulder to stroke them as they unfurl, turning into full-sized demon-wings.  <b>Your demonic wings have grown!</b>");
             character.body.wings.type = WingType.BAT_LIKE_LARGE;
             character.body.wings.desc = "large, bat-like";
         }
         else if (character.body.wings.type === WingType.SHARK_FIN) {
-            DisplayText("\n\n");
-            DisplayText("The muscles around your shoulders bunch up uncomfortably, changing to support the new bat-like wings growing from your back.  You twist your head as far as you can for a look and realize your fin has changed into ");
-            DisplayText("small ");
+            CView.text("\n\n");
+            CView.text("The muscles around your shoulders bunch up uncomfortably, changing to support the new bat-like wings growing from your back.  You twist your head as far as you can for a look and realize your fin has changed into ");
+            CView.text("small ");
             character.body.wings.type = WingType.BAT_LIKE_TINY;
             character.body.wings.desc = "tiny, bat-like";
-            DisplayText("bat-like demon-wings!");
+            CView.text("bat-like demon-wings!");
         }
         else if (character.body.wings.type === WingType.BEE_LIKE_SMALL || character.body.wings.type === WingType.BEE_LIKE_LARGE) {
-            DisplayText("\n\n");
-            DisplayText("The muscles around your shoulders bunch up uncomfortably, changing to support your wings as you feel their weight increasing.  You twist your head as far as you can for a look and realize they've changed into ");
+            CView.text("\n\n");
+            CView.text("The muscles around your shoulders bunch up uncomfortably, changing to support your wings as you feel their weight increasing.  You twist your head as far as you can for a look and realize they've changed into ");
             if (character.body.wings.type === WingType.BEE_LIKE_SMALL) {
-                DisplayText("small ");
+                CView.text("small ");
                 character.body.wings.type = WingType.BAT_LIKE_TINY;
                 character.body.wings.desc = "tiny, bat-like";
             }
             else {
-                DisplayText("large ");
+                CView.text("large ");
                 character.body.wings.type = WingType.BAT_LIKE_LARGE;
                 character.body.wings.desc = "large, bat-like";
             }
-            DisplayText("<b>bat-like demon-wings!</b>");
+            CView.text("<b>bat-like demon-wings!</b>");
         }
         // No wings
         else if (character.body.wings.type === WingType.NONE) {
-            DisplayText("\n\n");
-            DisplayText("A knot of pain forms in your shoulders as they tense up.  With a surprising force, a pair of small demonic wings sprout from your back, ripping a pair of holes in the back of your " + character.inventory.equipment.armor.displayName + ".  <b>You now have tiny demonic wings</b>.");
+            CView.text("\n\n");
+            CView.text("A knot of pain forms in your shoulders as they tense up.  With a surprising force, a pair of small demonic wings sprout from your back, ripping a pair of holes in the back of your " + character.inventory.equipment.armor.displayName + ".  <b>You now have tiny demonic wings</b>.");
             character.body.wings.type = WingType.BAT_LIKE_TINY;
             character.body.wings.desc = "tiny, bat-like";
         }

@@ -1,7 +1,6 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { Character } from '../../Character/Character';
-import { Scenes } from '../../Scenes/Scenes';
 import { ItemDesc } from '../ItemDesc';
 
 export class BlackCatBeer extends Consumable {
@@ -10,6 +9,6 @@ export class BlackCatBeer extends Consumable {
     }
 
     public use(character: Character) {
-        // Scenes.telAdre.niamh.blackCatBeerEffects(character);
+        blackCatBeerEffects(character);
     }
 }

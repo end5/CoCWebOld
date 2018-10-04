@@ -1,11 +1,11 @@
-﻿import { DisplayText } from '../../Engine/display/DisplayText';
-import { randInt } from '../../Engine/Utilities/SMath';
+﻿import { randInt } from '../../Engine/Utilities/SMath';
 import { BreastRow } from '../Body/BreastRow';
 import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { User } from '../User';
 import { breastCup, describeBreastRow } from '../Descriptors/BreastDescriptor';
+import { CView } from '../../Engine/Display/ContentView';
 
 export function growSmallestBreastRow(character: Character, amount: number, rowsGrown: number, display: boolean) {
     const chest = character.body.chest;
@@ -121,13 +121,13 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
             }
             if (topRow.rating < 0) topRow.rating = 0;
             // Talk about shrinkage
-            if (!superShrink) DisplayText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(topRow.rating) + "s.");
-            if (superShrink) DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(topRow.rating) + "s.");
+            if (!superShrink) CView.text("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(topRow.rating) + "s.");
+            if (superShrink) CView.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(topRow.rating) + "s.");
         }
     }
     else if (character.body.chest.length > 1) {
         // multiple
-        DisplayText("\n");
+        CView.text("\n");
         // temp2 = amount changed
         // temp3 = counter
         let shrinkAmount: number = 0;
@@ -138,16 +138,16 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
                 character.body.chest.get(breastRowIndex).rating--;
                 if (character.body.chest.get(breastRowIndex).rating < 0) character.body.chest.get(breastRowIndex).rating = 0;
                 shrinkAmount++;
-                DisplayText("\n");
-                if (breastRowIndex < character.body.chest.length - 1) DisplayText("...and y");
-                else DisplayText("Y");
-                DisplayText("our " + describeBreastRow(character.body.chest.get(breastRowIndex)) + " shrink, dropping to " + breastCup(character.body.chest.get(breastRowIndex).rating) + "s.");
+                CView.text("\n");
+                if (breastRowIndex < character.body.chest.length - 1) CView.text("...and y");
+                else CView.text("Y");
+                CView.text("our " + describeBreastRow(character.body.chest.get(breastRowIndex)) + " shrink, dropping to " + breastCup(character.body.chest.get(breastRowIndex).rating) + "s.");
             }
             if (character.body.chest.get(breastRowIndex).rating < 0) character.body.chest.get(breastRowIndex).rating = 0;
         }
-        if (shrinkAmount === 2) DisplayText("\nYou feel so much lighter after the change.");
-        if (shrinkAmount === 3) DisplayText("\nWithout the extra weight you feel particularly limber.");
-        if (shrinkAmount >= 4) DisplayText("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.");
+        if (shrinkAmount === 2) CView.text("\nYou feel so much lighter after the change.");
+        if (shrinkAmount === 3) CView.text("\nWithout the extra weight you feel particularly limber.");
+        if (shrinkAmount >= 4) CView.text("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.");
     }
 }
 

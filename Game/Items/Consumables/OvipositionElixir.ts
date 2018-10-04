@@ -1,11 +1,12 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { IncubationTime, Pregnancy, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
+import { CView } from '../../../Engine/Display/ContentView';
+import { Womb } from '../../Body/Pregnancy/Womb';
 
 export class OvipositionElixir extends Consumable {
     public constructor() {
@@ -14,7 +15,7 @@ export class OvipositionElixir extends Consumable {
 
     public canUse(character: Character): boolean {
         if (character.body.vaginas.length > 0) return true;
-        DisplayText("You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.\n\n");
+        CView.text("You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.\n\n");
         return false;
     }
 
@@ -33,51 +34,49 @@ export class OvipositionElixir extends Consumable {
      */
     public use(character: Character) {
         character.slimeFeed();
-        DisplayText("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
-        if (character.pregnancy.womb.isPregnantWith(PregnancyType.GOO_STUFFED)) {
-            DisplayText("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");
+        CView.text("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
+        if (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.GOO_STUFFED))) {
+            CView.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
-        if (character.pregnancy.womb.isPregnantWith(PregnancyType.WORM_STUFFED)) {
-            DisplayText("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.");
+        if (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.WORM_STUFFED))) {
+            CView.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
-        if (!character.pregnancy.womb.isPregnant()) { // If the character is not pregnant, get preggers with eggs!
-            DisplayText("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
-            character.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS), 1, true);
+        if (character.body.wombs.find(Womb.NotPregnant)) { // If the character is not pregnant, get preggers with eggs!
+            CView.text("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
+            character.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS), 1, true);
             character.effects.add(StatusEffectType.Eggs, randInt(6), 0, randInt(3) + 5, 0);
             return;
         }
         let changeOccurred: boolean = false;
-        if (character.pregnancy.womb.isPregnantWith(PregnancyType.OVIELIXIR_EGGS)) { // If character already has eggs, chance of size increase!
+        if (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.OVIELIXIR_EGGS))) { // If character already has eggs, chance of size increase!
             if (character.effects.has(StatusEffectType.Eggs)) {
                 // If eggs are small, chance of increase!
                 if (character.effects.get(StatusEffectType.Eggs).value2 === 0) {
                     // 1 in 2 chance!
                     if (randInt(3) === 0) {
                         character.effects.get(StatusEffectType.Eggs).value2 = 1;
-                        DisplayText("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
+                        CView.text("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
                         changeOccurred = true;
                     }
                 }
                 // Chance of quantity increase!
                 if (randInt(2) === 0) {
-                    DisplayText("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
+                    CView.text("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
                     character.effects.get(StatusEffectType.Eggs).value3 = randInt(4 + 1);
                     changeOccurred = true;
                 }
             }
         }
         // If no changes, speed up all pregnancies.
-        if (!changeOccurred && character.pregnancy.womb.isPregnant()) {
-            DisplayText("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
-            const pregnancy = character.pregnancy.womb.pregnancy;
-            if (pregnancy.incubation > 20 && pregnancy.type !== PregnancyType.BUNNY) {
-                let newIncubation: number = pregnancy.incubation - Math.floor(pregnancy.incubation * 0.3 + 10);
-                if (newIncubation < 2) newIncubation = 2;
-                pregnancy.incubation = newIncubation;
-                console.trace("Pregger Count New total:" + pregnancy.incubation);
-            }
+        const pregnantWomb = character.body.wombs.find((womb) => womb.isPregnant() && womb.pregnancy.type !== PregnancyType.BUNNY);
+        if (!changeOccurred && pregnantWomb && pregnantWomb.pregnancy.incubation > 20) {
+            CView.text("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
+            let newIncubation: number = pregnantWomb.pregnancy.incubation - Math.floor(pregnantWomb.pregnancy.incubation * 0.3 + 10);
+            if (newIncubation < 2) newIncubation = 2;
+            pregnantWomb.pregnancy.incubation = newIncubation;
+            // console.trace("Pregger Count New total:" + pregnancy.incubation);
         }
     }
 }

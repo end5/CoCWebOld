@@ -1,12 +1,10 @@
-import { Menus } from './Menus';
-import { DisplayText } from '../../Engine/display/DisplayText';
-import { InputTextElement } from '../../Engine/Display/Elements/InputTextElement';
 import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
 import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Gender } from '../Body/GenderIdentity';
 import { SaveFile } from '../SaveFile';
 import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
+import { CView } from '../../Engine/Display/ContentView';
 
 export function saveSlotChoices(saveSlotCallback: (index: number) => ClickOption, prevMenu: ClickOption): NextScreenChoices {
     const choices = [];
@@ -18,7 +16,7 @@ export function saveSlotChoices(saveSlotCallback: (index: number) => ClickOption
 
 export function displaySaves() {
     const saveListElement = new UnorderedListElement();
-    DisplayText().appendElement(saveListElement);
+    CView.textElement.appendElement(saveListElement);
 
     for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
         const saveElement = new ListEntryElement();
