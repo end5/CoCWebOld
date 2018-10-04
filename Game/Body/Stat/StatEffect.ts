@@ -1,12 +1,12 @@
 export enum StatEffectType {
-    Base = 'base',
+    Value = 'value',
     Min = 'min',
     Max = 'max',
 }
 
 export class StatEffect {
     public constructor(
-        public type: StatEffectType = StatEffectType.Base,
+        public type: StatEffectType = StatEffectType.Value,
         public multiplier: number = 1,
         public flat: number = 0,
     ) { }

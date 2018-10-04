@@ -11,52 +11,55 @@ class StatEffectListObeserver implements IObserverList<StatEffect> {
     public onRemove(index: number): void { }
     public onClear(): void { }
     public update(message: string): void {
-        this.stat.recalculate();
+        this.stat.update();
     }
 }
 
 export class ModifiableStat implements ISerializable<ModifiableStat> {
-    public readonly baseStat: Stat;
-    public readonly modStat: Stat;
+    private readonly base: Stat;
+    private readonly calcEffects = {
+        [StatEffectType.Value]: new StatEffect(StatEffectType.Value),
+        [StatEffectType.Min]: new StatEffect(StatEffectType.Min),
+        [StatEffectType.Max]: new StatEffect(StatEffectType.Max),
+    };
     public effects = new ObservableList<StatEffect>();
 
     public constructor(name: string) {
-        this.baseStat = new Stat(name);
-        this.modStat = new Stat(name);
+        this.base = new Stat(name);
         this.effects.attach(new StatEffectListObeserver(this));
-        this.recalculate();
+        this.update();
     }
 
-    public get value() { return this.modStat.value; }
-    public get min() { return this.modStat.min; }
-    public get max() { return this.modStat.max; }
+    public get value() { return this.base.value * this.calcEffects[StatEffectType.Value].multiplier + this.calcEffects[StatEffectType.Value].flat; }
+    public set value(num: number) { this.base.value += num; }
 
-    public recalculate() {
-        const calcEffects = {
-            [StatEffectType.Base]: new StatEffect(StatEffectType.Base),
-            [StatEffectType.Min]: new StatEffect(StatEffectType.Min),
-            [StatEffectType.Max]: new StatEffect(StatEffectType.Max),
-        };
+    public get min() { return this.base.min * this.calcEffects[StatEffectType.Min].multiplier + this.calcEffects[StatEffectType.Min].flat; }
+    public set min(num: number) { this.base.min += num; }
 
-        for (const effect of this.effects) {
-            calcEffects[effect.type].flat += effect.flat;
-            calcEffects[effect.type].multiplier += effect.multiplier;
+    public get max() { return this.base.max * this.calcEffects[StatEffectType.Max].multiplier + this.calcEffects[StatEffectType.Max].flat; }
+    public set max(num: number) { this.base.max += num; }
+
+    public update() {
+        for (const type of [StatEffectType.Value, StatEffectType.Min, StatEffectType.Max]) {
+            this.calcEffects[type].flat = 0;
+            this.calcEffects[type].multiplier = 1;
         }
 
-        this.modStat.value = this.baseStat.value * calcEffects[StatEffectType.Base].multiplier + calcEffects[StatEffectType.Base].flat;
-        this.modStat.min = this.baseStat.min * calcEffects[StatEffectType.Min].multiplier + calcEffects[StatEffectType.Min].flat;
-        this.modStat.max = this.baseStat.max * calcEffects[StatEffectType.Max].multiplier + calcEffects[StatEffectType.Max].flat;
+        for (const effect of this.effects) {
+            this.calcEffects[effect.type].flat += effect.flat;
+            this.calcEffects[effect.type].multiplier += effect.multiplier;
+        }
     }
 
     public serialize(): object {
         return {
-            baseStat: this.baseStat.serialize(),
+            base: this.base.serialize(),
             effects: ListSerializer.serialize(this.effects),
         };
     }
 
     public deserialize(saveObject: ModifiableStat): void {
-        this.baseStat.deserialize(saveObject.baseStat);
+        this.base.deserialize(saveObject.base);
         ListSerializer.deserialize(saveObject.effects, this.effects, StatEffect);
     }
 }
