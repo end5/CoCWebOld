@@ -1,9 +1,8 @@
 ﻿import { BreastRow } from './BreastRow';
 import { Gender, GenderIdentity } from './GenderIdentity';
 import { LegType } from './Legs';
-import { PregnancyManager } from './Pregnancy/PregnancyManager';
 import { Stats } from './Stats';
-import { StatsModifier } from './StatsModifier';
+import { StatsFacade } from './StatsFacade';
 import { Body } from './Body';
 import { Vagina } from './Vagina';
 import { WingType } from './Wings';
@@ -11,6 +10,7 @@ import { DictionarySerializer } from '../../Engine/Utilities/DictionarySerialize
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { PerkDict } from '../Effects/PerkDict';
 import { StatusEffectDict } from '../Effects/StatusEffectDict';
+import { Womb } from './Pregnancy/Womb';
 
 export class Creature implements ISerializable<Creature> {
     // Appearance Variables
@@ -18,10 +18,9 @@ export class Creature implements ISerializable<Creature> {
     public hoursSinceCum: number = 0;
 
     public body: Body = new Body();
-    public pregnancy: PregnancyManager = new PregnancyManager(this);
 
     protected baseStats: Stats = new Stats();
-    public stats: StatsModifier = new StatsModifier(this, this.baseStats);
+    public stats: StatsFacade = new StatsFacade(this, this.baseStats);
     public effects: StatusEffectDict = new StatusEffectDict();
     public perks: PerkDict = new PerkDict();
 
@@ -136,7 +135,7 @@ export class Creature implements ISerializable<Creature> {
     }
 
     public canGoIntoHeat() {
-        return this.body.vaginas.length > 0 && !this.pregnancy.womb.isPregnant();
+        return this.body.vaginas.length > 0 && !this.body.wombs.find(Womb.Pregnant);
     }
 
     public canGoIntoRut(): boolean {
@@ -152,7 +151,6 @@ export class Creature implements ISerializable<Creature> {
             genderPref: this.genderPref,
             hoursSinceCum: this.hoursSinceCum,
             torso: this.body.serialize(),
-            pregnancy: this.pregnancy.serialize(),
             baseStats: this.baseStats.serialize(),
             statusAffects: DictionarySerializer.serialize(this.effects),
             perks: DictionarySerializer.serialize(this.perks),
@@ -163,7 +161,6 @@ export class Creature implements ISerializable<Creature> {
         this.genderPref = saveObject.genderPref;
         this.hoursSinceCum = saveObject.hoursSinceCum;
         this.body.deserialize(saveObject.body);
-        this.pregnancy.deserialize(saveObject.pregnancy);
         this.baseStats.deserialize(saveObject.baseStats);
         this.effects.deserialize(saveObject.effects);
         this.perks.deserialize(saveObject.perks);

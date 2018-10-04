@@ -1,13 +1,13 @@
-export enum StatEffectType {
-    Value = 'value',
-    Min = 'min',
-    Max = 'max',
-}
-
-export class StatEffect {
+export class StatValueModifier {
     public constructor(
-        public type: StatEffectType = StatEffectType.Value,
         public multiplier: number = 1,
         public flat: number = 0,
     ) { }
+}
+
+export interface StatEffect {
+    name: string;
+    value: StatValueModifier;
+    min: StatValueModifier;
+    max: StatValueModifier;
 }

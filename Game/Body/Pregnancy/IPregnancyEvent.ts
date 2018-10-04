@@ -1,7 +1,7 @@
-import { Creature } from '../Creature';
+import { Body } from '../Body';
 
 export interface IPregnancyEvent {
-    incubationDisplay(creature: Creature, incubationTime: number);
-    canBirth(creature: Creature, incubationTime: number);
-    birthScene(creature: Creature);
+    incubationDisplay(body: Body, incubationTime: number);
+    canBirth(body: Body, incubationTime: number);
+    birthScene(body: Body);
 }

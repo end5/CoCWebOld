@@ -23,6 +23,32 @@ import { Eyes } from './Eyes';
 import { Tongue } from './Tongue';
 import { Beard } from './Beard';
 import { Antennae } from './Antennae';
+import { ModifiableStat } from './Stat/ModifiableStat';
+import { Womb } from './Pregnancy/Womb';
+import { Ovipositor } from './Pregnancy/Ovipositor';
+import { ButtWomb } from './Pregnancy/ButtWomb';
+import { IObserverList } from '../Utilities/IObserverList';
+
+class VaginaObserver implements IObserverList<Vagina> {
+    public constructor(
+        private readonly body: Body,
+        private readonly wombs: ObservableList<Womb>
+    ) { }
+
+    public onAdd(item: Vagina): void {
+        this.wombs.add(new Womb(this.body));
+    }
+
+    public onRemove(index: number): void {
+        this.wombs.remove(index);
+    }
+
+    public onClear(): void {
+        this.wombs.clear();
+    }
+
+    public update(message: string): void { }
+}
 
 export class Body implements ISerializable<Body> {
     public readonly antennae = new Antennae();
@@ -53,29 +79,52 @@ export class Body implements ISerializable<Body> {
     public tallness: number = 0;
     public thickness: number = 0;
     public tone: number = 0;
-    private fem: number = 50;
+
+    public cumMultiplier: number = 0;
+    private femStat = new ModifiableStat('femininity');
 
     public get femininity(): number {
-        if (this.fem > 100)
-            this.fem = 100;
-
-        return this.fem;
+        return this.femStat.value;
     }
 
     public set femininity(value: number) {
-        if (value > 100)
-            value = 100;
-        else if (value < 0)
-            value = 0;
-
-        this.fem = value;
+        this.femStat.value = value;
     }
 
-    // Fertility is a % out of 100.
-    public fertility: number = 10;
-    public cumMultiplier: number = 1;
+    private fertStat = new ModifiableStat('fertility');
 
-    public serialize(): object | undefined {
+    public get fertility(): number {
+        return this.fertStat.value;
+    }
+
+    public set fertility(value: number) {
+        this.fertStat.value = value;
+    }
+
+    public wombs = new ObservableList<Womb>();
+    public buttWomb = new ButtWomb(this);
+    public ovipositor = new Ovipositor();
+
+    public constructor() {
+        this.femStat.value = 50;
+        this.femStat.max = 100;
+        this.femStat.min = 0;
+        this.fertStat.value = 10;
+        this.fertStat.max = 100;
+        this.fertStat.min = 0;
+
+        this.vaginas.attach(new VaginaObserver(this, this.wombs));
+    }
+
+    public update(hours: number) {
+        for (let timeCountdown: number = 0; timeCountdown < hours; timeCountdown++) {
+            for (const womb of this.wombs)
+                womb.update();
+            this.buttWomb.update();
+        }
+    }
+
+    public serialize(): object {
         return {
             antennae: this.antennae.serialize(),
             horns: this.horns.serialize(),
@@ -98,12 +147,17 @@ export class Body implements ISerializable<Body> {
             clit: this.clit.serialize(),
             legs: this.legs.serialize(),
             skin: this.skin.serialize(),
+
             tallness: this.tallness,
             thickness: this.thickness,
             tone: this.tone,
-            femininity: this.fem,
-            fertility: this.fertility,
             cumMultiplier: this.cumMultiplier,
+            femStat: this.femStat.serialize(),
+            fertStat: this.fertStat.serialize(),
+
+            buttWomb: this.buttWomb.serialize(),
+            wombs: ListSerializer.serialize(this.wombs),
+            ovipositor: this.ovipositor.serialize()
         };
     }
 
@@ -129,11 +183,16 @@ export class Body implements ISerializable<Body> {
         this.clit.deserialize(saveObject.clit);
         this.legs.deserialize(saveObject.legs);
         this.skin.deserialize(saveObject.skin);
+
         this.tallness = saveObject.tallness;
         this.thickness = saveObject.thickness;
         this.tone = saveObject.tone;
-        this.fem = saveObject.femininity;
-        this.fertility = saveObject.fertility;
         this.cumMultiplier = saveObject.cumMultiplier;
+        this.femStat.deserialize(saveObject.femStat);
+        this.fertStat.deserialize(saveObject.fertStat);
+
+        this.buttWomb.deserialize(saveObject.buttWomb);
+        ListSerializer.deserialize(saveObject.wombs, this.wombs, Womb);
+        this.ovipositor.deserialize(saveObject.ovipositor);
     }
 }

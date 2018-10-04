@@ -3,7 +3,7 @@ import { Stats } from './Stats';
 import { User } from '../User';
 import { Gender } from './GenderIdentity';
 
-export class StatsModifier {
+export class StatsFacade {
     private body: Creature;
     private stats: Stats;
 
@@ -13,147 +13,137 @@ export class StatsModifier {
     }
 
     public get str(): number {
-        return this.stats.str;
+        return this.stats.str.value;
     }
 
     public set str(value: number) {
         value -= this.str;
-        this.stats.str += value;
+        this.stats.str.value += value;
     }
 
     public get tou(): number {
-        return this.stats.tou;
+        return this.stats.tou.value;
     }
 
     public set tou(value: number) {
-        value -= this.stats.tou;
-        this.stats.tou += value;
+        value -= this.stats.tou.value;
+        this.stats.tou.value += value;
 
         // Add HP for toughness change.
         this.HP += value * 2;
     }
 
     public get spe(): number {
-        return this.stats.spe;
+        return this.stats.spe.value;
     }
 
     public set spe(value: number) {
-        value -= this.stats.spe;
-        this.stats.spe += value;
+        value -= this.stats.spe.value;
+        this.stats.spe.value += value;
     }
 
     public get int(): number {
-        return this.stats.int;
+        return this.stats.int.value;
     }
 
     public set int(value: number) {
-        value -= this.stats.int;
+        value -= this.stats.int.value;
         this.intChange(value);
     }
 
     public set intBimbo(value: number) {
-        value -= this.stats.int;
+        value -= this.stats.int.value;
         this.intChange(value, true);
     }
 
     private intChange(value: number, bimboIntReduction: boolean = false) {
-        this.stats.int += value;
+        this.stats.int.value += value;
     }
 
     public get lib(): number {
-        return this.stats.lib;
+        return this.stats.lib.value;
     }
 
     public set lib(value: number) {
-        value -= this.stats.lib;
+        value -= this.stats.lib.value;
         this.libChange(value);
     }
 
     public set libBimbo(value: number) {
-        value -= this.stats.lib;
+        value -= this.stats.lib.value;
         this.libChange(value, true);
     }
 
     private libChange(value: number, bimboIntReduction: boolean = false) {
-        this.stats.lib += value;
+        this.stats.lib.value += value;
 
-        if (this.stats.lib < 15 && this.body.gender > 0)
-            this.stats.lib = 15;
-        else if (this.stats.lib < 10 && this.body.gender === Gender.NONE)
-            this.stats.lib = 10;
-        if (this.stats.lib < this.minLust() * 2 / 3)
-            this.stats.lib = this.minLust() * 2 / 3;
+        if (this.stats.lib.value < 15 && this.body.gender > 0)
+            this.stats.lib.value = 15;
+        else if (this.stats.lib.value < 10 && this.body.gender === Gender.NONE)
+            this.stats.lib.value = 10;
+        if (this.stats.lib.value < this.minLust() * 2 / 3)
+            this.stats.lib.value = this.minLust() * 2 / 3;
     }
 
     public get sens(): number {
-        return this.stats.sens;
+        return this.stats.sens.value;
     }
 
     public set sens(value: number) {
-        value -= this.stats.sens;
+        value -= this.stats.sens.value;
 
-        if (this.stats.sens > 50 && value > 0) value /= 2;
-        if (this.stats.sens > 75 && value > 0) value /= 2;
-        if (this.stats.sens > 90 && value > 0) value /= 2;
-        if (this.stats.sens > 50 && value < 0) value *= 2;
-        if (this.stats.sens > 75 && value < 0) value *= 2;
-        if (this.stats.sens > 90 && value < 0) value *= 2;
+        if (this.stats.sens.value > 50 && value > 0) value /= 2;
+        if (this.stats.sens.value > 75 && value > 0) value /= 2;
+        if (this.stats.sens.value > 90 && value > 0) value /= 2;
+        if (this.stats.sens.value > 50 && value < 0) value *= 2;
+        if (this.stats.sens.value > 75 && value < 0) value *= 2;
+        if (this.stats.sens.value > 90 && value < 0) value *= 2;
 
-        this.stats.sens += value;
+        this.stats.sens.value += value;
     }
 
     public get cor(): number {
-        return this.stats.cor;
+        return this.stats.cor.value;
     }
 
     public set cor(value: number) {
-        value -= this.stats.cor;
+        value -= this.stats.cor.value;
 
-        this.stats.cor += value;
-        if (this.stats.cor < 0)
-            this.stats.cor = 0;
+        this.stats.cor.value += value;
     }
 
     public clearCor() {
-        this.stats.cor = 0;
+        this.stats.cor.value = 0;
     }
 
     public get fatigue(): number {
-        return this.stats.fatigue;
+        return this.stats.fatigue.value;
     }
 
     public set fatigue(value: number) {
-        value -= this.stats.fatigue;
-        if (this.stats.fatigue >= 100 && value > 0) return;
-        if (this.stats.fatigue <= 0 && value < 0) return;
-        this.stats.fatigue += value;
-        if (this.stats.fatigue > 100) this.stats.fatigue = 100;
-        if (this.stats.fatigue < 0) this.stats.fatigue = 0;
+        value -= this.stats.fatigue.value;
+        this.stats.fatigue.value += value;
     }
 
     public fatiguePhysical(value: number) {
-        this.stats.fatigue = value;
+        this.stats.fatigue.value = value;
     }
 
     public fatigueMagic(value: number) {
-        this.stats.fatigue = value;
+        this.stats.fatigue.value = value;
     }
 
     public get HP(): number {
-        return this.stats.HP;
+        return this.stats.HP.value;
     }
 
     public set HP(value: number) {
-        this.stats.HP = value;
-        if (this.stats.HP < 0)
-            this.stats.HP = 0;
-        if (this.stats.HP > this.maxHP())
-            this.stats.HP = this.maxHP();
+        this.stats.HP.value = value;
     }
 
     public maxHP(): number {
         let max: number = 0;
-        max += Math.floor(this.stats.tou * 2 + 50);
+        max += Math.floor(this.stats.tou.value * 2 + 50);
         if (this.body.stats.level <= 20)
             max += this.body.stats.level * 15;
         else
@@ -161,6 +151,7 @@ export class StatsModifier {
         max = Math.round(max);
         if (max > 999)
             max = 999;
+        this.stats.HP.max = max;
         return max + this.bonusHP;
     }
 
@@ -173,16 +164,16 @@ export class StatsModifier {
     }
 
     public get lust(): number {
-        return this.stats.lust;
+        return this.stats.lust.value;
     }
 
     public set lust(value: number) {
-        value -= this.stats.lust;
+        value -= this.stats.lust.value;
         this.lustChange(value, true);
     }
 
     public set lustNoResist(value: number) {
-        value -= this.stats.lust;
+        value -= this.stats.lust.value;
         this.lustChange(value, false);
     }
 
@@ -192,18 +183,11 @@ export class StatsModifier {
         if (value > 0 && lustResisted)
             value *= this.lustPercent() / 100;
 
-        this.stats.lust += value;
-
-        if (this.stats.lust < 0)
-            this.stats.lust = 0;
-        if (this.stats.lust > 99)
-            this.stats.lust = 100;
-        if (this.stats.lust < this.minLust())
-            this.stats.lust = this.minLust();
+        this.stats.lust.value += value;
     }
 
     public minLust(): number {
-        return this.stats.minLust;
+        return this.stats.lust.min;
     }
 
     public lustPercent(): number {
