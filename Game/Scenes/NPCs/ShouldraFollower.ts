@@ -1518,11 +1518,11 @@ export function shouldraWakesUpOrPokesPCsForShitsAndGigglesIdunnoHowLongCanIMake
     // 8 (Tel'Adre unlocked)
     if (player.effects.get(StatusEffectType.TelAdre).value1 >= 1) choices[choices.length] = 8;
     // 9 (is preggers)
-    if (player.pregnancy.womb.isPregnant()) choices[choices.length] = 9;
+    if (player.body.wombs.find(Womb.Pregnant)) choices[choices.length] = 9;
     // 10 (is preggers2)
-    if (player.pregnancy.womb.isPregnant()) choices[choices.length] = 10;
+    if (player.body.wombs.find(Womb.Pregnant)) choices[choices.length] = 10;
     // 11 (is butt pregnant)
-    if (player.pregnancy.buttWomb.isPregnant()) choices[choices.length] = 11;
+    if (player.body.buttWomb.isPregnant()) choices[choices.length] = 11;
     // 12 (can fly)
     if (player.canFly()) choices[choices.length] = 12;
     // 13 (is Naga)

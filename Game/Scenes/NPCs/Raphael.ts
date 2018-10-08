@@ -1,7 +1,6 @@
 import { FlagType } from "../../Utilities/FlagType";
 import { User } from "../../User";
 import { ITimeAware } from "../../ITimeAware";
-import { RaphaelLikes } from "./NPCAwareContent";
 import { Time } from "../../Utilities/Time";
 import { StatusEffectType } from "../../Effects/StatusEffectType";
 import { CView } from "../../../Engine/Display/ContentView";
@@ -38,8 +37,7 @@ export const RaphaelFlags = {
 };
 User.flags.set(FlagType.Raphael, RaphaelFlags);
 
-export class Raphael implements ITimeAware {
-
+export class RaphaelTimeAware implements ITimeAware {
     // The event itself:
     // Requirement: Player has found Desert storage chest &
     // Tel'Adre has been found.
@@ -52,40 +50,37 @@ export class Raphael implements ITimeAware {
     private checkedRussetRogue: number;
 
     // Implementation of ITimeAware
-    public timeChange(): boolean {
-        checkedRussetRogue = 0; // Make sure we test just once in timeChangeLarge
+    public timeChange(player: Character): boolean {
+        this.checkedRussetRogue = 0; // Make sure we test just once in timeChangeLarge
         if (RaphaelFlags.RAPHAEL_DRESS_TIMER > 1 && player.inventory.gems >= 5) RaphaelFlags.RAPHAEL_DRESS_TIMER--;
         if (RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER > 1 && player.inventory.gems >= 5) RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER--;
         // Fix 'hangs' - PC is at the bottom of the dress countdown
-        if (RaphaelFlags.RAPHAEL_DRESS_TIMER === 1 && RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER === 0 && RaphaelLikes()) RaphaelFlags.RAPHAEL_DRESS_TIMER = 4;
+        if (RaphaelFlags.RAPHAEL_DRESS_TIMER === 1 && RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER === 0 && RaphaelLikes(player)) RaphaelFlags.RAPHAEL_DRESS_TIMER = 4;
         return false;
     }
 
-    public timeChangeLarge(): boolean {
-        if (checkedRussetRogue++ === 0 && Time.hour === 6 && RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER >= 0 && player.inventory.keyItems.has("Camp - Chest") && player.inventory.gems >= 5 && player.effects.get(StatusEffectType.TelAdre).value1 >= 1) {
+    public timeChangeLarge(player: Character): NextScreenChoices {
+        if (this.checkedRussetRogue++ === 0 && Time.hour === 6 && RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER >= 0 && player.inventory.keyItems.has("Camp - Chest") && player.inventory.gems >= 5 && player.effects.get(StatusEffectType.TelAdre).value1 >= 1) {
             /*trace("RAPHAEL FINAL COUNTDOWN: " + RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER);
             trace("RAPHAEL MET: " + RaphaelFlags.RAPHAEL_MET);
             trace("RAPHAEL DRESS TIMER: " + RaphaelFlags.RAPHAEL_DRESS_TIMER);
             trace("RAPHAEL DISGUSTED: " + RaphaelFlags.RAPHAEL_DISGUSTED_BY_PC_APPEARANCE);*/
             if (RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER === 0) { // Countdown to finale not currently engaged!
                 // If the PC meets his criteria!
-                if (RaphaelLikes()) { // Not yet met!  MEETING TIEM!
+                if (RaphaelLikes(player)) { // Not yet met!  MEETING TIEM!
                     if (RaphaelFlags.RAPHAEL_MET === 0) {
                         CView.text("<b>\nSomething unusual happens that morning...</b>\n");
                         return { next: meetRaphael };
-                        return true;
                     }
                     else { // Already met!
                         if (RaphaelFlags.RAPHAEL_DRESS_TIMER === 0 && RaphaelFlags.RAPHAEL_SECOND_DATE === 0) { // Not given dress yet
                             CView.text("<b>\nSomething unusual happens that morning...</b>\n");
                             return { next: RaphaelDress };
-                            return true;
                         }
                         // Dress followup - Call picnic date prologue!
-                        if (player.inventory.equipment.armor === ArmorName.RedBodysuit && (RaphaelFlags.RAPHAEL_DRESS_TIMER > 1 && RaphaelFlags.RAPHAEL_DRESS_TIMER <= 4)) {
+                        if (player.inventory.equipment.armor.name === ArmorName.RedBodysuit && (RaphaelFlags.RAPHAEL_DRESS_TIMER > 1 && RaphaelFlags.RAPHAEL_DRESS_TIMER <= 4)) {
                             CView.text("<b>\nSomething unusual happens that morning...</b>\n");
                             return { next: RaphaelEncounterIIDressFollowup };
-                            return true;
                         }
                     }
                 }
@@ -98,21 +93,21 @@ export class Raphael implements ITimeAware {
                     }
                     // PC get ready for the 2nd encounter and hasn't been
                     // shot down yet?
-                    if (player.inventory.equipment.armor === ArmorName.RedBodysuit && RaphaelFlags.RAPHAEL_DISGUSTED_BY_PC_APPEARANCE === 0) {
+                    if (player.inventory.equipment.armor.name === ArmorName.RedBodysuit && RaphaelFlags.RAPHAEL_DISGUSTED_BY_PC_APPEARANCE === 0) {
                         CView.text("<b>\nSomething unusual happens that morning...</b>\n");
                         return { next: RaphaelEncounterIIDressFollowup };
-                        return true;
                     }
                 }
             }
             else if (RaphaelFlags.RAPHEAL_COUNTDOWN_TIMER === 1) { // FINALE
                 CView.text("<b>\nSomething unusual happens that morning...</b>\n");
                 return { next: quiksilverFawkesEndGame };
-                return true;
             }
         }
-        return false;
     }
+
+    public serialize() { }
+    public deserialize(saveObject: ITimeAware): void { }
 }
 
 export function RaphaelLikes(player: Character): boolean {

@@ -22,7 +22,6 @@ import { describeCocksLight, describeCock } from "../../Descriptors/CockDescript
 import { describeBalls } from "../../Descriptors/BallsDescriptor";
 import { describeButt, describeButthole } from "../../Descriptors/ButtDescriptor";
 import { describeFaceShort } from "../../Descriptors/FaceDescriptor";
-import { TailType } from "../../Body/Tail";
 import { describeLegs, describeFeet } from "../../Descriptors/LegDescriptor";
 import { ConsumableName } from "../../Items/Consumables/ConsumableName";
 import { ItemType } from "../../Items/ItemType";
@@ -30,6 +29,7 @@ import { describeHips } from "../../Descriptors/HipDescriptor";
 import { displayStretchButt } from "../../Modifiers/ButtModifier";
 import { displayStretchVagina } from "../../Modifiers/VaginaModifier";
 import { campMenu } from "../../Menus/InGame/PlayerMenu";
+import { followerShouldra, exgartumonAndShouldraFightPartII, exgartumonAndShouldraFightPartIII, shouldraWakesUpOrPokesPCsForShitsAndGigglesIdunnoHowLongCanIMakeThisFunctionNameQuestionMark, shouldersWarnings, shouldraDream1, morningShouldraAlert, nightTimeShouldraRapesThePC } from "./ShouldraFollower";
 
 export const ShouldraFlags = {
     SHOULDRA_MAGIC_COOLDOWN: 0,
@@ -61,47 +61,24 @@ export const ShouldraFlags = {
 User.flags.set(FlagType.Shouldra, ShouldraFlags);
 
 export class ShouldraScene implements ITimeAware {
-
-    // const TIMES_MET_SHOULDRA: number = 351;
-    // const TIMES_BEATEN_SHOULDRA: number = 352;
-    // const TIMES_POSSESSED_BY_SHOULDRA: number = 353;
-    // const TIMED_SHARKGINAS: number = 354;
-    // const TIMES_SHARKPENISED: number = 355;
-    // const SHOULDRA_SLIME_PENOR_TIMES: number = 356;
-    // const SHOULDRA_GENDERLESS_FUCK_COUNT: number = 357;
-    // const SHOULDRA_PENIS_DEFEAT_TIMES: number = 358;
-    // const SHOULDRA_WORM_SCENE_COUNTER: number = 359;
-    // const SHOULDRA_EXGARTUAN_SPIRIT_SEX_COUNT: number = 360;
-    // const SHOULDRA_VAGINAL_POSSESSIONS: number = 361;
-    // const SHOULDRA_HERMSEX_COUNT: number = 362;
-    // const SHOULDRA_USES_YOUR_GIANT_COCK_COUNT: number = 363;
-    // const TIMES_MET_OOZE: number = 364;
-    // const SLIMEGINAED: number = 509;
-    // const GHOST_GIRL_SLIME_X_SHOULDRA_COUNTER: number = 510;
-
-    public constructor() {
-        timeAwareClassAdd(this);
-    }
-
-    // Implementation of ITimeAware
-    public timeChange(): boolean {
+    public timeChange(player: Character): boolean {
         let needNext: boolean = false;
         if (ShouldraFlags.SHOULDRA_MAGIC_COOLDOWN >= 1) ShouldraFlags.SHOULDRA_MAGIC_COOLDOWN--;
         if (followerShouldra()) {
             if (player.effects.get(StatusEffectType.Exgartuan).value1 === 1 && player.body.cocks.length > 0 && randInt(10) === 0) {
                 if (ShouldraFlags.SHOULDRA_EXGARTUDRAMA === 1) {
-                    exgartumonAndShouldraFightPartII();
+                    exgartumonAndShouldraFightPartII(player);
                     needNext = true;
                 }
                 else if (ShouldraFlags.SHOULDRA_EXGARTUDRAMA === 2) {
-                    exgartumonAndShouldraFightPartIII();
+                    exgartumonAndShouldraFightPartIII(player);
                     needNext = true;
                 }
             }
             ShouldraFlags.SHOULDRA_SLEEP_TIMER--;
             if (shouldersWarnings()) needNext = true;
             if (ShouldraFlags.SHOULDRA_SLEEP_TIMER === 0 || (ShouldraFlags.SHOULDRA_SLEEP_TIMER < 0 && ShouldraFlags.SHOULDRA_SLEEP_TIMER % 16 === 0)) {
-                shouldraWakesUpOrPokesPCsForShitsAndGigglesIdunnoHowLongCanIMakeThisFunctionNameQuestionMark();
+                shouldraWakesUpOrPokesPCsForShitsAndGigglesIdunnoHowLongCanIMakeThisFunctionNameQuestionMark(player);
                 needNext = true;
             }
             if (ShouldraFlags.SHOULDRA_PLOT_COUNTDOWN > 0 && Time.hour === 3) ShouldraFlags.SHOULDRA_PLOT_COUNTDOWN--;
@@ -109,21 +86,18 @@ export class ShouldraScene implements ITimeAware {
         return needNext;
     }
 
-    public timeChangeLarge(): boolean {
+    public timeChangeLarge(player: Character): NextScreenChoices {
         if (followerShouldra() && ShouldraFlags.SHOULDRA_PLOT_COUNTDOWN === 0 && Time.hour === 3) {
             ShouldraFlags.SHOULDRA_PLOT_COUNTDOWN = -1;
-            shouldraDream1();
-            return true;
+            return shouldraDream1(player);
         }
         // Ghostgirl recruitment priority
         if (ShouldraFlags.SHOULDRA_FOLLOWER_STATE === .5 && Time.hour === 6) {
-            morningShouldraAlert();
-            return true;
+            return morningShouldraAlert(player);
         }
         // Ghostgirl pissed off dreams
         if (followerShouldra() && ShouldraFlags.SHOULDRA_SLEEP_TIMER <= -236 && Time.hour === 3 && player.gender > 0) {
-            nightTimeShouldraRapesThePC();
-            return true;
+            return nightTimeShouldraRapesThePC(player);
         }
         // Ghostgirl madness
         if (ShouldraFlags.UNKNOWN_FLAG_NUMBER_00365 > 0) {
@@ -133,11 +107,9 @@ export class ShouldraScene implements ITimeAware {
                 ShouldraFlags.UNKNOWN_FLAG_NUMBER_00365--;
                 if (ShouldraFlags.UNKNOWN_FLAG_NUMBER_00365 === 0) {
                     return paladinModeFollowup(player);
-                    return true;
                 }
             }
         }
-        return false;
     }
 }
 

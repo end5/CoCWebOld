@@ -60,13 +60,9 @@ export class Rathazul implements ITimeAware {
         return false;
     }
 
-    public timeChangeLarge(): boolean {
-        return false;
-    }
+    public timeChangeLarge() { }
 
-    public serialize(): object {
-        return {};
-    }
+    public serialize() { }
 
     public deserialize(saveObject: ITimeAware): void { }
 }

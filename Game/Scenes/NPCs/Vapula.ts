@@ -30,6 +30,8 @@ import { campCorruptJojo, tentacleJojo } from "./JojoScene";
 import { amilyFollower, amilyCorrupt } from "./AmilyScene";
 import { ceraphIsFollower } from "./CeraphFollowerScene";
 import { luststickApplication } from "./SophieScene";
+import { partial } from "../../Utilities/Partial";
+import { Womb } from "../../Body/Pregnancy/Womb";
 
 export const VapulaFlags = {
     FOLLOWER_AT_FARM_VAPULA: 0,
@@ -58,13 +60,8 @@ export const VapulaFlags = {
 };
 User.flags.set(FlagType.Vapula, VapulaFlags);
 
-export class Vapula implements ITimeAware {
-    public constructor() {
-        timeAwareClassAdd(this);
-    }
-
-    // Implementation of ITimeAware
-    public timeChange(): boolean {
+export class VapulaTimeAware implements ITimeAware {
+    public timeChange(player: Character): boolean {
         if (Time.hour > 23) {
             if (vapulaSlave() && VapulaFlags.FOLLOWER_AT_FARM_VAPULA === 0) {
                 if (VapulaFlags.VAPULA_HAREM_FUCK === 0) VapulaFlags.VAPULA_DAYS_SINCE_FED++;
@@ -80,17 +77,20 @@ export class Vapula implements ITimeAware {
         return false;
     }
 
-    public timeChangeLarge(): boolean {
+    public timeChangeLarge(player: Character) {
         if (VapulaFlags.VAPULA_FOLLOWER >= 2.5 && Time.hour === 6 && VapulaFlags.FOLLOWER_AT_FARM_VAPULA === 0) {
             return femaleVapulaRecruitmentPartII(player);
-            return true;
         }
         if (Time.hour === 2 && vapulaSlave() && VapulaFlags.FOLLOWER_AT_FARM_VAPULA === 0 && VapulaFlags.VAPULA_DAYS_SINCE_FED >= 5 && (player.body.cocks.length > 0 || (player.inventory.keyItems.has("Demonic Strap-On") && player.body.vaginas.length > 0))) {
             return vapulaForceFeeds(player);
-            return true;
         }
-        return false;
     }
+
+    public serialize(): object {
+        return {};
+    }
+
+    public deserialize(saveObject: ITimeAware): void { }
 }
 
 export function vapulaSlave(): boolean {
@@ -205,7 +205,8 @@ export function mouseWaifuFreakout(player: Character, amily: boolean = false, jo
         // Enable village encounters
         VapulaFlags.AMILY_VILLAGE_ENCOUNTERS_DISABLED = 0;
         // Change to plain mouse birth!
-        if (player.pregnancy.womb.isPregnantWith(PregnancyType.AMILY)) player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.MOUSE, player.pregnancy.womb.pregnancy.incubation), 0, true);
+        const womb = player.body.wombs.find(Womb.PregnantWithType(PregnancyType.AMILY));
+        if (womb) womb.knockUp(new Pregnancy(PregnancyType.MOUSE, womb.pregnancy.incubation), 0, true);
         // FLAG THAT THIS SHIT WENT DOWN
         VapulaFlags.AMILY_CORRUPT_FLIPOUT = 1;
         // Make sure the camp warning thing is off so she never moves back in.  Bitch be mad.
@@ -227,7 +228,7 @@ export function mouseWaifuFreakout(player: Character, amily: boolean = false, jo
 
 // tion camp
 // Follower Summoning text (Z)
-export function callSlaveVapula(player: Character, output: boolean = true): NextScreenChoices {
+export function callSlaveVapula(player: Character, output: boolean): NextScreenChoices {
     if (output) {
         CView.clear();
         if (VapulaFlags.FOLLOWER_AT_FARM_VAPULA === 0) {
@@ -240,7 +241,7 @@ export function callSlaveVapula(player: Character, output: boolean = true): Next
             if (VapulaFlags.FOLLOWER_AT_FARM_VAPULA_GIBS_MILK === 1) {
                 VapulaFlags.FOLLOWER_AT_FARM_VAPULA_GIBS_MILK = 2;
                 CView.text("\n\nYou wordlessly hold out your hand. Leering, Vapula places some bottled succubus milk into it.\n\n");
-                return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.SuccubiMilk, callSlaveVapula);
+                return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.SuccubiMilk, partial(callSlaveVapula, player, true));
             }
         }
     }
@@ -413,7 +414,7 @@ function talkToVapulaForSomeReason(player: Character): NextScreenChoices {
             [threesomeT, threesomeB],
             ["", undefined],
             ["", undefined],
-            ["Back", callSlaveVapula]
+            ["Back", partial(callSlaveVapula, player, true)]
         ]
     };
 }
@@ -510,7 +511,7 @@ function vapulaThreesomeMenu(player: Character): NextScreenChoices {
             ["", undefined],
             ["", undefined],
             ["", undefined],
-            ["Back", callSlaveVapula]
+            ["Back", partial(callSlaveVapula, player, true)]
         ]
     };
 }
@@ -672,7 +673,7 @@ function vapulaSophieThreeSome(player: Character): NextScreenChoices {
     CView.text("\n\nWhen you're all done, you dismount.  Your mouth is filled with the succubus' essence, and Gods it tastes good.  You tell Vapula to get off Sophie's butt too; as soon as she does the bimbo completely clenches and relaxes before falling into a deep slumber, her stretched anus still exposed as she snores and wallows in a pool of juices, mostly her own.  \"<i>Finish your meal</i>\", you tell Vapula.  The tired succubus complies and proceeds to suck the last remaining bits of escaping goo from the harpy's tight anal contraction.  Then, she keeps licking and squeezing your " + describeCock(player, cockThatFits) + " until it shines, completely polished with succubus saliva.");
     CView.text("\n\n\"<i>Enough. You should rest now.</i>\"  Nodding, Vapula heads toward her leaf-bed in order to recover from the intense threesome and digest her copious meal.");
     // lust set to 50, lipstick affect (if no adaptation)
-    luststickApplication(10);
+    luststickApplication(player, 10);
     player.orgasm();
     player.stats.cor += 2;
 

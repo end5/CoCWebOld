@@ -17,9 +17,11 @@ import { sophieFollower } from "./SophieFollowerScene";
 import { amilyFollower, amilyCorrupt } from "./AmilyScene";
 import { followerHel } from "./HelScene";
 import { followerKiha } from "./KihaFollower";
+import { InputTextElement } from "../../../Engine/Display/Elements/InputTextElement";
+import { partial } from "../../Utilities/Partial";
 
 export const MilkWaifuFlags = {
-    MILK_NAME: 0,
+    MILK_NAME: "",
     FOLLOWER_AT_FARM_BATH_GIRL: 0,
     MILK_SIZE: 0,
     FARM_CORRUPTION_STARTED: 0,
@@ -51,34 +53,27 @@ export function arriveWithLacticWaifuAtCamp(player: Character): NextScreenChoice
 
     // [Name Field.  If left empty, defaults to "Bath Slut"]
 
-    return { next: nameZeMilkBath };
+    const textBox = new InputTextElement();
+    CView.textElement.appendElement(textBox);
+
+    return { next: partial(nameZeMilkBath, player, textBox) };
 }
 
-function nameZeMilkBath(player: Character): NextScreenChoices {
-    if (testingBlockExiting) {
-        // We're running under the testing script.
-        // Stuff a name in the box and go go go
-        mainView.nameBox.text = "Milkderp";
-    }
-    else if (mainView.nameBox.text === "" || mainView.nameBox.text is; Number; )
-    {
+function nameZeMilkBath(player: Character, textBox: InputTextElement): NextScreenChoices {
+    if (textBox.text === "" || !isNaN(+textBox.text)) {
         CView.clear();
         CView.text("<b>You must give her a name.</b>");
 
-        choices[0] = ["Next", nameZeMilkBath];
-        mainView.nameBox.visible = true;
-        mainView.nameBox.text = "Bath Slut";
-        mainView.nameBox.x = mainView.mainText.x + 5;
-        mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
-        return;
+        textBox.text = "Bath Slut";
+        CView.textElement.appendElement(textBox);
+
+        return { next: partial(nameZeMilkBath, player, textBox) };
     }
     CView.clear();
-    MilkWaifuFlags.MILK_NAME = mainView.nameBox.text;
-    mainView.nameBox.text = "";
-    mainView.nameBox.visible = false;
+    MilkWaifuFlags.MILK_NAME = textBox.text;
     // Call her Bath Slut (You Asshole)
-    if (mainView.nameBox.text === "Bath Slut") CView.text("Fuck it, Bath Slut it is.  At least she won't get confused.");
-    else if (mainView.nameBox.text === "Biscuit") CView.text("Fuck it, you may as well butter her buns!");
+    if (textBox.text === "Bath Slut") CView.text("Fuck it, Bath Slut it is.  At least she won't get confused.");
+    else if (textBox.text === "Biscuit") CView.text("Fuck it, you may as well butter her buns!");
     // Variable: " + MilkWaifuFlags.MILK_NAME + "
     // Having Named the Girl (Didn't name her Bath Slut)
     else {

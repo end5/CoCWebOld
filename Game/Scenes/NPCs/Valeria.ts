@@ -17,15 +17,14 @@ import { displayStretchButt } from "../../Modifiers/ButtModifier";
 import { mf } from "../../Descriptors/GenderDescriptor";
 import { randInt } from "../../../Engine/Utilities/SMath";
 import { describeRace } from "../../Descriptors/BodyDescriptor";
-import { ArmorName } from "../../Items/Armors/ArmorName";
-import { Armor } from "../../Items/Armors/Armor";
-import { ItemType } from "../../Items/ItemType";
 import { describeFaceShort } from "../../Descriptors/FaceDescriptor";
 import { numToCardinalText } from "../../Utilities/NumToText";
 import { Cock } from "../../Body/Cock";
 import { breastCup } from "../../Descriptors/BreastDescriptor";
 import { Pregnancy, PregnancyType } from "../../Body/Pregnancy/Pregnancy";
 import { SkinType } from "../../Body/Skin";
+import { partial } from "../../Utilities/Partial";
+import { Womb } from "../../Body/Pregnancy/Womb";
 
 export const ValeriaFlags = {
     VELARIA_FUTA: 0,
@@ -33,30 +32,25 @@ export const ValeriaFlags = {
 };
 User.flags.set(FlagType.Valeria, ValeriaFlags);
 
-export class Valeria implements ITimeAware {
-
-    public constructor() {
-        timeAwareClassAdd(this);
-    }
-
-    // Implementation of ITimeAware
-    public timeChange(): boolean {
+export class ValeriaTimeAware implements ITimeAware {
+    public timeChange(player: Character) {
         if (player.effects.get(StatusEffectType.GooStuffed).value1 > 0) {
             player.effects.get(StatusEffectType.GooStuffed).value1 += -1;
             if (player.effects.get(StatusEffectType.GooStuffed).value1 <= 0) {
-                valeria.return; birthOutDatGooSlut(player);
+                birthOutDatGooSlut(player);
                 return true;
             }
         }
-        return false;
     }
 
-    public timeChangeLarge(): boolean {
-        return false;
-    }
+    public timeChangeLarge() { }
+
+    public serialize(): object { return; }
+
+    public deserialize(saveObject: ITimeAware): void { }
 }
 
-// const VELARIA_FUTA: number = 499;
+const valeriaTimeAware = new ValeriaTimeAware();
 
 // Camp Menu -- [Followers] -- [Valeria]
 export function valeriaFollower(player: Character): NextScreenChoices {
@@ -65,7 +59,7 @@ export function valeriaFollower(player: Character): NextScreenChoices {
     CView.text("You walk over to Valeria.  Seeing you approach, the armor-goo turns a slightly brighter shade of blue beneath her plates and grins.");
     CView.text("\n\n\"<i>Hey there, partner! Need anything while we're safe at camp?</i>\"");
     let sex: ClickFunction;
-    if (player.stats.lust > 33) sex = followersValeriaSex;
+    if (player.stats.lust > 33) sex = partial(followersValeriaSex, player, true);
     // (Display Options: [Appearance] [Spar] [Sex] [Talk])
     return {
         choices: [
@@ -145,7 +139,7 @@ export function pcWinsValeriaSparDefeat(player: Character): NextScreenChoices {
 }
 
 // Followers -- [Valeria] -- [Sex]
-function followersValeriaSex(player: Character, display: boolean = true): NextScreenChoices {
+function followersValeriaSex(player: Character, display: boolean): NextScreenChoices {
     CView.sprite(SpriteName.Valeria); // 79;
     if (display) {
         CView.clear();
@@ -160,7 +154,7 @@ function followersValeriaSex(player: Character, display: boolean = true): NextSc
     let penetrate: ClickFunction;
     if (player.body.cocks.length > 0) penetrate = penetrateValeria;
     const getFucked: ClickFunction = valeriaGetFucked;
-    const gooFlation: ClickFunction = gooFlation;
+    const gooFlationFunc: ClickFunction = partial(gooFlation, player, true);
     let dominated: ClickFunction;
     if (player.gender > 0) dominated = valeriaSexDominated;
     const dickToggle: ClickFunction = valeriaDickToggle;
@@ -172,7 +166,7 @@ function followersValeriaSex(player: Character, display: boolean = true): NextSc
         choices: [
             ["PenetrateHer", penetrate],
             ["Get Fucked", getFucked],
-            ["Gooflation", gooFlation],
+            ["Gooflation", gooFlationFunc],
             ["GetDominated", dominated],
             [dickText, dickToggle],
             ["", undefined],
@@ -311,7 +305,7 @@ function valeriaGetFucked(player: Character): NextScreenChoices {
     return { next: returnToCampUseOneHour };
 }
 
-function gooFlation(player: Character, clearText: boolean = true): NextScreenChoices {
+function gooFlation(player: Character, clearText: boolean): NextScreenChoices {
     CView.sprite(SpriteName.Valeria); // 79;
     if (clearText) {
         CView.clear();
@@ -499,12 +493,10 @@ function declineValeriasNeeds(player: Character): NextScreenChoices {
 
 function takeValeria(player: Character): NextScreenChoices {
     CView.sprite(SpriteName.Valeria); // 79;
-    ArmorName.GooArmor.useText();
-    player.inventory.equipment.armor.removeText();
-    const item: Armor = player.inventory.equipment.equippedArmorSlot.equip(ArmorName.GooArmor); // Item is now the player's old armor
-    if (item === undefined)
+    const unequippedArmor = player.inventory.equipment.equippedArmorSlot.equip(new GooArmor());
+    if (unequippedArmor === undefined)
         return { next: campMenu };
-    else return player.inventory.items.createAdd(player, ItemType.item, item, campMenu);
+    else return player.inventory.items.add(player, unequippedArmor, campMenu);
 }
 
 export function valeriaAndGooThreeStuff(player: Character): NextScreenChoices {
@@ -517,16 +509,6 @@ export function valeriaAndGooThreeStuff(player: Character): NextScreenChoices {
     list.push("[asshole]");
     list.push("[nipples]");
     CView.text(list.join(" and ") + " with liquid-soft caresses, almost ephemeral and yet still so perfectly all-consuming, filling every tiny imperfection in your [skin] with blue, gooey goodness and teasing whatever entrances she can get at. ");
-    /*
-        clearList();
-        addToList("[hips]");
-        if(player.body.balls.count > 0) addToList("[balls]");
-        if(player.body.cocks.length > 0) addToList("[multiCockDescriptLight]");
-        if(player.body.vaginas.length > 0) addToList("[vagina]");
-        addToList("[asshole]");
-        addToList("[nipples]");
-        CView.text(outputList() + " with liquid-soft caresses, almost ephemeral and yet still so perfectly all-consuming, filling every tiny imperfection in your [skin] with blue, gooey goodness and teasing whatever entrances she can get at. ");
-    */
     if (player.body.cocks.length > 0) {
         CView.text("You sigh as [eachCock] stands at full erection. Bluish coating");
         if (player.body.cocks.length > 1) CView.text("s");
@@ -586,7 +568,7 @@ function valeriaGooRapeII(player: Character): NextScreenChoices {
     // {Butt-change: full anal size}
     displayStretchButt(player, player.analCapacity() * .75, true, true, false);
     // Lay pipes in cooch! {reqiores non pregnant}
-    if (!player.pregnancy.womb.isPregnant() && player.body.vaginas.length > 0) {
+    if (!player.body.wombs.find(Womb.Pregnant) && player.body.vaginas.length > 0) {
         if (User.settings.silly()) CView.text("\n\n\"<i>But wait, there's more!</i>\" Billy Mays announces.");
         CView.text("\n\nShortly after, a similar sized blob of semi-liquid matter rubs over your [vagina], brushing aside Valeria's feathery teases to spread your lips around the slick bubble, shooting tingles of pleasure through your body. You try to shift, to grind against the messy intruder, but all restrained as you are, all you can do is quiver against your bindings, vibrating in pleasures that would be plain to any watchers. The penetration doesn't stop Valeria's teases either. The talented woman continues to roll feathery caresses over the exterior of your genitalia while opening you open as wide as any dick you've ever taken, burrowing a tunnel straight to your cervix.");
         // {cuntChange: MAXIMUM}
@@ -683,7 +665,7 @@ function valeriaGooRapeII(player: Character): NextScreenChoices {
         for (const breastRow of player.body.chest) {
             breastRow.rating += 3 + randInt(3);
         }
-        CView.text(" Your tits have grown much larger, " + breastCup(player.body.chest.get(0)) + "-cups at least.");
+        CView.text(" Your tits have grown much larger, " + breastCup(player.body.chest.get(0).rating) + "-cups at least.");
     }
     if (player.body.cocks.length > 0 && player.body.balls.count > 0) {
         player.body.balls.size += 3 + randInt(2);
@@ -706,10 +688,10 @@ function valeriaGooRapeII(player: Character): NextScreenChoices {
     // v3 = cunt fill?
     // v4 = tit fill?
     player.effects.add(StatusEffectType.GooStuffed, 10 + randInt(300), 0, 0, 0);
-    player.pregnancy.buttWomb.knockUp(new Pregnancy(PregnancyType.GOO_STUFFED, 500), 0, true); // Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
+    player.body.buttWomb.knockUp(new Pregnancy(PregnancyType.GOO_STUFFED, 500), 0, true); // Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
     if (player.body.vaginas.length > 0) {
         player.effects.get(StatusEffectType.GooStuffed).value3 = 1;
-        player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.GOO_STUFFED, 500), 0, true); // Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
+        player.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.GOO_STUFFED, 500), 0, true); // Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
     }
     if (player.body.cocks.length > 0) {
         if (player.body.balls.count > 0) player.effects.get(StatusEffectType.GooStuffed).value2 = 2;
@@ -720,7 +702,7 @@ function valeriaGooRapeII(player: Character): NextScreenChoices {
 }
 
 // Random Goo-girl Cum-Out:
-export function birthOutDatGooSlut(player: Character): NextScreenChoices {
+export function birthOutDatGooSlut(player: Character) {
     CView.text("\n<b>Something odd happens...</b>\nA sudden, violent lurch in your gut nearly knocks you off your [feet]! You lower yourself to the ground before the quaking in your middle can upend you and cradle your slime-bloated belly, wondering if you're finally going to get relief from walking around with a gutful of goo.");
     if (player.effects.get(StatusEffectType.GooStuffed).value4 > 0) CView.text(" Your tits are even wobbling around wildly, shaking and jiggling obscenely inside your [armor] in a way that makes you your [nipples] more than a little leaky.");
     CView.text("\n\nYou get your answer when your [asshole] opens up to expose the goo-girl's slick core, forcing you to shudder with ecstasy as it gradually slips through your stretching anus and unleashes a torrent of slime. You bend down onto your hands, letting it pass, cumming unexpectedly at the way it caresses you as it exits your body and moaning like a some ");
@@ -747,8 +729,8 @@ export function birthOutDatGooSlut(player: Character): NextScreenChoices {
     }
     CView.text("\n\nYou pant to try and catch your breath as the fluid gathers up beside you and grows a friendly, smiling face. It gives you a simple smile and a kiss on your brow before leaving you to recover, heading in the direction of the lake.\n");
     player.effects.remove(StatusEffectType.GooStuffed);
-    player.pregnancy.womb.knockUp(new Pregnancy(undefined, undefined), 0, true); // Clear the false pregnancy
-    player.pregnancy.buttWomb.knockUp(new Pregnancy(undefined, undefined), 0, true); // Clear the false pregnancy
+    // player.body.womb.knockUp(new Pregnancy(undefined, undefined), 0, true); // Clear the false pregnancy
+    // player.body.buttWomb.knockUp(new Pregnancy(undefined, undefined), 0, true); // Clear the false pregnancy
 }
 
 /*MISC. Valeria Interactions
