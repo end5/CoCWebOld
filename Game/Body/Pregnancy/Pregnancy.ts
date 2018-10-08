@@ -1,5 +1,6 @@
 ﻿import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 import { SortOption } from '../../../Engine/Utilities/List';
+import { ListSerializer } from '../../../Engine/Utilities/ListSerializer';
 
 export enum PregnancyType {
     IMP = "Imp",
@@ -90,27 +91,35 @@ export class Pregnancy implements ISerializable<Pregnancy> {
         return first.incubation - second.incubation;
     }
 
-    private pregType: PregnancyType;
+    public type: PregnancyType;
     public incubation: IncubationTime;
+    public events: number[];
 
-    public constructor(type: PregnancyType = PregnancyType.IMP, incubation: number = IncubationTime.IMP) {
-        this.pregType = type;
+    public constructor(type: PregnancyType = PregnancyType.IMP, incubation: number = IncubationTime.IMP, ...events: number[]) {
+        this.type = type;
         this.incubation = incubation;
+        this.events = events;
     }
 
-    public get type(): PregnancyType {
-        return this.pregType;
+    public get event(): number {
+        if (this.incubation <= 0) return 0;
+        for (let index = 0; index < this.events.length; index++) {
+            if (this.incubation > this.events[index]) return index;
+        }
+        return 1;
     }
 
     public serialize(): object | undefined {
         return {
-            pregType: this.pregType,
+            type: this.type,
             incubation: this.incubation,
+            events: this.events
         };
     }
 
     public deserialize(saveObject: Pregnancy) {
-        this.pregType = saveObject.pregType;
+        this.type = saveObject.type;
         this.incubation = saveObject.incubation;
+        this.events = saveObject.events;
     }
 }

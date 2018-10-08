@@ -83,6 +83,10 @@ export class Womb implements ISerializable<Womb> {
         this.currentPregnancy = undefined;
     }
 
+    public clear() {
+        this.currentPregnancy = undefined;
+    }
+
     public update() {
         if (this.currentPregnancy) {
             this.currentPregnancy.incubation -= this.currentPregnancy.incubation === 0 ? 0 : 1;

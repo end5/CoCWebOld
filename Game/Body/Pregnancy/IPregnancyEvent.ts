@@ -1,7 +1,8 @@
-import { Body } from '../Body';
+import { Character } from '../../Character/Character';
+import { Womb } from './Womb';
 
 export interface IPregnancyEvent {
-    incubationDisplay(body: Body, incubationTime: number);
-    canBirth(body: Body, incubationTime: number);
-    birthScene(body: Body);
+    incubationDisplay(player: Character, womb: Womb): void;
+    canBirth(player: Character, womb: Womb): boolean;
+    birthScene(player: Character, womb: Womb): void;
 }
