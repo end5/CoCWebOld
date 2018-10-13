@@ -1,4 +1,3 @@
-import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
@@ -6,13 +5,15 @@ import { StatusEffectType } from '../Effects/StatusEffectType';
 import { EquipSlot } from '../Inventory/EquipSlot';
 import { ConsumableName } from '../Items/Consumables/ConsumableName';
 import { Item } from '../Items/Item';
-import { ItemFactory } from '../Items/ItemFactory';
 import { ItemType } from '../Items/ItemType';
 import { CockSockName } from '../Items/Misc/CockSockName';
 import { WeaponName } from '../Items/Weapons/WeaponName';
 import { NextScreenChoices } from '../ScreenDisplay';
 import { isEaster } from '../Utilities/Dates';
 import { campMenu } from '../Menus/InGame/PlayerMenu';
+import { ConsumableLib } from '../Items/Consumables/ConsumableLib';
+import { WeaponLib } from '../Items/Weapons/WeaponLib';
+import { CView } from '../../Engine/Display/ContentView';
 
 export class CombatDrops {
     public static awardPlayer(character: Character, enemy: Character): NextScreenChoices {
@@ -36,25 +37,25 @@ export class CombatDrops {
         }
         let item: Item = enemy.combat.rewards.drop().roll();
         if (enemy.desc.short === "tit-fucked Minotaur") {
-            item = ItemFactory.get(ItemType.Consumable, ConsumableName.MinotaurCum);
+            item = ConsumableLib.get(ConsumableName.MinotaurCum);
         }
         if (enemy.charType === CharacterType.Minotaur) {
             if (enemy.inventory.equipment.weapon.displayName === "axe") {
                 if (randInt(2) === 0) {
                     // 50% breakage!
                     if (randInt(2) === 0) {
-                        item = ItemFactory.get(ItemType.Weapon, WeaponName.LargeAxe);
+                        item = WeaponLib.get(WeaponName.LargeAxe);
                         if (character.body.tallness < 78) {
-                            DisplayText("\nYou find a large axe on the minotaur, but it is too big for a person of your stature to comfortably carry.  ");
+                            CView.text("\nYou find a large axe on the minotaur, but it is too big for a person of your stature to comfortably carry.  ");
                             if (randInt(2) === 0) item = undefined;
-                            else item = ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight);
+                            else item = ConsumableLib.get(ConsumableName.SuccubisDelight);
                         }
                         // Not too tall, dont rob of axe!
                         // else plotFight = true;
                     }
-                    else DisplayText("\nThe minotaur's axe appears to have been broken during the fight, rendering it useless.  ");
+                    else CView.text("\nThe minotaur's axe appears to have been broken during the fight, rendering it useless.  ");
                 }
-                else item = ItemFactory.get(ItemType.Consumable, ConsumableName.MinotaurBlood);
+                else item = ConsumableLib.get(ConsumableName.MinotaurBlood);
             }
         }
         // if (enemy.charType === CharacterType.BeeGirl) {
@@ -89,24 +90,24 @@ export class CombatDrops {
         //     item = ItemFactory.get(ItemType.Armor, ArmorName.SeductiveArmor);
         // }
 
-        if (randInt(200) === 0 && character.stats.level >= 7) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BroBrew);
-        if (randInt(200) === 0 && character.stats.level >= 7) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BimboLiqueur);
+        if (randInt(200) === 0 && character.stats.level >= 7) item = ConsumableLib.get(ConsumableName.BroBrew);
+        if (randInt(200) === 0 && character.stats.level >= 7) item = ConsumableLib.get(ConsumableName.BimboLiqueur);
         // Chance of eggs if Easter!
         if (randInt(6) === 0 && isEaster()) {
             const temp = randInt(13);
-            if (temp === 0) item = ItemFactory.get(ItemType.Consumable, ConsumableName.EggBlack);
-            if (temp === 1) item = ItemFactory.get(ItemType.Consumable, ConsumableName.EggBlue);
-            if (temp === 2) item = ItemFactory.get(ItemType.Consumable, ConsumableName.EggBrown);
-            if (temp === 3) item = ItemFactory.get(ItemType.Consumable, ConsumableName.EggPink);
-            if (temp === 4) item = ItemFactory.get(ItemType.Consumable, ConsumableName.EggPurple);
-            if (temp === 5) item = ItemFactory.get(ItemType.Consumable, ConsumableName.EggWhite);
-            if (temp === 6) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LargeEggBlack);
-            if (temp === 7) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LargeEggBlue);
-            if (temp === 8) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LargeEggBrown);
-            if (temp === 9) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LargeEggPink);
-            if (temp === 10) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LargeEggPurple);
-            if (temp === 11) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LargeEggWhite);
-            if (temp === 12) item = ItemFactory.get(ItemType.Consumable, ConsumableName.NeonPinkEgg);
+            if (temp === 0) item = ConsumableLib.get(ConsumableName.EggBlack);
+            if (temp === 1) item = ConsumableLib.get(ConsumableName.EggBlue);
+            if (temp === 2) item = ConsumableLib.get(ConsumableName.EggBrown);
+            if (temp === 3) item = ConsumableLib.get(ConsumableName.EggPink);
+            if (temp === 4) item = ConsumableLib.get(ConsumableName.EggPurple);
+            if (temp === 5) item = ConsumableLib.get(ConsumableName.EggWhite);
+            if (temp === 6) item = ConsumableLib.get(ConsumableName.LargeEggBlack);
+            if (temp === 7) item = ConsumableLib.get(ConsumableName.LargeEggBlue);
+            if (temp === 8) item = ConsumableLib.get(ConsumableName.LargeEggBrown);
+            if (temp === 9) item = ConsumableLib.get(ConsumableName.LargeEggPink);
+            if (temp === 10) item = ConsumableLib.get(ConsumableName.LargeEggPurple);
+            if (temp === 11) item = ConsumableLib.get(ConsumableName.LargeEggWhite);
+            if (temp === 12) item = ConsumableLib.get(ConsumableName.NeonPinkEgg);
         }
         // Bonus loot overrides others
         // if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] !== "") {

@@ -1,23 +1,52 @@
-import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import { showActions } from '../../../../Menus/InGame/PlayerCombatMenu';
+import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { PhysicalActionLib } from '../ActionLibs/PhysicalActionLib';
+import { AnemoneSting } from '../PhysicalAttacks/AnemoneSting';
+import { Bite } from '../PhysicalAttacks/Bite';
+import { NagaBite } from '../PhysicalAttacks/NagaBite';
+import { SpiderBite } from '../PhysicalAttacks/SpiderBite';
+import { FireBow } from '../PhysicalAttacks/FireBow';
+import { Constrict } from '../PhysicalAttacks/Constrict';
+import { Kick } from '../PhysicalAttacks/Kick';
+import { Gore } from '../PhysicalAttacks/Gore';
+import { Infest } from '../PhysicalAttacks/Infest';
+import { Kiss } from '../PhysicalAttacks/Kiss';
+import { Sting } from '../PhysicalAttacks/Sting';
+import { Web } from '../PhysicalAttacks/Web';
+import { TailWhip } from '../PhysicalAttacks/TailWhip';
+import { randomChoice } from '../../../../../Engine/Utilities/SMath';
+import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
-export class PhysicalSpecials implements CombatAction {
+export class PhysicalSpecials implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
     public name: string = "P. Special";
     public reasonCannotUse: string = "";
+    public actions: ICombatAction[] = [
+        new AnemoneSting(),
+        new Bite(),
+        new NagaBite(),
+        new SpiderBite(),
+        new FireBow(),
+        new Constrict(),
+        new Kick(),
+        new Gore(),
+        new Infest(),
+        new Kiss(),
+        new Sting(),
+        new Web(),
+        new TailWhip(),
+    ];
 
     public isPossible(character: Character): boolean {
-        return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.PhysSpec ? true : false;
+        return true;
     }
 
     public canUse(character: Character, target?: Character): boolean {
-        return PhysicalActionLib.getPossibleActions(character).length > 0;
+        return !!this.actions.find((action) => action.canUse(character, target));
     }
 
-    public use(character: Character, target: Character): NextScreenChoices {
-        return showActions(character, PhysicalActionLib.getPossibleActions(character));
+    public use(character: Character, target: Character): void | NextScreenChoices {
+        return randomChoice(this.actions).use(character, target);
+        // return showActions(character, PhysicalActionLib.getPossibleActions(character));
     }
 }

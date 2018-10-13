@@ -2,7 +2,7 @@ import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption } from '../../Engine/Utilities/List';
 import { Character } from '../Character/Character';
 import { EquipableItem } from '../Items/EquipableItem';
-import { ItemFactory } from '../Items/ItemFactory';
+import { getLibFromType } from '../Items/ItemLookup';
 
 export type EquipEffect = (item: EquipableItem, character: Character) => void;
 
@@ -73,7 +73,7 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
 
     public deserialize(saveObject: EquipSlot<T>) {
         if (saveObject) {
-            this.equip(ItemFactory.get(saveObject.equippedItem.type, saveObject.equippedItem.name) as T);
+            this.equip(getLibFromType(saveObject.equippedItem.type).get(saveObject.equippedItem.name) as T);
         }
     }
 }

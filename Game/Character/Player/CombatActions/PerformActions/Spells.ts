@@ -1,24 +1,40 @@
-import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import { showActions } from '../../../../Menus/InGame/PlayerCombatMenu';
-import { Menus } from '../../../../Menus/Menus';
+import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { SpellActionLib } from '../ActionLibs/SpellActionLib';
+import { Arouse } from '../Spells/Arouse';
+import { Blind } from '../Spells/Blind';
+import { ChargeWeapon } from '../Spells/ChargeWeapon';
+import { CleansingPalm } from '../Spells/CleansingPalm';
+import { Heal } from '../Spells/Heal';
+import { Might } from '../Spells/Might';
+import { Whitefire } from '../Spells/Whitefire';
+import { randomChoice } from '../../../../../Engine/Utilities/SMath';
+import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
-export class Spells implements CombatAction {
+export class Spells implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.Spells;
     public name: string = "Spells";
     public reasonCannotUse: string = "";
+    public actions: ICombatAction[] = [
+        new Arouse(),
+        new Blind(),
+        new ChargeWeapon(),
+        new CleansingPalm(),
+        new Heal(),
+        new Might(),
+        new Whitefire(),
+    ];
 
     public isPossible(character: Character): boolean {
-        return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Spells ? true : false;
+        return true;
     }
 
     public canUse(character: Character, target?: Character): boolean {
-        return SpellActionLib.getPossibleActions(character).length > 0;
+        return !!this.actions.find((action) => action.canUse(character, target));
     }
 
-    public use(character: Character, target: Character): NextScreenChoices {
-        return showActions(character, SpellActionLib.getPossibleActions(character));
+    public use(character: Character, target: Character): void | NextScreenChoices {
+        return randomChoice(this.actions).use(character, target);
+        // return showActions(character, SpellActionLib.getPossibleActions(character));
     }
 }

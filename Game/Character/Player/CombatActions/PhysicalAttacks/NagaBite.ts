@@ -1,13 +1,12 @@
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
-import { StatusAffectFactory } from '../../../../Effects/StatusEffectFactory';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
+import { CView } from '../../../../../Engine/Display/ContentView';
 
 export class NagaBite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -22,24 +21,24 @@ export class NagaBite extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character): NextScreenChoices {
-        DisplayText().clear();
+    public use(player: Player, monster: Character): void | NextScreenChoices {
+        CView.clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
         if (monster.effects.has(StatusEffectType.Concentration)) {
-            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
+            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
         if (monster.charType === CharacterType.LivingStatue) {
-            DisplayText("Your fangs can't even penetrate the giant's flesh.");
+            CView.text("Your fangs can't even penetrate the giant's flesh.");
             return;
         }
         // Works similar to bee stinger, must be regenerated over time. Shares the same poison-meter
         if (randInt(player.stats.spe / 2 + 40) + 20 > monster.stats.spe / 1.5) {
             // (if monster = demons)
-            if (monster.desc.short === "demons") DisplayText("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.");
+            if (monster.desc.short === "demons") CView.text("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.");
             // (Otherwise)
-            else DisplayText("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.subjectivePronoun + " manages to react.");
+            else CView.text("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.subjectivePronoun + " manages to react.");
             // The following is how the enemy reacts over time to poison. It is displayed after the description paragraph,instead of lust
             monster.stats.str -= 5 + randInt(5);
             monster.stats.spe -= 5 + randInt(5);
@@ -51,8 +50,8 @@ export class NagaBite extends PlayerPhysicalAction {
             else monster.effects.add(StatusEffectType.NagaVenom, 1, 0, 0, 0);
         }
         else {
-            DisplayText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.");
+            CView.text("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.");
         }
-        DisplayText("\n\n");
+        CView.text("\n\n");
     }
 }

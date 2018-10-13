@@ -1,14 +1,13 @@
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { LegType } from '../../../../Body/Legs';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
-import { User } from '../../../../User';
 import { Player } from '../../Player';
-import { PlayerFlags } from '../../PlayerFlags';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
+import { CView } from '../../../../../Engine/Display/ContentView';
+import { PlayerFlags } from '../../PlayerFlags';
 
 export class Kick extends PlayerPhysicalAction {
     public name: string = "Kick";
@@ -23,40 +22,40 @@ export class Kick extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character): NextScreenChoices {
-        DisplayText().clear();
+    public use(player: Player, monster: Character): void | NextScreenChoices {
+        CView.clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Variant start messages!
         if (player.body.legs.type === LegType.KANGAROO) {
             // (tail)
             if (player.body.tails.reduce(Tail.HasType(TailType.KANGAROO), false))
-                DisplayText("You balance on your flexible kangaroo-tail, pulling both legs up before slamming them forward simultaneously in a brutal kick.  ");
+                CView.text("You balance on your flexible kangaroo-tail, pulling both legs up before slamming them forward simultaneously in a brutal kick.  ");
             // (no tail)
             else
-                DisplayText("You balance on one leg and cock your powerful, kangaroo-like leg before you slam it forward in a kick.  ");
+                CView.text("You balance on one leg and cock your powerful, kangaroo-like leg before you slam it forward in a kick.  ");
         }
         // (bunbun kick)
         else if (player.body.legs.type === LegType.BUNNY)
-            DisplayText("You leap straight into the air and lash out with both your furred feet simultaneously, slamming forward in a strong kick.  ");
+            CView.text("You leap straight into the air and lash out with both your furred feet simultaneously, slamming forward in a strong kick.  ");
         // (centaur kick)
         else if (player.body.legs.type === LegType.CENTAUR)
-            DisplayText("You lurch up onto your backlegs, lifting your forelegs from the ground a split-second before you lash them out in a vicious kick.  ");
+            CView.text("You lurch up onto your backlegs, lifting your forelegs from the ground a split-second before you lash them out in a vicious kick.  ");
         // (bipedal hoof-kick)
         else if (player.body.legs.type === LegType.HOOFED)
-            DisplayText("You twist and lurch as you raise a leg and slam your hoof forward in a kick.  ");
+            CView.text("You twist and lurch as you raise a leg and slam your hoof forward in a kick.  ");
 
-        if (playerFlags.FETISH >= 3) {
-            DisplayText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Ceraph's piercings have made normal attack impossible!  Maybe you could try something else?\n\n");
+        if (PlayerFlags.FETISH >= 3) {
+            CView.text("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Ceraph's piercings have made normal attack impossible!  Maybe you could try something else?\n\n");
             return;
         }
         // Amily!
         if (monster.effects.has(StatusEffectType.Concentration)) {
-            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
+            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Blind
         if (player.effects.has(StatusEffectType.Blind)) {
-            DisplayText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
+            CView.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
         // Worms are special
         if (monster.desc.short === "worms") {
@@ -66,11 +65,11 @@ export class Kick extends PlayerPhysicalAction {
                 if (wormDamage <= 0)
                     wormDamage = 1;
                 wormDamage = monster.combat.stats.loseHP(wormDamage, player);
-                DisplayText("You strike at the amalgamation, crushing countless worms into goo, dealing " + wormDamage + " damage.\n\n");
+                CView.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + wormDamage + " damage.\n\n");
             }
             // Fail
             else {
-                DisplayText("You attempt to crush the worms with your reprisal, only to have the collective move its individual members, creating a void at the point of impact, leaving you to attack only empty air.\n\n");
+                CView.text("You attempt to crush the worms with your reprisal, only to have the collective move its individual members, creating a void at the point of impact, leaving you to attack only empty air.\n\n");
             }
 
             return;
@@ -80,13 +79,13 @@ export class Kick extends PlayerPhysicalAction {
         if ((player.effects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             // Akbal dodges special education
-            if (monster.desc.short === "Akbal") DisplayText("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n");
+            if (monster.desc.short === "Akbal") CView.text("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n");
             else {
-                DisplayText(monster.desc.capitalA + monster.desc.short + " manage");
+                CView.text(monster.desc.capitalA + monster.desc.short + " manage");
                 if (!monster.desc.plural)
-                    DisplayText("s");
-                DisplayText(" to dodge your kick!");
-                DisplayText("\n\n");
+                    CView.text("s");
+                CView.text(" to dodge your kick!");
+                CView.text("\n\n");
             }
 
             return;
@@ -114,25 +113,25 @@ export class Kick extends PlayerPhysicalAction {
         // BLOCKED
         if (damage <= 0) {
             damage = 0;
-            DisplayText(monster.desc.capitalA + monster.desc.short);
-            if (monster.desc.plural) DisplayText("'");
-            else DisplayText("s");
-            DisplayText(" defenses are too tough for your kick to penetrate!");
+            CView.text(monster.desc.capitalA + monster.desc.short);
+            if (monster.desc.plural) CView.text("'");
+            else CView.text("s");
+            CView.text(" defenses are too tough for your kick to penetrate!");
         }
         // LAND A HIT!
         else {
-            DisplayText(monster.desc.capitalA + monster.desc.short);
-            if (!monster.desc.plural) DisplayText(" reels from the damaging impact! (" + damage + ")");
-            else DisplayText(" reel from the damaging impact! (" + damage + ")");
+            CView.text(monster.desc.capitalA + monster.desc.short);
+            if (!monster.desc.plural) CView.text(" reels from the damaging impact! (" + damage + ")");
+            else CView.text(" reel from the damaging impact! (" + damage + ")");
         }
         if (damage > 0) {
             // Lust raised by anemone contact!
             // if (monster.desc.short === "anemone") {
-            //     DisplayText("\nThough you managed to hit the anemone, several of the tentacles surrounding her body sent home jolts of venom when your swing brushed past them.");
+            //     CView.text("\nThough you managed to hit the anemone, several of the tentacles surrounding her body sent home jolts of venom when your swing brushed past them.");
             //     // (gain lust, temp lose str/spd)
             //     (monster as Anemone).applyVenom((1 + randInt(2)));
             // }
         }
-        DisplayText("\n\n");
+        CView.text("\n\n");
     }
 }

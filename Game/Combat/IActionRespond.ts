@@ -1,6 +1,6 @@
 import { Character } from '../Character/Character';
 
-export interface ActionRespond {
+export interface IActionRespond {
     enemyAttack();
     enemyTease(damage: number, self: Character, enemy: Character);
     enemyUseItem();

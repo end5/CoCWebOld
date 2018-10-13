@@ -1,7 +1,7 @@
-import { CombatAction } from './CombatAction';
+import { ICombatAction } from './ICombatAction';
 import { Character } from '../../Character/Character';
 
-export interface SpellAction extends CombatAction {
+export interface SpellAction extends ICombatAction {
     readonly baseCost: number;
     spellCost(character: Character): number;
 }

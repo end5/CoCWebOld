@@ -1,5 +1,4 @@
-import { ActionPerform } from './ActionPerform';
-import { ActionRespond } from './ActionRespond';
+import { IActionRespond } from './IActionRespond';
 import { CombatRewards } from './CombatRewards';
 import { CombatStats } from './CombatStats';
 import { DefaultRespond } from './Default/DefaultRespond';
@@ -7,11 +6,12 @@ import { EndScenes } from './EndScenes';
 import { Character } from '../Character/Character';
 import { CombatEffectList } from '../Effects/CombatEffectList';
 import { StatusEffectType } from '../Effects/StatusEffectType';
+import { ICombatAction } from './Actions/ICombatAction';
 
 export class CombatContainer {
     private character: Character;
-    public readonly perform: ActionPerform;
-    public readonly respond: ActionRespond;
+    public readonly action: ICombatAction;
+    public readonly respond: IActionRespond;
     public readonly endScenes: EndScenes;
 
     public readonly stats: CombatStats;
@@ -21,9 +21,9 @@ export class CombatContainer {
 
     public grappledEnemy: Character;
 
-    public constructor(character: Character, perform: ActionPerform, respond: ActionRespond = new DefaultRespond(), end: EndScenes) {
+    public constructor(character: Character, action: ICombatAction, respond: IActionRespond = new DefaultRespond(), end: EndScenes) {
         this.character = character;
-        this.perform = perform;
+        this.action = action;
         this.respond = respond;
         this.endScenes = end;
         this.stats = new CombatStats(character);

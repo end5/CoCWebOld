@@ -1,5 +1,4 @@
 import { CharacterHolder } from './CharacterHolder';
-import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { SkinType } from '../Body/Skin';
 import { Character } from '../Character/Character';
@@ -7,6 +6,7 @@ import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { WeaponPerkType } from '../Items/Weapons/WeaponPerk';
 import { User } from '../User';
+import { CView } from '../../Engine/Display/ContentView';
 
 export class CombatStats extends CharacterHolder {
     public defenseMod: number = 0;
@@ -247,7 +247,7 @@ export class CombatStats extends CharacterHolder {
             this.char.stats.teaseXP++;
             // Level dat shit up!
             if (this.char.stats.teaseLevel < 5 && this.char.stats.teaseXP >= 10 + (this.char.stats.teaseLevel + 1) * 5 * (this.char.stats.teaseLevel + 1)) {
-                DisplayText("\n<b>Tease skill leveled up to " + (this.char.stats.teaseLevel + 1) + "!</b>");
+                CView.text("\n<b>Tease skill leveled up to " + (this.char.stats.teaseLevel + 1) + "!</b>");
                 this.char.stats.teaseLevel++;
                 this.char.stats.teaseXP = 0;
             }

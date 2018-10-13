@@ -1,6 +1,5 @@
 import { CharacterHolder } from './CharacterHolder';
 import { Item } from '../Items/Item';
-import { NextScreenChoices } from '../ScreenDisplay';
 import { ChainedDrop } from '../Utilities/Drops/ChainedDrop';
 
 export abstract class CombatRewards extends CharacterHolder {

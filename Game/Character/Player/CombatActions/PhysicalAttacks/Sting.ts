@@ -1,15 +1,18 @@
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
-import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
+import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CView } from '../../../../../Engine/Display/ContentView';
+import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
-export class Sting implements CombatAction {
+export class Sting implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
     public name: string = "Sting";
     public reasonCannotUse: string = "You do not have enough venom to sting right now!";
+    public actions: ICombatAction[] = [];
 
     public isPossible(player: Player): boolean {
         return player.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false);
@@ -19,37 +22,37 @@ export class Sting implements CombatAction {
         return player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].venom >= 33;
     }
 
-    public use(player: Player, monster: Character): NextScreenChoices {
-        DisplayText().clear();
+    public use(player: Player, monster: Character): void | NextScreenChoices {
+        CView.clear();
         // Worms are immune!
         if (monster.desc.short === "worms") {
-            DisplayText("Taking advantage of your new natural weapons, you quickly thrust your stinger at the freak of nature. Sensing impending danger, the creature willingly drops its cohesion, causing the mass of worms to fall to the ground with a sick, wet 'thud', leaving you to stab only at air.\n\n");
+            CView.text("Taking advantage of your new natural weapons, you quickly thrust your stinger at the freak of nature. Sensing impending danger, the creature willingly drops its cohesion, causing the mass of worms to fall to the ground with a sick, wet 'thud', leaving you to stab only at air.\n\n");
             return;
         }
         // Determine if dodged!
         // Amily!
         if (monster.effects.has(StatusEffectType.Concentration)) {
-            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
+            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         if (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80) {
             if (monster.stats.spe - player.stats.spe < 8)
-                DisplayText(monster.desc.capitalA + monster.desc.short + " narrowly avoids your stinger!\n\n");
+                CView.text(monster.desc.capitalA + monster.desc.short + " narrowly avoids your stinger!\n\n");
             if (monster.stats.spe - player.stats.spe >= 8 && monster.stats.spe - player.stats.spe < 20)
-                DisplayText(monster.desc.capitalA + monster.desc.short + " dodges your stinger with superior quickness!\n\n");
+                CView.text(monster.desc.capitalA + monster.desc.short + " dodges your stinger with superior quickness!\n\n");
             if (monster.stats.spe - player.stats.spe >= 20)
-                DisplayText(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attempts to sting " + monster.desc.objectivePronoun + ".\n\n");
+                CView.text(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attempts to sting " + monster.desc.objectivePronoun + ".\n\n");
             return;
         }
         // determine if avoided with defense.
         if (monster.combat.stats.defense() - player.stats.level >= 10 && randInt(4) > 0) {
-            DisplayText("Despite your best efforts, your sting attack can't penetrate " + monster.desc.a + monster.desc.short + "'s defenses.\n\n");
+            CView.text("Despite your best efforts, your sting attack can't penetrate " + monster.desc.a + monster.desc.short + "'s defenses.\n\n");
             return;
         }
         // Sting successful!
-        DisplayText("Searing pain lances through " + monster.desc.a + monster.desc.short + " as you manage to sting " + monster.desc.objectivePronoun + "!  ");
-        if (monster.desc.plural) DisplayText("You watch as " + monster.desc.subjectivePronoun + " stagger back a step and nearly trip, flushing hotly.");
-        else DisplayText("You watch as " + monster.desc.subjectivePronoun + " staggers back a step and nearly trips, flushing hotly.");
+        CView.text("Searing pain lances through " + monster.desc.a + monster.desc.short + " as you manage to sting " + monster.desc.objectivePronoun + "!  ");
+        if (monster.desc.plural) CView.text("You watch as " + monster.desc.subjectivePronoun + " stagger back a step and nearly trip, flushing hotly.");
+        else CView.text("You watch as " + monster.desc.subjectivePronoun + " staggers back a step and nearly trips, flushing hotly.");
         // Tabulate damage!
         let damage: number = 35 + randInt(player.stats.lib / 10);
         // Level adds more damage up to a point (level 20)
@@ -62,18 +65,18 @@ export class Sting implements CombatAction {
         /* IT used to paralyze 50% of the time, this is no longer the case!
         Paralise the other 50%!
         else {
-            DisplayText("Searing pain lances through " + monster.desc.a+ monster.desc.short + " as you manage to sting " + monster.desc.objectivePronoun + "!  ");
-            if(monster.desc.short === "demons") DisplayText("You watch as " + monster.desc.subjectivePronoun + " stagger back a step and nearly trip, finding it hard to move as " + monster.desc.subjectivePronoun + " are afflicted with your paralytic venom.  ");
-            else DisplayText("You watch as " + monster.desc.subjectivePronoun + " staggers back a step and nearly trips, finding it hard to move as " + monster.desc.subjectivePronoun + " is afflicted with your paralytic venom.  ");
-            if(monster.desc.short === "demons") DisplayText("It appears that " + monster.desc.a+ monster.desc.short + " are weaker and slower.");
-            else DisplayText("It appears that " + monster.desc.a+ monster.desc.short + " is weaker and slower.");
+            CView.text("Searing pain lances through " + monster.desc.a+ monster.desc.short + " as you manage to sting " + monster.desc.objectivePronoun + "!  ");
+            if(monster.desc.short === "demons") CView.text("You watch as " + monster.desc.subjectivePronoun + " stagger back a step and nearly trip, finding it hard to move as " + monster.desc.subjectivePronoun + " are afflicted with your paralytic venom.  ");
+            else CView.text("You watch as " + monster.desc.subjectivePronoun + " staggers back a step and nearly trips, finding it hard to move as " + monster.desc.subjectivePronoun + " is afflicted with your paralytic venom.  ");
+            if(monster.desc.short === "demons") CView.text("It appears that " + monster.desc.a+ monster.desc.short + " are weaker and slower.");
+            else CView.text("It appears that " + monster.desc.a+ monster.desc.short + " is weaker and slower.");
             monster.str -= (5+randInt(player.lib/5))
             monster.stats.spe -= (5+randInt(player.lib/5))
             if(monster.str < 1) monster.str = 1;
             if(monster.stats.spe < 1) monster.stats.spe = 1;
         }*/
         // New line before monster attack
-        DisplayText("\n\n");
+        CView.text("\n\n");
         // Use tail mp
         player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].venom -= 25;
     }

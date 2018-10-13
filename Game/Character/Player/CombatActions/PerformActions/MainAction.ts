@@ -1,53 +1,63 @@
-import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { NoAction } from '../../../../Combat/Actions/NoAction';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
+import { Approach } from './Approach';
+import { Recover } from './Recover';
+import { Squeeze } from './Squeeze';
+import { Struggle } from './Struggle';
+import { Attack } from './Attack';
+import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
-export class MainAction implements CombatAction {
+export class MainAction implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
     public name: string = "MainAction";
     public reasonCannotUse: string = "";
+    public actions: ICombatAction[] = [];
+
+    private approach = new Approach();
+    private recover = new Recover();
+    private squeeze = new Squeeze();
+    private struggle = new Struggle();
+    private attack = new Attack();
 
     public isPossible(character: Character): boolean {
-        return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.MainAction ? true : false;
+        return true;
     }
 
     public canUse(character: Character, target?: Character): boolean {
-        const performActions = character.combat.perform;
-        if (performActions.approach.canUse(character)) {
-            this.name = performActions.approach.name;
+        if (this.approach.canUse(character)) {
+            this.name = this.approach.name;
         }
-        else if (performActions.recover.canUse(character)) {
-            this.name = performActions.recover.name;
+        else if (this.recover.canUse(character)) {
+            this.name = this.recover.name;
         }
-        else if (performActions.squeeze.canUse(character)) {
-            this.name = performActions.squeeze.name;
+        else if (this.squeeze.canUse(character)) {
+            this.name = this.squeeze.name;
         }
-        else if (performActions.struggle.canUse(character)) {
-            this.name = performActions.struggle.name;
+        else if (this.struggle.canUse(character)) {
+            this.name = this.struggle.name;
         }
         else {
-            this.name = performActions.attack.name;
+            this.name = this.attack.name;
         }
         return true;
     }
 
-    public use(character: Character, target: Character): NextScreenChoices {
-        const performActions = character.combat.perform;
-        if (performActions.approach.canUse(character)) {
-            return performActions.approach.use(character, target);
+    public use(character: Character, target: Character): void | NextScreenChoices {
+        if (this.approach.canUse(character)) {
+            return this.approach.use(character, target);
         }
-        else if (performActions.recover.canUse(character)) {
-            return performActions.recover.use(character, target);
+        else if (this.recover.canUse(character)) {
+            return this.recover.use(character, target);
         }
-        else if (performActions.squeeze.canUse(character)) {
-            return performActions.squeeze.use(character, target);
+        else if (this.squeeze.canUse(character)) {
+            return this.squeeze.use(character, target);
         }
-        else if (performActions.struggle.canUse(character)) {
-            return performActions.struggle.use(character, target);
+        else if (this.struggle.canUse(character)) {
+            return this.struggle.use(character, target);
         }
         else {
-            return performActions.attack.use(character, target);
+            return this.attack.use(character, target);
         }
     }
 }

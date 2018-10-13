@@ -1,25 +1,25 @@
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
-import { randInt } from '../../../../../Engine/Utilities/SMath';
-import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import { Menus } from '../../../../Menus/Menus';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
+import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CView } from '../../../../../Engine/Display/ContentView';
+import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
-export class Wait implements CombatAction {
+export class Wait implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.Wait;
     public name: string = "Wait";
     public reasonCannotUse: string = "";
+    public actions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
-        return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Wait ? true : false;
+        return true;
     }
 
     public canUse(character: Character, target?: Character): boolean {
         return true;
     }
 
-    public use(character: Character, target: Character): NextScreenChoices {
+    public use(character: Character, target: Character): void | NextScreenChoices {
         // Gain fatigue if not fighting sand tarps
         if (!target.combat.effects.has(CombatEffectType.Level))
             character.stats.fatigue += -5;
@@ -110,9 +110,8 @@ export class Wait implements CombatAction {
         //     return;
         // }
         // else {
-        DisplayText().clear();
-        DisplayText("You decide not to take any action this round.\n\n");
-        return { next: combatMenu };
+        CView.clear();
+        CView.text("You decide not to take any action this round.\n\n");
         // }
     }
 }

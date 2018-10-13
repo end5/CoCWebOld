@@ -1,15 +1,18 @@
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
-import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
+import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CView } from '../../../../../Engine/Display/ContentView';
+import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
-export class Web implements CombatAction {
+export class Web implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
     public name: string = "Web";
     public reasonCannotUse: string = "You do not have enough webbing to shoot right now!";
+    public actions: ICombatAction[] = [];
 
     public isPossible(player: Player): boolean {
         return player.body.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false);
@@ -19,38 +22,38 @@ export class Web implements CombatAction {
         return player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].venom >= 33;
     }
 
-    public use(player: Player, monster: Character): NextScreenChoices {
-        DisplayText().clear();
+    public use(player: Player, monster: Character): void | NextScreenChoices {
+        CView.clear();
         player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].venom -= 33;
         // Amily!
         if (monster.effects.has(StatusEffectType.Concentration)) {
-            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
+            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Blind
         if (player.effects.has(StatusEffectType.Blind)) {
-            DisplayText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
+            CView.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
-        else DisplayText("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a + monster.desc.short + "!  ");
+        else CView.text("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a + monster.desc.short + "!  ");
         // Determine if dodged!
         if ((player.effects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
-            DisplayText("You miss " + monster.desc.a + monster.desc.short + " completely - ");
-            DisplayText(monster.desc.subjectivePronoun + " moved out of the way!\n\n");
+            CView.text("You miss " + monster.desc.a + monster.desc.short + " completely - ");
+            CView.text(monster.desc.subjectivePronoun + " moved out of the way!\n\n");
             return;
         }
         // Over-webbed
         if (monster.stats.spe < 1) {
-            if (!monster.desc.plural) DisplayText(monster.desc.capitalA + monster.desc.short + " is completely covered in webbing, but you hose " + monster.desc.objectivePronoun + " down again anyway.");
-            else DisplayText(monster.desc.capitalA + monster.desc.short + " are completely covered in webbing, but you hose them down again anyway.");
+            if (!monster.desc.plural) CView.text(monster.desc.capitalA + monster.desc.short + " is completely covered in webbing, but you hose " + monster.desc.objectivePronoun + " down again anyway.");
+            else CView.text(monster.desc.capitalA + monster.desc.short + " are completely covered in webbing, but you hose them down again anyway.");
         }
         // LAND A HIT!
         else {
-            if (!monster.desc.plural) DisplayText("The adhesive strand(s cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
-            else DisplayText("The adhesive strand(s cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
+            if (!monster.desc.plural) CView.text("The adhesive strand(s cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
+            else CView.text("The adhesive strand(s cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
             monster.stats.spe -= 45;
             if (monster.stats.spe < 0) monster.stats.spe = 0;
         }
-        DisplayText("\n\n");
+        CView.text("\n\n");
     }
 }

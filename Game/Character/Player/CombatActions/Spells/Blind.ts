@@ -1,10 +1,10 @@
 import { WhiteMagic } from './WhiteMagic';
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
+import { CView } from '../../../../../Engine/Display/ContentView';
 
 export class Blind extends WhiteMagic {
     public name: string = "Blind";
@@ -22,52 +22,52 @@ export class Blind extends WhiteMagic {
         return super.canUse(character);
     }
 
-    public castSpell(character: Character, monster: Character): NextScreenChoices {
-        DisplayText().clear();
+    public castSpell(character: Character, monster: Character): void | NextScreenChoices {
+        CView.clear();
         character.stats.fatigueMagic(this.baseCost);
         if (monster.effects.has(StatusEffectType.Shell)) {
-            DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
+            CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
         if (monster.charType === CharacterType.JeanClaude) {
-            DisplayText("Jean-Claude howls, reeling backwards before turning back to you, rage clenching his dragon-like face and enflaming his eyes. Your spell seemed to cause him physical pain, but did nothing to blind his lidless sight.");
+            CView.text("Jean-Claude howls, reeling backwards before turning back to you, rage clenching his dragon-like face and enflaming his eyes. Your spell seemed to cause him physical pain, but did nothing to blind his lidless sight.");
 
-            DisplayText("\n\n“<i>You think your hedge magic will work on me, intrus?</i>” he snarls. “<i>Here- let me show you how it’s really done.</i>” The light of anger in his eyes intensifies, burning a retina-frying white as it demands you stare into it...");
+            CView.text("\n\n“<i>You think your hedge magic will work on me, intrus?</i>” he snarls. “<i>Here- let me show you how it’s really done.</i>” The light of anger in his eyes intensifies, burning a retina-frying white as it demands you stare into it...");
 
             if (randInt(character.stats.spe) >= 50 || randInt(character.stats.int) >= 50) {
-                DisplayText("\n\nThe light sears into your eyes, but with the discipline of conscious effort you escape the hypnotic pull before it can mesmerize you, before Jean-Claude can blind you.");
+                CView.text("\n\nThe light sears into your eyes, but with the discipline of conscious effort you escape the hypnotic pull before it can mesmerize you, before Jean-Claude can blind you.");
 
-                DisplayText("\n\n“<i>You fight dirty,</i>” the monster snaps. He sounds genuinely outraged. “<i>I was told the interloper was a dangerous warrior, not a little [boy] who accepts duels of honour and then throws sand into his opponent’s eyes. Look into my eyes, little [boy]. Fair is fair.</i>”");
+                CView.text("\n\n“<i>You fight dirty,</i>” the monster snaps. He sounds genuinely outraged. “<i>I was told the interloper was a dangerous warrior, not a little [boy] who accepts duels of honour and then throws sand into his opponent’s eyes. Look into my eyes, little [boy]. Fair is fair.</i>”");
                 monster.combat.stats.loseHP(Math.floor(10 + (character.stats.int / 3 + randInt(character.stats.int / 2)) * character.combat.stats.spellMod()), character);
             }
             else {
-                DisplayText("\n\nThe light sears into your eyes and mind as you stare into it. It’s so powerful, so infinite, so exquisitely painful that you wonder why you’d ever want to look at anything else, at anything at- with a mighty effort, you tear yourself away from it, gasping. All you can see is the afterimages, blaring white and yellow across your vision. You swipe around you blindly as you hear Jean-Claude bark with laughter, trying to keep the monster at arm’s length.");
+                CView.text("\n\nThe light sears into your eyes and mind as you stare into it. It’s so powerful, so infinite, so exquisitely painful that you wonder why you’d ever want to look at anything else, at anything at- with a mighty effort, you tear yourself away from it, gasping. All you can see is the afterimages, blaring white and yellow across your vision. You swipe around you blindly as you hear Jean-Claude bark with laughter, trying to keep the monster at arm’s length.");
 
-                DisplayText("\n\n“<i>The taste of your own medicine, it is not so nice, eh? I will show you much nicer things in there in time intrus, don’t worry. Once you have learnt your place.</i>”");
+                CView.text("\n\n“<i>The taste of your own medicine, it is not so nice, eh? I will show you much nicer things in there in time intrus, don’t worry. Once you have learnt your place.</i>”");
 
                 character.effects.add(StatusEffectType.Blind, randInt(4) + 1, 0, 0, 0);
             }
             return;
         }
-        DisplayText("You glare at " + monster.desc.a + monster.desc.short + " and point at " + monster.desc.objectivePronoun + ".  A bright flash erupts before " + monster.desc.objectivePronoun + "!\n");
+        CView.text("You glare at " + monster.desc.a + monster.desc.short + " and point at " + monster.desc.objectivePronoun + ".  A bright flash erupts before " + monster.desc.objectivePronoun + "!\n");
         if (monster.charType === CharacterType.LivingStatue) {
             // noop
         }
         else if (randInt(3) !== 0) {
-            DisplayText(" <b>" + monster.desc.capitalA + monster.desc.short + " ");
-            if (monster.desc.plural && monster.desc.short !== "imp horde") DisplayText("are blinded!</b>");
-            else DisplayText("is blinded!</b>");
+            CView.text(" <b>" + monster.desc.capitalA + monster.desc.short + " ");
+            if (monster.desc.plural && monster.desc.short !== "imp horde") CView.text("are blinded!</b>");
+            else CView.text("is blinded!</b>");
             monster.effects.add(StatusEffectType.Blind, 5 * character.combat.stats.spellMod(), 0, 0, 0);
             // if (monster.desc.short === "Isabella")
-            //     if (Scenes.isabellaFollowerScene.isabellaAccent()) DisplayText("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.");
-            //     else DisplayText("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.");
-            if (monster.desc.short === "Kiha") DisplayText("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.");
+            //     if (Scenes.isabellaFollowerScene.isabellaAccent()) CView.text("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.");
+            //     else CView.text("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.");
+            if (monster.desc.short === "Kiha") CView.text("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.");
             if (monster.desc.short === "plain girl") {
-                DisplayText("  Remarkably, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused. The girl flashes a radiant smile at you, and the battle continues.");
+                CView.text("  Remarkably, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused. The girl flashes a radiant smile at you, and the battle continues.");
                 monster.effects.remove(StatusEffectType.Blind);
             }
         }
-        else DisplayText(monster.desc.capitalA + monster.desc.short + " blinked!");
-        DisplayText("\n\n");
+        else CView.text(monster.desc.capitalA + monster.desc.short + " blinked!");
+        CView.text("\n\n");
     }
 }

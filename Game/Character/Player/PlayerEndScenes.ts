@@ -1,10 +1,10 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { DefeatType } from '../../Combat/DefeatEvent';
 import { EndScenes } from '../../Combat/EndScenes';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Character } from '../Character';
+import { CView } from '../../../Engine/Display/ContentView';
 
 export class PlayerEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean {
@@ -17,23 +17,23 @@ export class PlayerEndScenes extends EndScenes {
 
     public claimsVictory(howYouWon: DefeatType, enemy: Character): void {
         if (howYouWon === DefeatType.HP) {
-            DisplayText().clear();
-            DisplayText("You defeat " + enemy.desc.a + enemy.desc.short + ".\n");
+            CView.clear();
+            CView.text("You defeat " + enemy.desc.a + enemy.desc.short + ".\n");
         }
         else if (howYouWon === DefeatType.Lust) {
-            DisplayText().clear();
-            DisplayText("You smile as " + enemy.desc.a + enemy.desc.short + " collapses and begins masturbating feverishly.");
+            CView.clear();
+            CView.text("You smile as " + enemy.desc.a + enemy.desc.short + " collapses and begins masturbating feverishly.");
         }
     }
 
     public criesInDefeat(howYouLost: DefeatType, enemy: Character): void {
         if (howYouLost === DefeatType.HP) {
-            DisplayText().clear();
-            DisplayText("Your wounds are too great to bear, and you fall unconscious.");
+            CView.clear();
+            CView.text("Your wounds are too great to bear, and you fall unconscious.");
         }
         else if (howYouLost === DefeatType.Lust) {
-            DisplayText().clear();
-            DisplayText("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.");
+            CView.clear();
+            CView.text("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.");
         }
     }
 
@@ -52,9 +52,9 @@ export class PlayerEndScenes extends EndScenes {
     public readonly hasDefeatScene = false;
     protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
         if (enemy.effects.get(StatusEffectType.Sparring).value1 === 2) {
-            DisplayText().clear();
-            DisplayText("The cow-girl has defeated you in a practice fight!");
-            DisplayText("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
+            CView.clear();
+            CView.text("The cow-girl has defeated you in a practice fight!");
+            CView.text("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
             // Game.inCombat = false;
             this.char.stats.HP = 1;
             return { next: returnToCampUseOneHour };
@@ -72,7 +72,7 @@ export class PlayerEndScenes extends EndScenes {
         else {
             let lostGems: number = randInt(10) + 1;
             if (lostGems > this.char.inventory.gems) lostGems = this.char.inventory.gems;
-            DisplayText("\n\nYou'll probably wake up in eight hours or so, missing " + lostGems + " gems.");
+            CView.text("\n\nYou'll probably wake up in eight hours or so, missing " + lostGems + " gems.");
             this.char.inventory.gems -= lostGems;
         }
 
@@ -84,20 +84,20 @@ export class PlayerEndScenes extends EndScenes {
         const gemsLost = randInt(20);
 
         // if (!inDungeon) {
-        DisplayText("\n\nYou'll probably come to your senses in eight hours or so");
+        CView.text("\n\nYou'll probably come to your senses in eight hours or so");
         if (this.char.inventory.gems > 1)
-            DisplayText(", missing " + gemsLost + " gems.");
+            CView.text(", missing " + gemsLost + " gems.");
         else if (this.char.inventory.gems === 1)
-            DisplayText(", missing your only gem.");
-        else DisplayText(".");
+            CView.text(", missing your only gem.");
+        else CView.text(".");
         // }
         // else {
-        //     DisplayText("\n\nSomehow you came out of that alive");
+        //     CView.text("\n\nSomehow you came out of that alive");
         //     if (this.char.inventory.gems > 1)
-        //         DisplayText(", but after checking your gem pouch, you realize you're missing " + gemsLost + " gems.");
+        //         CView.text(", but after checking your gem pouch, you realize you're missing " + gemsLost + " gems.");
         //     else if (this.char.inventory.gems === 1)
-        //         DisplayText(", but after checking your gem pouch, you realize you're missing your only gem.");
-        //     else DisplayText(".");
+        //         CView.text(", but after checking your gem pouch, you realize you're missing your only gem.");
+        //     else CView.text(".");
         // }
 
         this.char.inventory.gems -= temp;
@@ -105,12 +105,12 @@ export class PlayerEndScenes extends EndScenes {
         // BUNUS XPZ
         // if (Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] > 0) {
         //     this.char.XP += Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE];
-        //     DisplayText("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
+        //     CView.text("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
         //     Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] = 0;
         // }
         // // Bonus lewts
         // if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] !== "") {
-        //     DisplayText("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
+        //     CView.text("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
         //     inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), createCallBackFunction(Game.camp.returnToCamp, timePasses));
         // }
         // else return { next: createCallBackFunction(Scenes.camp.returnToCamp, timePasses) };

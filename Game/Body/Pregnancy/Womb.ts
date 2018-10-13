@@ -5,9 +5,17 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { Vagina } from '../Vagina';
 import { CView } from '../../../Engine/Display/ContentView';
 import { Body } from '../Body';
-import { FilterOption } from '../../../Engine/Utilities/List';
+import { FilterOption, SortOption } from '../../../Engine/Utilities/List';
 
 export class Womb implements ISerializable<Womb> {
+    public static readonly LargestPregnancy: SortOption<Womb> = (a: Womb, b: Womb) => {
+        return (a.isPregnant() ? a.pregnancy.incubation : 0) - (b.isPregnant() ? b.pregnancy.incubation : 0);
+    }
+
+    public static readonly SmallestPregnancy: SortOption<Womb> = (a: Womb, b: Womb) => {
+        return (b.isPregnant() ? b.pregnancy.incubation : 0) - (a.isPregnant() ? a.pregnancy.incubation : 0);
+    }
+
     public static readonly Pregnant: FilterOption<Womb> = (a: Womb) => {
         return a.isPregnant();
     }

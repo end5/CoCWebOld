@@ -1,4 +1,3 @@
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
@@ -6,6 +5,7 @@ import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
+import { CView } from '../../../../../Engine/Display/ContentView';
 
 export class Bite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -29,27 +29,27 @@ export class Bite extends PlayerPhysicalAction {
         return true;
     }
 
-    public use(player: Player, monster: Character): NextScreenChoices {
+    public use(player: Player, monster: Character): void | NextScreenChoices {
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        DisplayText().clear();
+        CView.clear();
         if (monster.effects.has(StatusEffectType.Concentration)) {
-            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
+            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
-        DisplayText("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
+        CView.text("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
         if (player.effects.has(StatusEffectType.Blind))
-            DisplayText("In hindsight, trying to bite someone while blind was probably a bad idea... ");
+            CView.text("In hindsight, trying to bite someone while blind was probably a bad idea... ");
         // Determine if dodged!
         if ((player.effects.has(StatusEffectType.Blind) && randInt(3) !== 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Math.floor(randInt(((monster.stats.spe - player.stats.spe) / 4) + 80)) > 80)) {
             if (monster.stats.spe - player.stats.spe < 8)
-                DisplayText(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!");
+                CView.text(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!");
             if (monster.stats.spe - player.stats.spe >= 8 && monster.stats.spe - player.stats.spe < 20)
-                DisplayText(monster.desc.capitalA + monster.desc.short + " dodges your attack with superior quickness!");
+                CView.text(monster.desc.capitalA + monster.desc.short + " dodges your attack with superior quickness!");
             if (monster.stats.spe - player.stats.spe >= 20)
-                DisplayText(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attack.");
-            DisplayText("\n\n");
+                CView.text(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attack.");
+            CView.text("\n\n");
             return;
         }
         // Determine damage - str modified by enemy toughness!
@@ -63,21 +63,21 @@ export class Bite extends PlayerPhysicalAction {
 
         if (damage <= 0) {
             damage = 0;
-            DisplayText("Your bite is deflected or blocked by " + monster.desc.a + monster.desc.short + ".");
+            CView.text("Your bite is deflected or blocked by " + monster.desc.a + monster.desc.short + ".");
         }
         if (damage > 0 && damage < 10) {
-            DisplayText("You bite doesn't do much damage to " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
+            CView.text("You bite doesn't do much damage to " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
         }
         if (damage >= 10 && damage < 20) {
-            DisplayText("You seriously wound " + monster.desc.a + monster.desc.short + " with your bite! (" + damage + ")");
+            CView.text("You seriously wound " + monster.desc.a + monster.desc.short + " with your bite! (" + damage + ")");
         }
         if (damage >= 20 && damage < 30) {
-            DisplayText("Your bite staggers " + monster.desc.a + monster.desc.short + " with its force. (" + damage + ")");
+            CView.text("Your bite staggers " + monster.desc.a + monster.desc.short + " with its force. (" + damage + ")");
         }
         if (damage >= 30) {
-            DisplayText("Your powerful bite <b>mutilates</b> " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
+            CView.text("Your powerful bite <b>mutilates</b> " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
         }
-        DisplayText("\n\n");
+        CView.text("\n\n");
         return;
     }
 }

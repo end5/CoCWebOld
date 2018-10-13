@@ -1,4 +1,4 @@
-﻿import { PlayerActionPerform } from './CombatActions/PlayerActionPerform';
+﻿import { PlayerAction } from './CombatActions/PlayerActionPerform';
 import { PlayerEndScenes } from './PlayerEndScenes';
 import { ButtLooseness, ButtWetness } from '../../Body/Butt';
 import { FaceType } from '../../Body/Face';
@@ -8,12 +8,12 @@ import { CombatContainer } from '../../Combat/CombatContainer';
 import { DefaultRespond } from '../../Combat/Default/DefaultRespond';
 import { Armor } from '../../Items/Armors/Armor';
 import { ArmorName } from '../../Items/Armors/ArmorName';
-import { ItemFactory } from '../../Items/ItemFactory';
-import { ItemType } from '../../Items/ItemType';
 import { Weapon } from '../../Items/Weapons/Weapon';
 import { WeaponName } from '../../Items/Weapons/WeaponName';
 import { Character } from '../Character';
 import { CharacterType } from '../CharacterType';
+import { WeaponLib } from '../../Items/Weapons/WeaponLib';
+import { ArmorLib } from '../../Items/Armors/ArmorLib';
 
 export class Player extends Character {
     public constructor() {
@@ -46,11 +46,11 @@ export class Player extends Character {
 
         // Inventory
         this.inventory.items.unlock(6);
-        this.inventory.equipment.defaultWeaponSlot.equip(ItemFactory.get(ItemType.Weapon, WeaponName.Fists) as Weapon);
-        this.inventory.equipment.equippedArmorSlot.equip(ItemFactory.get(ItemType.Armor, ArmorName.ComfortUndercloth) as Armor);
+        this.inventory.equipment.defaultWeaponSlot.equip(WeaponLib.get(WeaponName.Fists) as Weapon);
+        this.inventory.equipment.equippedArmorSlot.equip(ArmorLib.get(ArmorName.ComfortUndercloth) as Armor);
 
         // Combat
-        this.combatContainer = new CombatContainer(this, new PlayerActionPerform(), new DefaultRespond(), new PlayerEndScenes(this));
+        this.combatContainer = new CombatContainer(this, new PlayerAction(), new DefaultRespond(), new PlayerEndScenes(this));
     }
 
     // Lust vulnerability

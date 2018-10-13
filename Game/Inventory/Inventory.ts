@@ -9,10 +9,10 @@ import {
 import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
 import { Character } from '../Character/Character';
 import { Item } from '../Items/Item';
-import { ItemFactory } from '../Items/ItemFactory';
 import { ItemType } from '../Items/ItemType';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
 import { NextScreenChoices, ClickFunction } from '../ScreenDisplay';
+import { getLibFromType } from '../Items/ItemLookup';
 
 export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     private itemSlots: List<ItemStack<T>> = new List();
@@ -63,7 +63,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * @param nextMenu The menu that will display after the items are added.
      */
     public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickFunction): NextScreenChoices {
-        return this.addList(characterAddingItems, [ItemFactory.create(itemType, itemName)], nextMenu);
+        return this.addList(characterAddingItems, [new ItemStack(getLibFromType(itemType).get(itemName), 1)], nextMenu);
     }
 
     public add(characterAddingItems: Character, item: Item, nextMenu: ClickFunction): NextScreenChoices {

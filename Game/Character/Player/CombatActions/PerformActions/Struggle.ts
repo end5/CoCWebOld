@@ -1,15 +1,13 @@
-import { DisplayText } from '../../../../../Engine/display/DisplayText';
-import { randInt } from '../../../../../Engine/Utilities/SMath';
-import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { Desc } from '../../../../Descriptors/Descriptors';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
-import { numToCardinalText } from '../../../../Utilities/NumToText';
 import { Character } from '../../../Character';
+import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
-export class Struggle implements CombatAction {
+export class Struggle implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
     public name: string = "Struggle";
     public reasonCannotUse: string = "";
+    public actions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -19,7 +17,7 @@ export class Struggle implements CombatAction {
         return false;
     }
 
-    public use(character: Character, target: Character): NextScreenChoices {
+    public use(character: Character, target: Character): void | NextScreenChoices {
         return;
         // if (monster.statusAffects.has(StatusAffectType.MinotaurEntangled)) {
         //     DisplayText().clear();

@@ -1,13 +1,12 @@
 import { teased } from './Teased';
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
 import { PerkType } from '../../Effects/PerkType';
-import { WeaponPerkType } from '../../Items/Weapons/WeaponPerk';
-import { ActionRespond } from '../ActionRespond';
+import { IActionRespond } from '../IActionRespond';
+import { CView } from '../../../Engine/Display/ContentView';
 
-export class DefaultRespond implements ActionRespond {
+export class DefaultRespond implements IActionRespond {
     public enemyAttack() { }
     public enemyTease(damage: number, self: Character, enemy: Character): void {
         teased(damage, self, enemy);
@@ -56,19 +55,19 @@ export class DefaultRespond implements ActionRespond {
 
     public didNoDamage(self: Character, enemy: Character) {
         if (enemy.combat.effects.has(CombatEffectType.Earthshield)) {
-            DisplayText("Your strike is deflected by the wall of sand, dirt, and rock!  Damn!\n");
+            CView.text("Your strike is deflected by the wall of sand, dirt, and rock!  Damn!\n");
         }
-        DisplayText("Your attacks are deflected or blocked by " + enemy.desc.a + enemy.desc.short + ".");
+        CView.text("Your attacks are deflected or blocked by " + enemy.desc.a + enemy.desc.short + ".");
     }
 
     public didDamage(damage: number, crit: boolean, self: Character, enemy: Character) {
-        DisplayText("You hit " + enemy.desc.a + enemy.desc.short + "! (" + damage + ")");
+        CView.text("You hit " + enemy.desc.a + enemy.desc.short + "! (" + damage + ")");
         if (crit)
-            DisplayText(" <b>*CRIT*</b>");
+            CView.text(" <b>*CRIT*</b>");
 
         if (self.perks.has(PerkType.BrutalBlows) && self.stats.str > 75) {
             if (enemy.combat.stats.defense() > 0)
-                DisplayText("\nYour hits are so brutal that you damage " + enemy.desc.a + enemy.desc.short + "'s defenses!");
+                CView.text("\nYour hits are so brutal that you damage " + enemy.desc.a + enemy.desc.short + "'s defenses!");
             if (enemy.combat.stats.defense() - 10 > 0)
                 enemy.combat.stats.defenseMod -= 10;
             else
