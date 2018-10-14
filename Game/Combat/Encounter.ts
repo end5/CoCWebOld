@@ -1,5 +1,5 @@
 import { performActionAI } from './CombatAI';
-import { CombatCleanup } from './CombatCleanup';
+import { combatCleanup } from './CombatCleanup';
 import { CombatDrops } from './CombatDrops';
 import { CombatParty } from './CombatParty';
 import { combatRegeneration } from './CombatUtils';
@@ -112,7 +112,7 @@ export class Encounter {
 
     private endCombatOrNextRound(): NextScreenChoices {
         if (this.allyParty.ableMembers.length === 0 || this.enemyParty.ableMembers.length === 0) {
-            CombatCleanup.performCleanup(this.mainCharacter, this.allyList, this.enemyList);
+            combatCleanup(this.mainCharacter, this.allyList, this.enemyList);
             return this.displayDefeatEvent();
         }
         return this.performRound();

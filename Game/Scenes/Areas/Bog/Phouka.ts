@@ -19,11 +19,12 @@ import { randInt } from "../../../../Engine/Utilities/SMath";
 import { CView } from "../../../../Engine/Display/ContentView";
 import { combatMiss, combatEvade, combatFlexibility, combatMisdirect, combatDodge } from "../../../Combat/CombatUtils";
 import { ItemType } from "../../../Items/ItemType";
-import { CombatAction } from "../../../Combat/Actions/CombatAction";
-import { ActionRespond } from "../../../Combat/ActionRespond";
 import { EndScenes } from "../../../Combat/EndScenes";
 import { DefeatType } from "../../../Combat/DefeatEvent";
 import { PhoukaFlags, PhoukaForm, phoukaSexGoat, phoukaSexBunny, phoukaSexHorse, phoukaPlayerWins } from "./PhoukaScene";
+import { ICombatAction } from "../../../Combat/Actions/ICombatAction";
+import { CombatAbilityFlag } from "../../../Effects/CombatAbilityFlag";
+import { IActionRespond } from "../../../Combat/IActionRespond";
 
 /**
  * Created by K.Quesom 11.06.14
@@ -179,9 +180,12 @@ function phoukaTransformToPhouka() {
     PhoukaFlags.FORM = PhoukaForm.FAERIE;
 }
 
-class PhoukaAction implements CombatAction {
+class PhoukaAction implements ICombatAction {
+    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
     public name: string = 'Action';
     public reasonCannotUse: string = '';
+    public actions: ICombatAction[] = [];
+
     public isPossible(character: Character): boolean {
         return true;
     }
@@ -218,8 +222,7 @@ class PhoukaAction implements CombatAction {
     }
 }
 
-class PhoukaResponds implements ActionRespond {
-    public enemyAttack() { }
+class PhoukaResponds implements IActionRespond {
     public enemyTease(damage: number, self: Character, enemy: Character) {
         if (damage >= 10)
             CView.text("\n\nThe " + self.desc.name + " breaks off its attack in the face of your teasing.  Its drooling member leaves a trail of precum along the ground and you get the feeling it needs to end this fight quickly.");
@@ -228,27 +231,9 @@ class PhoukaResponds implements ActionRespond {
         else if (damage > 0)
             CView.text("\n\nThe " + self.desc.name + " hesitates and slows down.  You see its cock twitch and then it readies for the next attack.");
     }
-    public enemyUseItem() { }
-    public enemyPhysicalAttack() { }
-    public enemyMagicalAttack() { }
-    public enemyDodge() { }
-    public enemyRun() { }
-    public attacked(damage: number, crit: boolean, self: Character, enemy: Character) { }
-    public didNoDamage(self: Character, enemy: Character) { }
-    public didDamage(damage: number, crit: boolean, self: Character, enemy: Character) { }
-    public feared() { }
-    public stunned() { }
-    public constricted() { }
-    public blinded() { }
 }
 
 class PhoukaEndScenes extends EndScenes {
-    public hasEscaped(enemy: Character): boolean { return false; }
-    public hasDefeated(enemy: Character): boolean { return false; }
-    public claimsVictory(howYouWon: DefeatType, enemy: Character): void { }
-    public criesInDefeat(howYouLost: DefeatType, enemy: Character): void { }
-    protected beforeEndingScene(howYouLost: DefeatType, enemy: Character): void { }
-    public hasVictoryScene: boolean = true;
     protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
         let nextScene;
 
@@ -268,7 +253,7 @@ class PhoukaEndScenes extends EndScenes {
         }
         return nextScene(enemy, true, howYouWon !== DefeatType.HP);
     }
-    public hasDefeatScene: boolean = true;
+
     protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
         return phoukaPlayerWins(enemy, howYouLost === DefeatType.HP);
     }
@@ -318,19 +303,19 @@ export class Phouka extends Character {
 
         this.body.ears.type = EarType.ELFIN;
 
-        this.baseStats.str = 55;
-        this.baseStats.tou = 25;
-        this.baseStats.spe = 80;
-        this.baseStats.int = 40;
-        this.baseStats.lib = 75;
-        this.baseStats.sens = 35;
-        this.baseStats.cor = 100;
+        this.baseStats.str.value = 55;
+        this.baseStats.tou.value = 25;
+        this.baseStats.spe.value = 80;
+        this.baseStats.int.value = 40;
+        this.baseStats.lib.value = 75;
+        this.baseStats.sens.value = 35;
+        this.baseStats.cor.value = 100;
 
         this.inventory.equipment.defaultWeaponSlot.equip(new Weapon("claws" as WeaponName, undefined, "claws", "claw", 15));
         this.inventory.equipment.defaultArmorSlot.equip(new Armor("skin" as ArmorName, undefined, "skin", 80));
 
         this.baseStats.bonusHP = 300;
-        this.baseStats.lust = 30;
+        this.baseStats.lust.value = 30;
         this.baseStats.lustVuln = .5;
 
         this.baseStats.level = 14;

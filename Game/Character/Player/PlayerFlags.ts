@@ -35,6 +35,7 @@ export const PlayerFlags = {
     TIMES_EGGED_IN_COCK: 0,
     DICK_EGG_INCUBATION: 0,
     TIMES_ENCOUNTERED_GOBLIN_ASSASSIN: 0,
+    sand: 0,
 };
 
 User.flags.set(FlagType.Player, PlayerFlags);

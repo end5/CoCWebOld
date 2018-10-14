@@ -23,6 +23,7 @@ import { fatigueRecovery } from "../../../Combat/CombatUtils";
 import { skinFurScales } from "../../../Descriptors/SkinDescriptor";
 import { partial } from "../../../Utilities/Partial";
 import { Tail, TailType } from "../../../Body/Tail";
+import { Womb } from "../../../Body/Pregnancy/Womb";
 
 // NAGA STATUS
 // v1 - players last fuck was as naga - 1 = true, 0 = false
@@ -642,7 +643,7 @@ function nagaFUCKSJOOOOOO(player: Character, monster: Character): NextScreenChoi
         }
         CView.text(".");
         // (If pregnant)
-        if (player.pregnancy.womb.isPregnant()) {
+        if (player.body.wombs.find(Womb.Pregnant)) {
             CView.text("  As you finally reach your next climax, the naga pokes her tongue a little bit deeper inside your mouth, reaching to the back of your throat.");
             // (If you have been a bad girl in past encounters)
             if (player.effects.has(StatusEffectType.MeanToNaga)) {
@@ -1004,7 +1005,7 @@ function eggUpANagaSpiderLike(player: Character): NextScreenChoices {
     CView.text(".  You crumple into a heap on top of your reptilian lover, unconscious before you hit the sand.  Her eyes drift closed as well, as she coils around you, settling in for a well-deserved rest.");
 
     CView.text("\n\nA while later, you awaken alone in the desert sand.  Getting your shaky legs under you and stifling a yawn, you head back to   You should come to the desert more often.");
-    player.pregnancy.ovipositor.dumpEggs();
+    player.body.ovipositor.dumpEggs();
     player.orgasm();
     return { next: returnToCampUseOneHour };
 }
@@ -1040,13 +1041,13 @@ function beePositANagaPlease(player: Character): NextScreenChoices {
     if (player.gender > 0) CView.text(".");
 
     CView.text("\n\nPanting softly, the confused, climax-addled snake weakly kisses you again, though it falls apart once you withdraw your spent egg-tube from the gushing, honey-scented snatch.  A small river of amber goo runs from her slightly-gaped pussy as you withdraw, though your eggs are pushed so deep as to be invisible");
-    if (player.pregnancy.ovipositor.eggs > 30) CView.text(" from the outside at least.  You stuffed her so full that she looks positively pregnant, bulging to a picture of utter fertility");
+    if (player.body.ovipositor.eggs > 30) CView.text(" from the outside at least.  You stuffed her so full that she looks positively pregnant, bulging to a picture of utter fertility");
     CView.text(".  She idly runs her hands across her body, pinching her nipples and gasping in delight.  Your venom is clearly keeping her quite aroused, even with such a powerful orgasm.  After such a workout, you feel like you might have a little bit of venom left, so you give the new ");
-    if (player.pregnancy.ovipositor.fertilizedEggs === 0) CView.text("egg-bearer");
+    if (player.body.ovipositor.fertilizedEggs === 0) CView.text("egg-bearer");
     else CView.text("mother");
     CView.text(" a parting sting.  Her moans of excitement jump an octave, and you listen to them with a happy, almost gloating smile while you get dressed.");
     CView.text("\n\nYou should definitely come to the desert more often.");
-    player.pregnancy.ovipositor.dumpEggs();
+    player.body.ovipositor.dumpEggs();
     player.orgasm();
     return { next: returnToCampUseOneHour };
 }

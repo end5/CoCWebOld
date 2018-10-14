@@ -681,7 +681,7 @@ function phyllaFirstTimePureBabiesFuckEnding(player: Character): NextScreenChoic
             CView.text("\n\nShe squints and braces for the inevitable egg forcing its way into her, gasping as the oval mass finally makes contact and works its way into her.  You can feel the egg as it makes it way into Phylla, stretching her pussy out to accommodate future deposits as the frontrunner hits her cervix, and manages it to make its way inside.");
             CView.text("\n\n\"<i>UGH! It hurts... a little~ feels so strange... I-mea~ good!</i>\" she cries out.");
             CView.text("\n\nYou comfort her while telling her that you have a few more on the way; something that causes Phylla to beam with pride at the thought of being filled with so much new life that she will eventually birth.  Egg after egg slides into Phylla, causing her stomach to bulge bigger and bigger with your brood as you stuff more into her.  At last, the final egg is laid inside of Phylla, and with a loud pop, you  retract your ovipositor from her love hole;  you know it'll recover in time.  Phylla rubs her belly and gleams with delight, filled with her lover's future children that will help the colony to grow strong.");
-            player.pregnancy.ovipositor.dumpEggs();
+            player.body.ovipositor.dumpEggs();
             if (!womb.isPregnant())
                 womb.knockUp(new Pregnancy(PregnancyType.DRIDER_EGGS, 8 * 24));
         }
@@ -1970,7 +1970,7 @@ function birfingSexWithAntsForDasLadies(player: Character): NextScreenChoices {
         CView.text("\n\nSmiling, you wrap your hand around the back of her head and pull her into a deep kiss.");
         CView.text("\n\nFeeling the link almost immediately, it hits you as hard as a Minotaur wielding a battle axe.  A fireworks display of emotions wash over you; clearly, your mind was completely unprepared for this cavalcade of feeling.");
         // If PC has IS pregnant:
-        if (player.pregnancy.womb.isPregnant()) CView.text("\n\nThe feeling of your pregnancies is instantly transferred between yourself and Phylla; you feel the warmth and energy of her unborn children inside of you, and you can feel her experiencing the warmth of the life still growing within you.  At this moment, you two understand perfectly what it's like for each other to be with child; it's a pretty... enlightening experience... that's distracting you from the task at hand.");
+        if (player.body.wombs.find(Womb.Pregnant)) CView.text("\n\nThe feeling of your pregnancies is instantly transferred between yourself and Phylla; you feel the warmth and energy of her unborn children inside of you, and you can feel her experiencing the warmth of the life still growing within you.  At this moment, you two understand perfectly what it's like for each other to be with child; it's a pretty... enlightening experience... that's distracting you from the task at hand.");
         // If PC has been pregnant:
         else if (player.effects.get(StatusEffectType.Birthed).value1 > 0) CView.text("\n\nYou've been pregnant before, but this... this is completely different.  You feel every stage that each of Phylla's eggs in her abdomen is in.  You feel what it's like to have your only goal, your only want in life being to mate and have children for the rest of your life.  It's an amazing turn on for you - you feel a warmth start to spread between your own legs.");
         // If PC has NEVER been pregnant:
@@ -2521,7 +2521,7 @@ function driderDoublePhllaMount(player: Character): NextScreenChoices {
     CView.text("\n\nAt last, your egg supply is exhausted and you pull free of the Ant Morph, carefully walking over broken and soon to be broken egg shells as your children skitter up to their mother's nourishing breasts.  Phylla only coos with deep content as she cradles her stomach, barely taking notice of the young spiders that squabble over who gets to suckle first.");
     player.orgasm();
     // empty eggs and such!
-    player.pregnancy.ovipositor.dumpEggs();
+    player.body.ovipositor.dumpEggs();
     // set phylla drider preggo timer
     if (!womb.isPregnant()) womb.knockUp(new Pregnancy(PregnancyType.DRIDER_EGGS, 8 * 24)); // Supposed to be eight days, not eight hours
     return { next: returnToCampUseOneHour };
@@ -2687,7 +2687,7 @@ function eggDatBitch(player: Character): NextScreenChoices {
         if (!womb.isPregnant()) womb.knockUp(new Pregnancy(PregnancyType.DRIDER_EGGS, 8 * 24)); // Supposed to be eight days, not eight hours
         AntsFlags.TIMES_EGG_IMPREGNATING_PHYLLA++;
         player.orgasm();
-        player.pregnancy.ovipositor.dumpEggs();
+        player.body.ovipositor.dumpEggs();
     }
     return { next: returnToCampUseOneHour };
 }

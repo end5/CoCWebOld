@@ -12,7 +12,6 @@ import { Cock, CockType } from "../../Body/Cock";
 import { describeCocksLight, describeCock, describeCockHead } from "../../Descriptors/CockDescriptor";
 import { StatusEffectType } from "../../Effects/StatusEffectType";
 import { displayStretchButt } from "../../Modifiers/ButtModifier";
-import { TailType } from "../../Body/Tail";
 import { displayStretchVagina } from "../../Modifiers/VaginaModifier";
 import { ConsumableName } from "../../Items/Consumables/ConsumableName";
 import { describeRace } from "../../Descriptors/BodyDescriptor";
@@ -205,14 +204,15 @@ export function meetArian(player: Character): NextScreenChoices {
     return {
         choices: [
             ["Help", helpArianWhenYouMeetHim],
-            ["Don't Help", dontHelpArianWhenYouMeetHim],
+            ["Don't Help", partial(dontHelpArianWhenYouMeetHim, player, false)],
             ["Never Help", partial(dontHelpArianWhenYouMeetHim, player, true)],
         ]
     };
 }
 
 // [=Don't Help=]
-function dontHelpArianWhenYouMeetHim(player: Character, never: boolean = false): NextScreenChoices {
+// never = false
+function dontHelpArianWhenYouMeetHim(player: Character, never: boolean): NextScreenChoices {
     CView.clear();
     CView.text("Not liking the risks it presents - after all, they could be a mugger, or have something nasty and highly contagious - you keep on walking.  You've not gone too far before a pair of figures, elegantly dressed ferret-morphs, nearly slam into you, running quickly.  You shout at them to watch where they're going, but they ignore you, instead heading straight for the alleyway you just passed.  You watch as they grab the hooded figure and pull them to their feet.  The ferrets start chattering at their target; though you can't make out precisely what they're saying, it sounds like a scolding, even as they take a bottle from a pouch they're carrying and make the hooded figure drink it.  The cloaked man's coughs start to subside, and they promptly take an arm each and half-lead, half-carry him away.  You wonder what that was all about, but decide it doesn't matter and press on.");
     // Disable the bitch if appropriate.
@@ -587,7 +587,7 @@ function arianHomeMenu(player: Character): NextScreenChoices {
     // If no story dialogue
     else {
         choices[0] = ["Talk", talkToArianChoices];
-        if (ArianFlags.ARIAN_S_DIALOGUE >= 2) choices[1] = ["Sex", partial(arianSexMenu, player)];
+        if (ArianFlags.ARIAN_S_DIALOGUE >= 2) choices[1] = ["Sex", partial(arianSexMenu, player, true)];
         if (ArianFlags.ARIAN_S_DIALOGUE >= 1) choices[3] = ["Give Item", giveArianAnItem];
         if (player.inventory.keyItems.has("Arian's Talisman") || player.inventory.keyItems.has("Arian's Charged Talisman"))
             choices[2] = ["Talisman", imbueTalisman];

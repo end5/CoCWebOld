@@ -9,5 +9,22 @@ export enum FlagType {
     Essrayle = "Essrayle",
     Kitsune = "Kitsune",
     Tamani = "Tamani",
-    Izumi = "Izumi"
+    Izumi = "Izumi",
+    ShouldraFollower = "ShouldraFollower",
+    Sheila = "Sheila",
+    Rathazul = "Rathazul",
+    Valeria = "Valeria",
+    Vapula = "Vapula",
+    Shouldra = "Shouldra",
+    Raphael = "Raphael",
+    MilkWaifu = "MilkWaifu",
+    LatexGirl = "LatexGirl",
+    Holli = "Holli",
+    Isabella = "Isabella",
+    Arian = "Arian",
+    Exgartuan = "Exgartuan",
+    Anemone = "Anemone",
+    Ceraph = "Ceraph",
+    Amily = "Amily",
+    Ember = "Ember"
 }

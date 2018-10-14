@@ -4,7 +4,7 @@ import { ITimeAware } from "../../../ITimeAware";
 import { StatusEffectType } from "../../../Effects/StatusEffectType";
 import { ConsumableName } from "../../../Items/Consumables/ConsumableName";
 import { Character } from "../../../Character/Character";
-import { NextScreenChoices, ClickFunction, ScreenChoice } from "../../../ScreenDisplay";
+import { NextScreenChoices, ScreenChoice } from "../../../ScreenDisplay";
 import { randInt } from "../../../../Engine/Utilities/SMath";
 import { CView } from "../../../../Engine/Display/ContentView";
 import { returnToCampUseOneHour } from "../../Camp";
@@ -16,6 +16,7 @@ import { displayStretchVagina } from "../../../Modifiers/VaginaModifier";
 import { displayStretchButt } from "../../../Modifiers/ButtModifier";
 import { Cock } from "../../../Body/Cock";
 import { Pregnancy, PregnancyType, IncubationTime } from "../../../Body/Pregnancy/Pregnancy";
+import { Womb } from "../../../Body/Pregnancy/Womb";
 
 export const PhoukaFlags = {
     PHOUKA_LORE: 0,
@@ -55,13 +56,9 @@ export class PhoukaTimeAware implements ITimeAware {
         return false;
     }
 
-    public timeChangeLarge(): boolean {
-        return false;
-    }
+    public timeChangeLarge(): void { }
 
-    public serialize() {
-        return {};
-    }
+    public serialize() { }
 
     public deserialize() { }
 }
@@ -75,7 +72,7 @@ export function phoukaName(): string { // Helper function, Handles the most use 
 }
 
 export function phoukaEncounter(player: Character): NextScreenChoices { // General entry point for everything except halloween special encounter
-    PhoukaFlags.FORM = PHOUKA_FORM_FAERIE; // Reset to faerie form at the start of any encounter
+    PhoukaFlags.FORM = PhoukaForm.FAERIE; // Reset to faerie form at the start of any encounter
     let choiceChance: number = 0;
     if (PhoukaFlags.PHOUKA_ENCOUNTER_STATUS === 0) { // Guarantee first Phouka encounter is with faerie fire
         PhoukaFlags.TREACLE_MINE_YEAR_DONE = date.fullYear - 1; // If you've never encountered phoukas before then we can safely set all this stuff here
@@ -139,9 +136,9 @@ function phoukaStuckOfferWhiskey(player: Character): NextScreenChoices {
     if (PhoukaFlags.PHOUKA_LORE === 0) PhoukaFlags.PHOUKA_LORE = 1; // Now you know what to call them
     player.inventory.items.consumeItem(ConsumableName.PhoukaWhiskey, 1);
     CView.text("\n\nThe phouka zips over to a nearby tree and collects a pair of leather drinking cups while you pry the cork out of the bottle.  As he returns his form shifts and grows, becoming a bunny-morph.  You guess in faerie form these phouka are lightweights - that or they just can’t physically take in enough booze for their liking.  He takes the bottle and pours some of the clear amber liquid into the cups, offering one to you.");
-    PhoukaFlags.FORM = PHOUKA_FORM_BUNNY;
+    PhoukaFlags.FORM = PhoukaForm.BUNNY;
 
-    if (!player.pregnancy.buttWomb.isPregnant() && !player.pregnancy.buttWomb.isPregnant()) {
+    if (!player.body.buttWomb.isPregnant() && !player.body.buttWomb.isPregnant()) {
 
         return { choices: [["Drink", phoukaDrinkAccept]] };
     }
@@ -214,8 +211,8 @@ function phoukaTalk(player: Character): NextScreenChoices {
             default: // (9, 10 or 11) Offers to share some whiskey
                 CView.text(" buzzes around in a wide circle and finally comes to a stop near a broken tree.  He lands and reaches into a hollow, pulling out a glass bottle larger than he is.\n\nThe " + phoukaName() + " has some trouble with the stopper and once again seems to melt in front of your eyes.  He grows and changes into the form of a large, black furred bunny, nearly four feet tall that has a very human face and hands.  The bunny yanks the stopper free and pulls some leather drinking cups from the same hollow.  Finally the " + phoukaName() + " looks back at you, holding up the bottle.\n\n<i>“I could beat you, of course.  But it looks like it might be a long fight, and I don’t feel like starting one of those without drinkin more whiskey.”</i> The " + phoukaName() + " spreads his large bunny feet wide to give himself more support while he tips the cup back.  He hacks and coughs, but after the drink, he grins at you a little less lustily. <i>“Great stuff, this.  We phouka make it right here in the bog.  Best water, best peat, best everything for making phouka whiskey.”</i>");
                 if (PhoukaFlags.PHOUKA_LORE === 0) PhoukaFlags.PHOUKA_LORE = 1; // Now you know what to call them
-                PhoukaFlags.FORM = PHOUKA_FORM_BUNNY;
-                if (!player.pregnancy.womb.isPregnant() && !player.pregnancy.buttWomb.isPregnant()) {
+                PhoukaFlags.FORM = PhoukaForm.BUNNY;
+                if (!player.body.wombs.find(Womb.Pregnant) && !player.body.buttWomb.isPregnant()) {
                     CView.text("  He pours some of the clear amber liquid into the other cup and offers it to you.");
 
                     return { choices: [["Refuse", phoukaDrinkRefuse], ["Drink", phoukaDrinkAccept]] };
@@ -226,7 +223,7 @@ function phoukaTalk(player: Character): NextScreenChoices {
 }
 
 function phoukaDrinkWhilePregnant(player: Character, playerOfferedTheBooze: boolean): NextScreenChoices {
-    if ((player.pregnancy.womb.pregnancy.incubation <= 100) || (player.pregnancy.buttWomb.pregnancy.incubation <= 100)) { // Pregnancy is obvious to the phouka
+    if ((player.body.wombs.find(Womb.Pregnant).pregnancy.incubation <= 100) || (player.body.buttWomb.pregnancy.incubation <= 100)) { // Pregnancy is obvious to the phouka
         CView.text("\n\n<i>“Here”</i> he says, offering you a full cup of whiskey, <i>“give that baby what it needs.  You want 'em to grow up strong don't ya?”</i>");
     }
     const acceptable: number = phoukaWhiskeyAcceptable(player);
@@ -288,7 +285,7 @@ function phoukaDrinkAccept(player: Character): NextScreenChoices { // In every p
 
 function phoukaDrinkRefuse(player: Character): NextScreenChoices { // In every path that leads here the character learns the creature is called a phouka, so no phoukaName() calls needed
     CView.clear();
-    if (player.pregnancy.womb.pregnancy.incubation <= 100) { // Pregnancy is obvious to the phouka
+    if (player.body.wombs.find(Womb.Pregnant).pregnancy.incubation <= 100) { // Pregnancy is obvious to the phouka
         CView.text("The rabbit morph sits down heavily on the wet ground and sips his booze.  <i>“Don't want to fuck, don't want to drink.  What gives?  Live a little and let me have fun with your pregnant pussy.  I’ll get ya off, and it’s not like I can knock you up again.  Course, that'd be fun too.”</i>");
 
         const choices = phoukaSexAddStandardMenuChoices(player);
@@ -354,7 +351,7 @@ function phoukaDrinkTalk(player: Character, playerNotDrinking: boolean): NextScr
         else
             CView.text("\n\nAs you drink another cup of whiskey the phouka topples over, utterly drunk. You've been feeling the effects but your drinking buddy is done.");
         CView.text("  He lets out a little giggle and begins to shrink. Tendrils of black smoke rise from the bunny morph’s black fur as he shrinks back to the size and shape of a faerie.");
-        PhoukaFlags.FORM = PHOUKA_FORM_FAERIE;
+        PhoukaFlags.FORM = PhoukaForm.FAERIE;
         if (player.stats.lust < 33)
             CView.text("  It looks like he needs a nap and you take that as your cue to get out of here.");
         else {
@@ -441,16 +438,16 @@ export function phoukaPlayerWins(player: Character, hpVictory: boolean): NextScr
     }
     else { // You win by lust and have the chance to fuck the phouka if you’re horny
         CView.text("The " + phoukaName() + " collapses to the ground and begins to jab his cock into the peat.");
-        if (PhoukaFlags.FORM !== PHOUKA_FORM_FAERIE) {
+        if (PhoukaFlags.FORM !== PhoukaForm.FAERIE) {
             CView.text("  As you watch, wisps of black smoke start to rise from him and his body starts to shrink.  In moments the ");
-            if (PhoukaFlags.FORM === PHOUKA_FORM_BUNNY)
+            if (PhoukaFlags.FORM === PhoukaForm.BUNNY)
                 CView.text("bunny morph");
-            else if (PhoukaFlags.FORM === PHOUKA_FORM_GOAT)
+            else if (PhoukaFlags.FORM === PhoukaForm.GOAT)
                 CView.text("goat morph");
-            else if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE)
+            else if (PhoukaFlags.FORM === PhoukaForm.HORSE)
                 CView.text("stallion");
             CView.text(" has shrunk back down to the size and shape of a " + phoukaNameText("phouka", "faerie") + ".");
-            PhoukaFlags.FORM = PHOUKA_FORM_FAERIE;
+            PhoukaFlags.FORM = PhoukaForm.FAERIE;
         }
         if (player.stats.lust < 33) {
             CView.text("  The threat dealt with you scoop, dig and finally extract yourself from the mire.  Your lower half is soaked and you long to sit in front of the fire at your   Hefting your supplies you turn back the way you came.");
@@ -502,19 +499,19 @@ export function phoukaPregBirth(player: Character) {
 }
 
 export function phoukaPregUpdate(player: Character): boolean { // Belly size doesn't change, instead you get updates on what's going on
-    if (player.pregnancy.womb.pregnancy.incubation === 170) { // Stage 1:
+    if (player.body.wombs.find(Womb.Pregnant).pregnancy.incubation === 170) { // Stage 1:
         if (PhoukaFlags.PREGNANCY_CORRUPTION > 0)
             CView.text("\nYour belly still feels solid and heavy.  Whatever is growing inside doesn't want you to move around very much.  You might as well sit around at camp until you force it out.\n");
         else CView.text("\nYour belly still feels solid and heavy, but for some reason you feel energized and want to enjoy life.  You could really go for a stroll through the forest.\n");
         return true;
     }
-    if (player.pregnancy.womb.pregnancy.incubation === 140) { // Stage 2:
+    if (player.body.wombs.find(Womb.Pregnant).pregnancy.incubation === 140) { // Stage 2:
         if (PhoukaFlags.PREGNANCY_CORRUPTION > 0)
             CView.text("\nYour belly feels a bit softer now.  Every once in a while you feel something tiny bump against the inside of your womb.\n");
         else CView.text("\nYour belly feels a bit softer now.  Every once in a while you feel a fluttering against the wall of your womb, almost as if something is flying around in there.\n");
         return true;
     }
-    if (player.pregnancy.womb.pregnancy.incubation === 100) { // Stage 3:
+    if (player.body.wombs.find(Womb.Pregnant).pregnancy.incubation === 100) { // Stage 3:
         CView.text("\nYour belly feels like it's full of liquid, more like a normal pregnancy. ");
         if (PhoukaFlags.PREGNANCY_CORRUPTION > 0)
             CView.text("\nThat part is more comfortable for you. Too bad you feel like that liquid is stale and tainted.");
@@ -522,7 +519,7 @@ export function phoukaPregUpdate(player: Character): boolean { // Belly size doe
         CView.text(" You've noticed that this pregnancy doesn't seem to be affecting your breasts. It's as if the child inside you has no use for your milk.\n");
         return true;
     }
-    if (player.pregnancy.womb.pregnancy.incubation === 60) { // Stage 4:
+    if (player.body.wombs.find(Womb.Pregnant).pregnancy.incubation === 60) { // Stage 4:
         if (PhoukaFlags.PREGNANCY_CORRUPTION > 6)
             CView.text("\nWhatever unclean spawn is inside you hasn't grown very much. Your belly is still packed with tainted fluid and you find it difficult to keep food down.  You constantly experience urges to drink alcohol, the stronger the better.\n");
         else if (PhoukaFlags.PREGNANCY_CORRUPTION > 0)
@@ -530,7 +527,7 @@ export function phoukaPregUpdate(player: Character): boolean { // Belly size doe
         else CView.text("\nWhatever kind of life is inside you hasn't grown very much. Your belly is still packed with fluid, though it somehow feels less saturated.\n");
         return true;
     }
-    if (player.pregnancy.womb.pregnancy.incubation === 36) { // Stage 5:
+    if (player.body.wombs.find(Womb.Pregnant).pregnancy.incubation === 36) { // Stage 5:
         CView.text("\nEven though your belly remains the same size you somehow feel that your pregnancy is drawing to a close. ");
         if (PhoukaFlags.PREGNANCY_CORRUPTION > 6)
             CView.text("Despite the small size of your belly you spend most of your time feeling deeply ill and you can't wait to force this thing out.  You can feel a constant dull pain from your womb and ovaries, probably the result of the tainted fluid inside you.  Only drinking alcohol settles your stomach.\n");
@@ -556,7 +553,7 @@ export function phoukaSexBunny(player: Character, postCombat: boolean, lustLoss:
     CView.clear();
     if (postCombat) {
         CView.text("As you collapse the " + phoukaName());
-        if (PhoukaFlags.FORM === PHOUKA_FORM_BUNNY)
+        if (PhoukaFlags.FORM === PhoukaForm.BUNNY)
             CView.text(" hops over and stands in front of you");
         else
             CView.text(" begins to shapeshift in front of you.  He changes into various forms, looks you over and finally changes into a black furred bunny-morph");
@@ -569,15 +566,15 @@ export function phoukaSexBunny(player: Character, postCombat: boolean, lustLoss:
     else {
         if (player.stats.cor <= 50) {
             CView.text("It might not be the wisest move, but you decide to let the " + phoukaName() + " have his way with you.  You tell him you would prefer a little bunny loving and the " + phoukaName() + " grins from ear to ear. <i>“Comin' right up,”</i> he says");
-            if (PhoukaFlags.FORM !== PHOUKA_FORM_BUNNY) CView.text(", and morphs into a rabbit");
+            if (PhoukaFlags.FORM !== PhoukaForm.BUNNY) CView.text(", and morphs into a rabbit");
             CView.text(".  Hopefully he'll be gentle with a willing partner.");
         }
         else {
             CView.text("You can't think of any good reason to refuse a roll in the hay (or the mire) with this " + phoukaName() + ".  You tell him that you want to feel his big bunny cock deep inside you.  The " + phoukaName() + " grins as you begin seductively stripping off you armor.");
-            if (PhoukaFlags.FORM !== PHOUKA_FORM_BUNNY) CView.text("  He goes through a short series of warm up exercises and then transforms himself into the rabbit you desire.");
+            if (PhoukaFlags.FORM !== PhoukaForm.BUNNY) CView.text("  He goes through a short series of warm up exercises and then transforms himself into the rabbit you desire.");
         }
     }
-    PhoukaFlags.FORM = PHOUKA_FORM_BUNNY;
+    PhoukaFlags.FORM = PhoukaForm.BUNNY;
     CView.text("\n\nThe bunny advances on you and says <i>“I can't wait to blow my load inside that nice pussy of yours.”</i> His paws split apart into fingers in a way you are sure would be excruciating for a real rabbit.  The bunny slides his hands over your belly while his nose sniffs at the back of your neck. [if (isPregnant = true)<i>“They say pregnant girls love ta fuck.  You ready for some meat?”</i>][if (isPregnant = false)His fingers begin to tease your [clit] as he asks you <i>“Ready for some meat?”</i>]");
     if ((player.stats.lust > 80) || (player.stats.cor > 50))
         CView.text(" You can only moan in response.  The thought of this rabbit stuffing you has your [vagina] leaking already.");
@@ -606,7 +603,7 @@ export function phoukaSexGoat(player: Character, postCombat: boolean, lustLoss: 
             CView.text("Panting with need, you begin to strip off your [armor].  The " + phoukaName() + " watches the show with an evil smile.");
         else
             CView.text("Your body falls to the ground, too weak to fight back against the " + phoukaName() + " any longer.");
-        if (PhoukaFlags.FORM !== PHOUKA_FORM_GOAT) CView.text("  As you lay there, the " + phoukaName() + "'s body stretches and morphs until it takes the form of a large, black furred goat-morph.");
+        if (PhoukaFlags.FORM !== PhoukaForm.GOAT) CView.text("  As you lay there, the " + phoukaName() + "'s body stretches and morphs until it takes the form of a large, black furred goat-morph.");
     }
     else {
         CView.text("You tell the " + phoukaName() + " you're willing to let him take your ass in his goat form.  He smiles and lands near you.  His body warps into the form of a black furred goat morph.  ");
@@ -614,7 +611,7 @@ export function phoukaSexGoat(player: Character, postCombat: boolean, lustLoss: 
             CView.text("You steel yourself for an asspounding while you remove your [armor].");
         else CView.text("Then you put on a show, taking your clothes off piece by piece.  You strip off your final undergarment, bend over and wink your asshole at the goat.");
     }
-    PhoukaFlags.FORM = PHOUKA_FORM_GOAT;
+    PhoukaFlags.FORM = PhoukaForm.GOAT;
     if (player.body.vaginas.length > 0)
         CView.text("\n\n<i>“Aw missy, why’d ye have te be so cruel? Ye’ve got that sexy cunt there just beggin’ fer a cock,”</i> says the goat, wrapping his front legs around your [if (isTaur = true)flanks][if (isTaur = false)upper body]. When you stare at him he laughs and adds <i>“I’ll give yer ass a good poundin if that’s what ye want - don’t worry about that. I just don’t know why ye don’t want me in here.”</i> His smooth hoof slides up and down your slit before he gets down to business.\n\n");
     else
@@ -658,7 +655,7 @@ export function phoukaSexHorse(player: Character, postCombat: boolean, lustLoss:
     CView.clear();
     if (postCombat) {
         CView.text("As you collapse the " + phoukaName());
-        if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE)
+        if (PhoukaFlags.FORM === PhoukaForm.HORSE)
             CView.text(" circles you in a slow trot, his top half shaping into a centaur form before finally stopping directly in front of you.");
         else
             CView.text(" begins to shapeshift in front of you.  It grows and grows, finally taking the form of a massive, black, centaur stallion with an equally massive prick.");
@@ -669,7 +666,7 @@ export function phoukaSexHorse(player: Character, postCombat: boolean, lustLoss:
         else
             CView.text("The more you think about it the more you decide you could use a real fucking.  You smile at the " + phoukaName() + ", telling him you want the biggest cock he can muster.  The " + phoukaName() + "morphs into the form you expected, that of a black, centaur stallion [if (tallness <= 96)taller than you are][if (tallness > 96)that's about your height].  Maybe that tree trunk between his legs can scratch your itch.");
     }
-    PhoukaFlags.FORM = PHOUKA_FORM_HORSE;
+    PhoukaFlags.FORM = PhoukaForm.HORSE;
     CView.text("  On closer inspection the centaur is a bit unusual.  For a start, he has shiny green eyes.  Parts of his flanks look like thin wings pressed against its sides.  His nose is a little shorter and his face a lot more human than you would have expected.  He sees you looking him over and says <i>[if (isTaur = true)“I've been waitin for this.  A nice big mare to fuck the daylights out of][if (isTaur = false)“Yer gonna be sorry ye weren't born with four legs and a cunt you could lose an arm in, princess].”</i>\n\n");
     if (!postCombat || lustLoss)
         CView.text("Considering the fire in your vagina that's crying out to be quenched, you don't care how big this horse's cock is.  You just need something to fill you NOW.");
@@ -798,8 +795,8 @@ function phoukaSexFaerieFemalePostCombat(player: Character): NextScreenChoices {
 }
 
 function phoukaSexPregnate(player: Character, postCombat: boolean): NextScreenChoices { // Whether by horse, bunny or (male) faerie sex it all ends up here if the PC has a vagina
-    if (player.pregnancy.womb.isPregnant()) {
-        if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE)
+    if (player.body.wombs.find(Womb.Pregnant)) {
+        if (PhoukaFlags.FORM === PhoukaForm.HORSE)
             CView.text("\n\nYou just feel constant pressure against your sealed cervix.  The " + phoukaName() + "’s balls shows no signs of slowing down and the pressure continues to build.  Finally your vagina expands enough to allow an ocean of cum to jet out of you.");
         else
             CView.text("\n\nGallons of warm cum blast against your cervix and then spray back out of your snatch.");
@@ -807,20 +804,20 @@ function phoukaSexPregnate(player: Character, postCombat: boolean): NextScreenCh
             CView.text("  The feeling of all that seed flowing into you and then out of you again finally brings you to your own orgasm.[if (hasCock = true)  [EachCock] fires long strands of cum into the bog water beneath you.]");
         else
             CView.text("  As the thick grey cum leaks from your cunt you finally give in and get yourself off.  There's no way you could have made it back to camp feeling like that.");
-        if (PhoukaFlags.FORM === PHOUKA_FORM_FAERIE) CView.text("\n\nNow that you've got your fill you [if (isTaur = true)pull away from][if (isTaur = false)roll off] your faerie lover.  He shrinks back to his normal size and launches himself into the air.  You're too tired to stop him from buzzing into the bushes and you quickly lose track of him.");
+        if (PhoukaFlags.FORM === PhoukaForm.FAERIE) CView.text("\n\nNow that you've got your fill you [if (isTaur = true)pull away from][if (isTaur = false)roll off] your faerie lover.  He shrinks back to his normal size and launches himself into the air.  You're too tired to stop him from buzzing into the bushes and you quickly lose track of him.");
         return phoukaSexPregnateEnd(player, postCombat);
         return;
     }
-    if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE)
+    if (PhoukaFlags.FORM === PhoukaForm.HORSE)
         CView.text("\n\nYou just feel constant pressure building inside your belly.  In moments you look nine months pregnant.  An unwholesome feeling of saccharine sweetness seems to permeate your whole body.  Your teeth feel like they're rotting from the root out.  The " + phoukaName() + " shows no signs of slowing down and the pressure continues to build.  Finally your womb can hold no more and the stallion seed leaks back out of your violated cervix.\n\nThe winded horse morph [if (isTaur = true)rubs the side of his head against your mane and asks you, <i>“Are ye ready to be my breeding mare? 'Cause I stuffed yer twat with enough seed fer a dozen babies.”</i>][if (isTaur = false)says, <i>“Well slut, I hope ye liked the feel of a real stallion cock.”</i> Then he whispers, <i>“The big question is how fertile is that spacious womb o' yours?”</i>]"); // Horse
     else
         CView.text("\n\nGallons of warm cum force past your cervix and into your womb.  You start to feel sick to your stomach, like you've eaten way too much candy.  Your belly begins to expand and you feel the " + phoukaName() + "'s fingers running across the tightening flesh.  As your belly button pops out he laughs and asks you, <i>“What do ya think my chances are, slut?  How fertile is that big womb o' yours?”</i>");
-    player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.FAERIE, IncubationTime.FAERIE));
-    if (PhoukaFlags.FORM === PHOUKA_FORM_FAERIE) {
+    player.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.FAERIE, IncubationTime.FAERIE));
+    if (PhoukaFlags.FORM === PhoukaForm.FAERIE) {
         CView.text(" The " + phoukaName() + " may have cum, but his cock is still rock solid.  You ignore his comments and start rocking your hips faster, determined to get more enjoyment out of him than this. <i>“Yes missy, yes. That's right - cum fer me an drop an egg or two.”</i>\n\nYou can feel the cum sloshing around inside your womb, you can feel the sweet taste in the back of your throat, but you need more!  Finally you close your eyes and your whole body shudders as you cum.[if (hasCock = true)  [EachCock] fires long strands of cum into the bog and all over your faerie partner.]\n\nYour [vagina] goes to work milking the " + phoukaName() + "'s prick and you hear a moan of pleasure from the little monster.  You feel even greater pressure building inside your womb.  The clenching of your love tunnel has driven him over the edge and the " + phoukaName() + " is cumming again.  You try to [if (isTaur = true)pull away from][if (isTaur = false)lift yourself off] him, but another of your own orgasms hits.  When it’s over, you're left with a distended belly that wouldn't look out of place on a woman giving birth.  You roll onto your side and the enlarged faerie slides out of your box.  You hope most of that mess will leak out.  Instead you see only a few dribbles of thick grey cum ooze out of your pussy.");
     }
     if ((!postCombat) || (player.stats.cor > 50)) {
-        if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE)
+        if (PhoukaFlags.FORM === PhoukaForm.HORSE)
             CView.text(" The " + phoukaName() + " certainly got off, but you're still horny.  Despite the pain you begin working your body forward and back along his cock.  Your nerves have gone dull so you can't even feel most of his cock.  Luckily your cervix is still tight, so you can feel him there.\n\nThe " + phoukaName() + " stands still and begins to laugh. <i>“That's right, prove yer a slut fer stallions like me.  Cum for me bitch.”</i> Your belly wobbles obscenely as you move, the skin stretched tight and your belly button rubbing against the mud.  Finally your entire vagina, from lips to cervix, clenches down on his wonderful shaft.  You want nothing more than for this moment to continue, to be filled completely by this super-sized, fuckhole destroying horse-cock.[if (hasCock = true)  At the same time [eachCock] releases the cum that has been building up in your [balls].  The mud beneath you become warm and white.]");
         else { // BUNNY
             CView.text(" Thankfully, the " + phoukaName() + " begins to rub his fingers against your clit.  Your orgasm causes your whole vagina to ripple as your body tries to draw even more sperm inside your belly.  [if (hasCock = true)[EachCock] fires long strands of cum uselessly into the bog.  ]");
@@ -830,23 +827,23 @@ function phoukaSexPregnate(player: Character, postCombat: boolean): NextScreenCh
         }
     }
     else {
-        if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE)
+        if (PhoukaFlags.FORM === PhoukaForm.HORSE)
             CView.text(" You feel the " + phoukaName() + " lift one of his front legs [if (isNaga = true)and place it against your soft underbelly][if (isNaga = false)between your thighs].  You doubt a real horse's leg could bend that way, but the cursed shapeshifter manages it with ease.  He starts rubbing the smooth surface of his hoof against your clit until you can take no more.  Still impaled on his meaty mast, you can't even fight back.");
         else
             CView.text(" To add insult to injury the " + phoukaName() + " starts to rub his fingers against your clit, forcing you to have an orgasm against your will.");
         CView.text("  As he gets you off your abused cunt muscles try in vain to pull even more cum into your womb.  [if (hasCock = true)[EachCock] fires long strands of cum into the bog, wasting your seed in the lifeless waters.  ]You try to hold back tears that are half pain, half embarrassment at being so completely dominated by this perverted faerie.");
     }
-    if (PhoukaFlags.FORM === PHOUKA_FORM_FAERIE)
+    if (PhoukaFlags.FORM === PhoukaForm.FAERIE)
         CView.text("\n\nThe " + phoukaName() + "'s whole body deflates along with his cock.  You're too tired to stop him as he");
-    else if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE)
+    else if (PhoukaFlags.FORM === PhoukaForm.HORSE)
         CView.text("\n\nThe black furred horse steps back, yanking his member out of your devastated cunt and transforms into a faerie.  He");
-    else if (PhoukaFlags.FORM === PHOUKA_FORM_BUNNY)
+    else if (PhoukaFlags.FORM === PhoukaForm.BUNNY)
         CView.text("\n\nThe black furred bunny pulls out of you and shifts into the form of a faerie.  He");
     else
         CView.text("\n\nHe");
     if (postCombat) CView.text(" rummages around in your gem pouch and then");
     CView.text(" takes to the air and hovers nearby as if waiting for something.\n\n");
-    if (player.pregnancy.womb.isPregnant()) {
+    if (player.body.wombs.find(Womb.Pregnant)) {
         const isFirstTime: boolean = (PhoukaFlags.BIRTHS_PHOUKA === 0) && (PhoukaFlags.BIRTHS_FAERIE === 0);
         PhoukaFlags.PREGNANCY_CORRUPTION = 2; // Start off with a corrupt little phouka. It will take three drinks of pure honey to turn it into a faerie
         CView.text("You're about to lift yourself up when you feel " + (isFirstTime ? "an unusual" : "a familiar") + " sensation inside your belly.  All that cum is hardening!  You can feel it set, almost like mortar left out in the sun!  You stand and some clear water drains out, your belly shrinking in size to that of a watermelon.  Whatever's left inside your belly is solid, like you're carrying a smooth ball of wood inside you.\n\nYou run a hand over your belly.  Thankfully it isn't any heavier than a normal pregnancy, nor does it hurt at all.\n\n<i>“Yes!”</i> shouts the " + phoukaName() + ". <i>“I'm gonna be a daddy!  Thanks fer letting me fill ya up girl, there’s plenty o’ space in there fer the little guy.  I gotta tell all the other phouka about ya");
@@ -863,9 +860,9 @@ function phoukaSexPregnate(player: Character, postCombat: boolean): NextScreenCh
 
 function phoukaSexPregnateEnd(player: Character, postCombat: boolean): NextScreenChoices { // Everything after the sex. Handles awards, gem loss and text for player leaving the bog
     player.orgasm();
-    player.stats.cor += randInt(1) + (postCombat && (PhoukaFlags.FORM !== PHOUKA_FORM_FAERIE) ? 1 : 3);
+    player.stats.cor += randInt(1) + (postCombat && (PhoukaFlags.FORM !== PhoukaForm.FAERIE) ? 1 : 3);
     // Extra two corruption for being enough of a pervert to want to fuck the phouka
-    if (PhoukaFlags.FORM === PHOUKA_FORM_FAERIE) { // In this case postCombat means you need an award because you must have won to get faerie sex
+    if (PhoukaFlags.FORM === PhoukaForm.FAERIE) { // In this case postCombat means you need an award because you must have won to get faerie sex
         CView.text("\n\nSatisfied for now you begin to put your clothes back on.  Maybe that " + phoukaName() + " will learn, maybe not.");
         if (player.stats.cor > 50) CView.text("  But either way you plan to return and give all of them that lesson.");
         if (postCombat) {
@@ -878,19 +875,18 @@ function phoukaSexPregnateEnd(player: Character, postCombat: boolean): NextScree
         if (postCombat && player.inventory.gems > 0) CView.text("  While you're recovering the " + phoukaName() + " reaches into your gem pouch and takes a handful.");
         CView.text("\n\nNow that it's finished with you the " + phoukaName() + " shrinks back down into a small black faerie and buzzes off to some other part of the bog.");
         CView.text("\n\nYou ");
-        if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE && !player.body.legs.isTaur()) CView.text("wait for the throbbing pain in your pelvis to subside.  Then you ");
+        if (PhoukaFlags.FORM === PhoukaForm.HORSE && !player.body.legs.isTaur()) CView.text("wait for the throbbing pain in your pelvis to subside.  Then you ");
         if (postCombat) {
             CView.text("pull your [if (isNaga = true)tail][if (isNaga = false)legs] free from the cool muck before you get chilled to the bone.");
-            return { next: returnToCampUseOneHour };
         }
         else {
             CView.text("collect your clothes and begin the long march out of the bog.  ");
-            return { next: returnToCampUseOneHour }; // Return to camp, 1 hour used
         }
         if (player.stats.cor <= 50)
-            CView.text("As you trudge back to camp you have to wonder - why did you decide to visit the bog again?");
-        else if (PhoukaFlags.FORM === PHOUKA_FORM_HORSE && player.body.legs.isTaur())
-            CView.text("  It was quite the ride and you find yourself looking forward to your next trip into the bog.");
+        CView.text("As you trudge back to camp you have to wonder - why did you decide to visit the bog again?");
+        else if (PhoukaFlags.FORM === PhoukaForm.HORSE && player.body.legs.isTaur())
+        CView.text("  It was quite the ride and you find yourself looking forward to your next trip into the bog.");
         else CView.text("Not what you expected, but at least you got off.");
+        return { next: returnToCampUseOneHour }; // Return to camp, 1 hour used
     }
 }

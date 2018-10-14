@@ -8,6 +8,7 @@ import { Pregnancy, PregnancyType, IncubationTime } from "../../../Body/Pregnanc
 import { returnToCampUseTwoHours, returnToCampUseOneHour } from "../../Camp";
 import { displayStretchVagina } from "../../../Modifiers/VaginaModifier";
 import { Vagina, VaginaWetness } from "../../../Body/Vagina";
+import { Womb } from "../../../Body/Pregnancy/Womb";
 
 export const FrogGirlFlags = {
     TIMES_ENCOUNTERED_FROG: 0,
@@ -82,7 +83,7 @@ function getFrogButtFilled(player: Character): NextScreenChoices {
     CView.text("\n\nYou don your [armor] with some difficulty over your massive stomach, and venture back towards your camp, a little sore, but wiser for the ordeal.");
     player.stats.int += 1;
 
-    player.pregnancy.buttWomb.knockUp(new Pregnancy(PregnancyType.FROG_GIRL, IncubationTime.FROG_GIRL), 1, true);
+    player.body.buttWomb.knockUp(new Pregnancy(PregnancyType.FROG_GIRL, IncubationTime.FROG_GIRL), 1, true);
     return { next: returnToCampUseTwoHours };
 }
 
@@ -184,7 +185,7 @@ function voluntarilyGetEggedEpilogue(player: Character): NextScreenChoices {
     CView.text("\n\nWrapping your arms under your heavy belly, you clamber out of the pool.  Water sluices down your naked body, leaving the last of the slime behind you in the no-longer pristine water.");
     CView.text("\n\nYou don your [armor] with some difficulty over your massive stomach, and venture back towards your camp, feeling a little sore, but proud of yourself for helping out a mother in need.");
     // [Anal stretch +1/Anal Moistness +1, sensitivity +1, corruption -1]
-    player.pregnancy.buttWomb.knockUp(new Pregnancy(PregnancyType.FROG_GIRL, IncubationTime.FROG_GIRL), 1, true);
+    player.body.buttWomb.knockUp(new Pregnancy(PregnancyType.FROG_GIRL, IncubationTime.FROG_GIRL), 1, true);
     player.stats.sens += 1;
     player.stats.cor += -1;
 
@@ -256,7 +257,7 @@ function superBonusFrogEggsInYerCooch(player: Character): NextScreenChoices {
     player.orgasm();
     player.stats.sens += 1;
 
-    player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.FROG_GIRL, IncubationTime.FROG_GIRL), 1, true);
+    player.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.FROG_GIRL, IncubationTime.FROG_GIRL), 1, true);
     return { next: returnToCampUseOneHour };
 }
 

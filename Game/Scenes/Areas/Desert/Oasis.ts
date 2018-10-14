@@ -167,7 +167,7 @@ function oasisSexing(player: Character): NextScreenChoices {
         // IZ OVER! NEWLINE BITCH
         CView.text("\n\n");
         // Preggers chance!
-        player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.IMP, IncubationTime.IMP), 90);
+        player.body.womb.knockUp(new Pregnancy(PregnancyType.IMP, IncubationTime.IMP), 90);
     }
     // Buttbutt buuuuuttt
     if (player.gender > 0) CView.text("However, the demons are interested in every part of you, not just your crotch.  ");
@@ -189,7 +189,7 @@ function oasisSexing(player: Character): NextScreenChoices {
     // Newline for oral!
     CView.text("\n\nSoon even your mouth is taken by a demoness lowering her slick honeypot down onto your lips. You lick and suck as she moans like a whore atop your head. It's impossible to count how many times she comes and so you just relax into a rhythm of licking and sucking, interrupted only by your own bone-creaking orgasms as the demonic attentions to the rest of your body drive you over the edge time and time again.");
     // Non-preggers text!
-    if (!player.pregnancy.womb.isPregnant() && player.gender > 1) {
+    if (!player.body.wombs.find(Womb.Pregnant) && player.gender > 1) {
         // Newline for potential preggers?
         CView.text("\n\n");
         CView.text("You do your best to keep a vague mental catalogue of what has been in where, but eventually it becomes impossible to remember the type or number of demonic dicks that have filled you with their cum. The sand below your ass is wet with seed that has spilled out of your overflowing " + describeVagina(player, player.body.vaginas.get(0)) + " and there is every indication of more to come.\n\n");

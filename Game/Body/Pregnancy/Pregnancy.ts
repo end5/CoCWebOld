@@ -93,33 +93,21 @@ export class Pregnancy implements ISerializable<Pregnancy> {
 
     public type: PregnancyType;
     public incubation: IncubationTime;
-    public events: number[];
 
-    public constructor(type: PregnancyType = PregnancyType.IMP, incubation: number = IncubationTime.IMP, ...events: number[]) {
+    public constructor(type: PregnancyType = PregnancyType.IMP, incubation: number = IncubationTime.IMP) {
         this.type = type;
         this.incubation = incubation;
-        this.events = events;
-    }
-
-    public get event(): number {
-        if (this.incubation <= 0) return 0;
-        for (let index = 0; index < this.events.length; index++) {
-            if (this.incubation > this.events[index]) return index;
-        }
-        return 1;
     }
 
     public serialize(): object | undefined {
         return {
             type: this.type,
-            incubation: this.incubation,
-            events: this.events
+            incubation: this.incubation
         };
     }
 
     public deserialize(saveObject: Pregnancy) {
         this.type = saveObject.type;
         this.incubation = saveObject.incubation;
-        this.events = saveObject.events;
     }
 }

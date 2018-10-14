@@ -2,8 +2,6 @@ import { User } from "../../../User";
 import { FlagType } from "../../../Utilities/FlagType";
 import { ITimeAware } from "../../../ITimeAware";
 import { PregnancyType, Pregnancy } from "../../../Body/Pregnancy/Pregnancy";
-import { trace } from "console";
-import { Time } from "../../../Utilities/Time";
 import { Character } from "../../../Character/Character";
 import { NextScreenChoices, ClickFunction } from "../../../ScreenDisplay";
 import { CView } from "../../../../Engine/Display/ContentView";
@@ -32,6 +30,7 @@ import { gameOverMenu } from "../../../Menus/InGame/GameOverMenu";
 import { partial } from "../../../Utilities/Partial";
 import { followerShouldra } from "../../NPCs/ShouldraFollower";
 import { FlagWomb } from "../../../Body/Pregnancy/FlagWomb";
+import { PlayerFlags } from "../../../Character/Player/PlayerFlags";
 
 export const SandWitchFlags = {
     COMBAT_BONUS_XP_VALUE: 0,
@@ -53,13 +52,11 @@ export class SandWitchTimeAware implements ITimeAware {
     // Implementation of ITimeAware
     public timeChange(): boolean {
         this.womb.update();
-        if (this.womb.isPregnant && this.womb.pregnancy.incubation === 0) this.womb.birth(); // Silently clear the Sand Witch's pregnancy if the player has not met her in time
+        if (this.womb.isPregnant && this.womb.pregnancy.incubation === 0) this.womb.clear(); // Silently clear the Sand Witch's pregnancy if the player has not met her in time
         return false;
     }
 
-    public timeChangeLarge(): boolean {
-        return false;
-    }
+    public timeChangeLarge(): void | NextScreenChoices { }
 
     public serialize() {
         return {
@@ -148,9 +145,9 @@ function allowSandWitchMagic(player: Character): NextScreenChoices {
 
         }
         CView.text("The sand-witch smiles and thanks you for your offering.  You notice her dress is damp in four spots on the front.  ");
-        if (playerFlags.sand === 0)
+        if (PlayerFlags.sand === 0)
             CView.text("You wonder at what her robes conceal as she vanishes into the dunes.");
-        if (playerFlags.sand === 1) {
+        if (PlayerFlags.sand === 1) {
             if (player.stats.cor <= 33)
                 CView.text("You are glad to avoid servicing her again as she vanishes into the dunes.");
             else if (player.stats.cor <= 66)
@@ -255,7 +252,7 @@ function sandwitchRape(player: Character): NextScreenChoices {
         player.stats.lib += 1;
         player.stats.sens += 5;
 
-        if (playerFlags.sand === 0) playerFlags.sand = 1;
+        if (PlayerFlags.sand === 0) PlayerFlags.sand = 1;
         return { next: returnToCampUseOneHour };
     }
     // HP DEFEAT
@@ -264,7 +261,6 @@ function sandwitchRape(player: Character): NextScreenChoices {
             CView.clear().text("You stagger and fall to one knee, too overcome by pain to keep fighting.\n\nAs your vision wavers with exhaustion, the witch strides towards you, seeming to glide across the sand. Your consciousness starts to fade, and you see the exotic woman lick her lips and smile cruelly, staring at your generous breasts.\n\nThe last thing you hear before passing out is a mysterious spell, murmured right into your ear in a low, throaty whisper: \"<i>Evals klim ym emoceb llahs uoy.</i>\"\n\nYou dream of walking proudly through the desert, enormous rack jiggling shamelessly with every step, and of tempting nubile young champions to wrap their lips around your nipples and drink. Your sleep becomes fevered as your dreams grow more and more corrupt - you dream of using dark magic to lactate succubus milk, and of your former friends from Ingnam greedily drinking your enhanced milk until their bellies strain to contain it all, then going wide-eyed as pound after pound of breast-flesh suddenly swells upon their chests...");
             // BAD END.
             return { next: sandWitchBadEnd };
-            return;
         }
         CView.text("\n<b>You fall, defeated by the Sand Witch!</b>\n\n");
         return { next: returnToCampUseOneHour };
@@ -693,11 +689,11 @@ function beatSandwitch(player: Character, monster: Character): NextScreenChoices
     if (followerShouldra() && player.gender > 0) shouldra = sandWitchGetsGhostly;
     // return { yes: sandwitchRaped, no: returnToCampUseOneHour };
     let ovi: ClickFunction;
-    if (player.gender > 0 && player.pregnancy.ovipositor.canOviposit()) ovi = partial(ovipositSandWitches, player, monster);
+    if (player.gender > 0 && player.body.ovipositor.canOviposit()) ovi = partial(ovipositSandWitches, player, monster);
 
     return {
         choices: [
-            ["Yes", sandwitchRaped],
+            ["Yes", partial(sandwitchRaped, player, monster)],
             ["Dildo Rape", temp2],
             ["Use 3i@-", temp3],
             ["Use Shouldra", shouldra],
@@ -977,13 +973,13 @@ function laySomeEggsInThatWitchFinally(player: Character): NextScreenChoices {
     else CView.text("goopy");
     CView.text(" lubricant drooling out of her in the absence of your intimate plug.  Utterly overwhelmed and exhausted, the sand witch resigns herself to gathering strength in the bright, blistering gaze of the desert sun.  Smiling to yourself, you take to re-donning your discarded [armor], remarking as you leave that you look forward to the next encounter; a sentiment the sorceress must agree with as she weakly waves to you, holding her stomach with her arms and filled with motherly delight at the thought of carrying your brood.");
     // Give her ze eggs!
-    if (player.pregnancy.ovipositor.fertilizedEggs > 0) {
+    if (player.body.ovipositor.fertilizedEggs > 0) {
         if (player.canOvipositBee())
-            sandWitchWomb.knockUp(new Pregnancy(PregnancyType.BEE_EGGS, 192));
+            sandWitchWomb.knockUp(new Pregnancy(PregnancyType.BEE_EGGS, 192), []);
         else
-            sandWitchWomb.knockUp(new Pregnancy(PregnancyType.DRIDER_EGGS, 192));
+            sandWitchWomb.knockUp(new Pregnancy(PregnancyType.DRIDER_EGGS, 192), []);
     }
-    player.pregnancy.ovipositor.dumpEggs();
+    player.body.ovipositor.dumpEggs();
     player.orgasm();
     return { next: returnToCampUseOneHour };
 }
@@ -1075,7 +1071,7 @@ function sandwitchBirthsYourMonstrosities(player: Character): NextScreenChoices 
 
     // [(corr >= 60)
     if (player.stats.cor >= 60) CView.text("\n\n\"<i>Just, use your common sense next time.</i>\"");
-    sandWitchWomb.birth(); // Clear Pregnancy
+    sandWitchWomb.clear(); // Clear Pregnancy
     return { next: returnToCampUseOneHour };
 }
 
@@ -1090,7 +1086,7 @@ export function witchBirfsSomeBees(player: Character): NextScreenChoices {
     CView.text("; likely it was just waiting for someone to find their mother before taking off in the general direction of the forest.  The weak voice of the desert vixen fills the air as she speaks to you.  \"<i>That... was the best.  I can't believe I'm a mother!</i>\"  She gives you a look of appreciation for showing her how pleasurable being a host can be.  Seeing she needs her rest, you give a nod and turn to leave... only to feel a hand grasp at your [leg].  \"<i>I would be disappointed if you didn't come around and 'say hello' more often; keep that in mind " + mf(player, "handsome", "beautiful") + ".</i>\"  She coos, before drifting off to sleep.  She'll be fine in this shady part of the desert while she rests, the dune currently obstructing the sun and keeping her from being burned from the sun's rays.");
 
     CView.text("\n\nContent with how things turned out, you head back to camp and decide on the next course of action for today.");
-    sandWitchWomb.birth(); // Clear Pregnancy
+    sandWitchWomb.clear(); // Clear Pregnancy
     return { next: returnToCampUseOneHour };
 }
 

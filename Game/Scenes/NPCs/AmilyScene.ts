@@ -5,7 +5,7 @@ import { PregnancyType, IncubationTime, Pregnancy } from "../../Body/Pregnancy/P
 import { Time } from "../../Utilities/Time";
 import { CView } from "../../../Engine/Display/ContentView";
 import { Character } from "../../Character/Character";
-import { NextScreenChoices, ClickFunction } from "../../ScreenDisplay";
+import { NextScreenChoices, ClickFunction, ScreenChoice } from "../../ScreenDisplay";
 import { SpriteName } from "../../../Engine/Display/Images/SpriteName";
 import { returnToCampUseOneHour, campLoversMenu, campSlavesMenu, returnToCampUseTwoHours, returnToCampUseFourHours } from "../Camp";
 import { randInt } from "../../../Engine/Utilities/SMath";
@@ -38,6 +38,10 @@ import { Amily } from "./Amily";
 import { displayStretchButt } from "../../Modifiers/ButtModifier";
 import { skinFurScales } from "../../Descriptors/SkinDescriptor";
 import { PlayerFlags } from "../../Character/Player/PlayerFlags";
+import { FlagWomb } from "../../Body/Pregnancy/FlagWomb";
+import { Womb } from "../../Body/Pregnancy/Womb";
+import { partial } from "../../Utilities/Partial";
+import { Item } from "../../Items/Item";
 
 export const AmilyFlags = {
     AMILY_BLOCK_COUNTDOWN_BECAUSE_CORRUPTED_JOJO: 0,
@@ -75,7 +79,7 @@ export const AmilyFlags = {
     AMILY_HIP_RATING: 0,
     AMILY_ASS_SIZE: 0,
     AMILY_VAGINAL_WETNESS: 0,
-    AMILY_CLOTHING: 0,
+    AMILY_CLOTHING: "",
     MARBLE_OR_AMILY_FIRST_FOR_FREAKOUT: 0,
     UNKNOWN_FLAG_NUMBER_00238: 0,
     UNKNOWN_FLAG_NUMBER_00236: 0,
@@ -121,129 +125,123 @@ User.flags.set(FlagType.Amily, AmilyFlags);
 /**
  * Created by aimozg on 02.01.14.
  */
+/*Amily the Mousegirl Breeder
+ * Plus human stuff
+=============================================
+35	-met Amily? (0 = not met, 1 = met)
+36	-Amily village encounters disabled (1 = true) (44 for village button)
+37	-Amily encounters disabled due to worms (1=she freaked out.  Goes to 0 automatically if uninfected)
+38	-Amily Affection (< 15 = low.  In between = medium. 40+= high affect)
+39	-Amily Offer Accepted? (1 = true, 0 = not yet)
+40	-Amily Birth Total (no explanation needed)
+41	-Amily Pregnancy Incubation - 0 = not pregnant, otherwise hours till birth 168
+42	-Fucked Amily Counter
+43	-Follower Toggle for amily (1 = follower, 0 = not)
+44	-Amily's Village Unlocked (1=village button on, 0=off)
+45	Amily's Wang Length
+46	Amily's Wang Thickness
+47	Amily's Cup Size (1 to 5)
+48	Nipple Length from .3 to 4"
+49	Amily Hip Rating - girly to womanly
+50	Can increase ass from "unremarkable ass" to "delightfully jiggly"
+51	Amily Lactation Rating
+52	Amily Clothing
+158 -What did the PC meet amily as
+159	-Has Amily Confessed Lesbian Love? (1 = yes, 2= yes and you accepted)
+160	Times PC and Amily have done girlygirl sex
+161	Times PC and Herm-Amily have done girlygirl sex
+162	Times PC has birthed Amily's brood
+163	Is PC pending preggo completion? (1 = yes, 2 = finished)
+164	Amily remembers PC gender
+165	Amily Herm Quest (1 = amily has flipped out, 2 = accepted to be amily's dad
+166 Amily Allowing Fertility In Camp? (1 = yes)
+*/
+// Sorry for this, but it makes it a helluva lot easier for me to read it - Harb
+//  AMILY_VISITING_URTA: number = 346;
+//  AMILY_NEED_TO_FREAK_ABOUT_URTA: number = 347;
+//  AMILY_MET: number=35; //  (0 = not met, 1 = met)
+//  AMILY_VILLAGE_ENCOUNTERS_DISABLED: number=36; // 1=true,44=village button
+//  AMILY_GROSSED_OUT_BY_WORMS: number=37; // 1=freaked out
+//  AMILY_AFFECTION: number=38; //  (< 15 = low.  In between = medium. 40+= high affect)
+//  AMILY_OFFER_ACCEPTED: number=39; //  (1 = true, 0 = not yet)
+//  AMILY_BIRTH_TOTAL: number=40; //
+//  AMILY_INCUBATION: number=41; //   0 = not pregnant, otherwise hours till birth 168
+//  AMILY_FUCK_COUNTER: number=42; //
+//  AMILY_FOLLOWER: number=43; //
+//  AMILY_VILLAGE_ACCESSIBLE: number=44; //
+//  AMILY_WANG_LENGTH: number=45; //
+//  AMILY_WANG_GIRTH: number=46; //
+//  AMILY_CUP_SIZE: number=47; // 5-Jan
+//  AMILY_NIPPLE_LENGTH: number=48; // 0.3-4
+//  AMILY_HIP_RATING: number=49; // girly-womanly
+//  AMILY_ASS_SIZE: number=50; //
+//  AMILY_LACTATION_RATE: number=51; //
+//  AMILY_CLOTHING: number=52; //
+//  AMILY_MET_AS: number=158; //
+//  AMILY_CONFESSED_LESBIAN: number=159; // 1=yes,2=and accepted
+//  AMILY_TIMES_FUCKED_FEMPC: number=160; //
+//  AMILY_HERM_TIMES_FUCKED_BY_FEMPC: number=161; //
+//  PC_TIMES_BIRTHED_AMILYKIDS: number=162; //
+//  PC_PENDING_PREGGERS: number=163; // 1=yes,2=finished
+//  AMILY_PC_GENDER: number=164; //
+//  AMILY_HERM_QUEST: number=165; // 1=amily flipped out, 2=accepted as amily's dad
+//  AMILY_ALLOWS_FERTILITY: number = 166; //
+//  AMILY_CORRUPT_FLIPOUT: number = 168;
+//  AMILY_TIMES_BUTTFUCKED_PC: number = 419;
+//  TIMES_FUCKED_AMILYBUTT: number = 420;
+//
+// // NEEDS NEW NUMBERS AND SHIT
+//  AMILY_OFFERED_DEFURRY: number = 336; // 1 = Offered to defurry Amily
+//  AMILY_NOT_FURRY: number = 337; // 1 = Amily is no longer a flea-ridden furry who stinks up your carpet.
+//  AMILY_IS_BATMAN: number = 338; // 1 = You turned Amily into a human and then pissed all over her happy thoughts.  She now stalks you from rooftops while buying graphite helmets, utility belts, and a sweet, jetpowered car in the theme of a rat.
+//  AMILY_TREE_FLIPOUT: number = 599; // 0 = Amily doesn't know 'bout fuckflowers; 1 = Amily saw tree but you enhanced your calm and kept silent; 2 = HOLLI DIES and Amily comes back, but SHE WILL REMEMBER THIS, you monster. (See BATMAN FLIPOUT above)
+// //1 = timer started, 30 = RIPE FOR INCEST
+//  AMILY_INCEST_COUNTDOWN_TIMER: number = 436;
+//
+//  AMILY_OVIPOSITED_COUNT: number = 629;
+//  AMILY_OVIPOSITED_COUNTDOWN: number = 630;
+//  AMILY_OVIPOSITION_UNLOCKED: number = 631;
+//  AMILY_TIMES_SWIMFUCKED: number = 635;
+//  AMILY_OWNS_BIKINI: number = 636;
+//  AMILY_X_IZMA_POTION_3SOME: number = 771;
+//  GIVEN_AMILY_NURSE_OUTFIT: number = 775;
 
-export class AmilyScene implements ITimeAware {
-    /*Amily the Mousegirl Breeder
-     * Plus human stuff
-    =============================================
-    35	-met Amily? (0 = not met, 1 = met)
-    36	-Amily village encounters disabled (1 = true) (44 for village button)
-    37	-Amily encounters disabled due to worms (1=she freaked out.  Goes to 0 automatically if uninfected)
-    38	-Amily Affection (< 15 = low.  In between = medium. 40+= high affect)
-    39	-Amily Offer Accepted? (1 = true, 0 = not yet)
-    40	-Amily Birth Total (no explanation needed)
-    41	-Amily Pregnancy Incubation - 0 = not pregnant, otherwise hours till birth 168
-    42	-Fucked Amily Counter
-    43	-Follower Toggle for amily (1 = follower, 0 = not)
-    44	-Amily's Village Unlocked (1=village button on, 0=off)
-    45	Amily's Wang Length
-    46	Amily's Wang Thickness
-    47	Amily's Cup Size (1 to 5)
-    48	Nipple Length from .3 to 4"
-    49	Amily Hip Rating - girly to womanly
-    50	Can increase ass from "unremarkable ass" to "delightfully jiggly"
-    51	Amily Lactation Rating
-    52	Amily Clothing
-    158 -What did the PC meet amily as
-    159	-Has Amily Confessed Lesbian Love? (1 = yes, 2= yes and you accepted)
-    160	Times PC and Amily have done girlygirl sex
-    161	Times PC and Herm-Amily have done girlygirl sex
-    162	Times PC has birthed Amily's brood
-    163	Is PC pending preggo completion? (1 = yes, 2 = finished)
-    164	Amily remembers PC gender
-    165	Amily Herm Quest (1 = amily has flipped out, 2 = accepted to be amily's dad
-    166 Amily Allowing Fertility In Camp? (1 = yes)
-    */
-    // Sorry for this, but it makes it a helluva lot easier for me to read it - Harb
-    //  AMILY_VISITING_URTA: number = 346;
-    //  AMILY_NEED_TO_FREAK_ABOUT_URTA: number = 347;
-    //  AMILY_MET: number=35; //  (0 = not met, 1 = met)
-    //  AMILY_VILLAGE_ENCOUNTERS_DISABLED: number=36; // 1=true,44=village button
-    //  AMILY_GROSSED_OUT_BY_WORMS: number=37; // 1=freaked out
-    //  AMILY_AFFECTION: number=38; //  (< 15 = low.  In between = medium. 40+= high affect)
-    //  AMILY_OFFER_ACCEPTED: number=39; //  (1 = true, 0 = not yet)
-    //  AMILY_BIRTH_TOTAL: number=40; //
-    //  AMILY_INCUBATION: number=41; //   0 = not pregnant, otherwise hours till birth 168
-    //  AMILY_FUCK_COUNTER: number=42; //
-    //  AMILY_FOLLOWER: number=43; //
-    //  AMILY_VILLAGE_ACCESSIBLE: number=44; //
-    //  AMILY_WANG_LENGTH: number=45; //
-    //  AMILY_WANG_GIRTH: number=46; //
-    //  AMILY_CUP_SIZE: number=47; // 5-Jan
-    //  AMILY_NIPPLE_LENGTH: number=48; // 0.3-4
-    //  AMILY_HIP_RATING: number=49; // girly-womanly
-    //  AMILY_ASS_SIZE: number=50; //
-    //  AMILY_LACTATION_RATE: number=51; //
-    //  AMILY_CLOTHING: number=52; //
-    //  AMILY_MET_AS: number=158; //
-    //  AMILY_CONFESSED_LESBIAN: number=159; // 1=yes,2=and accepted
-    //  AMILY_TIMES_FUCKED_FEMPC: number=160; //
-    //  AMILY_HERM_TIMES_FUCKED_BY_FEMPC: number=161; //
-    //  PC_TIMES_BIRTHED_AMILYKIDS: number=162; //
-    //  PC_PENDING_PREGGERS: number=163; // 1=yes,2=finished
-    //  AMILY_PC_GENDER: number=164; //
-    //  AMILY_HERM_QUEST: number=165; // 1=amily flipped out, 2=accepted as amily's dad
-    //  AMILY_ALLOWS_FERTILITY: number = 166; //
-    //  AMILY_CORRUPT_FLIPOUT: number = 168;
-    //  AMILY_TIMES_BUTTFUCKED_PC: number = 419;
-    //  TIMES_FUCKED_AMILYBUTT: number = 420;
-    //
-    // // NEEDS NEW NUMBERS AND SHIT
-    //  AMILY_OFFERED_DEFURRY: number = 336; // 1 = Offered to defurry Amily
-    //  AMILY_NOT_FURRY: number = 337; // 1 = Amily is no longer a flea-ridden furry who stinks up your carpet.
-    //  AMILY_IS_BATMAN: number = 338; // 1 = You turned Amily into a human and then pissed all over her happy thoughts.  She now stalks you from rooftops while buying graphite helmets, utility belts, and a sweet, jetpowered car in the theme of a rat.
-    //  AMILY_TREE_FLIPOUT: number = 599; // 0 = Amily doesn't know 'bout fuckflowers; 1 = Amily saw tree but you enhanced your calm and kept silent; 2 = HOLLI DIES and Amily comes back, but SHE WILL REMEMBER THIS, you monster. (See BATMAN FLIPOUT above)
-    // //1 = timer started, 30 = RIPE FOR INCEST
-    //  AMILY_INCEST_COUNTDOWN_TIMER: number = 436;
-    //
-    //  AMILY_OVIPOSITED_COUNT: number = 629;
-    //  AMILY_OVIPOSITED_COUNTDOWN: number = 630;
-    //  AMILY_OVIPOSITION_UNLOCKED: number = 631;
-    //  AMILY_TIMES_SWIMFUCKED: number = 635;
-    //  AMILY_OWNS_BIKINI: number = 636;
-    //  AMILY_X_IZMA_POTION_3SOME: number = 771;
-    //  GIVEN_AMILY_NURSE_OUTFIT: number = 775;
-
-    public pregnancy: PregnancyStore;
+class AmilyTimeAware implements ITimeAware {
+    public womb: FlagWomb = new FlagWomb();
+    public buttWomb: FlagWomb = new FlagWomb();
 
     public constructor() {
-        pregnancy = new PregnancyStore(AmilyFlags.AMILY_PREGNANCY_TYPE, AmilyFlags.AMILY_INCUBATION, AmilyFlags.AMILY_BUTT_PREGNANCY_TYPE, AmilyFlags.AMILY_OVIPOSITED_COUNTDOWN);
-        pregnancy.addPregnancyEventSet(PregnancyType.PLAYER, 150, 120, 100, 96, 90, 72, 48);
-        // Event: 0 (= not pregnant),  1,   2,   3,  4,  5,  6,  7,  8 (< 48)
-        timeAwareClassAdd(this);
     }
 
     // Implementation of ITimeAware
-    public timeChange(): boolean {
+    public timeChange(player: Character): boolean {
         let needNext: boolean = false;
-        pregnancy.pregnancyAdvance();
-        trace("\nAmily time change: Time is " + Time.hour + ", type: " + pregnancy.type + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
-        trace("\nAmily time change: butt type: " + pregnancy.buttType + ", butt incubation: " + pregnancy.buttIncubation + ", butt event: " + pregnancy.buttEvent);
+        this.womb.update();
         if (AmilyFlags.AMILY_BLOCK_COUNTDOWN_BECAUSE_CORRUPTED_JOJO > 0) AmilyFlags.AMILY_BLOCK_COUNTDOWN_BECAUSE_CORRUPTED_JOJO--;
         if (AmilyFlags.AMILY_INCEST_COUNTDOWN_TIMER > 0 && AmilyFlags.AMILY_INCEST_COUNTDOWN_TIMER < 30 * 24) AmilyFlags.AMILY_INCEST_COUNTDOWN_TIMER++;
         if (AmilyFlags.AMILY_FOLLOWER === 1) {
-            if (pregnancy.isPregnant && pregnancy.incubation === 0) {
+            if (this.womb.isPregnant() && this.womb.pregnancy.incubation === 0) {
                 CView.text("\n");
-                return amilyPopsOutKidsInCamp(player);
-                pregnancy.knockUpForce(); // Clear Pregnancy
+                amilyPopsOutKidsInCamp(player);
+                this.womb.clear(); // Clear Pregnancy
                 CView.text("\n");
                 needNext = true;
             }
-            if (pregnancy.isButtPregnant && pregnancy.buttIncubation === 0) {
-                return amilyLaysEggsLikeABitch(player);
-                pregnancy.buttKnockUpForce(); // Clear Pregnancy
+            if (this.buttWomb.isPregnant() && this.buttWomb.pregnancy.incubation === 0) {
+                amilyLaysEggsLikeABitch(player);
+                this.buttWomb.clear(); // Clear Pregnancy
                 needNext = true;
             }
         }
         if (Time.hour === 6) {
             // Pure amily flips her shit and moves out!
             if (AmilyFlags.AMILY_FOLLOWER === 1 && player.stats.cor >= 66 && AmilyFlags.UNKNOWN_FLAG_NUMBER_00173 > 0) {
-                amilyScene.return; farewellNote(player);
+                farewellNote(player);
                 needNext = true;
             }
             // Amily moves back in once uncorrupt.
             if (AmilyFlags.AMILY_TREE_FLIPOUT === 0 && AmilyFlags.UNKNOWN_FLAG_NUMBER_00173 > 0 && player.stats.cor <= 25 && AmilyFlags.AMILY_FOLLOWER === 0) {
-                amilyScene.return; amilyReturns(player);
+                amilyReturns(player);
                 needNext = true;
             }
         }
@@ -254,13 +252,21 @@ export class AmilyScene implements ITimeAware {
     }
 
     public timeChangeLarge(): boolean {
-        if (!urtaQuest.urtaBusy() && AmilyFlags.AMILY_VISITING_URTA === 2 && Time.hour === 6) {
-            followerInteractions.amilyUrtaMorningAfter();
+        if (!urtaBusy() && AmilyFlags.AMILY_VISITING_URTA === 2 && Time.hour === 6) {
+            amilyUrtaMorningAfter();
             return true;
         }
         return false;
     }
 }
+
+const amilyTimeAware = new AmilyTimeAware();
+
+const amilyWomb = amilyTimeAware.womb;
+const amilyButtWomb = amilyTimeAware.buttWomb;
+
+const amilyPregEvents = [150, 120, 100, 96, 90, 72, 48];
+// Event: 0 (= not pregnant),  1,   2,   3,  4,  5,  6,  7,  8 (< 48)
 
 // NEW EVENTS:
 // 3172 = Ask to defur Amily
@@ -385,11 +391,11 @@ export function exploreVillageRuin(player: Character): NextScreenChoices {
     }
     amilySprite();
     // Preggo birthing!
-    if (pregnancy.isPregnant && pregnancy.incubation === 0) {
-        pregnancy.knockUpForce(); // Clear Pregnancy
+    if (amilyWomb.isPregnant() && amilyWomb.pregnancy.incubation === 0) {
+        amilyWomb.clear(); // Clear Pregnancy
         return fuckingMouseBitchPopsShitOut(player);
     }
-    if (amilyCanHaveTFNow()) {
+    if (amilyCanHaveTFNow(player)) {
         return amilyDefurrify(player);
     }
     // meeting scenes for when PC is the same gender as when they last met Amily
@@ -438,7 +444,7 @@ export function exploreVillageRuin(player: Character): NextScreenChoices {
                 CView.text("\"<i>Don't make any sudden moves!</i>\" A voice calls out, high pitched and a little squeaky, but firm and commanding. You freeze to avoid giving your assailant a reason to shoot at you again. \"<i>Stand up and turn around, slowly,</i>\" it commands again. You do as you are told.\n\n");
 
                 // [Jojo previously encountered]
-                if (monk > 0) {
+                if (PlayerFlags.monk > 0) {
                     CView.text("The creature that has cornered you is clearly of the same race as Jojo, though notably a female member of his species. Her fur is thick with dust, but you can still easily make out its auburn color. Her limbs and midriff are wiry, hardened as much by meals that are less than frequent as by constant exercise and physical exertion. Her buttocks are non-existent, and her breasts can't be any larger than an A-cup. She wears a tattered pair of pants and an equally ragged-looking shirt. A very large and wicked-looking dagger – more of a short sword really – is strapped to her hip, and she is menacing you with a blowpipe.\n\n");
                 }
                 // [Jojo not previously encountered]
@@ -687,7 +693,7 @@ export function exploreVillageRuin(player: Character): NextScreenChoices {
     }
 
     CView.text("Curious on how Amily is holding up, you head back into the ruined village. This time you don't bother trying to hide your presence, hoping to attract Amily's attention quicker. After all, she did say that the place is basically empty of anyone except her, and you can otherwise handle a measly Imp or Goblin.\n\n");
-    switch (pregnancy.event) {
+    switch (amilyWomb.event) {
         case 1:
         case 2:
         case 3:
@@ -728,10 +734,10 @@ export function exploreVillageRuin(player: Character): NextScreenChoices {
                 CView.text("She grins at you with open delight. \"<i>Hey there, " + player.desc.name + "! It's great to see you again... ");
                 if (player.body.cocks.length > 0) {
                     CView.text("Have you come to knock me up?");
-                    if (AmilyFlags.AMILY_WANG_LENGTH > 0 && player.pregnancyIncubation === 0) CView.text(" Or have you come to get knocked up?");
+                    if (AmilyFlags.AMILY_WANG_LENGTH > 0 && player.body.wombs.find(Womb.NotPregnant)) CView.text(" Or have you come to get knocked up?");
                 }
                 else if (player.body.vaginas.length > 0) {
-                    if (AmilyFlags.AMILY_WANG_LENGTH > 0 && player.pregnancyIncubation === 0) CView.text("Have you come back so I could stuff another bun in your oven?");
+                    if (AmilyFlags.AMILY_WANG_LENGTH > 0 && player.body.wombs.find(Womb.NotPregnant)) CView.text("Have you come back so I could stuff another bun in your oven?");
                     else CView.text("Did you come back for a little 'quality time' with me?");
                 }
                 CView.text("</i>\" she teases, but her body language ");
@@ -753,8 +759,10 @@ export function exploreVillageRuin(player: Character): NextScreenChoices {
 
     // Set flag for 'last gender met as'
     AmilyFlags.AMILY_PC_GENDER = player.gender;
-    const sex: ClickFunction = determineAmilySexEvent(player);
-    return { choices: [["Sex", sex], ["Talk", talkToAmily], ["Both", (sex === undefined ? undefined : talkThenSexWithAmily)], ["Efficiency", efficiency], ["Leave", returnToCampUseOneHour], ] };
+    let sex: ClickFunction = determineAmilySexEvent(player);
+    if (!sex)
+        sex = talkThenSexWithAmily;
+    return { choices: [["Sex", sex], ["Talk", talkToAmily], ["Both", sex], ["Efficiency", efficiency], ["Leave", returnToCampUseOneHour]] };
 
     /*FAILSAFE - ALL GENDERS HAVE HAD THERE GO AN NOTHING HAPPENED!
     CView.text("You enter the ruined village cautiously. There are burnt-down houses, smashed-in doorways, ripped-off roofs... everything is covered with dust and grime. You explore for an hour, but you cannot find any sign of another living being, or anything of value. The occasional footprint from an imp or a goblin turns up in the dirt, but you don't see any of the creatures themselves. It looks like time and passing demons have stripped the place bare since it was originally abandoned. Finally, you give up and leave. You feel much easier when you're outside of the village – you had the strangest sensation of being watched while you were in there.");
@@ -770,7 +778,7 @@ function determineAmilySexEvent(player: Character, forced: boolean = false): Cli
         // Futa amily!
         if (AmilyFlags.AMILY_WANG_LENGTH > 0) {
             // If not pregnant, always get fucked!
-            if (!pregnancy.isPregnant) sex = hermilyOnFemalePC;
+            if (!amilyWomb.isPregnant()) sex = hermilyOnFemalePC;
             // else 50/50
             else {
                 if (randInt(2) === 0) sex = girlyGirlMouseSex;
@@ -785,9 +793,9 @@ function determineAmilySexEvent(player: Character, forced: boolean = false): Cli
         // Amily is herm too!
         if (AmilyFlags.AMILY_WANG_LENGTH > 0) {
             // If Amily is not pregnant
-            if (!pregnancy.isPregnant) {
+            if (!amilyWomb.isPregnant()) {
                 // If PC is also not pregnant, 50/50 odds
-                if (!player.pregnancy.womb.isPregnant()) {
+                if (!player.body.wombs.find(Womb.Pregnant)) {
                     // Herm Amily knocks up PC
                     if (randInt(2) === 0) sex = hermilyOnFemalePC;
                     // PC uses dick on amily
@@ -806,7 +814,7 @@ function determineAmilySexEvent(player: Character, forced: boolean = false): Cli
             // Amily is preg
             else {
                 // Pc is not
-                if (!player.pregnancy.womb.isPregnant()) sex = hermilyOnFemalePC;
+                if (!player.body.wombs.find(Womb.Pregnant)) sex = hermilyOnFemalePC;
                 // PC is preg too!
                 else {
                     // Herm Amily knocks up PC
@@ -822,7 +830,7 @@ function determineAmilySexEvent(player: Character, forced: boolean = false): Cli
         // Amily still girl!
         else {
             // Not pregnant? KNOCK THAT SHIT UP
-            if (!pregnancy.isPregnant) sex = sexWithAmily;
+            if (!amilyWomb.isPregnant()) sex = sexWithAmily;
             // Pregnant?  Random tribbing!
             else {
                 // Lesbogrind
@@ -946,7 +954,7 @@ function amilyRemeetingContinued(player: Character): NextScreenChoices {
     amilySprite();
     CView.text("\"<i>So, have you changed your mind? Have you come to help me out?</i>\" Amily asks curiously.\n\n");
     // Accept / Politely refuse / Here to talk / Get lost
-    return { choices: [["Accept", secondTimeAmilyOfferedAccepted], ["RefusePolite", secondTimeAmilyRefuseAgain], ["Just Talk", repeatAmilyTalk], ["Get Lost", tellAmilyToGetLost], ["Leave", returnToCampUseOneHour], ] };
+    return { choices: [["Accept", secondTimeAmilyOfferedAccepted], ["RefusePolite", secondTimeAmilyRefuseAgain], ["Just Talk", repeatAmilyTalk], ["Get Lost", tellAmilyToGetLost], ["Leave", returnToCampUseOneHour]] };
 }
 
 // [Accept]
@@ -979,7 +987,7 @@ function repeatAmilyTalk(player: Character): NextScreenChoices {
     CView.text("You tell her that you only wanted to talk.\n\n");
     CView.text("\"<i>Just to talk?</i>\" Amily asks, and then adds quietly, \"<i>Well... it has been a long time since I actually had somebody to talk to...</i>\" She looks distracted for a moment, but then she smiles. Clearly, Amily is pleased with the prospect. \"<i>So, is there anything in particular you want to talk about?</i>\"\n\n");
     // [/ Go to random [Conversation]]
-    return { next: talkWithCuntIMeanAmily };
+    return { next: partial(talkWithCuntIMeanAmily, player, false) };
 }
 
 // [Get Lost]
@@ -1003,7 +1011,7 @@ export function sexWithAmily(player: Character): NextScreenChoices {
     amilySprite();
     CView.text("You tell Amily that you came here because you wanted to have sex with her.\n\n");
 
-    switch (pregnancy.event) {
+    switch (amilyWomb.event) {
         case 1:
         case 2:
         case 3:
@@ -1030,7 +1038,6 @@ export function sexWithAmily(player: Character): NextScreenChoices {
                 // [/ Go to [High Affection Sex]]
                 return { next: amilySexHappens };
             }
-            break;
         case 6:
         case 7:
         case 8: // Amily is heavily pregnant
@@ -1059,7 +1066,6 @@ export function sexWithAmily(player: Character): NextScreenChoices {
                 // [/ Go to [High Affection - Heavily Pregnant Sex]]
                 return { next: amilySexHappens };
             }
-            break;
         default: // Amily is not pregnant
             // [Low Affection]
             if (AmilyFlags.AMILY_AFFECTION < 15) {
@@ -1093,7 +1099,7 @@ function talkToAmily(player: Character): NextScreenChoices {
 
     // [Low Affection]
     if (AmilyFlags.AMILY_AFFECTION < 15) {
-        switch (pregnancy.event) {
+        switch (amilyWomb.event) {
             case 1:
             case 2:
             case 3:
@@ -1120,7 +1126,7 @@ function talkToAmily(player: Character): NextScreenChoices {
         CView.text("She smiles playfully at you. \"<i>And here I was thinking we knew each other already.  But if you want, I'm always happy to talk.</i>\"\n\n");
     }
     // [/ Go to random [Conversation]]
-    return { next: talkWithCuntIMeanAmily };
+    return { next: partial(talkWithCuntIMeanAmily, player, false) };
 }
 
 // [Talk then sex]
@@ -1128,7 +1134,7 @@ function talkThenSexWithAmily(player: Character): NextScreenChoices {
 
     amilySprite();
     CView.text("You tell Amily that you came here because you wanted to talk with her.  If she feels like having sex when you are done, though, you would be happy to oblige.\n\n");
-    switch (pregnancy.event) {
+    switch (amilyWomb.event) {
         case 1:
         case 2:
         case 3:
@@ -1138,7 +1144,7 @@ function talkThenSexWithAmily(player: Character): NextScreenChoices {
             if (AmilyFlags.AMILY_AFFECTION < 15) {
                 CView.text("She rubs her belly thoughtfully. \"<i>I guess a bit of conversation would be nice, after all this time. Sex, though? Maybe if you're lucky.</i>\" She's already heading off, encouraging you to follow her.\n\n");
                 // [/ Go to random [Conversation], then small chance of [Low Affection Sex]]
-                return { next: talkWithCuntIMeanAmily };
+                return { next: partial(talkWithCuntIMeanAmily, player, false) };
             }
             // [Medium Affection]
             else if (AmilyFlags.AMILY_AFFECTION < 40) {
@@ -1155,7 +1161,6 @@ function talkThenSexWithAmily(player: Character): NextScreenChoices {
                 // [/ Go to random [Conversation], then to [High Affection Sex]]
                 return { next: talkToAmilyWithSexAfter };
             }
-            break;
         case 6:
         case 7:
         case 8: // Amily is heavily pregnant
@@ -1164,7 +1169,7 @@ function talkThenSexWithAmily(player: Character): NextScreenChoices {
                 CView.text("She stares at you, then smiles faintly. \"<i>Talk? Talk is good... it's so quiet here; I spent so many years without anybody to talk to. But sex? In my condition? No, I don't think so.</i>\"\n\n");
                 CView.text("Despite her refusing the prospect of sex, she happily takes a seat on a toppled column and invites you to join her.\n\n");
                 // [/ Go to random [Conversation]]
-                return { next: talkWithCuntIMeanAmily };
+                return { next: partial(talkWithCuntIMeanAmily, player, false) };
             }
             // [Medium Affection]
             else if (AmilyFlags.AMILY_AFFECTION < 40) {
@@ -1172,7 +1177,7 @@ function talkThenSexWithAmily(player: Character): NextScreenChoices {
                 CView.text("You are forced to concede that you don't have any real ideas how sex between you would work with her in her current state.\n\n");
                 CView.text("Amily smiles and pulls up a seat on a mound of leaf litter. \"<i>That's all right; you meant well. And even if we can't have sex, we can still talk. Anything on your mind in particular?</i>\"\n\n");
                 // [/ Go to random [Conversation]]
-                return { next: talkWithCuntIMeanAmily };
+                return { next: partial(talkWithCuntIMeanAmily, player, false) };
             }
             // [High Affection]
             else {
@@ -1181,7 +1186,6 @@ function talkThenSexWithAmily(player: Character): NextScreenChoices {
                 // [/ Go to random [Conversation], then to [High Affection Sex – Heavily Pregnant Sex]]
                 return { next: talkToAmilyWithSexAfter };
             }
-            break;
         default: // Amily is not pregnant
             // [Low Affection]
             if (AmilyFlags.AMILY_AFFECTION < 15) {
@@ -1212,7 +1216,7 @@ function sneakyUberAmilyRemeetingsAnnounce(player: Character): NextScreenChoices
     amilySprite();
     CView.text("Reasoning that it's best not to scare someone like Amily, you clear your throat nosily. Amily whirls around to face you and immediately draws her knife into a defensive position. When she sees that it's you, she blinks a few times.\n\n");
 
-    switch (pregnancy.event) {
+    switch (amilyWomb.event) {
         case 1:
         case 2:
         case 3:
@@ -1274,7 +1278,7 @@ function scareAmilyRemeetingsProBaws(player: Character): NextScreenChoices {
         else {
             CView.text("\"<i>You idiot! You moron! You-you-you!</i>\" she trails off incoherently, even as she practically bowls you over in her desperation to check your wound. Her touches are gentle, and she looks relieved to see it's only a flesh wound. Reaching into a pouch you hadn't noticed before, she quickly begins to bind it. \"<i>It's only a minor injury; you'll be okay... but don't you ever startle me like that again!</i>\" she squeaks loudly. \"<i>I could have hurt you - did you even think about that? About what would happen if I actually hurt you?</i>\"");
             // [If Amily is pregnant]
-            if (pregnancy.isPregnant) CView.text("  \"<i>Do you want our children to grow up without their father?</i>\" she asks softly, touching her bulging belly with one hand.\n\n");
+            if (amilyWomb.isPregnant()) CView.text("  \"<i>Do you want our children to grow up without their father?</i>\" she asks softly, touching her bulging belly with one hand.\n\n");
             CView.text("\n\n");
 
             CView.text("You apologize for your foolishness, and promise it won't happen again.\n\n");
@@ -1624,69 +1628,69 @@ export function talkWithCuntIMeanAmily(player: Character, sexAfter: boolean = fa
 
         CView.text("\"<i>You know...  I don't have the equipment needed to practice alchemy, but I do know a few things about it.</i>\" Amily says.  \"<i>If you can bring me a potion or a reagent, I may be able to remember some of the things my father taught me.</i>\"\n\n");
 
+        const firstSlotItem: Item = player.inventory.items.get(0).item;
         // (If player has no main item:)
-        if (player.itemSlot1.quantity === 0) {
+        if (!firstSlotItem) {
             CView.text("Promising you'll keep that in mind, you take your leave of Amily.\n\n");
-            if (sexAfter) return { next: determineAmilySexEvent() };
+            if (sexAfter) return { next: determineAmilySexEvent(player) };
             else return { next: returnToCampUseOneHour };
         }
+
         // (If player has an item:)
-        else {
-            CView.text("You remember that you have something in your pockets that might be of interest, and show it to Amily.\n\n");
-        }
-        if (player.itemSlot1.itype === ConsumableName.Equinum) {
+        CView.text("You remember that you have something in your pockets that might be of interest, and show it to Amily.\n\n");
+        if (firstSlotItem.name === ConsumableName.Equinum) {
             CView.text("\"<i>That's a distillation of horse essence, I think.</i>\" Amily says.  \"<i>I guess it would probably make you stronger and tougher... but horses aren't smart, and it might be too strong for a human to handle without changing them,</i>\" she warns you.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepper) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepper) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperLarge) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperLarge) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperDouble) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperDouble) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperBlack) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperBlack) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperKnotty) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperKnotty) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperBulbous) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperBulbous) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it?  Especially this one with the big knot-like bulge or this one with the ball-like bulbs.  I suppose it would make you more dog-like... but I'm pretty sure you should avoid these jet-black ones.  I can't remember why...</i>\" she trails off, wracking her brain.\n\n");
         }
         // Succubus Milk/Incubus Draft:
-        else if (player.itemSlot1.itype === ConsumableName.IncubusDraft || player.itemSlot1.itype === ConsumableName.SuccubiMilk) {
+        else if (firstSlotItem.name === ConsumableName.IncubusDraft || firstSlotItem.name === ConsumableName.SuccubiMilk) {
             CView.text("She recoils with a hiss.  \"<i>That's demon fluid, it is - like drinking liquid corruption! Avoid that stuff if you can; it'll turn you into a demon, and supercharge your sex-drive.  I've heard it can even mess with your gender if you drink too much of the opposite stuff.</i>\"\n\n");
         }
         // Succubi's Delight:
-        else if (player.itemSlot1.itype === ConsumableName.SuccubisDelight) {
+        else if (firstSlotItem.name === ConsumableName.SuccubisDelight) {
             CView.text("\"<i>Full of taint, no question of that.  Succubi give it to males who haven't become demons yet; makes them better able to produce cum, and pushes them towards demonhood.</i>\"\n\n");
         }
         // Wet Cloth:
-        else if (player.itemSlot1.itype === ConsumableName.WetCloth) {
+        else if (firstSlotItem.name === ConsumableName.WetCloth) {
             CView.text("\"<i>I... have no idea what that is.</i>\" she says, looking confused.  \"<i>I guess it's... slimey?  Concentrate of goo?  I think it's got something to do with whatever's been polluting the lake, so I wouldn't rub it into your skin.</i>\"\n\n");
         }
         // Bee Honey:
-        else if (player.itemSlot1.itype === ConsumableName.BeeHoney) {
+        else if (firstSlotItem.name === ConsumableName.BeeHoney) {
             CView.text("\"<i>Honey from a giant bee?</i>\" she asks eagerly, perking up.  \"<i>Oh, that stuff's delicious! I hear it's full of special essences secreted by the giant bees, though, so it could have transformative effects.</i>\"\n\n");
         }
         // Pure Honey:
-        else if (player.itemSlot1.itype === ConsumableName.BeeHoneyPure) {
+        else if (firstSlotItem.name === ConsumableName.BeeHoneyPure) {
             CView.text("\"<i>You managed to get your hands on ultra-pure giant bee honey?</i>\" she asks, sounding impressed.  \"<i>I hear that stuff's so pure it can actually help purge the eater of demonic taint - but it's probably otherwise the same as regular bee honey.</i>\"\n\n");
         }
         // Green Glob:
-        else if (player.itemSlot1.itype === MaterialName.GreenGel) {
+        else if (firstSlotItem.name === MaterialName.GreenGel) {
             CView.text("\"<i>A blob of slime from a green gel?  Hmm...</i>\" she looks thoughtful.  \"<i>I think I remember my dad once telling me you could make a really strong armor out of a special distillation of green oozes.  I can't say for sure, and I wouldn't have the equipment even if I did remember.</i>\"\n\n");
         }
         // Bee Chitin:
-        else if (player.itemSlot1.itype === MaterialName.BlackChitin) {
+        else if (firstSlotItem.name === MaterialName.BlackChitin) {
             CView.text("\"<i>If you had a sufficient mass of this stuff, you could make a suit of armor out of it.  It needs special alchemical reagents, though, otherwise it'll just get all brittle and smashed up.</i>\"\n\n");
         }
         else {
@@ -2016,7 +2020,7 @@ export function talkWithCuntIMeanAmily(player: Character, sexAfter: boolean = fa
         }
     }
     if (sexAfter) {
-        return { next: determineAmilySexEvent(true) };
+        return { next: determineAmilySexEvent(player, true) };
     }
     else return { next: returnToCampUseOneHour };
 }
@@ -2036,7 +2040,7 @@ function stickItInMouseTwatForTheFirstTimeNOTWORTHALLBULLSHIT(player: Character)
     // [Take Charge]
     // [Wait for Her]
     // [Kiss Her]
-    return { choices: [["Take Charge", FirstTimeAmilyTakeCharge], ["Wait 4 Her", beSomeKindofNervousDoucheAndWaitForAmily], ["Kiss Her", kissAmilyInDaMoufFirstTimeIsSomehowBetterThatWay], ["", undefined], ["", undefined], ] };
+    return { choices: [["Take Charge", FirstTimeAmilyTakeCharge], ["Wait 4 Her", beSomeKindofNervousDoucheAndWaitForAmily], ["Kiss Her", kissAmilyInDaMoufFirstTimeIsSomehowBetterThatWay]] };
 }
 
 // [=Take Charge=]
@@ -2054,7 +2058,7 @@ function FirstTimeAmilyTakeCharge(player: Character): NextScreenChoices {
 
     // (If player has penis 14 inches or more long)
     if (player.body.cocks.get(0).length >= 14) {
-        if (player.body.cocks.get(0).type === CockType.HUMAN || player.body.cocks.get(0).type.Index > 3) {
+        if (player.body.cocks.get(0).type === CockType.HUMAN || player.body.cocks.get(0).type > 3) {
             CView.text("Her eyes go wide with shock and fear as you reveal your impressively sized member, already growing erect and hard. \"<i>You can't stick that in me! It'll never fit!</i>\" She squeals.\n\n");
             CView.text("\"<i>I'll make it fit!</i>\" You assure her.\n\n");
         }
@@ -2087,7 +2091,7 @@ function FirstTimeAmilyTakeCharge(player: Character): NextScreenChoices {
     player.orgasm();
     // Affection downer
     AmilyFlags.AMILY_AFFECTION -= 5;
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     return { next: returnToCampUseOneHour };
 }
 // [=Wait for Her=]
@@ -2107,7 +2111,7 @@ function beSomeKindofNervousDoucheAndWaitForAmily(player: Character): NextScreen
 
     CView.text("Seeing as how she clearly has no further need for you, you quietly excuse yourself, get dressed and leave.");
     AmilyFlags.AMILY_AFFECTION -= 2;
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     player.orgasm();
     return { next: returnToCampUseOneHour };
 }
@@ -2139,36 +2143,34 @@ function kissAmilyInDaMoufFirstTimeIsSomehowBetterThatWay(player: Character): Ne
     // Affection boost?
     AmilyFlags.AMILY_AFFECTION += 3;
     player.orgasm();
+    amilyPreggoChance(player);
     return { next: returnToCampUseOneHour };
-    return amilyPreggoChance(player);
 }
 
 export function amilySexHappens(player: Character): NextScreenChoices {
 
     amilySprite();
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
     // If too big
-    if (x === -1 && player.body.cocks.length > 0) {
+    if (!cockThatFits && player.body.cocks.length > 0) {
         CView.text("Amily looks between your legs and doubles over laughing, \"<i>There is no way that thing is fitting inside of me!  You need to find a way to shrink that thing down before we get in bed!</i>\"");
         AmilyFlags.AMILY_AFFECTION--;
         return { next: returnToCampUseOneHour };
-        return;
     }
     if (AmilyFlags.AMILY_FUCK_COUNTER === 0) {
-        return stickItInMouseTwatForTheFirstTimeNOTWORTHALLBULLSHIT(player);
         AmilyFlags.AMILY_FUCK_COUNTER++;
-        return;
+        return stickItInMouseTwatForTheFirstTimeNOTWORTHALLBULLSHIT(player);
     }
     // Low Affection Sex:
     if (AmilyFlags.AMILY_AFFECTION < 15) {
         CView.text("Amily's efforts at leading you through the ruined village are brisk and efficient. You don't really think she's looking forward to doing this all that much. No, that might be overstating things. It's more like she's under the impression that, details aside, this encounter between the two of you will be pure business.\n\n");
 
         CView.text("It's hard for you to say if you were led by a different route this time, but soon you are in what Amily has to offer for a private bedchamber, and she begins to reach for her clothes, obviously expecting you to do the same thing.\n\n");
-        return { choices: [["Business", amilySexBusiness], ["Playtime 1st", amilySexPlaytimeFirst], ["", undefined], ["", undefined], ["", undefined], ] };
+        return { choices: [["Business", amilySexBusiness], ["Playtime 1st", amilySexPlaytimeFirst]] };
     }
     // Moderate Affection Sex:
     else if (AmilyFlags.AMILY_AFFECTION < 40) {
-        const pregEvent: number = pregnancy.event;
+        const pregEvent: number = amilyWomb.event;
         CView.text("Amily leads you to her nest as quickly as ever, but things are a little different this time. You can tell Amily has what can only be described as a 'spring in her step'. She moves just a little bit quicker, she seems more enthusiastic about the prospect - her tail even waves slowly from side to side, a bit of body language you haven't seen from her before. And you're certain there's a bit of a seductive wiggle to her hips - which you definitely haven't seen from her before.");
         // (If Amily is Slightly Pregnant:
         if (pregEvent >= 1 && pregEvent <= 5) CView.text("  However, she does sometimes touch the swell signifying the litter growing inside her, and when she does her attitude becomes uncertain and nervous.");
@@ -2176,10 +2178,10 @@ export function amilySexHappens(player: Character): NextScreenChoices {
 
         CView.text("Once you are inside, Amily gently tries to push you onto the bedding where you will be mating. Once you are seated, she smiles at you with a teasing expression and begins to slowly strip herself off, clearly trying to make the act seem as erotic as possible.");
         if (pregEvent >= 6) CView.text("  However, her confidence visibly slips when she has to fully bare the bulging belly that marks her pregnant state, but she musters the confidence and starts to show it off for you as well.");
-        return { choices: [["Step In", amilyStepTheFuckIn], ["Watch Show", amilyEnjoyShow], ["", undefined], ["", undefined], ["", undefined], ] };
+        return { choices: [["Step In", amilyStepTheFuckIn], ["Watch Show", amilyEnjoyShow]] };
     }
     else {
-        if (pregnancy.event >= 6) return fuckAmilyPreg(player);
+        if (amilyWomb.event >= 6) return fuckAmilyPreg(player);
         else return amilyHighAffectionSecks(player);
     }
 
@@ -2217,21 +2219,20 @@ function amilySexPtII(player: Character): NextScreenChoices {
     // worm infested reaction
     if (player.effects.has(StatusEffectType.Infested)) {
         CView.text("\"<i>EWWWW!  You're infested!</i>\" she shrieks, \"<i>Get out!  Don't come back 'til you get rid of the worms!</i>\"\n\nYou high tail it out of there.  It looks like Amily doesn't want much to do with you until you're cured.");
-        return { next: returnToCampUseOneHour };
         AmilyFlags.AMILY_AFFECTION -= 3;
         AmilyFlags.AMILY_GROSSED_OUT_BY_WORMS = 1;
-        return;
+        return { next: returnToCampUseOneHour };
     }
     CView.text("Now that both of you are naked, Amily takes a step back from you and begins to stroke herself - though her gestures are a little hesitant, and she clearly has never done this before, she is sincerely trying to be arousing. A finger strokes each dainty little nipple, circling around in opposite directions in order to make them perk as hard as they can. Her right hand slips away, leaving her left hand to alternate between each nipple as her nimble fingers begin to tease her most private of places. She may not be extraordinarily skilled at it, but she's definitely doing a good job of turning you on - particularly with the cute little gasp she makes when she pinches her clitoris a bit too hard.\n\n");
-    return { choices: [["Sit & Watch", sitAndWatchAmilySex], ["Caress Her", caressAmilyHaveSex], ["", undefined], ["", undefined], ["", undefined], ] };
+    return { choices: [["Sit & Watch", sitAndWatchAmilySex], ["Caress Her", caressAmilyHaveSex]] };
 }
 
 // [Sit & Watch]
 function sitAndWatchAmilySex(player: Character): NextScreenChoices {
 
     amilySprite();
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    CView.text("You stay right where you are, not wanting to spoil the show. By the time that she is visibly starting to drip girlcum and approaches you, clearly ready to move on to the main event, your " + describeCock(player, xundefined) + " is iron-hard.\n\n");
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
+    CView.text("You stay right where you are, not wanting to spoil the show. By the time that she is visibly starting to drip girlcum and approaches you, clearly ready to move on to the main event, your " + describeCock(player, cockThatFits) + " is iron-hard.\n\n");
     player.stats.lust += 50;
 
     return continueAmilySmex(player);
@@ -2242,16 +2243,16 @@ function caressAmilyHaveSex(player: Character): NextScreenChoices {
 
     amilySprite();
     CView.text("Watching Amily masturbate and tease herself in front of you is definitely erotic... but you want something more to this session than that. Licking your lips with a combination of arousal and nervousness, you tentatively reach out one hand and brush a feather-light touch against her fingers.  Her eyes, which she had previously been keeping closed, suddenly spring open, and you ready yourself to withdraw and apologize if she protests. But, for whatever reason, she does not protest and, emboldened, you continue to touch and caress her. You keep your touches gentle, light and restricted to non-intimate regions, but she seems to be enjoying this; she draws a little closer, and reaches out to brush your cheek, absentmindedly using the very hand she had been stroking her netherlips with before, and so the scent of her intimate regions drifts to your nostrils from where her fingers lay. Her eyes have rolled almost completely shut, the gaze she is giving you is a very languid one, but something about the set of her lips, only just starting to open, entices you to kiss them.\n\n");
-    return { choices: [["Refuse Kiss", AmilyGetKissed], ["Kiss Her", AmilyTakeTheKiss], ["", undefined], ["", undefined], ["", undefined], ] };
+    return { choices: [["Refuse Kiss", AmilyGetKissed], ["Kiss Her", AmilyTakeTheKiss]] };
 }
 // [Refuse the Kiss]
 function AmilyGetKissed(player: Character): NextScreenChoices {
 
     amilySprite();
     CView.text("You pull your mind back from that thought. That's taking things in directions you're not sure that either you or Amily are actually comfortable with.\n\n");
-    return continueAmilySmex(player);
     // Affection hit!
     AmilyFlags.AMILY_AFFECTION -= 3;
+    return continueAmilySmex(player);
 }
 // [Take the Kiss]
 function AmilyTakeTheKiss(player: Character): NextScreenChoices {
@@ -2261,18 +2262,18 @@ function AmilyTakeTheKiss(player: Character): NextScreenChoices {
     if (AmilyFlags.AMILY_NOT_FURRY === 0)
         CView.text("  It's quite an unusual experience; though her lips proper are as naked as your own, there is fur around them, soft and fine and just close enough to tickle the edges of your own lips, to say nothing of the unusual sensation of kissing someone with a muzzle.  Amily doesn't seem bothered at all. In fact, she kisses you back, and quite eagerly so, too.");
     CView.text("\n\n");
-    return continueAmilySmex(player);
     player.stats.lust += 5;
 
     // AffectionGAIN!
     AmilyFlags.AMILY_AFFECTION += 1 + randInt(3);
+    return continueAmilySmex(player);
 }
 
 function continueAmilySmex(player: Character): NextScreenChoices {
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
     amilySprite();
     CView.image("amily-forest-plainfuck");
-    CView.text("The time couldn't be any more right for either of you, and you both sink onto the bedding that Amily has prepared. Lying side by side, Amily guides you with surprising efficiency into her entry, and then, once you are comfortably inside, she begins to thrust, her cunt gripping your " + describeCock(player, xundefined) + " like a vice.\n\n");
+    CView.text("The time couldn't be any more right for either of you, and you both sink onto the bedding that Amily has prepared. Lying side by side, Amily guides you with surprising efficiency into her entry, and then, once you are comfortably inside, she begins to thrust, her cunt gripping your " + describeCock(player, cockThatFits) + " like a vice.\n\n");
 
     /*(If player chooses "Share The Pleasure":)
     {
@@ -2290,7 +2291,7 @@ function continueAmilySmex(player: Character): NextScreenChoices {
     CView.text("She seems surprised that she actually enjoyed it (at least a little), but she's definitely willing to repeat the experience. You assure her that you'll come back, and then resume your travels.");
     // Knock up, PC stats, etc.
     AmilyFlags.AMILY_FUCK_COUNTER++;
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     // Slight affection gain?
     AmilyFlags.AMILY_AFFECTION += 1 + randInt(2);
     player.orgasm();
@@ -2304,7 +2305,7 @@ function amilyEnjoyShow(player: Character): NextScreenChoices {
 
     amilySprite();
     CView.text("Surprised, curious and aroused in equal measures, you decide to sit back and watch the show. Amily seems very happy to perform for you, and does her best to make it as intriguing as possible.");
-    if (pregnancy.event >= 6) CView.text("  Even though she was clearly a little nervous about her gravid state in the beginning, as she continues, she grows in confidence to the point it seems she has almost forgotten about it.");
+    if (amilyWomb.event >= 6) CView.text("  Even though she was clearly a little nervous about her gravid state in the beginning, as she continues, she grows in confidence to the point it seems she has almost forgotten about it.");
     CView.text("\n\n");
     return AmilyMidSexLevel2(player);
 }
@@ -2324,15 +2325,15 @@ function AmilyMidSexLevel2(player: Character): NextScreenChoices {
     CView.text("By the time Amily is completely naked, she is clearly excited about what is coming up; you even think she's wet already. She stares at you with a mischievous, turned-on smile, waiting to see what you will do now that it is your turn to strip.\n\n");
 
     CView.text("Do you do a striptease of your own or just strip naked and get to business?");
-    return { choices: [["Striptease", StripForAmilyYouSlut], ["Business", getDownWithSexTiem], ["", undefined], ["", undefined], ["", undefined], ] };
+    return { choices: [["Striptease", StripForAmilyYouSlut], ["Business", getDownWithSexTiem]] };
 }
 
 // [Fair Is Fair]
 function StripForAmilyYouSlut(player: Character): NextScreenChoices {
 
     amilySprite();
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    CView.text("It is your turn to give her a mischievous smile back. Feeling turned on and excited, and remembering the elders in the village telling you that fair is only fair, you decide to give her a little show of her own. Standing up, you tilt your head back and thrust out your chest, trying to look enticing. As Amily watches, at first bemused and then pleased, you slowly strip off your " + player.inventory.equipment.armor.displayName + ", working hard to make it as sensual and suggestive as possible. You show off your body for her, leisurely stroking your own limbs and down your midriff to finally reveal that which lies inside your pants; your " + describeCock(player, xundefined) + ". Amily is definitely appreciative of the show.\n\n");
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
+    CView.text("It is your turn to give her a mischievous smile back. Feeling turned on and excited, and remembering the elders in the village telling you that fair is only fair, you decide to give her a little show of her own. Standing up, you tilt your head back and thrust out your chest, trying to look enticing. As Amily watches, at first bemused and then pleased, you slowly strip off your " + player.inventory.equipment.armor.displayName + ", working hard to make it as sensual and suggestive as possible. You show off your body for her, leisurely stroking your own limbs and down your midriff to finally reveal that which lies inside your pants; your " + describeCock(player, cockThatFits) + ". Amily is definitely appreciative of the show.\n\n");
     return continueWithMoreMidLevelAmilySex(player);
 }
 
@@ -2340,8 +2341,8 @@ function StripForAmilyYouSlut(player: Character): NextScreenChoices {
 function getDownWithSexTiem(player: Character): NextScreenChoices {
 
     amilySprite();
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    CView.text("Too horny to think of anything else than what lies ahead, you hastily remove your " + player.inventory.equipment.armor.displayName + ".  Amily smiles at what she can see, enjoying the sight of your body and your " + describeCock(player, xundefined) + ".\n\n");
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
+    CView.text("Too horny to think of anything else than what lies ahead, you hastily remove your " + player.inventory.equipment.armor.displayName + ".  Amily smiles at what she can see, enjoying the sight of your body and your " + describeCock(player, cockThatFits) + ".\n\n");
     return continueWithMoreMidLevelAmilySex(player);
 }
 
@@ -2350,7 +2351,7 @@ function continueWithMoreMidLevelAmilySex(player: Character): NextScreenChoices 
 
     amilySprite();
     CView.text("Once you are both naked, you embrace and begin with a deep kiss. Slowly you both sink down and start exploring each other's bodies. You feel Amily's hands caressing you while you lightly kiss her breasts, one of your hands slowly drifting down to her cute ass and lightly squeezing it. Looking into her eyes, you see a sparkle in them before she surprises you and somehow manages to turn you onto your back. Now she's sitting on your belly, with your already hard cock being fondled by her rather flexible tail. Grinning at you, she seems to plan on teasing you as long as possible before allowing you to enter her.\n\n");
-    return { choices: [["Play Along", playAlongWithAmilyWhataDumbBitch], ["Please Her", workToPleaseTheCunt], ["", undefined], ["", undefined], ["", undefined], ] };
+    return { choices: [["Play Along", playAlongWithAmilyWhataDumbBitch], ["Please Her", workToPleaseTheCunt]] };
 }
 // [Play Along]
 function playAlongWithAmilyWhataDumbBitch(player: Character): NextScreenChoices {
@@ -2378,10 +2379,10 @@ function AmilyMiddleGradeSexOver(player: Character): NextScreenChoices {
     amilySprite();
     CView.text("Quite spent from your lovemaking, Amily sinks down on your breast, smiles at you and slowly dozes off. You also drift off to sleep soon after. Some time later, you wake up to find her already putting on her clothes again.\n\n");
     // Affection gain here?
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     AmilyFlags.AMILY_AFFECTION += 3 + randInt(4);
     AmilyFlags.AMILY_FUCK_COUNTER++;
-    return { choices: [["Say Goodbye", sayGoodByeToAmilyPostSecks], ["Stay A While", stayAfterAmilyMiddleGradeSecks], ["", undefined], ["", undefined], ["", undefined], ] };
+    return { choices: [["Say Goodbye", sayGoodByeToAmilyPostSecks], ["Stay A While", stayAfterAmilyMiddleGradeSecks]] };
 }
 
 // [Say Goodbye]
@@ -2405,13 +2406,13 @@ function stayAfterAmilyMiddleGradeSecks(player: Character): NextScreenChoices {
 // [High Affection - Non-Pregnant/Slightly Pregnant]
 function amilyHighAffectionSecks(player: Character): NextScreenChoices {
     amilySprite();
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
     CView.text("Amily really didn't waste any time getting to her hidden bedroom, sprinting as fast as she could with you in tow.");
-    if (pregnancy.isPregnant) CView.text("  Even in a slightly pregnant state, she goes surprisingly fast, though she's also rather cautious of her small bump.");
+    if (amilyWomb.isPregnant()) CView.text("  Even in a slightly pregnant state, she goes surprisingly fast, though she's also rather cautious of her small bump.");
     CView.text("\n\n");
 
-    CView.text("Once inside, the two of you get to work undoing each others clothes, tossing the garments across the room with little care for them. Amily bites her lower lip as she examines your naked form again, before practically jumping you. She wraps her small hands around your stiff " + nounCock(xundefined.type) + " in an almost painful fashion, rubbing and teasing it, and presses her mouth against yours, her tongue exploring every inch of your mouth that it can reach, and you quickly respond by doing the same favor for Amily.");
-    if (pregnancy.isPregnant) CView.text("  Really it seems the only thing between you two now is Amily's small stomach bulge.");
+    CView.text("Once inside, the two of you get to work undoing each others clothes, tossing the garments across the room with little care for them. Amily bites her lower lip as she examines your naked form again, before practically jumping you. She wraps her small hands around your stiff " + nounCock(cockThatFits.type) + " in an almost painful fashion, rubbing and teasing it, and presses her mouth against yours, her tongue exploring every inch of your mouth that it can reach, and you quickly respond by doing the same favor for Amily.");
+    if (amilyWomb.isPregnant()) CView.text("  Really it seems the only thing between you two now is Amily's small stomach bulge.");
     // (If Amily is herm:
     if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text("  You can feel her erection, hot and solid, pressed between your two bodies.");
     CView.text("\n\n");
@@ -2422,33 +2423,33 @@ function amilyHighAffectionSecks(player: Character): NextScreenChoices {
     if (AmilyFlags.AMILY_WANG_LENGTH === 0) CView.text("sucking on her sensitive clit");
     else CView.text("licking and kissing her human-like cock");
     CView.text(" to stimulate her further. In response, Amily moans loudly and spreads her legs further apart, an invitation to continue. You happily oblige your lover, burying two fingers into her wet cunt while you move to other parts of her body.");
-    if (pregnancy.isPregnant) CView.text("  As you move your head across her beautiful form, you stop at her growing baby bump and give it a small kiss.");
+    if (amilyWomb.isPregnant()) CView.text("  As you move your head across her beautiful form, you stop at her growing baby bump and give it a small kiss.");
     CView.text("  Your head hovers at her breasts");
-    if (pregnancy.isPregnant) CView.text(", which seem to have grown from the pregnancy,");
+    if (amilyWomb.isPregnant()) CView.text(", which seem to have grown from the pregnancy,");
     CView.text(" and get to work licking and suckling her nipples, rubbing the sensitive mounds.");
-    if (pregnancy.isPregnant) CView.text("  When you get a dribble of milk in your mouth it surprises you, but you certainly don't stop.  \"<i>Hah...You're going to have to teach the children how that's done,</i>\" Amily says, in between fevered breaths.");
+    if (amilyWomb.isPregnant()) CView.text("  When you get a dribble of milk in your mouth it surprises you, but you certainly don't stop.  \"<i>Hah...You're going to have to teach the children how that's done,</i>\" Amily says, in between fevered breaths.");
     CView.text("\n\n");
 
     CView.text("By the time you start teasing her neck and collarbone, Amily's hands are clinging onto your back and she's impatiently grinding against your raging erection.  \"<i>Please don't tease me anymore,</i>\" Amily whispers into your ear, making you almost feel a little bad for teasing your love in such a way.\n\n");
 
-    CView.text("As an apology you quickly push your " + describeCock(player, xundefined) + " past her dampened nether-lips, and set to work thrusting in and out of your mousegirl lover.");
-    if (pregnancy.isPregnant) CView.text("  You are of course mindful of her baby bump, not going too fast and making sure you're in a position that's comfortable for the two of you, not wanting to harm your future offspring with the lovely mouse maiden.");
+    CView.text("As an apology you quickly push your " + describeCock(player, cockThatFits) + " past her dampened nether-lips, and set to work thrusting in and out of your mousegirl lover.");
+    if (amilyWomb.isPregnant()) CView.text("  You are of course mindful of her baby bump, not going too fast and making sure you're in a position that's comfortable for the two of you, not wanting to harm your future offspring with the lovely mouse maiden.");
     CView.text("  It's not too long before you're going at a regular pace, stuffing Amily's fuckhole with your familiar manhood.\n\n");
 
     CView.text("Amily moans from the pleasure and raises her hips up to meet your thrusts, desperate for more of your loving.  She whispers a few dirty things to you between shallow breaths, \"<i>");
-    if (!pregnancy.isPregnant) CView.text("Fill me up with everything you have... I want to be a mother for your children, just as much as I want to be a mother of my own people,");
+    if (!amilyWomb.isPregnant()) CView.text("Fill me up with everything you have... I want to be a mother for your children, just as much as I want to be a mother of my own people,");
     else CView.text("No need to hold back, pump as much cum into me as you can,");
     CView.text("</i>\" she whispers in a sultry tone, and her words are enough to send you over the edge. You grunt loudly, feeling as if your cock is about to explode from the exertion, blasting Amily so full of your cum that it starts to ooze out. Amily gives a cute little cry, and her vaginal walls clamp down on your sensitive member with enough force to make you wince as girlcum sprays out onto your thighs");
     // (if Amily is herm:
     if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text(" and cum spurts into the air between you, splattering on you both");
     CView.text(".\n\n");
 
-    if (!pregnancy.isPregnant) CView.text("\"<i>If that didn't knock me up... I don't care as much as you'd think. It was magnificent either way,");
+    if (!amilyWomb.isPregnant()) CView.text("\"<i>If that didn't knock me up... I don't care as much as you'd think. It was magnificent either way,");
     else CView.text("\"<i>Hmm...My kids are pretty lucky that their father is such a virile specimen,");
     CView.text("</i>\" Amily says as she catches her breath, reaching up to ruffle your hair. You give her a bashful smile, glad to see you've made her so happy.\n\n");
 
     CView.text("The two of you lie together for some time, and it's with great regret that you tell her that you need to check in on your own  Amily seems disappointed, not wanting you to leave, but understands why you need to go. \"<i>");
-    if (!pregnancy.isPregnant) CView.text("Okay... Well, I'm sure you'll be back. I will need your help again if this doesn't set,");
+    if (!amilyWomb.isPregnant()) CView.text("Okay... Well, I'm sure you'll be back. I will need your help again if this doesn't set,");
     else CView.text("Okay dear...But you better come back some time. You don't want your children to have abandonment issues, do you?");
     CView.text("</i>\" Amily says while rubbing her stomach. You smile at her and nod, promising you'll come back, before setting off for your own ");
     /*OLD
@@ -2499,9 +2500,9 @@ function amilyHighAffectionSecks(player: Character): NextScreenChoices {
     player.orgasm();
     player.stats.sens += -1;
 
-    return { next: returnToCampUseOneHour };
     // preggo chance
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
+    return { next: returnToCampUseOneHour };
 }
 
 // [High Affection- Heavily Pregnant]
@@ -2544,12 +2545,12 @@ function fuckAmilyPreg(player: Character): NextScreenChoices {
     player.orgasm();
     player.stats.sens += -1;
 
-    return { next: returnToCampUseOneHour };
     // preggo chance
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
+    return { next: returnToCampUseOneHour };
 }
 
-export function amilyPreggoChance(player: Character): NextScreenChoices {
+export function amilyPreggoChance(player: Character) {
     // Is amily a chaste follower?
     if (AmilyFlags.AMILY_FOLLOWER === 1) {
         // If pregnancy not enabled, GTFO
@@ -2557,14 +2558,14 @@ export function amilyPreggoChance(player: Character): NextScreenChoices {
     }
 
     // Cant repreg if already preg!
-    if (pregnancy.isPregnant) return;
+    if (amilyWomb.isPregnant()) return;
 
     // Cant preg if at the farm
     if (AmilyFlags.FOLLOWER_AT_FARM_AMILY !== 0) return;
 
     // 25% + gradually increasing cumQ bonus
     if (randInt(4) === 0 || player.cumQ() > randInt(1000)) {
-        pregnancy.knockUpForce(PregnancyType.PLAYER, IncubationTime.MOUSE - 182); // Amily completes her pregnancies much faster than a regular player
+        amilyWomb.knockUp(new Pregnancy(PregnancyType.PLAYER, IncubationTime.MOUSE - 182), amilyPregEvents); // Amily completes her pregnancies much faster than a regular player
     }
 }
 
@@ -2574,40 +2575,34 @@ export function amilyPreggoChance(player: Character): NextScreenChoices {
 // Approach Amily:
 // EVENT 2427
 export function amilyFollowerEncounter(player: Character): NextScreenChoices {
-    if (!amilyCorrupt() && player.pregnancy.ovipositor.eggs >= 20 && player.pregnancy.ovipositor.canOviposit() && AmilyFlags.AMILY_OVIPOSITION_UNLOCKED === 0) {
+    if (!amilyCorrupt() && player.body.ovipositor.eggs >= 20 && player.body.ovipositor.canOviposit() && AmilyFlags.AMILY_OVIPOSITION_UNLOCKED === 0) {
         return amilyEggStuff(player);
-        return;
     }
     if (AmilyFlags.AMILY_INCEST_COUNTDOWN_TIMER === 30 * 24 && AmilyFlags.AMILY_FOLLOWER === 2 && (Time.hour >= 11 && Time.hour <= 13)) {
         return amilyIncest(player);
-        return;
     }
     amilySprite();
-    if (AmilyFlags.AMILY_CLOTHING === 0) AmilyFlags.AMILY_CLOTHING = "rags";
+    if (AmilyFlags.AMILY_CLOTHING === "") AmilyFlags.AMILY_CLOTHING = "rags";
     // Amily freakout
     if (player.stats.cor >= 50 && AmilyFlags.UNKNOWN_FLAG_NUMBER_00173 === 0 && AmilyFlags.AMILY_FOLLOWER === 1) {
         return amilyTaintWarning(player);
-        return;
     }
     // Clear warning if PC is good!
     if (player.stats.cor < 50 && AmilyFlags.UNKNOWN_FLAG_NUMBER_00173 > 0) AmilyFlags.UNKNOWN_FLAG_NUMBER_00173 = 0;
     // Preggo birthing!
-    if (pregnancy.isPregnant && pregnancy.incubation === 0 && AmilyFlags.AMILY_FOLLOWER === 2) {
+    if (amilyWomb.isPregnant() && amilyWomb.pregnancy.incubation === 0 && AmilyFlags.AMILY_FOLLOWER === 2) {
 
-        return amilyPopsOutKidsInCamp(player);
-        pregnancy.knockUpForce(); // Clear Pregnancy
+        amilyPopsOutKidsInCamp(player);
+        amilyWomb.clear(); // Clear Pregnancy
         return { next: returnToCampUseOneHour };
-        return;
     }
     // Jojo + Amily Spar
     if (AmilyFlags.AMILY_FOLLOWER === 1 && AmilyFlags.AMILY_MET_PURE_JOJO === 1 && AmilyFlags.AMILY_SPAR_WITH_PURE_JOJO === 0 && player.effects.has(StatusEffectType.PureCampJojo)) {
-        finter.pureJojoAndAmilySpar();
-        return;
+        pureJojoAndAmilySpar();
     }
     // Amily
     if (AmilyFlags.AMILY_FOLLOWER === 1 && AmilyFlags.AMILY_WAIT_FOR_PC_FIX_JOJO === 1 && player.inventory.items.has(ConsumableName.BeeHoneyPure) && AmilyFlags.AMILY_BLOCK_COUNTDOWN_BECAUSE_CORRUPTED_JOJO === 0 && AmilyFlags.JOJO_FIXED_STATUS === 0) {
-        finter.fixJojoOOOOHYEEEEAHSNAPINTOASLIMJIM();
-        return;
+        fixJojoOOOOHYEEEEAHSNAPINTOASLIMJIM();
     }
 
     // Non corrupt!
@@ -2627,36 +2622,38 @@ export function amilyFollowerEncounter(player: Character): NextScreenChoices {
                 CView.text("\n\n“<i>I'll leave my regular production with the rest of the payment Whitney owes you [master].</i>”\n\n");
 
                 return player.inventory.items.createAdd(player, ItemType.Consumable, ConsumableName.SuccubiMilk, amilyFollowerEncounter);
-                return;
             }
             else {
                 return amilyMenu(player, false);
-                return;
             }
         }
     }
 
-    switch (pregnancy.event) {
-        case 2: if (AmilyFlags.AMILY_FOLLOWER === 1) { // Pure
-            CView.text("You notice that Amily seems to be ill. Of course, you at once go to her and ask her what's wrong, but she only smiles at you and says that it's all right. Your incomprehension must show on your face, since Amily giggles, puts her arms around you and kisses you. \"<i>Silly " + mf(player, "boy", "girl") + "... You're going to be a father... again...</i>\"\n\n");
-        }
-        else { // Corrupt
-            CView.text("You notice that Amily seems to be ill. Despite that, she seems to be happy about something. You wonder what could be going on, and decide to ask; Amily grins at you. \"<i>Oh, " + mf(player, "master", "mistress") + "! You did it! You're going to be a father... I can't wait to birth many more mouse-sluts for you, " + mf(player, "master", "mistress") + ".</i>\"\n\n");
-        }
-                break;
+    switch (amilyWomb.event) {
+        case 2:
+            if (AmilyFlags.AMILY_FOLLOWER === 1) { // Pure
+                CView.text("You notice that Amily seems to be ill. Of course, you at once go to her and ask her what's wrong, but she only smiles at you and says that it's all right. Your incomprehension must show on your face, since Amily giggles, puts her arms around you and kisses you. \"<i>Silly " + mf(player, "boy", "girl") + "... You're going to be a father... again...</i>\"\n\n");
+            }
+            else { // Corrupt
+                CView.text("You notice that Amily seems to be ill. Despite that, she seems to be happy about something. You wonder what could be going on, and decide to ask; Amily grins at you. \"<i>Oh, " + mf(player, "master", "mistress") + "! You did it! You're going to be a father... I can't wait to birth many more mouse-sluts for you, " + mf(player, "master", "mistress") + ".</i>\"\n\n");
+            }
+            break;
         case 3:
-        case 4: CView.text("Amily's belly is starting to protrude a little. She's unquestionably pregnant.\n\n");
-                break;
+        case 4:
+            CView.text("Amily's belly is starting to protrude a little. She's unquestionably pregnant.\n\n");
+            break;
         case 5:
-        case 6: CView.text("Amily's belly has gotten very big. She must be carrying more than one child.\n\n");
-                break;
-        case 7: if (AmilyFlags.AMILY_FOLLOWER === 1) { // Pure
-            CView.text("Amily's swollen stomach moves on occasion, warranting an unthinking pat from her to calm the restless children within.\n\n");
-        }
-        else { // Corrupt
-            CView.text("Amily's swollen stomach moves on occasion, warranting a stroke from her to urge the restless children within to come out soon.\n\n");
-        }
-                break;
+        case 6:
+            CView.text("Amily's belly has gotten very big. She must be carrying more than one child.\n\n");
+            break;
+        case 7:
+            if (AmilyFlags.AMILY_FOLLOWER === 1) { // Pure
+                CView.text("Amily's swollen stomach moves on occasion, warranting an unthinking pat from her to calm the restless children within.\n\n");
+            }
+            else { // Corrupt
+                CView.text("Amily's swollen stomach moves on occasion, warranting a stroke from her to urge the restless children within to come out soon.\n\n");
+            }
+            break;
         case 8: CView.text("Amily's bulge frequently wriggles and squirms, though this doesn't seem to bother her. " + (AmilyFlags.AMILY_FOLLOWER === 1 ? "T" : "She smiles with glee, t") + "he children mustn't have too much longer until they are born.\n\n");
         default:
     }
@@ -2666,7 +2663,7 @@ export function amilyFollowerEncounter(player: Character): NextScreenChoices {
 function amilyMenu(player: Character, output: boolean = true): NextScreenChoices {
     let date: ClickFunction;
     // If no fight yet, have option to introduce Urta and Amily
-    if (player.gender > 0 && AmilyFlags.AMILY_FOLLOWER === 1 && AmilyFlags.AMILY_VISITING_URTA === 0 && (AmilyFlags.URTA_COMFORTABLE_WITH_OWN_BODY >= 5 || urtaLove()) && !urtaQuest.urtaBusy()) {
+    if (player.gender > 0 && AmilyFlags.AMILY_FOLLOWER === 1 && AmilyFlags.AMILY_VISITING_URTA === 0 && (AmilyFlags.URTA_COMFORTABLE_WITH_OWN_BODY >= 5 || urtaLove()) && !urtaBusy()) {
         if (output) CView.text("<b>You could take Amily on a date to Tel'Adre, and perhaps even introduce her to Urta!</b>\n\n");
         date = dateNightFirstTime;
     }
@@ -2677,16 +2674,16 @@ function amilyMenu(player: Character, output: boolean = true): NextScreenChoices
         // CView.text("Options:\nAppearance\nTalk\nMake Love\n");
         // MOAR OPTIONS: Give Present\nAlchemy\nTeach Blowpipe
         let eggs: ClickFunction;
-        if (AmilyFlags.AMILY_OVIPOSITION_UNLOCKED > 0 && player.pregnancy.ovipositor.canOviposit()) eggs = layEggsInAmily;
-        return { choices: [["Appearance", amilyAppearance], ["Talk", talkToAmilyCamp], ["Make Love", fuckTheMouseBitch], ["Give Present", giveAmilyAPresent], ["Date", date], ["Lay Eggs", eggs], ["Defur", defur], ["", undefined], ["", undefined], ["Back", campLoversMenu], ] };
+        if (AmilyFlags.AMILY_OVIPOSITION_UNLOCKED > 0 && player.body.ovipositor.canOviposit()) eggs = layEggsInAmily;
+        return { choices: [["Appearance", amilyAppearance], ["Talk", talkToAmilyCamp], ["Make Love", fuckTheMouseBitch], ["Give Present", giveAmilyAPresent], ["Date", date], ["Lay Eggs", eggs], ["Defur", defur], ["", undefined], ["", undefined], ["Back", campLoversMenu]] };
     }
     // Corrupt
     else {
         // CView.text("Options:\nAppearance\nGive Item\nSex\nTalk\n");
         //  [Sex] [Give Item] [Talk] [Call Jojo]
-        return { choices: [["Appearance", amilyAppearance], ["Give Item", giveAmilyAPresent], ["Sex", fuckTheMouseBitch], ["Talk", talkWithCORRUPTCUNT], ["Defur", defur], ["", undefined], ["", undefined], ["", undefined], ["", undefined], ["Back", campSlavesMenu], ] };
+        const choices: ScreenChoice[] = [["Appearance", amilyAppearance], ["Give Item", giveAmilyAPresent], ["Sex", fuckTheMouseBitch], ["Talk", talkWithCORRUPTCUNT], ["Defur", defur], ["", undefined], ["", undefined], ["", undefined], ["", undefined], ["Back", campSlavesMenu]];
 
-        if (!pregnancy.isPregnant && AmilyFlags.FOLLOWER_AT_FARM_AMILY === 0 && AmilyFlags.FARM_CORRUPTION_STARTED === 1) {
+        if (!amilyWomb.isPregnant() && AmilyFlags.FOLLOWER_AT_FARM_AMILY === 0 && AmilyFlags.FARM_CORRUPTION_STARTED === 1) {
             choices[5] = ["Farm Work", sendCorruptCuntToFarm];
         }
 
@@ -2694,8 +2691,9 @@ function amilyMenu(player: Character, output: boolean = true): NextScreenChoices
             choices[5] = ["Go Camp", backToCamp];
             if (AmilyFlags.FOLLOWER_PRODUCTION_AMILY === 0) choices[6] = ["Harvest Milk", harvestMilk];
             else choices[6] = ["Stop Harvest", stopHarvestingMilk];
-            choices[9] = ["Back", farm.farmCorruption.rootScene];
+            choices[9] = ["Back", rootScene];
         }
+        return { choices };
     }
 }
 
@@ -2722,7 +2720,7 @@ function amilyCorruptSexMenu(player: Character): NextScreenChoices {
             oral2 = corruptAmilyLickPussiesLikeAPro;
             scissor = corruptAmilyScissorsLikeAPro;
         }
-        return { choices: [["Anal", anal], ["Get BJ", oral], ["Get Licked", oral2], ["GetPen'ed", penetrated], ["Scissor", scissor], ["Vagina", fuckCunt], ["", undefined], ["", undefined], ["", undefined], ["Nevermind", amilyFollowerEncounter], ] };
+        return { choices: [["Anal", anal], ["Get BJ", oral], ["Get Licked", oral2], ["GetPen'ed", penetrated], ["Scissor", scissor], ["Vagina", fuckCunt], ["", undefined], ["", undefined], ["", undefined], ["Nevermind", amilyFollowerEncounter]] };
     }
     else {
         // [Genderless PC Tries Sex]
@@ -2734,7 +2732,7 @@ function amilyCorruptSexMenu(player: Character): NextScreenChoices {
         player.stats.lust += -20;
 
         if (AmilyFlags.FOLLOWER_AT_FARM_AMILY === 0) return { next: campMenu };
-        else return { next: farm.farmCorruption.rootScene };
+        else return { next: rootScene };
     }
 }
 
@@ -2807,13 +2805,13 @@ function amilyAppearance(player: Character): NextScreenChoices {
         // [Horsecock]
         CView.text("pink pussy in between her legs; " + stopSayingNetherlipsFuck + ".\n");
 
-        if (farm.farmCorruption.hasTattoo("amily")) {
+        if (hasTattoo("amily")) {
             CView.text("\n");
-            if (farm.farmCorruption.amilyFullTribalTats()) {
+            if (amilyFullTribalTats()) {
                 CView.text("She is covered from head to tail in tribal tattoos, erotic lines snaking all over her naked frame, giving her the look of a barely tamed savage.\n");
             }
             else {
-                if (farm.farmCorruption.numTattoos("amily") > 1) CView.text("She has the following tattoos emblazoned across her body:\n");
+                if (numTattoos("amily") > 1) CView.text("She has the following tattoos emblazoned across her body:\n");
                 else CView.text("\nShe has ");
 
                 if (AmilyFlags.AMILY_TATTOO_COLLARBONE !== 0) CView.text(AmilyFlags.AMILY_TATTOO_COLLARBONE + "\n");
@@ -2835,7 +2833,6 @@ export function talkToAmilyCamp(player: Character): NextScreenChoices {
     CView.text("You tell Amily you'd like to talk about things. She grins, happy at the prospect, and takes a seat, inviting you to sit down as well.\n\n");
     // (Random camp discussion takes place)
     return talkWithCuntIMeanAmily(player);
-    return { next: returnToCampUseOneHour };
 }
 
 export function talkToAmilyWithSexAfter(player: Character): NextScreenChoices { return talkWithCuntIMeanAmily(player, true); }
@@ -2846,7 +2843,6 @@ function fuckTheMouseBitch(player: Character): NextScreenChoices {
     // Corrupt Amily has her own shit
     if (AmilyFlags.AMILY_FOLLOWER === 2) {
         return amilyCorruptSexMenu(player);
-        return;
     }
 
     let babies: ClickFunction;
@@ -2855,7 +2851,6 @@ function fuckTheMouseBitch(player: Character): NextScreenChoices {
     if (AmilyFlags.AMILY_WAIT_FOR_PC_FIX_JOJO > 0) {
         CView.text("Amily pushes you away and says, \"<i>Not until we fix Jojo.</i>\"  You sigh and grumble.  No sex today!");
         return { next: amilyFollowerEncounter };
-        return;
     }
 
     CView.text("You give Amily a seductive smile and tell her that you want to make love to her.\n\n");
@@ -2876,7 +2871,7 @@ function fuckTheMouseBitch(player: Character): NextScreenChoices {
             bText = "MakeBabies";
             babies = makeChildren;
             // Send make babies to an appropriate override
-            if (izmaFollower() && AmilyFlags.AMILY_X_IZMA_POTION_3SOME === 0 && player.body.cocks.length > 0 && !izmaScene.pregnancy.isPregnant && !pregnancy.isPregnant) {
+            if (izmaFollower() && AmilyFlags.AMILY_X_IZMA_POTION_3SOME === 0 && player.body.cocks.length > 0 && !izmaWomb.isPregnant() && !amilyWomb.isPregnant()) {
                 babies = amilyXIzmaSuperPregOptions;
             }
         }
@@ -2888,8 +2883,8 @@ function fuckTheMouseBitch(player: Character): NextScreenChoices {
         }
     }
     let urta: ClickFunction;
-    if (AmilyFlags.AMILY_VISITING_URTA === 4 && AmilyFlags.URTA_COMFORTABLE_WITH_OWN_BODY >= 0 && !urtaQuest.urtaBusy())
-        urta = followerInteractions.amilyUrtaSex;
+    if (AmilyFlags.AMILY_VISITING_URTA === 4 && AmilyFlags.URTA_COMFORTABLE_WITH_OWN_BODY >= 0 && !urtaBusy())
+        urta = amilyUrtaSex;
     let swim: ClickFunction;
     if (AmilyFlags.AMILY_OWNS_BIKINI > 0 && player.body.cocks.length > 0 && !amilyCorrupt()) swim = amilySwimFuckIntro;
     let threesome: ClickFunction;
@@ -2902,7 +2897,7 @@ function fuckTheMouseBitch(player: Character): NextScreenChoices {
         nurse = amilyNurseCheckup;
         CView.text("Amily might be up for playing nurse again.\n");
     }
-    return { choices: [["TakeCharge", amilyTakesChargeSex], ["Amily Leads", letAmilyLead], [bText, babies], ["Urta", urta], ["Swim", swim], ["Izma3Some", threesome], ["Nurse RP", nurse], ["", undefined], ["", undefined], ["Back", amilyFollowerEncounter], ] };
+    return { choices: [["TakeCharge", amilyTakesChargeSex], ["Amily Leads", letAmilyLead], [bText, babies], ["Urta", urta], ["Swim", swim], ["Izma3Some", threesome], ["Nurse RP", nurse], ["", undefined], ["", undefined], ["Back", amilyFollowerEncounter]] };
 }
 
 // [=Take Charge=]
@@ -2937,13 +2932,13 @@ function amilyTakesChargeSex(player: Character): NextScreenChoices {
 
     CView.text("You stride up to her and take her in your arms, kissing her deeply. She melts enthusiastically into your embrace, kissing you back just as hard, her tail winding around your " + describeLeg(player) + ". You lead her back to the nest she has made for herself and firmly but gently place her on her back there. She smiles up at you. \"<i>Ooh, taking charge, are we?</i>\" She trills with pleasure, tail waving to and fro with sincere excitement.\n\nWhat will you do?");
     const scene: number = randInt(4);
-    return { choices: [["Fuck", fuck], ["DrinkMilk", drinkMilk], ["Eat Out", takeChargeAmilyEatOut], ["GetSucked", getSucked], ["Scissor", scissor], ["Mount Her", mountHer], ["Buttfuck", buttFuckButtFUCKBUTTFUCK], ["Catch Anal", catchs], ["", undefined], ["", undefined], ] };
+    return { choices: [["Fuck", fuck], ["DrinkMilk", drinkMilk], ["Eat Out", takeChargeAmilyEatOut], ["GetSucked", getSucked], ["Scissor", scissor], ["Mount Her", mountHer], ["Buttfuck", buttFuckButtFUCKBUTTFUCK], ["Catch Anal", catchs]] };
 }
 
 // Take Charge 1: Fuck
 function takeChargeAmilyFuck(player: Character): NextScreenChoices {
     amilySprite();
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
 
     CView.text("With a smile, you gently place the tip of a finger on her nose, then slowly run it down along her body, over her lip, between her breasts, across her stomach, and finally stopping between her legs, where you playfully circle her secret spot with the tip of your finger.");
     // (if Amily is herm:
@@ -2956,20 +2951,20 @@ function takeChargeAmilyFuck(player: Character): NextScreenChoices {
     CView.text("; she's clearly very excited about this.");
     CView.text("\n\n");
 
-    CView.text("Now it is your turn to strip, and she watches you all the while, eagerly licking her lips when you unveil your " + describeCock(player, xundefined) + ". You stretch out over her body to kiss her, and she reaches up to embrace you with all the strength she has, pulling you deeper into the kiss and down onto her " + amilyTits() + ", her " + amilyNipples() + "s hard and firm against your chest. Finally, she breaks the kiss to whisper hoarsely to you, \"<i>Stop teasing me and put it in, already!</i>\" She growls, surprisingly deeply for a mouse-woman.\n\n");
+    CView.text("Now it is your turn to strip, and she watches you all the while, eagerly licking her lips when you unveil your " + describeCock(player, cockThatFits) + ". You stretch out over her body to kiss her, and she reaches up to embrace you with all the strength she has, pulling you deeper into the kiss and down onto her " + amilyTits() + ", her " + amilyNipples() + "s hard and firm against your chest. Finally, she breaks the kiss to whisper hoarsely to you, \"<i>Stop teasing me and put it in, already!</i>\" She growls, surprisingly deeply for a mouse-woman.\n\n");
 
-    CView.text("You smirk back at her, but you're hardly inclined to toy with her; your " + describeCock(player, xundefined) + " is aching with your need for her hot, tight depths. So you guide your member to her netherlips and lightly brush its tip against her. You may have wanted to begin slowly, but obviously, Amily has other plans, grabbing your " + describeCock(player, xundefined) + " and putting it in.  Gasping a bit as she feels you entering her, she grins and whispers: \"<i>Do I have to do everything myself?</i>\"\n\n");
+    CView.text("You smirk back at her, but you're hardly inclined to toy with her; your " + describeCock(player, cockThatFits) + " is aching with your need for her hot, tight depths. So you guide your member to her netherlips and lightly brush its tip against her. You may have wanted to begin slowly, but obviously, Amily has other plans, grabbing your " + describeCock(player, cockThatFits) + " and putting it in.  Gasping a bit as she feels you entering her, she grins and whispers: \"<i>Do I have to do everything myself?</i>\"\n\n");
 
     CView.text("Feeling your cock slide into her moist and hot vagina, you're not really inclined to waste time talking, so you hungrily kiss the mousegirl and begin to move slowly. Amily eagerly returns your kiss and moves with you. Soon, you both pick up speed while letting your hands wander over each other's body. As you break your kiss to gasp for air, a little moan escapes her, before she puts a hand on your head and pulls you down into another hungry and passionate kiss. Not long after, you can feel yourself fast reaching the limits of your ability to hold back. Luckily, Amily seems to also be nearing an orgasm, so you let go and nearly explode inside her. That seems to have pushed her over the edge too, and with a rather loud moan for such a little girl, Amily orgasms");
     if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text(" her " + amilyCock() + " spasming and spraying futa-jism in between your bodies");
     CView.text(".\n\n");
 
     CView.text("Grinning at each other with obvious satisfaction in your eyes, you slowly relax and cuddle in the afterglow for some time, before you decide that you'll definitely repeat this soon.");
-    return amilyPreggoChance(player);
-    return { next: returnToCampUseOneHour };
+    amilyPreggoChance(player);
     player.orgasm();
     player.stats.sens += -1;
 
+    return { next: returnToCampUseOneHour };
 }
 // Take Charge 2: Mousemilk
 function takeChargeAmilyMouseMilk(player: Character): NextScreenChoices {
@@ -2995,11 +2990,11 @@ function takeChargeAmilyMouseMilk(player: Character): NextScreenChoices {
 
         CView.text("\"<i>All that came out of me?</i>\" She asks, curious. She gently rubs your belly, and you moan as the milk sloshes uncomfortably inside your sensitive stomach. Amily sits down, your head in her lap, and lets you rest there until you recover your strength and digest a good portion of the milk. Still feeling uncomfortably full, you get up and go for a walk to help work off your titanic liquid meal.\n\n");
     }
-    return { next: returnToCampUseOneHour };
     player.stats.spe += .3;
     player.stats.lust += 10;
     player.stats.cor += -.5;
 
+    return { next: returnToCampUseOneHour };
 }
 // Take Charge 3: - eat out
 function takeChargeAmilyEatOut(player: Character): NextScreenChoices {
@@ -3030,10 +3025,10 @@ function takeChargeAmilyEatOut(player: Character): NextScreenChoices {
     CView.text(".\n\n");
 
     CView.text("She lies there, gasping for breath, even as you pick yourself up and start to clean yourself off. \"<i>Not my favorite...</i>\" She squeaks. \"<i>But definitely can't argue with the results.</i>\" You smile, and leave her in her nest to get her strength back.\n\n");
-    return { next: returnToCampUseOneHour };
     player.stats.int += .25;
     player.stats.lust += 10;
 
+    return { next: returnToCampUseOneHour };
 }
 // Take Charge 4 - amily sucks off
 function takeChargeAmilyGetSucked(player: Character): NextScreenChoices {
@@ -3062,10 +3057,10 @@ function takeChargeAmilyGetSucked(player: Character): NextScreenChoices {
 
     // (If Amily is herm:
     if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text("She turns halfway back to you as she goes. \"<i>I hope you'll remember this and return the favor someday,</i>\" she calls out to you. She then resumes walking off.");
-    return { next: returnToCampUseOneHour };
     player.orgasm();
     player.stats.sens += -1;
 
+    return { next: returnToCampUseOneHour };
 }
 // Take charge 5: scissor me timbers!
 function takeChargeAmilyScissorMeTimbers(player: Character): NextScreenChoices {
@@ -3129,12 +3124,12 @@ function takeChargeAmilyMountHer(player: Character): NextScreenChoices {
     CView.text("\"<i>Flatterer.</i>\" Is all that she says, but she's smiling happily, even as you both clean up and go your seperate ways again.");
     // PREGGO CHECK HERE
     if (AmilyFlags.AMILY_ALLOWS_FERTILITY === 1) {
-        player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.AMILY, IncubationTime.MOUSE));
+        player.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.AMILY, IncubationTime.MOUSE));
     }
-    return { next: returnToCampUseOneHour };
     player.orgasm();
     player.stats.sens += -1;
 
+    return { next: returnToCampUseOneHour };
 }
 
 // [=Let Amily Lead=]
@@ -3142,13 +3137,13 @@ function letAmilyLead(player: Character): NextScreenChoices {
     amilySprite();
 
     CView.text("Not saying anything, you simply grin at her. After a moment, Amily realizes what you want her to do (or maybe what you're offering her). She blushes a little, but then answers your grin with one of her own, before grabbing your hand and leading you to her nest. You're not completely sure, but you think you notice a certain spring in her step - and her tail seems to almost have a mind of its own, weaving back and forth and occasionally caressing your " + describeLeg(player) + ".\n\n");
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    const choices: Array = [];
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
+    const choices: number[] = [];
     // POPULATE ARRAY WITH POSSIBLE SEX OPTIONS
     // ========================================
     if (player.body.cocks.length > 0) {
         // Too big
-        if (x === -1) CView.text("Amily glances down at the beast between your legs and says, \"<i>I was going to ride you, but since you're SOOO big I think I'll have to get creative...</i>\"\n\n");
+        if (!cockThatFits) CView.text("Amily glances down at the beast between your legs and says, \"<i>I was going to ride you, but since you're SOOO big I think I'll have to get creative...</i>\"\n\n");
         // Add 'get ridden' if it fits.
         else choices[choices.length] = 3;
         // All males get tailjobs
@@ -3175,11 +3170,10 @@ function letAmilyLead(player: Character): NextScreenChoices {
         CView.text("You'd never have expected the little mousegirl to do something like this - and you certainly would never have thought it would feel so good. Sure enough, you soon feel yourself reaching the \"<i>point of no return</i>\", but any attempts to tell her that you won't be able to hold back much longer are made futile by her enduring kisses. You're quite sure she's smiling at your predicament - she probably planned for this to happen. Shrugging mentally, you decide to go with the flow and worry about it later. So you try to relax (as much as you can do that while Amily is giving you an incredible tailjob...) and simply enjoy the feeling. Sure enough, it doesn't take her much longer to finally make you cum. Breaking the kiss, she steps back and with a broad grin asks: \"<i>Did you enjoy that, you naughty " + mf(player, "man", "girl") + "?</i>\"\n\n");
 
         CView.text("Naturally, you tell her that you enjoyed it very much, and with a smile, Amily helps you clean up. \"<i>If you liked it that much...</i>\" she says over her shoulder and winks at you as she goes to take care of something else.\n\n");
-        return { next: returnToCampUseOneHour };
         player.orgasm();
         player.stats.sens += -1;
 
-        return;
+        return { next: returnToCampUseOneHour };
     }
     // B2: Hand/Footjob
     else if (scene === 1) {
@@ -3190,11 +3184,10 @@ function letAmilyLead(player: Character): NextScreenChoices {
         CView.text("Looking at her hands and feet covered by your cum, Amily jokingly accuses you of forcing her to clean herself yet again, just because you have no control. Your eyes widen a bit in surprise when the mousegirl lightly licks one of her hands and comments \"<i>Mmhhmm... not bad, actually...</i>\" With a grin, she cleans up the results of her hand-and-foot-job before pulling you to your feet again. \"<i>Back to work, Champion!</i>\"\n\n");
 
         CView.text("With a satisfied smile, you turn to other things.");
-        return { next: returnToCampUseOneHour };
         player.orgasm();
         player.stats.sens += -1;
 
-        return;
+        return { next: returnToCampUseOneHour };
     }
     // B3: Eat Out
     else if (scene === 2) {
@@ -3219,11 +3212,10 @@ function letAmilyLead(player: Character): NextScreenChoices {
         // (if Amily is herm:
         if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text("and limp cock ");
         CView.text("across your chest as she repositions herself so that she is looking you in the eyes, laying atop you. \"<i>You always know how to make a girl feel special, don't you?</i>\" she says, softly. Then she kisses you, probing her tongue deep into your mouth to get a good taste of her juices, before wriggling off of you, grabbing her pants and running merrily away. You watch her go, then clean yourself off.\n\n");
-        return { next: returnToCampUseOneHour };
         player.stats.int += .25;
         player.stats.lust += 10;
 
-        return;
+        return { next: returnToCampUseOneHour };
     }
     // B4: Get Ridden
     else if (scene === 3) {
@@ -3244,12 +3236,11 @@ function letAmilyLead(player: Character): NextScreenChoices {
         CView.text(", and then collapses onto your front. You lie there together, arms unthinkingly winding around each other. Amily is the first of you to stir. \"<i>Do you... Are you happy, that I'm here?</i>\" You assure her that you are. \"<i>That's good...</i>\" She yawns. \"<i>Because I'm so happy to be here with you.</i>\"\n\n");
 
         CView.text("Exhausted, you feel a quick nap is in order yourself. When you wake up, you're alone in the nest but Amily is nearby; she hands you some food and then points you in the direction of the stream to wash up.\n\n");
-        return amilyPreggoChance(player);
-        return { next: returnToCampUseOneHour };
+        amilyPreggoChance(player);
         player.orgasm();
         player.stats.sens += -1;
 
-        return;
+        return { next: returnToCampUseOneHour };
     }
     // B5: Suck Off
     else if (scene === 4) {
@@ -3266,11 +3257,10 @@ function letAmilyLead(player: Character): NextScreenChoices {
         else CView.text("For a guy?</i>\"\n\n");
 
         CView.text("You shrug, uncertain. Slowly, Amily sits up and gets off of you. \"<i>I... um... thank you.</i>\" She says, then quickly steals a kiss from you before running off. She's in such a hurry that she's clear over on the other side of the camp before you can tell her that she left her pants behind.");
-        return { next: returnToCampUseOneHour };
         player.stats.int += .25;
         player.stats.lust += 10;
 
-        return;
+        return { next: returnToCampUseOneHour };
     }
     // Let Amily Lead: Amily Mounts You
     else if (scene === 5) {
@@ -3306,7 +3296,7 @@ function letAmilyLead(player: Character): NextScreenChoices {
         CView.text("Slowly, she raises her head and pecks you affectionately on the lips. \"<i>Thank you,</i>\" is all she says, continuing to lay there with you for a while. Then she picks herself up and walks away, and you do the same.");
         // PREGGO CHECK HERE
         if (AmilyFlags.AMILY_ALLOWS_FERTILITY === 1) {
-            player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.AMILY, IncubationTime.MOUSE));
+            player.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.AMILY, IncubationTime.MOUSE));
         }
         player.orgasm();
         player.stats.sens += -1;
@@ -3320,6 +3310,7 @@ function giveAmilyAPresent(player: Character): NextScreenChoices {
     amilySprite();
     CView.clear();
 
+    const choices: ScreenChoice[] = [];
     let haveGift: boolean = false;
     if (AmilyFlags.AMILY_FOLLOWER === 1) {
         CView.text("You tell Amily that you have something you want to give her.\n\n");
@@ -3363,7 +3354,7 @@ function giveAmilyAPresent(player: Character): NextScreenChoices {
         choices[7] = ["Suc. Delite", giveCorruptAmilySuccubusDelight];
         haveGift = true;
     }
-    if (player.inventory.items.has(ComfortClothes)) {
+    if (player.inventory.items.has(ArmorName.ComfortClothes)) {
         choices[8] = ["Clothes", giveAmilySomePants];
         haveGift = true;
     }
@@ -3395,6 +3386,7 @@ function giveAmilyAPresent(player: Character): NextScreenChoices {
         else CView.text("You realize you don't have any items worth using on her.");
         choices[0] = ["Next", amilyFollowerEncounter];
     }
+    return { choices };
 }
 
 // [Purified Incubus Draft - If Amily is a Female]
@@ -3430,12 +3422,11 @@ export function giveAmilyPureIncubusDraft(player: Character): NextScreenChoices 
 
                 CView.text("You put the vial back in its pouch, as Amily excuses herself and walks off.");
                 return { next: campMenu };
-                return;
             }
             // [Purified Incubus Draft - If Amily is Hermaphrodite]
             CView.text("She looks disdainfully at the vial in your hand. \"<i>What, am I not big enough for you already? Oh well, I suppose if it makes you happy.</i>\" She snatches it from your hand and gulps it down. She tries her best to look apathetic, but is unable to help either the pleased moan or the dribbles of pre-cum that stain her clothes as her penis grows erect and then longer, at least a full inch so.  Breathing heavily, she pants, \"<i>Why does this have to actually feel good?</i>\"  Then she turns and lurches drunkenly away. You decide against following her and wander off in the other direction.\n\n");
             player.inventory.items.consumeItem(ConsumableName.IncubusDraftPure);
-            return amilyDickGrow(player);
+            amilyDickGrow(player);
             return { next: amilyFollowerEncounter };
         }
         // Normal Amily
@@ -3480,7 +3471,7 @@ export function giveAmilyPureIncubusDraft(player: Character): NextScreenChoices 
             CView.text("She opens her legs to give you a good view and downs the whole bottle in one go. She moans as her cock turns purple and grows impossibly hard, her veins bulging along the shaft as she cums. With every throb her cock grows a bit longer and a bit thicker as well, finally stopping when it's a couple inches bigger. She pants with pleasure and says, \"<i>Thank you, " + mf(player, "master", "mistress") + ", for allowing this horny cum-bucket the honor of possessing such a wonderful tool.</i>\"\n\n");
 
             CView.text("Satisfied, you dismiss her with a wave and go about your business.");
-            return amilyDickGrow(player);
+            amilyDickGrow(player);
             return { next: amilyFollowerEncounter };
         }
         // Too big!
@@ -3537,11 +3528,11 @@ function giveAmilyPureIncubusDraft4Realz(player: Character): NextScreenChoices {
     CView.text("Amily is now a hermaphrodite. Her human-like penis is four inches long and one inch thick.\n\n");
 
     CView.text("Catching her breath, she stares at her new appendage with an unreadable expression, then pulls her clothes back on with a grimace. You decide to give her some time alone to adjust to the change.");
-    return amilyDickGrow(player);
+    amilyDickGrow(player);
     return { next: amilyFollowerEncounter };
 }
 
-function amilyDickGrow(player: Character): NextScreenChoices {
+function amilyDickGrow(player: Character) {
     // AmilyFlags.AMILY_WANG_LENGTH - length
     // AmilyFlags.AMILY_WANG_GIRTH - girth
     // If no wang, grow.
@@ -3743,12 +3734,12 @@ export function giveAmilyAWhiteEgg(player: Character): NextScreenChoices {
             if (player.inventory.items.has(ConsumableName.EggWhite)) {
                 player.inventory.items.consumeItem(ConsumableName.EggWhite);
                 AmilyFlags.AMILY_NIPPLE_LENGTH += .25;
-                AmilyFlags.AMILY_NIPPLE_LENGTH = int(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
+                AmilyFlags.AMILY_NIPPLE_LENGTH = Math.floor(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
             }
             else {
                 player.inventory.items.consumeItem(ConsumableName.LargeEggWhite);
                 AmilyFlags.AMILY_NIPPLE_LENGTH += .7;
-                AmilyFlags.AMILY_NIPPLE_LENGTH = int(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
+                AmilyFlags.AMILY_NIPPLE_LENGTH = Math.floor(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
             }
             if (AmilyFlags.AMILY_NIPPLE_LENGTH > maxSizePure && !AmilyFlags.HYPER_HAPPY) {
                 AmilyFlags.AMILY_NIPPLE_LENGTH = maxSizePure;
@@ -3767,12 +3758,12 @@ export function giveAmilyAWhiteEgg(player: Character): NextScreenChoices {
         if (player.inventory.items.has(ConsumableName.EggWhite)) {
             player.inventory.items.consumeItem(ConsumableName.EggWhite);
             AmilyFlags.AMILY_NIPPLE_LENGTH += .25;
-            AmilyFlags.AMILY_NIPPLE_LENGTH = int(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
+            AmilyFlags.AMILY_NIPPLE_LENGTH = Math.floor(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
         }
         else {
             player.inventory.items.consumeItem(ConsumableName.LargeEggWhite);
             AmilyFlags.AMILY_NIPPLE_LENGTH += .7;
-            AmilyFlags.AMILY_NIPPLE_LENGTH = int(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
+            AmilyFlags.AMILY_NIPPLE_LENGTH = Math.floor(AmilyFlags.AMILY_NIPPLE_LENGTH * 100) / 100;
         }
     }
     return { next: amilyFollowerEncounter };
@@ -3849,7 +3840,6 @@ export function giveAmilyAPurpleEgg(player: Character): NextScreenChoices {
     amilySprite();
     const maxSizePure: number = 16;
     const maxSizeCorr: number = 20;
-    const maxSizeHypr: number = 35;
 
     CView.text("You hold out a purple egg, telling her that it will make her hips grow.\n\n");
     if (AmilyFlags.AMILY_FOLLOWER === 1) {
@@ -3918,7 +3908,7 @@ export function giveAmilySomePants(player: Character): NextScreenChoices {
     amilySprite();
     CView.text("You offer her a set of comfortable clothes, asking if she'd like to wear these instead of her " + AmilyFlags.AMILY_CLOTHING + " she's wearing.\n\n");
     // If you played an early build that didnt initialize clothes.
-    if (AmilyFlags.AMILY_CLOTHING === 0) AmilyFlags.AMILY_CLOTHING = "rags";
+    if (AmilyFlags.AMILY_CLOTHING === "") AmilyFlags.AMILY_CLOTHING = "rags";
     // (If Amily is wearing Tattered Rags:
     if (AmilyFlags.AMILY_CLOTHING === "rags" || AmilyFlags.AMILY_CLOTHING === "sexy rags") {
         CView.text("Her eyes light up with glee. \"<i>Oh, I've always wanted some more clothes! Please, let me have them!</i>\" she squeaks with delight as you hand them over, carelessly stripping herself and throwing her old clothes aside before pulling on her new gear. She spins idly in place as she strives to examine how she looks, then she runs off to the stream to get a better view of her reflection.");
@@ -3929,7 +3919,7 @@ export function giveAmilySomePants(player: Character): NextScreenChoices {
         CView.text("\"<i>More new clothes? Ooh, you're spoiling me, " + player.desc.name + "</i>!\" she teases you. Unabashed in the slightest at being naked in front of you, she strips down, doing her best to give you a little show as she does so. She then redresses herself in her new offering. \"<i>How do I look?</i>\" she giggles.\n\n");
         CView.text("You assure her that she looks beautiful. \"<i>Flatterer.</i>\" She smirks, and then wanders off to the stream.");
     }
-    player.inventory.items.consumeItem(ComfortClothes);
+    player.inventory.items.consumeItem(ArmorName.ComfortClothes);
     return { next: amilyFollowerEncounter };
 }
 /*
@@ -4076,7 +4066,6 @@ function amilyButt(): string {
 
 function amilyBalls(): string {
     if (AmilyFlags.AMILY_HAS_BALLS_AND_SIZE === 0) return "prostate";
-    let descripted: boolean;
     let rando: number;
     let desc: string = "";
     rando = randInt(3);
@@ -4186,7 +4175,7 @@ export function amilyCock(): string {
     let descripted: boolean = false;
     let rando: number;
     // Discuss length one in 3 times.
-    if (int(Math.random() * 3) === 0) {
+    if (Math.floor(Math.random() * 3) === 0) {
         if (AmilyFlags.AMILY_WANG_LENGTH < 3) descript = "squat ";
         if (AmilyFlags.AMILY_WANG_LENGTH >= 3 && AmilyFlags.AMILY_WANG_LENGTH < 5) descript = "short ";
         if (AmilyFlags.AMILY_WANG_LENGTH >= 5 && AmilyFlags.AMILY_WANG_LENGTH < 7) descript = "average ";
@@ -4199,7 +4188,7 @@ export function amilyCock(): string {
     }
 
     // Discuss girth one in 3 times.
-    if (int(Math.random() * 3) === 0) {
+    if (Math.floor(Math.random() * 3) === 0) {
         // narrow, thin, ample, broad, distended, voluminous
         if (AmilyFlags.AMILY_WANG_GIRTH <= .75) descript += "narrow ";
         if (AmilyFlags.AMILY_WANG_GIRTH > 1 && AmilyFlags.AMILY_WANG_GIRTH <= 1.4) descript += "ample ";
@@ -4208,7 +4197,7 @@ export function amilyCock(): string {
         if (AmilyFlags.AMILY_WANG_GIRTH > 3.5) descript += "distended ";
         descripted = true;
     }
-    rando = int(Math.random() * 10);
+    rando = Math.floor(Math.random() * 10);
     if (rando >= 0 && rando <= 4) descript += "cock";
     if (rando === 5 || rando === 6) descript += "prick";
     if (rando === 7) descript += "pecker";
@@ -4219,52 +4208,52 @@ export function amilyCock(): string {
 function amilyNipples(): string {
     let descripted: boolean = false;
     let description: string = "";
-    let rando: number;
+    let randNum: number;
     // Size descriptors 33% chance
     if (randInt(4) === 0) {
         // TINAHHHH
         if (AmilyFlags.AMILY_NIPPLE_LENGTH < .25) {
-            temp = randInt(3);
-            if (temp === 0) description += "tiny ";
-            if (temp === 1) description += "itty-bitty ";
-            if (temp === 2) description += "teeny-tiny ";
-            if (temp === 3) description += "dainty ";
+            randNum = randInt(3);
+            if (randNum === 0) description += "tiny ";
+            if (randNum === 1) description += "itty-bitty ";
+            if (randNum === 2) description += "teeny-tiny ";
+            if (randNum === 3) description += "dainty ";
         }
         // Prominant
         if (AmilyFlags.AMILY_NIPPLE_LENGTH >= .4 && AmilyFlags.AMILY_NIPPLE_LENGTH < 1) {
-            temp = randInt(5);
-            if (temp === 0) description += "prominent ";
-            if (temp === 1) description += "pencil eraser-sized ";
-            if (temp === 2) description += "eye-catching ";
-            if (temp === 3) description += "pronounced ";
-            if (temp === 4) description += "striking ";
+            randNum = randInt(5);
+            if (randNum === 0) description += "prominent ";
+            if (randNum === 1) description += "pencil eraser-sized ";
+            if (randNum === 2) description += "eye-catching ";
+            if (randNum === 3) description += "pronounced ";
+            if (randNum === 4) description += "striking ";
         }
         // Big 'uns
         if (AmilyFlags.AMILY_NIPPLE_LENGTH >= 1 && AmilyFlags.AMILY_NIPPLE_LENGTH < 2) {
-            temp = randInt(4);
-            if (temp === 0) description += "forwards-jutting ";
-            if (temp === 1) description += "over-sized ";
-            if (temp === 2) description += "fleshy ";
-            if (temp === 3) description += "large protruding ";
+            randNum = randInt(4);
+            if (randNum === 0) description += "forwards-jutting ";
+            if (randNum === 1) description += "over-sized ";
+            if (randNum === 2) description += "fleshy ";
+            if (randNum === 3) description += "large protruding ";
         }
         // 'Uge
         if (AmilyFlags.AMILY_NIPPLE_LENGTH >= 2 && AmilyFlags.AMILY_NIPPLE_LENGTH < 3.2) {
-            temp = randInt(5);
-            if (temp === 0) description += "enlongated ";
-            if (temp === 1) description += "massive ";
-            if (temp === 2) description += "awkward ";
-            if (temp === 3) description += "lavish ";
-            if (temp === 4) description += "hefty ";
+            randNum = randInt(5);
+            if (randNum === 0) description += "enlongated ";
+            if (randNum === 1) description += "massive ";
+            if (randNum === 2) description += "awkward ";
+            if (randNum === 3) description += "lavish ";
+            if (randNum === 4) description += "hefty ";
         }
         // Massive
         if (AmilyFlags.AMILY_NIPPLE_LENGTH >= 3.2) {
-            temp = randInt(4);
-            if (temp === 0) description += "bulky ";
-            if (temp === 1) description += "ponderous ";
-            if (temp === 2) description += "unmanageable ";
-            if (temp === 3) description += "thumb-sized ";
-            if (temp === 4) description += "cock-sized ";
-            if (temp === 5) description += "cow-like ";
+            randNum = randInt(4);
+            if (randNum === 0) description += "bulky ";
+            if (randNum === 1) description += "ponderous ";
+            if (randNum === 2) description += "unmanageable ";
+            if (randNum === 3) description += "thumb-sized ";
+            if (randNum === 4) description += "cock-sized ";
+            if (randNum === 5) description += "cow-like ";
         }
         descripted = true;
     }
@@ -4274,45 +4263,45 @@ function amilyNipples(): string {
         if (AmilyFlags.AMILY_LACTATION_RATE > 0) {
             // Light lactation
             if (AmilyFlags.AMILY_LACTATION_RATE <= 1) {
-                temp = randInt(3);
-                if (temp === 0) description += "milk moistened ";
-                if (temp === 1) description += "slightly lactating ";
-                if (temp === 2) description += "milk-dampened ";
+                randNum = randInt(3);
+                if (randNum === 0) description += "milk moistened ";
+                if (randNum === 1) description += "slightly lactating ";
+                if (randNum === 2) description += "milk-dampened ";
             }
             // Moderate lactation
             if (AmilyFlags.AMILY_LACTATION_RATE > 1 && AmilyFlags.AMILY_LACTATION_RATE <= 2) {
-                temp = randInt(3);
-                if (temp === 0) description += "lactating ";
-                if (temp === 1) description += "milky ";
-                if (temp === 2) description += "milk-seeping ";
+                randNum = randInt(3);
+                if (randNum === 0) description += "lactating ";
+                if (randNum === 1) description += "milky ";
+                if (randNum === 2) description += "milk-seeping ";
             }
             // Heavy lactation
             if (AmilyFlags.AMILY_LACTATION_RATE > 2) {
-                temp = randInt(4);
-                if (temp === 0) description += "dripping ";
-                if (temp === 1) description += "dribbling ";
-                if (temp === 2) description += "milk-leaking ";
-                if (temp === 3) description += "drooling ";
+                randNum = randInt(4);
+                if (randNum === 0) description += "dripping ";
+                if (randNum === 1) description += "dribbling ";
+                if (randNum === 2) description += "milk-leaking ";
+                if (randNum === 3) description += "drooling ";
             }
             descripted = true;
         }
     }
     // Nounsssssssss*BOOM*
-    temp = randInt(5);
-    if (temp === 0) description += "nipple";
-    if (temp === 1) {
+    randNum = randInt(5);
+    if (randNum === 0) description += "nipple";
+    if (randNum === 1) {
         if (AmilyFlags.AMILY_NIPPLE_LENGTH < .5) description += "perky nipple";
         else description += "cherry-like nub";
     }
-    if (temp === 2) {
+    if (randNum === 2) {
         if (AmilyFlags.AMILY_LACTATION_RATE >= 1 && AmilyFlags.AMILY_NIPPLE_LENGTH >= 1) description += "teat";
         else description += "nipple";
     }
-    if (temp === 3) {
+    if (randNum === 3) {
         if (AmilyFlags.AMILY_LACTATION_RATE >= 1 && AmilyFlags.AMILY_NIPPLE_LENGTH >= 1) description += "teat";
         else description += "nipple";
     }
-    if (temp === 4) {
+    if (randNum === 4) {
         description += "nipple";
     }
     return description;
@@ -4521,7 +4510,7 @@ function corruptAmilysPussyGetsMotherfuckingFucked(player: Character): NextScree
 
     CView.text("You tell Amily to spread her legs and begin undressing, peeling off your " + player.inventory.equipment.armor.displayName + " piece by piece. Amily doesn't even bother to speak to you; she simply grins in delight, moisture already beginning to flow from her gaping pink vagina.\n\n");
     // (If pregnant:
-    if (pregnancy.event >= 3) CView.text("  Her gravid state doesn't faze her; indeed, she thrusts her bump forward proudly, a visible sign of your mastery over her.");
+    if (amilyWomb.event >= 3) CView.text("  Her gravid state doesn't faze her; indeed, she thrusts her bump forward proudly, a visible sign of your mastery over her.");
     CView.text("  She flops down onto her " + amilyButt() + " and rolls backwards, spreading her legs out eagerly for you to have access and waving them like hungry, groping limbs, reaching for you in her impatience to start.  You grin in delight, but decide to tease the slutty " + ((AmilyFlags.AMILY_NOT_FURRY === 0) ? "mousette" : "succubus") + " by staying just out of the reach of her " + ((AmilyFlags.AMILY_NOT_FURRY === 0) ? "foot-claws" : "shapely feet") + ".  \"<i>If you want it, then tell me just how much you want it slut,</i>\" you tease her mockingly, stroking your " + describeCock(player, player.body.cocks.get(0)) + " into erection. " + ((AmilyFlags.AMILY_NOT_FURRY === 0) ? " Just watch the heels, and don't dare injure your master." : ""));
     // [(if PC has a vagina)
     if (player.body.vaginas.length > 0) CView.text("  Your other hand probes your moist fuck-hole for lube to help with your stroking.");
@@ -4529,7 +4518,7 @@ function corruptAmilysPussyGetsMotherfuckingFucked(player: Character): NextScree
 
     CView.text("Amily doesn't even roll her eyes, she is that much of a helplessly loyal slut for you. \"<i>I want it, " + mf(player, "master", "mistress") + "! I want it more than anything else! I'm a cum-dumpster, a baby factory - I need cum in my hungry pussy, or I'll just fade away! Please, " + mf(player, "master", "mistress") + ", pump me full of your hot, salty, gooey cum!");
     // (If not pregnant:
-    if (!pregnancy.isPregnant) CView.text("  I want you to fuck me full of cum, bloat me with seed until I'm a ball of skin over spooge with a head and limbs sticking out! I need to be full and round with the very stuff of life; fucking cum into me, " + mf(player, "master", "mistress") + "!");
+    if (!amilyWomb.isPregnant()) CView.text("  I want you to fuck me full of cum, bloat me with seed until I'm a ball of skin over spooge with a head and limbs sticking out! I need to be full and round with the very stuff of life; fucking cum into me, " + mf(player, "master", "mistress") + "!");
     // (If pregnant:
     else CView.text("  The babies need their cum, " + mf(player, "Master", "Mistress") + ". They won't grow strong and healthy and slutty if you don't flood their womb with your hot baby-making juice! Please, cum and fill me with cum, for their sake?");
     CView.text("</i>\"\n\n");
@@ -4541,7 +4530,7 @@ function corruptAmilysPussyGetsMotherfuckingFucked(player: Character): NextScree
 
     CView.text("\"<i>Torturing myself you say? I think you're right. Maybe I should see if ");
     // [(if Jojo's corrupt)
-    if (monk >= 5 && AmilyFlags.JOJO_DEAD_OR_GONE === 0) CView.text("Jojo wants to play,");
+    if (PlayerFlags.monk >= 5 && AmilyFlags.JOJO_DEAD_OR_GONE === 0) CView.text("Jojo wants to play,");
     // (else)
     else CView.text("I can't find someone else to play with,");
     CView.text("</i>\" you say, nonchalantly attempting to pull away from her. \"<i>No!</i>\" Amily screams; her legs tighten about your waist with such force that she actually lifts herself off of the ground in her eagerness to plant herself firmly against your crotch, rubbing her slavering pussy against you. \"<i>Mine! My fuck! Mine!</i>\" she squeaks indignantly. You laugh at how far you've pushed your little mouse slave.  Sliding your " + describeCock(player, player.body.cocks.get(0)) + " against her pussy, you bend down and grope her breasts roughly, drawing a desperate moan from her; slowly you get closer to her ears, then whisper, \"<i>Go ahead,</i>\" while humping against her to further excite her.\n\n");
@@ -4569,7 +4558,7 @@ function corruptAmilysPussyGetsMotherfuckingFucked(player: Character): NextScree
 
     CView.text("You feel it's time to end this. With one last vicious thrust, you cause Amily to dig slightly into the floor and cum. Painting her walls all the way to her womb, you unload.  Even her cervix is unable to stop the torrent you unleash upon her.");
     // [(If Amily is pregnant)
-    if (pregnancy.isPregnant) CView.text("  You wonder if your unborn children will appreciate their bath. Their mother certainly does.");
+    if (amilyWomb.isPregnant()) CView.text("  You wonder if your unborn children will appreciate their bath. Their mother certainly does.");
     // (If not squirter:
     if (AmilyFlags.AMILY_VAGINAL_WETNESS < 5) CView.text("  Her fluids slop wetly over your crotch, painting between your legs with her lubricant.");
     // (If squirter:
@@ -4582,7 +4571,7 @@ function corruptAmilysPussyGetsMotherfuckingFucked(player: Character): NextScree
     // [(if PC has large cum amount)
     if (player.cumQ() >= 1000) {
         // (if Amily is not pregnant)
-        if (!pregnancy.isPregnant) CView.text("  Amily's womb is so full of cum that it's bloated as if she was carrying a full litter of mousy sluts ready to birth.");
+        if (!amilyWomb.isPregnant()) CView.text("  Amily's womb is so full of cum that it's bloated as if she was carrying a full litter of mousy sluts ready to birth.");
         // (else)
         else CView.text("  Amily's belly looks ready to explode; besides the litter she's carrying, you've also filled her with enough cum to feed the little mousy sluts for week.");
     }
@@ -4591,7 +4580,7 @@ function corruptAmilysPussyGetsMotherfuckingFucked(player: Character): NextScree
     if (player.body.vaginas.length > 0) CView.text("  Despite being neglected during the act, your " + describeVagina(player, player.body.vaginas.get(0)) + " leaks fluids to join Amily's on the floor.");
     CView.text("  Amily pants loudly and sighs in satisfaction. Hesitantly, one hand dares to reach out and stroke your " + describeFaceShort(player) + ". \"<i>Mmm... You are the light of my world, " + mf(player, "master", "mistress") + ".");
     // (if not pregnant:
-    if (!pregnancy.isPregnant) CView.text("  I can only hope you've knocked me up, so I can do what I was made for,");
+    if (!amilyWomb.isPregnant()) CView.text("  I can only hope you've knocked me up, so I can do what I was made for,");
     else CView.text("  I almost wish I wasn't pregnant, just so I could have the pleasure of knowing you've knocked me up,");
     CView.text("</i>\" she tells you softly.\n\n");
 
@@ -4601,7 +4590,7 @@ function corruptAmilysPussyGetsMotherfuckingFucked(player: Character): NextScree
     // [(if PC has a pussy)
     if (player.body.vaginas.length > 0) CView.text("  Once she's done with your cock she begins licking your thighs; ensuring none of your precious juices go to waste.");
     CView.text("  Amily licks her lips after her task and looks up at you lovingly. You pat her head and dress up, before leaving the mousette to her own devices.");
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     player.orgasm();
     player.stats.sens += -2;
     player.stats.cor += 2;
@@ -4672,7 +4661,7 @@ function corruptAmilyCampBonesPCWithHerCock(player: Character): NextScreenChoice
     else CView.text("  If she did, you'll just have to tie her up and get someone to return the favor...");
 
     // Preg chanceeee
-    player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.MOUSE, IncubationTime.MOUSE));
+    player.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.MOUSE, IncubationTime.MOUSE));
     player.orgasm();
     player.stats.sens += -2;
     player.stats.cor += 2;
@@ -4745,7 +4734,7 @@ function amilyIsTotallyALesbo(player: Character): NextScreenChoices {
     CView.text("You interject, telling her to slow down and breathe, you're not going anywhere. Amily pants, then finally squeaks out, \"<i>I'm in love with you!</i>\" before her face turns bright red. Stunned, you ask her to repeat that. \"<i>I said... I'm in love with you. I... ah, forget it, who was I kidding?</i>\" She trails off, sadly, and you watch as she begins to turn around and shuffle off.");
     // Set flag that she's confessed her lesbo-live!
     AmilyFlags.AMILY_CONFESSED_LESBIAN = 1;
-    return { choices: [["Stop Her", amilyLesboStopHer], ["Let Her Go", amilyLesboLetHerGo], ["", undefined], ["", undefined], ["", undefined], ] };
+    return { choices: [["Stop Her", amilyLesboStopHer], ["Let Her Go", amilyLesboLetHerGo]] };
 }
 // [=Stop Her=]
 function amilyLesboStopHer(player: Character): NextScreenChoices {
@@ -4790,7 +4779,7 @@ function amilyPostConfessionGirlRemeeting(player: Character): NextScreenChoices 
     CView.text("She looks down at the ground, unable to meet your eyes, then pulls her tattered pants down to reveal something you never would have expected. A penis - a four inch long, surprisingly human-like penis, already swelling to erection. Blushing, she starts to speak, still not looking at you. \"<i>I... I thought that, if it's my idea and all, I should be the one to grow this thing... Please, I love you, I want to have children with you, can't we -</i>\"\n\n");
     AmilyFlags.AMILY_WANG_LENGTH = 4;
     AmilyFlags.AMILY_WANG_GIRTH = 1;
-    return { choices: [["Accept", amilyOnGirlSurpriseBonerAcceptance], ["Reject", amilyOnGirlSurpriseBonerREJECT], ["", undefined], ["", undefined], ["", undefined], ] };
+    return { choices: [["Accept", amilyOnGirlSurpriseBonerAcceptance], ["Reject", amilyOnGirlSurpriseBonerREJECT]] };
 }
 // [=Accept=]
 function amilyOnGirlSurpriseBonerAcceptance(player: Character): NextScreenChoices {
@@ -4881,8 +4870,8 @@ export function hermilyOnFemalePC(player: Character): NextScreenChoices {
 
     CView.text("You smile and reach up to stroke her cheek. She smiles back and reaches down to pat you on your belly.");
     // (If player is preg
-    if (player.pregnancy.womb.isPregnant()) {
-        if (player.pregnancyType === PregnancyType.AMILY)
+    if (player.body.wombs.find(Womb.Pregnant)) {
+        if (player.body.wombs.find(Womb.PregnantWithType(PregnancyType.AMILY)))
             CView.text("\"<i>Boy, this is weird.  I'm a woman and I'm going to be a dad.");
         else CView.text("\"<i>After you give birth to this baby come and see me when you're ready for mine.  This is really weird, I'm a woman and I can't wait to be a dad.");
     }
@@ -4890,7 +4879,7 @@ export function hermilyOnFemalePC(player: Character): NextScreenChoices {
     else {
         CView.text("\"<i>Let's see if you'll be a mommy from this load... If not, well, I guess we'll have to try again.");
         // PREGGO CHECK HERE
-        player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.AMILY, IncubationTime.MOUSE));
+        player.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.AMILY, IncubationTime.MOUSE));
     }
     CView.text("</i>\"  Chuckling softly, you lay there and embrace your lover for a time and then, reluctantly, you get dressed and leave.");
     player.orgasm();
@@ -4905,8 +4894,7 @@ export function pcBirthsAmilysKidsQuestVersion(player: Character): NextScreenCho
     AmilyFlags.PC_TIMES_BIRTHED_AMILYKIDS++;
     // In camp version:
     if (AmilyFlags.AMILY_FOLLOWER === 1) {
-        return playerBirthsWifAmilyMiceInCamp(player);
-        return;
+        playerBirthsWifAmilyMiceInCamp(player);
     }
     // Quest Ending: Herm Amily Variant
     // Requirements: Player must have given birth to a litter of Amily's children at least five times before.
@@ -4927,7 +4915,6 @@ export function pcBirthsAmilysKidsQuestVersion(player: Character): NextScreenCho
         AmilyFlags.PC_PENDING_PREGGERS = 1;
         // To part 2!
         return { next: postBirthingEndChoices };
-        return;
     }
     CView.text("You wake up suddenly to strong pains and pressures in your gut. As your eyes shoot wide open, you look down to see your belly absurdly full and distended. You can feel movement underneath the skin, and watch as it is pushed out in many places, roiling and squirming in disturbing ways. The feelings you get from inside are just as disconcerting. You count not one, but many little things moving around inside you. There are so many, you can't keep track of them.\n\n");
 
@@ -4955,7 +4942,7 @@ export function postBirthingEndChoices(player: Character): NextScreenChoices {
     CView.text(", but... I love you. The children, they're going to leave here now, and set up a new village somewhere else. But I... I want to stay here with you. Forever. Please, say yes.</i>\"\n\n");
     CView.text("Do you accept her offer?");
     AmilyFlags.PC_TIMES_BIRTHED_AMILYKIDS++;
-    return { choices: [["Accept", acceptAmilyAsYourFemaleWaifu], ["StayFriends", declineButBeFriends], ["ShootDown", notInterestedInDumbshitMouseBitches], ["", undefined], ["", undefined], ] };
+    return { choices: [["Accept", acceptAmilyAsYourFemaleWaifu], ["StayFriends", declineButBeFriends], ["ShootDown", notInterestedInDumbshitMouseBitches]] };
 }
 
 // [=Accept=]
@@ -5033,7 +5020,6 @@ function amilyNewGenderConfrontation(player: Character): NextScreenChoices {
                 CView.text("Amily looks quite upset, and then her expression changes to one of resolve. \"<i>I won't pretend to know how this happened, or to understand why you would do this voluntarily, if that was the case, but you mean too much to me to let you go over something like this.</i>\" She seizes hold of your hand, fiercely, and starts determinedly pulling you along. \"<i>Come with me!</i>\" She orders.");
                 // (Amily Yuri sex scene plays.)
                 return { next: girlyGirlMouseSex };
-                return;
             }
         }
         // [Male To Herm]
@@ -5102,7 +5088,6 @@ function amilyNewGenderConfrontation(player: Character): NextScreenChoices {
                 AmilyFlags.AMILY_OFFER_ACCEPTED = 1;
                 // (Play High Affection Male sex scene.)
                 return { next: amilySexHappens };
-                return;
             }
         }
         // [Female to Herm]
@@ -5171,9 +5156,8 @@ function amilyNewGenderConfrontation(player: Character): NextScreenChoices {
                 AmilyFlags.AMILY_OFFER_ACCEPTED = 1;
                 // (Use the Remeeting scene options.)
                 if (player.stats.lust >= 33) sex = sexWithAmily;
-                if (sex !== undefined) return { choices: [["Sex", sex], ["Talk", talkToAmily], ["Both", talkThenSexWithAmily], ["", undefined], ["", undefined], ] };
-                else return { choices: [["", undefined], ["Talk", talkToAmily], ["", undefined], ["", undefined], ["", undefined], ] };
-                return;
+                if (sex !== undefined) return { choices: [["Sex", sex], ["Talk", talkToAmily], ["Both", talkThenSexWithAmily]] };
+                else return { choices: [["", undefined], ["Talk", talkToAmily]] };
             }
             // High Affection:
             else {
@@ -5184,9 +5168,8 @@ function amilyNewGenderConfrontation(player: Character): NextScreenChoices {
                 AmilyFlags.AMILY_OFFER_ACCEPTED = 1;
                 // (Use the Remeeting scene options.)
                 if (player.stats.lust >= 33) sex = sexWithAmily;
-                if (sex !== undefined) return { choices: [["Sex", sex], ["Talk", talkToAmily], ["Both", talkThenSexWithAmily], ["", undefined], ["", undefined], ] };
-                else return { choices: [["", undefined], ["Talk", talkToAmily], ["", undefined], ["", undefined], ["", undefined], ] };
-                return;
+                if (sex !== undefined) return { choices: [["Sex", sex], ["Talk", talkToAmily], ["Both", talkThenSexWithAmily]] };
+                else return { choices: [["", undefined], ["Talk", talkToAmily]] };
             }
         }
         // [Herm to Female]
@@ -5197,7 +5180,6 @@ function amilyNewGenderConfrontation(player: Character): NextScreenChoices {
                 // (Amily gains a small amount of Affection, begin the Female variant of Amily's quest.)
                 AmilyFlags.AMILY_AFFECTION += 2;
                 return { next: talkToAmily };
-                return;
             }
             // Medium Affection:
             else if (AmilyFlags.AMILY_AFFECTION < 40) {
@@ -5294,8 +5276,8 @@ function whyNotHerms(player: Character): NextScreenChoices {
     CView.text("\"<i>But it's unnatural!</i>\" She barks... well, squeaks indignantly, anyway. \"<i>Women with cocks, men with cunts - before those fucking demons, you never saw creatures like that! They're not normal! I mean, you don't seem to be a bad person, but I could never have sex with someone like that!</i>\"\n\n");
 
     CView.text("At that, she turns and runs off, quickly vanishing into the rubble. You choose not to pursue; it seems she's clearly not in the mood to talk about it.\n\n");
-    return { next: returnToCampUseOneHour };
     AmilyFlags.AMILY_HERM_QUEST++;
+    return { next: returnToCampUseOneHour };
 }
 
 // "Maybe Herms Aren't So Bad":
@@ -5313,7 +5295,7 @@ function maybeHermsAintAllBadBITCH(player: Character): NextScreenChoices {
     // return { yes: beAmilysDadAsAHerm, no: fuckNoYouWontBeAmilysHermDaddy };
     let noFurry: ClickFunction;
     if (AmilyFlags.AMILY_NOT_FURRY === 0) noFurry = amilyNoFur;
-    return { choices: [["Yes", beAmilysDadAsAHerm], ["No", fuckNoYouWontBeAmilysHermDaddy], ["NoFurry", noFurry], ["", undefined], ["", undefined], ] };
+    return { choices: [["Yes", beAmilysDadAsAHerm], ["No", fuckNoYouWontBeAmilysHermDaddy], ["NoFurry", noFurry]] };
 }
 
 // [=Yes=]
@@ -5353,11 +5335,11 @@ export function makeAmilyAHerm(player: Character): NextScreenChoices {
 
     CView.text("You point out that it would be for the best for her plans; this way, the two of you will be able to bear litters simultaneously, so she can have children even faster and in greater numbers than before. Giving her a winning smile, you clasp hold of her hands gently and ask if she'll please consider doing it; for you?\n\n");
 
-    CView.text("Amily looks crestfallen, then finally nods her head, slowly. \"<i>I... I'm not really sure about this, but... if it's for you, " + player.desc.name + ", then... I'll do it.</i>\" She takes the vial, staring at it apprehensively, then pops the cork and swallows it down quickly in a single gulp. She shudders - first in disgust at what she actually drank, then with pleasure. Moaning ecstatically, she " + (pregnancy.event >= 6 ? "lifts her shirt" : "pulls off her pants") + " to give you a full view as her clitoris swells, longer and thicker; finally, skin peels back at the tip to reveal what is unmistakably the glans of a penis, complete with a cum-gouting slit as she experiences her first male orgasm.\n\n");
+    CView.text("Amily looks crestfallen, then finally nods her head, slowly. \"<i>I... I'm not really sure about this, but... if it's for you, " + player.desc.name + ", then... I'll do it.</i>\" She takes the vial, staring at it apprehensively, then pops the cork and swallows it down quickly in a single gulp. She shudders - first in disgust at what she actually drank, then with pleasure. Moaning ecstatically, she " + (amilyWomb.event >= 6 ? "lifts her shirt" : "pulls off her pants") + " to give you a full view as her clitoris swells, longer and thicker; finally, skin peels back at the tip to reveal what is unmistakably the glans of a penis, complete with a cum-gouting slit as she experiences her first male orgasm.\n\n");
 
     CView.text("Amily is now a hermaphrodite. Her human-like penis is four inches long and one inch thick.\n\n");
 
-    CView.text("Catching her breath, she " + (pregnancy.event >= 6 ? "tries to get a look at her new member over her bulging belly. When that fails she runs her hand over it, touching it carefully while maintaining an unreadable expression. Then she stares at you and says, " : "stares at her new appendage with an unreadable expression, then she stares at you.") + " \"<i>Well, now I've got a penis... so that means you're coming with me to let me try it out!</i>\"\n\n");
+    CView.text("Catching her breath, she " + (amilyWomb.event >= 6 ? "tries to get a look at her new member over her bulging belly. When that fails she runs her hand over it, touching it carefully while maintaining an unreadable expression. Then she stares at you and says, " : "stares at her new appendage with an unreadable expression, then she stares at you.") + " \"<i>Well, now I've got a penis... so that means you're coming with me to let me try it out!</i>\"\n\n");
 
     CView.text("You agree, and allow her to begin leading you to the \"<i>bedroom</i>\".");
     AmilyFlags.AMILY_WANG_LENGTH = 4;
@@ -5369,7 +5351,7 @@ export function makeAmilyAHerm(player: Character): NextScreenChoices {
 
 // ENHANCED CAMP FOLLOWER SHIT
 // Player gives Birth (camp follower version):
-function playerBirthsWifAmilyMiceInCamp(player: Character): NextScreenChoices {
+function playerBirthsWifAmilyMiceInCamp(player: Character) {
     amilySprite();
     CView.text("You wake up suddenly to strong pains and pressures in your gut. As your eyes shoot wide open, you look down to see your belly absurdly full and distended. You can feel movement underneath the skin, and watch as it is pushed out in many places, roiling and squirming in disturbing ways. The feelings you get from inside are just as disconcerting. You count not one, but many little things moving around inside you. There are so many, you can't keep track of them.\n\n");
 
@@ -5396,7 +5378,7 @@ function playerBirthsWifAmilyMiceInCamp(player: Character): NextScreenChoices {
 }
 
 // Amily gives Birth (camp follower version):
-export function amilyPopsOutKidsInCamp(player: Character): NextScreenChoices {
+export function amilyPopsOutKidsInCamp(player: Character) {
     amilySprite();
     AmilyFlags.AMILY_BIRTH_TOTAL++;
     // Uncorrupt
@@ -5512,7 +5494,7 @@ function meetAmilyAsACorruptAsshat(player: Character): NextScreenChoices {
 
     CView.text("Curious about how Amily is holding up, you head back into the ruined village. This time, you don't bother making any secret of your presence, hoping to attract Amily's attention quicker. After all, she did say that the place is basically empty of anyone except her, and you can handle a measly Imp or Goblin.\n\n");
 
-    switch (pregnancy.event) {
+    switch (amilyWomb.event) {
         case 1:
         case 2:
         case 3:
@@ -5559,9 +5541,9 @@ function meetAmilyAsACorruptAsshat(player: Character): NextScreenChoices {
     }
     player.stats.lust += 25;
 
-    return { next: returnToCampUseOneHour };
     // FLAG THAT THIS SHIT WENT DOWN
     AmilyFlags.AMILY_CORRUPT_FLIPOUT = 1;
+    return { next: returnToCampUseOneHour };
 }
 
 // [Cooking the drug]
@@ -5581,13 +5563,11 @@ function cookAmilyASnack(player: Character): NextScreenChoices {
         if (!(player.inventory.items.has(ConsumableName.LustDraft) || player.inventory.items.has(ConsumableName.LustDraftEnhanced)) || !player.inventory.items.has(ConsumableName.GoblinAle)) {
             CView.text("You think about going into the Ruined Village, but you don't have the ingredients to create more of Amily's medicine. You return to your ");
             return { next: returnToCampUseOneHour };
-            return;
         }
         // (if PC is genderless and has the ingredients.)
         else if (player.gender === 0) {
             CView.text("You think about going into the Ruined Village, but without a cock or a pussy you can't complete the mixture. You return to your ");
             return { next: returnToCampUseOneHour };
-            return;
         }
         // (else)
         else {
@@ -5626,13 +5606,11 @@ function cookAmilyASnack(player: Character): NextScreenChoices {
         if (!(player.inventory.items.has(ConsumableName.LustDraft) || player.inventory.items.has(ConsumableName.LustDraftEnhanced)) || !player.inventory.items.has(ConsumableName.GoblinAle)) {
             CView.text("You think about going into the Ruined Village, but decide it's best to wait until you have a plan underway (maybe some lust draft and a goblin ale to get the ball rolling... you return to your ");
             return { next: returnToCampUseOneHour };
-            return;
         }
         // (else if the PC is genderless)
         else if (player.gender === 0) {
             CView.text("You think about going into the Ruined Village, but decide to turn back; right now, you just don't have the proper 'parts' to get the job done, and so you return to your \n\n");
             return { next: returnToCampUseOneHour };
-            return;
         }
         // (else)
         else {
@@ -5702,7 +5680,7 @@ function backToCamp(player: Character): NextScreenChoices {
 
     AmilyFlags.FOLLOWER_AT_FARM_AMILY = 0;
 
-    return { next: farm.farmCorruption.rootScene };
+    return { next: rootScene };
 }
 
 function harvestMilk(player: Character): NextScreenChoices {
@@ -5718,7 +5696,7 @@ function harvestMilk(player: Character): NextScreenChoices {
 
     if (AmilyFlags.FARM_UPGRADES_REFINERY === 1) AmilyFlags.FOLLOWER_PRODUCTION_AMILY = 1;
 
-    return { next: farm.farmCorruption.rootScene };
+    return { next: rootScene };
 }
 
 function stopHarvestingMilk(player: Character): NextScreenChoices {
@@ -5731,10 +5709,10 @@ function stopHarvestingMilk(player: Character): NextScreenChoices {
 
     AmilyFlags.FOLLOWER_PRODUCTION_AMILY = 0;
 
-    return { next: farm.farmCorruption.rootScene };
+    return { next: rootScene };
 }
 
-function talkWithCORRUPTCUNT(player: Character, sexAfter: boolean = false): NextScreenChoices {
+function talkWithCORRUPTCUNT(player: Character, sexAfter: boolean): NextScreenChoices {
 
     amilySprite();
     const convo: number = randInt(13);
@@ -5751,70 +5729,69 @@ function talkWithCORRUPTCUNT(player: Character, sexAfter: boolean = false): Next
 
         CView.text("\"<i>" + mf(player, "Master", "Mistress") + ", I have some experience in alchemy, so if you wish I can share some of what I know with you,</i>\" she says.\n\n");
 
+        const firstSlotItem = player.inventory.items.get(0).item;
         // (If player has no main item:)
-        if (player.itemSlot1.quantity === 0) {
+        if (firstSlotItem) {
             CView.text("You tell her that you'll call for her, if you ever need her knowledge.\n\n");
             if (sexAfter) return { next: amilySexHappens };
             else return { next: returnToCampUseOneHour };
-            return;
         }
+
         // (If player has an item:)
-        else {
-            CView.text("You remember that you have something in your pockets that might be of interest, and show it to Amily.\n\n");
-        }
-        if (player.itemSlot1.itype === ConsumableName.Equinum) {
+        CView.text("You remember that you have something in your pockets that might be of interest, and show it to Amily.\n\n");
+        if (firstSlotItem.name === ConsumableName.Equinum) {
             CView.text("\"<i>That's a distillation of horse essence, I think,</i>\" Amily says. \"<i>It would probably make you stronger and tougher... Perhaps it could also give you a horse cock. Or perhaps give you a pussy as wet as mine,</i>\" she giggles. \"<i>Whatever happens, could you come test it on me?</i>\" she asks seductively.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepper) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepper) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it? Especially this one with the big knot-like bulge or this one with the ball-like bulbs. I suppose it would make you more dog-like... Have you ever tried one of the jet-black ones?  Those look yummy...</i>\" she says, licking her lips.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperLarge) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperLarge) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it? Especially this one with the big knot-like bulge or this one with the ball-like bulbs. I suppose it would make you more dog-like... Have you ever tried one of the jet-black ones?  Those look yummy...</i>\" she says, licking her lips.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperDouble) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperDouble) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it? Especially this one with the big knot-like bulge or this one with the ball-like bulbs. I suppose it would make you more dog-like... Have you ever tried one of the jet-black ones?  Those look yummy...</i>\" she says, licking her lips.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperBlack) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperBlack) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it? Especially this one with the big knot-like bulge or this one with the ball-like bulbs. I suppose it would make you more dog-like... Have you tried this black one?  It looks yummy...</i>\" she says, licking her lips.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperKnotty) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperKnotty) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it? Especially this one with the big knot-like bulge or this one with the ball-like bulbs. I suppose it would make you more dog-like... Have you ever tried one of the jet-black ones?  Those look yummy...</i>\" she says, licking her lips.\n\n");
         }
         // Canine Pepper & Variants:
-        else if (player.itemSlot1.itype === ConsumableName.CaninePepperBulbous) {
+        else if (firstSlotItem.name === ConsumableName.CaninePepperBulbous) {
             CView.text("\"<i>Looks kind of like a dog's dick, doesn't it? Especially this one with the big knot-like bulge or this one with the ball-like bulbs. I suppose it would make you more dog-like... Have you ever tried one of the jet-black ones?  Those look yummy...</i>\" she says, licking her lips.\n\n");
         }
         // Succubus Milk/Incubus Draft:
-        else if (player.itemSlot1.itype === ConsumableName.IncubusDraft || player.itemSlot1.itype === ConsumableName.SuccubiMilk) {
+        else if (firstSlotItem.name === ConsumableName.IncubusDraft || firstSlotItem.name === ConsumableName.SuccubiMilk) {
             CView.text("She hums at the scent. \"<i>That's demon fluid, " + mf(player, "master", "mistress") + ". It'd be like drinking liquid corruption. It could turn you into a demon, or supercharge your feminity or masculinity. I've heard it can even mess with your gender if you drink too much of the opposite stuff. But none of that is important, I'd be happy to drink from you no matter what gender you are " + mf(player, "master", "mistress") + ",</i>\" she says with a grin.\n\n");
         }
         // Succubi's Delight:
-        else if (player.itemSlot1.itype === ConsumableName.SuccubisDelight) {
+        else if (firstSlotItem.name === ConsumableName.SuccubisDelight) {
             CView.text("\"<i>Full of taint, no question of that. Succubi give it to males who haven't become demons yet; makes them better able to produce cum, and pushes them towards demonhood. Why don't you try some?</i>\" she asks with a smile.\n\n");
         }
         // Wet Cloth:
-        else if (player.itemSlot1.itype === ConsumableName.WetCloth) {
+        else if (firstSlotItem.name === ConsumableName.WetCloth) {
             CView.text("\"<i>Forgive your useless cumslut for her ignorance, " + mf(player, "master", "mistress") + ",</i>\" she says, looking down. \"<i>I don't really know what this is; but it looks like some sort of... concentrate of goo?  I think it's got something to do with whatever's been polluting the lake, but it does smell great, doesn't it?</i>\" she asks, smiling at you.\n\n");
         }
         // Bee Honey:
-        else if (player.itemSlot1.itype === ConsumableName.BeeHoney) {
+        else if (firstSlotItem.name === ConsumableName.BeeHoney) {
             CView.text("\"<i>That is honey from a giant bee, " + mf(player, "master", "mistress") + "!</i>\" she tells you eagerly, perking up. \"<i>Oh, that stuff's delicious!</i>\" Then she diverts her stare to you, looking at you with half-lidded eyes, idly sucking on a clawed finger. \"<i>But I prefer having your honey, " + mf(player, "master", "mistress") + ",</i>\" she says seductively, licking at her finger, a tiny strand of saliva connecting it to her mouth.\n\n");
         }
         // Pure Honey:
-        else if (player.itemSlot1.itype === ConsumableName.BeeHoneyPure) {
+        else if (firstSlotItem.name === ConsumableName.BeeHoneyPure) {
             CView.text("\"<i>You managed to get your hands on ultra-pure giant bee honey?</i>\" she asks, sounding impressed. \"<i>I hear that stuff's so pure it can actually help purge the eater of demonic taint - but why would you want to do that?</i>\" she asks mockingly.\n\n");
         }
         // Green Glob:
-        else if (player.itemSlot1.itype === MaterialName.GreenGel) {
+        else if (firstSlotItem.name === MaterialName.GreenGel) {
             CView.text("\"<i>A blob of slime from a green gel? Hmm...</i>\" She looks thoughtful. \"<i>I think I remember my dad once telling  me you could make a really strong armor out of a special distillation of green oozes. Slut doesn't remember for sure, but she thinks you look better naked " + mf(player, "master", "mistress") + "</i>,\" she says seductively.</i>\"\n\n");
         }
         // Bee Chitin:
-        else if (player.itemSlot1.itype === MaterialName.BlackChitin) {
+        else if (firstSlotItem.name === MaterialName.BlackChitin) {
             CView.text("\"<i>If you had a sufficient mass of this stuff, you could make a suit of armor out of it. It needs special alchemical reagents, though, otherwise it'll just get all brittle and smashed up. But why bother? That would hide your perfect body, " + mf(player, "master", "mistress") + "</i>,\" she says seductively.\n\n");
         }
         else {
@@ -5942,7 +5919,7 @@ function talkWithCORRUPTCUNT(player: Character, sexAfter: boolean = false): Next
 
         CView.text("She looks to you pleadingly and says, \"<i>I love getting knocked up too, " + mf(player, "master", "mistress") + ". I could birth you many mice to worship you like you deserve; and then we could all fuck. Oh, " + mf(player, "master", "mistress") + "!");
         // [(if Amily's pregnant)
-        if (pregnancy.isPregnant) CView.text("  I can't wait to give birth to this batch of mice, just so I can get pregnant again.");
+        if (amilyWomb.isPregnant()) CView.text("  I can't wait to give birth to this batch of mice, just so I can get pregnant again.");
         // (else)
         else CView.text("  Can you please knock me up? I don't care how, just order me to fuck until I get pregnant.");
         CView.text("</i>\"\n\n");
@@ -6046,7 +6023,7 @@ function talkWithCORRUPTCUNT(player: Character, sexAfter: boolean = false): Next
 }
 
 // (Winning Messages)
-export function conquerThatMouseBitch(player: Character): NextScreenChoices {
+export function conquerThatMouseBitch(player: Character, monster: Character): NextScreenChoices {
     amilySprite();
 
     // By HP:
@@ -6066,13 +6043,13 @@ function chooseYourAmilyRape(player: Character): NextScreenChoices {
     else if (AmilyFlags.UNKNOWN_FLAG_NUMBER_00170 === 1) {
         if (player.gender === 1) return { next: rapeCorruptAmily2Male };
         else if (player.gender === 2) return { next: rapeCorruptAmily2Female };
-        else if (player.gender === 3) return { choices: [["MaleFocus", rapeCorruptAmily2Male], ["FemaleFocus", rapeCorruptAmily2Female], ["", undefined], ["", undefined], ["", undefined], ] };
+        else if (player.gender === 3) return { choices: [["MaleFocus", rapeCorruptAmily2Male], ["FemaleFocus", rapeCorruptAmily2Female]] };
     }
     // 3nd rape scene
     else if (AmilyFlags.UNKNOWN_FLAG_NUMBER_00170 === 2) {
         if (player.gender === 1) return { next: rapeCorruptAmily3Male };
         else if (player.gender === 2) return { next: rapeCorruptAmily3Female };
-        else if (player.gender === 3) return { choices: [["MaleFocus", rapeCorruptAmily3Male], ["FemaleFocus", rapeCorruptAmily3Female], ["", undefined], ["", undefined], ["", undefined], ] };
+        else if (player.gender === 3) return { choices: [["MaleFocus", rapeCorruptAmily3Male], ["FemaleFocus", rapeCorruptAmily3Female]] };
     }
     // 4nd rape scene
     else if (AmilyFlags.UNKNOWN_FLAG_NUMBER_00170 === 3) {
@@ -6117,7 +6094,7 @@ function rapeCorruptAmily1(player: Character): NextScreenChoices {
     // [(if herm)
     if (player.gender === 3) {
         CView.text("Which part of you should Amily lick?");
-        return { choices: [["Cock", rapeCorruptAmily1Male], ["Pussy", rapeCorruptAmily1Female], ["", undefined], ["", undefined], ["", undefined], ] };
+        return { choices: [["Cock", rapeCorruptAmily1Male], ["Pussy", rapeCorruptAmily1Female]] };
     }
     // Cocks!
     else if (player.gender === 1) return { next: rapeCorruptAmily1Male };
@@ -6127,26 +6104,25 @@ function rapeCorruptAmily1(player: Character): NextScreenChoices {
 // [Male]
 function rapeCorruptAmily1Male(player: Character): NextScreenChoices {
     amilySprite();
-    let x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    if (x < 0) x = 0;
+    let cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
+    if (!cockThatFits) cockThatFits = player.body.cocks.get(0);
     player.inventory.keyItems.remove("Potent Mixture");
 
-    CView.text("You smile and say, \"<i>Fine, but you're gonna have to work for it.</i>\" Amily's answer is to open her mouth wide. The invitation clear, you scoot closer to her mouth, and her lips touch the tip of your " + describeCock(player, xundefined) + "; Amily suddenly lifts her head and starts swallowing your dick");
+    CView.text("You smile and say, \"<i>Fine, but you're gonna have to work for it.</i>\" Amily's answer is to open her mouth wide. The invitation clear, you scoot closer to her mouth, and her lips touch the tip of your " + describeCock(player, cockThatFits) + "; Amily suddenly lifts her head and starts swallowing your dick");
     // [(if PC is huge)
     if (player.body.cocks.find(Cock.CockThatFits(61))) CView.text("- you're quite surprised she managed to fit it in at all.");
     else CView.text(".");
     CView.text("  You moan and take hold of her ears; then proceed to violently fuck her face, shoving as much of your dick in as you can. Amily doesn't seem to mind; in fact she tries to take as much of your cock in as possible... but she just can't get her throat open enough for that.\n\n");
 
-    CView.text("You smile as she licks the underside of your cock; bound as she is, there isn't much she can do; but you're happy that she seems so eager to blow you. Especially after she denied and even attacked you, claiming you're too corrupt for her; things would be so much better if she was a bit more open minded... Your musings are stopped by a particularly noisy slurp from Amily. She looks so nice with your cock buried in her mouth... It's surprisingly good too; she's paying attention to all the right spots and making sure to massage your shaft with her tongue. Amily sucks fiercely on your dick, and you feel yourself getting closer to orgasm. Amily notices your breathing getting ragged and your increased rhythm, and doubles her efforts. It wouldn't be bad if she was always this eager to suck you off like the slut she is... The thought of her, willingly kneeling between your legs and opening wide to accept your " + describeCock(player, xundefined) + "... You feel your ");
+    CView.text("You smile as she licks the underside of your cock; bound as she is, there isn't much she can do; but you're happy that she seems so eager to blow you. Especially after she denied and even attacked you, claiming you're too corrupt for her; things would be so much better if she was a bit more open minded... Your musings are stopped by a particularly noisy slurp from Amily. She looks so nice with your cock buried in her mouth... It's surprisingly good too; she's paying attention to all the right spots and making sure to massage your shaft with her tongue. Amily sucks fiercely on your dick, and you feel yourself getting closer to orgasm. Amily notices your breathing getting ragged and your increased rhythm, and doubles her efforts. It wouldn't be bad if she was always this eager to suck you off like the slut she is... The thought of her, willingly kneeling between your legs and opening wide to accept your " + describeCock(player, cockThatFits) + "... You feel your ");
     if (player.body.balls.count > 0) CView.text(describeBalls(true, true, player) + " churn");
-    else CView.text(describeCock(player, xundefined) + " throb");
+    else CView.text(describeCock(player, cockThatFits) + " throb");
     CView.text("; the very idea of a mousy slut eager for cum distills into one massive load of cum, and you dump it all in her mouth.\n\nYou sigh, sated for now and leave her to clean herself up.");
     player.orgasm();
     player.stats.lib += -2;
     player.stats.cor += 5;
 
-    if (inCombat) return { next: returnToCampUseOneHour };
-    else return { next: returnToCampUseOneHour };
+    return { next: returnToCampUseOneHour };
 }
 // [Female]
 function rapeCorruptAmily1Female(player: Character): NextScreenChoices {
@@ -6185,8 +6161,7 @@ function rapeCorruptAmily1Female(player: Character): NextScreenChoices {
     player.stats.lib += -2;
     player.stats.cor += 5;
 
-    if (inCombat) return { next: returnToCampUseOneHour };
-    else return { next: returnToCampUseOneHour };
+    return { next: returnToCampUseOneHour };
 }
 
 // [Raping Amily 2]
@@ -6195,9 +6170,9 @@ function rapeCorruptAmily1Female(player: Character): NextScreenChoices {
 function rapeCorruptAmily2Male(player: Character): NextScreenChoices {
     amilySprite();
 
-    let x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    if (x < 0) x = 0;
-    CView.text("You unceremoniously shove your " + describeCock(player, xundefined) + " into her maw. ");
+    let cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
+    if (!cockThatFits) cockThatFits = player.body.cocks.get(0);
+    CView.text("You unceremoniously shove your " + describeCock(player, cockThatFits) + " into her maw. ");
     // [(if PC has a huge dick)
     if (player.body.cocks.find(Cock.CockThatFits(61))) CView.text("Despite your size, she presses forward to take in as much of you as possible.  ");
     CView.text("Once you feel yourself hit the back of her throat, she twists her head a bit and takes you even further, deep throating you.\n\n");
@@ -6217,7 +6192,7 @@ function rapeCorruptAmily2Male(player: Character): NextScreenChoices {
 
     CView.text("You begin pumping into her mouth; long strokes that bring your tip almost out of her mouth and then back in as far as it'll go.");
     // [(If PC is huge.)
-    if (player.body.cocks.find(Cock.CockThatFits(61))) CView.text("  One of Amily's hands settles on your " + describeCock(player, xundefined) + ", stroking whatever she doesn't manage to swallow.");
+    if (player.body.cocks.find(Cock.CockThatFits(61))) CView.text("  One of Amily's hands settles on your " + describeCock(player, cockThatFits) + ", stroking whatever she doesn't manage to swallow.");
     CView.text("\n\n");
 
     CView.text("As you settle upon a steady rhythm, you can't help but notice she's become an excellent cock sucker. Could it be that your potion is helping her release her inner slut? You hope that's the case!\n\n");
@@ -6317,7 +6292,6 @@ function rapeCorruptAmily3Male(player: Character): NextScreenChoices {
         player.stats.cor += 2;
 
         return { next: returnToCampUseOneHour };
-        return;
     }
     // (else)
     CView.text("That was good, but now it's time to reward Amily for her efforts; besides you could really use a proper blow job.\n\n");
@@ -6374,7 +6348,6 @@ function rapeCorruptAmily3Female(player: Character): NextScreenChoices {
         player.stats.cor += 2;
 
         return { next: returnToCampUseOneHour };
-        return;
     }
     CView.text("That was good, but now it's time to reward Amily for her efforts, besides you could really use a proper licking.\n\n");
 
@@ -6429,7 +6402,6 @@ function rapeCorruptAmily4Meeting(player: Character): NextScreenChoices {
     if (player.gender === 0) {
         CView.text("You would love to play with your mouse bitch, but you don't have the parts for that; so you return to the ");
         return { next: returnToCampUseOneHour };
-        return;
     }
     CView.text("You enter the ruined village hoping to find your corrupted mouse cumbucket. It doesn't take long until you spot her; she's stroking her pussy and blowing a wood carved dildo, practicing like you told her to.\n\n");
 
@@ -6441,7 +6413,7 @@ function rapeCorruptAmily4Meeting(player: Character): NextScreenChoices {
     if (player.gender === 3) {
         CView.text("Which part should you use to finish off the mousette?");
         // [Cock] [Pussy]
-        return { choices: [["Cock", rapeCorruptAmily4Male], ["Pussy", rapeCorruptAmily4Female], ["", undefined], ["", undefined], ["", undefined], ] };
+        return { choices: [["Cock", rapeCorruptAmily4Male], ["Pussy", rapeCorruptAmily4Female]] };
     }
     else if (player.gender === 2) return { next: rapeCorruptAmily4Female };
     else return { next: rapeCorruptAmily4Male };
@@ -6496,7 +6468,6 @@ function rapeCorruptAmily4Male(player: Character): NextScreenChoices {
         player.stats.cor += 3;
 
         return { next: returnToCampUseOneHour };
-        return;
     }
     CView.text("You push her back and withdraw, not yet satisfied. <b>A familiar power gathers inside you, and you decide to tap into it.</b>\n\n");
 
@@ -6572,11 +6543,10 @@ function rapeCorruptAmily4Female(player: Character): NextScreenChoices {
         CView.text("You feel like you should continue, but are too weak to do so... \"<i>Go and keep practicing, I'll come to feed you later,</i>\" you tell her.  Amily smiles, licks her lips and gives your pussy a parting kiss before running away to one of her hideouts.\n\n");
 
         CView.text("You return to the ");
-        return { next: returnToCampUseOneHour };
         player.orgasm();
         player.stats.cor += 3;
 
-        return;
+        return { next: returnToCampUseOneHour };
     }
     CView.text("You push her back and withdraw, not yet satisfied. <b>A familiar power gathers inside you, and you decide to tap into it.</b>\n\n");
 
@@ -6626,7 +6596,9 @@ function rapeCorruptAmily4Epilogue(player: Character): NextScreenChoices {
     // Add corrupted amily flag here
     AmilyFlags.AMILY_FOLLOWER = 2;
     // Switch to less lovey pregnancy!
-    if (player.pregnancyType === PregnancyType.AMILY) player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.MOUSE, player.pregnancyIncubation), 0, true);
+    const playerWombAmilyPreg = player.body.wombs.find(Womb.PregnantWithType(PregnancyType.AMILY));
+    if (playerWombAmilyPreg)
+        playerWombAmilyPreg.pregnancy.type = PregnancyType.MOUSE;
     // Make babies disappear
     // pregnancyStore.knockUpForce(); //Clear Pregnancy - though this seems unneccessary to me. Maybe it was needed in an older version of the code?
     // Set other flags if Amily is moving in for the first time
@@ -6680,7 +6652,7 @@ function stalkingZeAmiliez(player: Character): NextScreenChoices {
 
         CView.text("This is your cue to act; you quickly burst out of your hideout and swipe her blowpipe away. Amily jumps away in surprise and reaches for her knife, assuming a fighting stance. You ready your " + player.inventory.equipment.weapon.displayName + " and prepare to teach the foolish mouse a lesson.\n\n");
         // [Proceed to battle.]
-        return CombatManager.beginBattle(player, new Amily(), true);
+        return CombatManager.beginBattle(player, new Amily());
     }
     // (if PC's speed >= 65)
     else if (player.stats.spe >= 65) {
@@ -6691,7 +6663,7 @@ function stalkingZeAmiliez(player: Character): NextScreenChoices {
 
         CView.text("Panicked, she takes her knife and prepares to fight you. You ready your " + player.inventory.equipment.weapon.displayName + " and prepare to teach the foolish mouse a lesson.\n\n");
         // [Proceed to battle.]
-        return CombatManager.beginBattle(player, new Amily(), true);
+        return CombatManager.beginBattle(player, new Amily());
     }
     else {
         CView.text("You search for Amily high and low, but can't find a single trace of her. Frustrated, you return to the   Maybe if you were smarter or faster you could find her.");
@@ -6734,7 +6706,6 @@ function stalkingZeAmiliez2(player: Character): NextScreenChoices {
 
             CView.text("You laugh and put the bottle away, then return to your \n\n(Not corrupt enough...)");
             return { next: returnToCampUseOneHour };
-            return;
         }
         CView.text("You begin stripping off your " + player.inventory.equipment.armor.displayName + " and show her your ");
         if (player.body.cocks.length > 0) {
@@ -6768,7 +6739,6 @@ function stalkingZeAmiliez3(player: Character): NextScreenChoices {
     if (player.gender === 0) {
         CView.text("You think about going into the ruined village, but playing with Amily is not going to be possible if you don't have the parts for it... You return to your ");
         return { next: returnToCampUseOneHour };
-        return;
     }
     amilySprite();
     CView.text("You step into the ruined village and set out to look for Amily.\n\n");
@@ -6811,7 +6781,7 @@ function amilyTaintWarning(player: Character): NextScreenChoices {
 }
 
 // Farewell Note:
-export function farewellNote(player: Character): NextScreenChoices {
+export function farewellNote(player: Character) {
     amilySprite();
     CView.text("\nWhen you awaken this morning, you find Amily gone and a small message left for you.\n\n");
 
@@ -6833,11 +6803,13 @@ export function farewellNote(player: Character): NextScreenChoices {
     // Enable village encounters
     AmilyFlags.AMILY_VILLAGE_ENCOUNTERS_DISABLED = 0;
     // Change to plain mouse birth!
-    if (player.pregnancyType === PregnancyType.AMILY) player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.MOUSE, player.pregnancyIncubation), 0, true);
+    const playerWombAmilyPreg = player.body.wombs.find(Womb.PregnantWithType(PregnancyType.AMILY));
+    if (playerWombAmilyPreg)
+        playerWombAmilyPreg.pregnancy.type = PregnancyType.MOUSE;
 }
 
 // Amily's Return:
-export function amilyReturns(player: Character): NextScreenChoices {
+export function amilyReturns(player: Character) {
     amilySprite();
     CView.text("\nYou awaken to the sensation of limbs wrapped blissfully around your body, and discover Amily has curled up to you. She quickly wakes, and gives you a joyous smile.\n\n");
 
@@ -6866,7 +6838,7 @@ export function amilyNoFur(player: Character): NextScreenChoices {
     return { next: returnToCampUseOneHour };
 }
 // Check if we have all the shit we need
-function amilyCanHaveTFNow(): boolean {
+function amilyCanHaveTFNow(player: Character): boolean {
     // <b>golden seed</b> for a human face
     // <b>black egg</b> to get rid of the fur
     // some purified <b>succubus milk</b> to round things off
@@ -6902,7 +6874,7 @@ function amilyDefurrify(player: Character): NextScreenChoices {
 
 // NOTE: Not sure how this ties in.
 // Be a humongous asshole to Amily and tell her that she's, in effect, a whiny bitch.  Or something.
-function amilySufferNotTheFurryToLive(player: Character): NextScreenChoices {
+function amilySufferNotTheFurryToLive(player: Character) {
     amilySprite();
     AmilyFlags.AMILY_NOT_FURRY = 1;
     AmilyFlags.AMILY_IS_BATMAN = 1;
@@ -6912,10 +6884,9 @@ function amilySufferNotTheFurryToLive(player: Character): NextScreenChoices {
 export function amilyDefurryOfferAtCamp(player: Character): NextScreenChoices {
     amilySprite();
     if (AmilyFlags.AMILY_OFFERED_DEFURRY <= 0) AmilyFlags.AMILY_OFFERED_DEFURRY = 1;
-    if (!amilyCanHaveTFNow()) {
+    if (!amilyCanHaveTFNow(player)) {
         CView.clear().text("Unfortunately, you can't do such a thing until you have acquired the necessary magical prerequisites.  In simple terms, you need a <b>golden seed</b> for a human face, a <b>black egg</b> to get rid of the fur, and some <b>purified succubus milk</b> to round things off.");
         return { next: amilyFollowerEncounter };
-        return;
     }
     // EAT ZE ITEMS!
     player.inventory.items.consumeItem(ConsumableName.GoldenSeed);
@@ -6964,10 +6935,9 @@ export function amilyDefurryOfferAtCamp(player: Character): NextScreenChoices {
 export function dateNightFirstTime(player: Character): NextScreenChoices {
 
     CView.text("Sitting Amily down, you ask her what she'd think about taking a \"<i>little trip</i>\" with you into town.\n\n");
-    if (pregnancy.isPregnant) {
+    if (amilyWomb.isPregnant()) {
         CView.text("\"<i>Perhaps once I'm no longer pregnant.  I wouldn't want to hurt the little ones,</i>\" Amily answers.");
         return { next: amilyFollowerEncounter };
-        return;
     }
     CView.text("\"<i>A-A trip?</i>\" the little mouse-morph stutters, surprised at your sudden invitation.  \"<i>Well, I haven't really been out much since we, you know...</i>\" She suddenly brightens. \"<i>Yeah, why not?  Could be fun!  I've never been to Tel'Adre, though.  What's it like?</i>\" You take Amily's hand in yours and start to tell her all about the strange, faraway city as you prepare for your \"<i>date.</i>\"  When she's ready, the two of you head out toward the desert.\n\n");
 
@@ -7002,7 +6972,7 @@ export function dateNightFirstTime(player: Character): NextScreenChoices {
 
     CView.text("Well, this could be interesting.  If you get both the girls drunk, it might be easy (or inevitable) for something sexual to happen.  Or, you could take Amily home right now and make sure nothing untoward happens to either of your lovers.");
     // (Display Options: [Drink!] [Leave])
-    return { choices: [["Drink", liqueurUpTheWaifus], ["", undefined], ["", undefined], ["", undefined], ["Leave", amilyXUrtaRunAWAY], ] };
+    return { choices: [["Drink", liqueurUpTheWaifus], ["", undefined], ["", undefined], ["", undefined], ["Leave", amilyXUrtaRunAWAY]] };
 }
 
 // Amily/Urta -- LEAVE
@@ -7045,37 +7015,37 @@ function liqueurUpTheWaifus(player: Character): NextScreenChoices {
     else CView.text("over the mouse's skin ");
     CView.text("and Amily wrapping her lithe little tail around Urta's massive endowment.  You strip off your " + player.inventory.equipment.armor.displayName + " and, looming over the girls, decide on how you want to go about this.");
     // (Display Appropriate Options: [Use Cock] [Use Vag])
-    if (player.gender === 1) return { choices: [["Use Cock", threesomeAmilUrtaCAWKS], ["", undefined], ["", undefined], ["", undefined], ["", undefined], ] };
-    if (player.gender === 2) return { choices: [["", undefined], ["Use Vagina", urtaXAmilyCuntPussyVagSQUICK], ["", undefined], ["", undefined], ["", undefined], ] };
-    if (player.gender === 3) return { choices: [["Use Cock", threesomeAmilUrtaCAWKS], ["Use Vagina", urtaXAmilyCuntPussyVagSQUICK], ["", undefined], ["", undefined], ["", undefined], ] };
-    if (player.gender === 0) return { choices: [["Nevermind", returnToCampUseOneHour], ["", undefined], ["", undefined], ["", undefined], ["", undefined], ] };
+    if (player.gender === 1) return { choices: [["Use Cock", threesomeAmilUrtaCAWKS]] };
+    if (player.gender === 2) return { choices: [["", undefined], ["Use Vagina", urtaXAmilyCuntPussyVagSQUICK]] };
+    if (player.gender === 3) return { choices: [["Use Cock", threesomeAmilUrtaCAWKS], ["Use Vagina", urtaXAmilyCuntPussyVagSQUICK]] };
+    if (player.gender === 0) return { choices: [["Nevermind", returnToCampUseOneHour]] };
 }
 
 // Amily/Urta -- Use Cock
 export function threesomeAmilUrtaCAWKS(player: Character): NextScreenChoices {
 
-    let x: number = player.body.cocks.find(Cock.CockThatFits(60));
-    if (x < 0) x = player.body.cocks.sort(Cock.Smallest)[0];
+    let cockThatFits = player.body.cocks.find(Cock.CockThatFits(60));
+    if (!cockThatFits) cockThatFits = player.body.cocks.sort(Cock.Smallest)[0];
     // Silly mode alternative:
     /*if(User.settings.silly()) {
         CView.text("MUZZLESMUZZLES MUZZLE PAW FUR MURR HIR SHI YIFF YIFFITY YIFF PURR PURR MEW.");
     }*/
-    CView.text("You take hold of your " + describeCock(player, xundefined) + " and present it to the girls.  Giggling, they both crawl to the edge of the bed, giving their asses and chests exaggerated shakes and jiggles until their heads are level with your shaft.  Eagerly, Urta and Amily grab your " + describeCock(player, xundefined) + " and begin to play with it, giving it little brushes and licks with their wonderful, animalistic tongues.  You run your hands through their hair, urging them on until your dick is well and truly soaked with their warm saliva, the perfect lubricant to get things started.\n\n");
+    CView.text("You take hold of your " + describeCock(player, cockThatFits) + " and present it to the girls.  Giggling, they both crawl to the edge of the bed, giving their asses and chests exaggerated shakes and jiggles until their heads are level with your shaft.  Eagerly, Urta and Amily grab your " + describeCock(player, cockThatFits) + " and begin to play with it, giving it little brushes and licks with their wonderful, animalistic tongues.  You run your hands through their hair, urging them on until your dick is well and truly soaked with their warm saliva, the perfect lubricant to get things started.\n\n");
 
     CView.text("You gently push Amily and Urta away from your ready shaft and tell the fox-girl to get on her back.  Urta licks her lips and, with a lusty grin, flops onto her back with her legs splayed around your waist.  Her massive horse-cock points upwards like a flagpole, wavering in the air and already dribbling streams of pre that would make any normal man jealous.  You easily lift her hefty sack out of the way, revealing the prize beneath: her wet, drooling cunt.\n\n");
 
-    CView.text("You line up your " + describeCock(player, xundefined) + " with the fox-girl's eager vag, but stop short of penetration, running your cockhead up and down along her outer lips, teasing the drunken herm with short little shifts of your hips.  This only gets her harder, and her pre-cum is soon flowing out of her horse-cock to pool on her belly and thighs.  As you tease Urta's womanhood, you give Amily a little nod.  The petite mouse morph wastes no time climbing up onto Urta's lap and, with a little help from you, gets herself in position atop the fox-morph's towering rod.\n\n");
+    CView.text("You line up your " + describeCock(player, cockThatFits) + " with the fox-girl's eager vag, but stop short of penetration, running your cockhead up and down along her outer lips, teasing the drunken herm with short little shifts of your hips.  This only gets her harder, and her pre-cum is soon flowing out of her horse-cock to pool on her belly and thighs.  As you tease Urta's womanhood, you give Amily a little nod.  The petite mouse morph wastes no time climbing up onto Urta's lap and, with a little help from you, gets herself in position atop the fox-morph's towering rod.\n\n");
 
-    CView.text("You give Amily a pat on the butt, and as one, you take Urta's cock and cunt; you slam your " + describeCock(player, xundefined) + " in her to the hilt as Amily slides down her shaft, taking as much of her horsemeat inside herself as she can before it starts distending her stomach.  You grin ear to ear as Urta's eyes roll back in her head, a look of complete sexual rapture on her foxy face as you and Amily double-team her.\n\n");
+    CView.text("You give Amily a pat on the butt, and as one, you take Urta's cock and cunt; you slam your " + describeCock(player, cockThatFits) + " in her to the hilt as Amily slides down her shaft, taking as much of her horsemeat inside herself as she can before it starts distending her stomach.  You grin ear to ear as Urta's eyes roll back in her head, a look of complete sexual rapture on her foxy face as you and Amily double-team her.\n\n");
 
-    CView.text("Grabbing hold of Urta's flared hips, you start to repeatedly penetrate her slick vag, burying yourself in her loose fuckhole and pulling out until the crown of your " + describeCock(player, xundefined) + " tastes the air.  While you've almost completely withdrawn, however, Amily is just bottoming out, giving you a disjointed rhythm that has Urta moaning like a bitch in heat inside of a minute.  Once she starts bouncing on Urta's cock, there's no stopping Amily, whose drunken lust propels her to surprising speeds, forcing you to hammer Urta with everything you've got almost right out of the gates.  Convulsing and writhing from the incredible pleasure she must be feeling, Urta's cock spurts pre and her cunt begins to squeeze down on your " + describeCock(player, xundefined) + "; nearly mad with pleasure, she grabs her hefty tits and ravages her dark nipples.\n\n");
+    CView.text("Grabbing hold of Urta's flared hips, you start to repeatedly penetrate her slick vag, burying yourself in her loose fuckhole and pulling out until the crown of your " + describeCock(player, cockThatFits) + " tastes the air.  While you've almost completely withdrawn, however, Amily is just bottoming out, giving you a disjointed rhythm that has Urta moaning like a bitch in heat inside of a minute.  Once she starts bouncing on Urta's cock, there's no stopping Amily, whose drunken lust propels her to surprising speeds, forcing you to hammer Urta with everything you've got almost right out of the gates.  Convulsing and writhing from the incredible pleasure she must be feeling, Urta's cock spurts pre and her cunt begins to squeeze down on your " + describeCock(player, cockThatFits) + "; nearly mad with pleasure, she grabs her hefty tits and ravages her dark nipples.\n\n");
 
     CView.text("Well, you can't have the fox cumming too soon.  You pull out of her gaping vag, eliciting a disappointed moan from Urta before Amily's bouncing reminds her just how much pleasure she's feeling.  Speaking of the mouse-girl, you grab her by the waist, slowing her rut just enough for you to get a good bead on her other, vacant hole.  With a wicked laugh, you slam your cock forcefully into Amily's ass, ");
-    if (xundefined.area > 60) CView.text("filling her until she just can't take any more of you");
+    if (cockThatFits.area > 60) CView.text("filling her until she just can't take any more of you");
     else CView.text("burying yourself up to the hilt in her sweet, wonderfully tight bum");
     CView.text(".  She lets out a startled squeak at the sudden double-penetration.  You grab Amily's " + amilyTits() + " and start to pound her ass, burying your shaft in her at the apex of her grind atop Urta so that she's never without a nice cock deep inside her.\n\n");
 
-    CView.text("Urta is close to orgasm, and now under a twin-dick assault, Amily won't last much longer either.  Urta lets out a harsh growl and, grabbing Amily's hips, thrusts until her balls slap the bottom of your " + describeCock(player, xundefined) + ".  You feel the force of her orgasm, the sudden heat inside Amily's fuckhole spreading right to your cock as Urta's foxy spunk starts spewing back out of Amily's twat.  You follow her example, plunging yourself as far into the mouse-girl as you can and cum, shooting your load straight up her ass until her tight, velvety walls are running white with your spooge.  Overwhelmed by the two jets shooting into her at once, Amily rolls her head back and screams, clamping down hard on the cocks inside her");
+    CView.text("Urta is close to orgasm, and now under a twin-dick assault, Amily won't last much longer either.  Urta lets out a harsh growl and, grabbing Amily's hips, thrusts until her balls slap the bottom of your " + describeCock(player, cockThatFits) + ".  You feel the force of her orgasm, the sudden heat inside Amily's fuckhole spreading right to your cock as Urta's foxy spunk starts spewing back out of Amily's twat.  You follow her example, plunging yourself as far into the mouse-girl as you can and cum, shooting your load straight up her ass until her tight, velvety walls are running white with your spooge.  Overwhelmed by the two jets shooting into her at once, Amily rolls her head back and screams, clamping down hard on the cocks inside her");
 
     // if Futamily:
     if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text(" as her cock orgasms, too, spurting a nice, thick trail of mousecum all over Urta's face and tits");
@@ -7142,7 +7112,7 @@ function urtaXAmilyAfterMurrrath(player: Character): NextScreenChoices {
 }
 export function pureAmilyPutsItInYourRectumDamnNearKilledEm(player: Character): NextScreenChoices {
 
-    const x: number = player.body.cocks.sort(Cock.Largest)[0];
+    const largestCock = player.body.cocks.sort(Cock.Largest)[0];
     CView.text("You pause and flash her a coy smirk, then you gently place the tip of a finger on her nose, slowly running it down along her body, over her lip, between her breasts, across her stomach, finally stopping in between her legs, where you start to teasingly stroke her cock through her pants, letting it tent her clothing.\n\n");
 
     CView.text("Before she can misunderstand your intentions, you lean ");
@@ -7188,7 +7158,7 @@ export function pureAmilyPutsItInYourRectumDamnNearKilledEm(player: Character): 
 
     CView.text("You begin to push yourself back against her slow thrusts, and, encouraged by your actions, she starts to pump a little harder.  Sliding herself down along your back, she begins to nuzzle into your neck, stroking your sides sensually as her " + amilyHips() + " rise and fall against you.");
     if (player.body.cocks.length > 0) {
-        CView.text("  You can feel her hand slipping down underneath you, gripping your " + describeCock(player, xundefined) + " gently and starting to stroke and tease it with her fingertips.");
+        CView.text("  You can feel her hand slipping down underneath you, gripping your " + describeCock(player, largestCock) + " gently and starting to stroke and tease it with her fingertips.");
         if (player.body.cocks.length > 1) CView.text("She brushes along " + describeOneOfYourCocks(player) + " one at a time, stroking for a moment or two before switching off.");
     }
     CView.text("\n\n");
@@ -7229,8 +7199,8 @@ export function pureAmilyPutsItInYourRectumDamnNearKilledEm(player: Character): 
 
 function fuckPureAmilysHeiny(player: Character): NextScreenChoices {
 
-    let x: number = player.body.cocks.find(Cock.CockThatFits(50));
-    if (x < 0) x = 0;
+    let cockThtFits = player.body.cocks.find(Cock.CockThatFits(50));
+    if (!cockThtFits) cockThtFits = player.body.cocks.get(0);
     CView.text("You pause and flash her a coy smirk, then you gently place the tip of a finger on her nose, slowly running it down along her body, over her lip, between her breasts, across her stomach, finally stopping to firmly grip her " + amilyButt() + ".");
     if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text("  Her pants tent from arousal as her male organ reacts to your sensual touching, and you start to teasingly stroke it as well.");
     CView.text("\n\n");
@@ -7252,11 +7222,11 @@ function fuckPureAmilysHeiny(player: Character): NextScreenChoices {
 
         CView.text("You reign yourself in, nodding in understanding.\n\n");
 
-        CView.text("\"<i>Hang on, I think I've got just the thing...</i>\" she says, rummaging around through some of her alchemy supplies.  She pulls out a small tub, taking the cap off.  Inside is a thick green salve that jiggles slightly when she shakes the container.  With a smile, she takes a small dollop of it into her fingers, and then holds her other hand out for your " + describeCock(player, xundefined) + ".\n\n");
+        CView.text("\"<i>Hang on, I think I've got just the thing...</i>\" she says, rummaging around through some of her alchemy supplies.  She pulls out a small tub, taking the cap off.  Inside is a thick green salve that jiggles slightly when she shakes the container.  With a smile, she takes a small dollop of it into her fingers, and then holds her other hand out for your " + describeCock(player, cockThtFits) + ".\n\n");
 
         CView.text("You recoil a little, knowing full well the kinds of effects unfamiliar chemical concoctions could wreak upon your body, but then mentally scold yourself for doubting Amily for a moment.\n\n");
 
-        CView.text("She rolls her eyes a bit and snatches up your " + describeCock(player, xundefined) + " a bit possessively, laughing to herself.  \"<i>Oh relax, you big baby. It's just burn ointment. It should serve well enough, though.</i>\"\n\n");
+        CView.text("She rolls her eyes a bit and snatches up your " + describeCock(player, cockThtFits) + " a bit possessively, laughing to herself.  \"<i>Oh relax, you big baby. It's just burn ointment. It should serve well enough, though.</i>\"\n\n");
     }
     // (Else):
     else {
@@ -7264,10 +7234,10 @@ function fuckPureAmilysHeiny(player: Character): NextScreenChoices {
 
         CView.text("You nod, affirming that that is indeed what you were in the mood for, chuckling a bit at your unspoken bond with the cute mouse girl.\n\n");
 
-        CView.text("She gently breaks away from you, bending down to rummage through her things and giving you a teasing view of her rear in the process.  When she returns to you, she has a tub of green salve in hand, taking a small dollop of it into her fingers, her other hand idly stroking your " + describeCock(player, xundefined) + " and drawing you up to full mast.\n\n");
+        CView.text("She gently breaks away from you, bending down to rummage through her things and giving you a teasing view of her rear in the process.  When she returns to you, she has a tub of green salve in hand, taking a small dollop of it into her fingers, her other hand idly stroking your " + describeCock(player, cockThtFits) + " and drawing you up to full mast.\n\n");
     }
     // Merge):
-    CView.text("As she touches the cool salve to your shaft, you let out a small shiver.  Her hands work delicately, spreading a thin layer across your entire length, until your " + describeCock(player, xundefined) + " glistens with a glossy, greenish sheen.\n\n");
+    CView.text("As she touches the cool salve to your shaft, you let out a small shiver.  Her hands work delicately, spreading a thin layer across your entire length, until your " + describeCock(player, cockThtFits) + " glistens with a glossy, greenish sheen.\n\n");
 
     CView.text("She wipes her hand off on a discreet corner of her " + AmilyFlags.AMILY_CLOTHING + " and begins to shimmy out of them.");
     if (AmilyFlags.TIMES_FUCKED_AMILYBUTT === 0) CView.text("  \"<i>I'm... not really sure how this goes... I guess... like this?</i>\"");
@@ -7275,21 +7245,21 @@ function fuckPureAmilysHeiny(player: Character): NextScreenChoices {
 
     CView.text("Your hand cascades over her " + amilyHips() + ", sliding up to take a handful of her " + amilyButt() + " and massaging her lower back sensually.  Sliding a finger along your shaft, you take a small amount of the lubricating salve and rub it into the quivering ring of flesh between her cheeks.  Amily releases a slight moan, shuddering from the cool touch, and lets out a sharp squeak as you push the first section of your finger past her anus, spreading the lubrication around the first inch of her tight rear passage.\n\n");
 
-    CView.text("She shudders and lowers her chin to the ground as you pull your finger out, raising her rump a little as you begin to run the head of your " + describeCock(player, xundefined) + " over her pucker, easing forward.  You build pressure very gradually until you feel the tight entrance start to give way, and slowly begin to sink forward into her rectum.\n\n");
+    CView.text("She shudders and lowers her chin to the ground as you pull your finger out, raising her rump a little as you begin to run the head of your " + describeCock(player, cockThtFits) + " over her pucker, easing forward.  You build pressure very gradually until you feel the tight entrance start to give way, and slowly begin to sink forward into her rectum.\n\n");
 
     if (AmilyFlags.TIMES_FUCKED_AMILYBUTT === 0) CView.text("\"<i>Aah... ah... that feels really weird,</i>\" she pants, noticeably struggling against the instinct to clench up against the invader. \"<i>Ah... not... bad... just weird...</i>\"\n\n");
     else CView.text("\"<i>Ahhn... it's still weird... but I just might be starting to like it...</i>\"\n\n");
 
     CView.text("Once you are sufficiently buried in her rear passage, you lower yourself down, conforming to the curve of her back.  Brushing her hair aside a little, you plant a few soft kisses along the edge of her jawline, being very careful to control your movements so as to spare her any pain.  As you ease into a very slow, gentle pace, you both begin to voice your pleasures, breathing heavily.\n\n");
 
-    CView.text("Your hands slide along Amily's sides, gently pressing into her flesh and eliciting soft moans and squeaks from her, while your hips rise and fall against hers at an even, metered pace.  You can feel the walls of her passage clenching rhythmically against your shaft, the muscles of her anus squeezing you with each gentle thrust.  The ointment does its job admirably, easing every movement; without it you have your doubts whether Amily's rear would be so readily accepting of your " + describeCock(player, xundefined) + ".\n\n");
+    CView.text("Your hands slide along Amily's sides, gently pressing into her flesh and eliciting soft moans and squeaks from her, while your hips rise and fall against hers at an even, metered pace.  You can feel the walls of her passage clenching rhythmically against your shaft, the muscles of her anus squeezing you with each gentle thrust.  The ointment does its job admirably, easing every movement; without it you have your doubts whether Amily's rear would be so readily accepting of your " + describeCock(player, cockThtFits) + ".\n\n");
 
     CView.text("\"<i>I think you can go faster, now...</i>\" Amily says breathlessly, smiling back at you as you run your fingers lovingly through her hair.  Nodding a little, you hook your elbows underneath her arms, hugging against her back, and begin to slowly ramp up the pace.  Amily's moans grow more passionate as your motions become more deliberate, but she doesn't seem to be experiencing any discomfort, thankfully.\n\n");
 
     CView.text("Her hands clasp around yours under her chin, and she closes her eyes, gently biting her lower lip, even rocking her hips a little now to supplement your movements.  In spite of the slow, gentle pace, or perhaps in part because of it, you can start to feel a quivering in your loins marking the approach of your orgasm.\n\n");
 
     CView.text("You close your eyes and let out a shuddering moan into Amily's ear as your climax comes rushing forth, ");
-    if (player.cumQ() <= 250) CView.text("your " + describeCock(player, xundefined) + " twitching and throbbing as you paint her insides with a few strands of cum");
+    if (player.cumQ() <= 250) CView.text("your " + describeCock(player, cockThtFits) + " twitching and throbbing as you paint her insides with a few strands of cum");
     else if (player.cumQ() <= 500) CView.text(" the swell of your orgasm pushing past her sphincter as you unload a thick deluge into her back door");
     else CView.text(" the volume of your virile jism filling her innards with warmth as she begins to gain a slight bulge in her abdomen");
     CView.text(".  Being stimulated in such a way is not enough to give Amily a complete release, but the sensation of your warm cum filling her rear is enough to make ");
@@ -7324,22 +7294,25 @@ function amilyIncest(player: Character): NextScreenChoices {
     CView.text(" as the latter lectures about pleasing her [master].  Amily, for her part, just seems to be getting wetter and wetter, but she somehow controls herself.  When her three children aren't casting anxious, lewd glances at themselves or their mother, they're nodding vigorously at her words.  Clearly, the trio is as excited with the prospect of serving you as their mom.");
     CView.text("\n\nNone of them are aware of you yet.  You could duck out before they find you and avoid any potential incest, or you could take the sluts for a ride.  What do you do?");
 
+    const choices: ScreenChoice[] = [];
     if (player.body.cocks.length > 0) {
         if (player.body.cocks.find(Cock.CockThatFits(61))) {
-            choices[0] = ["Fuck Cunts", fuckIncestCunts, false];
-            choices[1] = ["Fuck Em All", fuckIncestCunts, true];
+            choices[0] = ["Fuck Cunts", partial(fuckIncestCunts, player, false)];
+            choices[1] = ["Fuck Em All", partial(fuckIncestCunts, player, true)];
         }
         else CView.text("[pg]Sadly, you're too big to fuck any of them.");
     }
     else CView.text("[pg]If only you had a cock, you could fuck them all.");
     choices[4] = ["Leave", campMenu];
+
+    return { choices };
     // [Get doubleteamed {Vag req}] [Fuck Cunts] [Fuck 'Em All][Skedaddle]
 }
 // Fuck Cunts/All (extra pg or two) (Z)
 function fuckIncestCunts(player: Character, all: boolean): NextScreenChoices {
-    let x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    if (x < 0) x = 0;
-    const y: number = x + 1;
+    let cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
+    if (!cockThatFits) cockThatFits = player.body.cocks.get(0);
+    // const y: number = cockThatFits + 1;
     CView.clear();
     amilySprite();
     CView.text("You step up and ");
@@ -7390,7 +7363,7 @@ function fuckIncestCunts(player: Character, all: boolean): NextScreenChoices {
     else {
         CView.text("\n\nIt isn't until you try to stand that you realize how thoroughly worn-out you are, and as you roll onto your side, you close your eyes and doze, watching cum squirt out of Amily's pussy from around your daughter's knot.");
     }
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     player.orgasm();
     player.stats.lib += -1;
     player.stats.sens += -1;
@@ -7434,14 +7407,14 @@ function amilyEggStuff(player: Character): NextScreenChoices {
 export function layEggsInAmily(player: Character): NextScreenChoices {
     CView.clear();
     CView.text("Feeling your ");
-    if (player.pregnancy.ovipositor.eggs < 20) CView.text("engorged");
-    else if (player.pregnancy.ovipositor.eggs < 40) CView.text("heaving");
+    if (player.body.ovipositor.eggs < 20) CView.text("engorged");
+    else if (player.body.ovipositor.eggs < 40) CView.text("heaving");
     else CView.text("unbelievably swollen");
     CView.text(" abdomen stir your mind drifts back to Amily's offer.  Dipping into her neck, you start to kiss her softly as your ovipositor begins to thicken, slowly peeking out into the air.  She shivers in your arms, your hands sliding around her sides to pull her close.  Barely able to pull your lips away, you nip along her jaw as you ask her if she's up for a little egging.");
     CView.text("\n\n\"<i>I suppose I could be persuaded, you <b>do</b> look like you need a little attention...</i>\"  You feel a hand slipping down into your [armor] as she cranes her neck, moaning quietly as her searching fingers find their way to your [if (hasCock = true) stiffening shaft][if (isHerm = true)  and ][if (hasVagina = true) slick snatch]");
     if (player.gender === 0) CView.text("blank groin");
     CView.text(", teasing you into unconsciously humping against her slender digits.");
-    if (pregnancy.isPregnant) CView.text("  \"<i>But try to remember that I'm already carrying.  I don't want it getting too cramped in there; so make sure you don't miss, alright?</i>\"");
+    if (amilyWomb.isPregnant()) CView.text("  \"<i>But try to remember that I'm already carrying.  I don't want it getting too cramped in there; so make sure you don't miss, alright?</i>\"");
     CView.text("\n\nYour try to clear your mind as the pleasure starts to overwhelm you, ovipositor extending fully whilst you attempt to focus and decide how to proceed.");
     // [Anal]
     return { next: layEggsInAmilysCorruptedHole };
@@ -7525,16 +7498,16 @@ function layEggsInAmilysCorruptedHole(player: Character): NextScreenChoices {
     CView.text("penis, a rush of eggs engorges your shaft, leaving your abdomen feeling as light as air.  Amily moans as egg after egg pushes past her ring, still playing with her rear whilst you finish filling her with your clutch, her stomach pressing gently against yours as it bulges with her new load.  Before long the last egg slips out of the tip of your ovipositor and it begins to withdraw reflexively, slipping from its tight confines far more easily that it entered due to the impossible amount of slime that lines Amily's passage.  It cascades from her once you fully withdraw, covering you with a thick layer of the stuff as you both lie there, slowly drifting off to sleep.");
     // [Next]
     player.orgasm();
-    if (player.pregnancy.ovipositor.fertilizedEggs > 0) {
+    if (player.body.ovipositor.fertilizedEggs > 0) {
         if (player.canOvipositSpider()) {
-            pregnancy.buttKnockUp(PregnancyType.DRIDER_EGGS, IncubationTime.DRIDER - 304); // (96)
+            amilyButtWomb.knockUp(new Pregnancy(PregnancyType.DRIDER_EGGS, IncubationTime.DRIDER - 304), amilyPregEvents); // (96)
         }
         else if (player.canOvipositBee()) {
-            pregnancy.buttKnockUp(PregnancyType.BEE_EGGS, IncubationTime.BEE + 48); // (96)
+            amilyButtWomb.knockUp(new Pregnancy(PregnancyType.BEE_EGGS, IncubationTime.BEE + 48), amilyPregEvents); // (96)
         }
-        AmilyFlags.AMILY_OVIPOSITED_COUNT = player.pregnancy.ovipositor.eggs;
+        AmilyFlags.AMILY_OVIPOSITED_COUNT = player.body.ovipositor.eggs;
     }
-    player.pregnancy.ovipositor.dumpEggs();
+    player.body.ovipositor.dumpEggs();
     return { next: layEggsInAmilysButtPt2 };
 
 }
@@ -7546,23 +7519,22 @@ function layEggsInAmilysButtPt2(player: Character): NextScreenChoices {
 }
 
 // Amily Laying
-export function amilyLaysEggsLikeABitch(player: Character): NextScreenChoices {
+export function amilyLaysEggsLikeABitch(player: Character) {
     CView.text("\nWhilst wandering around your camp, you heard a flurry of soft squeaks from the direction of Amily's nest.  Intrigued, you sidle over to see what the commotion is.  When you get there, your eyes widen at the sight of your oft-restrained lover relaxing in her soft bedding, completely bottomless.  Her legs are spread wide, giving you a perfect view of both her holes as she rapidly ");
     if (AmilyFlags.AMILY_WANG_LENGTH === 0) CView.text("teases her clit");
     else CView.text("squeezes her shaft");
     CView.text(" with one hand, the other catching your eye as it moves beneath her top, apparently caressing her breasts.");
     CView.text("\n\nThe sight surprises you so much that it takes a few moments of dumbstruck staring to notice the small pile of glistening orbs gathering between Amily's thighs.  Realisation quickly hits you as another slime-covered sphere joins them, easing its way out of the girl's tight ass to a chorus of soft moans.  It looks as though she's been at this for a while, though you doubt she's anywhere close to being finished yet.");
-    CView.text("\n\nAnother " + (pregnancy.buttType === PregnancyType.DRIDER_EGGS ? "spider" : "bee") + " egg flows from her, still covered with the thick goo that you left in her when you made your 'deposit'.  Amily tenses at the way it spreads her ring, ");
+    CView.text("\n\nAnother " + (amilyButtWomb.pregnancy.type === PregnancyType.DRIDER_EGGS ? "spider" : "bee") + " egg flows from her, still covered with the thick goo that you left in her when you made your 'deposit'.  Amily tenses at the way it spreads her ring, ");
     if (AmilyFlags.AMILY_WANG_LENGTH === 0) CView.text("pussy visibly quivering");
     else CView.text("member oozing a thick glob of pre-cum");
     CView.text(" as her body shudders with pleasure.");
 
     CView.text("\n\nYou decide to leave the girl to her ministrations, ");
     // if abdomen
-    if (player.pregnancy.ovipositor.canOviposit()) CView.text("though the sight has certainly gotten you thinking about what you'll be doing with your next clutch.\n");
+    if (player.body.ovipositor.canOviposit()) CView.text("though the sight has certainly gotten you thinking about what you'll be doing with your next clutch.\n");
     else CView.text("though a distinct heat in your nethers leaves you wishing you had another clutch to unload right now\n");
-    player.stats.lust += (5 + player.stats.lib / 10);
-    player.stats.resisted += false;
+    player.stats.lustNoResist += (5 + player.stats.lib / 10);
 
     AmilyFlags.AMILY_OVIPOSITED_COUNT = 0;
 }
@@ -7611,8 +7583,8 @@ export function amilySwimFuckIntro(player: Character): NextScreenChoices {
 
 // Go 'Swimming'
 function amilySwimFuckPartII(player: Character): NextScreenChoices {
-    let x: number = player.body.cocks.find(Cock.CockThatFits(61));
-    if (x < 0) x = player.body.cocks.sort(Cock.Smallest)[0];
+    let cocksThatFit = player.body.cocks.find(Cock.CockThatFits(61));
+    if (!cocksThatFit) cocksThatFit = player.body.cocks.sort(Cock.Smallest)[0];
     CView.clear();
     CView.text("The stream isn't far away, and the two of you reach it in practically no time.  The journey is slowed by the occasional teasing touches and whispered compliments between you and your lover.  Amily is giggling and flushed by the time you arrive, fanning herself with her hand even though it isn't THAT hot out.  Turning to face you, she sensually glides up against your [armor] and begins to rub your ");
     if (player.body.cocks.length > 0) CView.text("package");
@@ -7625,7 +7597,7 @@ function amilySwimFuckPartII(player: Character): NextScreenChoices {
     CView.text("\n\nOnce you tire of slinging the icy liquid to and fro, you take the time to remove your [armor] and lay on the bank.  Amily stops what she's doing to watch, playfully asking, \"<i>Tired of losing already?</i>\" while her eyes drink you in.");
     CView.text("\n\nYou smirk and declare that her skimpy two piece has put her body on such display that you figured the only way to compete is to go naked yourself.  Stretching your arms up, you let droplets cascade down your [chest] and unrepentantly gaze upon the mouse-woman's shrink-wrapped form.  The water has soaked into her clingy garb, and with the added moisture, you can actually see parts of her in perfect detail.  Sure, her pussy made a clearly visible camel toe before, but now... it's like you're getting a black-framed peep show.  Her pert breasts bounce when she rocks back in surprise at your statement.");
     CView.text("\n\n\"<i>You perv!</i>\" Amily shouts in mock surprise, fixing her eyes on your own nipples and exposed groin.  \"<i>If you're going to be dirty about it,</i>\" she begins, her voice dropping to a decidedly uncharacteristic purr, \"<i>then you had better be ready for what you get.</i>\"  Her hands come to rest on your shoulders, and as she looks you in the eyes, she says \"<i>You got me all wet, too.</i>\"");
-    CView.text("\n\nThe petite mouse-girl launches herself into your arms, tight against your chest.  She easily reaches down to her bottoms and pushes them aside, just in time for her soaked muff to meet your " + describeCock(player, xundefined) + ".  Your " + describeCockHead(xundefined) + " glides through her silken gateway with ease, aided by Amily's liquid ardor.  Water and juices drip from both your frames as your short-statured lover rides you, and your hands find their way to her " + amilyButt() + ", grabbing hold to pull her down, deeper.  After being in the frigid stream, the clinging folds of Amily's tight cunt feel like a hot salve for your erection, shooting electric jolts of hot pleasure through your body as she comes to rest on your ");
+    CView.text("\n\nThe petite mouse-girl launches herself into your arms, tight against your chest.  She easily reaches down to her bottoms and pushes them aside, just in time for her soaked muff to meet your " + describeCock(player, cocksThatFit) + ".  Your " + describeCockHead(cocksThatFit) + " glides through her silken gateway with ease, aided by Amily's liquid ardor.  Water and juices drip from both your frames as your short-statured lover rides you, and your hands find their way to her " + amilyButt() + ", grabbing hold to pull her down, deeper.  After being in the frigid stream, the clinging folds of Amily's tight cunt feel like a hot salve for your erection, shooting electric jolts of hot pleasure through your body as she comes to rest on your ");
     if (player.body.balls.count > 0) CView.text("[balls]");
     else CView.text("base");
     CView.text(".");
@@ -7639,9 +7611,9 @@ function amilySwimFuckPartII(player: Character): NextScreenChoices {
     if (AmilyFlags.AMILY_NOT_FURRY === 0) CView.text("  Her whiskers tickle your cheeks as s");
     else CView.text("  S");
     CView.text("he comes up for a kiss.  Slender lips meet your own, her narrow, skillful tongue slipping into your mouth.");
-    CView.text("\n\nBurning with desire, you walk out of the water with your lover speared on your shaft, and as soon as you're on solid ground, you begin to fuck her.  Your hands pull her up, almost off your " + describeCockHead(xundefined) + " before you let gravity pull her back down, slightly inclining your [hips] to speed the pleasurable friction along. Amily squeaks when she hits rock bottom, breaking the kiss before she plants it again with renewed vigor.");
-    CView.text("\n\nThe two of you fuck like horny animals at their favorite watering hole, and every chance you get, you make sure to let a stray hand touch her " + amilyNipples() + ", " + amilyTits() + ", or " + amilyButt() + ".  The soaked girl is soon twitching and squirming atop you, wordlessly riding out an epic climax.  Her sweet cavity caresses your " + describeCock(player, xundefined) + " throughout, wringing your tumescent dick with insistent female pleasure, as if that could somehow milk your cum from you.");
-    CView.text("\n\n\"<i>Gods,</i>\" Amily gasps, \"<i>You're incredible!</i>\"  She looks at you through heavy eyelids and kisses you again, though her muscles spasm wildly when you resume your quick, wet fuck.  You pound her hard and fast, rutting her hot hole hard enough to make her whole body bounce in your arms.  Amily is little more than a pile of quivering female flesh, snug around your " + describeCock(player, xundefined) + " and just waiting to be impregnated.  Shoving her down, you throw back your head and cum at last, pumping thick seed into her.");
+    CView.text("\n\nBurning with desire, you walk out of the water with your lover speared on your shaft, and as soon as you're on solid ground, you begin to fuck her.  Your hands pull her up, almost off your " + describeCockHead(cocksThatFit) + " before you let gravity pull her back down, slightly inclining your [hips] to speed the pleasurable friction along. Amily squeaks when she hits rock bottom, breaking the kiss before she plants it again with renewed vigor.");
+    CView.text("\n\nThe two of you fuck like horny animals at their favorite watering hole, and every chance you get, you make sure to let a stray hand touch her " + amilyNipples() + ", " + amilyTits() + ", or " + amilyButt() + ".  The soaked girl is soon twitching and squirming atop you, wordlessly riding out an epic climax.  Her sweet cavity caresses your " + describeCock(player, cocksThatFit) + " throughout, wringing your tumescent dick with insistent female pleasure, as if that could somehow milk your cum from you.");
+    CView.text("\n\n\"<i>Gods,</i>\" Amily gasps, \"<i>You're incredible!</i>\"  She looks at you through heavy eyelids and kisses you again, though her muscles spasm wildly when you resume your quick, wet fuck.  You pound her hard and fast, rutting her hot hole hard enough to make her whole body bounce in your arms.  Amily is little more than a pile of quivering female flesh, snug around your " + describeCock(player, cocksThatFit) + " and just waiting to be impregnated.  Shoving her down, you throw back your head and cum at last, pumping thick seed into her.");
     if (player.body.cocks.length > 1) {
         CView.text("  Your untended erection");
         if (player.body.cocks.length > 2) CView.text("s do");
@@ -7659,7 +7631,7 @@ function amilySwimFuckPartII(player: Character): NextScreenChoices {
         if (player.cumQ() < 500) CView.text("squirting more and more spunk from the contracting cunt with every movement");
         else if (player.cumQ() < 750) CView.text("spurting out a backflood of semen as Amily's belly gains a tiny but visible cum-bump");
         else if (player.cumQ() < 1000) CView.text("gouts of cum washing from her snatch as her belly rounds nicely");
-        else if (player.cumQ() < 2000) CView.text("waves of jism washing out around your " + describeCock(player, xundefined) + " as it pumps her to a rounded, pregnant look");
+        else if (player.cumQ() < 2000) CView.text("waves of jism washing out around your " + describeCock(player, cocksThatFit) + " as it pumps her to a rounded, pregnant look");
         else CView.text("geysers of cum bursts out from the quivering mouse-hole as Amily's belly balloons with jizz.  Even after it can stretch no more, you keep cumming, firing out high pressure jets that splatter your [legs]");
     }
     CView.text(".\n\n");
@@ -7667,7 +7639,7 @@ function amilySwimFuckPartII(player: Character): NextScreenChoices {
     player.orgasm();
     player.stats.sens += -1;
 
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     return { next: returnToCampUseOneHour };
 }
 
@@ -7684,8 +7656,12 @@ function amilyXIzmaSuperPregOptions(player: Character): NextScreenChoices {
     AmilyFlags.AMILY_ALLOWS_FERTILITY = 1;
     // [Norma] [Try The Potion]
 
-    choices[0] = ["Normal", fuckTheMouseBitch];
-    choices[1] = ["Try Potion", drinkThePotion];
+    return {
+        choices: [
+            ["Normal", fuckTheMouseBitch],
+            ["Try Potion", drinkThePotion],
+        ]
+    };
 }
 
 // Try The Potion
@@ -7725,19 +7701,19 @@ export function drinkThePotion(player: Character): NextScreenChoices {
         CView.text("You ask Amily if she's made up any more of that potion that you, her, and Izma had so much fun with before.");
         CView.text("\n\nAmily laughs, \"<i>You want to do that again?</i>\" with a wisp of a sheepish smile curling at the corners of her petite mouth.");
         CView.text("\n\nWhen you nod, her smile becomes excited, and she begins sorting a few bottles out of her gear.  You note that there's one blue one and two pink ones, though the girly drafts are portioned out to have half as much as their more masculine counterpart.  \"<i>It worked really, really well last time, so I didn't think it would be a good idea to adjust the dosages at all.  I'm not even sure I could handle a full course after being that sore...");
-        if (pregnancy.isPregnant) CView.text("  At least I can't get any more pregnant!");
+        if (amilyWomb.isPregnant()) CView.text("  At least I can't get any more pregnant!");
         CView.text("</i>\"");
         CView.text("\n\nYou smirk and raise an eyebrow, asking, \"<i>Izma?</i>\"");
         CView.text("\n\nAmily nods.  \"<i>Izmaaaaaaaa!</i>\"");
         CView.text("\n\nThe pretty tigershark-girl comes sashaying around the rocks, putting a bookmark in her reading material as she answers the high-pitched call.  She glances between the two of you and huffs, \"<i>Oh, couldn't think of having a little fun without me?</i>\" with a wry grin.  Her skirt rustles slightly as she closes the intervening distance");
         if (AmilyFlags.IZMA_NO_COCK === 0) CView.text(", barely concealing the half-swollen bulge beneath");
         CView.text(".  Izma says, \"<i>What the hell, I ");
-        if (izmaScene.pregnancy.isPregnant) CView.text("suppose I can do it for fun, since I'm already pregnant.");
+        if (izmaWomb.isPregnant()) CView.text("suppose I can do it for fun, since I'm already pregnant.");
         else CView.text("suppose we can have another kid.");
         CView.text("</i>\"");
         CView.text("\n\nThe potions are passed around, and the three of you quickly get to drinking them.  The girls finish their half-filled bottles first, leaving them with nothing to do but slowly undress you while you try to devour the last of the sweet, lust-inducing stuff.  It's very hard to focus on swallowing your part of the equation with four hands roaming across your body, and you nearly choke on it when the two girls start hugging you from each side, mismatched hands diving into your crotch to fondle [oneCock] with eager grasps.  The artificial warmth that's gathering in your midsection slowly spreads throughout your body, though it seems like the bulk of it winds up in [eachCock] where it can be properly stimulated by the needy females' pleasant fingers.");
         CView.text("\n\nAmily nuzzles under your arm, her nose against the side of your [chest] as she inhales, murmurring, \"<i>Such a " + mf(player, "strong, potent male...", "beautiful, potent breeder...") + "  You're going to ");
-        if (!pregnancy.isPregnant) CView.text("give me lots of babies");
+        if (!amilyWomb.isPregnant()) CView.text("give me lots of babies");
         else CView.text("put even more babies inside me");
         CView.text(", right?  No need to bother with her...</i>\"");
         CView.text("\n\nIzma matches the mouse-girl's demure posture, glaring daggers at her from the other side, hand fixating on [oneCock] just behind Amily's.  \"<i>Alpha, that rodent could never handle you in bed.  Come on, use me.</i>\"");
@@ -7746,10 +7722,9 @@ export function drinkThePotion(player: Character): NextScreenChoices {
     }
     player.stats.lib += 1;
     player.stats.sens += 1;
-    player.stats.lust = 100;
-    player.stats.resisted += false;
+    player.stats.lustNoResist = 100;
 
-    choices[0] = ["Next", izmaAmilyDrugThreeWaySex];
+    return { next: izmaAmilyDrugThreeWaySex };
 }
 
 // Start Ze Fucking!
@@ -7762,8 +7737,8 @@ function izmaAmilyDrugThreeWaySex(player: Character): NextScreenChoices {
     if (player.body.balls.count > 0) CView.text(", one that has your [sack] swelling slightly, the skin growing smooth and glossy as it fills with the heavy, comfortable weight of your sloshing seed");
     else CView.text(", one that has you feeling comfortably swollen with pent-up seed just waiting to erupt");
     CView.text(".  Droplets of pre-cum slowly trickle from [eachCock] onto the busy ladies' hands and forearms, turning their fondles into strokes so wet and lubricated that you could almost mistake them for a succubus's twat.  There's something wonderfully right about being served by these docile woman");
-    if (!pregnancy.isPregnant && !izmaScene.pregnancy.isPregnant) CView.text(", with their hungry wombs just waiting to be impregnated at your leisure");
-    else if (pregnancy.isPregnant && izmaScene.pregnancy.isPregnant) CView.text(", with their ripe wombs stuffed full of your offspring already");
+    if (!amilyWomb.isPregnant() && !izmaWomb.isPregnant()) CView.text(", with their hungry wombs just waiting to be impregnated at your leisure");
+    else if (amilyWomb.isPregnant() && izmaWomb.isPregnant()) CView.text(", with their ripe wombs stuffed full of your offspring already");
     else CView.text(", with at least one of their wombs already ripe with your offspring");
     CView.text(".");
 
@@ -7798,20 +7773,20 @@ function izmaAmilyDrugThreeWaySex(player: Character): NextScreenChoices {
     CView.text(".  The sapphic kiss is shattered by your slit-moistening hardness, and Amily looks back at you, disentangling her tail from Izma's to caress you as she asks, \"<i>You aren't going to waste it outside, are you?  Please, cum in me!</i>\"");
 
     CView.text("\n\n\"<i>No, give it to me!  ");
-    if (izmaScene.pregnancy.isPregnant) CView.text("My pussy is the obvious, stronger choice.");
+    if (izmaWomb.isPregnant()) CView.text("My pussy is the obvious, stronger choice.");
     else CView.text("I'm the stronger, obvious breeding choice.  Knock me up and you'll have fitter, better offspring.");
     CView.text("  Besides, can't you feel how wet my cunt is, and how those little tentacles inside are going to feel around you when you give me your cum?  That is your job as Alpha after all, to dominate my pussy and fill it full of you...  Ooooh...</i>\" Izma moans, pleading her own case as she starts to finger Amily's asshole.  \"<i>Besides, this little - ohgods - thing couldn't handle your babies, [name].</i>\"");
     CView.text("\n\nAmily squeaks in surprise at the sudden intrusion before stabbing her tail tip into the shark's rectum as well, turning Izma's demands into a lewd moan.  \"<i>Come on, [name].  I'm the one that figured out-ooouuuhhhh... uh, how to make the potion.  ");
-    if (!pregnancy.isPregnant) CView.text("Give me your babies...  Mmmm, we'll make such smart babies.  ");
+    if (!amilyWomb.isPregnant()) CView.text("Give me your babies...  Mmmm, we'll make such smart babies.  ");
     CView.text("Just, ahhh... put it inside me and cum, cum in me again and again and fuck me till I'm pregnant with your spunk!</i>\"  She's ");
     if (AmilyFlags.AMILY_NOT_FURRY === 0) CView.text("actually blushing so hard that you can see it through her fur, a crimson tint that looks even better on her with the way her tongue is hanging out");
     else CView.text("blushing so hard her whole face is almost beet-red, a fine look on her with her tongue dangling so erotically out of her gasping mouth");
     CView.text(".");
     CView.text("\n\nYou push and pull on the two girls, fucking both sets of mons without care for who eventually gets jizz inside them.  You're definitely going to flood a ");
-    if (!pregnancy.isPregnant || !izmaScene.pregnancy.isPregnant) CView.text("womb");
+    if (!amilyWomb.isPregnant() || !izmaWomb.isPregnant()) CView.text("womb");
     else CView.text("cunt");
     CView.text(", judging by how full your genitals are feeling, but it doesn't matter greatly one way or the other.  There's a calm, confident surety in the back of your mind that keeps reminding you that you're in charge here, and that both these women WILL be ");
-    if (!pregnancy.isPregnant || !izmaScene.pregnancy.isPregnant) CView.text("pregnant");
+    if (!amilyWomb.isPregnant() || !izmaWomb.isPregnant()) CView.text("pregnant");
     else CView.text("squirting");
     CView.text(" for you.  Each time you slam your ");
     if (player.body.cocks.length > 1) CView.text("doubled dicks");
@@ -7826,7 +7801,7 @@ function izmaAmilyDrugThreeWaySex(player: Character): NextScreenChoices {
     else CView.text("straight into Amily's juicy slit");
     CView.text(".  Izma's finger rubs up against you through the mouse-girl's inner walls, providing an extra layer of stimulation on top of the pleasure her glove-tight cunt is doling out.  Lady-spunk gushes over you from [cockHead biggest] all the way to your [sheath], and it drips on to Izma's dick-deprived snatch as you fuck the pregnancy-fetishizing mouse-girl.  The predatory slut sighs, but her finger begins to wiggle faster and faster within the confines of the mouse's ass, vibrating through the climaxing rodent-pussy to shroud you in ecstasy.  You bottom out inside the heavenly cunt and release, the pleasure of cumming stronger than normal, propelled by a biological imperative to ensure that every drop of semen is deposited as deeply into a willing female as possible.");
     CView.text("\n\nAmily stops suckling the shark-tit as she screeches out her excitement for the whole of your camp to hear.  Her " + amilyHips() + " buck wildly against you and the shark, splattering you both with the proof of her pleasure as instinct takes over.  With her efforts so focused on her nether-lips, her face slumps against Izma's pillow-like breast, and she begins to drool stupidly in between gasps and groans, too drunk on orgasm to care.  The sense of relief is as palpable as it is intense, growing with each thick, sticky bulge that launches out of your urethra.  Amily's pussy is splattered with cock-cream, quickly filling, the walls of her well-used canal entirely soaked in white.");
-    if (!pregnancy.isPregnant) CView.text("  Her belly begins to puff up from the thorough insemination, at first going a little pudgy, but then turning large and bulbous.  Her empty womb is somehow taking more and more of your virile seed inside.  It's almost like her cervix is sucking down the yogurt-thick load like a one-way valve, and soon Amily's middle is positively jiggly with spunk, bulging out to either side of her from her body weight.");
+    if (!amilyWomb.isPregnant()) CView.text("  Her belly begins to puff up from the thorough insemination, at first going a little pudgy, but then turning large and bulbous.  Her empty womb is somehow taking more and more of your virile seed inside.  It's almost like her cervix is sucking down the yogurt-thick load like a one-way valve, and soon Amily's middle is positively jiggly with spunk, bulging out to either side of her from her body weight.");
     else {
         CView.text("  With her womb already occupied by your offspring, Amily's cervix stays steadfastly closed.  There's so much jizz pumping out of you that the tight canal can't even begin to hold all of it");
         if (player.body.cocks.sort(Cock.Largest)[0].hasKnot()) CView.text(", but your knot traps it inside anyway.  You cum and cum until the pressure is almost painful, but even your magnificent knot can't hold it all back");
@@ -7834,18 +7809,18 @@ function izmaAmilyDrugThreeWaySex(player: Character): NextScreenChoices {
     }
     // [Next]
 
-    choices[0] = ["Next", izmaAmilyDrugThreeWaySex2];
+    return { next: izmaAmilyDrugThreeWaySex2 };
 }
 
 function izmaAmilyDrugThreeWaySex2(player: Character): NextScreenChoices {
     CView.clear();
     CView.text("Time goes hazy, for a bit, but the cool air on your sopping boner is enough to rouse you back to full consciousness.  The scene is unreal.  Amily rolled off of Izma at some point and is laying flat on her back, cradling her ");
-    if (!izmaScene.pregnancy.isPregnant) CView.text("cum-");
+    if (!izmaWomb.isPregnant()) CView.text("cum-");
     CView.text("pregnant belly and murmuring, \"<i>Babies,</i>\" while her fingers mindlessly diddle her alabaster-painted cunt.  She shudders as aftershocks of pleasure torture her lust-wracked brain, keeping her in a horny, docile state.");
     CView.text("\n\nIzma seems to have taken advantage of your lapse in consciousness - you're on your back, and she's straddling your chest");
     if (AmilyFlags.IZMA_NO_COCK === 0) CView.text(", dick and balls flopping lamely on top of you");
     CView.text(".  She pants, \"<i>Dunno why I didn't just fuck ya while you were out of it...  Didn't seem right.</i>\"  Rubbing her breast one-handed, the shark-girl begs, \"<i>Can I have it now?  Can you cum in me like you did her, [name]?  Please, I'm so... so wet for you, I'll make you feel so good.</i>\"  She keeps scooting back and forth just above your [hips], the hard lump of her clit pressing into you as she awaits permission to ");
-    if (!izmaScene.pregnancy.isPregnant) CView.text("be inseminated");
+    if (!izmaWomb.isPregnant()) CView.text("be inseminated");
     else CView.text("have her pregnant-pussy packed full again");
     CView.text(".");
 
@@ -7880,18 +7855,18 @@ function izmaAmilyDrugThreeWaySex2(player: Character): NextScreenChoices {
     if (player.body.cocks.length === 2) CView.text(", taking a hand away from your extra dick to support herself,");
     if (player.body.cocks.length > 2) CView.text(", taking a hand away from one of your extra dicks to support herself,");
     CView.text(" and kisses you passionately.  The fervent kiss is as short as it is frenzied, but as you're recovering from it, Izma starts to talk, \"<i>You like that, Alpha?  You like having my cunt suckling on your dick?</i>\"  She swivels her hips with her words, the inner tentacles all pulling on you in concerted waves, actually lifting your penis to press deeper inside her, right up against her ");
-    if (izmaScene.pregnancy.isPregnant) CView.text("closed");
+    if (izmaWomb.isPregnant()) CView.text("closed");
     else CView.text("dilated");
     CView.text(" cervix.  \"<i>");
-    if (izmaScene.pregnancy.isPregnant) CView.text("I know I'm pregnant, but I want you to cum as deeply inside me as possible, okay?  I just... I have to have your cum. I NEED to feel that warmth flooding inside me.  It'll... ohh, yes... it'll make me feel so good, so loved.");
+    if (izmaWomb.isPregnant()) CView.text("I know I'm pregnant, but I want you to cum as deeply inside me as possible, okay?  I just... I have to have your cum. I NEED to feel that warmth flooding inside me.  It'll... ohh, yes... it'll make me feel so good, so loved.");
     else CView.text("I don't know how, but I just know that you're going to make me pregnant when you cum inside me.  It's going to get me oh-ohhhhh... so heavy with your child, and it'll be perfect and blissful.  You're going to fucking flood me with jizz, aren't you, Alpha?");
     CView.text("</i>\"  Izma's eyes twinkle with a mixture of obscene hunger and overbearing affection.  She whispers, \"<i>Will you please");
-    if (!izmaScene.pregnancy.isPregnant) CView.text(" make me your gravid, jizz-slurping beta-wife?");
+    if (!izmaWomb.isPregnant()) CView.text(" make me your gravid, jizz-slurping beta-wife?");
     else CView.text(" cum in your pregnant, jizz-hungry wife?");
     CView.text("</i>\"");
 
     CView.text("\n\nFuck, it's like she's telling you to do exactly what you want to do!  There's nothing hotter than ");
-    if (!izmaScene.pregnancy.isPregnant) CView.text("watching a bitch's belly bloat as it's packed to a full, fertile dome");
+    if (!izmaWomb.isPregnant()) CView.text("watching a bitch's belly bloat as it's packed to a full, fertile dome");
     else CView.text("stuffing a cunt so full she'll never stop dripping your seed");
     CView.text(".  Getting to lie back and watch her cum her brains out while you do it?  That's just icing on the cake.  Izma's feelers flutter erotically about you, spastically stroking with uncoordinated, individual slithers that remind you of a hundred tiny tongues.  She gets infinitely wetter, something you didn't think possible, and her whole body begins to go scarlet, coloring as she climaxes.");
     if (AmilyFlags.IZMA_NO_COCK === 0) CView.text("  Her four balls quake atop you, and you watch her urethra bulge, ready to splatter your [chest] with her own, lesser climax.");
@@ -7899,7 +7874,7 @@ function izmaAmilyDrugThreeWaySex2(player: Character): NextScreenChoices {
     if (AmilyFlags.IZMA_NO_COCK === 0) CView.text("  The smell of her hot, inferior seed hits your nostrils, exciting you even further as it rolls off of you in thick globs.");
 
     CView.text("\n\nYou feel like an over-pressurized tank that's just been tapped.  One moment, there's indescribable force all bottled up inside you, and the next you're letting it spray out in long waves, each one guided through your urethra by contractions so violent they cause your whole body to shake each time.  You pump long lances of seed into the shark-girl's ready snatch.  She screams, \"<i>Yes!  Give it to me!  Ohhh, gods, YES!</i>\" as you fill her.");
-    if (izmaScene.pregnancy.isPregnant) {
+    if (izmaWomb.isPregnant()) {
         CView.text("  Her womb remains steadfastly closed, already seeded to capacity, so your salty deposit quickly floods the smaller canal.  The tendrils go lax as they're dipped in your baby-batter, each limp in the heady flow.");
         if (player.body.cocks.sort(Cock.Largest)[0].hasKnot()) CView.text("  Your knot balloons explosively inside her, but the seal on her womb is tighter.");
         CView.text("  Jism rushes out around your cock in a river.  The nest was already soaked with liquid lust from your last tryst, moments ago, but now it's soaked completely white.  After a while, Izma's actually forced off you by the incredible potency of your eruptions, falling flat on her back.");
@@ -7912,7 +7887,7 @@ function izmaAmilyDrugThreeWaySex2(player: Character): NextScreenChoices {
         CView.text(".");
     }
     CView.text("\n\nIzma pants, \"<i>Ung... mmm... so much,</i>\" and cradles her ");
-    if (!pregnancy.isPregnant) CView.text("jizz-bloated");
+    if (!amilyWomb.isPregnant()) CView.text("jizz-bloated");
     else CView.text("child-bearing");
     CView.text(" middle.  You're still going, still spurting, but without a tight hole to fill, there's just no pleasure on it.  You start to push yourself up - you need to impregnate something, but Amily is there in a flash, still jilling her pussy as she stuffs her ass with your squirting cock.  It slides on in with ease thanks to its copious spurting and the double-dose of cunt-juice that wreathes it.");
 
@@ -7930,7 +7905,7 @@ function izmaAmilyDrugThreeWaySex2(player: Character): NextScreenChoices {
     CView.text(" already refilling, and you know that before long, you'll give Izma enough to keep her fed for a week.  It's hard to think with lightning bolts of pleasure exploding in your cock and a mouth stuffed full of cummy cunt, so you don't.  You let the scent of the mixed sexual juices and the feel of Izma's mouth take over, enjoying simple reciprocation until your next cum, one you barely remember aside from the blackout inducing ecstasy.");
     // [Next]
 
-    choices[0] = ["Next", izmaAmilyDrugThreeWaySex3];
+    return { next: izmaAmilyDrugThreeWaySex3 };
 }
 
 function izmaAmilyDrugThreeWaySex3(player: Character): NextScreenChoices {
@@ -7940,16 +7915,16 @@ function izmaAmilyDrugThreeWaySex3(player: Character): NextScreenChoices {
 
     CView.text("<b>Some time later...</b>\n");
     CView.text("You come to in a daze.  You're soaked in sexual juices of all kinds from the waist down, though for once, [eachCock] has gone soft.  Izma is snuggled up under your left arm and Amily under your right.  They're still asleep, but they're even more soaked than you, and hugging each other across your body.  The potion may have worked a little differently than Amily designed it to, but you can't really complain about the results.");
-    if (!izmaScene.pregnancy.isPregnant || !pregnancy.isPregnant) {
+    if (!izmaWomb.isPregnant() || !amilyWomb.isPregnant()) {
         CView.text("\n\n(<b>");
-        if (!pregnancy.isPregnant) {
+        if (!amilyWomb.isPregnant()) {
             CView.text("Amily");
-            pregnancy.knockUpForce(PregnancyType.PLAYER, IncubationTime.MOUSE - 182); // Amily carries babies to term way faster than a regular player
-            if (!izmaScene.pregnancy.isPregnant) CView.text(" and ");
+            amilyWomb.knockUp(new Pregnancy(PregnancyType.PLAYER, IncubationTime.MOUSE - 182), amilyPregEvents); // Amily carries babies to term way faster than a regular player
+            if (!izmaWomb.isPregnant()) CView.text(" and ");
         }
-        if (!izmaScene.pregnancy.isPregnant) {
+        if (!izmaWomb.isPregnant()) {
             CView.text("Izma");
-            izmaScene.pregnancy.knockUpForce(PregnancyType.PLAYER, IncubationTime.IZMA);
+            izmaWomb.knockUpForce(PregnancyType.PLAYER, IncubationTime.IZMA);
         }
         CView.text(" definitely got pregnant.</b>)");
     }
@@ -7979,14 +7954,14 @@ export function amilyNurseCheckup(player: Character): NextScreenChoices {
         CView.text("\n\nA sultry voice purrs, \"<i>Ah, [name].  Come on in, it's time for your check-up.</i>\"");
         AmilyFlags.AMILY_CLOTHING = "a naughty nurse's outfit";
 
-        choices[0] = ["Next", amilyNurseCheckupV2, false];
+        return { next: partial(amilyNurseCheckupV2, player, false) };
     }
     // Repeat
     else {
         CView.text("\"<i>You want another check-up?</i>\" Amily says.  \"<i>Well, okay.  Let me get the outfit!</i>\"  She turns, her tail smacking your [butt] as she runs behind some rocks to grab the skimpy white \"dress\", if it can be call that.  You wait with undisguised excitement, twiddling your thumbs to pass the time.");
         CView.text("\n\nEventually, Amily's fair voice purrs out, \"<i>Time for your checkup, [name].  You must have quite the condition since you keep coming back.  Come on in...</i>\"");
 
-        choices[0] = ["Next", amilyNurseCheckupV2, true];
+        return { next: partial(amilyNurseCheckupV2, player, true) };
     }
 
 }
@@ -7994,19 +7969,22 @@ export function amilyNurseCheckup(player: Character): NextScreenChoices {
 // [Next] - both merge here
 function amilyNurseCheckupV2(player: Character, repeat: boolean): NextScreenChoices {
     CView.clear();
-    const x: number = player.body.cocks.find(Cock.CockThatFits(61));
+    const cockThatFits = player.body.cocks.find(Cock.CockThatFits(61));
     CView.text("You step in to Amily's office, as it were.  It's really just a cluster of boulders, but with the way the mouse-girl is looking about imperiously and gesturing for you to sit on a flat rock, you really do feel like you're back at the village doctor, getting checked on to make sure you're okay.  As for Amily, she's looking fine... mighty fine indeed.  Her " + amilyTits() + " nicely fill the tight, cleavage exposing top, while her ");
-    switch (pregnancy.event) {
+    switch (amilyWomb.event) {
         case 2:
-        case 3: CView.text("slightly-protruding pregnancy is exposed beneath it");
-                break;
+        case 3:
+            CView.text("slightly-protruding pregnancy is exposed beneath it");
+            break;
         case 4:
-        case 5: CView.text("pregnancy-swollen tummy rounds out beneath it");
-                break;
+        case 5:
+            CView.text("pregnancy-swollen tummy rounds out beneath it");
+            break;
         case 6:
         case 7:
-        case 8: CView.text("pregnancy-bloated belly bulges out beneath it");
-                break;
+        case 8:
+            CView.text("pregnancy-bloated belly bulges out beneath it");
+            break;
         default: CView.text("taut midriff is fully on display");
     }
     CView.text(".  The clingy bottom is little more than a micro-skirt, short enough that it nearly exposes her vagina to your roaming eyes.");
@@ -8058,9 +8036,9 @@ function amilyNurseCheckupV2(player: Character, repeat: boolean): NextScreenChoi
     CView.text("\n\nAmily unbuttons the top, letting her breasts sway freely as she climbs ");
     if (!player.body.legs.isTaur()) CView.text("into your lap");
     else CView.text("alongside your equine lower half");
-    CView.text(".  \"<i>J-just relax.  This won't hurt a b-bit,</i>\" she stutters as she aligns her entrance with your " + describeCock(player, xundefined) + ", pungent humidity rolling off her sex in steamy waves.  Your tip slowly parts her glittering mound, accompanied by a burst of ecstasy that has you slumping back against a boulder, tongue hanging out happily.  The petite mouse slowly undulates her waist as she takes more and more of your length into her box, the mousy muff eventually coming to rest against your [hips] with an almost apologetic pause in friction.");
+    CView.text(".  \"<i>J-just relax.  This won't hurt a b-bit,</i>\" she stutters as she aligns her entrance with your " + describeCock(player, cockThatFits) + ", pungent humidity rolling off her sex in steamy waves.  Your tip slowly parts her glittering mound, accompanied by a burst of ecstasy that has you slumping back against a boulder, tongue hanging out happily.  The petite mouse slowly undulates her waist as she takes more and more of your length into her box, the mousy muff eventually coming to rest against your [hips] with an almost apologetic pause in friction.");
 
-    CView.text("\n\nThrowing her head back, the mouse-girl moans in excitement, and you feel her tunnel squeeze down on your " + describeCock(player, xundefined) + ", compressing it with forgiving, soft pressure.  Her secretions slowly trickle out onto you");
+    CView.text("\n\nThrowing her head back, the mouse-girl moans in excitement, and you feel her tunnel squeeze down on your " + describeCock(player, cockThatFits) + ", compressing it with forgiving, soft pressure.  Her secretions slowly trickle out onto you");
     if (player.body.cocks.length > 1) {
         CView.text(" as her hand finds its way to ");
         if (player.body.cocks.length > 2) CView.text("one of your extra cocks");
@@ -8072,12 +8050,12 @@ function amilyNurseCheckupV2(player: Character, repeat: boolean): NextScreenChoi
     CView.text("\n\nThe petite woman's skillful cock-manipulations have you squirming uncomfortably under her on the cusp of a blissful explosion for what seems like hours.  She whines, \"<i>Give it to me, [name]!  Fuck your naughty, nasty nurse!  Screw her silly! Yesssssss-!</i>\"  Her voice loses cohesion as she cums, and her pussy begins to assault you with sensuous, milking ripples all along your length.  [EachCock] squirts in response, accompanied by a clenching spasm of pleasure that crashes through the very fibres of your being.  Your [hips] lurch upward, hard enough to bounce the mouse into the air as you inseminate her.");
     if (player.cumQ() >= 500) {
         CView.text("  The steady rhythm of your spurts goes on unabated for well over thirty seconds, ");
-        if (!pregnancy.isPregnant) CView.text("slowly filling Amily's womb to capacity");
+        if (!amilyWomb.isPregnant()) CView.text("slowly filling Amily's womb to capacity");
         else CView.text("slowly forcing trails of semen out of her entrance");
         CView.text(".");
         if (player.cumQ() >= 2000) {
             CView.text("  Amily hangs on for dear life as ");
-            if (!pregnancy.isPregnant) CView.text("she's filled to capacity, her stretchy, mallaeble middle bulging lewdly with spunky jizz, sloshing with each fresh injection.");
+            if (!amilyWomb.isPregnant()) CView.text("she's filled to capacity, her stretchy, mallaeble middle bulging lewdly with spunky jizz, sloshing with each fresh injection.");
             else CView.text("torrents of the stuff spray out of her entrance, her canal too filled to hold even a drop more and your penis continuing to push the pressure higher.");
         }
         if (player.cumQ() >= 500) CView.text("  It turns your crotch into a sticky mess.");
@@ -8086,7 +8064,7 @@ function amilyNurseCheckupV2(player: Character, repeat: boolean): NextScreenChoi
     CView.text("\n\nYour body goes limp as it spends the last of your desire into Amily's spasming slit.  Her body is wracked by one last convulsion");
     if (AmilyFlags.AMILY_WANG_LENGTH > 0) CView.text(" that flings sticky ropes across your [chest].  Her back arches as she continues to launch her own jism towards you");
     CView.text(", and then she too sags down against you, hugging you as she says, \"<i>That was... intense.</i>\"  She tries to rise, but her legs fall limp halfway up.");
-    if (xundefined.hasKnot()) CView.text("  She tries again.  This time, it's your knot that keeps her rooted firmly in place, and she stays plugged like that for a good twenty minutes, her cunt basting in your animal-spooge as she enjoys the fullness only a thick knot can provide.");
+    if (cockThatFits.hasKnot()) CView.text("  She tries again.  This time, it's your knot that keeps her rooted firmly in place, and she stays plugged like that for a good twenty minutes, her cunt basting in your animal-spooge as she enjoys the fullness only a thick knot can provide.");
     CView.text("  Finally, she makes it up and off of you.  Her pussy is nice and wet, matted with white.");
 
     CView.text("\n\nYou rise and kiss Amily on the lips, thanking her for the checkup before you pick up her hat and put it back on her head, mentioning that you're not sure her cure took.");
@@ -8096,6 +8074,6 @@ function amilyNurseCheckupV2(player: Character, repeat: boolean): NextScreenChoi
     player.orgasm();
     player.stats.sens += -2;
 
-    return amilyPreggoChance(player);
+    amilyPreggoChance(player);
     return { next: returnToCampUseOneHour };
 }
