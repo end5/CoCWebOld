@@ -9,14 +9,20 @@ class InputManager implements ISerializable<InputManager> {
     private keyBinds: List<KeyPair>;
 
     public reset(bindableAction: BindableAction) {
-        if (DefaultKeyBinds[bindableAction].primaryKey)
-            this.get(bindableAction).primaryKey = DefaultKeyBinds[bindableAction].primaryKey.clone();
-        else
-            this.get(bindableAction).primaryKey = undefined;
-        if (DefaultKeyBinds[bindableAction].secondaryKey)
-            this.get(bindableAction).secondaryKey = DefaultKeyBinds[bindableAction].secondaryKey.clone();
-        else
-            this.get(bindableAction).secondaryKey = undefined;
+        const keyPair = this.keyBinds.get(bindableAction);
+        if (keyPair) {
+            const primaryKey = DefaultKeyBinds[bindableAction].primaryKey;
+            if (primaryKey)
+                keyPair.primaryKey = primaryKey.clone();
+            else
+                keyPair.primaryKey = undefined;
+
+            const secondaryKey = DefaultKeyBinds[bindableAction].secondaryKey;
+            if (secondaryKey)
+                keyPair.secondaryKey = secondaryKey.clone();
+            else
+                keyPair.secondaryKey = undefined;
+        }
     }
 
     public resetAll() {
@@ -26,8 +32,11 @@ class InputManager implements ISerializable<InputManager> {
     }
 
     public clear(bindableAction: BindableAction) {
-        this.get(bindableAction).primaryKey = undefined;
-        this.get(bindableAction).secondaryKey = undefined;
+        const keyPair = this.keyBinds.get(bindableAction);
+        if (keyPair) {
+            keyPair.primaryKey = undefined;
+            keyPair.secondaryKey = undefined;
+        }
     }
 
     public clearAll() {
@@ -36,7 +45,7 @@ class InputManager implements ISerializable<InputManager> {
         }
     }
 
-    public get(bindableAction: BindableAction): KeyPair {
+    public get(bindableAction: BindableAction): KeyPair | undefined {
         return this.keyBinds.get(bindableAction);
     }
 
@@ -76,9 +85,15 @@ class InputManager implements ISerializable<InputManager> {
 
     private initDefaultKeyBind(bindableAction: BindableAction) {
         const keyPair = DefaultKeyBinds[bindableAction];
-        const primaryKey = keyPair.primaryKey.clone();
-        const secondaryKey = keyPair.secondaryKey ? keyPair.secondaryKey.clone() : undefined;
-        this.keyBinds.add(new KeyPair(primaryKey, secondaryKey));
+        if (keyPair) {
+            let primaryKey = keyPair.primaryKey;
+            if (primaryKey)
+                primaryKey = primaryKey.clone();
+            let secondaryKey = keyPair.secondaryKey;
+            if (secondaryKey)
+                secondaryKey = secondaryKey.clone();
+            this.keyBinds.add(new KeyPair(primaryKey, secondaryKey));
+        }
     }
 
     public serialize(): object | undefined {

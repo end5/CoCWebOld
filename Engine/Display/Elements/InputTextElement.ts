@@ -1,21 +1,20 @@
 import { ScreenElement } from './ScreenElement';
 
-export class InputTextElement extends ScreenElement {
+export class InputTextElement extends ScreenElement<HTMLInputElement> {
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('input');
-        (this.htmlElement as HTMLInputElement).type = "text";
+        super(document.createElement('input'));
+        this.htmlElement.type = "text";
     }
 
     public get text(): string {
-        return (this.htmlElement as HTMLInputElement).value;
+        return this.htmlElement.value;
     }
 
     public set text(text: string) {
-        (this.htmlElement as HTMLInputElement).value = text;
+        this.htmlElement.value = text;
     }
 
     public select() {
-        (this.htmlElement as HTMLInputElement).select();
+        this.htmlElement.select();
     }
 }

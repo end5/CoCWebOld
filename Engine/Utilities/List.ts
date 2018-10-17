@@ -1,16 +1,14 @@
-﻿import { randomChoice } from "./SMath";
+﻿export type SortOption<T> = (a: T, b: T) => number;
+export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
+export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
+export type MapOption<T, U> = (value: T, index: number, array: T[]) => U;
+export type FindOption<T> = (value: T, index: number, array: T[]) => boolean;
 
-export type SortOption<T> = (a?: T, b?: T) => number;
-export type FilterOption<T> = (value?: T, index?: number, array?: T[]) => boolean;
-export type ReduceOption<T, U> = (previousValue?: U, currentValue?: T, currentIndex?: number, array?: T[]) => U;
-export type MapOption<T, U> = (value?: T, index?: number, array?: T[]) => U;
-export type FindOption<T> = (value?: T, index?: number, array?: T[]) => boolean;
-
-export class List<Entry> implements Iterable<Entry> {
-    protected list: Entry[] = [];
+export class List<T> implements Iterable<T> {
+    protected list: T[] = [];
     private minLength: number = 0;
 
-    public add(item: Entry) {
+    public add(item: T) {
         this.list.push(item);
     }
 
@@ -19,14 +17,13 @@ export class List<Entry> implements Iterable<Entry> {
             this.list.splice(index, 1);
     }
 
-    public get(index: number): Entry {
+    public get(index: number): T | undefined {
         if (index >= 0 && index < this.list.length)
             return this.list[index];
-        console.error("Array index out of bounds");
-        return undefined;
+        throw new Error("Array index out of bounds");
     }
 
-    public indexOf(object: Entry): number {
+    public indexOf(object: T): number {
         return this.list.indexOf(object);
     }
 
@@ -46,16 +43,16 @@ export class List<Entry> implements Iterable<Entry> {
      * Returns a sorted copy of the list using the provided sort option
      * @param option SortOption
      */
-    public sort(option: SortOption<Entry>): Entry[] {
-        return this.list.slice().sort(option);
+    public sort(option: SortOption<T> | ((a: T, b: T) => number)): List<T> {
+        return this.fromArray(this.list.slice().sort(option));
     }
 
     /**
      * Returns a filtered copy of the list using the provided filter option
      * @param option FilterOption or FindOption
      */
-    public filter(option: FilterOption<Entry>): Entry[] {
-        return this.list.filter(option);
+    public filter(option: FilterOption<T> | ((value: T, index: number, array: T[]) => boolean)): List<T> {
+        return this.fromArray(this.list.filter(option));
     }
 
     /**
@@ -63,8 +60,8 @@ export class List<Entry> implements Iterable<Entry> {
      * @param option ReduceOption
      * @param initialValue If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.
      */
-    public reduce(option: ReduceOption<Entry, Entry>, initialValue?: Entry): Entry;
-    public reduce<U>(option: ReduceOption<Entry, U>, initialValue: U): U;
+    public reduce(option: ReduceOption<T, T> | ((prev: T, curr: T, index: number, array: T[]) => T), initialValue?: T): T;
+    public reduce<U>(option: ReduceOption<T, U> | ((prev: U, curr: T, index: number, array: U[]) => U), initialValue: U): U;
     public reduce(option: any, initialValue?: any) {
         return this.list.reduce(option, initialValue);
     }
@@ -74,31 +71,41 @@ export class List<Entry> implements Iterable<Entry> {
      * otherwise.
      * @param option FindOption or FilterOption
      */
-    public find(option: FindOption<Entry>): Entry | undefined {
+    public find(option: FindOption<T> | ((value: T, index: number, array: T[]) => boolean)): T | undefined {
         return this.list.find(option);
     }
 
-    public map<U>(option: MapOption<Entry, U>): U[] {
-        return this.list.map(option);
+    public map<U>(option: MapOption<T, U> | ((value: T, index: number, array: T[]) => U)): List<U> {
+        return this.fromArray(this.list.map(option));
     }
 
-    public forEach(callbackfn: (value: Entry, index: number, array: Entry[]) => void): void {
+    public forEach(callbackfn: (value: T, index: number, array: T[]) => void): void {
         return this.list.forEach(callbackfn);
     }
 
     /**
      * Returns a random item from the list.
      */
-    public random(): Entry {
-        return randomChoice(this.list);
+    public random(): T | undefined {
+        return this.list[Math.round(Math.random() * (this.list.length - 1))];
     }
 
-    public [Symbol.iterator](): Iterator<Entry> {
+    public toArray(): T[] {
+        return this.list.slice(0);
+    }
+
+    private fromArray<U>(list: U[]): List<U> {
+        const newList = new List<U>();
+        newList.list = list.slice(0);
+        return newList;
+    }
+
+    public [Symbol.iterator](): Iterator<T> {
         let counter = 0;
         const storedList = this.list;
 
         return {
-            next(): IteratorResult<Entry> {
+            next(): IteratorResult<T> {
                 return {
                     done: counter === storedList.length,
                     value: storedList[counter++]

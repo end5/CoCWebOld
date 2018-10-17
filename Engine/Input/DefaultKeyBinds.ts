@@ -55,7 +55,7 @@ import { KeyPair } from './KeyPair';
  * 68	-- ???				-- ??? Unknown, theres a conditional check for the button, but no code is ever executed
  */
 
-export const DefaultKeyBinds = {};
+export const DefaultKeyBinds: { [x: string]: KeyPair } = {};
 DefaultKeyBinds[BindableAction.Stats] = new KeyPair(new KeyCombination(83));
 DefaultKeyBinds[BindableAction.LevelUp] = new KeyPair(new KeyCombination(76));
 DefaultKeyBinds[BindableAction.Quicksave1] = new KeyPair(new KeyCombination(112));

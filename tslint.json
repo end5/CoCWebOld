@@ -19,7 +19,12 @@
         "array-type": false,
         "object-literal-sort-keys": false,
         "no-console": false,
-        "no-null-keyword": true
+        "no-null-keyword": true,
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "allow-leading-underscore"
+        ]
     },
     "rulesDirectory": []
 }

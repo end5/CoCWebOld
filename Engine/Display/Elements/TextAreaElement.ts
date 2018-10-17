@@ -1,12 +1,11 @@
 import { TextElement } from './TextElement';
 
-export class TextAreaElement extends TextElement {
+export class TextAreaElement extends TextElement<HTMLTextAreaElement> {
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('textarea');
+        super(document.createElement('textarea'));
     }
 
     public select() {
-        (this.htmlElement as HTMLTextAreaElement).select();
+        this.htmlElement.select();
     }
 }

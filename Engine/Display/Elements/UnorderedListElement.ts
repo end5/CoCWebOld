@@ -1,12 +1,11 @@
-import { ListEntryElement } from './ListItemElement';
+import { ListEntryElement } from './ListEntryElement';
 import { ScreenElement } from './ScreenElement';
 
-export class UnorderedListElement extends ScreenElement {
+export class UnorderedListElement extends ScreenElement<HTMLUListElement> {
     private list: ListEntryElement[];
 
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('ul');
+        super(document.createElement('ul'));
         this.list = [];
     }
 
@@ -15,8 +14,9 @@ export class UnorderedListElement extends ScreenElement {
         this.list.push(element);
     }
 
-    public get(index: number): ListEntryElement {
-        return index < this.list.length ? this.list[index] : undefined;
+    public get(index: number): ListEntryElement | undefined {
+        if (index >= this.list.length) return;
+        return this.list[index];
     }
 
     public remove(index: number) {

@@ -1,6 +1,6 @@
 import { ScreenElement } from './ScreenElement';
 
-export abstract class TextElement extends ScreenElement {
+export abstract class TextElement<T extends HTMLElement> extends ScreenElement<T> {
     private textBuffer: string = "";
     private bufferModified: boolean = false;
 
@@ -19,63 +19,65 @@ export abstract class TextElement extends ScreenElement {
         return this.bufferModified;
     }
 
-    public text(text: string): TextElement {
+    public text(text: string): TextElement<T> {
         this.bufferModified = true;
         this.textBuffer = text + "";
         this.htmlElement.innerHTML += text;
         return this;
     }
 
-    public newline(): TextElement {
+    public newline(): TextElement<T> {
         this.store("<br>", "");
         return this;
     }
 
-    public endline(): TextElement {
+    public endline(): TextElement<T> {
         this.store("", "<br>");
         return this;
     }
 
-    public newParagraph(): TextElement {
+    public newParagraph(): TextElement<T> {
         this.store("<br><br>", "");
         return this;
     }
 
-    public bold(): TextElement {
+    public bold(): TextElement<T> {
         this.store("<b>", "</b>");
         return this;
     }
 
-    public italic(): TextElement {
+    public italic(): TextElement<T> {
         this.store("<i>", "</i>");
         return this;
     }
 
-    public underscore(): TextElement {
+    public underscore(): TextElement<T> {
         this.store("<u>", "</u>");
         return this;
     }
 
-    public say(): TextElement {
+    public say(): TextElement<T> {
         this.store("<b>", "</b>");
         return this;
     }
 
-    public describe(): TextElement {
+    public describe(): TextElement<T> {
         this.store("<i>", "</i>");
         return this;
     }
 
-    public link(link: string): TextElement {
+    public link(link: string): TextElement<T> {
         this.store("<a href='" + link + "'>", "</a>");
         return this;
     }
 
     public clear() {
-        while (this.htmlElement.hasChildNodes()) {
-            this.htmlElement.removeChild(this.htmlElement.lastChild);
+        if (this.htmlElement) {
+            while (this.htmlElement.lastChild) {
+                this.htmlElement.removeChild(this.htmlElement.lastChild);
+            }
+            this.htmlElement.innerHTML = "";
         }
         this.textBuffer = "";
-        this.htmlElement.innerHTML = "";
     }
 }

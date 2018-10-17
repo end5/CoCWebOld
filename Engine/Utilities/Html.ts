@@ -1,5 +1,5 @@
 export function loadFromId<K extends keyof HTMLElementTagNameMap>(id: string): HTMLElementTagNameMap[K] {
-    const element: HTMLElement = document.getElementById(id);
+    const element = document.getElementById(id);
     if (!element)
         throw new Error("Could not find " + id + " on page");
     return element as HTMLElementTagNameMap[K];

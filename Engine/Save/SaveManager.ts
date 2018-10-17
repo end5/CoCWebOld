@@ -1,10 +1,10 @@
-import { DisplayText } from '../display/DisplayText';
 import { AnchorElement } from '../Display/Elements/AnchorElement';
 import { MainScreen } from '../Display/MainScreen';
+import { CView } from '../Display/ContentView';
 
 class SaveManager {
-    private activatedSlot: number;
-    private saveSlots: object[];
+    private activatedSlot: number = -1;
+    private saveSlots: (object | undefined)[];
     public autoSave: boolean;
 
     public constructor() {
@@ -19,13 +19,13 @@ class SaveManager {
     }
 
     private readSlots() {
-        if (localStorage.getItem("CoCWeb"))
-            try {
-                this.saveSlots = JSON.parse(localStorage.getItem("CoCWeb"));
-            }
-            catch (e) {
-                console.error(e);
-            }
+        try {
+            if (localStorage.getItem("CoCWeb"))
+                this.saveSlots = JSON.parse(localStorage.getItem("CoCWeb")!);
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
 
     public activeSlot(): number {
@@ -36,7 +36,7 @@ class SaveManager {
         return !!this.saveSlots[slot];
     }
 
-    public get(slot: number): object {
+    public get(slot: number): object | undefined {
         return this.saveSlots[slot];
     }
 
@@ -62,7 +62,8 @@ class SaveManager {
         const fileReader = new FileReader();
         fileReader.readAsBinaryString(blob);
         fileReader.addEventListener("loadend", () => {
-            callback(JSON.parse(fileReader.result));
+            if (typeof fileReader.result === 'string')
+                callback(JSON.parse(fileReader.result));
         });
     }
 
@@ -73,7 +74,7 @@ class SaveManager {
 
     public saveToFile(save: object, filename: string) {
         const anchor = new AnchorElement();
-        DisplayText().appendElement(anchor);
+        CView.textElement.appendElement(anchor);
         anchor.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(save));
         anchor.download = filename;
         anchor.click();

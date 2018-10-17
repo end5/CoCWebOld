@@ -7,7 +7,7 @@ export enum SpriteName {
     Anemone = "Anemone",
     Arian = "Arian",
     Basilisk = "Basilisk",
-    Bee_Girl = "Bee_Girl",
+    BeeGirl = "Bee_Girl",
     Ceraph = "Ceraph",
     Ceraph_Clothed = "Ceraph_Clothed",
     Ceraph_Goblin = "Ceraph_Goblin",
@@ -60,7 +60,7 @@ export enum SpriteName {
     Jojo_Tentacle = "Jojo_Tentacle",
     Katherine = "Katherine",
     Kelt = "Kelt",
-    Kida = "Kida",
+    Kid_A = "Kid_A",
     Kiha = "Kiha",
     Kitsune_Black = "Kitsune_Black",
     Kitsune_Blonde = "Kitsune_Blonde",
@@ -103,7 +103,7 @@ export enum SpriteName {
     Succubus_Secretary = "Succubus_Secretary",
     Tamani_Daughters = "Tamani_Daughters",
     Tamani = "Tamani",
-    Tentacle_Monster = "Tentacle_Monster",
+    TentacleBeast = "Tentacle_Monster",
     Urta = "Urta",
     Urta_Drunk = "Urta_Drunk",
     Vagrant_Cats = "Vagrant_Cats",
@@ -115,4 +115,6 @@ export enum SpriteName {
     Weaponsmith = "Weaponsmith",
     Yara = "Yara",
     Yvonne = "Yvonne",
+    Shouldra = "Shouldra",
+    Wanderer = "Wanderer"
 }

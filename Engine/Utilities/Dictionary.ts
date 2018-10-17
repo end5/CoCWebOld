@@ -1,5 +1,5 @@
 export class Dictionary<Entry> implements Iterable<Entry> {
-    protected dictionary: object;
+    protected dictionary: { [x: string]: any };
 
     public constructor() {
         this.dictionary = {};
@@ -36,8 +36,8 @@ export class Dictionary<Entry> implements Iterable<Entry> {
         return {
             next(): IteratorResult<Entry> {
                 return {
-                    done: counter === Object.keys(this.dictionary).length,
-                    value: list[Object.keys(this.dictionary)[counter++]]
+                    done: counter === Object.keys(list).length,
+                    value: list[Object.keys(list)[counter++]]
                 };
             }
         };

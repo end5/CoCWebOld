@@ -1,8 +1,7 @@
 import { TextElement } from './TextElement';
 
-export class ParagraphElement extends TextElement {
+export class ParagraphElement extends TextElement<HTMLParagraphElement> {
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('p');
+        super(document.createElement('p'));
     }
 }

@@ -1,25 +1,24 @@
 import { ScreenElement } from './ScreenElement';
 
-export class AnchorElement extends ScreenElement {
+export class AnchorElement extends ScreenElement<HTMLAnchorElement> {
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('a');
+        super(document.createElement('a'));
     }
 
     public get href(): string {
-        return (this.htmlElement as HTMLAnchorElement).href;
+        return this.htmlElement.href;
     }
 
     public set href(link: string) {
-        (this.htmlElement as HTMLAnchorElement).href = link;
+        this.htmlElement.href = link;
     }
 
     public get download(): string {
-        return (this.htmlElement as HTMLAnchorElement).download;
+        return this.htmlElement.download;
     }
 
     public set download(name: string) {
-        (this.htmlElement as HTMLAnchorElement).download = name;
+        this.htmlElement.download = name;
     }
 
     public click() {

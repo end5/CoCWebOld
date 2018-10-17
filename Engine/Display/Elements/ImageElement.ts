@@ -1,12 +1,11 @@
 import { ScreenElement } from './ScreenElement';
 
-export class ImageElement extends ScreenElement {
+export class ImageElement extends ScreenElement<HTMLImageElement> {
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('img');
+        super(document.createElement('img'));
     }
 
     public load(location: string) {
-        (this.htmlElement as HTMLImageElement).src = location;
+        this.htmlElement.src = location;
     }
 }

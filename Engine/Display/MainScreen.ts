@@ -2,7 +2,6 @@
 import { ImageElement } from './Elements/ImageElement';
 import { ParagraphElement } from './Elements/ParagraphElement';
 import { StatsPanelObserver } from './Elements/StatsPanelObserver';
-import { TextElement } from './Elements/TextElement';
 import { loadFromId } from '../Utilities/Html';
 
 export enum TopButton {
@@ -17,11 +16,11 @@ export enum TopButton {
 class MainScreenFacade {
     private bottomButtons: ButtonElement[];
     private topButtons: ButtonElement[];
-    private nameDisplay: TextElement;
+    private nameDisplay: ParagraphElement;
     private statsPanel: StatsPanelObserver;
     private levelupIcon: ImageElement;
-    private timeDayElement: TextElement;
-    private timeHourElement: TextElement;
+    private timeDayElement: ParagraphElement;
+    private timeHourElement: ParagraphElement;
 
     public readonly NUM_TOP_BUTTONS = 6;
     public readonly NUM_BOT_BUTTONS = 10;
@@ -46,7 +45,6 @@ class MainScreenFacade {
         }
 
         this.statsPanel = new StatsPanelObserver();
-        this.statsPanel.setHTMLElement(loadFromId("statsPanel") as HTMLAnchorElement);
         this.nameDisplay = new ParagraphElement();
         this.nameDisplay.setHTMLElement(loadFromId("nameDisplay") as HTMLParagraphElement);
 
@@ -59,10 +57,9 @@ class MainScreenFacade {
     }
 
     // Top Buttons
-    public getTopButton(buttonNumber: TopButton): ButtonElement {
-        if (buttonNumber >= 0 && buttonNumber < this.NUM_TOP_BUTTONS) {
-            return this.topButtons[buttonNumber];
-        }
+    public getTopButton(buttonNumber: TopButton): ButtonElement | undefined {
+        if (buttonNumber < 0 && buttonNumber >= this.NUM_TOP_BUTTONS) return;
+        return this.topButtons[buttonNumber];
     }
 
     public showTopButtons() {
@@ -87,18 +84,17 @@ class MainScreenFacade {
     }
 
     // Time
-    public getTimeDayElement(): TextElement {
+    public getTimeDayElement(): ParagraphElement {
         return this.timeDayElement;
     }
 
-    public getTimeHourElement(): TextElement {
+    public getTimeHourElement(): ParagraphElement {
         return this.timeHourElement;
     }
 
-    public getBottomButton(buttonNumber: number): ButtonElement {
-        if (buttonNumber >= 0 && buttonNumber < this.NUM_BOT_BUTTONS) {
-            return this.bottomButtons[buttonNumber];
-        }
+    public getBottomButton(buttonNumber: number): ButtonElement | undefined {
+        if (buttonNumber < 0 && buttonNumber >= this.NUM_BOT_BUTTONS) return;
+        return this.bottomButtons[buttonNumber];
     }
 
     public showBottomButtons() {

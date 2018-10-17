@@ -1,8 +1,7 @@
 import { ScreenElement } from './ScreenElement';
 
-export class BlankElement extends ScreenElement {
+export class BlankElement extends ScreenElement<HTMLDivElement> {
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('div');
+        super(document.createElement('div'));
     }
 }

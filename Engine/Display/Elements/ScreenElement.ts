@@ -1,7 +1,11 @@
-export abstract class ScreenElement {
-    protected htmlElement: HTMLElement;
+export abstract class ScreenElement<T extends HTMLElement> {
+    protected htmlElement: T;
 
-    public setHTMLElement(element: HTMLElement) {
+    public constructor(htmlElement: T) {
+        this.htmlElement = htmlElement;
+    }
+
+    public setHTMLElement(element: T) {
         this.htmlElement = element;
     }
 
@@ -15,27 +19,25 @@ export abstract class ScreenElement {
             this.htmlElement.style.visibility = "visible";
     }
 
-    public appendElement(element: ScreenElement) {
+    public appendElement(element: ScreenElement<HTMLElement>) {
         if (this.htmlElement)
             element.htmlElement = this.htmlElement.appendChild(element.htmlElement);
     }
 
-    public removeElement(element: ScreenElement) {
+    public removeElement(element: ScreenElement<HTMLElement>) {
         if (this.htmlElement)
             this.htmlElement.removeChild(element.htmlElement);
     }
 
-    public get style(): CSSStyleDeclaration {
+    public get style(): CSSStyleDeclaration | undefined {
         if (this.htmlElement)
             return this.htmlElement.style;
-        else
-            return undefined;
+        return;
     }
 
-    public get computedStyle(): CSSStyleDeclaration {
+    public get computedStyle(): CSSStyleDeclaration | undefined {
         if (this.htmlElement)
             return window.getComputedStyle(this.htmlElement);
-        else
-            return undefined;
+        return;
     }
 }

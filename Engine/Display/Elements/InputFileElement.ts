@@ -1,17 +1,16 @@
 import { ScreenElement } from './ScreenElement';
 
-export class InputFileElement extends ScreenElement {
+export class InputFileElement extends ScreenElement<HTMLInputElement> {
     public constructor() {
-        super();
-        this.htmlElement = document.createElement('input');
-        (this.htmlElement as HTMLInputElement).type = "file";
+        super(document.createElement('input'));
+        this.htmlElement.type = "file";
     }
 
     public getFile(): string {
-        return (this.htmlElement as HTMLInputElement).value;
+        return this.htmlElement.value;
     }
 
     public select() {
-        (this.htmlElement as HTMLInputElement).select();
+        this.htmlElement.select();
     }
 }

@@ -5,9 +5,9 @@ import { loadFromId } from "../Utilities/Html";
 import { SpriteName } from "./Images/SpriteName";
 import { getImage } from "./Images/ImageLibrary";
 
-function parse(text: string): string {
-    return text.replace("\n", "<br/>");
-}
+// function parse(text: string): string {
+//     return text.replace("\n", "<br/>");
+// }
 
 class ContentView {
     public readonly imageElement: ImageElement = new ImageElement();

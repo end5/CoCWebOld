@@ -11,11 +11,10 @@ interface ImageLoadPromise {
 const directory: string = "img/";
 const extentions: string[] = [".jpg", ".png", ".jpeg"];
 const lib: Dictionary<string[]> = new Dictionary<string[]>();
-const promises = {};
 
 export function getImage(name: string): string {
     if (lib.get(name))
-        return randomChoice(lib.get(name));
+        return randomChoice(...lib.get(name));
     else return "";
 }
 
@@ -48,7 +47,8 @@ function constructPath(imageName: string, imageIndex: number, extention: string)
 export function loadImages() {
     lib.clear();
     return new Promise(() => {
-        for (const imageName of Object.keys(ImageName))
-            loadImage(ImageName[imageName], 0, extentions.copyWithin(0, 0));
+        for (const imageName of Object.keys(ImageName)) {
+            loadImage((ImageName[imageName as keyof typeof ImageName]), 0, extentions.copyWithin(0, 0));
+        }
     });
 }
