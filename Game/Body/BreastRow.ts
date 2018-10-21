@@ -82,27 +82,27 @@ export class BreastRow implements ISerializable<BreastRow> {
         return !a.nipples.fuckable;
     }
 
-    public static readonly AverageSize: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly AverageSize: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, _index: number, array: BreastRow[]) => {
             return previousValue + currentValue.rating / array.length;
     }
 
-    public static readonly AverageLactation: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly AverageLactation: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, _index: number, array: BreastRow[]) => {
         return previousValue + currentValue.lactationMultiplier / array.length;
     }
 
-    public static readonly AverageNipplesPerBreast: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly AverageNipplesPerBreast: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, _index: number, array: BreastRow[]) => {
         return previousValue + currentValue.nipples.count / array.length;
     }
 
-    public static readonly AverageNippleLength: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly AverageNippleLength: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, _index: number, array: BreastRow[]) => {
         return previousValue + currentValue.nipples.length / array.length;
     }
 
-    public static readonly TotalNipples: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly TotalNipples: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow) => {
         return previousValue + currentValue.nipples.count;
     }
 
-    public static readonly TotalBreasts: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+    public static readonly TotalBreasts: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow) => {
         return previousValue + currentValue.count;
     }
 
@@ -120,7 +120,7 @@ export class BreastRow implements ISerializable<BreastRow> {
         this.lactationMultiplier = lactationMultiplier;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             rating: this.rating,
             lactationMultiplier: this.lactationMultiplier,

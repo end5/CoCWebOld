@@ -50,7 +50,7 @@ export class Tail implements ISerializable<Tail> {
         return a.type === TailType.BEE_ABDOMEN || a.type === TailType.SPIDER_ABDOMEN;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type,
             venom: this.venom,

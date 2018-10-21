@@ -2,7 +2,9 @@ import { Perk, PerkDesc } from '../Perk';
 
 export class SluttySeduction extends PerkDesc {
     public description(perk?: Perk): string {
-        return "Increases odds of successfully teasing and lust damage of successful teases by " + perk.value1 + " points.";
+        if (perk)
+            return "Increases odds of successfully teasing and lust damage of successful teases by " + perk.value1 + " points.";
+        return "";
     }
 
     public constructor() {

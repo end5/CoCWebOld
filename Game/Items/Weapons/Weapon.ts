@@ -10,7 +10,7 @@ import { CView } from '../../../Engine/Display/ContentView';
 export class Weapon extends EquipableItem {
     public readonly verb: string;
     private attackValue: number;
-    public readonly perks: Dictionary<WeaponPerk>;
+    public readonly perks: Dictionary<WeaponPerkType, WeaponPerk>;
     public readonly displayName: string;
 
     public constructor(name: WeaponName, desc: ItemDesc, displayname: string, verb: string, attack: number, value?: number, perks?: WeaponPerkType[]) {
@@ -21,7 +21,8 @@ export class Weapon extends EquipableItem {
         this.perks = new Dictionary();
         if (perks)
             for (const perk of perks)
-                this.perks.set(perk, WeaponPerkLib.get(perk));
+                if (WeaponPerkLib.has(perk))
+                    this.perks.set(perk, WeaponPerkLib.get(perk)!);
     }
 
     public get attack(): number {

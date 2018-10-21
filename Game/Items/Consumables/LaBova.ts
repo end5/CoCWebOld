@@ -121,7 +121,7 @@ export class LaBova extends Consumable {
         if (character.body.cocks.length > 0 && randInt(2) === 0 && !User.settings.hyperHappy) {
             // If the character has at least one dick, decrease the size of each slightly,
             CView.text("\n\n");
-            const biggestCock = character.body.cocks.sort(Cock.Largest)[0];
+            const biggestCock = character.body.cocks.sort(Cock.Largest).get(0)!;
             let cockGrowth: number = 0;
             // Shrink said cock
             if (biggestCock.length < 6 && biggestCock.length >= 2.9) {
@@ -163,10 +163,15 @@ export class LaBova extends Consumable {
         let boobsGrew: boolean = false;
         // Increase character's breast size, if they are HH or bigger
         // do not increase size, but do the other actions:
-        if (((this.tainted && character.body.chest.sort(BreastRow.Largest)[0].rating <= 11) || (!this.tainted && character.body.chest.sort(BreastRow.Largest)[0].rating <= 5)) && changes < changeLimit && (randInt(3) === 0 || this.enhanced)) {
-            if (randInt(2) === 0) CView.text("\n\nYour " + describeBreastRow(character.body.chest.get(0)) + " tingle for a moment before becoming larger.");
-            else CView.text("\n\nYou feel a little weight added to your chest as your " + describeBreastRow(character.body.chest.get(0)) + " seem to inflate and settle in a larger size.");
-            growTopBreastRow(character, 1 + randInt(3), 1, false);
+        if (
+            ((this.tainted && character.body.chest.sort(BreastRow.Largest).get(0)!.rating <= 11) ||
+                (!this.tainted && character.body.chest.sort(BreastRow.Largest).get(0)!.rating <= 5)) &&
+            changes < changeLimit &&
+            (randInt(3) === 0 || this.enhanced)
+        ) {
+            if (randInt(2) === 0) CView.text("\n\nYour " + describeBreastRow(character.body.chest.firstRow) + " tingle for a moment before becoming larger.");
+            else CView.text("\n\nYou feel a little weight added to your chest as your " + describeBreastRow(character.body.chest.firstRow) + " seem to inflate and settle in a larger size.");
+            growTopBreastRow(character, 1 + randInt(3), 1);
             changes++;
             character.stats.sens += .5;
             boobsGrew = true;
@@ -181,65 +186,65 @@ export class LaBova extends Consumable {
             character.body.hair.type = 0;
         }
         // If breasts are D or bigger and are not lactating, they also start lactating:
-        if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 4 && character.body.chest.get(0).lactationMultiplier < 1 && changes < changeLimit && (randInt(3) === 0 || boobsGrew || this.enhanced)) {
-            CView.text("\n\nYou gasp as your " + describeBreastRow(character.body.chest.get(0)) + " feel like they are filling up with something.  Within moments, a drop of milk leaks from your " + describeBreastRow(character.body.chest.get(0)) + "; <b> you are now lactating</b>.");
-            character.body.chest.get(0).lactationMultiplier = 1.25;
+        if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 4 && character.body.chest.firstRow.lactationMultiplier < 1 && changes < changeLimit && (randInt(3) === 0 || boobsGrew || this.enhanced)) {
+            CView.text("\n\nYou gasp as your " + describeBreastRow(character.body.chest.firstRow) + " feel like they are filling up with something.  Within moments, a drop of milk leaks from your " + describeBreastRow(character.body.chest.firstRow) + "; <b> you are now lactating</b>.");
+            character.body.chest.firstRow.lactationMultiplier = 1.25;
             changes++;
             character.stats.sens += .5;
         }
         // Quad nipples and other 'special enhanced things.
         if (this.enhanced) {
             // QUAD DAMAGE!
-            if (character.body.chest.get(0).nipples.count === 1) {
+            if (character.body.chest.firstRow.nipples.count === 1) {
                 changes++;
-                character.body.chest.get(0).nipples.count = 4;
-                CView.text("\n\nYour " + describeNipple(character, character.body.chest.get(0)) + "s tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as they split into four distinct nipples!  <b>You now have four nipples on each side of your chest!</b>");
-                if (character.body.chest.length >= 2 && character.body.chest.get(1).nipples.count === 1) {
+                character.body.chest.firstRow.nipples.count = 4;
+                CView.text("\n\nYour " + describeNipple(character, character.body.chest.firstRow) + "s tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as they split into four distinct nipples!  <b>You now have four nipples on each side of your chest!</b>");
+                if (character.body.chest.length >= 2 && character.body.chest.get(1)!.nipples.count === 1) {
                     CView.text("A moment later your second row of " + describeBreastRow(character.body.chest.get(1)) + " does the same.  <b>You have sixteen nipples now!</b>");
-                    character.body.chest.get(1).nipples.count = 4;
+                    character.body.chest.get(1)!.nipples.count = 4;
                 }
-                if (character.body.chest.length >= 3 && character.body.chest.get(2).nipples.count === 1) {
+                if (character.body.chest.length >= 3 && character.body.chest.get(2)!.nipples.count === 1) {
                     CView.text("Finally, your ");
                     if (character.body.chest.length === 3) CView.text("third row of " + describeBreastRow(character.body.chest.get(2)) + " mutates along with its sisters, sprouting into a wonderland of nipples.");
                     else if (character.body.chest.length >= 4) {
                         CView.text("everything from the third row down mutates, sprouting into a wonderland of nipples.");
-                        character.body.chest.get(3).nipples.count = 4;
-                        if (character.body.chest.length >= 5) character.body.chest.get(4).nipples.count = 4;
-                        if (character.body.chest.length >= 6) character.body.chest.get(5).nipples.count = 4;
-                        if (character.body.chest.length >= 7) character.body.chest.get(6).nipples.count = 4;
-                        if (character.body.chest.length >= 8) character.body.chest.get(7).nipples.count = 4;
-                        if (character.body.chest.length >= 9) character.body.chest.get(8).nipples.count = 4;
+                        character.body.chest.get(3)!.nipples.count = 4;
+                        if (character.body.chest.length >= 5) character.body.chest.get(4)!.nipples.count = 4;
+                        if (character.body.chest.length >= 6) character.body.chest.get(5)!.nipples.count = 4;
+                        if (character.body.chest.length >= 7) character.body.chest.get(6)!.nipples.count = 4;
+                        if (character.body.chest.length >= 8) character.body.chest.get(7)!.nipples.count = 4;
+                        if (character.body.chest.length >= 9) character.body.chest.get(8)!.nipples.count = 4;
                     }
-                    character.body.chest.get(2).nipples.count = 4;
+                    character.body.chest.get(2)!.nipples.count = 4;
                     CView.text("  <b>You have a total of " + numToCardinalText(character.body.chest.reduce(BreastRow.TotalNipples, 0)) + " nipples.</b>");
                 }
             }
             // QUAD DAMAGE IF WEIRD SHIT BROKE BEFORE
-            else if (character.body.chest.length > 1 && character.body.chest.get(1).nipples.count === 1) {
-                if (character.body.chest.get(1).nipples.count === 1) {
+            else if (character.body.chest.length > 1 && character.body.chest.get(1)!.nipples.count === 1) {
+                if (character.body.chest.get(1)!.nipples.count === 1) {
                     CView.text("\n\nYour second row of " + describeBreastRow(character.body.chest.get(1)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(1)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your second row of breasts</b>.");
-                    character.body.chest.get(1).nipples.count = 4;
+                    character.body.chest.get(1)!.nipples.count = 4;
                 }
             }
-            else if (character.body.chest.length > 2 && character.body.chest.get(2).nipples.count === 1) {
-                if (character.body.chest.get(2).nipples.count === 1) {
+            else if (character.body.chest.length > 2 && character.body.chest.get(2)!.nipples.count === 1) {
+                if (character.body.chest.get(2)!.nipples.count === 1) {
                     CView.text("\n\nYour third row of " + describeBreastRow(character.body.chest.get(2)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(2)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your third row of breasts</b>.");
-                    character.body.chest.get(2).nipples.count = 4;
+                    character.body.chest.get(2)!.nipples.count = 4;
                 }
             }
-            else if (character.body.chest.length > 3 && character.body.chest.get(3).nipples.count === 1) {
-                if (character.body.chest.get(3).nipples.count === 1) {
+            else if (character.body.chest.length > 3 && character.body.chest.get(3)!.nipples.count === 1) {
+                if (character.body.chest.get(3)!.nipples.count === 1) {
                     CView.text("\n\nYour fourth row of " + describeBreastRow(character.body.chest.get(3)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(3)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your fourth row of breasts</b>.");
-                    character.body.chest.get(3).nipples.count = 4;
+                    character.body.chest.get(3)!.nipples.count = 4;
                 }
             }
-            else if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier > 1) {
-                if (randInt(2) === 0) CView.text("\n\nA wave of pleasure passes through your chest as your " + describeBreastRow(character.body.chest.get(0)) + " start leaking milk from a massive jump in production.");
-                else CView.text("\n\nSomething shifts inside your " + describeBreastRow(character.body.chest.get(0)) + " and they feel MUCH fuller and riper.  You know that you've started producing much more milk.");
+            else if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier > 1) {
+                if (randInt(2) === 0) CView.text("\n\nA wave of pleasure passes through your chest as your " + describeBreastRow(character.body.chest.firstRow) + " start leaking milk from a massive jump in production.");
+                else CView.text("\n\nSomething shifts inside your " + describeBreastRow(character.body.chest.firstRow) + " and they feel MUCH fuller and riper.  You know that you've started producing much more milk.");
                 boostLactation(character, 2.5);
-                if ((character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 1.5 && this.tainted) || (!this.tainted && character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 1)) {
-                    CView.text("  Your " + describeNipple(character, character.body.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
-                    character.body.chest.sort(BreastRow.Largest)[0].nipples.length += .25;
+                if ((character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 1.5 && this.tainted) || (!this.tainted && character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 1)) {
+                    CView.text("  Your " + describeNipple(character, character.body.chest.firstRow) + "s swell up, growing larger to accommodate your increased milk flow.");
+                    character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length += .25;
                     character.stats.sens += .5;
                 }
                 changes++;
@@ -247,30 +252,30 @@ export class LaBova extends Consumable {
         }
         // If breasts are already lactating and the character is not lactating beyond a reasonable level, they start lactating more:
         else {
-            if (this.tainted && character.body.chest.get(0).lactationMultiplier > 1 && character.body.chest.get(0).lactationMultiplier < 5 && changes < changeLimit && (randInt(3) === 0 || this.enhanced)) {
-                if (randInt(2) === 0) CView.text("\n\nA wave of pleasure passes through your chest as your " + describeBreastRow(character.body.chest.get(0)) + " start producing more milk.");
-                else CView.text("\n\nSomething shifts inside your " + describeBreastRow(character.body.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.");
+            if (this.tainted && character.body.chest.firstRow.lactationMultiplier > 1 && character.body.chest.firstRow.lactationMultiplier < 5 && changes < changeLimit && (randInt(3) === 0 || this.enhanced)) {
+                if (randInt(2) === 0) CView.text("\n\nA wave of pleasure passes through your chest as your " + describeBreastRow(character.body.chest.firstRow) + " start producing more milk.");
+                else CView.text("\n\nSomething shifts inside your " + describeBreastRow(character.body.chest.firstRow) + " and they feel fuller and riper.  You know that you've started producing more milk.");
                 boostLactation(character, 0.75);
-                if ((character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 1.5 && this.tainted) || (!this.tainted && character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 1)) {
-                    CView.text("  Your " + describeNipple(character, character.body.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
-                    character.body.chest.sort(BreastRow.Largest)[0].nipples.length += .25;
+                if ((character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 1.5 && this.tainted) || (!this.tainted && character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 1)) {
+                    CView.text("  Your " + describeNipple(character, character.body.chest.firstRow) + "s swell up, growing larger to accommodate your increased milk flow.");
+                    character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length += .25;
                     character.stats.sens += .5;
                 }
                 changes++;
             }
             if (!this.tainted) {
-                if (character.body.chest.get(0).lactationMultiplier > 1 && character.body.chest.get(0).lactationMultiplier < 3.2 && changes < changeLimit && randInt(3) === 0) {
-                    if (randInt(2) === 0) CView.text("\n\nA wave of pleasure passes through your chest as your " + describeBreastRow(character.body.chest.get(0)) + " start producing more milk.");
-                    else CView.text("\n\nSomething shifts inside your " + describeBreastRow(character.body.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.");
+                if (character.body.chest.firstRow.lactationMultiplier > 1 && character.body.chest.firstRow.lactationMultiplier < 3.2 && changes < changeLimit && randInt(3) === 0) {
+                    if (randInt(2) === 0) CView.text("\n\nA wave of pleasure passes through your chest as your " + describeBreastRow(character.body.chest.firstRow) + " start producing more milk.");
+                    else CView.text("\n\nSomething shifts inside your " + describeBreastRow(character.body.chest.firstRow) + " and they feel fuller and riper.  You know that you've started producing more milk.");
                     boostLactation(character, 0.75);
-                    if ((character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 1.5 && this.tainted) || (!this.tainted && character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 1)) {
-                        CView.text("  Your " + describeNipple(character, character.body.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
-                        character.body.chest.sort(BreastRow.Largest)[0].nipples.length += .25;
+                    if ((character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 1.5 && this.tainted) || (!this.tainted && character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 1)) {
+                        CView.text("  Your " + describeNipple(character, character.body.chest.firstRow) + "s swell up, growing larger to accommodate your increased milk flow.");
+                        character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length += .25;
                         character.stats.sens += .5;
                     }
                     changes++;
                 }
-                if ((character.body.chest.get(0).lactationMultiplier > 2 && character.effects.has(StatusEffectType.Feeder)) || character.body.chest.get(0).lactationMultiplier > 5) {
+                if ((character.body.chest.firstRow.lactationMultiplier > 2 && character.effects.has(StatusEffectType.Feeder)) || character.body.chest.firstRow.lactationMultiplier > 5) {
                     if (randInt(2) === 0) CView.text("\n\nYour breasts suddenly feel less full, it seems you aren't lactating at quite the level you were.");
                     else CView.text("\n\nThe insides of your breasts suddenly feel bloated.  There is a spray of milk from them, and they settle closer to a more natural level of lactation.");
                     changes++;
@@ -284,7 +289,7 @@ export class LaBova extends Consumable {
         // apply an effect where the character really wants
         // to give their milk to other creatures
         // (capable of getting them addicted):
-        if (!character.effects.has(StatusEffectType.Feeder) && character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 3 && randInt(2) === 0 && character.body.chest.sort(BreastRow.Largest)[0].rating >= 5 && character.stats.cor >= 35) {
+        if (!character.effects.has(StatusEffectType.Feeder) && character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 3 && randInt(2) === 0 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 5 && character.stats.cor >= 35) {
             CView.text("\n\nYou start to feel a strange desire to give your milk to other creatures.  For some reason, you know it will be very satisfying.\n\n<b>(You have gained the 'Feeder' perk!)</b>");
             character.effects.add(StatusEffectType.Feeder, 0, 0, 0, 0);
             character.perks.add(PerkType.Feeder, 0, 0, 0, 0);
@@ -294,16 +299,16 @@ export class LaBova extends Consumable {
         // If character has addictive quality and drinks pure version, removes addictive quality.
         // if the character has a vagina and it is tight, it loosens.
         if (character.body.vaginas.length > 0) {
-            if (character.body.vaginas.get(0).looseness < VaginaLooseness.LOOSE && changes < changeLimit && randInt(2) === 0) {
-                CView.text("\n\nYou feel a relaxing sensation in your groin.  On further inspection you discover your " + describeVagina(character, character.body.vaginas.get(0)) + " has somehow relaxed, permanently loosening.");
-                character.body.vaginas.get(0).looseness++;
+            if (character.body.vaginas.get(0)!.looseness < VaginaLooseness.LOOSE && changes < changeLimit && randInt(2) === 0) {
+                CView.text("\n\nYou feel a relaxing sensation in your groin.  On further inspection you discover your " + describeVagina(character, character.body.vaginas.get(0)!) + " has somehow relaxed, permanently loosening.");
+                character.body.vaginas.get(0)!.looseness++;
                 // Cunt Stretched used to determine how long since last enlargement
                 if (!character.effects.has(StatusEffectType.CuntStretched))
                     character.effects.add(StatusEffectType.CuntStretched, 0, 0, 0, 0);
                 // Reset the timer on it to 0 when restretched.
                 else
-                    character.effects.get(StatusEffectType.CuntStretched).value1 = 0;
-                character.body.vaginas.get(0).looseness++;
+                    character.effects.get(StatusEffectType.CuntStretched)!.value1 = 0;
+                character.body.vaginas.get(0)!.looseness++;
                 changes++;
                 character.stats.lust += 10;
             }
@@ -444,14 +449,14 @@ export class LaBova extends Consumable {
         }
         // Nipples Turn Back:
         if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.firstRow) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.get(0).type === 5 && character.body.vaginas.length > 0) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.get(0)!.type === 5 && character.body.vaginas.length > 0) {
             CView.text("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
-            character.body.vaginas.get(0).type = 0;
+            character.body.vaginas.get(0)!.type = 0;
             changes++;
         }
         if (randInt(3) === 0) CView.text(displayModFem(character, 79, 3));

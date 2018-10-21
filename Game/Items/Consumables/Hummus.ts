@@ -105,9 +105,9 @@ export class Hummus extends Consumable {
         character.body.chest.add(newBreastRow);
         // Girls and herms get bewbs back
         if (character.gender > 2) {
-            character.body.chest.get(0).rating = 2;
+            character.body.chest.firstRow.rating = 2;
         }
-        else character.body.chest.get(0).rating = 0;
+        else character.body.chest.firstRow.rating = 0;
         character.body.neck.gills = false;
         character.effects.remove(StatusEffectType.Uniball);
         character.effects.remove(StatusEffectType.BlackNipples);

@@ -3,13 +3,11 @@ import { Cock, CockType } from '../Body/Cock';
 import { SkinType } from '../Body/Skin';
 import { Character } from '../Character/Character';
 
-export function describeCock(character: Character, cock: Cock): string {
+export function describeCock(character: Character, cock: Cock | undefined): string {
     if (character.body.cocks.length > 0 || !cock)
         return "<b>ERROR: CockDescript Called But No Cock Present</b>";
 
     // Only describe as pierced or sock covered if the creature has just one cock
-    const isPierced: boolean = character.inventory.equipment.piercings.cocks.get(character.body.cocks.indexOf(cock)).isEquipped();
-    const hasSock: boolean = character.inventory.equipment.cockSocks.get(character.body.cocks.indexOf(cock)).isEquipped();
     const isGooey: boolean = (character.body.skin.type === SkinType.GOO);
     if (percentChance(50)) {
         if (cock.type === CockType.HUMAN)
@@ -194,9 +192,13 @@ export function nounCock(cockType: CockType): string {
 
 // New cock adjectives.  The old one sucked dicks
 // This function handles all cockAdjectives. Previously there were separate functions for the player, monsters and NPCs.
-export function adjectiveCock(character: Character, cock: Cock, lust: number = 50, cumQ: number = 10, isGooey: boolean = false): string {
-    const isPierced: boolean = character.inventory.equipment.piercings.cocks.get(character.body.cocks.indexOf(cock)).isEquipped();
-    const hasSock: boolean = character.inventory.equipment.cockSocks.get(character.body.cocks.indexOf(cock)).isEquipped();
+export function adjectiveCock(character: Character, cock?: Cock, lust: number = 50, cumQ: number = 10, isGooey: boolean = false): string {
+    if (!cock) return "";
+    const cockIndex = character.body.cocks.indexOf(cock);
+    const cockPiercings = character.inventory.equipment.piercings.cocks;
+    const cockSocks = character.inventory.equipment.cockSocks;
+    const isPierced: boolean = cockIndex !== -1 && !!cockPiercings.get(cockIndex) && cockPiercings.get(cockIndex)!.isEquipped();
+    const hasSock: boolean = cockIndex !== -1 && !!cockSocks.get(cockIndex) && cockSocks.get(cockIndex)!.isEquipped();
     // First, the three possible special cases
     if (isPierced && percentChance(20))
         return "pierced";
@@ -265,7 +267,8 @@ export function adjectiveCock(character: Character, cock: Cock, lust: number = 5
 }
 
 // Cock adjectives for single cock
-export function adjectivesCock(cock: Cock, character: Character): string {
+export function adjectivesCock(cock: Cock | undefined, character: Character): string {
+    if (!cock) return "";
     let description: string = "";
     // length or thickness, usually length.
     if (percentChance(25)) {
@@ -495,19 +498,21 @@ export function describeEachOfYourCocks(character: Character, caps?: boolean): s
 function cockMultiLDescriptionShort(character: Character): string {
     const cocks = character.body.cocks;
     if (cocks.length >= 1) {
+        const firstCock = cocks.get(0)!;
         if (cocks.length === 1) { // For a single cock return the default description
-            return describeCock(character, cocks.get(0));
+            return describeCock(character, firstCock);
         }
-        if (cocks.get(0).type === CockType.DOG || cocks.get(0).type === CockType.FOX) {
+        if (firstCock.type === CockType.DOG || firstCock.type === CockType.FOX) {
             return nounCock(CockType.DOG) + "s";
         }
-        return nounCock(cocks[0].type) + "s";
+        return nounCock(firstCock.type) + "s";
     }
 
     return nounCock(CockType.HUMAN) + "s";
 }
 
-export function describeCockHead(cock: Cock): string {
+export function describeCockHead(cock: Cock | undefined): string {
+    if (!cock) return "";
     switch (cock.type) {
         case CockType.CAT:
             return randomChoice(
@@ -562,12 +567,15 @@ export function describeCockHead(cock: Cock): string {
     }
 }
 
-export function describeCockSheath(cock: Cock): string {
+export function describeCockSheath(cock: Cock | undefined): string {
+    if (!cock) return "";
     return cock.hasSheath() ? "sheath" : "base";
 }
 
 // Short cock description. Describes length or girth. Supports multiple cocks.
-export function describeCockShort(cock: Cock): string {
+export function describeCockShort(cock: Cock | undefined): string {
+    if (!cock) return "";
+
     let description: string = "";
     // Discuss length one in 3 times
     if (percentChance(33)) {
@@ -606,13 +614,15 @@ export function describeCockShort(cock: Cock): string {
 }
 
 export function describeCocksLight(character: Character): string {
+    if (character.body.cocks.length <= 0) return "";
     let description: string = "";
     const cocks = character.body.cocks;
     const cockCount = cocks.length;
-    const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
+    const firstCock = cocks.get(0)!;
+    const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(firstCock.type)).length;
 
     if (cockCount === 1)
-        return describeCock(character, cocks.get(0));
+        return describeCock(character, firstCock);
 
     if (cockCount === 2) {
         if (cocksSameType)
@@ -629,10 +639,10 @@ export function describeCocksLight(character: Character): string {
     else if (cockCount > 3)
         description += randomChoice("bundle of ", "obscene group of ", "cluster of ", "wriggling bunch of ");
 
-    description += adjectiveCock(character, cocks.sort(Cock.Largest)[0], character.stats.lust, character.cumQ(), character.body.skin.type === SkinType.GOO);
+    description += adjectiveCock(character, cocks.sort(Cock.Largest).get(0), character.stats.lust, character.cumQ(), character.body.skin.type === SkinType.GOO);
 
     if (cocksSameType)
-        description += ", " + nounCock(cocks[0].cockType) + "s";
+        description += ", " + nounCock(firstCock.type) + "s";
     else
         description += randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks");
 
@@ -640,13 +650,15 @@ export function describeCocksLight(character: Character): string {
 }
 
 export function describeCocks(character: Character): string {
+    if (character.body.cocks.length <= 0) return "";
     let description: string = "";
     const cocks = character.body.cocks;
     const cockCount: number = cocks.length;
-    const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
+    const firstCock = cocks.get(0)!;
+    const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(firstCock.type)).length;
 
     if (cockCount === 1)
-        return describeCock(character, cocks.get(0));
+        return describeCock(character, firstCock);
 
     if (cockCount === 2) {
         if (cocksSameType)
@@ -663,10 +675,10 @@ export function describeCocks(character: Character): string {
     else if (cockCount > 3)
         description += randomChoice("a bundle of ", "an obscene group of ", "a cluster of ", "a wriggling group of ");
 
-    description += adjectiveCock(character, cocks.sort(Cock.Largest)[0], character.stats.lust, character.cumQ(), character.body.skin.type === SkinType.GOO);
+    description += adjectiveCock(character, cocks.sort(Cock.Largest).get(0), character.stats.lust, character.cumQ(), character.body.skin.type === SkinType.GOO);
 
     if (cocksSameType)
-        description += ", " + nounCock(cocks[0].cockType) + "s";
+        description += ", " + nounCock(firstCock.type) + "s";
     else
         description += randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks");
 

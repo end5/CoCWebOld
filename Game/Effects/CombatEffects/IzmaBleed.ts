@@ -7,8 +7,9 @@ import { CView } from '../../../Engine/Display/ContentView';
 
 export class IzmaBleed extends CombatEffect {
     public update(character: Character, enemy: Character) {
+        const izmaBleedEffect = character.combat.effects.get(CombatEffectType.IzmaBleed)!;
         if (character.charType === CharacterType.Player) {
-            if (character.combat.effects.get(CombatEffectType.IzmaBleed).value1 <= 0) {
+            if (izmaBleedEffect.value1 <= 0) {
                 character.combat.effects.remove(CombatEffectType.IzmaBleed);
                 CView.text("<b>You sigh with relief; your bleeding has slowed considerably.</b>");
             }
@@ -22,9 +23,9 @@ export class IzmaBleed extends CombatEffect {
         }
         else { // Bleed on Monster
             // Countdown to heal
-            character.combat.effects.get(CombatEffectType.IzmaBleed).value1 -= 1;
+            izmaBleedEffect.value1 -= 1;
             // Heal wounds
-            if (character.combat.effects.get(CombatEffectType.IzmaBleed).value1 <= 0) {
+            if (izmaBleedEffect.value1 <= 0) {
                 character.combat.effects.remove(CombatEffectType.IzmaBleed);
                 CView.text("The wounds you left on " + character.desc.a + character.desc.short + " stop bleeding so profusely.");
             }

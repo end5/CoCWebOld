@@ -19,6 +19,7 @@ import { describeCock } from '../../Descriptors/CockDescriptor';
 import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { kangaRaceScore } from '../../Body/RaceScore';
+import { NextScreenChoices } from '../../ScreenDisplay';
 
 /*
  General Effects:
@@ -54,7 +55,7 @@ export class KangaFruit extends Consumable {
         this.enhanced = enhanced;
     }
 
-    public use(character: Character) {
+    public use(character: Character): void | NextScreenChoices {
         CView.clear();
         CView.text("You squeeze the pod around the middle, forcing the end open.  Scooping out a handful of the yeasty-smelling seeds, you shovel them in your mouth.  Blech!  Tastes like soggy burnt bread... and yet, you find yourself going for another handful...");
         // Used to track changes and the max
@@ -157,7 +158,7 @@ export class KangaFruit extends Consumable {
             changes++;
         }
         // Find biggest dick!
-        const biggestCock = character.body.cocks.sort(Cock.Largest)[0];
+        const biggestCock = character.body.cocks.sort(Cock.Largest).get(0)!;
         // -Shrink dicks down to 8\" max.
         if (character.body.cocks.length > 0) {
             if (biggestCock.length >= 16 && changes < changeLimit && randInt(5) === 0) {
@@ -176,10 +177,10 @@ export class KangaFruit extends Consumable {
                 else CView.text("a sheath that forms at the base of it");
                 CView.text(".  <b>You now have a kangaroo-penis!</b>");
                 // Find first non-roocock!
-                for (let index: number = 0; index < character.body.cocks.length; index++) {
-                    if (character.body.cocks.get(index).type !== CockType.KANGAROO) {
-                        character.body.cocks.get(index).type = CockType.KANGAROO;
-                        character.body.cocks.get(index).knotMultiplier = 1;
+                for (const cock of character.body.cocks) {
+                    if (cock.type !== CockType.KANGAROO) {
+                        cock.type = CockType.KANGAROO;
+                        cock.knotMultiplier = 1;
                         break;
                     }
                 }

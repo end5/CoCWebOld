@@ -1,9 +1,9 @@
 ﻿import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { Item } from '../Items/Item';
-import { ItemFactory } from '../Items/ItemFactory';
+import { getItemFromName } from '../Items/ItemLookup';
 
 export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
-    public item: Item;
+    public item?: Item;
     private amount: number;
     private maxAmount: number;
 
@@ -37,29 +37,29 @@ export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
     }
 
     public split(amount: number): ItemStack<T> {
-        if (this.quantity === 0) {
-            return undefined;
-        }
-        else if (amount > 0) {
+        if (amount > 0) {
             const quantity: number = this.quantity - amount > 0 ? this.quantity - amount : 0;
             const returnItemStack: ItemStack<T> = new ItemStack<Item>(this.item, quantity);
             this.quantity -= quantity;
 
             return returnItemStack;
         }
+        return new ItemStack();
     }
 
-    public serialize(): object | undefined {
-        return this.item ? {
-            item: this.item.serialize(),
-            amount: this.amount,
-            maxAmount: this.maxAmount
-        } : undefined;
+    public serialize(): object | void {
+        if (this.item)
+            return {
+                item: this.item.serialize(),
+                amount: this.amount,
+                maxAmount: this.maxAmount
+            };
     }
 
     public deserialize(saveObject: ItemStack<T>) {
         if (saveObject) {
-            this.item = ItemFactory.get(saveObject.item.type, saveObject.item.name);
+            if (saveObject.item)
+                this.item = getItemFromName(saveObject.item.name);
             this.amount = saveObject.amount;
             this.maxAmount = saveObject.maxAmount;
         }

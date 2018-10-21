@@ -42,7 +42,7 @@ export class Fantasize implements ICombatAction {
             lustChange = 5 + randInt(character.stats.lib / 8 + character.stats.cor / 8);
         }
         else if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 6 && randInt(2) === 0) {
-            CView.text("You fantasize about grabbing " + target.desc.a + target.desc.short + " and forcing " + target.desc.objectivePronoun + " against a " + describeNipple(character, character.body.chest.get(0)) + ", and feeling your milk let down.  The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.\n");
+            CView.text("You fantasize about grabbing " + target.desc.a + target.desc.short + " and forcing " + target.desc.objectivePronoun + " against a " + describeNipple(character, character.body.chest.firstRow!) + ", and feeling your milk let down.  The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.\n");
             lustChange = 5 + randInt(character.stats.lib / 8 + character.stats.cor / 8);
         }
         else {

@@ -9,9 +9,17 @@ import { EquipableItem } from "./EquipableItem";
 import { ConsumableLib } from "./Consumables/ConsumableLib";
 import { MaterialLib } from "./Materials/MaterialLib";
 import { Material } from "./Materials/Material";
-import { MiscLib } from "./Misc/MiscLib";
+import { MiscLib, MiscName } from "./Misc/MiscLib";
+import { ArmorName } from "./Armors/ArmorName";
+import { WeaponName } from "./Weapons/WeaponName";
+import { ConsumableName } from "./Consumables/ConsumableName";
+import { MaterialName } from "./Materials/MaterialName";
 
-export function getLibFromType(type: ItemType): Dictionary<Armor | Weapon | Consumable | Material | EquipableItem> {
+type ItemName = ArmorName | WeaponName | ConsumableName | MaterialName | MiscName;
+type Item = Armor | Weapon | Consumable | Material | EquipableItem;
+type ItemDictionary = Dictionary<ItemName, Item>;
+
+export function getLibFromType(type: ItemType): ItemDictionary | undefined {
     switch (type) {
         case ItemType.Armor: {
             return ArmorLib;
@@ -30,24 +38,32 @@ export function getLibFromType(type: ItemType): Dictionary<Armor | Weapon | Cons
         }
     }
     console.error("Item " + name + " not found.");
+    return;
 }
 
-export function getTypeFromName(name: string): ItemType {
-    if (ArmorLib.has(name)) return ItemType.Armor;
-    if (WeaponLib.has(name)) return ItemType.Weapon;
-    if (ConsumableLib.has(name)) return ItemType.Consumable;
-    if (MaterialLib.has(name)) return ItemType.Material;
-    if (MiscLib.has(name)) return ItemType.Misc;
+export function getTypeFromName(name: string): ItemType | undefined {
+    if (ArmorLib.has(name as ArmorName)) return ItemType.Armor;
+    if (WeaponLib.has(name as WeaponName)) return ItemType.Weapon;
+    if (ConsumableLib.has(name as ConsumableName)) return ItemType.Consumable;
+    if (MaterialLib.has(name as MaterialName)) return ItemType.Material;
+    if (MiscLib.has(name as MiscName)) return ItemType.Misc;
+    return;
 }
 
-export function getLibFromName(name: string): Dictionary<Armor | Weapon | Consumable | Material | EquipableItem> {
-    if (ArmorLib.has(name)) return ArmorLib;
-    if (WeaponLib.has(name)) return WeaponLib;
-    if (ConsumableLib.has(name)) return ConsumableLib;
-    if (MaterialLib.has(name)) return MaterialLib;
-    if (MiscLib.has(name)) return MiscLib;
+export function getLibFromName(name: string): ItemDictionary | undefined {
+    if (ArmorLib.has(name as ArmorName)) return ArmorLib;
+    if (WeaponLib.has(name as WeaponName)) return WeaponLib;
+    if (ConsumableLib.has(name as ConsumableName)) return ConsumableLib;
+    if (MaterialLib.has(name as MaterialName)) return MaterialLib;
+    if (MiscLib.has(name as MiscName)) return MiscLib;
+    return;
 }
 
-export function getItemFromName(name: string): Armor | Weapon | Consumable | Material | EquipableItem {
-    return getLibFromName(name).get(name);
+export function getItemFromName(name: string): Item | undefined {
+    if (ArmorLib.has(name as ArmorName)) return ArmorLib.get(name as ArmorName);
+    if (WeaponLib.has(name as WeaponName)) return WeaponLib.get(name as WeaponName);
+    if (ConsumableLib.has(name as ConsumableName)) return ConsumableLib.get(name as ConsumableName);
+    if (MaterialLib.has(name as MaterialName)) return MaterialLib.get(name as MaterialName);
+    if (MiscLib.has(name as MiscName)) return MiscLib.get(name as MiscName);
+    return;
 }

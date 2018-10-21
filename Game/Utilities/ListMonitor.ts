@@ -6,15 +6,15 @@ import { List } from '../../Engine/Utilities/List';
  */
 export class ListMonitor implements IObserverList<any> {
     private list: List<any>;
-    private objectConstructor: new (...args) => any;
+    private objectConstructor: new (...args: any) => any;
     private args: any[];
-    public constructor(list: List<any>, objectConstructor: new (...args) => any, ...args: any[]) {
+    public constructor(list: List<any>, objectConstructor: new (...args: any) => any, ...args: any[]) {
         this.list = list;
         this.objectConstructor = objectConstructor;
         this.args = args;
     }
 
-    public onAdd(item: any): void {
+    public onAdd(_item: any): void {
         this.list.add(new this.objectConstructor(this.args));
     }
 
@@ -26,5 +26,5 @@ export class ListMonitor implements IObserverList<any> {
         this.list.clear();
     }
 
-    public update(message: string): void { }
+    public update(_message: string): void { }
 }

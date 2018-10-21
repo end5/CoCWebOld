@@ -106,9 +106,9 @@ export function cowRaceScore(character: Character): number {
     if (character.body.vaginas.length > 0)
         minoCounter++;
     if (character.body.chest.length > 0) {
-        if (character.body.chest.sort(BreastRow.Largest)[0].rating > 4 && minoCounter > 0)
+        if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 4 && minoCounter > 0)
             minoCounter++;
-        if (character.body.chest.sort(BreastRow.LactationMost)[0].rating > 2 && minoCounter > 0)
+        if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.rating > 2 && minoCounter > 0)
             minoCounter++;
     }
     return minoCounter;
@@ -118,7 +118,7 @@ export function sandTrapRaceScore(character: Character): number {
     let counter: number = 0;
     if (character.effects.has(StatusEffectType.BlackNipples))
         counter++;
-    if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).type === VaginaType.BLACK_SAND_TRAP)
+    if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.type === VaginaType.BLACK_SAND_TRAP)
         counter++;
     if (character.body.eyes.type === EyeType.BLACK_EYES_SAND_TRAP)
         counter++;
@@ -357,7 +357,7 @@ export function kitsuneRaceScore(character: Character): number {
         kitsuneCounter++;
     if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).length > 0 && character.body.tails.length >= 2)
         kitsuneCounter += 2;
-    if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).capacity() >= 8000)
+    if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.capacity() >= 8000)
         kitsuneCounter++;
     if (kitsuneCounter > 0 && character.body.face.type === FaceType.HUMAN)
         kitsuneCounter++;
@@ -440,7 +440,7 @@ export function gooRaceScore(character: Character): number {
         gooCounter++;
     if (character.body.legs.type === LegType.GOO)
         gooCounter++;
-    if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).capacity() > 9000)
+    if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.capacity() > 9000)
         gooCounter++;
     if (character.effects.has(StatusEffectType.SlimeCraving))
         gooCounter++;

@@ -35,7 +35,7 @@ class VaginaObserver implements IObserverList<Vagina> {
         private readonly wombs: ObservableList<Womb>
     ) { }
 
-    public onAdd(item: Vagina): void {
+    public onAdd(): void {
         this.wombs.add(new Womb(this.body));
     }
 
@@ -47,7 +47,7 @@ class VaginaObserver implements IObserverList<Vagina> {
         this.wombs.clear();
     }
 
-    public update(message: string): void { }
+    public update(): void { }
 }
 
 export class Body implements ISerializable<Body> {

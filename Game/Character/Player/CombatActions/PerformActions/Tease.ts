@@ -129,7 +129,7 @@ function determineTeaseChoice(character: Character, monster: Character, bimbo: b
     const buttRating = character.body.butt.rating;
     const largestBreastRating = character.body.chest.length > 0 ? character.body.chest.sort(BreastRow.Largest)[0].rating : 0;
     const hasVagina = character.body.vaginas.length > 0;
-    const vaginalWetness = hasVagina ? character.body.vaginas.get(0).wetness : 0;
+    const vaginalWetness = hasVagina ? character.body.vaginas.get(0)!.wetness : 0;
     const vaginalCapacity = character.vaginalCapacity();
     const cockCount = character.body.cocks.length;
     const largestCockArea = cockCount > 0 ? character.body.cocks.sort(Cock.Largest)[0].area : 0;
@@ -427,6 +427,7 @@ function selectChoice(list: number[]): number {
             return index;
         counter += list[index];
     }
+    return 0;
 }
 
 export class Tease implements ICombatAction {
@@ -518,14 +519,14 @@ export class Tease implements ICombatAction {
                 // Single breast row
                 if (character.body.chest.length === 1) {
                     // 50+ breastsize% success rate
-                    CView.text("Your lift your top, exposing your " + describeBreastRow(character.body.chest.get(0)) + " to " + target.desc.a + target.desc.short + ".  You shake them from side to side enticingly.");
-                    if (character.stats.lust >= 50) CView.text("  Your " + describeNipple(character, character.body.chest.get(0)) + "s seem to demand " + target.desc.possessivePronoun + " attention.");
+                    CView.text("Your lift your top, exposing your " + describeBreastRow(character.body.chest.firstRow!) + " to " + target.desc.a + target.desc.short + ".  You shake them from side to side enticingly.");
+                    if (character.stats.lust >= 50) CView.text("  Your " + describeNipple(character, character.body.chest.firstRow!) + "s seem to demand " + target.desc.possessivePronoun + " attention.");
                 }
                 // Multirow
                 if (character.body.chest.length > 1) {
                     // 50 + 10% per breastRow + breastSize%
-                    CView.text("You lift your top, freeing your rows of " + describeBreastRow(character.body.chest.get(0)) + " to jiggle freely.  You shake them from side to side enticingly");
-                    if (character.stats.lust >= 50) CView.text(", your " + describeNipple(character, character.body.chest.get(0)) + "s painfully visible.");
+                    CView.text("You lift your top, freeing your rows of " + describeBreastRow(character.body.chest.firstRow!) + " to jiggle freely.  You shake them from side to side enticingly");
+                    if (character.stats.lust >= 50) CView.text(", your " + describeNipple(character, character.body.chest.firstRow!) + "s painfully visible.");
                     else CView.text(".");
                     chance++;
                 }
@@ -543,7 +544,7 @@ export class Tease implements ICombatAction {
                     if (character.body.cocks.length > 0) {
                         chance++;
                         damage++;
-                        if (character.body.cocks.length === 1) CView.text(describeCock(character, character.body.cocks.get(0)));
+                        if (character.body.cocks.length === 1) CView.text(describeCock(character, character.body.cocks.get(0)!));
                         if (character.body.cocks.length > 1) CView.text(describeCocksLight(character));
                         CView.text(" and ");
                         if (character.perks.has(PerkType.BulgeArmor)) {
@@ -551,7 +552,7 @@ export class Tease implements ICombatAction {
                         }
                         penis = true;
                     }
-                    CView.text(describeVagina(character, character.body.vaginas.get(0)));
+                    CView.text(describeVagina(character, character.body.vaginas.get(0)!));
                     CView.text(".");
                 }
                 vagina = true;
@@ -564,7 +565,7 @@ export class Tease implements ICombatAction {
                 }
                 else {
                     CView.text("You open your " + character.inventory.equipment.armor.displayName + ", revealing your ");
-                    if (character.body.cocks.length === 1) CView.text(describeCock(character, character.body.cocks.get(0)));
+                    if (character.body.cocks.length === 1) CView.text(describeCock(character, character.body.cocks.get(0)!));
                     if (character.body.cocks.length > 1) CView.text(describeCocksLight(character));
                     if (character.body.vaginas.length > 0) CView.text(" and ");
                     // Bulgy bonus!
@@ -573,7 +574,7 @@ export class Tease implements ICombatAction {
                         chance++;
                     }
                     if (character.body.vaginas.length > 0) {
-                        CView.text(describeVagina(character, character.body.vaginas.get(0)));
+                        CView.text(describeVagina(character, character.body.vaginas.get(0)!));
                         vagina = true;
                     }
                     CView.text(".");
@@ -590,8 +591,8 @@ export class Tease implements ICombatAction {
                     chance += 3;
                 }
                 // Small butts = less damage, still high success
-                else {
-                    CView.text(", letting " + target.desc.a + target.desc.short + " get a good look at your " + describeButthole(character.body.butt) + " and " + describeVagina(character, character.body.vaginas.get(0)) + ".");
+                else if (character.body.vaginas.length > 0) {
+                    CView.text(", letting " + target.desc.a + target.desc.short + " get a good look at your " + describeButthole(character.body.butt) + " and " + describeVagina(character, character.body.vaginas.get(0)!) + ".");
                     chance += 1;
                     vagina = true;
                 }
@@ -601,7 +602,7 @@ export class Tease implements ICombatAction {
             // 5 breast jiggle
             case TeaseType.BimboBreastJiggle:
                 CView.text("You lean forward, letting the well-rounded curves of your " + describeAllBreasts(character) + " show to " + target.desc.a + target.desc.short + ".");
-                CView.text("  You cup them in your palms and lewdly bounce them, putting on a show and giggling the entire time.  An inch at a time, your " + character.inventory.equipment.armor.displayName + " starts to come down, dropping tantalizingly slowly until your " + describeNipple(character, character.body.chest.get(0)) + "s pop free.");
+                CView.text("  You cup them in your palms and lewdly bounce them, putting on a show and giggling the entire time.  An inch at a time, your " + character.inventory.equipment.armor.displayName + " starts to come down, dropping tantalizingly slowly until your " + describeNipple(character, character.body.chest.firstRow!) + "s pop free.");
                 if (character.stats.lust >= 50) {
                     if (character.body.chest.find(BreastRow.FuckableNipples)) {
                         chance++;
@@ -669,7 +670,7 @@ export class Tease implements ICombatAction {
                 break;
             // 10 Bulgy groin thrust
             case TeaseType.BroBulgyGroinThrust:
-                CView.text("You lean back and pump your hips at " + target.desc.a + target.desc.short + " in an incredibly vulgar display.  The bulging, barely-contained outline of your " + describeCock(character, character.body.cocks.get(0)) + " presses hard into your gear.  ");
+                CView.text("You lean back and pump your hips at " + target.desc.a + target.desc.short + " in an incredibly vulgar display.  The bulging, barely-contained outline of your " + describeCock(character, character.body.cocks.get(0)!) + " presses hard into your gear.  ");
                 if (character.perks.has(PerkType.BroBrains)) CView.text("No way could " + target.desc.subjectivePronoun + " resist your huge cock!");
                 else CView.text("This is so crude, but at the same time, you know it'll likely be effective.");
                 CView.text("  You go on like that, humping the air for your foe");
@@ -682,7 +683,7 @@ export class Tease implements ICombatAction {
             case TeaseType.BroShowOffDick:
                 if (User.settings.silly() && randInt(2) === 0) CView.text("You strike a herculean pose and flex, whispering, \"<i>Do you even lift?</i>\" to " + target.desc.a + target.desc.short + ".");
                 else {
-                    CView.text("You open your " + character.inventory.equipment.armor.displayName + " just enough to let your " + describeCock(character, character.body.cocks.get(0)) + " and " + describeBalls(true, true, character) + " dangle free.  A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you.  ");
+                    CView.text("You open your " + character.inventory.equipment.armor.displayName + " just enough to let your " + describeCock(character, character.body.cocks.get(0)!) + " and " + describeBalls(true, true, character) + " dangle free.  A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you.  ");
                     if (character.perks.has(PerkType.BroBrains)) CView.text("Bitches love a cum-leaking cock.");
                     else CView.text("You've got to admit, you look pretty good down there.");
                 }
@@ -693,7 +694,7 @@ export class Tease implements ICombatAction {
             // 12 Cat flexibility.
             case TeaseType.CatFlexibility:
                 // CAT TEASE MOTHERFUCK (requires flexibility and legs [maybe can't do it with armor?])
-                CView.text("Reaching down, you grab an ankle and pull it backwards, looping it up and over to touch the foot to your " + describeHair(character) + ".  You bring the leg out to the side, showing off your " + describeVagina(character, character.body.vaginas.get(0)) + " through your " + character.inventory.equipment.armor.displayName + ".  The combination of the lack of discomfort on your face and the ease of which you're able to pose shows " + target.desc.a + target.desc.short + " how good of a time they're in for with you.");
+                CView.text("Reaching down, you grab an ankle and pull it backwards, looping it up and over to touch the foot to your " + describeHair(character) + ".  You bring the leg out to the side, showing off your " + describeVagina(character, character.body.vaginas.get(0)!) + " through your " + character.inventory.equipment.armor.displayName + ".  The combination of the lack of discomfort on your face and the ease of which you're able to pose shows " + target.desc.a + target.desc.short + " how good of a time they're in for with you.");
                 vagina = true;
                 if (character.body.thickness < 33) chance++;
                 else if (character.body.thickness >= 66) chance--;
@@ -736,7 +737,7 @@ export class Tease implements ICombatAction {
                 // Req's tits & Pussy
                 if (character.body.chest.sort(BreastRow.Largest)[0].rating > 1 && character.body.vaginas.length > 0 && randInt(2) === 0) {
                     CView.text("Closing your eyes, you lean forward and slip a hand under your " + character.inventory.equipment.armor.displayName + ".  You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips.  When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm.  With your other hand, you pull down the top of your " + character.inventory.equipment.armor.displayName + " and bare your " + describeChest(character) + " to " + target.desc.a + target.desc.short + ".\n\n");
-                    CView.text("Drawing your lust-slick hand to your " + describeNipple(character, character.body.chest.get(0)) + "s, the yielding flesh of your cunt-like nipples parts before the teasing digits.  Using your own girl cum as added lubrication, you pump your fingers in and out of your nipples, moaning as you add progressively more digits until only your thumb remains to stroke the inflamed flesh of your over-stimulated chest.  Your throat releases the faintest squeak of your near-orgasmic delight and you pant, withdrawing your hands and readjusting your armor.\n\n");
+                    CView.text("Drawing your lust-slick hand to your " + describeNipple(character, character.body.chest.firstRow!) + "s, the yielding flesh of your cunt-like nipples parts before the teasing digits.  Using your own girl cum as added lubrication, you pump your fingers in and out of your nipples, moaning as you add progressively more digits until only your thumb remains to stroke the inflamed flesh of your over-stimulated chest.  Your throat releases the faintest squeak of your near-orgasmic delight and you pant, withdrawing your hands and readjusting your armor.\n\n");
                     CView.text("Despite how quiet you were, it's clear that every lewd, desperate noise you made was heard by " + target.desc.a + target.desc.short + ".");
                     chance += 2;
                     damage += 4;
@@ -924,7 +925,7 @@ export class Tease implements ICombatAction {
                 CView.text("Smirking coyly, you sway from side to side, running your tongue along your upper teeth seductively.  You hook your thumbs into your " + character.inventory.equipment.armor.displayName + " and pull them away to partially reveal ");
                 if (character.body.cocks.length > 0) CView.text(describeOneOfYourCocks(character));
                 if (character.gender === Gender.HERM) CView.text(" and ");
-                if (character.gender >= 2) CView.text("your " + describeVagina(character, character.body.vaginas.get(0)));
+                if (character.gender >= Gender.FEMALE) CView.text("your " + describeVagina(character, character.body.vaginas.get(0)!));
                 CView.text(".  Your bushy tail" + ((character.body.tails.length > 1) ? "s" : "") + " cross" + ((character.body.tails.length > 1) ? "" : "es") + " in front, wrapping around your genitals and obscuring the view teasingly.");
                 vagina = true;
                 penis = true;
@@ -963,7 +964,7 @@ export class Tease implements ICombatAction {
                 }
                 else if (cows === 2) {
                     CView.text("You tuck a finger to your lips, blinking innocently, then flick your tail, wafting the scent of your ");
-                    if (character.body.vaginas.get(0).wetness >= 3) CView.text("dripping ");
+                    if (character.body.vaginas.get(0)!.wetness >= 3) CView.text("dripping ");
                     CView.text("sex through the air.");
                     vagina = true;
                     chance++;
@@ -1090,19 +1091,19 @@ export class Tease implements ICombatAction {
             }
             // PUSSY BONUSES
             if (vagina) {
-                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).wetness >= 2) {
+                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.wetness >= 2) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).wetness >= 3) {
+                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.wetness >= 3) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).wetness >= 4) {
+                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.wetness >= 4) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).wetness >= 5) {
+                if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.wetness >= 5) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
@@ -1302,7 +1303,8 @@ export class Tease implements ICombatAction {
             // else if (monster.charType === CharacterType.Doppleganger && !monster.statusAffects.has(StatusAffectType.Stunned))
             //     (monster as Doppleganger).mirrorTease(damage, true);
             // else
-            target.combat.respond.enemyTease(damage, target, character);
+            if (target.combat.respond.enemyTease)
+                target.combat.respond.enemyTease(damage, target, character);
 
             if (PlayerFlags.FETISH >= 1) { // && !urtaQuest.isUrta()) {
                 if (character.stats.lust < 75) CView.text("\nFlaunting your body in such a way gets you a little hot and bothered.");

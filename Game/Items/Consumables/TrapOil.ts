@@ -83,31 +83,29 @@ export class TrapOil extends Consumable {
         }
         if (character.body.chest.length > 0) {
             // Breast Loss: (towards A cup)
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating > 1 && randInt(4) === 0 && changes < changeLimit) {
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 1 && randInt(4) === 0 && changes < changeLimit) {
                 CView.text("\n\nYou gasp as you feel a compressing sensation in your chest and around your [fullChest].  The feeling quickly fades however, leaving you feeling like you have lost a considerable amount of weight from your upper body.");
-                let selectedBreastRow: BreastRow;
-                for (let index: number = 0; index < character.body.chest.length; index++) {
-                    selectedBreastRow = character.body.chest.get(index);
-                    if (selectedBreastRow.rating > 70) selectedBreastRow.rating -= randInt(3) + 15;
-                    else if (selectedBreastRow.rating > 50) selectedBreastRow.rating -= randInt(3) + 10;
-                    else if (selectedBreastRow.rating > 30) selectedBreastRow.rating -= randInt(3) + 7;
-                    else if (selectedBreastRow.rating > 15) selectedBreastRow.rating -= randInt(3) + 4;
-                    else selectedBreastRow.rating -= 2 + randInt(2);
-                    if (selectedBreastRow.rating < 1) selectedBreastRow.rating = 1;
+                for (const breastRow of character.body.chest) {
+                    if (breastRow.rating > 70) breastRow.rating -= randInt(3) + 15;
+                    else if (breastRow.rating > 50) breastRow.rating -= randInt(3) + 10;
+                    else if (breastRow.rating > 30) breastRow.rating -= randInt(3) + 7;
+                    else if (breastRow.rating > 15) breastRow.rating -= randInt(3) + 4;
+                    else breastRow.rating -= 2 + randInt(2);
+                    if (breastRow.rating < 1) breastRow.rating = 1;
                 }
                 changes++;
             }
             // Breast Gain: (towards A cup)
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1 || character.body.chest.get(0).rating < 1 && randInt(4) === 0 && changes < changeLimit) {
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1 || character.body.chest.firstRow.rating < 1 && randInt(4) === 0 && changes < changeLimit) {
                 CView.text("\n\nYou feel a vague swelling sensation in your [fullChest], and you frown downwards.  You seem to have gained a little weight on your chest.  Not enough to stand out, but- you cup yourself carefully- certainly giving you the faintest suggestion of boobs.");
-                for (let index: number = 0; index < character.body.chest.length; index++)
-                    if (character.body.chest.get(index).rating < 1)
-                        character.body.chest.get(index).rating = 1;
+                for (const breastRow of character.body.chest)
+                    if (breastRow.rating < 1)
+                        breastRow.rating = 1;
                 changes++;
             }
         }
         // Penis Reduction towards 3.5 Inches:
-        if (character.body.cocks.length > 0 && character.body.cocks.sort(Cock.Longest)[0].length >= 3.5 && character.body.cocks.length > 0 && randInt(2) === 0 && changes < changeLimit) {
+        if (character.body.cocks.length > 0 && character.body.cocks.sort(Cock.Longest).get(0)!.length >= 3.5 && character.body.cocks.length > 0 && randInt(2) === 0 && changes < changeLimit) {
             CView.text("\n\nYou flinch and gasp as your " + describeCocksLight(character) + " suddenly become");
             if (character.body.cocks.length === 1) CView.text("s");
             CView.text(" incredibly sensitive and retract into your body.  Anxiously you pull down your underclothes to examine your nether regions.  To your relief ");
@@ -120,19 +118,17 @@ export class TrapOil extends Consumable {
             if (character.body.cocks.length === 1) CView.text("it seems");
             else CView.text("they seem");
             CView.text(" to have become smaller.");
-            let selectedCock: Cock;
-            for (let index: number = 0; index < character.body.cocks.length; index++) {
-                selectedCock = character.body.cocks.get(index);
-                if (selectedCock.length >= 3.5) {
+            for (const cock of character.body.cocks) {
+                if (cock.length >= 3.5) {
                     // Shrink said cock
-                    if (selectedCock.length < 6 && selectedCock.length >= 2.9) {
-                        selectedCock.length -= .5;
-                        if (selectedCock.thickness * 6 > selectedCock.length) selectedCock.thickness -= .2;
-                        if (selectedCock.thickness * 8 > selectedCock.length) selectedCock.thickness -= .2;
-                        if (selectedCock.thickness < .5) selectedCock.thickness = .5;
+                    if (cock.length < 6 && cock.length >= 2.9) {
+                        cock.length -= .5;
+                        if (cock.thickness * 6 > cock.length) cock.thickness -= .2;
+                        if (cock.thickness * 8 > cock.length) cock.thickness -= .2;
+                        if (cock.thickness < .5) cock.thickness = .5;
                     }
-                    selectedCock.length -= 0.5;
-                    growCock(character, selectedCock, Math.round(selectedCock.length * 0.33) * -1);
+                    cock.length -= 0.5;
+                    growCock(character, cock, Math.round(cock.length * 0.33) * -1);
                 }
             }
             changes++;
@@ -263,17 +259,17 @@ export class TrapOil extends Consumable {
             changes++;
         }
         // Vagina Turns Black:
-        if (character.body.vaginas.length > 0 && character.body.vaginas.get(0).type !== VaginaType.BLACK_SAND_TRAP && randInt(4) === 0 && changes < changeLimit) {
+        if (character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.type !== VaginaType.BLACK_SAND_TRAP && randInt(4) === 0 && changes < changeLimit) {
             CView.text("\n\nYour [vagina] feels... odd.  You undo your clothes and gingerly inspect your nether regions.  The tender pink color of your sex has disappeared, replaced with smooth, marble blackness starting at your lips and working inwards.");
             // (Wet:
-            if (character.body.vaginas.get(0).wetness >= 3) CView.text("  Your natural lubrication makes it gleam invitingly.");
+            if (character.body.vaginas.get(0)!.wetness >= 3) CView.text("  Your natural lubrication makes it gleam invitingly.");
             // (Corruption <50:
             if (character.stats.cor < 50) CView.text("  After a few cautious touches you decide it doesn't feel any different- it does certainly look odd, though.");
             else CView.text("  After a few cautious touches you decide it doesn't feel any different - the sheer bizarreness of it is a big turn on though, and you feel it beginning to shine with anticipation at the thought of using it.");
             CView.text("  <b>Your vagina is now ebony in color.</b>");
             character.stats.sens += 2;
             character.stats.lust += 10;
-            character.body.vaginas.get(0).type = VaginaType.BLACK_SAND_TRAP;
+            character.body.vaginas.get(0)!.type = VaginaType.BLACK_SAND_TRAP;
             changes++;
         }
         // Dragonfly Wings:

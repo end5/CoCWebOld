@@ -2,6 +2,11 @@
 import { ObservableList } from '../Utilities/ObservableList';
 
 export class Chest extends ObservableList<BreastRow> {
+    public get firstRow(): BreastRow {
+        if (this.list.length <= 0) throw new Error('No breast rows exist');
+        return this.list[0];
+    }
+
     public add(newBreastRow: BreastRow) {
         if (this.list.length < 10)
             this.list.push(newBreastRow);
@@ -14,6 +19,6 @@ export class Chest extends ObservableList<BreastRow> {
 
     public lactationSpeed(): number {
         // Lactation * breastSize x 10 (milkPerBreast) determines scene
-        return this.sort(BreastRow.LactationMost)[0].lactationMultiplier * this.sort(BreastRow.Largest)[0].rating * 10;
+        return this.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier * this.sort(BreastRow.Largest).get(0)!.rating * 10;
     }
 }

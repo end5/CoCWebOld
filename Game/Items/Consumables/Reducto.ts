@@ -27,12 +27,12 @@ export class Reducto extends Consumable {
 
     public use(character: Character): NextScreenChoices {
         const rdtBalls: ClickOption = (character.body.balls.count > 0 && character.body.balls.size > 1 ? this.reductoBalls : undefined);
-        const rdtBreasts: ClickOption = (character.body.chest.length > 0 && character.body.chest.sort(BreastRow.Largest)[0].rating > 0 ? this.reductoBreasts : undefined);
+        const rdtBreasts: ClickOption = (character.body.chest.length > 0 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 0 ? this.reductoBreasts : undefined);
         const rdtButt: ClickOption = (character.body.butt.rating > 1 ? this.reductoButt : undefined);
         const rdtClit: ClickOption = (character.body.vaginas.length > 0 && character.body.clit.length > 0.25 ? this.reductoClit : undefined);
-        const rdtCock: ClickOption = (character.body.cocks.length > 0 && character.body.cocks.sort(Cock.Largest)[0].area > 6 ? this.reductoCock : undefined);
+        const rdtCock: ClickOption = (character.body.cocks.length > 0 && character.body.cocks.sort(Cock.Largest).get(0)!.area > 6 ? this.reductoCock : undefined);
         const rdtHips: ClickOption = (character.body.hips.rating > 2 ? this.reductoHips : undefined);
-        const rdtNipples: ClickOption = (character.body.chest.length > 0 && character.body.chest.sort(BreastRow.Largest)[0].nipples.length > 0.25 ? this.reductoNipples : undefined);
+        const rdtNipples: ClickOption = (character.body.chest.length > 0 && character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length > 0.25 ? this.reductoNipples : undefined);
         CView.clear();
         CView.text("You ponder the paste in your hand and wonder what part of your body you would like to shrink.  What will you use it on?");
         return {
@@ -56,7 +56,7 @@ export class Reducto extends Consumable {
         CView.clear();
         CView.text("You smear the foul-smelling ointment all over your " + describeAllBreasts(character) + ", covering them entirely as the paste begins to get absorbed into your " + character.body.skin.desc + ".\n");
         shrinkTits(character, true);
-        if (randInt(2) === 0 && character.body.chest.sort(BreastRow.Largest)[0].rating >= 1) {
+        if (randInt(2) === 0 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 1) {
             CView.text("\nThe effects of the paste continue to manifest themselves, and your body begins to change again...");
             shrinkTits(character, true);
         }
@@ -89,7 +89,6 @@ export class Reducto extends Consumable {
 
     private reductoClit(character: Character): NextScreenChoices {
         CView.clear();
-        const vagina = character.body.vaginas.get(0);
         CView.text("You carefully apply the paste to your " + describeClit(character) + ", being very careful to avoid getting it on your " + describeVagina(character, character.body.vaginas.get(0)) + ".  It burns with heat as it begins to make its effects known...\n\n");
         character.body.clit.length /= 1.7;
         // Set clitlength down to 2 digits in length
@@ -102,7 +101,7 @@ export class Reducto extends Consumable {
 
     private reductoCock(character: Character): NextScreenChoices {
         CView.clear();
-        const firstCock = character.body.cocks.get(0);
+        const firstCock = character.body.cocks.get(0)!;
         if (firstCock.type === CockType.BEE) {
             CView.text("The gel produces an odd effect when you rub it into your " + describeCock(character, firstCock) + ".  It actually seems to calm the need that usually fills you.  In fact, as your " + describeCock(character, firstCock) + " shrinks, its skin tone changes to be more in line with yours and the bee hair that covered it falls out.  <b>You now have a human cock!</b>");
             firstCock.type = CockType.HUMAN;
@@ -116,9 +115,9 @@ export class Reducto extends Consumable {
             }
             else { // MULTI
                 CView.text("Your " + describeCocksLight(character) + " twitch and shrink, each member steadily disappearing into your " + (character.body.cocks.find(Cock.HasSheath) ? "sheath" : "crotch") + " until they've lost about a third of their old size.");
-                for (let index: number = 0; index < character.body.cocks.length; index++) {
-                    character.body.cocks.get(index).length *= 2 / 3;
-                    character.body.cocks.get(index).thickness *= 2 / 3;
+                for (const cock of character.body.cocks) {
+                    cock.length *= 2 / 3;
+                    cock.thickness *= 2 / 3;
                 }
             }
         }
@@ -150,16 +149,16 @@ export class Reducto extends Consumable {
 
     private reductoNipples(character: Character): NextScreenChoices {
         CView.clear();
-        const largestBreeasts = character.body.chest.sort(BreastRow.Largest)[0];
-        CView.text("You rub the paste evenly over your " + describeNipple(character, largestBreeasts) + "s, being sure to cover them completely.\n\n");
+        const largestBreasts = character.body.chest.sort(BreastRow.Largest).get(0)!;
+        CView.text("You rub the paste evenly over your " + describeNipple(character, largestBreasts) + "s, being sure to cover them completely.\n\n");
         // Shrink
-        if (largestBreeasts.nipples.length / 2 < 0.25) {
+        if (largestBreasts.nipples.length / 2 < 0.25) {
             CView.text("Your nipples continue to shrink down until they stop at 1/4\" long.");
-            largestBreeasts.nipples.length = 0.25;
+            largestBreasts.nipples.length = 0.25;
         }
         else {
-            CView.text("Your " + describeNipple(character, largestBreeasts) + "s get smaller and smaller, stopping when they are roughly half their previous size.");
-            largestBreeasts.nipples.length /= 2;
+            CView.text("Your " + describeNipple(character, largestBreasts) + "s get smaller and smaller, stopping when they are roughly half their previous size.");
+            largestBreasts.nipples.length /= 2;
         }
         character.stats.sens -= 5;
         character.stats.lust -= 5;
@@ -169,7 +168,7 @@ export class Reducto extends Consumable {
     private reductoCancel(character: Character): NextScreenChoices {
         CView.clear();
         CView.text("You put the salve away.\n\n");
-        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.Reducto, inventoryMenu);
+        return character.inventory.items.createAdd(character, ConsumableName.Reducto, inventoryMenu);
         // InventoryDisplay.reverseAction();
         // return { next: Inventory };
     }

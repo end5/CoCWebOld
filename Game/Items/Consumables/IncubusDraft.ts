@@ -72,7 +72,7 @@ export class IncubusDraft extends Consumable {
         let cockGrowth: number;
         if (cockCount === 1) {
             cockGrowth = 0;
-            selectedCock = character.body.cocks.get(0);
+            selectedCock = character.body.cocks.get(0)!;
             if (selectedCock.type !== CockType.DEMON)
                 CView.text("\n\nYour " + describeCock(character, selectedCock) + " becomes shockingly hard.  It turns a shiny inhuman purple and spasms, dribbling hot demon-like cum as it begins to grow.");
             else
@@ -102,7 +102,7 @@ export class IncubusDraft extends Consumable {
                 CView.text("  With the transformation complete, your " + describeCock(character, selectedCock) + " throbs in an almost happy way as it goes flaccid once more.");
         }
         if (cockCount > 1) {
-            selectedCock = character.body.cocks.sort(Cock.Shortest)[0];
+            selectedCock = character.body.cocks.sort(Cock.Shortest).get(0)!;
             cockGrowth = 0;
             if (randInt(4) === 0)
                 cockGrowth = growCock(character, selectedCock, 3);
@@ -156,16 +156,15 @@ export class IncubusDraft extends Consumable {
     private midLevelChanges(character: Character) {
         const cockCount: number = character.body.cocks.length;
         let selectedCock: Cock;
-        let cockGrowth: number;
-        let thickness: number;
+        let cockGrowth: number = 0;
+        let thickness: number = 0;
         if (cockCount > 1) {
             CView.text("\n\nYour cocks fill to full-size... and begin growing obscenely.  ");
-            for (let index: number = 0; index < cockCount; index++) {
-                selectedCock = character.body.cocks.get(index);
-                cockGrowth = growCock(character, selectedCock, randInt(3) + 2);
-                thickness = thickenCock(selectedCock, 1);
+            for (const cock of character.body.cocks) {
+                cockGrowth = growCock(character, cock, randInt(3) + 2);
+                thickness = thickenCock(cock, 1);
                 if (thickness < .1)
-                    selectedCock.thickness += .05;
+                    cock.thickness += .05;
             }
             displayLengthChange(character, cockGrowth, cockCount);
 
@@ -189,7 +188,7 @@ export class IncubusDraft extends Consumable {
         }
         if (cockCount === 1) {
             CView.text("\n\nYour cock fills to its normal size and begins growing... ");
-            selectedCock = character.body.cocks.get(0);
+            selectedCock = character.body.cocks.get(0)!;
             thickness = thickenCock(selectedCock, 1);
             cockGrowth = growCock(character, selectedCock, randInt(3) + 2);
             displayLengthChange(character, cockGrowth, cockCount);
@@ -314,7 +313,7 @@ export function demonChanges(character: Character): void {
     }
     // Nipples Turn Back:
     if (character.effects.has(StatusEffectType.BlackNipples) && randInt(3) === 0) {
-        CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+        CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.firstRow) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
         character.effects.remove(StatusEffectType.BlackNipples);
     }
     // remove fur

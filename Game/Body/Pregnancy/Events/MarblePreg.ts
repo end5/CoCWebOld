@@ -86,15 +86,15 @@ export class MarblePregEvent implements IPregnancyEvent {
             // If (PC has flat breasts)
             if (player.body.chest.sort(BreastRow.Largest)[0].rating <= 0) {
                 CView.text("your chest has begun to feel a bit odd.  Your run your hands over it to find that your breasts have grown to around C-cups at some point when you weren't paying attention!  ");
-                player.body.chest.get(0).rating = 3;
+                player.body.chest.firstRow.rating = 3;
             }
             else if (player.body.chest.sort(BreastRow.Largest)[0].rating <= 1) {
                 CView.text("your breasts feel oddly tight in your top.  You put a hand to them and are startled when you find that they've grown to C-cups!  ");
-                player.body.chest.get(0).rating = 3;
+                player.body.chest.firstRow.rating = 3;
             }
             else if (player.body.chest.sort(BreastRow.Largest)[0].rating <= 10) {
                 CView.text("your breasts feel oddly full.  You grab them with your hands, and after a moment you're able to determine that they've grown about a cup in size.  ");
-                player.body.chest.get(0).rating++;
+                player.body.chest.firstRow.rating++;
             }
             else {
                 CView.text("your breasts feel a bit odd.  You put a hand on your chest and start touching them.  ");
@@ -126,7 +126,7 @@ export class MarblePregEvent implements IPregnancyEvent {
         if (MarbleFlags.MARBLE_NURSERY_CONSTRUCTION < 100) {
             CView.text("\nYou feel a clenching sensation in your belly and something shifts inside.  Your contractions start a few moments later and you realize that it's time for your child to be born.  You cry out mildly in pain and lie down, letting your body start to push the baby out.  Marble doesn't seem to be around right now, so you can do nothing but push.\n\n");
 
-            CView.text("You push and heave with all your might, little else going through your mind. You somehow register when the head comes out, and soon the shoulders along with the rest of the body follow.  You lean back and pant for a while before feeling a pair of hands grab a hold of you. They slowly and clumsily feel up your body before finding your " + describeChest(player) + " and a mouth quickly closes down on a " + describeNipple(player, player.body.chest.get(0)) + ".  You sigh softly, and drift off to sleep.");
+            CView.text("You push and heave with all your might, little else going through your mind. You somehow register when the head comes out, and soon the shoulders along with the rest of the body follow.  You lean back and pant for a while before feeling a pair of hands grab a hold of you. They slowly and clumsily feel up your body before finding your " + describeChest(player) + " and a mouth quickly closes down on a " + describeNipple(player, player.body.chest.firstRow) + ".  You sigh softly, and drift off to sleep.");
             displayStretchVagina(player, 20, true, true, false);
 
             CView.text("\n\nEventually you feel a hand on your face, and open your eyes to see Marble looking down at you.  \"<i>Sweetie, are you all right?  Why aren't you pregnant anymore?  Where is our child?</i>\" You stand up and look around.  There is no sign of the baby you were carrying; the child seems to have left after finishing its drink. You never even got to see its face...\n\n");
@@ -136,7 +136,7 @@ export class MarblePregEvent implements IPregnancyEvent {
         }
         else {
 
-            CView.text("\nYou feel a clenching sensation in your belly and something shifts inside.  Your contractions start a few moments later and you realize that it's time for your child to be born.  You cry out mildly in pain and lie down, letting your body start to push the baby out.  Marble rushes over and sees that it's time for you to give birth, so she picks you up and supports you as you continue pushing the child out of your now-gaping " + describeVagina(player, player.body.vaginas.get(0)) + ".");
+            CView.text("\nYou feel a clenching sensation in your belly and something shifts inside.  Your contractions start a few moments later and you realize that it's time for your child to be born.  You cry out mildly in pain and lie down, letting your body start to push the baby out.  Marble rushes over and sees that it's time for you to give birth, so she picks you up and supports you as you continue pushing the child out of your now-gaping " + describeVagina(player, player.body.vaginas.get(0)!) + ".");
             // 50% chance of it being a boy if Marble has been purified
             if (MarbleFlags.MARBLE_PURIFIED > 0 && randInt(2) === 0)
             // it's a boy!
@@ -169,7 +169,7 @@ export class MarblePregEvent implements IPregnancyEvent {
                 CView.text("You give an almighty heave and finally manage to push the shoulders out. The rest is downhill from there.  Once you've pushed the child completely out, Marble lays you down on the ground.  You rest there for a few moments, trying to catch your breath after the relatively difficult birthing.  When you finally have a chance to get up, you see that Marble has a small cowgirl cradled in her arms, suckling on her nipple.  You can hardly believe that you managed to push out a girl that big!  Marble seems to understand and tells you that the child is actually a fair bit bigger now than when she came out.\n\n");
                 CView.text("She helps you stand up and gives you the little girl to suckle for yourself.  ");
                 if (player.effects.get(StatusEffectType.Marble).value4 >= 20) {
-                    CView.text("As the child contentedly drinks from your " + describeNipple(player, player.body.chest.get(0)) + ", Marble tells you, \"<i>Sweetie, somehow I know that our kids won't have to worry about the addictive milk.  It will only make them healthy and strong.</i>\"  You nod at her and put the child into the nursery.  ");
+                    CView.text("As the child contentedly drinks from your " + describeNipple(player, player.body.chest.firstRow) + ", Marble tells you, \"<i>Sweetie, somehow I know that our kids won't have to worry about the addictive milk.  It will only make them healthy and strong.</i>\"  You nod at her and put the child into the nursery.  ");
                 }
                 else {
                     CView.text("You put the child to your breast and let her drink down your milk.  You sigh in contentment and Marble says, \"<i>See sweetie?  It's a really good feeling, isn't it?</i>\"  You can't help but nod in agreement.  After a minute the little girl has had enough and you put her into the nursery.\n\n");

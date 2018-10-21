@@ -3,10 +3,12 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { EquipableItem } from '../EquipableItem';
 import { ItemType } from '../ItemType';
+import { ItemDesc } from '../ItemDesc';
+import { EquipSlot } from '../../Inventory/EquipSlot';
 
 export class CockSock extends EquipableItem {
     public constructor(name: CockSockName) {
-        super(name, ItemType.Misc, undefined);
+        super(name, ItemType.Misc, new ItemDesc('cock sock'));
     }
 
     public equipText(): void { }
@@ -32,12 +34,12 @@ export class CockSock extends EquipableItem {
                 character.perks.add(PerkType.PentUp, 0, 0, 0, 0);
             }
             else {
-                const numRings: number = character.inventory.equipment.cockSocks.reduce((prev, cur) => {
-                    if (cur.isEquipped() && cur.item.name === CockSockName.Cockring)
+                const numRings = character.inventory.equipment.cockSocks.reduce((prev: number, cur: EquipSlot<CockSock>) => {
+                    if (cur && cur.item && cur.item.name === CockSockName.Cockring)
                         prev++;
                     return prev;
                 }, -1);
-                character.perks.get(PerkType.PentUp).value1 = 5 + (numRings * 5);
+                character.perks.get(PerkType.PentUp)!.value1 = 5 + (numRings * 5);
             }
         }
     }
@@ -50,8 +52,8 @@ export class CockSock extends EquipableItem {
         }
         else if (this.name === CockSockName.Cockring) {
             if (character.perks.has(PerkType.PentUp)) {
-                const numRings: number = character.inventory.equipment.cockSocks.reduce((prev, cur) => {
-                    if (cur.isEquipped() && cur.item.name === CockSockName.Cockring)
+                const numRings = character.inventory.equipment.cockSocks.reduce((prev: number, cur: EquipSlot<CockSock>) => {
+                    if (cur && cur.item && cur.item.name === CockSockName.Cockring)
                         prev++;
                     return prev;
                 }, -1);
@@ -59,7 +61,7 @@ export class CockSock extends EquipableItem {
                     character.perks.remove(PerkType.PentUp);
                 }
                 else
-                    character.perks.get(PerkType.PentUp).value1 = 5 + (numRings * 5);
+                    character.perks.get(PerkType.PentUp)!.value1 = 5 + (numRings * 5);
             }
         }
     }

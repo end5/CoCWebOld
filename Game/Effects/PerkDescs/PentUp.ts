@@ -2,7 +2,9 @@ import { Perk, PerkDesc } from '../Perk';
 
 export class PentUp extends PerkDesc {
     public description(perk?: Perk): string {
-        return "Increases minimum lust by " + Math.round(perk.value1) + " and makes you more vulnerable to seduction.";
+        if (perk)
+            return "Increases minimum lust by " + Math.round(perk.value1) + " and makes you more vulnerable to seduction.";
+        return "";
     }
 
     public constructor() {

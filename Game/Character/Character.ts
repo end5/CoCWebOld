@@ -11,7 +11,7 @@ import { generateUUID } from '../Utilities/Uuid';
 
 export abstract class Character extends Creature implements ISerializable<Character> {
     public charType: CharacterType;
-    public readonly inventory: CharacterInventory;
+    public abstract readonly inventory: CharacterInventory;
 
     private UUID: string;
     public get uuid(): string {
@@ -23,7 +23,7 @@ export abstract class Character extends Creature implements ISerializable<Charac
         return this.description;
     }
 
-    protected combatContainer: CombatContainer;
+    protected abstract combatContainer: CombatContainer;
     public get combat(): CombatContainer {
         return this.combatContainer;
     }
@@ -32,14 +32,13 @@ export abstract class Character extends Creature implements ISerializable<Charac
         super();
         this.charType = type;
         this.UUID = generateUUID();
-        this.inventory = new CharacterInventory(this);
         this.description = new CharacterDescription(this, "", "", "");
         if (type !== CharacterType.Player) {
             this.stats.XP = this.totalXP();
         }
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return Object.assign(
             {
                 charType: this.charType,
@@ -115,20 +114,22 @@ export abstract class Character extends Creature implements ISerializable<Charac
         if (this.body.legs.type === LegType.NAGA)
             return true;
         return this.body.tails.filter((tail) => {
-            switch (tail.type) {
-                case TailType.DOG:
-                case TailType.DEMONIC:
-                case TailType.COW:
-                case TailType.SHARK:
-                case TailType.CAT:
-                case TailType.LIZARD:
-                case TailType.KANGAROO:
-                case TailType.FOX:
-                case TailType.DRACONIC:
-                    return true;
-                default:
-                    return false;
-            }
+            if (tail)
+                switch (tail.type) {
+                    case TailType.DOG:
+                    case TailType.DEMONIC:
+                    case TailType.COW:
+                    case TailType.SHARK:
+                    case TailType.CAT:
+                    case TailType.LIZARD:
+                    case TailType.KANGAROO:
+                    case TailType.FOX:
+                    case TailType.DRACONIC:
+                        return true;
+                    default:
+                        return false;
+                }
+            return false;
         }).length > 0;
     }
 

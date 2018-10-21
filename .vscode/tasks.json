@@ -10,26 +10,36 @@
             ],
             "group": "build",
             "presentation": {
-                "reveal": "silent",
+                "reveal": "silent"
             }
         },
         {
-            "label": "Build Typescript",
-            "type": "typescript",
-            "tsconfig": "tsconfig.json",
+            "label": "Run Converter",
+            "type": "shell",
+            "command": "node Converter/Build/Converter.js",
+            "group": "none",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build CoCWeb",
+            "type": "shell",
+            "command": "tsc -p tsconfig.json",
             "problemMatcher": [
                 "$tsc"
             ],
-            "group": "build"
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            }
         },
         {
             "label": "Webpack",
             "type": "shell",
             "command": "webpack",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "dependsOn": [
                 "Build Typescript"
             ],

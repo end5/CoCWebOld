@@ -29,16 +29,16 @@ export class TatteredScroll extends Consumable {
                 character.stats.lust += 1;
             }
             else {
-                if (character.body.chest.sort(BreastRow.Largest)[0].rating === 0) {
+                if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating === 0) {
                     CView.text("You grow a perfectly rounded pair of C-cup breasts!  ");
-                    const selectedBreastBow: BreastRow = character.body.chest.sort(BreastRow.Largest)[0];
+                    const selectedBreastBow: BreastRow = character.body.chest.sort(BreastRow.Largest).get(0)!;
                     selectedBreastBow.rating = 3;
                     if (selectedBreastBow.nipples.count < 1)
                         selectedBreastBow.nipples.count = 1;
                     character.stats.sens += 2;
                     character.stats.lust += 1;
                 }
-                const largestBreasts: BreastRow = character.body.chest.sort(BreastRow.Largest)[0];
+                const largestBreasts: BreastRow = character.body.chest.sort(BreastRow.Largest).get(0)!;
                 if (largestBreasts.rating > 0 && largestBreasts.rating < 3) {
                     CView.text("Your breasts suddenly balloon outwards, stopping as they reach a perfectly rounded C-cup.  ");
                     largestBreasts.rating = 3;
@@ -47,17 +47,17 @@ export class TatteredScroll extends Consumable {
                 }
                 if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 1) {
                     CView.text("A dark spot appears on each breast, rapidly forming into a sensitive nipple.  ");
-                    for (let index = 0; index < character.body.chest.length; index++) {
+                    for (const breastRow of character.body.chest) {
                         // If that breast didnt have nipples reset length
-                        if (character.body.chest.get(index).nipples.count < 1)
-                            character.body.chest.get(index).nipples.length = .2;
-                        character.body.chest.get(index).nipples.count = 1;
+                        if (breastRow.nipples.count < 1)
+                            breastRow.nipples.length = .2;
+                        breastRow.nipples.count = 1;
 
                     }
                     character.stats.sens += 2;
                     character.stats.lust += 1;
                 }
-                const largestLactationMultiplier = character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier;
+                const largestLactationMultiplier = character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier;
                 if (largestLactationMultiplier > 0) {
                     CView.text("A strong pressure builds in your chest, painful in its intensity.  You yank down your top as ");
                     if (largestLactationMultiplier < 2)

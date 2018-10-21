@@ -20,13 +20,15 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
     public armorDescMod: string;
     private character: Character;
 
-    public constructor(character: Character) {
+    public constructor(character: Character, defaultWeapon: Weapon, defaultArmor: Armor) {
         this.defaultWeaponSlot = new EquipSlot(character);
+        this.defaultWeaponSlot.equip(defaultWeapon);
         this.equippedWeaponSlot = new EquipSlot(character);
         this.defaultArmorSlot = new EquipSlot(character);
+        this.defaultArmorSlot.equip(defaultArmor);
         this.equippedArmorSlot = new EquipSlot(character);
         this.piercings = new PiercingInventory(character);
-        this.cockSocks = new EquipSlotList<CockSock>(character);
+        this.cockSocks = new EquipSlotList<CockSock>();
         this.cocksMonitor = new ListMonitor(this.cockSocks, EquipSlot, character);
         character.body.cocks.attach(this.cocksMonitor);
         this.armorDescMod = "";
@@ -34,14 +36,14 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
     }
 
     public get weapon(): Weapon {
-        return this.equippedWeaponSlot.item ? this.equippedWeaponSlot.item : this.defaultWeaponSlot.item;
+        return this.equippedWeaponSlot.item ? this.equippedWeaponSlot.item : this.defaultWeaponSlot.item!;
     }
 
     public get armor(): Armor {
-        return this.equippedArmorSlot.item ? this.equippedArmorSlot.item : this.defaultArmorSlot.item;
+        return this.equippedArmorSlot.item ? this.equippedArmorSlot.item : this.defaultArmorSlot.item!;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             equippedWeaponSlot: this.equippedWeaponSlot.serialize(),
             equippedArmorSlot: this.equippedArmorSlot.serialize(),

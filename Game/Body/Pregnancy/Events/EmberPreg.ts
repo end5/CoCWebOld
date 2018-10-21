@@ -7,7 +7,7 @@ import { IPregnancyEvent } from "../IPregnancyEvent";
 export class EmberPregEvent implements IPregnancyEvent {
     public incubationDisplay(player: Character, womb: Womb): void {
         // Pregnancy notes: Egg Laying
-        let pregText: string;
+        let pregText: string = "";
         if (EmberFlags.EMBER_OVIPOSITION > 0) {
             if (womb.pregnancy.incubation === 330) pregText = "Your belly has swollen, becoming larger - proof that Ember's seed did its work.  The dragon seems to be constantly checking you out, as if looking for the signs of weight gain.";
             if (womb.pregnancy.incubation === 250) pregText = "Your belly grows ever bigger, making your pregnancy noticeable; your belly also feels somewhat solid.  Ember casts pleased glances in your direction, whenever " + emberMF("he", "she") + " thinks you're not looking.";

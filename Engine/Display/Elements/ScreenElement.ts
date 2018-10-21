@@ -29,15 +29,11 @@ export abstract class ScreenElement<T extends HTMLElement> {
             this.htmlElement.removeChild(element.htmlElement);
     }
 
-    public get style(): CSSStyleDeclaration | undefined {
-        if (this.htmlElement)
-            return this.htmlElement.style;
-        return;
+    public get style(): CSSStyleDeclaration {
+        return this.htmlElement.style;
     }
 
-    public get computedStyle(): CSSStyleDeclaration | undefined {
-        if (this.htmlElement)
-            return window.getComputedStyle(this.htmlElement);
-        return;
+    public get computedStyle(): CSSStyleDeclaration {
+        return window.getComputedStyle(this.htmlElement);
     }
 }

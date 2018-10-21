@@ -20,7 +20,6 @@ export enum PiercingSlot {
 }
 
 export class PiercingInventory implements ISerializable<PiercingInventory> {
-    private character: Character;
     public readonly clit: EquipSlot<Piercing>;
     public readonly ears: EquipSlot<Piercing>;
     public readonly eyebrow: EquipSlot<Piercing>;
@@ -36,7 +35,6 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
     private cocksMonitor: ListMonitor;
 
     public constructor(character: Character) {
-        this.character = character;
         this.clit = new EquipSlot(character);
         this.ears = new EquipSlot(character);
         this.eyebrow = new EquipSlot(character);
@@ -46,8 +44,8 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
         this.labia = new EquipSlot(character);
         this.addEquipEffects();
 
-        this.nipples = new EquipSlotList(character);
-        this.cocks = new EquipSlotList(character);
+        this.nipples = new EquipSlotList();
+        this.cocks = new EquipSlotList();
         this.nipplesMonitor = new ListMonitor(this.nipples, EquipSlot, character);
         this.cocksMonitor = new ListMonitor(this.cocks, EquipSlot, character);
         character.body.chest.attach(this.nipplesMonitor);
@@ -65,22 +63,22 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
     // 8) **Labia (+1 sens)
 
     private addEquipEffects() {
-        this.clit.addEquipEffect((item: EquipableItem, char: Character) => {
+        this.clit.addEquipEffect((_item: EquipableItem, char: Character) => {
             char.stats.sens += 2;
         });
-        this.eyebrow.addEquipEffect((item: EquipableItem, char: Character) => {
+        this.eyebrow.addEquipEffect((_item: EquipableItem, char: Character) => {
             char.stats.tou -= 0.5;
         });
-        this.lip.addEquipEffect((item: EquipableItem, char: Character) => {
+        this.lip.addEquipEffect((_item: EquipableItem, char: Character) => {
             char.stats.tou -= 0.5;
         });
-        this.nose.addEquipEffect((item: EquipableItem, char: Character) => {
+        this.nose.addEquipEffect((_item: EquipableItem, char: Character) => {
             char.stats.str += 0.5;
         });
-        this.tongue.addEquipEffect((item: EquipableItem, char: Character) => {
+        this.tongue.addEquipEffect((_item: EquipableItem, char: Character) => {
             char.stats.sens += 1;
         });
-        this.labia.addEquipEffect((item: EquipableItem, char: Character) => {
+        this.labia.addEquipEffect((_item: EquipableItem, char: Character) => {
             char.stats.sens += 1;
         });
     }

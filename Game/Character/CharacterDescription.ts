@@ -4,9 +4,9 @@ import { mfn } from '../Descriptors/GenderDescriptor';
 
 export class CharacterDescription implements ISerializable<CharacterDescription> {
     protected character: Character;
-    private subjective: string;
-    private objective: string;
-    private possessive: string;
+    private subjective: string = "";
+    private objective: string = "";
+    private possessive: string = "";
     private article: string;
     private defaultShort: string;
     private otherShort: string;

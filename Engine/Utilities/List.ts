@@ -90,6 +90,20 @@ export class List<T> implements Iterable<T> {
         return this.list[Math.round(Math.random() * (this.list.length - 1))];
     }
 
+    /**
+     * Combines two or more arrays.
+     * @param items Additional items to add to the end of array1.
+     */
+    public concat(...items: (T | List<T> | ConcatArray<T>)[]): List<T> {
+        if (items instanceof List)
+            return this.fromArray(this.list.concat(items.list));
+        else
+            return this.fromArray(this.list.concat(...(items as (T | ConcatArray<T>)[])));
+    }
+
+    /**
+     * Converts the list to an array
+     */
     public toArray(): T[] {
         return this.list.slice(0);
     }

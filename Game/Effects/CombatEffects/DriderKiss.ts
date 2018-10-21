@@ -6,13 +6,14 @@ import { CView } from '../../../Engine/Display/ContentView';
 
 export class DriderKiss extends CombatEffect {
     public update(character: Character) {
+        const driderKissEffect = character.combat.effects.get(CombatEffectType.DriderKiss)!;
         // (VENOM OVER TIME: WEAK)
-        if (character.combat.effects.get(CombatEffectType.DriderKiss).value1 === 0) {
+        if (driderKissEffect.value1 === 0) {
             character.stats.lust += 8;
             CView.text("Your heart hammers a little faster as a vision of the drider's nude, exotic body on top of you assails you.  It'll only get worse if she kisses you again...");
         }
         // (VENOM OVER TIME: MEDIUM)
-        else if (character.combat.effects.get(CombatEffectType.DriderKiss).value1 === 1) {
+        else if (driderKissEffect.value1 === 1) {
             character.stats.lust += 15;
             let out = "You shudder and moan, nearly touching yourself as your ";
             if (character.gender > Gender.NONE)

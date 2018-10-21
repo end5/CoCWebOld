@@ -101,7 +101,7 @@ export class MousePregEvent implements IPregnancyEvent {
             boostLactation(player, .5);
         }
         displayStretchVagina(player, 60, true, true, false);
-        if (player.body.vaginas.get(0).wetness === VaginaWetness.DRY) player.body.vaginas.get(0).wetness++;
+        if (player.body.vaginas.get(0)!.wetness === VaginaWetness.DRY) player.body.vaginas.get(0)!.wetness++;
         // if (player.gender === 1) player.gender = 3;
         // if (player.gender === 0) player.gender = 2;
         player.orgasm();

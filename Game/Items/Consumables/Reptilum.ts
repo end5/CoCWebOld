@@ -27,24 +27,21 @@ import { User } from '../../User';
 import { CView } from '../../../Engine/Display/ContentView';
 import { lizardRaceScore } from '../../Body/RaceScore';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
+import { FlagType } from '../../Utilities/FlagType';
 
 export const ReptilumFlags = {
     HAIR_GROWTH_STOPPED_BECAUSE_LIZARD: 0,
 };
 
-User.flags.set('Reptilum', ReptilumFlags);
+User.flags.set(FlagType.Reptilum, ReptilumFlags);
 
 export class Reptilum extends Consumable {
     public constructor() {
         super(ConsumableName.Reptilum, new ItemDesc("Reptlum", "a vial of Reptilum", "This is a rounded bottle with a small label that reads, \"<i>Reptilum</i>\".  It is likely this potion is tied to reptiles in some way."));
     }
 
-    private getFirstNonLizzyCock(character: Character): Cock {
-        for (let index: number = 0; index < character.body.cocks.length; index++) {
-            if (character.body.cocks.get(index).type !== CockType.LIZARD) {
-                return character.body.cocks.get(index);
-            }
-        }
+    private getFirstNonLizzyCock(character: Character): Cock | undefined {
+        return character.body.cocks.find((cock) => cock.type !== CockType.LIZARD);
     }
 
     public use(character: Character) {
@@ -121,7 +118,7 @@ export class Reptilum extends Consumable {
         // -Lizard dick - first one
         if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && character.body.cocks.length > 0 && changes < changeLimit && randInt(4) === 0) {
             // Find the first non-lizzy dick
-            const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
+            const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character)!;
             CView.text("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
             if (character.body.cocks.find(Cock.HasSheath)) CView.text("sheath ");
             else CView.text("base ");
@@ -149,7 +146,7 @@ export class Reptilum extends Consumable {
         // Requires 1 lizard cock, multiple cocks
         if (character.body.cocks.length > 1 && character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0 && character.body.cocks.length > character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length && randInt(4) === 0 && changes < changeLimit) {
             CView.text("\n\nA familiar tingle starts in your crotch, and before you can miss the show, you pull open your " + character.inventory.equipment.armor.displayName + ".  As if operating on a cue, ");
-            const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
+            const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character)!;
             if (character.body.cocks.length === 2) CView.text("your other dick");
             else CView.text("another one of your dicks");
             CView.text(" starts to change into the strange reptilian shape you've grown familiar with.  It warps visibly, trembling and radiating pleasurable feelings back to you as the transformation progresses.  ");
@@ -170,7 +167,7 @@ export class Reptilum extends Consumable {
         }
         // -Grows second lizard dick if only 1 dick
         if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === 1 && character.body.cocks.length === 1 && randInt(4) === 0 && changes < changeLimit) {
-            const firstCock = character.body.cocks.get(0);
+            const firstCock = character.body.cocks.get(0)!;
             CView.text("\n\nA knot of pressure forms in your groin, forcing you off your " + describeFeet(character) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + character.body.skin.desc + ", adjacent to your " + describeCock(character, firstCock) + ".  The flesh darkens, turning purple");
             if (character.body.skin.type === SkinType.FUR || character.body.skin.type === SkinType.SCALES)
                 CView.text(" and shedding " + character.body.skin.desc);
@@ -195,9 +192,9 @@ export class Reptilum extends Consumable {
             changes++;
         }
         // -Breasts vanish to 0 rating if male
-        if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 1 && character.gender === Gender.MALE && changes < changeLimit && randInt(3) === 0) {
+        if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 1 && character.gender === Gender.MALE && changes < changeLimit && randInt(3) === 0) {
             // (HUEG)
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating > 8) {
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 8) {
                 CView.text("\n\nThe flesh on your chest tightens up, losing nearly half its mass in the span of a few seconds.  With your center of balance shifted so suddenly, you stagger about trying not to fall on your ass.  You catch yourself and marvel at the massive change in breast size.");
                 // Half tit size
             }
@@ -206,19 +203,18 @@ export class Reptilum extends Consumable {
             // (BOTH - no new PG)
             CView.text("  With the change in weight and gravity, you find it's gotten much easier to move about.");
             // Loop through behind the scenes and adjust all tits.
-            for (let index: number = 0; index < character.body.chest.length; index++) {
-                const breasts = character.body.chest.get(index);
-                if (breasts.rating > 8)
-                    breasts.rating /= 2;
+            for (const breastRow of character.body.chest) {
+                if (breastRow.rating > 8)
+                    breastRow.rating /= 2;
                 else
-                    breasts.rating = 0;
+                    breastRow.rating = 0;
             }
             // (+2 speed)
             character.stats.lib += 2;
             changes++;
         }
         // -Lactation stoppage.
-        if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 1 && changes < changeLimit && randInt(4) === 0) {
+        if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 1 && changes < changeLimit && randInt(4) === 0) {
             if (character.body.chest.reduce(BreastRow.TotalNipples, 0) === 2) CView.text("\n\nBoth of your");
             else CView.text("\n\nAll of your many");
             CView.text(" nipples relax.  It's a strange feeling, and you pull back your top to touch one.  It feels fine, though there doesn't seem to be any milk leaking out.  You give it a squeeze and marvel when nothing ");
@@ -231,19 +227,19 @@ export class Reptilum extends Consumable {
             }
             changes++;
             // Loop through and reset lactation
-            for (let index: number = 0; index < character.body.chest.length; index++) {
-                character.body.chest.get(index).lactationMultiplier = 0;
+            for (const breastRow of character.body.chest) {
+                breastRow.lactationMultiplier = 0;
             }
         }
         // -Nipples reduction to 1 per tit.
         if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
             CView.text("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) CView.text("'breast'.");
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1) CView.text("'breast'.");
             else CView.text("breast.");
             changes++;
             // Loop through and reset nipples
-            for (let index: number = 0; index < character.body.chest.length; index++) {
-                character.body.chest.get(index).nipples.count = 1;
+            for (const breastRow of character.body.chest) {
+                breastRow.nipples.count = 1;
             }
         }
         // -VAGs

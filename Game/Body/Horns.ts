@@ -8,7 +8,7 @@ export class Horns implements ISerializable<Horns> {
     public type: HornType = HornType.NONE;
     public count: number = 0;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type,
             count: this.count

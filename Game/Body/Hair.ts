@@ -9,7 +9,7 @@ export class Hair implements ISerializable<Hair> {
     public color: string = "black";
     public length: number = 0;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type,
             color: this.color,

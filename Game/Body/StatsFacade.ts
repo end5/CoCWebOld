@@ -56,7 +56,7 @@ export class StatsFacade {
         this.intChange(value, true);
     }
 
-    private intChange(value: number, bimboIntReduction: boolean = false) {
+    private intChange(value: number, _bimboIntReduction: boolean = false) {
         this.stats.int.value += value;
     }
 
@@ -74,7 +74,7 @@ export class StatsFacade {
         this.libChange(value, true);
     }
 
-    private libChange(value: number, bimboIntReduction: boolean = false) {
+    private libChange(value: number, _bimboIntReduction: boolean = false) {
         this.stats.lib.value += value;
 
         if (this.stats.lib.value < 15 && this.body.gender > 0)

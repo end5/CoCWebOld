@@ -32,7 +32,7 @@ export class BimboLiqueur extends Consumable {
                 CView.text(" ...Did the ground just get farther away?  You glance down and realize, you're growing!  Like a sped-up flower sprout, you keep on getting taller until finally stopping around... six and a half feet, you assume.  Huh.  You didn't expect that to happen!");
                 character.body.tallness = 77;
             }
-            const largestBreasts = character.body.chest.sort(BreastRow.Largest)[0];
+            const largestBreasts = character.body.chest.sort(BreastRow.Largest).get(0)!;
             if (largestBreasts.rating < 7) {
                 if (largestBreasts.rating < 1)
                     CView.text("  Tingling, your chest begins to itch, then swell into a pair of rounded orbs.  ");
@@ -92,21 +92,21 @@ export class BimboLiqueur extends Consumable {
             if (character.body.vaginas.length <= 0) {
                 character.body.vaginas.add(new Vagina());
                 character.body.clit.length = 0.25;
-                character.body.vaginas.get(0).wetness = VaginaWetness.SLICK;
+                character.body.vaginas.get(0)!.wetness = VaginaWetness.SLICK;
                 if (character.body.legs.isTaur()) CView.text("Wait!? Wet? You wish you could touch yourself between the " + describeLegs(character) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
                 else CView.text("Wait!?  Wet?  You touch yourself between the " + describeLegs(character) + " and groan when your fingers sink into a sloppy, wet cunt.");
             }
             else {
                 if (character.body.legs.isTaur()) {
                     CView.text("You wish you could sink your fingers into your sloppy, wet cunt, but as a centaur, you can't quite reach.");
-                    if (character.body.vaginas.get(0).wetness < VaginaWetness.SLICK)
-                        character.body.vaginas.get(0).wetness = VaginaWetness.SLICK;
+                    if (character.body.vaginas.get(0)!.wetness < VaginaWetness.SLICK)
+                        character.body.vaginas.get(0)!.wetness = VaginaWetness.SLICK;
                 }
                 else {
                     CView.text("You sink your fingers into your ");
-                    if (character.body.vaginas.get(0).wetness < VaginaWetness.SLICK) {
+                    if (character.body.vaginas.get(0)!.wetness < VaginaWetness.SLICK) {
                         CView.text("now ");
-                        character.body.vaginas.get(0).wetness = VaginaWetness.SLICK;
+                        character.body.vaginas.get(0)!.wetness = VaginaWetness.SLICK;
                     }
                     CView.text("sloppy, wet cunt with a groan of satisfaction.");
                 }
@@ -129,18 +129,18 @@ export class BimboLiqueur extends Consumable {
             CView.text("  Somehow, you feel like you could seduce anyone right now!\n\n");
 
             CView.text("Another bubbly giggle bursts from your lips, which you then lick hungrily.  You, like, totally want some dick to suck!  Wow, that came out of left field.  You shake your head and try to clear the unexpected, like, words from your head but it's getting kind of hard.  Omigosh, you feel kind of like a dumb bimbo after, like, drinking that weird booze.  Oh, well, it doesn't matter anyhow – you can, like, still stop the demons and stuff.  You'll just have to show off your sexy bod until they're offering to serve you.\n\n");
-
-            CView.text("You sigh and run one hand over your " + describeNipple(character, character.body.chest.get(0)) + "s");
-            if (character.body.chest.get(0).rating < 10) {
-                character.body.chest.get(0).rating += 5 + randInt(5);
-                CView.text(", surprised at how large and rounded your expanding breasts have become while fresh tit-flesh continues to spill out around your needy fingers.  They feel so supple and soft, but when you let them go, they still sit fairly high and firm on your chest.  The newer, more generous, " + breastCup(character.body.chest.get(0).rating) + " cleavage has you moaning with how sensitive it is, pinching a nipple with one hand ");
+            const selBrestRow = character.body.chest.firstRow;
+            CView.text("You sigh and run one hand over your " + describeNipple(character, selBrestRow) + "s");
+            if (selBrestRow.rating < 10) {
+                selBrestRow.rating += 5 + randInt(5);
+                CView.text(", surprised at how large and rounded your expanding breasts have become while fresh tit-flesh continues to spill out around your needy fingers.  They feel so supple and soft, but when you let them go, they still sit fairly high and firm on your chest.  The newer, more generous, " + breastCup(selBrestRow.rating) + " cleavage has you moaning with how sensitive it is, pinching a nipple with one hand ");
             }
             else {
-                character.body.chest.get(0).rating += 5 + randInt(5);
-                CView.text(", admiring how sensitive they're getting.  The big breasts start getting bigger and bigger, soft chest-flesh practically oozing out between your fingers as the squishy mammaries sprout like weeds, expanding well beyond any hand's ability to contain them.  The supple, " + breastCup(character.body.chest.get(0).rating) + " boobs still manage to sit high on your chest, almost gravity defying in their ability to generate cleavage.  You pinch a nipple with one hand ");
+                selBrestRow.rating += 5 + randInt(5);
+                CView.text(", admiring how sensitive they're getting.  The big breasts start getting bigger and bigger, soft chest-flesh practically oozing out between your fingers as the squishy mammaries sprout like weeds, expanding well beyond any hand's ability to contain them.  The supple, " + breastCup(selBrestRow.rating) + " boobs still manage to sit high on your chest, almost gravity defying in their ability to generate cleavage.  You pinch a nipple with one hand ");
             }
             character.stats.sens += 20;
-            CView.text("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + describeVagina(character, character.body.vaginas.get(0)) + " like no tomorrow.  By now, your " + describeClit(character) + " is throbbing, and you give it an experimental ");
+            CView.text("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + describeVagina(character, character.body.vaginas.get(0)!) + " like no tomorrow.  By now, your " + describeClit(character) + " is throbbing, and you give it an experimental ");
             if (character.body.clit.length >= 3) CView.text("jerk ");
             else CView.text("caress ");
             CView.text("that makes your " + describeLegs(character) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");

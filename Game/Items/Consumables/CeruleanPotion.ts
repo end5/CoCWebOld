@@ -6,13 +6,14 @@ import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 import { User } from '../../User';
 import { CView } from '../../../Engine/Display/ContentView';
+import { FlagType } from '../../Utilities/FlagType';
 
 export const ceruleanPotionFlags = {
     CERULEAN_POTION_NEUTER_ATTEMPTED: 0,
     CERULEAN_POTION_HERM_USED: 0,
 };
 
-User.flags.set('CeruleanPotion', ceruleanPotionFlags);
+User.flags.set(FlagType.CeruleanSuccubus, ceruleanPotionFlags);
 
 export class CeruleanPotion extends Consumable {
     public constructor() {
@@ -38,9 +39,10 @@ export class CeruleanPotion extends Consumable {
             // First timer huh?
             else CView.text("You do not notice any real effects.  Did the merchant con you?");
         }
-        if (character.effects.has(StatusEffectType.SuccubiNight))
-            if (character.effects.get(StatusEffectType.SuccubiNight).value1 < 3)
-                character.effects.get(StatusEffectType.SuccubiNight).value1 = 1;
+        const succubiNightEffect = character.effects.get(StatusEffectType.SuccubiNight);
+        if (succubiNightEffect)
+            if (succubiNightEffect.value1 < 3)
+                succubiNightEffect.value1 = 1;
             else
                 character.effects.add(StatusEffectType.SuccubiNight, 1, 0, 0, 0);
     }

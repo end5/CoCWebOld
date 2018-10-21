@@ -40,7 +40,7 @@ export class Legs implements ISerializable<Legs> {
         return false;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type
         };

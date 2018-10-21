@@ -17,12 +17,13 @@ import { CView } from '../../../Engine/Display/ContentView';
 import { displayModThickness, displayModFem } from '../../Modifiers/BodyModifier';
 import { displayKillCocks, growCock, thickenCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { shrinkTits } from '../../Modifiers/BreastModifier';
+import { FlagType } from '../../Utilities/FlagType';
 
 export const EggFlags = {
     PC_KNOWS_ABOUT_BLACK_EGGS: 0,
 };
 
-User.flags.set('Egg', EggFlags);
+User.flags.set(FlagType.EggFlags, EggFlags);
 
 export function randLargeEgg(): ConsumableName {
     return randomChoice(
@@ -292,8 +293,8 @@ export class Eggs extends Consumable {
                 // SINGLEZ
                 if (character.body.cocks.length === 1) {
                     CView.text("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing... ");
-                    cockAmountThickened = thickenCock(character.body.cocks.get(0), 1);
-                    cockAmountLengthened = growCock(character, character.body.cocks.get(0), randInt(3) + 2);
+                    cockAmountThickened = thickenCock(character.body.cocks.get(0)!, 1);
+                    cockAmountLengthened = growCock(character, character.body.cocks.get(0)!, randInt(3) + 2);
                     displayLengthChange(character, cockAmountLengthened, 1);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
@@ -346,7 +347,7 @@ export class Eggs extends Consumable {
                 character.body.hips.rating -= 2;
             }
             // Shrink tits!
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating > 0) {
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 0) {
                 shrinkTits(character);
             }
             if (character.body.cocks.length > 0) {
@@ -381,8 +382,8 @@ export class Eggs extends Consumable {
                 // SINGLEZ
                 if (character.body.cocks.length === 1) {
                     CView.text("\n\nYour " + describeCocksLight(character) + " fills to its normal size... and begins growing...");
-                    cockAmountThickened = thickenCock(character.body.cocks.get(0), 1.5);
-                    cockAmountLengthened = growCock(character, character.body.cocks.get(0), randInt(3) + 5);
+                    cockAmountThickened = thickenCock(character.body.cocks.get(0)!, 1.5);
+                    cockAmountLengthened = growCock(character, character.body.cocks.get(0)!, randInt(3) + 5);
                     displayLengthChange(character, cockAmountLengthened, 1);
                     // Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
@@ -417,18 +418,18 @@ export class Eggs extends Consumable {
         CView.text("You devour the egg, momentarily sating your hunger.");
         if (!this.large) {
             // Grow nipples
-            if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 3 && character.body.chest.sort(BreastRow.Largest)[0].rating > 0) {
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 3 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 0) {
                 CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.");
-                character.body.chest.sort(BreastRow.Largest)[0].nipples.length += .2;
+                character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length += .2;
                 character.stats.lust += 15;
             }
         }
         // LARGE
         else {
             // Grow nipples
-            if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 3 && character.body.chest.sort(BreastRow.Largest)[0].rating > 0) {
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 3 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 0) {
                 CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.");
-                character.body.chest.sort(BreastRow.Largest)[0].nipples.length += (randInt(2) + 3) / 10;
+                character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length += (randInt(2) + 3) / 10;
                 character.stats.lust += 15;
             }
             // NIPPLECUNTZZZ

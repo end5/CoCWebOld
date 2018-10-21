@@ -37,8 +37,9 @@ export function growCock(character: Character, cock: Cock, lengthDelta: number):
     }
 
     let threshhold: number = 0;
-    const hasCockSock = character.inventory.equipment.cockSocks.get(character.body.cocks.indexOf(cock)).isEquipped();
-    const cockSock = character.inventory.equipment.cockSocks.get(character.body.cocks.indexOf(cock)).item;
+    const cockIndex = character.body.cocks.indexOf(cock);
+    if (cockIndex !== -1) return 0;
+    const cockSockSlot = character.inventory.equipment.cockSocks.get(cockIndex);
 
     if (lengthDelta > 0) { // growing
         threshhold = 24;
@@ -51,10 +52,10 @@ export function growCock(character: Character, cock: Cock, lengthDelta: number):
         if (cock.type !== CockType.HUMAN)
             threshhold *= 2;
         // Modify growth for cock socks
-        if (hasCockSock && cockSock.name === CockSockName.Scarlet) {
+        if (cockSockSlot && cockSockSlot.item && cockSockSlot.item.name === CockSockName.Scarlet) {
             lengthDelta *= 1.5;
         }
-        else if (hasCockSock && cockSock.name === CockSockName.Cobalt) {
+        else if (cockSockSlot && cockSockSlot.item && cockSockSlot.item.name === CockSockName.Cobalt) {
             lengthDelta *= .5;
         }
         // Do diminishing returns
@@ -74,10 +75,10 @@ export function growCock(character: Character, cock: Cock, lengthDelta: number):
         if (cock.type !== CockType.HUMAN)
             threshhold += 12;
         // Modify growth for cock socks
-        if (hasCockSock && cockSock.name === CockSockName.Scarlet) {
+        if (cockSockSlot && cockSockSlot.item && cockSockSlot.item.name === CockSockName.Scarlet) {
             lengthDelta *= 0.5;
         }
-        else if (hasCockSock && cockSock.name === CockSockName.Cobalt) {
+        else if (cockSockSlot && cockSockSlot.item && cockSockSlot.item.name === CockSockName.Cobalt) {
             lengthDelta *= 1.5;
         }
         // Do diminishing returns
@@ -178,7 +179,7 @@ export function displayKillCocks(character: Character, numOfCocksToRemove: numbe
     const smallestCocks = cocks.sort(Cock.Smallest);
     while (numOfCocksToRemove > 0 && cocks.length > 0) {
         // Find shortest cock and prune it
-        cocks.remove(cocks.indexOf(smallestCocks[removed]));
+        cocks.remove(cocks.indexOf(smallestCocks.get(removed)!));
         removed++;
         numOfCocksToRemove--;
     }
@@ -230,6 +231,8 @@ export function displayLengthChange(character: Character, lengthChange: number, 
 
     const cocks = character.body.cocks;
     const firstCock = cocks.get(0);
+
+    if (!firstCock) return;
 
     // DIsplay the degree of length change.
     if (lengthChange <= 1 && lengthChange > 0) {
@@ -287,7 +290,7 @@ export function displayLengthChange(character: Character, lengthChange: number, 
                 CView.text("  <b>Your " + describeCock(character, firstCock) + " would look more at home on a large horse than you.</b>");
             if (cocks.length > 1)
                 CView.text("  <b>Your " + describeCocksLight(character) + " would look more at home on a large horse than on your body.</b>");
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating >= BreastCup.C) {
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= BreastCup.C) {
                 if (cocks.length === 1)
                     CView.text("  You could easily stuff your " + describeCock(character, firstCock) + " between your breasts and give yourself the titty-fuck of a lifetime.");
                 if (cocks.length > 1)

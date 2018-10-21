@@ -55,7 +55,7 @@ export class CombatStats extends CharacterHolder {
         // }
         // Interrupt gigaflare if necessary.
         if (this.char.effects.has(StatusEffectType.Gigafire))
-            this.char.effects.get(StatusEffectType.Gigafire).value1 += value;
+            this.char.effects.get(StatusEffectType.Gigafire)!.value1 += value;
         const oldHP = this.char.stats.HP;
         this.char.stats.HP -= value;
         return oldHP - this.char.stats.HP;
@@ -89,7 +89,7 @@ export class CombatStats extends CharacterHolder {
                 damage = 1;
         }
         // Black cat beer = 25% reduction!
-        if (this.char.effects.has(StatusEffectType.BlackCatBeer) && this.char.effects.get(StatusEffectType.BlackCatBeer).value1 > 0)
+        if (this.char.effects.has(StatusEffectType.BlackCatBeer) && this.char.effects.get(StatusEffectType.BlackCatBeer)!.value1 > 0)
             damage = Math.round(damage * .75);
 
         // Take damage you masochist!
@@ -168,12 +168,12 @@ export class CombatStats extends CharacterHolder {
             armorDef = 0;
         }
         if (this.char.effects.has(StatusEffectType.CoonWhip)) {
-            armorDef -= this.char.effects.get(StatusEffectType.CoonWhip).value1;
+            armorDef -= this.char.effects.get(StatusEffectType.CoonWhip)!.value1;
             if (armorDef < 0)
                 armorDef = 0;
         }
         if (this.char.effects.has(StatusEffectType.TailWhip)) {
-            armorDef -= this.char.effects.get(StatusEffectType.TailWhip).value1;
+            armorDef -= this.char.effects.get(StatusEffectType.TailWhip)!.value1;
             if (armorDef < 0)
                 armorDef = 0;
         }
@@ -189,7 +189,7 @@ export class CombatStats extends CharacterHolder {
         if (this.char.effects.has(StatusEffectType.Berzerking))
             attack += 30;
         if (this.char.effects.has(StatusEffectType.ChargeWeapon))
-            attack += this.char.effects.get(StatusEffectType.ChargeWeapon).value1;
+            attack += this.char.effects.get(StatusEffectType.ChargeWeapon)!.value1;
         return attack;
     }
 
@@ -236,7 +236,7 @@ export class CombatStats extends CharacterHolder {
         if (this.char.perks.has(PerkType.Mage) && this.char.stats.int >= 50) mod += .5;
         if (this.char.perks.has(PerkType.Spellpower) && this.char.stats.int >= 50) mod += .5;
         if (this.char.perks.has(PerkType.WizardsFocus)) {
-            mod += this.char.perks.get(PerkType.WizardsFocus).value1;
+            mod += this.char.perks.get(PerkType.WizardsFocus)!.value1;
         }
         return mod;
     }

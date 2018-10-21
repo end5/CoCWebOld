@@ -10,12 +10,12 @@ import { LustyMaidensArmor } from './LustyMaidensArmor';
 import { SeductiveArmor } from './SeductiveArmor';
 import { SluttySwimwear } from './SluttySwimwear';
 import { Dictionary } from '../../../Engine/Utilities/Dictionary';
-import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
+import { Perk } from '../../Effects/Perk';
 
 // key: string, shortName: string, displayname: string, longName: string, defense: number, value: number = 0, description: string = undefined, armorClass: ArmorClass = "Light", supportsBulge: boolean = false
-export const ArmorLib = new Dictionary<Armor>();
+export const ArmorLib = new Dictionary<ArmorName, Armor>();
 
 ArmorLib.set(ArmorName.ComfortUndercloth, new Armor(ArmorName.ComfortUndercloth, new ItemDesc("c.under", "comfortable underclothes", "comfortable underclothes"), "comfortable underclothes", 0, 0, ""));
 
@@ -38,20 +38,20 @@ ArmorLib.set(ArmorName.BimboSkirt, new ArmorWithPerk(
     ArmorName.BimboSkirt,
     new ItemDesc("BimboSk", "a skirt that looks like it belongs on a bimbo", "A tight, cleavage-inducing halter top and an extremely short miniskirt.  The sexual allure of this item is undoubtable."),
     "bimbo skirt", 1, 50, "Light",
-    PerkFactory.create(PerkType.SluttySeduction, 10, 0, 0, 0), "Your delightfully slutty yet upbeat garb helps you seduce your foes!"
+    new Perk(PerkType.SluttySeduction, 10, 0, 0, 0), "Your delightfully slutty yet upbeat garb helps you seduce your foes!"
 ));
 ArmorLib.set(ArmorName.BondageStraps, new ArmorWithPerk(
     ArmorName.BondageStraps,
     new ItemDesc("BonStrp", "a set of bondage straps", "These leather straps and well-placed hooks are actually designed in such a way as to be worn as clothing.  While they technically would cover your naughty bits, virtually every other inch of your body would be exposed."),
     "barely-decent bondage straps", 0, 600, "Light",
-    PerkFactory.create(PerkType.SluttySeduction, 10, 0, 0, 0), "Your fetishy bondage outfit allows you access to an improved form of 'Tease'."
+    new Perk(PerkType.SluttySeduction, 10, 0, 0, 0), "Your fetishy bondage outfit allows you access to an improved form of 'Tease'."
 ));
 ArmorLib.set(ArmorName.ComfortClothes, new ComfortableClothes());
 ArmorLib.set(ArmorName.ChainmailBikini, new ArmorWithPerk(
     ArmorName.ChainmailBikini,
     new ItemDesc("Chn Bikini", "a chainmail bikini", "A revealing chainmail bikini that barely covers anything.  The bottom half is little more than a triangle of metal and a leather thong."),
     "revealing chainmail bikini", 2, 700, "Light",
-    PerkFactory.create(PerkType.SluttySeduction, 5, 0, 0, 0), "Your revealing chain bikini allows you access to 'Seduce', an improved form of 'Tease'.", true
+    new Perk(PerkType.SluttySeduction, 5, 0, 0, 0), "Your revealing chain bikini allows you access to 'Seduce', an improved form of 'Tease'.", true
 ));
 ArmorLib.set(ArmorName.SuitClothes, new Armor(
     ArmorName.SuitClothes,
@@ -80,7 +80,7 @@ ArmorLib.set(ArmorName.IndecentSteelArmor, new ArmorWithPerk(
     ArmorName.IndecentSteelArmor,
     new ItemDesc("Indec StAr", "a suit of practically indecent steel armor", "This suit of steel 'armor' has two round disks that barely cover the nipples, a tight chainmail bikini, and circular butt-plates."),
     "practically indecent steel armor", 5, 800, "Medium",
-    PerkFactory.create(PerkType.SluttySeduction, 6, 0, 0, 0), "Your incredibly revealing steel armor allows you access to 'Seduce', an improved form of 'Tease'.", true
+    new Perk(PerkType.SluttySeduction, 6, 0, 0, 0), "Your incredibly revealing steel armor allows you access to 'Seduce', an improved form of 'Tease'.", true
 ));
 ArmorLib.set(ArmorName.LeatherArmor, new Armor(
     ArmorName.LeatherArmor,
@@ -109,7 +109,7 @@ ArmorLib.set(ArmorName.NurseOutfit, new ArmorWithPerk(
     new ItemDesc(
         "NurseCl", "a nurse's outfit", "This borderline obscene nurse's outfit would barely cover your hips and crotch.  The midriff is totally exposed, and the white top leaves plenty of room for cleavage.  A tiny white hat tops off the whole ensemble."),
     "skimpy nurse's outfit", 0, 800, "Light",
-    PerkFactory.create(PerkType.SluttySeduction, 8, 0, 0, 0), "Your fetishy nurse outfit allows you access to an improved form of 'Tease'."
+    new Perk(PerkType.SluttySeduction, 8, 0, 0, 0), "Your fetishy nurse outfit allows you access to an improved form of 'Tease'."
 ));
 ArmorLib.set(ArmorName.Overalls, new Armor(
     ArmorName.Overalls,
@@ -125,7 +125,7 @@ ArmorLib.set(ArmorName.RubberFetishClothes, new ArmorWithPerk(
     ArmorName.RubberFetishClothes,
     new ItemDesc("Rbbr Fetish", "a set of revealing rubber fetish clothes", "A revealing set of fetish-wear.  Upgrades your tease attack with the \"Slutty Seduction\" perk."),
     "rubber fetish clothes", 3, 1000, "Light",
-    PerkFactory.create(PerkType.SluttySeduction, 8, 0, 0, 0), "Your fetishy rubberwear allows you access to 'Seduce', an improved form of 'Tease'.", true
+    new Perk(PerkType.SluttySeduction, 8, 0, 0, 0), "Your fetishy rubberwear allows you access to 'Seduce', an improved form of 'Tease'.", true
 ));
 ArmorLib.set(ArmorName.SluttySwimwear, new SluttySwimwear());
 ArmorLib.set(ArmorName.Scalemail, new Armor(
@@ -138,7 +138,7 @@ ArmorLib.set(ArmorName.SpidersilkRobes, new ArmorWithPerk(
     ArmorName.SpidersilkRobes,
     new ItemDesc("SS.Robe", "a spider-silk robes", "This robe looks incredibly comfortable.  It's made from alchemically enhanced spider-silk, and embroidered with what looks like magical glyphs around the sleeves and hood."),
     "spider-silk robes", 6, 950, "Light",
-    PerkFactory.create(PerkType.WizardsEndurance, 30, 0, 0, 0)
+    new Perk(PerkType.WizardsEndurance, 30, 0, 0, 0)
 ));
 ArmorLib.set(ArmorName.SpidersilkArmor, new Armor(
     ArmorName.SpidersilkArmor,
@@ -149,7 +149,7 @@ ArmorLib.set(ArmorName.SemiTransBodysuit, new ArmorWithPerk(
     ArmorName.SemiTransBodysuit,
     new ItemDesc("Bodysuit", "a semi-transparent, curve-hugging bodysuit", "A semi-transparent bodysuit."),
     "semi-transparent bodysuit", 0, 1300, "Light",
-    PerkFactory.create(PerkType.SluttySeduction, 7, 0, 0, 0), "Your clingy transparent bodysuit allows you access to 'Seduce', an improved form of 'Tease'."
+    new Perk(PerkType.SluttySeduction, 7, 0, 0, 0), "Your clingy transparent bodysuit allows you access to 'Seduce', an improved form of 'Tease'."
 ));
 ArmorLib.set(ArmorName.TubeTop, new Armor(
     ArmorName.TubeTop,
@@ -160,5 +160,5 @@ ArmorLib.set(ArmorName.WizardRobes, new ArmorWithPerk(
     ArmorName.WizardRobes,
     new ItemDesc("W.Robes", "a wizard's robes", "These robes appear to have once belonged to a female wizard.  They're long with a slit up the side and full billowing sleeves.  The top is surprisingly low cut.  Somehow you know wearing it would aid your spellcasting."),
     "wizard's robes", 1, 50, "Light",
-    PerkFactory.create(PerkType.WizardsEndurance, 25, 0, 0, 0)
+    new Perk(PerkType.WizardsEndurance, 25, 0, 0, 0)
 ));

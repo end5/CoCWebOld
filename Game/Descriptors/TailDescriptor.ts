@@ -39,7 +39,7 @@ export function describeTail(character: Character): string {
             else description += "kitsune tail";
         }
         else {
-            description += TailNameTable[character.body.tails.get(0).type];
+            description += TailNameTable[character.body.tails.get(0)!.type];
             description += " tail";
         }
     }
@@ -58,7 +58,7 @@ export function describeOneTail(character: Character): string {
             description += "one of your kitsune tails";
         }
         else {
-            description += "your " + TailNameTable[character.body.tails.get(0).type] + " tail";
+            description += "your " + TailNameTable[character.body.tails.get(0)!.type] + " tail";
         }
     }
     return description;

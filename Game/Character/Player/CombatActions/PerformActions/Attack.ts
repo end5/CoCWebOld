@@ -49,7 +49,8 @@ export class Attack implements ICombatAction {
                 let damage = determineDamage(character, target, crit);
                 if (character.perks.has(PerkType.HistoryFighter))
                     damage *= 1.1;
-                target.combat.respond.attacked(damage, crit, target, character);
+                if (target.combat.respond.attacked)
+                    target.combat.respond.attacked(damage, crit, target, character);
             }
 
             if (character.combat.effects.has(CombatEffectType.FirstAttack)) {
@@ -168,7 +169,8 @@ function applyDamage(use: (char, mons) => void, character: Character, enemy: Cha
     else {
         if (character.perks.has(PerkType.HistoryFighter))
             damage *= 1.1;
-        enemy.combat.respond.attacked(damage, crit, enemy, character);
+        if (enemy.combat.respond.attacked)
+            enemy.combat.respond.attacked(damage, crit, enemy, character);
     }
 
     // if (damage > 0) {

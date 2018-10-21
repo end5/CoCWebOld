@@ -4,9 +4,9 @@ import { PerkType } from '../PerkType';
 
 export class DoubleAttack extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
-        if (character.stats.spe < 50)
+        if (character && character.stats.spe < 50)
             return "<b>You're too slow to double attack!</b>";
-        else if (character.stats.str < 61)
+        else if (character && character.stats.str < 61)
             return "Allows you to perform two melee attacks per round.";
         else
             return "<b>You are stronger than double attack allows.  To choose between reduced strength double-attacks and a single strong attack, access \"Dbl Options\" in the perks menu.</b>";

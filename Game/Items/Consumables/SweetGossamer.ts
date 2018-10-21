@@ -90,19 +90,20 @@ export class SweetGossamer extends Consumable {
         // ****************
         // Increase venom recharge
         const spiderbutts = character.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN));
-        if (spiderbutts.length >= 1 && spiderbutts[0].recharge < 25 && changes < changeLimit) {
+        if (spiderbutts.length >= 1 && spiderbutts.get(0)!.recharge < 25 && changes < changeLimit) {
             changes++;
             CView.text("\n\nThe spinnerets on your abdomen twitch and drip a little webbing.  The entirety of its heavy weight shifts slightly, and somehow you know you'll produce webs faster now.");
-            spiderbutts[0].recharge += 5;
+            spiderbutts.get(0)!.recharge += 5;
         }
         // (tightens vagina to 1, increases lust/libido)
         if (character.body.vaginas.length > 0) {
-            if (character.body.vaginas.get(0).looseness > 1 && changes < changeLimit && randInt(3) === 0) {
-                CView.text("\n\nWith a gasp, you feel your " + describeVagina(character, character.body.vaginas.get(0)) + " tightening, making you leak sticky girl-juice. After a few seconds, it stops, and you rub on your " + describeVagina(character, character.body.vaginas.get(0)) + " excitedly. You can't wait to try this out!");
+            const vagina = character.body.vaginas.get(0)!;
+            if (vagina.looseness > 1 && changes < changeLimit && randInt(3) === 0) {
+                CView.text("\n\nWith a gasp, you feel your " + describeVagina(character, vagina) + " tightening, making you leak sticky girl-juice. After a few seconds, it stops, and you rub on your " + describeVagina(character, vagina) + " excitedly. You can't wait to try this out!");
                 character.stats.lib += 2;
                 character.stats.lust += 25;
                 changes++;
-                character.body.vaginas.get(0).looseness--;
+                vagina.looseness--;
             }
         }
         // (tightens asshole to 1, increases lust)
@@ -118,9 +119,9 @@ export class SweetGossamer extends Consumable {
         if (character.body.cocks.length > 0 && changes < changeLimit && randInt(4) === 0) {
             // Use temp to see if any dicks can be thickened
             let cockGotThickened: boolean = false;
-            for (let index: number = 0; index < character.body.cocks.length; index++) {
-                if (character.body.cocks.get(index).thickness * 5.5 < character.body.cocks.get(index).length) {
-                    character.body.cocks.get(index).thickness += .1;
+            for (const cock of character.body.cocks) {
+                if (cock.thickness * 5.5 < cock.length) {
+                    cock.thickness += .1;
                     cockGotThickened = true;
                 }
             }
@@ -138,7 +139,7 @@ export class SweetGossamer extends Consumable {
         }
         // [Increase to Breast Size] - up to Large DD
         if (character.body.chest.length > 0) {
-            const smallestBreastRow = character.body.chest.sort(BreastRow.Smallest)[0];
+            const smallestBreastRow = character.body.chest.sort(BreastRow.Smallest).get(0)!;
             if (smallestBreastRow.rating < 6 && changes < changeLimit && randInt(4) === 0) {
                 CView.text("\n\nAfter eating it, your chest aches and tingles, and your hands reach up to scratch at it unthinkingly.  Silently, you hope that you aren't allergic to it.  Just as you start to scratch at your " + describeBreastRow(smallestBreastRow) + ", your chest pushes out in slight but sudden growth.");
                 smallestBreastRow.rating++;
@@ -181,7 +182,7 @@ export class SweetGossamer extends Consumable {
         // -Remove breast rows over 2.
         if (changes < changeLimit && character.body.chest.length > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
-            const bottomBreastRow: BreastRow = character.body.chest.get(character.body.chest.length - 1);
+            const bottomBreastRow: BreastRow = character.body.chest.get(character.body.chest.length - 1)!;
             CView.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
             if (character.body.chest.length >= 3) CView.text("abdomen");
             else CView.text("chest");
@@ -195,12 +196,12 @@ export class SweetGossamer extends Consumable {
         // -Nipples reduction to 1 per tit.
         if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
             CView.text("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) CView.text("'breast'.");
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1) CView.text("'breast'.");
             else CView.text("breast.");
             changes++;
             // Loop through and reset nipples
-            for (let index: number = 0; index < character.body.chest.length; index++) {
-                character.body.chest.get(index).nipples.count = 1;
+            for (const breastRow of character.body.chest) {
+                breastRow.nipples.count = 1;
             }
         }
         // Nipples Turn Black:

@@ -8,7 +8,7 @@ export class Ears implements ISerializable<Ears> {
     public type: EarType = EarType.HUMAN;
     public value: number = 0;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type,
             value: this.value

@@ -1,6 +1,5 @@
 ﻿import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 import { SortOption } from '../../../Engine/Utilities/List';
-import { ListSerializer } from '../../../Engine/Utilities/ListSerializer';
 
 export enum PregnancyType {
     IMP = "Imp",

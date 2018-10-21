@@ -73,10 +73,10 @@ export class ImpPregEvent implements IPregnancyEvent {
         if (player.stats.cor < 50) CView.text("You rue the day you encountered that hateful imp.  ");
         CView.text("The pain begins to subside as your delivery continues... replaced with a building sensation of pleasure.  Arousal spikes through you as the contractions intensify, and as you feel something pass you have a tiny orgasm.\n\nYet you feel more within you, and the contractions spike again, pushing you to orgasm as you pass something else.  It repeats, over and over, nearly a dozen times you birth and orgasm.  After an eternity of procreation and pleasure, you sense your ordeal is over and collapse, unconscious.");
 
-        if (player.body.vaginas.get(0).looseness === VaginaLooseness.TIGHT) player.body.vaginas.get(0).looseness++;
+        if (player.body.vaginas.get(0)!.looseness === VaginaLooseness.TIGHT) player.body.vaginas.get(0)!.looseness++;
         // 50% chance
-        if (player.body.vaginas.get(0).looseness < VaginaLooseness.GAPING_WIDE && randInt(2) === 0) {
-            player.body.vaginas.get(0).looseness++;
+        if (player.body.vaginas.get(0)!.looseness < VaginaLooseness.GAPING_WIDE && randInt(2) === 0) {
+            player.body.vaginas.get(0)!.looseness++;
             CView.text("\n\n<b>Your cunt is painfully stretched from the ordeal, permanently enlarged.</b>");
         }
 
@@ -102,7 +102,7 @@ export class ImpPregEvent implements IPregnancyEvent {
             CView.text("  <b>Your breasts have grown to B-cups!</b>");
             growTopBreastRow(player, 1, 1, false);
         }
-        if (player.body.vaginas.get(0).wetness === VaginaWetness.DRY) player.body.vaginas.get(0).wetness++;
+        if (player.body.vaginas.get(0)!.wetness === VaginaWetness.DRY) player.body.vaginas.get(0)!.wetness++;
         // if (player.gender === 1) player.gender = 3;
         // if (player.gender === 0) player.gender = 2;
         player.orgasm();

@@ -4,7 +4,7 @@ import { PerkType } from '../PerkType';
 
 export class Resolute extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
-        if (character.stats.tou >= 75)
+        if (character && character.stats.tou >= 75)
             return "Grants immunity to stuns and some statuses.</b>";
         else
             return "<b>You aren't tough enough to benefit from this anymore.</b>";

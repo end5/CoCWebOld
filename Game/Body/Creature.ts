@@ -45,8 +45,8 @@ export class Creature implements ISerializable<Creature> {
             // Naga = +20 capacity
             else if (this.body.legs.type === LegType.NAGA)
                 bonus = 20;
-            const loosestVagina = this.body.vaginas.sort(Vagina.LoosenessMost)[0];
-            const wettestVagina = this.body.vaginas.sort(Vagina.WetnessMost)[0];
+            const loosestVagina = this.body.vaginas.sort(Vagina.LoosenessMost).get(0)!;
+            const wettestVagina = this.body.vaginas.sort(Vagina.WetnessMost).get(0)!;
 
             return (bonus + 8 * loosestVagina.looseness * loosestVagina.looseness) *
                 (1 + wettestVagina.wetness / 10);
@@ -104,14 +104,14 @@ export class Creature implements ISerializable<Creature> {
 
     public lactationQ(): number {
         const chest = this.body.chest;
-        if (chest.sort(BreastRow.LactationMost)[0].lactationMultiplier < 1)
+        if (chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier < 1)
             return 0;
         // (Milk production TOTAL= breastSize x 10 * lactationMultiplier * breast total * milking-endurance (1- default, maxes at 2.  Builds over time as milking as done)
         // (Small – 0.01 mLs – Size 1 + 1 Multi)
         // (Large – 0.8 - Size 10 + 4 Multi)
         // (HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
         let total: number;
-        total = chest.sort(BreastRow.Largest)[0].rating * 10 * chest.reduce(BreastRow.AverageLactation, 0);
+        total = chest.sort(BreastRow.Largest).get(0)!.rating * 10 * chest.reduce(BreastRow.AverageLactation, 0);
         return total;
     }
 
@@ -146,7 +146,7 @@ export class Creature implements ISerializable<Creature> {
         return this.body.fertility;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             genderPref: this.genderPref,
             hoursSinceCum: this.hoursSinceCum,

@@ -2,6 +2,7 @@ import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 import { Character } from '../../Character/Character';
 import { EquipableItem } from '../EquipableItem';
 import { ItemType } from '../ItemType';
+import { ItemDesc } from '../ItemDesc';
 
 export enum PiercingType {
     /** 1 */
@@ -21,7 +22,7 @@ export class Piercing extends EquipableItem implements ISerializable<Piercing> {
     public longDesc: string;
 
     public constructor(piercingType: PiercingType, shortDesc: string = "", longDesc: string = "") {
-        super(piercingType, ItemType.Misc, undefined);
+        super(piercingType, ItemType.Misc, new ItemDesc('piercing'));
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
     }

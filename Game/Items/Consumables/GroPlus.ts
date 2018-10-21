@@ -8,7 +8,7 @@ import { ClickOption, NextScreenChoices } from '../../ScreenDisplay';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
 import { describeSack, describeBallsShort } from '../../Descriptors/BallsDescriptor';
-import { describeAllBreasts, describeNipple } from '../../Descriptors/BreastDescriptor';
+import { describeAllBreasts, describeNipple, describeBreastGrowth } from '../../Descriptors/BreastDescriptor';
 import { describeClit } from '../../Descriptors/VaginaDescriptor';
 import { describeCocksLight, describeCock } from '../../Descriptors/CockDescriptor';
 import { inventoryMenu } from '../../Menus/InGame/PlayerInventoryMenu';
@@ -62,10 +62,16 @@ export class GroPlus extends Consumable {
         CView.clear();
         character.slimeFeed();
         CView.text("You sink the needle into the flesh of your " + describeAllBreasts(character) + " injecting each with a portion of the needle.\n\n");
-        if (character.body.chest.length === 1)
-            growSmallestBreastRow(character, randInt(5) + 1, 1, true);
-        else
-            growSmallestBreastRow(character, randInt(2) + 1, character.body.chest.length, true);
+        if (character.body.chest.length === 1) {
+            const amount = randInt(5) + 1;
+            growSmallestBreastRow(character, amount, 1);
+            CView.text(describeBreastGrowth(character, amount));
+        }
+        else {
+            const amount = randInt(2) + 1;
+            growSmallestBreastRow(character, amount, character.body.chest.length);
+            CView.text(describeBreastGrowth(character, amount));
+        }
         character.stats.lust += 10;
         return { next: inventoryMenu };
     }
@@ -87,18 +93,19 @@ export class GroPlus extends Consumable {
         character.slimeFeed();
         CView.text("You sink the needle into the base of your " + describeCocksLight(character) + ".  It hurts like hell, but as you depress the plunger, the pain vanishes, replaced by a tingling pleasure as the chemicals take effect.\n\n");
         if (character.body.cocks.length === 1) {
-            CView.text("Your " + describeCock(character, character.body.cocks.get(0)) + " twitches and thickens, pouring more than an inch of thick new length from your ");
-            growCock(character, character.body.cocks.get(0), 4);
-            character.body.cocks.get(0).length += 1; // This was forcing "what was said" to match "what actually happened" no matter what increase/growCock /actually/ did.
-            character.body.cocks.get(0).thickness += 0.5; // And growCock never actually touched thickness. Nor does the new version. Thickness mod was stripped out entirely.
+            const firstCock = character.body.cocks.get(0)!;
+            CView.text("Your " + describeCock(character, firstCock) + " twitches and thickens, pouring more than an inch of thick new length from your ");
+            growCock(character, firstCock, 4);
+            firstCock.length += 1; // This was forcing "what was said" to match "what actually happened" no matter what increase/growCock /actually/ did.
+            firstCock.thickness += 0.5; // And growCock never actually touched thickness. Nor does the new version. Thickness mod was stripped out entirely.
         }
         // MULTI
         else {
             CView.text("Your " + describeCocksLight(character) + " twitch and thicken, each member pouring out more than an inch of new length from your ");
-            for (let index: number = 0; index < character.body.cocks.length; index++) {
-                growCock(character, character.body.cocks.get(index), 2);
-                character.body.cocks.get(index).length += 1;
-                character.body.cocks.get(index).thickness += 0.5;
+            for (const cock of character.body.cocks) {
+                growCock(character, cock, 2);
+                cock.length += 1;
+                cock.thickness += 0.5;
             }
         }
         if (character.body.cocks.find(Cock.HasSheath))
@@ -112,10 +119,10 @@ export class GroPlus extends Consumable {
     private growPlusNipples(character: Character): NextScreenChoices {
         CView.clear();
         character.slimeFeed();
-        CView.text("You sink the needle into each of your " + describeNipple(character, character.body.chest.get(0)) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
+        CView.text("You sink the needle into each of your " + describeNipple(character, character.body.chest.firstRow) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
         // Grow nipples
         CView.text("Your nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");
-        character.body.chest.get(randInt(character.body.chest.length - 1)).nipples.length += (randInt(2) + 3) / 10;
+        character.body.chest.get(randInt(character.body.chest.length - 1))!.nipples.length += (randInt(2) + 3) / 10;
         character.stats.lust += 15;
         // NIPPLECUNTZZZ
         if (character.body.chest.find(BreastRow.NonFuckableNipples) && randInt(4) === 0) {
@@ -135,7 +142,7 @@ export class GroPlus extends Consumable {
     private growPlusCancel(character: Character): NextScreenChoices {
         CView.clear();
         CView.text("You put the vial away.\n\n");
-        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.GroPlus, inventoryMenu);
+        return character.inventory.items.createAdd(character, ConsumableName.GroPlus, inventoryMenu);
         // InventoryDisplay.reverseAction();
         // return { next: Inventory };
     }

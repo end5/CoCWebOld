@@ -5,9 +5,9 @@ export enum Gender {
 }
 
 export class GenderIdentity {
-    private sex: Gender;
-    private forced: boolean;
-    private preferredGender: Gender;
+    private sex: Gender = Gender.NONE;
+    private forced: boolean = false;
+    private preferredGender: Gender = Gender.NONE;
     private creature: Creature;
     public constructor(creature: Creature) {
         this.creature = creature;

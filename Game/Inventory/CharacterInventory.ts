@@ -6,6 +6,8 @@ import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { Character } from '../Character/Character';
 import { Item } from '../Items/Item';
 import { KeyItem } from '../Items/KeyItem';
+import { Weapon } from '../Items/Weapons/Weapon';
+import { Armor } from '../Items/Armors/Armor';
 
 export class CharacterInventory implements ISerializable<CharacterInventory> {
     public readonly items: Inventory<Item>;
@@ -13,9 +15,9 @@ export class CharacterInventory implements ISerializable<CharacterInventory> {
     public gems: number;
     public readonly keyItems: KeyItemDict;
 
-    public constructor(character: Character) {
+    public constructor(character: Character, defaultWeapon: Weapon, defaultArmor: Armor) {
         this.items = new Inventory<Item>();
-        this.equipment = new EquipmentInventory(character);
+        this.equipment = new EquipmentInventory(character, defaultWeapon, defaultArmor);
         this.gems = 0;
         this.keyItems = new KeyItemDict();
     }

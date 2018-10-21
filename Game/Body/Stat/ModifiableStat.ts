@@ -7,10 +7,10 @@ import { ObservableList } from "../../Utilities/ObservableList";
 
 class StatEffectListObeserver implements IObserverList<StatEffect> {
     public constructor(private stat: ModifiableStat) { }
-    public onAdd(item: StatEffect): void { }
-    public onRemove(index: number): void { }
+    public onAdd(): void { }
+    public onRemove(): void { }
     public onClear(): void { }
-    public update(message: string): void {
+    public update(): void {
         this.stat.update();
     }
 }
@@ -41,16 +41,20 @@ export class ModifiableStat implements ISerializable<ModifiableStat> {
     public set max(num: number) { this.base.max += num; }
 
     public update() {
-        for (const type of ['value', 'min', 'max']) {
-            this.calcEffect[type].flat = 0;
-            this.calcEffect[type].multiplier = 1;
-        }
+        this.calcEffect.value.flat = 0;
+        this.calcEffect.min.flat = 0;
+        this.calcEffect.max.flat = 0;
+        this.calcEffect.value.multiplier = 1;
+        this.calcEffect.min.multiplier = 1;
+        this.calcEffect.max.multiplier = 1;
 
         for (const effect of this.effects) {
-            for (const type of ['value', 'min', 'max']) {
-                this.calcEffect[type].flat += effect[type].flat;
-                this.calcEffect[type].multiplier += effect[type].multiplier;
-            }
+            this.calcEffect.value.flat += effect.value.flat;
+            this.calcEffect.min.flat += effect.min.flat;
+            this.calcEffect.max.flat += effect.max.flat;
+            this.calcEffect.value.multiplier += effect.value.multiplier;
+            this.calcEffect.min.multiplier += effect.min.multiplier;
+            this.calcEffect.max.multiplier += effect.max.multiplier;
         }
     }
 

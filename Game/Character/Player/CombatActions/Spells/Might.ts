@@ -34,11 +34,11 @@ export class Might extends BlackMagic {
             CView.text("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
             if (character.gender === Gender.NONE) CView.text(describeButthole(character.body.butt) + " tingles with a desire to be filled as your libido spins out of control.");
             if (character.gender === Gender.MALE) {
-                if (character.body.cocks.length === 1) CView.text(describeCock(character, character.body.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+                if (character.body.cocks.length === 1) CView.text(describeCock(character, character.body.cocks.get(0)!) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
                 else CView.text(describeCocksLight(character) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
             }
-            if (character.gender === Gender.FEMALE) CView.text(describeVagina(character, character.body.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
-            if (character.gender === Gender.HERM) CView.text(describeVagina(character, character.body.vaginas.get(0)) + " and " + describeCocksLight(character) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
+            if (character.gender === Gender.FEMALE) CView.text(describeVagina(character, character.body.vaginas.get(0)!) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
+            if (character.gender === Gender.HERM) CView.text(describeVagina(character, character.body.vaginas.get(0)!) + " and " + describeCocksLight(character) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
             character.stats.lib += .25;
             character.stats.lust += 15;
         }

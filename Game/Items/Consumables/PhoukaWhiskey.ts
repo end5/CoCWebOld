@@ -8,12 +8,13 @@ import { ItemDesc } from '../ItemDesc';
 import { User } from '../../User';
 import { CView } from '../../../Engine/Display/ContentView';
 import { Womb } from '../../Body/Pregnancy/Womb';
+import { FlagType } from '../../Utilities/FlagType';
 
 export const PhoukaWhiskeyFlags = {
     PREGNANCY_CORRUPTION: 0,
 };
 
-User.flags.set('PhoukaWhiskey', PhoukaWhiskeyFlags);
+User.flags.set(FlagType.PhoukaWhiskey, PhoukaWhiskeyFlags);
 
 export class PhoukaWhiskey extends Consumable {
     public constructor() {
@@ -99,15 +100,16 @@ export class PhoukaWhiskey extends Consumable {
         const sensChange: number = (character.stats.sens < 10 ? character.stats.sens : 10);
         const speedChange: number = (character.stats.spe < 20 ? character.stats.spe : 20);
         const intChange: number = (character.stats.int < 20 ? character.stats.int : 20);
-        if (character.effects.has(StatusEffectType.PhoukaWhiskeyAffect)) {
-            const drinksSoFar: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
+        const phoukaWhiskeyEffect = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect);
+        if (phoukaWhiskeyEffect) {
+            const drinksSoFar: number = phoukaWhiskeyEffect.value2;
             if (drinksSoFar < 4)
-                character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 8 - (2 * drinksSoFar);
+                phoukaWhiskeyEffect.value1 = 8 - (2 * drinksSoFar);
             else
-                character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value1 = 1; // Always get at least one more hour of drunkenness
-            character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value2 = 1;
-            character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value3 = 256 * libidoChange + sensChange;
-            character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value4 = 256 * speedChange + intChange;
+                phoukaWhiskeyEffect.value1 = 1; // Always get at least one more hour of drunkenness
+            phoukaWhiskeyEffect.value2 = 1;
+            phoukaWhiskeyEffect.value3 = 256 * libidoChange + sensChange;
+            phoukaWhiskeyEffect.value4 = 256 * speedChange + intChange;
             CView.text("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
             character.stats.lib += libidoChange;
             character.stats.sens -= sensChange;
@@ -125,25 +127,28 @@ export class PhoukaWhiskey extends Consumable {
     }
 
     public phoukaWhiskeyExpires(character: Character) {
-        const numDrunk: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value2;
-        const libidoSensCombined: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value3;
-        const intSpeedCombined: number = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect).value4;
+        const phoukaWhiskeyEffect = character.effects.get(StatusEffectType.PhoukaWhiskeyAffect);
+        if (phoukaWhiskeyEffect) {
+            const numDrunk: number = phoukaWhiskeyEffect.value2;
+            const libidoSensCombined: number = phoukaWhiskeyEffect.value3;
+            const intSpeedCombined: number = phoukaWhiskeyEffect.value4;
 
-        const sensChange: number = libidoSensCombined & 255;
-        const libidoChange: number = (libidoSensCombined - sensChange) / 256;
-        const intChange: number = intSpeedCombined & 255;
-        const speedChange: number = (intSpeedCombined - intChange) / 256;
-        // Get back all the stats you lost
-        character.stats.lib -= libidoChange;
-        character.stats.sens += sensChange;
-        character.stats.spe += speedChange;
-        character.stats.int += intChange;
-        character.effects.remove(StatusEffectType.PhoukaWhiskeyAffect);
-        if (numDrunk > 3)
-            CView.text("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
-        else if (numDrunk > 1)
-            CView.text("\n<b>The fuzzy, happy feeling ebbs away.  With it goes the warmth and carefree feelings.  Your head aches and you wonder if you should have another whiskey, just to tide you over</b>\n");
-        else
-            CView.text("\n<b>The fuzzy, happy feeling ebbs away.  The weight of the world’s problems seems to settle on you once more.  It was nice while it lasted and you wouldn’t mind having another whiskey.</b>\n");
+            const sensChange: number = libidoSensCombined & 255;
+            const libidoChange: number = (libidoSensCombined - sensChange) / 256;
+            const intChange: number = intSpeedCombined & 255;
+            const speedChange: number = (intSpeedCombined - intChange) / 256;
+            // Get back all the stats you lost
+            character.stats.lib -= libidoChange;
+            character.stats.sens += sensChange;
+            character.stats.spe += speedChange;
+            character.stats.int += intChange;
+            character.effects.remove(StatusEffectType.PhoukaWhiskeyAffect);
+            if (numDrunk > 3)
+                CView.text("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
+            else if (numDrunk > 1)
+                CView.text("\n<b>The fuzzy, happy feeling ebbs away.  With it goes the warmth and carefree feelings.  Your head aches and you wonder if you should have another whiskey, just to tide you over</b>\n");
+            else
+                CView.text("\n<b>The fuzzy, happy feeling ebbs away.  The weight of the world’s problems seems to settle on you once more.  It was nice while it lasted and you wouldn’t mind having another whiskey.</b>\n");
+        }
     }
 }

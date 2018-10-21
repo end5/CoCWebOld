@@ -16,6 +16,7 @@ export class SuccubisDelight extends Consumable {
             super(ConsumableName.SuccubisDelight, new ItemDesc("Sucb.Delite", "a bottle of 'Succubi's Delight'", "This precious fluid is often given to men a succubus intends to play with for a long time."));
         else
             super(ConsumableName.SuccubisDelightPure, new ItemDesc("PSDelit", "an untainted bottle of \"Succubi's Delight\"", "This precious fluid is often given to men a succubus intends to play with for a long time.  It has been partially purified by Rathazul to prevent corruption."), 20);
+        this.tainted = tainted;
     }
 
     public use(character: Character) {

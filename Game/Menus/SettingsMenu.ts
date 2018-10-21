@@ -61,15 +61,15 @@ export function settingsMenu(): NextScreenChoices {
 
     return {
         choices: [
-                ["Toggle Debug", toggleDebug],
-                ["Sprite Toggle", toggleSpritesFlag],
-                ["EZ Mode", toggleEasyModeFlag],
-                ["Larger Font", incFontSize],
-                ["Controls", controlsMenu],
-                ["Hyper Happy", toggleHyperHappy],
-                ["Low Standards", toggleStandards],
-                ["Silly Toggle", toggleSillyFlag],
-                ["Smaller Font", decFontSize],
+            ["Toggle Debug", toggleDebug],
+            ["Sprite Toggle", toggleSpritesFlag],
+            ["EZ Mode", toggleEasyModeFlag],
+            ["Larger Font", incFontSize],
+            ["Controls", controlsMenu],
+            ["Hyper Happy", toggleHyperHappy],
+            ["Low Standards", toggleStandards],
+            ["Silly Toggle", toggleSillyFlag],
+            ["Smaller Font", decFontSize],
         ],
         persistantChoices: [
             ["Back", mainMenu]

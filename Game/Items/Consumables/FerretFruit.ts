@@ -19,19 +19,21 @@ import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { ferretRaceScore } from '../../Body/RaceScore';
 import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
+import { FlagType } from '../../Utilities/FlagType';
+import { NextScreenChoices } from '../../ScreenDisplay';
 
 export const ferretFruitFlags = {
     FERRET_BAD_END_WARNING: 0,
 };
 
-User.flags.set('FerretFruit', ferretFruitFlags);
+User.flags.set(FlagType.FerretFruit, ferretFruitFlags);
 
 export class FerretFruit extends Consumable {
     public constructor() {
         super(ConsumableName.FerretFruit, new ItemDesc("Frrtfrt", "a ferret fruit", "This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach."));
     }
 
-    public use(character: Character) {
+    public use(character: Character): void | NextScreenChoices {
         // CoC Ferret TF (Ferret Fruit)
         // Finding Ferret Fruit
         // - Ferret Fruit may be strand found while exploring the plains.
@@ -106,7 +108,7 @@ export class FerretFruit extends Consumable {
         }
 
         // -If male with breasts or female/herm with breasts > B cup:
-        if (!User.settings.hyperHappy && (chest.sort(BreastRow.Largest)[0].rating > 2 || (cocks.length > 0 && chest.sort(BreastRow.Largest)[0].rating >= 1)) && randInt(2) === 0 && changes < changeLimit) {
+        if (!User.settings.hyperHappy && (chest.sort(BreastRow.Largest).get(0)!.rating > 2 || (cocks.length > 0 && chest.sort(BreastRow.Largest).get(0)!.rating >= 1)) && randInt(2) === 0 && changes < changeLimit) {
             CView.text("\n\nYou cup your tits as they begin to tingle strangely.  You can actually feel them getting smaller in your hands!");
             for (const breastRow of chest)
                 if (breastRow.rating > 2 || (cocks.length > 0 && breastRow.rating >= 1))
@@ -117,7 +119,7 @@ export class FerretFruit extends Consumable {
         // -If penis size is > 6 inches:
         if (cocks.length > 0) {
             // Find longest cock
-            const longestCock = cocks.sort(Cock.Longest)[0];
+            const longestCock = cocks.sort(Cock.Longest).get(0)!;
             if (randInt(2) === 0 && changes < changeLimit) {
                 if (longestCock.length > 6 && !User.settings.hyperHappy) {
                     CView.text("\n\nA pinching sensation racks the entire length of your " + describeCock(character, longestCock) + ".  Within moments, the sensation is gone, but it appears to have become smaller.");
@@ -172,7 +174,8 @@ export class FerretFruit extends Consumable {
         }
         // Go into heat
         if (randInt(3) === 0 && changes < changeLimit) {
-            if (displayGoIntoHeat(character)) {
+            if (character.canGoIntoHeat()) {
+                displayGoIntoHeat(character);
                 changes++;
             }
         }

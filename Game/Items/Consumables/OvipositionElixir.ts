@@ -45,18 +45,19 @@ export class OvipositionElixir extends Consumable {
         }
         if (character.body.wombs.find(Womb.NotPregnant)) { // If the character is not pregnant, get preggers with eggs!
             CView.text("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
-            character.body.wombs.find(Womb.NotPregnant).knockUp(new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS), 1, true);
+            character.body.wombs.find(Womb.NotPregnant)!.knockUp(new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS), 1, true);
             character.effects.add(StatusEffectType.Eggs, randInt(6), 0, randInt(3) + 5, 0);
             return;
         }
         let changeOccurred: boolean = false;
         if (character.body.wombs.find(Womb.PregnantWithType(PregnancyType.OVIELIXIR_EGGS))) { // If character already has eggs, chance of size increase!
-            if (character.effects.has(StatusEffectType.Eggs)) {
+            const eggEffect = character.effects.get(StatusEffectType.Eggs);
+            if (eggEffect) {
                 // If eggs are small, chance of increase!
-                if (character.effects.get(StatusEffectType.Eggs).value2 === 0) {
+                if (eggEffect.value2 === 0) {
                     // 1 in 2 chance!
                     if (randInt(3) === 0) {
-                        character.effects.get(StatusEffectType.Eggs).value2 = 1;
+                        eggEffect.value2 = 1;
                         CView.text("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
                         changeOccurred = true;
                     }
@@ -64,14 +65,14 @@ export class OvipositionElixir extends Consumable {
                 // Chance of quantity increase!
                 if (randInt(2) === 0) {
                     CView.text("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
-                    character.effects.get(StatusEffectType.Eggs).value3 = randInt(4 + 1);
+                    eggEffect.value3 = randInt(4 + 1);
                     changeOccurred = true;
                 }
             }
         }
         // If no changes, speed up all pregnancies.
-        const pregnantWomb = character.body.wombs.find((womb) => womb.isPregnant() && womb.pregnancy.type !== PregnancyType.BUNNY);
-        if (!changeOccurred && pregnantWomb && pregnantWomb.pregnancy.incubation > 20) {
+        const pregnantWomb = character.body.wombs.find((womb) => womb.isPregnant() && womb.pregnancy!.type !== PregnancyType.BUNNY);
+        if (!changeOccurred && pregnantWomb && pregnantWomb.pregnancy && pregnantWomb.pregnancy.incubation > 20) {
             CView.text("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
             let newIncubation: number = pregnantWomb.pregnancy.incubation - Math.floor(pregnantWomb.pregnancy.incubation * 0.3 + 10);
             if (newIncubation < 2) newIncubation = 2;

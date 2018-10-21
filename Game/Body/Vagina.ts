@@ -91,7 +91,7 @@ export class Vagina implements ISerializable<Vagina> {
         return 10000;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             vaginaType: this.type,
             virgin: this.virgin,

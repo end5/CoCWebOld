@@ -7,7 +7,7 @@ export enum ArmType {
 export class Arms implements ISerializable<Arms> {
     public type: ArmType = ArmType.HUMAN;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type
         };

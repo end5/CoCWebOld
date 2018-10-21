@@ -1,10 +1,10 @@
 import { ITimeAware } from './ITimeAware';
 import { IUpdate } from './IUpdate';
-import { Time } from './Utilities/Time';
+import { User } from './User';
 
 class TimeManager implements IUpdate {
     private timeAwareObjects: ITimeAware[];
-    private currentIndex: number;
+    private currentIndex: number = 0;
 
     public constructor() {
         this.timeAwareObjects = [];
@@ -17,7 +17,7 @@ class TimeManager implements IUpdate {
     public update(hours: number) {
         this.currentIndex = 0;
         while (this.currentIndex < this.timeAwareObjects.length) {
-            this.timeAwareObjects[this.currentIndex].timeChange();
+            this.timeAwareObjects[this.currentIndex].timeChange(User.char);
             this.currentIndex++;
         }
     }

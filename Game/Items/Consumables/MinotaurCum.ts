@@ -1,7 +1,7 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import { Vagina, VaginaWetness } from '../../Body/Vagina';
+import { VaginaWetness } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
@@ -9,6 +9,7 @@ import { User } from '../../User';
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeClit, describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
+import { FlagType } from '../../Utilities/FlagType';
 
 export const MinotaurCumFlags = {
     MINOTAUR_CUM_ADDICTION_STATE: 0,
@@ -16,7 +17,7 @@ export const MinotaurCumFlags = {
     MINOTAUR_CUM_REALLY_ADDICTED_STATE: 0,
 };
 
-User.flags.set('MinotaurCum', MinotaurCumFlags);
+User.flags.set(FlagType.MinotaurCum, MinotaurCumFlags);
 
 export class MinotaurCum extends Consumable {
     public constructor() {
@@ -50,7 +51,7 @@ export class MinotaurCum extends Consumable {
             CView.text("our " + describeCocksLight(character) + " aches, flooding with blood until it's bloating and trembling.");
         }
         if (character.body.vaginas.length > 0) {
-            const vagina: Vagina = character.body.vaginas.get(0);
+            const vagina = character.body.vaginas.get(0)!;
             CView.text("  Your " + describeClit(character) + " engorges, ");
             if (character.body.clit.length < 3) CView.text("parting your lips.");
             else CView.text("bursting free of your lips and bobbing under its own weight.");

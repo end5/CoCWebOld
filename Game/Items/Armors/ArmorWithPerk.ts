@@ -6,10 +6,12 @@ import { ItemDesc } from '../ItemDesc';
 
 export class ArmorWithPerk extends Armor {
     public readonly perk: Perk;
+    public readonly perkDesc: string;
 
     public constructor(name: ArmorName, desc: ItemDesc, displayName: string, defense: number, value: number, armorClass: ArmorClass, perk: Perk, perkDesc: string = "", supportsBulge: boolean = false) {
         super(name, desc, displayName, defense, value, armorClass, supportsBulge);
         this.perk = perk;
+        this.perkDesc = perkDesc;
     }
 
     public onEquip(character: Character): void {

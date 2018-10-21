@@ -1,13 +1,13 @@
-import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
+import { ListEntryElement } from '../../Engine/Display/Elements/ListEntryElement';
 import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Gender } from '../Body/GenderIdentity';
 import { SaveFile } from '../SaveFile';
-import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
+import { ClickOption, NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
 import { CView } from '../../Engine/Display/ContentView';
 
 export function saveSlotChoices(saveSlotCallback: (index: number) => ClickOption, prevMenu: ClickOption): NextScreenChoices {
-    const choices = [];
+    const choices: ScreenChoice[] = [];
     for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
         choices.push(["Slot " + index.toString(), saveSlotCallback(index)]);
     }

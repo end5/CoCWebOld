@@ -28,30 +28,32 @@ import { CView } from '../../../Engine/Display/ContentView';
 import { growCock, thickenCock } from '../../Modifiers/CockModifier';
 import { displayGoIntoHeat, displayModTone } from '../../Modifiers/BodyModifier';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
+import { NextScreenChoices } from '../../ScreenDisplay';
 
 export class Equinum extends Consumable {
     public constructor() {
         super(ConsumableName.Equinum, new ItemDesc("Equinum", "a vial of Equinum", "This is a long flared vial with a small label that reads, \"<i>Equinum</i>\".  It is likely this potion is tied to horses in some way."));
     }
 
-    public warning(character: Character) {
+    public warning(character: Character): void | NextScreenChoices {
         if (character.body.skin.type === SkinType.FUR && character.body.face.type === FaceType.HORSE && character.body.tails.reduce(Tail.HasType(TailType.HORSE), false) && (character.body.legs.type !== LegType.HOOFED)) {
             // WARNINGS
             // Repeat warnings
-            if (character.effects.has(StatusEffectType.HorseWarning) && randInt(3) === 0) {
-                if (character.effects.get(StatusEffectType.HorseWarning).value1 === 0) CView.text("<b>\n\nYou feel a creeping chill down your back as your entire body shivers, as if rejecting something foreign.  Maybe you ought to cut back on the horse potions.</b>");
-                if (character.effects.get(StatusEffectType.HorseWarning).value1 > 0) CView.text("<b>\n\nYou wonder how many more of these you can drink before you become a horse...</b>");
-                character.effects.get(StatusEffectType.HorseWarning).value1 = 1;
+            const horseWarning = character.effects.get(StatusEffectType.HorseWarning);
+            if (horseWarning && randInt(3) === 0) {
+                if (horseWarning.value1 === 0) CView.text("<b>\n\nYou feel a creeping chill down your back as your entire body shivers, as if rejecting something foreign.  Maybe you ought to cut back on the horse potions.</b>");
+                if (horseWarning.value1 > 0) CView.text("<b>\n\nYou wonder how many more of these you can drink before you become a horse...</b>");
+                horseWarning.value1 = 1;
             }
             // First warning
-            if (!character.effects.has(StatusEffectType.HorseWarning)) {
+            if (!horseWarning) {
                 CView.text("<b>\n\nWhile you drink the tasty potion, you realize how horse-like you already are, and wonder what else the potion could possibly change...</b>");
                 character.effects.add(StatusEffectType.HorseWarning, 0, 0, 0, 0);
             }
             // Bad End
             if (randInt(4) === 0 && character.effects.has(StatusEffectType.HorseWarning)) {
                 // Must have been warned first...
-                if (character.effects.get(StatusEffectType.HorseWarning).value1 > 0) {
+                if (character.effects.get(StatusEffectType.HorseWarning)!.value1 > 0) {
                     // If character has dicks check for horsedicks
                     if (character.body.cocks.length > 0) {
                         // If character has horsedicks
@@ -200,7 +202,7 @@ export class Equinum extends Consumable {
             if ((cocks.filter(Cock.FilterType(CockType.HORSE)).length + cocks.filter(Cock.FilterType(CockType.DEMON)).length) < cocks.length) {
                 // Transform a cock and store it's index value to talk about it.
                 // Single cock
-                let selectedCock: Cock = cocks.get(0);
+                let selectedCock: Cock = cocks.get(0)!;
                 if (cocks.length === 1) {
                     let cockTF: boolean = false;
                     if (selectedCock.type === CockType.HUMAN) {
@@ -248,11 +250,7 @@ export class Equinum extends Consumable {
                     character.stats.sens += 4;
                     character.stats.lust += 35;
                     // Find first non horse cock
-                    for (let index = 0; index < cocks.length; index++)
-                        if (cocks.get(index).type !== CockType.HORSE && cocks.get(index).type !== CockType.DEMON) {
-                            selectedCock = cocks.get(index);
-                            break;
-                        }
+                    selectedCock = cocks.find((cock) => cock.type !== CockType.HORSE && cock.type !== CockType.DEMON)!;
 
                     selectedCock.type = CockType.HORSE;
 
@@ -278,7 +276,7 @@ export class Equinum extends Consumable {
                 // single cock
                 let selectedCock: Cock;
                 if (cocks.length === 1) {
-                    selectedCock = cocks.get(0);
+                    selectedCock = cocks.get(0)!;
                     growthAmount = growCock(character, selectedCock, randInt(3) + 1);
                     character.stats.sens += 1;
                     character.stats.lust += 10;
@@ -286,7 +284,7 @@ export class Equinum extends Consumable {
                 // Multicock
                 else {
                     // Grow smallest cock!
-                    selectedCock = cocks.sort(Cock.Smallest)[0];
+                    selectedCock = cocks.sort(Cock.Smallest).get(0)!;
                     growthAmount = growCock(character, selectedCock, randInt(4) + 1);
                     character.stats.sens += 1;
                     character.stats.lust += 10;
@@ -299,7 +297,7 @@ export class Equinum extends Consumable {
             }
             // Chance of thickness + daydream
             if (randInt(2) === 0 && changes < changeLimit && cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
-                const selectedCock: Cock = cocks.sort(Cock.Thinnest)[0];
+                const selectedCock: Cock = cocks.sort(Cock.Thinnest).get(0)!;
                 thickenCock(selectedCock, 0.5);
                 CView.text("\n\nYour " + nounCock(CockType.HORSE) + " thickens inside its sheath, growing larger and fatter as your veins thicken, becoming more noticeable.  It feels right");
                 if (character.stats.cor + character.stats.lib < 50)
@@ -341,36 +339,37 @@ export class Equinum extends Consumable {
         if (character.gender === Gender.FEMALE || character.gender === Gender.HERM) {
             // Single vag
             if (vaginas.length === 1) {
-                if (vaginas.get(0).looseness <= VaginaLooseness.GAPING && changes < changeLimit && randInt(2) === 0) {
+                if (vaginas.get(0)!.looseness <= VaginaLooseness.GAPING && changes < changeLimit && randInt(2) === 0) {
                     CView.text("\n\nYou grip your gut in pain as you feel your organs shift slightly.  When the pressure passes, you realize your " + describeVagina(character, vaginas.get(0)) + " has grown larger, in depth AND size.");
-                    vaginas.get(0).looseness++;
+                    vaginas.get(0)!.looseness++;
                     changes++;
                 }
-                if (vaginas.get(0).wetness <= VaginaWetness.NORMAL && changes < changeLimit && randInt(2) === 0) {
+                if (vaginas.get(0)!.wetness <= VaginaWetness.NORMAL && changes < changeLimit && randInt(2) === 0) {
                     CView.text("\n\nYour " + describeVagina(character, vaginas.get(0)) + " moistens perceptably, giving off an animalistic scent.");
-                    vaginas.get(0).wetness++;
+                    vaginas.get(0)!.wetness++;
                     changes++;
                 }
             }
             // Multicooch
             else {
                 // determine least wet
-                const leastWet = vaginas.sort(Vagina.WetnessLeast)[0];
+                const leastWet = vaginas.sort(Vagina.WetnessLeast).get(0)!;
                 if (leastWet.wetness <= VaginaWetness.NORMAL && changes < changeLimit && randInt(2) === 0) {
                     CView.text("\n\nOne of your " + describeVagina(character, leastWet) + " moistens perceptably, giving off an animalistic scent.");
                     leastWet.wetness++;
                     changes++;
                 }
                 // determine smallest
-                const smallest = vaginas.sort(Vagina.LoosenessLeast)[0];
+                const smallest = vaginas.sort(Vagina.LoosenessLeast).get(0)!;
                 if (smallest.looseness <= VaginaLooseness.GAPING && changes < changeLimit && randInt(2) === 0) {
                     CView.text("\n\nYou grip your gut in pain as you feel your organs shift slightly.  When the pressure passes, you realize one of your " + describeVagina(character, smallest) + " has grown larger, in depth AND size.");
                     smallest.looseness++;
                     changes++;
                 }
             }
-            if (character.effects.get(StatusEffectType.Heat).value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
-                if (displayGoIntoHeat(character)) {
+            if (character.effects.get(StatusEffectType.Heat)!.value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
+                if (character.canGoIntoHeat()) {
+                    displayGoIntoHeat(character);
                     changes++;
                 }
             }
@@ -379,7 +378,7 @@ export class Equinum extends Consumable {
                 if (randInt(2) === 0 && changes < changeLimit) {
                     // Shrink B's!
                     // Single row
-                    const selectedBreastRow = chest.get(0);
+                    const selectedBreastRow = chest.firstRow;
                     if (chest.length === 1) {
                         let majorShrinkage: boolean = false;
                         // Shrink if bigger than B cups
@@ -402,18 +401,18 @@ export class Equinum extends Consumable {
                     // multiple
                     else {
                         let shrinkAmount: number = 0;
-                        if (chest.sort(BreastRow.Largest)[0].rating > 3)
+                        if (chest.sort(BreastRow.Largest).get(0)!.rating > 3)
                             CView.text("\n");
                         for (let index = 0; index < chest.length; index++) {
-                            if (chest.get(index).rating > 3) {
-                                chest.get(index).rating--;
+                            if (chest.get(index)!.rating > 3) {
+                                chest.get(index)!.rating--;
                                 shrinkAmount++;
                                 CView.text("\n");
                                 if (index < chest.length)
                                     CView.text("...and y");
                                 else
                                     CView.text("Y");
-                                CView.text("our " + describeBreastRow(chest.get(index)) + " shrink, dropping to " + breastCup(chest.get(index).rating) + "s.");
+                                CView.text("our " + describeBreastRow(chest.get(index)) + " shrink, dropping to " + breastCup(chest.get(index)!.rating) + "s.");
                             }
                         }
                         if (shrinkAmount === 2) CView.text("\nYou feel so much lighter after the change.");
@@ -486,8 +485,9 @@ export class Equinum extends Consumable {
             // no tail
             if (character.body.tails.length === 0) {
                 CView.text("\n\nThere is a sudden tickling on your ass, and you notice you have sprouted a long shiny horsetail of the same " + character.body.hair.color + " color as your hair.");
-
-                const firstTail = character.body.tails.get(0);
+            }
+            else {
+                const firstTail = character.body.tails.get(0)!;
                 // if other animal tail
                 if (firstTail.type > TailType.HORSE && firstTail.type <= TailType.COW) {
                     CView.text("\n\nPain lances up your " + describeButthole(character.body.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.");
@@ -502,10 +502,7 @@ export class Equinum extends Consumable {
             }
             CView.text("  <b>You now have a horse-tail.</b>");
             character.body.tails.clear();
-            const newTail = new Tail();
-            newTail.type = TailType.HORSE;
-            newTail.venom = 0;
-            newTail.recharge = 0;
+            const newTail = new Tail(TailType.HORSE);
             character.body.tails.add(newTail);
             changes++;
         }

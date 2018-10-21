@@ -29,11 +29,11 @@ export class Armor extends EquipableItem {
     public supportsBulge(character: Character): boolean { return this.canBulge && character.inventory.equipment.armorDescMod === ""; }
     // For most clothes if the armorDescMod is set then it's Exgartuan's doing. The comfortable clothes are the exception, they override this function.
 
-    public canUse(character: Character): boolean {
+    public canUse(_character: Character): boolean {
         return true;
     }
 
-    public useText(character: Character): void {
+    public useText(_character: Character): void {
         CView.text("You equip " + this.desc.longName + ".  ");
     }
 
@@ -41,11 +41,11 @@ export class Armor extends EquipableItem {
         return super.describe() + " (DEF: +" + this.defenseValue + ")";
     }
 
-    public use(character: Character) { }
+    public use(_character: Character) { }
 
     public equipText(): void { }
     public unequipText(): void { }
-    public onEquip(character: Character) { }
+    public onEquip(_character: Character) { }
 
     /**
      * This item is being unequiped by the character. Remove any perks, etc. - This should only handle mechanics, not text output

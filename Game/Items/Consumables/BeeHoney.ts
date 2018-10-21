@@ -49,7 +49,7 @@ export class BeeHoney extends Consumable {
     }
 
     public canUse(character: Character) {
-        if (this.value === BeeHoney.SPECIAL_HONEY_VALUE && character.effects.get(StatusEffectType.Exgartuan).value1 === 1) { // Exgartuan doesn't like the special honey
+        if (this.value === BeeHoney.SPECIAL_HONEY_VALUE && character.effects.has(StatusEffectType.Exgartuan) && character.effects.get(StatusEffectType.Exgartuan)!.value1 === 1) { // Exgartuan doesn't like the special honey
             CView.text("You uncork the bottle only to hear Exgartuan suddenly speak up.  <i>“Hey kid, this beautiful cock here doesn’t need any of that special bee shit.  Cork that bottle up right now or I’m going to make it so that you can’t drink anything but me.”</i>  You give an exasperated sigh and put the cork back in the bottle.");
             return false;
         }
@@ -58,7 +58,7 @@ export class BeeHoney extends Consumable {
 
     private isPregnantWithFaerie(character: Character): boolean {
         return (character.body.wombs.find(Womb.Pregnant) && !!character.body.wombs.find(Womb.PregnantWithType(PregnancyType.FAERIE))) ||
-            (character.body.buttWomb.isPregnant() && character.body.buttWomb.pregnancy.type === PregnancyType.FAERIE);
+            (character.body.buttWomb.isPregnant() && character.body.buttWomb.pregnancy!.type === PregnancyType.FAERIE);
     }
 
     public use(character: Character) {
@@ -153,7 +153,7 @@ export class BeeHoney extends Consumable {
         // -Remove extra breast rows
         if (changes < changeLimit && chest.length > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
-            const lastBreastRow = chest.get(chest.length - 1);
+            const lastBreastRow = chest.get(chest.length - 1)!;
             CView.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
             if (chest.length >= 3)
                 CView.text("abdomen");
@@ -190,7 +190,7 @@ export class BeeHoney extends Consumable {
         // -Nipples reduction to 1 per tit.
         if (chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
             CView.text("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
-            if (chest.sort(BreastRow.Largest)[0].rating < 1)
+            if (chest.sort(BreastRow.Largest).get(0)!.rating < 1)
                 CView.text("'breast'.");
             else
                 CView.text("breast.");
@@ -258,7 +258,7 @@ export class BeeHoney extends Consumable {
         }
         if (special) { // All the speical honey effects occur after any normal bee transformations (if the character wasn't a full bee morph)
             let selectedCock: Cock;
-            if (cocks.length > 0) {
+            if (cocks.length <= 0) {
                 CView.text("\n\nYou double over in pain as the effects start to concentrate into your groin.  You need to get release, but what you’ve got just isn’t cutting it.  You fall to the ground and grab at your crotch, trying desperately to get the release you need.  Finally, it happens.  With a sudden burst of intense relief and sexual satisfaction, a new human looking penis bursts from your skin and sprays your seed all over the ground in front of you.  When you’re able to recover and take a look at your new possession.  <b>You now have an eight inch long human cock that is very sensitive to stimulation.</b>");
                 selectedCock = new Cock();
                 selectedCock.length = randInt(3) + 8;
@@ -266,17 +266,17 @@ export class BeeHoney extends Consumable {
                 cocks.add(selectedCock);
                 character.stats.sens += 10;
             }
-            else if (character.body.cocks.length > 1) {
-                const largestCock = cocks.sort(Cock.Largest)[0];
-                selectedCock = cocks.get(0);
+            else if (cocks.length > 1) {
+                const largestCock = cocks.sort(Cock.Largest).get(0)!;
+                selectedCock = cocks.get(0)!;
                 CView.text("\n\nThe effects of the honey move towards your groin, and into your " + describeCocksLight(character) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + describeCock(character, largestCock) + " is absorbed into your " + describeCock(character, selectedCock) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + describeCock(character, selectedCock) + " seems a lot more sensative now...");
                 selectedCock.length += 5 * Math.sqrt(0.2 * largestCock.area);
                 selectedCock.thickness += Math.sqrt(0.2 * largestCock.area);
                 cocks.remove(cocks.indexOf(largestCock));
                 character.stats.sens += 5;
             }
-            else if (character.body.cocks.get(0).area < 100) {
-                selectedCock = cocks.get(0);
+            else if (cocks.get(0)!.area < 100) {
+                selectedCock = cocks.get(0)!;
                 CView.text("\n\nYour " + describeCock(character, selectedCock) + " suddenly becomes rock hard and incredibly sensitive to the touch.  You pull away your " + character.inventory.equipment.armor.displayName + ", and start to masturbate furiously as it rapidly swells in size.  When the change finally finishes, you realize that your " + describeCock(character, selectedCock) + " has both grown much longer and wider!  <b>");
                 if (selectedCock.area <= 20)
                     CView.text("It now swings as low as your knees!");
@@ -289,8 +289,8 @@ export class BeeHoney extends Consumable {
                 selectedCock.thickness += 0.1 * randInt(5) + 0.5; // 0.5 to 1 inches in thickness
                 character.stats.sens += 5;
             }
-            else if (cocks.get(0).type !== CockType.BEE && describeRace(character) === "bee-morph") {
-                selectedCock = cocks.get(0);
+            else if (cocks.get(0)!.type !== CockType.BEE && describeRace(character) === "bee-morph") {
+                selectedCock = cocks.get(0)!;
                 CView.text("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + character.inventory.equipment.armor.displayName + " and watch in fascination as your " + describeCock(character, selectedCock) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
                 CView.text("It is entirely different from the usual feeling you get when you’re cock grows larger from imbibing transformative substances.  When the changes stop, the tip is shaped like a typical human mushroom cap covered in fine bee hair, but it feels nothing like what you’d expect a human dick to feel like.  Your whole length is incredibly sensitive, and touching it gives you incredible stimulation, but you’re sure that no matter how much you rub it, you aren’t going to cum by yourself.  You want cool honey covering it, you want tight walls surrounding it, you want to fertilize hundreds of eggs with it.  These desires are almost overwhelming, and it takes a lot of will not to just run off in search of the bee girl that gave you that special honey right now.  This isn’t good.\n\n");
                 CView.text("<b>You now have a bee cock!</b>");
@@ -300,7 +300,7 @@ export class BeeHoney extends Consumable {
                 character.stats.sens += 15;
             }
             else {
-                selectedCock = cocks.get(0);
+                selectedCock = cocks.get(0)!;
                 CView.text("\n\nThe effects of the honey don’t seem to focus on your groin this time, but you still feel your " + describeCock(character, selectedCock) + " grow slightly under your " + character.inventory.equipment.armor.displayName + ".");
                 selectedCock.length += 0.1 * randInt(10) + 1;
                 selectedCock.thickness += 0.1 * randInt(2) + 0.1;

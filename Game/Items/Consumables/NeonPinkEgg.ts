@@ -142,13 +142,13 @@ export class NeonPinkEgg extends Consumable {
             // (BIG boost 1/3 chance)
             else {
                 character.stats.sens += 15;
-                CView.text("Every movement of your body seems to bring heightened waves of sensation that make you woozy.  Your " + character.inventory.equipment.armor.displayName + " rubs your " + describeNipple(character, character.body.chest.get(0)) + "s deliciously");
+                CView.text("Every movement of your body seems to bring heightened waves of sensation that make you woozy.  Your " + character.inventory.equipment.armor.displayName + " rubs your " + describeNipple(character, character.body.chest.firstRow) + "s deliciously");
                 if (character.body.chest.find(BreastRow.FuckableNipples)) {
                     CView.text(", sticking to the ");
-                    if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier > 2) CView.text("milk-leaking nipple-twats");
+                    if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier > 2) CView.text("milk-leaking nipple-twats");
                     else CView.text("slippery nipple-twats");
                 }
-                else if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier > 2) CView.text(", sliding over the milk-leaking teats with ease");
+                else if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier > 2) CView.text(", sliding over the milk-leaking teats with ease");
                 else CView.text(" catching on each of the hard nubs repeatedly");
                 CView.text(".  Meanwhile, your crotch... your crotch is filled with such heavenly sensations from ");
                 if (character.gender === Gender.MALE) {
@@ -179,11 +179,11 @@ export class NeonPinkEgg extends Consumable {
         }
 
         // De-wettification of cunt (down to 3?)!
-        if (character.body.vaginas.get(0).wetness > 3 && changes < changeLimit && randInt(3) === 0) {
-            // Just to be safe
-            if (character.body.vaginas.length > 0) {
+        if (character.body.vaginas.length > 0) {
+            if (character.body.vaginas.get(0)!.wetness > 3 && changes < changeLimit && randInt(3) === 0) {
+                // Just to be safe
                 CView.text("\n\nThe constant flow of fluids that sluice from your " + describeVagina(character, character.body.vaginas.get(0)) + " slow down, leaving you feeling a bit less like a sexual slip-'n-slide.");
-                character.body.vaginas.get(0).wetness--;
+                character.body.vaginas.get(0)!.wetness--;
                 changes++;
             }
         }

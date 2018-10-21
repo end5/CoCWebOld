@@ -8,9 +8,9 @@ import {
     } from '../Body/Vagina';
 import { Character } from '../Character/Character';
 
-export function describeVagina(character: Character, vagina: Vagina): string {
+export function describeVagina(character: Character, vagina?: Vagina): string {
     let description: string = "";
-
+    if (!vagina) return "";
     // tightness descript - 40% display rate
     if (percentChance(40)) {
         if (vagina.looseness === VaginaLooseness.TIGHT)
@@ -86,9 +86,10 @@ export function describeVagina(character: Character, vagina: Vagina): string {
 
 export function describeAllVagina(character: Character): string {
     if (character.body.vaginas.length === 1)
-        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.length - 1)));
+        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.length - 1))!);
     if (character.body.vaginas.length > 1)
-        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.length - 1))) + "s";
+        return describeVagina(character, character.body.vaginas.get(randInt(character.body.vaginas.length - 1))!) + "s";
+    return '';
 }
 
 export function describeClit(character: Character): string {

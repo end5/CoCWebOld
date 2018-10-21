@@ -1,6 +1,4 @@
-import { NextScreenChoices } from "../ScreenDisplay";
-
-type __ = undefined;
+// type __ = undefined;
 
 type Function0<R> = () => R;
 type Function1<T1, R> = (t1: T1) => R;
@@ -56,7 +54,7 @@ interface Partial {
 }
 
 export const partial: Partial = (func: (...args: any[]) => any, ...args: any[]): (...args: any[]) => any => {
-    const wrapper = (...wrapperArgs: any[]): any => {
+    const wrapper = () => {
         return func(args);
     };
     Object.defineProperty(wrapper, "name", { value: func.name });

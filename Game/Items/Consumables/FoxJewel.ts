@@ -132,20 +132,21 @@ export class FoxJewel extends Consumable {
             changes++;
         }
         // [Increase Vaginal Capacity] - requires vagina, of course
-        if (character.body.vaginas.length > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && character.effects.get(StatusEffectType.BonusVCapacity).value1 < 200 && changes < changeLimit) {
+        const bonusVCap = character.effects.get(StatusEffectType.BonusVCapacity);
+        if (character.body.vaginas.length > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && bonusVCap && bonusVCap.value1 < 200 && changes < changeLimit) {
             CView.text("\n\nA gurgling sound issues from your abdomen, and you double over as a trembling ripple passes through your womb.  The flesh of your stomach roils as your internal organs begin to shift, and when the sensation finally passes, you are instinctively aware that your " + describeVagina(character, character.body.vaginas.get(0)) + " is a bit deeper than it was before.");
             if (!character.effects.has(StatusEffectType.BonusVCapacity)) {
                 character.effects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
             }
-            character.effects.get(StatusEffectType.BonusVCapacity).value1 = 5 + randInt(10);
+            bonusVCap.value1 = 5 + randInt(10);
             changes++;
         }
         // [Vag of Holding] - rare effect, only if PC has high vaginal looseness
-        else if (character.body.vaginas.length > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && character.effects.get(StatusEffectType.BonusVCapacity).value1 >= 200 && character.effects.get(StatusEffectType.BonusVCapacity).value1 < 8000 && changes < changeLimit) {
+        else if (character.body.vaginas.length > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && bonusVCap && bonusVCap.value1 >= 200 && bonusVCap.value1 < 8000 && changes < changeLimit) {
             CView.text("\n\nYou clutch your stomach with both hands, dropping to the ground in pain as your internal organs begin to twist and shift violently inside you.  As you clench your eyes shut in agony, you are overcome with a sudden calm.  The pain in your abdomen subsides, and you feel at one with the unfathomable infinity of the universe, warmth radiating through you from the vast swirling cosmos contained within your womb.");
             if (User.settings.silly()) CView.text("  <b>Your vagina has become a universe unto itself, capable of accepting colossal insertions beyond the scope of human comprehension!</b>");
             else CView.text("  <b>Your vagina is now capable of accepting even the most ludicrously sized insertions with no ill effects.</b>");
-            character.effects.get(StatusEffectType.BonusVCapacity).value1 = 8000;
+            bonusVCap.value1 = 8000;
             changes++;
         }
 
@@ -295,14 +296,14 @@ export class FoxJewel extends Consumable {
         }*/
         // Nipples Turn Back:
         if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.firstRow) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN && character.body.vaginas.length > 0) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.type !== VaginaType.HUMAN) {
             CView.text("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
-            character.body.vaginas.get(0).type = VaginaType.HUMAN;
+            character.body.vaginas.get(0)!.type = VaginaType.HUMAN;
             changes++;
         }
         if (changes === 0) {

@@ -11,6 +11,7 @@ export function genderText(gender: Gender, male: string = "man", female: string 
         return female;
     else if (gender === Gender.NONE)
         return eunuch;
+    return '';
 }
 
 export function mfn(gender: Gender, male: string, female: string, neuter: string): string {
@@ -20,6 +21,7 @@ export function mfn(gender: Gender, male: string, female: string, neuter: string
         return female;
     else if (gender === Gender.MALE)
         return male;
+    return '';
 }
 
 export function mf(character: Character, male: string, female: string) {
@@ -66,6 +68,7 @@ export function manWomanFutaEunuch(gender: Gender, caps: boolean = false): strin
         else
             return "eunuch";
     }
+    return '';
 }
 
 export function guyGirl(gender: Gender, caps: boolean = false): string {
@@ -81,6 +84,7 @@ export function guyGirl(gender: Gender, caps: boolean = false): string {
         else
             return "guy";
     }
+    return '';
 }
 
 export function boyGirl(gender: Gender, caps: boolean = false): string {
@@ -96,6 +100,7 @@ export function boyGirl(gender: Gender, caps: boolean = false): string {
         else
             return "boy";
     }
+    return '';
 }
 
 export function maleFemale(gender: Gender, caps: boolean = false): string {
@@ -111,6 +116,7 @@ export function maleFemale(gender: Gender, caps: boolean = false): string {
         else
             return "male";
     }
+    return '';
 }
 
 export function sirMadam(gender: Gender, caps: boolean = false): string {
@@ -126,4 +132,5 @@ export function sirMadam(gender: Gender, caps: boolean = false): string {
         else
             return "Sir";
     }
+    return '';
 }

@@ -92,10 +92,11 @@ export class GoblinAle extends Consumable {
             changes++;
         }
         // Boost vaginal capacity without gaping
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.effects.get(StatusEffectType.BonusVCapacity).value1 < 40) {
+        const bonusVCap = character.effects.get(StatusEffectType.BonusVCapacity);
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && bonusVCap && bonusVCap.value1 < 40) {
             if (!character.effects.has(StatusEffectType.BonusVCapacity))
                 character.effects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
-            character.effects.get(StatusEffectType.BonusVCapacity).value1 = 5;
+            bonusVCap.value1 = 5;
             CView.text("\n\nThere is a sudden... emptiness within your " + describeVagina(character, character.body.vaginas.get(0)) + ".  Somehow you know you could accommodate even larger... insertions.");
             changes++;
         }
@@ -107,16 +108,16 @@ export class GoblinAle extends Consumable {
         }
         // Shrink primary dick to no longer than 12 inches
         else if (character.body.cocks.length === 1 && randInt(2) === 0 && changes < changeLimit && !User.settings.hyperHappy) {
-            if (character.body.cocks.get(0).length > 12) {
+            if (character.body.cocks.get(0)!.length > 12) {
                 changes++;
                 let temp3: number = 0;
                 CView.text("\n\n");
                 // Shrink said cock
-                if (character.body.cocks.get(0).length < 6 && character.body.cocks.get(0).length >= 2.9) {
-                    character.body.cocks.get(0).length -= .5;
+                if (character.body.cocks.get(0)!.length < 6 && character.body.cocks.get(0)!.length >= 2.9) {
+                    character.body.cocks.get(0)!.length -= .5;
                     temp3 -= .5;
                 }
-                temp3 += growCock(character, character.body.cocks.get(0), (randInt(3) + 1) * -1);
+                temp3 += growCock(character, character.body.cocks.get(0)!, (randInt(3) + 1) * -1);
                 displayLengthChange(character, temp3, 1);
             }
         }
@@ -204,14 +205,14 @@ export class GoblinAle extends Consumable {
         }
         // Nipples Turn Back:
         if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.firstRow) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.type !== VaginaType.HUMAN) {
             CView.text("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
-            character.body.vaginas.get(0).type = VaginaType.HUMAN;
+            character.body.vaginas.get(0)!.type = VaginaType.HUMAN;
             changes++;
         }
         if (changes < changeLimit && randInt(4) === 0 && ((character.body.butt.wetness > 0 && !character.perks.has(PerkType.MaraesGiftButtslut)) || character.body.butt.wetness > 1)) {

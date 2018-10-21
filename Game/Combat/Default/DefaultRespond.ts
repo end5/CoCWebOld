@@ -18,7 +18,8 @@ export class DefaultRespond implements IActionRespond {
     public enemyRun() { }
     public attacked(damage: number, crit: boolean, self: Character, enemy: Character) {
         if (self.combat.effects.has(CombatEffectType.Earthshield) && randInt(4) === 0) {
-            enemy.combat.respond.didNoDamage(enemy, self);
+            if (enemy.combat.respond.didNoDamage)
+                enemy.combat.respond.didNoDamage(enemy, self);
             return;
         }
         // // Start figuring enemy damage resistance
@@ -46,9 +47,10 @@ export class DefaultRespond implements IActionRespond {
                 for (const perk of enemy.inventory.equipment.weapon.perks) {
                     perk(enemy, self);
                 }
-            enemy.combat.respond.didDamage(damage, crit, enemy, self);
+            if (enemy.combat.respond.didDamage)
+                enemy.combat.respond.didDamage(damage, crit, enemy, self);
         }
-        else {
+        else if (enemy.combat.respond.didNoDamage) {
             enemy.combat.respond.didNoDamage(enemy, self);
         }
     }

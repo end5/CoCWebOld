@@ -26,5 +26,17 @@ export enum FlagType {
     Anemone = "Anemone",
     Ceraph = "Ceraph",
     Amily = "Amily",
-    Ember = "Ember"
+    Ember = "Ember",
+    Phouka = "Phouka",
+    Oasis_Demons = "Oasis_Demons",
+    SandWitch = "SandWitch",
+    CeruleanSuccubus = "CeruleanSuccubus",
+    EggFlags = "EggFlags",
+    FerretFruit = "FerretFruit",
+    FoxBerry = "FoxBerry",
+    HairExtensionSerum = "HairExtensionSerum",
+    MinotaurCum = "MinotaurCum",
+    PhoukaWhiskey = "PhoukaWhiskey",
+    Reptilum = "Reptilum",
+    DragonShellShield = "DragonShellShield"
 }

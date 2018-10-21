@@ -6,10 +6,11 @@ import { ItemType } from '../ItemType';
 import { CView } from '../../../Engine/Display/ContentView';
 
 export class Material extends Item {
-    private readonly useDesc: string;
+    private readonly useDesc: string = '';
     constructor(name: MaterialName, desc: ItemDesc, useText?: string, value?: number) {
         super(name, ItemType.Material, desc, value);
-        this.useDesc = useText;
+        if (useText)
+            this.useDesc = useText;
     }
 
     public canUse(character: Character): boolean {

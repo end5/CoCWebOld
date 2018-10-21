@@ -16,6 +16,7 @@ import { CView } from '../../../Engine/Display/ContentView';
 import { growTopBreastRow } from '../../Modifiers/BreastModifier';
 import { growCock, displayLengthChange, displayKillCocks } from '../../Modifiers/CockModifier';
 import { displayModFem, displayModTone } from '../../Modifiers/BodyModifier';
+import { describeTopRowBreastGrowth } from '../../Descriptors/BreastDescriptor';
 
 export class SuccubiMilk extends Consumable {
     public readonly tainted: boolean;
@@ -38,27 +39,29 @@ export class SuccubiMilk extends Consumable {
         if (character.stats.cor >= 35 && character.stats.cor < 70) {
             CView.text("You savor the incredible flavor as you greedily gulp it down.");
             if (character.gender === Gender.FEMALE || character.gender === Gender.HERM) {
-                CView.text("  The taste alone makes your " + describeVagina(character, character.body.vaginas.get(0)) + " feel ");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.DRY) CView.text("tingly.");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.NORMAL) CView.text("wet.");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.WET) CView.text("sloppy and wet.");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.SLICK) CView.text("sopping and juicy.");
-                if (character.body.vaginas.get(0).wetness >= VaginaWetness.DROOLING) CView.text("dripping wet.");
+                const vagina = character.body.vaginas.get(0)!;
+                CView.text("  The taste alone makes your " + describeVagina(character, vagina) + " feel ");
+                if (vagina.wetness === VaginaWetness.DRY) CView.text("tingly.");
+                if (vagina.wetness === VaginaWetness.NORMAL) CView.text("wet.");
+                if (vagina.wetness === VaginaWetness.WET) CView.text("sloppy and wet.");
+                if (vagina.wetness === VaginaWetness.SLICK) CView.text("sopping and juicy.");
+                if (vagina.wetness >= VaginaWetness.DROOLING) CView.text("dripping wet.");
             }
             else if (character.body.cocks.length > 0) CView.text("  You feel a building arousal, but it doesn't affect your cock.");
         }
         if (character.stats.cor >= 70) {
             CView.text("You pour the milk down your throat, chugging the stuff as fast as you can.  You want more.");
             if (character.gender === Gender.FEMALE || character.gender === Gender.HERM) {
-                CView.text("  Your " + describeVagina(character, character.body.vaginas.get(0)));
+                const vagina = character.body.vaginas.get(0)!;
+                CView.text("  Your " + describeVagina(character, vagina));
                 if (character.body.vaginas.length > 1) CView.text(" quiver in orgasm, ");
                 if (character.body.vaginas.length === 1) CView.text(" quivers in orgasm, ");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.DRY) CView.text("becoming slightly sticky.");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.NORMAL) CView.text("leaving your undergarments sticky.");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.WET) CView.text("wet with girlcum.");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.SLICK) CView.text("staining your undergarments with cum.");
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.DROOLING) CView.text("leaving cunt-juice trickling down your leg.");
-                if (character.body.vaginas.get(0).wetness >= VaginaWetness.SLAVERING) CView.text("spraying your undergarments liberally with slick girl-cum.");
+                if (vagina.wetness === VaginaWetness.DRY) CView.text("becoming slightly sticky.");
+                if (vagina.wetness === VaginaWetness.NORMAL) CView.text("leaving your undergarments sticky.");
+                if (vagina.wetness === VaginaWetness.WET) CView.text("wet with girlcum.");
+                if (vagina.wetness === VaginaWetness.SLICK) CView.text("staining your undergarments with cum.");
+                if (vagina.wetness === VaginaWetness.DROOLING) CView.text("leaving cunt-juice trickling down your leg.");
+                if (vagina.wetness >= VaginaWetness.SLAVERING) CView.text("spraying your undergarments liberally with slick girl-cum.");
                 character.orgasm();
             }
             else if (character.gender !== 0) {
@@ -80,9 +83,9 @@ export class SuccubiMilk extends Consumable {
             // Temp stores the level of growth...
             let breastGrowth: number = 1 + randInt(3);
             if (character.body.chest.length > 0) {
-                if (character.body.chest.get(0).rating < 2 && randInt(3) === 0) breastGrowth++;
-                if (character.body.chest.get(0).rating < 5 && randInt(4) === 0) breastGrowth++;
-                if (character.body.chest.get(0).rating < 6 && randInt(5) === 0) breastGrowth++;
+                if (character.body.chest.firstRow.rating < 2 && randInt(3) === 0) breastGrowth++;
+                if (character.body.chest.firstRow.rating < 5 && randInt(4) === 0) breastGrowth++;
+                if (character.body.chest.firstRow.rating < 6 && randInt(5) === 0) breastGrowth++;
             }
             CView.text("\n\n");
             if (character.body.chest.length === 0) {
@@ -93,13 +96,15 @@ export class SuccubiMilk extends Consumable {
                 character.body.chest.add(newBreastRow);
                 CView.text("\n");
             }
-            else
-                growTopBreastRow(character, breastGrowth, character.body.chest.length, true);
+            else {
+                growTopBreastRow(character, breastGrowth, character.body.chest.length);
+                CView.text(describeTopRowBreastGrowth(character, breastGrowth));
+            }
 
             if (!User.settings.hyperHappy) {
                 // Shrink cocks if you have them.
                 if (character.body.cocks.length > 0) {
-                    const longestCock: Cock = character.body.cocks.sort(Cock.Longest)[0];
+                    const longestCock: Cock = character.body.cocks.sort(Cock.Longest).get(0)!;
                     let lengthenAmount: number = 0;
                     // Shrink said cock
                     if (longestCock.length < 6 && longestCock.length >= 2.9) {
@@ -133,7 +138,7 @@ export class SuccubiMilk extends Consumable {
             // Shrink cawk
             if (character.body.cocks.length > 0 && !User.settings.hyperHappy) {
                 CView.text("\n\n");
-                const longestCock = character.body.cocks.sort(Cock.Longest)[0];
+                const longestCock = character.body.cocks.sort(Cock.Longest).get(0)!;
                 // Shrink said cock
                 if (longestCock.length < 6 && longestCock.length >= 2.9)
                     longestCock.length -= .5;
@@ -146,36 +151,37 @@ export class SuccubiMilk extends Consumable {
             }
             if (character.body.vaginas.length > 0) {
                 CView.text("\n\n");
+                const firstVagina = character.body.vaginas.get(0)!;
                 // 0 = dry, 1 = wet, 2 = extra wet, 3 = always slick, 4 = drools constantly, 5 = female ejaculator
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.SLAVERING) {
-                    if (character.body.vaginas.length === 1) CView.text("Your " + describeVagina(character, character.body.vaginas.get(0)) + " gushes fluids down your leg as you spontaneously orgasm.");
-                    else CView.text("Your " + describeVagina(character, character.body.vaginas.get(0)) + "s gush fluids down your legs as you spontaneously orgasm, leaving a thick puddle of pussy-juice on the ground.  It is rapidly absorbed by the earth.");
+                if (firstVagina.wetness === VaginaWetness.SLAVERING) {
+                    if (character.body.vaginas.length === 1) CView.text("Your " + describeVagina(character, firstVagina) + " gushes fluids down your leg as you spontaneously orgasm.");
+                    else CView.text("Your " + describeVagina(character, firstVagina) + "s gush fluids down your legs as you spontaneously orgasm, leaving a thick puddle of pussy-juice on the ground.  It is rapidly absorbed by the earth.");
                     character.orgasm();
                     if (this.tainted) character.stats.cor += 1;
                 }
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.DROOLING) {
-                    if (character.body.vaginas.length === 1) CView.text("Your pussy feels hot and juicy, aroused and tender.  You cannot resist as your hands dive into your " + describeVagina(character, character.body.vaginas.get(0)) + ".  You quickly orgasm, squirting fluids everywhere.  <b>You are now a squirter</b>.");
-                    if (character.body.vaginas.length > 1) CView.text("Your pussies feel hot and juicy, aroused and tender.  You cannot resist plunging your hands inside your " + describeVagina(character, character.body.vaginas.get(0)) + "s.  You quiver around your fingers, squirting copious fluids over yourself and the ground.  The fluids quickly disappear into the dirt.");
+                if (firstVagina.wetness === VaginaWetness.DROOLING) {
+                    if (character.body.vaginas.length === 1) CView.text("Your pussy feels hot and juicy, aroused and tender.  You cannot resist as your hands dive into your " + describeVagina(character, firstVagina) + ".  You quickly orgasm, squirting fluids everywhere.  <b>You are now a squirter</b>.");
+                    if (character.body.vaginas.length > 1) CView.text("Your pussies feel hot and juicy, aroused and tender.  You cannot resist plunging your hands inside your " + describeVagina(character, firstVagina) + "s.  You quiver around your fingers, squirting copious fluids over yourself and the ground.  The fluids quickly disappear into the dirt.");
                     character.orgasm();
                     if (this.tainted) character.stats.cor += 1;
                 }
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.SLICK) {
-                    if (character.body.vaginas.length === 1) CView.text("You feel a sudden trickle of fluid down your leg.  You smell it and realize it's your pussy-juice.  Your " + describeVagina(character, character.body.vaginas.get(0)) + " now drools lubricant constantly down your leg.");
+                if (firstVagina.wetness === VaginaWetness.SLICK) {
+                    if (character.body.vaginas.length === 1) CView.text("You feel a sudden trickle of fluid down your leg.  You smell it and realize it's your pussy-juice.  Your " + describeVagina(character, firstVagina) + " now drools lubricant constantly down your leg.");
                     if (character.body.vaginas.length > 1) CView.text("You feel sudden trickles of fluids down your leg.  You smell the stuff and realize it's your pussies-juices.  They seem to drool lubricant constantly down your legs.");
                 }
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.WET) {
+                if (firstVagina.wetness === VaginaWetness.WET) {
                     CView.text("You flush in sexual arousal as you realize how moist your cunt-lips have become.  Once you've calmed down a bit you realize they're still slick and ready to fuck, and always will be.");
                 }
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.NORMAL) {
-                    if (character.body.vaginas.length === 1) CView.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + describeVagina(character, character.body.vaginas.get(0)) + " felt much wetter than normal.");
-                    else CView.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + describeVagina(character, character.body.vaginas.get(0)) + " were much wetter than normal.");
+                if (firstVagina.wetness === VaginaWetness.NORMAL) {
+                    if (character.body.vaginas.length === 1) CView.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + describeVagina(character, firstVagina) + " felt much wetter than normal.");
+                    else CView.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + describeVagina(character, firstVagina) + " were much wetter than normal.");
                 }
-                if (character.body.vaginas.get(0).wetness === VaginaWetness.DRY) {
+                if (firstVagina.wetness === VaginaWetness.DRY) {
                     CView.text("You feel a tingling in your crotch, but cannot identify it.");
                 }
-                for (let index: number = 0; index < character.body.vaginas.length; index++)
-                    if (character.body.vaginas.get(index).wetness < VaginaWetness.SLAVERING)
-                        character.body.vaginas.get(index).wetness++;
+                for (const vagina of character.body.vaginas)
+                    if (vagina.wetness < VaginaWetness.SLAVERING)
+                        vagina.wetness++;
             }
         }
         if (chance >= 90) {

@@ -19,9 +19,9 @@ export abstract class Item implements ISerializable<Item> {
 
     public abstract canUse(character: Character): boolean;
 
-    public abstract use(character: Character);
+    public abstract use(character: Character): void;
 
-    public abstract useText(character: Character);
+    public abstract useText(character: Character): void;
 
     public describe(): string {
         return this.desc.description + " (Cost: " + this.value + ")";

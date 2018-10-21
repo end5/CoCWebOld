@@ -1,28 +1,25 @@
 import { Character } from './Character/Character';
 import { CharacterType } from './Character/CharacterType';
 import { CharConstructorLib } from './Character/CharConstructorLib';
-import { Place } from './Places/Place';
-import { PlaceDict } from './Places/PlaceDict';
 import { Settings } from './Settings';
 import { Flags } from './Utilities/Flags';
 import { Dictionary } from '../Engine/Utilities/Dictionary';
 import { DictionarySerializer } from '../Engine/Utilities/DictionarySerializer';
 import { ISerializable } from '../Engine/Utilities/ISerializable';
+import { Player } from './Character/Player/Player';
 
 export interface IUser {
     char: Character;
     settings: Settings;
     flags: Flags;
-    npcs: Dictionary<Character>;
-    places: PlaceDict;
+    npcs: Dictionary<CharacterType, Character>;
 }
 
 class User implements IUser, ISerializable<IUser> {
-    public char: Character;
+    public char: Character = new Player();
     public settings = new Settings();
     public flags = new Flags();
-    public npcs = new Dictionary<Character>();
-    public places = new PlaceDict();
+    public npcs = new Dictionary<CharacterType, Character>();
 
     public serialize(): object | undefined {
         return {
@@ -30,30 +27,31 @@ class User implements IUser, ISerializable<IUser> {
             settings: this.settings.serialize(),
             flags: DictionarySerializer.serialize(this.flags),
             npcs: DictionarySerializer.serialize(this.npcs),
-            places: DictionarySerializer.serialize(this.places),
         };
     }
 
     public deserialize(saveObject: IUser) {
-        if (!this.char) {
-            this.char = new (CharConstructorLib.get(CharacterType.Player))();
+        let charConstr = CharConstructorLib.get(CharacterType.Player);
+        if (!this.char && charConstr) {
+            this.char = new charConstr();
         }
         this.char.deserialize(saveObject.char);
         this.settings.deserialize(saveObject.settings);
         DictionarySerializer.deserialize(saveObject.flags, this.flags);
+
         for (const charKey of Object.keys(saveObject.npcs)) {
-            if (CharConstructorLib.has(charKey)) {
-                const char: Character = new (CharConstructorLib.get(charKey))();
+            charConstr = CharConstructorLib.get(charKey as CharacterType);
+            if (charConstr) {
+                const char: Character = new charConstr();
                 if (char.deserialize)
-                    char.deserialize(saveObject.npcs[charKey]);
-                this.npcs.set(charKey, char);
+                    char.deserialize(saveObject.npcs.get(charKey as CharacterType)!);
+                this.npcs.set(charKey as CharacterType, char);
             }
         }
-        DictionarySerializer.deserialize(saveObject.places, this.places, Place);
     }
 }
 
 const user = new User();
 // tslint:disable-next-line:no-string-literal
-window["user"] = user;
+(window as any)["user"] = user;
 export { user as User };

@@ -5,7 +5,7 @@ export class Nipples implements ISerializable<Nipples> {
     public length: number = 0.25;
     public fuckable: boolean = false;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             count: this.count,
             fuckable: this.fuckable,

@@ -64,8 +64,9 @@ export abstract class EndScenes extends CharacterHolder {
      * @param howYouWon How this character defeated the enemy.
      * @param enemy The enemy character.
      */
-    public victory(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
-        enemy.combat.endScenes.beforeEndingScene(howYouWon, this.char);
+    public victory(howYouWon: DefeatType, enemy: Character): void | NextScreenChoices {
+        if (enemy.combat.endScenes.beforeEndingScene)
+            enemy.combat.endScenes.beforeEndingScene(howYouWon, this.char);
         if (this.victoryScene && enemy.combat.endScenes.defeatScene) {
             if (randInt(2) === 0) {
                 return this.victoryScene(howYouWon, enemy);

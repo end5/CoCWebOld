@@ -18,12 +18,12 @@ export class TemporaryHeat extends CombatEffect {
         }
         else {
             character.stats.lust += (character.stats.lib / 12 + 5 + randInt(5));
-            let out: string;
+            let out = "";
             if (character.body.vaginas.length > 0) {
-                out = "Your " + describeVagina(character, character.body.vaginas.get(0)) + " clenches with an instinctual desire to be touched and filled.  ";
+                out = "Your " + describeVagina(character, character.body.vaginas.get(0)!) + " clenches with an instinctual desire to be touched and filled.  ";
             }
             else if (character.body.cocks.length > 0) {
-                out = "Your " + describeCock(character, character.body.cocks.get(0)) + " pulses and twitches, overwhelmed with the desire to breed.  ";
+                out = "Your " + describeCock(character, character.body.cocks.get(0)!) + " pulses and twitches, overwhelmed with the desire to breed.  ";
             }
             if (character.gender === Gender.NONE) {
                 out = "You feel a tingle in your " + describeButthole(character.body.butt) + ", and the need to touch and fill it nearly overwhelms you.  ";

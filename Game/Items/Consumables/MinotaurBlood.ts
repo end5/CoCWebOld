@@ -160,7 +160,7 @@ export class MinotaurBlood extends Consumable {
         if (!User.settings.hyperHappy) {
             // Kills vagina size (and eventually the whole vagina)
             if (vaginas.length > 0) {
-                const topVagina = vaginas.get(0);
+                const topVagina = vaginas.get(0)!;
                 if (topVagina.looseness > VaginaLooseness.TIGHT) {
                     // tighten that bitch up!
                     CView.text("\n\nYour " + describeVagina(character, vaginas.get(0)) + " clenches up painfully as it tightens up, becoming smaller and tighter.");
@@ -200,19 +200,19 @@ export class MinotaurBlood extends Consumable {
                 // Single row
                 if (chest.length === 1) {
                     // Shrink if bigger than B cups
-                    if (chest.get(0).rating >= 1) {
+                    if (chest.firstRow.rating >= 1) {
                         let superShrink = false;
-                        chest.get(0).rating--;
+                        chest.firstRow.rating--;
                         // Shrink again if huuuuge
-                        if (chest.get(0).rating > 8) {
+                        if (chest.firstRow.rating > 8) {
                             superShrink = true;
-                            chest.get(0).rating--;
+                            chest.firstRow.rating--;
                         }
                         // Talk about shrinkage
                         if (!superShrink)
-                            CView.text("\n\nYou feel a weight lifted from you, and realize your " + describeBreastRow(chest.get(0)) + " have shrunk to " + breastCup(chest.get(0).rating) + "s.");
+                            CView.text("\n\nYou feel a weight lifted from you, and realize your " + describeBreastRow(chest.firstRow) + " have shrunk to " + breastCup(chest.firstRow.rating) + "s.");
                         else
-                            CView.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are MUCH smaller, down to " + breastCup(chest.get(0).rating) + "s.");
+                            CView.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are MUCH smaller, down to " + breastCup(chest.firstRow.rating) + "s.");
                         changes++;
                     }
 
@@ -220,17 +220,17 @@ export class MinotaurBlood extends Consumable {
                 // multiple
                 else {
                     let growthAmount: number = 0;
-                    if (chest.sort(BreastRow.Largest)[0].rating >= 1)
+                    if (chest.sort(BreastRow.Largest).get(0)!.rating >= 1)
                         CView.text("\n");
-                    for (let index: number = 0; index < chest.length; index++) {
-                        if (chest.get(index).rating >= 1) {
-                            chest.get(index).rating--;
+                    for (const breastRow of chest) {
+                        if (breastRow.rating >= 1) {
+                            breastRow.rating--;
                             growthAmount++;
                             CView.text("\n");
                             // If this isn't the first change...
                             if (growthAmount > 1) CView.text("...and y");
                             else CView.text("Y");
-                            CView.text("our " + describeBreastRow(chest.get(index)) + " shrink, dropping to " + breastCup(chest.get(index).rating) + "s.");
+                            CView.text("our " + describeBreastRow(breastRow) + " shrink, dropping to " + breastCup(breastRow.rating) + "s.");
                         }
                     }
                     if (growthAmount === 2) CView.text("\nYou feel so much lighter after the change.");
@@ -242,13 +242,7 @@ export class MinotaurBlood extends Consumable {
         }
         // Boosts cock size up to 36"x5".
         if (changes < changeLimit && randInt(2) === 0 && cocks.length > 0) {
-            let selectedCock: Cock;
-            for (let index: number = 0; index < cocks.length; index++) {
-                if (cocks.get(index).type === CockType.HORSE && (cocks.get(index).length < 36 || cocks.get(index).thickness < 5)) {
-                    selectedCock = cocks.get(index);
-                    break;
-                }
-            }
+            const selectedCock = cocks.find((cock) => cock.type === CockType.HORSE && (cock.length < 36 || cock.thickness < 5));
 
             // Length first
             if (selectedCock) {
@@ -278,13 +272,7 @@ export class MinotaurBlood extends Consumable {
         }
         // Morph dick to horsediiiiick
         if (cocks.length > 0 && randInt(2) === 0 && changes < changeLimit) {
-            let selectedCock: Cock;
-            for (let index: number = 0; index < cocks.length; index++) {
-                if (cocks.get(index).type !== CockType.HORSE) {
-                    selectedCock = cocks.get(index);
-                    break;
-                }
-            }
+            const selectedCock = cocks.find((cock) => cock.type !== CockType.HORSE);
 
             if (selectedCock) {
                 // Text for humandicks or others

@@ -18,7 +18,7 @@ export class Hellfire extends PlayerSpellAction {
         return character.perks.has(PerkType.Hellfire);
     }
 
-    public use(character: Character, monster: Character): NextScreenChoices {
+    public use(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
         character.stats.fatigueMagic(this.baseCost);
         // Amily!

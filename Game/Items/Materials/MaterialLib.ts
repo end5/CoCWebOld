@@ -4,7 +4,7 @@ import { MaterialName } from './MaterialName';
 import { Dictionary } from '../../../Engine/Utilities/Dictionary';
 import { ItemDesc } from '../ItemDesc';
 
-export const MaterialLib = new Dictionary<Material>();
+export const MaterialLib = new Dictionary<MaterialName, Material>();
 MaterialLib.set(MaterialName.BlackChitin, new Material(MaterialName.BlackChitin, new ItemDesc("B.Chitn", "a large shard of chitinous plating",
     "A perfect piece of black chitin from a bee-girl.  It still has some fuzz on it."),
     "You look over the scale carefully but cannot find a use for it.  Maybe someone else will know how to use it."));

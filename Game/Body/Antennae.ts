@@ -7,7 +7,7 @@ export enum AntennaeType {
 export class Antennae implements ISerializable<Antennae> {
     public type: AntennaeType = AntennaeType.NONE;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type,
         };

@@ -9,10 +9,9 @@ import {
 import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
 import { Character } from '../Character/Character';
 import { Item } from '../Items/Item';
-import { ItemType } from '../Items/ItemType';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
 import { NextScreenChoices, ClickFunction } from '../ScreenDisplay';
-import { getLibFromType } from '../Items/ItemLookup';
+import { getItemFromName } from '../Items/ItemLookup';
 
 export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     private itemSlots: List<ItemStack<T>> = new List();
@@ -39,7 +38,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
         return !!this.itemSlots.find(Inventory.FilterName(itemName));
     }
 
-    public get(index: number): ItemStack<T> {
+    public get(index: number): ItemStack<T> | undefined {
         return this.itemSlots.get(index);
     }
 
@@ -62,8 +61,8 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * @param itemName The item name.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickFunction): NextScreenChoices {
-        return this.addList(characterAddingItems, [new ItemStack(getLibFromType(itemType).get(itemName), 1)], nextMenu);
+    public createAdd(characterAddingItems: Character, itemName: string, nextMenu: ClickFunction): NextScreenChoices {
+        return this.addList(characterAddingItems, [new ItemStack(getItemFromName(itemName), 1)], nextMenu);
     }
 
     public add(characterAddingItems: Character, item: Item, nextMenu: ClickFunction): NextScreenChoices {
@@ -76,22 +75,24 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     public addItems(itemsToAdd: ItemStack<T>[]): ItemStack<T>[] {
         const returnList = [];
         while (itemsToAdd.length > 0) {
-            const itemToAdd = itemsToAdd.shift();
-            const filteredInventory = this.filter(Inventory.FilterName(itemToAdd.item.name)).filter(Inventory.NotMaxStack).sort(Inventory.HighestQuantity).concat(this.filter(Inventory.EmptySlot));
-            while (filteredInventory.length > 0 && itemToAdd.quantity > 0) {
-                const item = filteredInventory.shift();
-                if (item.quantity + itemToAdd.quantity > item.maxQuantity) {
-                    const difference = item.maxQuantity - item.quantity;
-                    item.quantity = item.maxQuantity;
-                    itemToAdd.quantity -= difference;
+            const itemToAdd = itemsToAdd.shift()!;
+            if (itemToAdd.item) {
+                const filteredInventory = this.filter(Inventory.FilterName(itemToAdd.item.name)).filter(Inventory.NotMaxStack).sort(Inventory.HighestQuantity).concat(this.filter(Inventory.EmptySlot));
+                while (filteredInventory.length > 0 && itemToAdd.quantity > 0) {
+                    const item = filteredInventory.toArray().shift()!;
+                    if (item.quantity + itemToAdd.quantity > item.maxQuantity) {
+                        const difference = item.maxQuantity - item.quantity;
+                        item.quantity = item.maxQuantity;
+                        itemToAdd.quantity -= difference;
+                    }
+                    else {
+                        item.quantity = item.maxQuantity;
+                        itemToAdd.quantity = 0;
+                    }
                 }
-                else {
-                    item.quantity = item.maxQuantity;
-                    itemToAdd.quantity = 0;
+                if (itemToAdd.quantity > 0) {
+                    returnList.push(itemToAdd);
                 }
-            }
-            if (itemToAdd.quantity > 0) {
-                returnList.push(itemToAdd);
             }
         }
         return returnList;
@@ -101,7 +102,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * Returns a sorted copy of the list using the provided sort option
      * @param option SortOption
      */
-    public sort(option: SortOption<ItemStack<T>>): ItemStack<T>[] {
+    public sort(option: SortOption<ItemStack<T>>): List<ItemStack<T>> | undefined {
         return this.itemSlots.sort(option);
     }
 
@@ -109,7 +110,7 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
      * Returns a filtered copy of the list using the provided filter option
      * @param option SortOption
      */
-    public filter(option: FilterOption<ItemStack<T>>): ItemStack<T>[] {
+    public filter(option: FilterOption<ItemStack<T>>): List<ItemStack<T>> {
         return this.itemSlots.filter(option);
     }
 
@@ -123,29 +124,28 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
 
     public static FilterName(name: string): FilterOption<ItemStack<Item>> {
         return (itemStack: ItemStack<Item>) => {
-            return itemStack.quantity > 0 && itemStack.item.name === name;
+            return itemStack.quantity > 0 && !!itemStack.item && itemStack.item.name === name;
         };
     }
 
-    public static TotalQuantity: ReduceOption<ItemStack<Item>, number> = (previousValue: number, currentValue: ItemStack<Item>, index: number, array: ItemStack<Item>[]) => {
+    public static TotalQuantity: ReduceOption<ItemStack<Item>, number> = (previousValue: number, currentValue: ItemStack<Item>) => {
         return previousValue + currentValue.quantity;
     }
 
     public static TotalQuantityOf(name: string): ReduceOption<ItemStack<Item>, number> {
         return (prev: number, curr: ItemStack<Item>) => {
-            if (curr.item.name === name)
+            if (curr.item && curr.item.name === name)
                 return prev + curr.quantity;
+            return prev;
         };
     }
 
     public static EmptySlot: FilterOption<ItemStack<Item>> = (a: ItemStack<Item>) => {
-        if (a.quantity === 0)
-            return true;
+        return a.quantity === 0;
     }
 
     public static NotMaxStack: FilterOption<ItemStack<Item>> = (a: ItemStack<Item>) => {
-        if (a.quantity < a.maxQuantity)
-            return true;
+        return a.quantity < a.maxQuantity;
     }
 
     public static HighestQuantity: SortOption<ItemStack<Item>> = (a: ItemStack<Item>, b: ItemStack<Item>) => {

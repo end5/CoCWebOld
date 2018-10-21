@@ -2,7 +2,9 @@ import { Perk, PerkDesc } from '../Perk';
 
 export class PiercedCrimstone extends PerkDesc {
     public description(perk?: Perk): string {
-        return "Increases minimum lust by " + Math.round(perk.value1) + ".";
+        if (perk)
+            return "Increases minimum lust by " + Math.round(perk.value1) + ".";
+        return "";
     }
 
     public constructor() {

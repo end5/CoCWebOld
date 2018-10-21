@@ -1,40 +1,40 @@
-export class Dictionary<Entry> implements Iterable<Entry> {
+export class Dictionary<U extends string, T> implements Iterable<T> {
     protected dictionary: { [x: string]: any };
 
     public constructor() {
         this.dictionary = {};
     }
 
-    public get(key: string): Entry {
+    public get(key: U): T | undefined {
         return this.dictionary[key];
     }
 
-    public set(key: string, entry: Entry) {
+    public set(key: U, entry: T) {
         this.dictionary[key] = entry;
     }
 
-    public remove(key: string) {
+    public remove(key: U) {
         delete this.dictionary[key];
     }
 
-    public has(key: string): boolean {
+    public has(key: U): boolean {
         return !!this.dictionary[key];
     }
 
-    public keys(): string[] {
-        return Object.keys(this.dictionary);
+    public keys(): U[] {
+        return Object.keys(this.dictionary) as U[];
     }
 
     public clear() {
         this.dictionary = {};
     }
 
-    public [Symbol.iterator](): Iterator<Entry> {
+    public [Symbol.iterator](): Iterator<T> {
         let counter = 0;
         const list = this.dictionary;
 
         return {
-            next(): IteratorResult<Entry> {
+            next(): IteratorResult<T> {
                 return {
                     done: counter === Object.keys(list).length,
                     value: list[Object.keys(list)[counter++]]

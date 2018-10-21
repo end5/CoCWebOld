@@ -137,13 +137,13 @@ export class GoldenSeed extends Consumable {
                     if (randInt(2) === 0) {
                         CView.text("In your fantasy you're a happy harpy mother, your womb stretched by the sizable egg it contains. The surging hormones in your body arouse you again, and you turn to the father of your children, planting a wet kiss on his slobbering, lipstick-gilt cock. The poor adventurer writhes, hips pumping futilely in the air. He's been much more agreeable since you started keeping his cock coated with your kisses. You mount the needy boy, fantasizing about that first time when you found him near the portal, in the ruins of your old camp. The feeling of your stiff nipples ");
                         if (character.body.chest.find(BreastRow.FuckableNipples)) CView.text("and pussy leaking over ");
-                        else if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 1.5) CView.text("dripping milk inside ");
+                        else if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 1.5) CView.text("dripping milk inside ");
                         else CView.text("rubbing inside ");
                         CView.text("your " + character.inventory.equipment.armor.displayName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?");
                     }
                     // (female 2)
                     else {
-                        CView.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males � mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + describeNipple(character, character.body.chest.get(0)) + "s pull you out of the fantasy as they rub inside your " + character.inventory.equipment.armor.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.");
+                        CView.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males � mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + describeNipple(character, character.body.chest.firstRow) + "s pull you out of the fantasy as they rub inside your " + character.inventory.equipment.armor.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.");
                     }
                 }
             }
@@ -181,24 +181,24 @@ export class GoldenSeed extends Consumable {
         }
         // -Shrink tits if above DDs.
         // Cannot happen at same time as row removal
-        else if (changes < changeLimit && character.body.chest.length === 1 && randInt(3) === 0 && character.body.chest.get(0).rating >= 7 && !User.settings.hyperHappy) {
+        else if (changes < changeLimit && character.body.chest.length === 1 && randInt(3) === 0 && character.body.chest.firstRow.rating >= 7 && !User.settings.hyperHappy) {
             changes++;
             // (Use standard breast shrinking mechanism if breasts are under 'h')
-            if (character.body.chest.get(0).rating < 19) {
+            if (character.body.chest.firstRow.rating < 19) {
                 shrinkTits(character);
             }
             // (H+)
             else {
-                character.body.chest.get(0).rating -= (4 + randInt(4));
-                CView.text("\n\nYour chest pinches tight, wobbling dangerously for a second before the huge swell of your bust begins to shrink into itself. The weighty mounds jiggle slightly as they shed cup sizes like old, discarded coats, not stopping until they're " + breastCup(character.body.chest.get(0).rating) + "s.");
+                character.body.chest.firstRow.rating -= (4 + randInt(4));
+                CView.text("\n\nYour chest pinches tight, wobbling dangerously for a second before the huge swell of your bust begins to shrink into itself. The weighty mounds jiggle slightly as they shed cup sizes like old, discarded coats, not stopping until they're " + breastCup(character.body.chest.firstRow.rating) + "s.");
             }
         }
         // -Grow tits to a B-cup if below.
-        if (changes < changeLimit && character.body.chest.get(0).rating < 2 && randInt(3) === 0) {
+        if (changes < changeLimit && character.body.chest.firstRow.rating < 2 && randInt(3) === 0) {
             changes++;
             CView.text("\n\nYour chest starts to tingle, the " + character.body.skin.desc + " warming under your " + character.inventory.equipment.armor.displayName + ". Reaching inside to feel the tender flesh, you're quite surprised when it puffs into your fingers, growing larger and larger until it settles into a pair of B-cup breasts.");
-            if (character.body.chest.get(0).rating < 1) CView.text("  <b>You have breasts now!</b>");
-            character.body.chest.get(0).rating = 2;
+            if (character.body.chest.firstRow.rating < 1) CView.text("  <b>You have breasts now!</b>");
+            character.body.chest.firstRow.rating = 2;
         }
         // ****************
         // General Appearance:
@@ -349,14 +349,14 @@ export class GoldenSeed extends Consumable {
         }
         // Nipples Turn Back:
         if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.firstRow) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.type !== VaginaType.HUMAN) {
             CView.text("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
-            character.body.vaginas.get(0).type = VaginaType.HUMAN;
+            character.body.vaginas.get(0)!.type = VaginaType.HUMAN;
             changes++;
         }
         if (changes === 0) CView.text("\n\nAside from being a tasty treat, it doesn't seem to do anything to you this time.");

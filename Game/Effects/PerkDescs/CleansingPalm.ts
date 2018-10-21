@@ -3,7 +3,7 @@ import { Perk, PerkDesc } from '../Perk';
 
 export class CleansingPalm extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
-        if (character.stats.cor >= 10)
+        if (character && character.stats.cor >= 10)
             return "<b>DISABLED</b> - Corruption too high!";
         else
             return super.description();

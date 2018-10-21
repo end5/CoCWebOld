@@ -17,10 +17,10 @@ export class PurpleFruit extends Consumable {
         CView.text("\n\nA tingling warmth shifts to a roaring inferno in your veins, your heart-rate spiking abruptly.  The intensity of it almost makes your body feel molten!  But, as quickly as it came, the sensation fades into merely a pleasing warmth that settles in your chest.");
         if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 4) {
             CView.text("  At first you think nothing has changed, but a second look confirms that your breasts now sport the same quartet of cow-like nipples the bovine plant-girl bears.");
-            if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length < 4)
-                character.body.chest.sort(BreastRow.Largest)[0].nipples.length = 4;
-            for (let index: number = 0; index < character.body.chest.length; index++)
-                character.body.chest.get(index).nipples.count = 4;
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 4)
+                character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length = 4;
+            for (const breastRow of character.body.chest)
+                breastRow.nipples.count = 4;
         }
         // [Character gains quad nipples, milk production and libido way up]
         character.stats.lib += 5;

@@ -81,7 +81,7 @@ export class Cock implements ISerializable<Cock> {
         return previousValue + currentValue.area;
     }
 
-    public static readonly MajorityType: ReduceOption<Cock, CockType> = (previousValue: CockType, currentValue: Cock, index: number, array: Cock[]) => {
+    public static readonly MajorityType: ReduceOption<Cock, CockType> = (previousValue: CockType, currentValue: Cock, _index: number, array: Cock[]) => {
         return array.filter((cock) => cock.type === previousValue).length >= array.filter((cock) => cock.type === currentValue.type).length ? previousValue : currentValue.type;
     }
 
@@ -93,7 +93,7 @@ export class Cock implements ISerializable<Cock> {
      */
     public static CocksThatFitOrSort(area: number, min: number, sortOption?: SortOption<Cock>): ReduceOption<Cock, Cock[]> {
         return (previousValue: Cock[], currentValue: Cock, index: number, array: Cock[]) => {
-            if (Cock.CockThatFits(area)(currentValue))
+            if (Cock.CockThatFits(area)(currentValue, index, array))
                 previousValue.push(currentValue);
 
             if (index < array.length - 1 || previousValue.length >= min)
@@ -200,7 +200,7 @@ export class Cock implements ISerializable<Cock> {
         return this.length >= 20;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             length: this.length,
             thickness: this.thickness,

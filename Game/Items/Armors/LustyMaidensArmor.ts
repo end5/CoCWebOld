@@ -26,11 +26,11 @@ export class LustyMaidensArmor extends Armor {
     }
 
     public canUse(character: Character): boolean {
-        if (character.body.chest.sort(BreastRow.Largest)[0].rating < BreastCup.A) { // {No titties}
+        if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < BreastCup.A) { // {No titties}
             CView.text("You slide the bikini top over your chest and buckle it into place, but the material hangs almost comically across your flat chest.  The cold chain dangles away from you, swaying around ridiculously before smacking, cold and hard into your [nipples].  This simply won't do - it doesn't fit you, and you switch back to your old armor.\n\n");
             return false;
         }
-        if (character.body.chest.sort(BreastRow.Largest)[0].rating < BreastCup.D) { // {Too small titties}
+        if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < BreastCup.D) { // {Too small titties}
             CView.text("You slide the bikini top over your chest, shivering when the cold chains catch on your nipples, stiffening them nicely. The material nicely accentuates your chest, but there's a definite problem.  Your [chest] aren't big enough!  Sure, they look nice done up in glittering silver and gold trim.  If only the metal wasn't hanging loosely around your underbust, flopping around whenever you move.  It doesn't even look that sexy on you!  You'll need a bigger chest to truly make use of this armor.  For now, you switch back to your old equipment.\n\n");
             return false;
         }
@@ -62,7 +62,7 @@ export class LustyMaidensArmor extends Armor {
         else {
             CView.text("a tight seal over your previously-claimed cunt.  Regret fills you when you realize you could have kept your chastity intact simply by servicing the lusty studs and monsters with your ass and tits.");
         }
-        if (character.body.vaginas.get(0).wetness >= 3)
+        if (character.body.vaginas.get(0)!.wetness >= 3)
             CView.text("  The moisture you normally drip seems to soak right into the gusset instead of running down your [legs] like normal, giving you a much more chaste appearance in spite of the lewd garments that even now seem to shape your femininity and [butt] into perfectly arousing shapes.");
 
         CView.text("\n\nLast is the chain skirt - perhaps the easiest part to put on.  It's barely three inches long, such that it exposes your [butt] almost entirely, and when you bend over, fully.  The bottom of your vaginal crease can be spied as well, and should you desire to show yourself off, a simple stretch or tug would put you completely on display.  You wiggle about, watching the reflective material ripple almost hypnotically, one hand still on your boobs, mauling at your own tits with passion.  THIS is how a chaste champion should dress - perfectly modest but full of erotic energy to overwhelm her enemies with!\n\n");
@@ -123,7 +123,7 @@ export function lustyMaidenPaizuri(character: Character, monster: Character): Ne
     else
         CView.text(" and stroke " + monster.desc.possessivePronoun + " taint, even brushing close to " + monster.desc.possessivePronoun + " asshole to try and coax more of " + monster.desc.possessivePronoun + " dirty, perverted thoughts to distill into salty seed");
     CView.text(".  A startled moan slips out of " + monster.desc.possessivePronoun + " lips, but you're just getting warmed up.  You dive down onto " + monster.desc.possessivePronoun + " " + describeCockShort(monster.body.cocks.get(0)) + ", taking the " + describeCockHead(monster.body.cocks.get(0)) + " straight into your mouth with a smooth gulp.");
-    if (monster.body.cocks.get(0).area >= 80)
+    if (monster.body.cocks.length > 0 && monster.body.cocks.get(0)!.area >= 80)
         CView.text("  It's so big and strong that it pushes right into your throat, stretching out your neck in the shape of the intruding cock.");
     CView.text("  The strong, pulsing cock feels so good inside your mouth, like it belongs there, and you can't help but think that you're doing a good deed by helping " + monster.desc.a + monster.desc.short + " empty every last perverse desire onto your purifying breasts.");
 
@@ -135,7 +135,7 @@ export function lustyMaidenPaizuri(character: Character, monster: Character): Ne
     CView.text(".  Still, you're not sure how much hotter you can get before you're cumming all over your g-string, letting your own dark thoughts seep into your magical underwear.");
 
     CView.text("\n\nBelow you, " + monster.desc.a + monster.desc.short + " is moaning out loud and roughly thrusting " + monster.desc.possessivePronoun + " hips to meet your every motion, their tip expanding slightly in your mouth as " + monster.desc.possessivePronoun + " passion mounts.  You pull back");
-    if (monster.body.cocks.get(0).area >= 80)
+    if (monster.body.cocks.length > 0 && monster.body.cocks.get(0)!.area >= 80)
         CView.text(" with a messy cough to clear your throat");
     CView.text(" and tease, \"<i>Oh, you're going to cum already, aren't you?  Well, go ahead then.</i>\"  You pump your [chest] faster against the twitching rod and smile when a thick bead of pre sloughs off into your squishy boobs, smearing across your " + character.body.skin.desc + ".  You kiss it, licking the dollop that slips out of the dilating cum-slit before commanding, \"<i>Cum for me, " + mf(monster, "boy", "girl") + ".  Let it allll out.</i>\"");
     CView.text("\n\n" + monster.desc.capitalA + monster.desc.short + " groans and shakes");

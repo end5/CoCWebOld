@@ -5,8 +5,9 @@ import { CView } from '../../../Engine/Display/ContentView';
 
 export class ThroatPunch extends CombatEffect {
     public update(character: Character) {
-        character.combat.effects.get(CombatEffectType.ThroatPunch).value1--;
-        if (character.combat.effects.get(CombatEffectType.ThroatPunch).value1 >= 0) {
+        const throatPunchEffect = character.combat.effects.get(CombatEffectType.ThroatPunch)!;
+        throatPunchEffect.value1--;
+        if (throatPunchEffect.value1 >= 0) {
             CView.text("Thanks to Isabella's wind-pipe crushing hit, you're having trouble breathing and are ");
             CView.text("<b>unable to cast spells as a consequence.</b>");
             CView.text("\n\n");

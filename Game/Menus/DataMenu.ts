@@ -64,8 +64,8 @@ function saveToFile(character: Character): NextScreenChoices {
     const anchor = new AnchorElement();
     CView.textElement.appendElement(anchor);
     const blob = new Blob([JSON.stringify(saveFile)], { type: 'text/json' });
-    // tslint:disable-next-line:no-string-literal
-    if (!!window["StyleMedia"]) // IE Edge
+    // if (!!window["StyleMedia"]) // IE Edge
+    if (!!window.styleMedia) // IE Edge
         window.navigator.msSaveBlob(blob, saveFile.name);
     else
         anchor.href = window.URL.createObjectURL(blob);
@@ -74,31 +74,35 @@ function saveToFile(character: Character): NextScreenChoices {
     return dataMenu(character);
 }
 
-function loadFromFile(character: Character, event: Event): NextScreenChoices {
-    const target = (event.target as HTMLInputElement);
-    if (!target.files || target.files.length === 0) {
-        alert("Error in file loading");
+function loadFromFile(character: Character, event?: Event): NextScreenChoices {
+    if (event) {
+        const target = (event.target as HTMLInputElement);
+        if (!target.files || target.files.length === 0) {
+            alert("Error in file loading");
+        }
+        else {
+            const file = target.files[0];
+            const fileReader = new FileReader();
+            fileReader.readAsText(file);
+            fileReader.addEventListener("loadend", () => {
+                let obj;
+                try {
+                    obj = JSON.parse(fileReader.result as string);
+                }
+                catch (e) {
+                    console.error(e);
+                    alert("Error parsing file");
+                }
+                if (obj) {
+                    loadFromSave(obj);
+                    displayNextScreenChoices({ next: dataMenu });
+                }
+            });
+            fileReader.addEventListener("error", (evnt) => {
+                console.log(evnt);
+                alert("Error reading file");
+            });
+        }
     }
-    const file = target.files[0];
-    const fileReader = new FileReader();
-    fileReader.readAsText(file);
-    fileReader.addEventListener("loadend", () => {
-        let obj;
-        try {
-            obj = JSON.parse(fileReader.result as string);
-        }
-        catch (e) {
-            console.error(e);
-            alert("Error parsing file");
-        }
-        if (obj) {
-            loadFromSave(obj);
-            displayNextScreenChoices({ next: dataMenu });
-        }
-    });
-    fileReader.addEventListener("error", (evnt) => {
-        console.log(evnt);
-        alert("Error reading file");
-    });
     return dataMenu(character);
 }

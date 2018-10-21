@@ -1,21 +1,19 @@
-import { IPregnancyEvent } from './IPregnancyEvent';
 import { Pregnancy } from './Pregnancy';
 import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 
 export class FlagWomb implements ISerializable<FlagWomb> {
-    protected currentPregnancy: Pregnancy;
-    protected pregEvent: IPregnancyEvent;
-    protected events: number[];
-    protected lastEvent: number;
+    protected currentPregnancy: Pregnancy | undefined;
+    protected events: number[] = [];
+    protected lastEvent: number = 0;
 
-    public get pregnancy(): Pregnancy {
+    public get pregnancy(): Pregnancy | undefined {
         return this.currentPregnancy;
     }
 
     public get event(): number {
-        if (this.currentPregnancy.incubation <= 0) return 0;
+        if (this.currentPregnancy && this.currentPregnancy.incubation <= 0) return 0;
         for (let index = 0; index < this.events.length; index++) {
-            if (this.currentPregnancy.incubation > this.events[index]) return index;
+            if (this.currentPregnancy && this.currentPregnancy.incubation > this.events[index]) return index;
         }
         return 1;
     }
@@ -58,12 +56,15 @@ export class FlagWomb implements ISerializable<FlagWomb> {
                 events: this.events,
                 lastEvent: this.lastEvent,
             };
+        return;
     }
 
     public deserialize(saveObject: FlagWomb) {
         if (saveObject) {
-            this.currentPregnancy = new Pregnancy();
-            this.currentPregnancy.deserialize(saveObject.pregnancy);
+            if (saveObject.pregnancy) {
+                this.currentPregnancy = new Pregnancy();
+                this.currentPregnancy.deserialize(saveObject.pregnancy);
+            }
             this.events = saveObject.events;
             this.lastEvent = saveObject.lastEvent;
         }

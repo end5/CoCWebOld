@@ -7,7 +7,7 @@ export enum HipRating {
 export class Hips implements ISerializable<Hips> {
     public rating: HipRating = HipRating.BOYISH;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             rating: this.rating,
         };

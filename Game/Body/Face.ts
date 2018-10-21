@@ -24,7 +24,7 @@ export class Face implements ISerializable<Face>  {
         }
     }
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type,
         };

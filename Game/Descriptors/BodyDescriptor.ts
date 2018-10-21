@@ -85,7 +85,7 @@ export function describeBody(character: Character): string {
             description += "a wide-set body, some soft, forgiving flesh, and a hint of muscle underneath it";
         else {
             description += "a wide, cushiony body";
-            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest)[0].rating > 3 || character.body.hips.rating > 7 || character.body.butt.rating > 7)
+            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 3 || character.body.hips.rating > 7 || character.body.butt.rating > 7)
                 description += " and plenty of jiggle on your curves";
         }
     }
@@ -99,16 +99,16 @@ export function describeBody(character: Character): string {
             description += "an extremely substantial frame packing a decent amount of muscle";
         else if (character.body.tone > 25) {
             description += "a very wide body";
-            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest)[0].rating > 4 || character.body.hips.rating > 10 || character.body.butt.rating > 10)
+            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 4 || character.body.hips.rating > 10 || character.body.butt.rating > 10)
                 description += ", lots of curvy jiggles,";
             description += " and hints of muscle underneath";
         }
         else {
             description += "a thick";
-            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest)[0].rating > 4 || character.body.hips.rating > 10 || character.body.butt.rating > 10)
+            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 4 || character.body.hips.rating > 10 || character.body.butt.rating > 10)
                 description += ", voluptuous";
             description += " body and plush, ";
-            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest)[0].rating > 4 || character.body.hips.rating > 10 || character.body.butt.rating > 10)
+            if (character.gender >= 2 || character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 4 || character.body.hips.rating > 10 || character.body.butt.rating > 10)
                 description += " jiggly curves";
             else
                 description += " soft flesh";
@@ -226,6 +226,6 @@ export function describeRace(character: Character): string {
 
 export function assholeOrPussy(character: Character): string {
     if (character.body.vaginas.length > 0)
-        return describeVagina(character, character.body.vaginas.get(0));
+        return describeVagina(character, character.body.vaginas.get(0)!);
     return describeButthole(character.body.butt);
 }

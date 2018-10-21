@@ -4,7 +4,9 @@ import { Piercing, PiercingType } from './Piercing';
 import { Dictionary } from '../../../Engine/Utilities/Dictionary';
 import { EquipableItem } from '../EquipableItem';
 
-export const MiscLib = new Dictionary<EquipableItem>();
+export type MiscName = CockSockName | PiercingType;
+
+export const MiscLib = new Dictionary<MiscName, EquipableItem>();
 
 MiscLib.set(CockSockName.Alabaster, new CockSock(CockSockName.Alabaster));
 MiscLib.set(CockSockName.Cobalt, new CockSock(CockSockName.Cobalt));

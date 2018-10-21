@@ -5,10 +5,11 @@ import { CombatEffectType } from '../CombatEffectType';
 
 export class Timer extends CombatEffect {
     public update(character: Character, enemy: Character) {
+        const timerEffect = character.combat.effects.get(CombatEffectType.Timer)!;
         if (character.charType !== CharacterType.Player) {
-            if (character.combat.effects.get(CombatEffectType.Timer).value1 <= 0)
+            if (timerEffect.value1 <= 0)
                 character.combat.effects.remove(CombatEffectType.Timer);
-            character.combat.effects.get(CombatEffectType.Timer).value1 -= 1;
+            timerEffect.value1 -= 1;
         }
     }
 }

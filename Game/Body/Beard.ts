@@ -8,7 +8,7 @@ export class Beard implements ISerializable<Beard> {
         return this.length > 0;
     }
 
-   public serialize(): object | undefined {
+   public serialize(): object {
         return {
             style: this.style,
             length: this.length

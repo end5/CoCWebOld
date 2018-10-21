@@ -101,8 +101,8 @@ export class WhiskerFruit extends Consumable {
         // Libido gain
         if (character.stats.lib < 80 && changes < changeLimit && randInt(4) === 0) {
             // Cat dicked folks
-            if (character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0) {
-                const catCock: Cock = character.body.cocks.filter(Cock.FilterType(CockType.CAT))[0];
+            const catCock = character.body.cocks.find(Cock.FilterType(CockType.CAT));
+            if (catCock) {
                 CView.text("\n\nYou feel your " + describeCock(character, catCock) + " growing hard, the barbs becoming more sensitive. You gently run your hands down them and imagine the feeling of raking the insides of a cunt as you pull.  The fantasy continues, and after ejaculating and hearing the female yowl with pleasure, you shake your head and try to drive off the image.  ");
                 if (character.stats.cor < 33) CView.text("You need to control yourself better.");
                 else if (character.stats.cor < 66) CView.text("You're not sure how you feel about the fantasy.");
@@ -146,14 +146,14 @@ export class WhiskerFruit extends Consumable {
             let breastShrinkageThreshold: number = 0;
             let shrinkingHappened: boolean = false;
             // Determine if shrinkage is required
-            if (character.body.vaginas.length <= 0 && character.body.chest.sort(BreastRow.Largest)[0].rating > 2) breastShrinkageThreshold = 2;
-            else if (character.body.chest.sort(BreastRow.Largest)[0].rating > 4) breastShrinkageThreshold = 4;
+            if (character.body.vaginas.length <= 0 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 2) breastShrinkageThreshold = 2;
+            else if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 4) breastShrinkageThreshold = 4;
             // IT IS!
             if (breastShrinkageThreshold > 0) {
                 let selectedBreastRow: BreastRow;
                 for (let index: number = 0; index < character.body.chest.length; index++) {
                     // If this row is over threshhold
-                    selectedBreastRow = character.body.chest.get(index);
+                    selectedBreastRow = character.body.chest.get(index)!;
                     if (selectedBreastRow.rating > breastShrinkageThreshold) {
                         // Big change
                         if (selectedBreastRow.rating > 10) {
@@ -179,18 +179,16 @@ export class WhiskerFruit extends Consumable {
         if (character.body.cocks.length > 0 && character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length < character.body.cocks.length &&
             changes < changeLimit && randInt(4) === 0) {
             // loop through and find a non-cat wang.
-            let selectedCock: Cock;
-            for (let index: number = 0; index < character.body.cocks.length; index++) {
-                selectedCock = character.body.cocks.get(index);
-                if (selectedCock.type === CockType.CAT) {
-                    CView.text("\n\nYour " + describeCock(character, selectedCock) + " swells up with near-painful arousal and begins to transform.  It turns pink and begins to narrow until the tip is barely wide enough to accommodate your urethra.  Barbs begin to sprout from its flesh, if you can call the small, fleshy nubs barbs. They start out thick around the base of your " + nounCock(CockType.HUMAN) + " and shrink towards the tip. The smallest are barely visible. <b>Your new feline dong throbs powerfully</b> and spurts a few droplets of cum.  ");
-                    if (!selectedCock.hasSheath()) {
+            for (const cock of character.body.cocks) {
+                if (cock.type === CockType.CAT) {
+                    CView.text("\n\nYour " + describeCock(character, cock) + " swells up with near-painful arousal and begins to transform.  It turns pink and begins to narrow until the tip is barely wide enough to accommodate your urethra.  Barbs begin to sprout from its flesh, if you can call the small, fleshy nubs barbs. They start out thick around the base of your " + nounCock(CockType.HUMAN) + " and shrink towards the tip. The smallest are barely visible. <b>Your new feline dong throbs powerfully</b> and spurts a few droplets of cum.  ");
+                    if (!cock.hasSheath()) {
                         CView.text("Then, it begins to shrink and sucks itself inside your body.  Within a few moments, a fleshy sheath is formed.");
                         if (character.body.balls.count > 0) CView.text("  Thankfully, your balls appear untouched.");
                     }
                     else CView.text("Then, it disappears back into your sheath.");
-                    selectedCock.type = CockType.CAT;
-                    selectedCock.knotMultiplier = 1;
+                    cock.type = CockType.CAT;
+                    cock.knotMultiplier = 1;
                 }
             }
             changes++;
@@ -198,26 +196,24 @@ export class WhiskerFruit extends Consumable {
         // Cat penorz shrink
         if (character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0 && randInt(3) === 0 && changes < changeLimit && !User.settings.hyperHappy) {
             // loop through and find a cat wang.
-            let selectedCock: Cock;
             let changedCock: number = 0;
-            for (let index: number = 0; index < character.body.cocks.length; index++) {
-                selectedCock = character.body.cocks.get(index);
-                if (selectedCock.type === CockType.CAT && selectedCock.length > 6) {
+            for (const cock of character.body.cocks) {
+                if (cock.type === CockType.CAT && cock.length > 6) {
                     // lose 33% size until under 10, then lose 2" at a time
-                    if (selectedCock.length > 16) {
+                    if (cock.length > 16) {
                         if (changedCock === 0)
-                            CView.text("\n\nYour " + describeCock(character, selectedCock) + " tingles, making your sheath feel a little less tight.  It dwindles in size, losing a full third of its length and a bit of girth before the change finally stops.");
-                        selectedCock.length *= .66;
+                            CView.text("\n\nYour " + describeCock(character, cock) + " tingles, making your sheath feel a little less tight.  It dwindles in size, losing a full third of its length and a bit of girth before the change finally stops.");
+                        cock.length *= .66;
                         changedCock++;
                     }
-                    else if (selectedCock.length > 6) {
+                    else if (cock.length > 6) {
                         if (changedCock === 0)
-                            CView.text("\n\nYour " + describeCock(character, selectedCock) + " tingles and withdraws further into your sheath.  If you had to guess, you'd say you've lost about two inches of total length and perhaps some girth.");
-                        selectedCock.length -= 2;
+                            CView.text("\n\nYour " + describeCock(character, cock) + " tingles and withdraws further into your sheath.  If you had to guess, you'd say you've lost about two inches of total length and perhaps some girth.");
+                        cock.length -= 2;
                         changedCock++;
                     }
-                    if (selectedCock.length / 5 < selectedCock.thickness && selectedCock.thickness > 1.25)
-                        selectedCock.thickness = selectedCock.length / 6;
+                    if (cock.length / 5 < cock.thickness && cock.thickness > 1.25)
+                        cock.thickness = cock.length / 6;
                 }
             }
             // (big sensitivity boost)

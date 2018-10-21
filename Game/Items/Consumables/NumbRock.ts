@@ -43,7 +43,7 @@ export class NumbRock extends Consumable {
             }
             else {
                 CView.text("\n\nSadly your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
-                character.effects.get(StatusEffectType.Dysfunction).value1 = 50 + randInt(100);
+                character.effects.get(StatusEffectType.Dysfunction)!.value1 = 50 + randInt(100);
             }
         }
         else if (randInt(4) === 0 && character.stats.int > 15) {

@@ -2,7 +2,9 @@ import { Perk, PerkDesc } from '../Perk';
 
 export class WizardsFocus extends PerkDesc {
     public description(perk?: Perk): string {
-        return "Increases your spell effect modifier by " + perk.value1 * 100 + "%.";
+        if (perk)
+            return "Increases your spell effect modifier by " + perk.value1 * 100 + "%.";
+        return "";
     }
 
     public constructor() {

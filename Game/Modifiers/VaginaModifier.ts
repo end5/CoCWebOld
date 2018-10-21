@@ -10,7 +10,7 @@ export function stretchVagina(character: Character, vaginaArea: number): boolean
     if (character.body.vaginas.length <= 0)
         return false;
     let stretched: boolean = false;
-    const loosestVagina = character.body.vaginas.sort(Vagina.LoosenessMost)[0];
+    const loosestVagina = character.body.vaginas.sort(Vagina.LoosenessMost).get(0)!;
     if (character.perks.has(PerkType.FerasBoonMilkingTwat) || loosestVagina.looseness <= VaginaLooseness.NORMAL) {
         // cArea > capacity = autostreeeeetch.
         if (vaginaArea >= character.vaginalCapacity()) {
@@ -32,16 +32,17 @@ export function stretchVagina(character: Character, vaginaArea: number): boolean
     // If virgin
     const virginVaginas = character.body.vaginas.filter(Vagina.Virgin);
     if (virginVaginas.length > 0) {
-        virginVaginas[0].virgin = false;
+        virginVaginas.get(0)!.virgin = false;
     }
     // Delay anti-stretching
     if (vaginaArea >= .5 * character.vaginalCapacity()) {
         // Cunt Stretched used to determine how long since last enlargement
-        if (!character.effects.has(StatusEffectType.CuntStretched))
+        const effect = character.effects.get(StatusEffectType.CuntStretched);
+        if (!effect)
             character.effects.add(StatusEffectType.CuntStretched, 0, 0, 0, 0);
         // Reset the timer on it to 0 when restretched.
         else
-            character.effects.get(StatusEffectType.CuntStretched).value1 = 0;
+            effect.value1 = 0;
     }
     return stretched;
 }
@@ -57,7 +58,7 @@ export function stretchVagina(character: Character, vaginaArea: number): boolean
 export function displayStretchVagina(character: Character, cArea: number, display: boolean, spacingsF: boolean = false, spacingsB: boolean = true): boolean {
     if (character.body.vaginas.length <= 0)
         return false;
-    const firstVagina: Vagina = character.body.vaginas.get(0);
+    const firstVagina: Vagina = character.body.vaginas.get(0)!;
     const wasVirgin: boolean = firstVagina.virgin;
     const stretched: boolean = stretchVagina(character, cArea);
     const devirgined: boolean = wasVirgin && !firstVagina.virgin;

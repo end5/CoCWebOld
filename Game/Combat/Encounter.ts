@@ -17,7 +17,7 @@ export class Encounter {
     public allyParty: CombatParty;
     public enemyParty: CombatParty;
     private allyPartyTurn: boolean;
-    public performTurnEnd: () => NextScreenChoices;
+    public performTurnEnd?: (() => void | NextScreenChoices);
 
     public constructor(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]) {
         this.mainCharacter = mainCharacter;
@@ -29,7 +29,7 @@ export class Encounter {
         this.allyPartyTurn = true;
     }
 
-    public performRound(): NextScreenChoices {
+    public performRound(): void | NextScreenChoices {
         if (this.performTurnEnd)
             return this.performTurnEnd();
         if (this.allyPartyTurn) {
@@ -40,7 +40,7 @@ export class Encounter {
         }
     }
 
-    private performAllyPartyTurn(): NextScreenChoices {
+    private performAllyPartyTurn(): void | NextScreenChoices {
         const activeMember = this.allyParty.activePartyMember();
         this.performTurnEnd = () => {
             const encounter = this;
@@ -60,7 +60,7 @@ export class Encounter {
         }
     }
 
-    private performEnemyPartyTurn(): NextScreenChoices {
+    private performEnemyPartyTurn(): void | NextScreenChoices {
         const activeMember = this.enemyParty.activePartyMember();
         this.performTurnEnd = () => {
             const encounter = this;
@@ -110,7 +110,7 @@ export class Encounter {
         this.allyPartyTurn = !this.allyPartyTurn;
     }
 
-    private endCombatOrNextRound(): NextScreenChoices {
+    private endCombatOrNextRound(): void | NextScreenChoices {
         if (this.allyParty.ableMembers.length === 0 || this.enemyParty.ableMembers.length === 0) {
             combatCleanup(this.mainCharacter, this.allyList, this.enemyList);
             return this.displayDefeatEvent();
@@ -118,7 +118,7 @@ export class Encounter {
         return this.performRound();
     }
 
-    private displayDefeatEvent(): NextScreenChoices {
+    private displayDefeatEvent(): void | NextScreenChoices {
         if (this.allyParty.ableMembers.length === 0) {
             if (this.enemyParty.partyEndScenes) {
                 return this.enemyParty.partyEndScenes.victory(this.allyParty, this.enemyParty);
@@ -155,9 +155,7 @@ export class Encounter {
                         if (defeatEvent.how !== DefeatType.Escape) {
                             choices.push([
                                 defeatEvent.loser.desc.name,
-                                () => {
-                                    return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
-                                }
+                                () => defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser)
                             ]);
                         }
                     }

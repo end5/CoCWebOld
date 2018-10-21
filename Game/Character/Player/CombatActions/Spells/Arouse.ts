@@ -52,35 +52,35 @@ export class Arouse extends BlackMagic {
             if (monster.stats.lust >= 60 && monster.body.cocks.length > 0)
                 CView.text("You see " + monster.desc.possessivePronoun + " " + describeCocksLight(character) + " dribble pre-cum.  ");
             if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.body.cocks.length === 1)
-                CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeCockShort(character.body.cocks.get(0)) + " hardens, distracting " + monster.desc.objectivePronoun + " further.  ");
+                CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeCockShort(character.body.cocks.get(0)!) + " hardens, distracting " + monster.desc.objectivePronoun + " further.  ");
             if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.body.cocks.length > 1)
                 CView.text("You see " + monster.desc.possessivePronoun + " " + describeCocksLight(character) + " harden uncomfortably.  ");
         }
         if (monster.body.vaginas.length > 0) {
-            const firstVagina: Vagina = character.body.vaginas.get(0);
+            const firstVagina: Vagina = character.body.vaginas.get(0)!;
             if (monster.desc.plural) {
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.NORMAL)
-                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, character.body.vaginas.get(0)) + "s dampen perceptibly.  ");
+                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, firstVagina) + "s dampen perceptibly.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.WET)
                     CView.text(monster.desc.capitalA + monster.desc.short + "'s crotches become sticky with girl-lust.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.SLICK)
-                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, character.body.vaginas.get(0)) + "s become sloppy and wet.  ");
+                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, firstVagina) + "s become sloppy and wet.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.DROOLING)
                     CView.text("Thick runners of girl-lube stream down the insides of " + monster.desc.a + monster.desc.short + "'s thighs.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.SLAVERING)
-                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, character.body.vaginas.get(0)) + "s instantly soak " + monster.desc.objectivePronoun + " groin.  ");
+                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, firstVagina) + "s instantly soak " + monster.desc.objectivePronoun + " groin.  ");
             }
             else {
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.NORMAL)
-                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, character.body.vaginas.get(0)) + " dampens perceptibly.  ");
+                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, firstVagina) + " dampens perceptibly.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.WET)
                     CView.text(monster.desc.capitalA + monster.desc.short + "'s crotch becomes sticky with girl-lust.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.SLICK)
-                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, character.body.vaginas.get(0)) + " becomes sloppy and wet.  ");
+                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, firstVagina) + " becomes sloppy and wet.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.DROOLING)
                     CView.text("Thick runners of girl-lube stream down the insides of " + monster.desc.a + monster.desc.short + "'s thighs.  ");
                 if (monster.stats.lust >= 60 && firstVagina.wetness === VaginaWetness.SLAVERING)
-                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, character.body.vaginas.get(0)) + " instantly soaks her groin.  ");
+                    CView.text(monster.desc.capitalA + monster.desc.short + "'s " + describeVagina(character, firstVagina) + " instantly soaks her groin.  ");
             }
         }
         CView.text("\n\n");

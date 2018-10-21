@@ -10,8 +10,10 @@ import { CView } from '../../../Engine/Display/ContentView';
 
 export class LustStick extends CombatEffect {
     public update(character: Character, enemy: Character) {
+        const lustStickEffect = character.combat.effects.get(CombatEffectType.LustStick)!;
         if (character.charType === CharacterType.Player) {
-            if (character.body.cocks.length > 0 && (enemy.charType === CharacterType.Harpy || enemy.charType === CharacterType.Sophie)) {
+            const selCock = character.body.cocks.get(0);
+            if (selCock && (enemy.charType === CharacterType.Harpy || enemy.charType === CharacterType.Sophie)) {
                 // Chance to cleanse!
                 if (character.perks.has(PerkType.Medicine) && randInt(100) <= 14) {
                     character.combat.effects.remove(CombatEffectType.LustStick);
@@ -21,19 +23,19 @@ export class LustStick extends CombatEffect {
                 else if (randInt(5) === 0) {
                     character.stats.lust += 20;
                     if (randInt(2) === 0)
-                        CView.text("A fantasy springs up from nowhere, dominating your thoughts for a few moments.  In it, you're lying down in a soft nest.  Gold-rimmed lips are noisily slurping around your " + describeCock(character, character.body.cocks.get(0)) + ", smearing it with her messy aphrodisiac until you're completely coated in it.  She looks up at you knowingly as the two of you get ready to breed the night away...");
+                        CView.text("A fantasy springs up from nowhere, dominating your thoughts for a few moments.  In it, you're lying down in a soft nest.  Gold-rimmed lips are noisily slurping around your " + describeCock(character, selCock) + ", smearing it with her messy aphrodisiac until you're completely coated in it.  She looks up at you knowingly as the two of you get ready to breed the night away...");
                     else
-                        CView.text("An idle daydream flutters into your mind.  In it, you're fucking a harpy's asshole, clutching tightly to her wide, feathery flanks as the tight ring of her pucker massages your " + describeCock(character, character.body.cocks.get(0)) + ".  She moans and turns around to kiss you on the lips, ensuring your hardness.  Before long her feverish grunts of pleasure intensify, and you feel the egg she's birthing squeezing against you through her internal walls...");
+                        CView.text("An idle daydream flutters into your mind.  In it, you're fucking a harpy's asshole, clutching tightly to her wide, feathery flanks as the tight ring of her pucker massages your " + describeCock(character, selCock) + ".  She moans and turns around to kiss you on the lips, ensuring your hardness.  Before long her feverish grunts of pleasure intensify, and you feel the egg she's birthing squeezing against you through her internal walls...");
                     CView.text("\n\n");
                 }
             }
         }
         else if (enemy.charType === CharacterType.Player) { // Monster
-            character.combat.effects.get(CombatEffectType.LustStick).value1 += 1;
+            lustStickEffect.value1 += 1;
             // Damage = 5 + bonus score minus
             // Reduced by lust vuln of course
-            character.stats.lust += Math.round(character.stats.lustVuln * (5 + character.combat.effects.get(CombatEffectType.LustStick).value2));
-            switch (character.combat.effects.get(CombatEffectType.LustStick).value1) {
+            character.stats.lust += Math.round(character.stats.lustVuln * (5 + lustStickEffect.value2));
+            switch (lustStickEffect.value1) {
                 // First:
                 case 1: {
                     if (character.desc.plural)

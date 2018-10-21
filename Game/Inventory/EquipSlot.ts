@@ -2,19 +2,19 @@ import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption } from '../../Engine/Utilities/List';
 import { Character } from '../Character/Character';
 import { EquipableItem } from '../Items/EquipableItem';
-import { getLibFromType } from '../Items/ItemLookup';
+import { getItemFromName } from '../Items/ItemLookup';
 
 export type EquipEffect = (item: EquipableItem, character: Character) => void;
 
 export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSlot<T>> {
     public static FilterName<T extends EquipableItem>(name: string): FilterOption<EquipSlot<T>> {
         return (a: EquipSlot<T>) => {
-            return a.isEquipped() && a.item.name === name;
+            return !!a.item && a.item.name === name;
         };
     }
 
     private character: Character;
-    private equippedItem: T;
+    private equippedItem?: T;
     private onEquipEffects: EquipEffect[];
     private onUnequipEffects: EquipEffect[];
 
@@ -24,7 +24,7 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
         this.onUnequipEffects = [];
     }
 
-    public get item(): T {
+    public get item(): T | undefined {
         return this.equippedItem;
     }
 
@@ -32,7 +32,7 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
         return !!this.equippedItem;
     }
 
-    public equip(item: T): T {
+    public equip(item: T): T | undefined {
         if (item) {
             let unequippedItem;
             if (this.isEquipped())
@@ -45,18 +45,18 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
             if (unequippedItem)
                 return unequippedItem;
         }
+        return;
     }
 
-    public unequip(): T {
-        if (this.equippedItem) {
-            for (const effect of this.onEquipEffects) {
-                effect(this.equippedItem, this.character);
-            }
-            this.equippedItem.onUnequip(this.character);
-            const unequippedItem = this.equippedItem;
-            this.equippedItem = undefined;
-            return unequippedItem;
+    public unequip(): T | undefined {
+        if (!this.equippedItem) return;
+        for (const effect of this.onEquipEffects) {
+            effect(this.equippedItem, this.character);
         }
+        this.equippedItem.onUnequip(this.character);
+        const unequippedItem = this.equippedItem;
+        this.equippedItem = undefined;
+        return unequippedItem;
     }
 
     public addEquipEffect(equipEffect: EquipEffect) {
@@ -72,8 +72,8 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
     }
 
     public deserialize(saveObject: EquipSlot<T>) {
-        if (saveObject) {
-            this.equip(getLibFromType(saveObject.equippedItem.type).get(saveObject.equippedItem.name) as T);
+        if (saveObject && saveObject.equippedItem) {
+            this.equip(getItemFromName(saveObject.equippedItem.name) as T);
         }
     }
 }

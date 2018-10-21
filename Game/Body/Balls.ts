@@ -4,7 +4,7 @@ export class Balls implements ISerializable<Balls> {
     public count: number = 0;
     public size: number = 0;
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             count: this.count,
             size: this.size

@@ -8,7 +8,7 @@ export class Wings implements ISerializable<Wings> {
     public type: WingType = WingType.NONE;
     public desc: string = "non-existant";
 
-    public serialize(): object | undefined {
+    public serialize(): object {
         return {
             type: this.type,
             desc: this.desc

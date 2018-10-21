@@ -6,9 +6,10 @@ import { CView } from '../../../Engine/Display/ContentView';
 
 export class Shell extends CombatEffect {
     public update(character: Character, enemy: Character) {
+        const shellEffect = character.combat.effects.get(CombatEffectType.Shell)!;
         if (character.charType !== CharacterType.Player) {
-            if (character.combat.effects.get(CombatEffectType.Shell).value1 >= 0) {
-                character.combat.effects.get(CombatEffectType.Shell).value1 -= 1;
+            if (shellEffect.value1 >= 0) {
+                shellEffect.value1 -= 1;
                 CView.text("<b>A wall of many hues shimmers around " + character.desc.a + character.desc.short + ".</b>");
             }
             else {

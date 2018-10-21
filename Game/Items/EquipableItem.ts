@@ -3,7 +3,7 @@ import { Character } from '../Character/Character';
 import { EquipSlot } from '../Inventory/EquipSlot';
 
 export abstract class EquipableItem extends Item {
-    protected slot: EquipSlot<EquipableItem>;
+    protected slot: EquipSlot<EquipableItem> | undefined;
     /**
      * This item is being equipped by the character. Add any perks, etc. - This should only handle mechanics, not text output
      * @param slot

@@ -57,8 +57,7 @@ class MainScreenFacade {
     }
 
     // Top Buttons
-    public getTopButton(buttonNumber: TopButton): ButtonElement | undefined {
-        if (buttonNumber < 0 && buttonNumber >= this.NUM_TOP_BUTTONS) return;
+    public getTopButton(buttonNumber: TopButton): ButtonElement {
         return this.topButtons[buttonNumber];
     }
 

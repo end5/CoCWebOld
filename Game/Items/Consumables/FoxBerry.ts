@@ -1,6 +1,6 @@
 import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
-import { randInt, randomChoice } from '../../../Engine/Utilities/SMath';
+import { randInt } from '../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../Body/BreastRow';
 import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
@@ -22,12 +22,14 @@ import { describeSkin, skinFurScales } from '../../Descriptors/SkinDescriptor';
 import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
+import { FlagType } from '../../Utilities/FlagType';
+import { NextScreenChoices } from '../../ScreenDisplay';
 
 export const foxBerryFlags = {
     FOX_BAD_END_WARNING: 0,
 };
 
-User.flags.set('FoxBerry', foxBerryFlags);
+User.flags.set(FlagType.FoxBerry, foxBerryFlags);
 
 export class FoxBerry extends Consumable {
     private enhanced: boolean;
@@ -39,7 +41,7 @@ export class FoxBerry extends Consumable {
         this.enhanced = enhanced;
     }
 
-    public use(character: Character) {
+    public use(character: Character): void | NextScreenChoices {
         CView.clear();
         if (!this.enhanced) CView.text("You examine the berry a bit, rolling the orangish-red fruit in your hand for a moment before you decide to take the plunge and chow down.  It's tart and sweet at the same time, and the flavors seem to burst across your tongue with potent strength.  Juice runs from the corners of your lips as you finish the tasty snack.");
         else CView.text("You pop the cap on the enhanced \"Vixen's Vigor\" and decide to take a swig of it.  Perhaps it will make you as cunning as the crude fox Lumi drew on the front?");
@@ -50,7 +52,7 @@ export class FoxBerry extends Consumable {
         if (randInt(2) === 0) changeLimit++;
 
         if (character.body.face.type === FaceType.FOX &&
-            character.body.tails.reduce(Tail.HasType(TailType.FOX), false) &&
+            character.body.tails.find(Tail.FilterType(TailType.FOX)) &&
             character.body.ears.type === EarType.FOX &&
             character.body.legs.type === LegType.FOX &&
             character.body.skin.type === SkinType.FUR && randInt(3) === 0
@@ -65,7 +67,7 @@ export class FoxBerry extends Consumable {
                 else CView.text("berries ");
                 CView.text("with an uncommonly voracious appetite, taking particular enjoyment in the succulent, tart flavor.  As you carefully suck the last drops of ochre juice from your fingers, you note that it tastes so much more vibrant than you remember.  Your train of thought is violently interrupted by the sound of bones snapping, and you cry out in pain, doubling over as a flaming heat boils through your ribs.");
                 CView.text("\n\nWrithing on the ground, you clutch your hand to your chest, looking on in horror through tear-streaked eyes as the bones in your fingers pop and fuse, rearranging themselves into a dainty paw covered in coarse black fur, fading to a ruddy orange further up.  You desperately try to call out to someone - anyone - for help, but all that comes out is a high-pitched, ear-splitting yap.");
-                if (character.body.tails.filter(Tail.FilterType(TailType.FOX))[0].venom > 1) CView.text("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
+                if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).get(0)!.venom > 1) CView.text("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
                 CView.text("\n\nA sharp spark of pain jolts through your spinal column as the bones shift themselves around, the joints in your hips migrating forward.  You continue to howl in agony even as you feel your intelligence slipping away.  In a way, it's a blessing - as your thoughts grow muddied, the pain is dulled, until you are finally left staring blankly at the sky above, tilting your head curiously.");
                 CView.text("\n\nYou roll over and crawl free of the " + character.inventory.equipment.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
                 return { next: gameOverMenu };
@@ -159,7 +161,7 @@ export class FoxBerry extends Consumable {
         if (changes < changeLimit && randInt(3) === 0 && character.body.cocks.filter(Cock.FilterType(CockType.DOG)).length < character.body.cocks.length) {
             const cockChoices = character.body.cocks.filter(Cock.FilterType(CockType.DOG));
             if (cockChoices.length !== 0) {
-                const selectedCock = randomChoice(cockChoices);
+                const selectedCock = cockChoices.random()!;
                 if (selectedCock.type === CockType.HUMAN) {
                     CView.text("\n\nYour " + describeCock(character, selectedCock) + " clenches painfully, becoming achingly, throbbingly erect.  A tightness seems to squeeze around the base, and you wince as you see your skin and flesh shifting forwards into a canine-looking sheath.  You shudder as the crown of your " + describeCock(character, selectedCock) + " reshapes into a point, the sensations nearly too much for you.  You throw back your head as the transformation completes, your " + nounCock(CockType.DOG) + " much thicker than it ever was before.  <b>You now have a dog-cock.</b>");
                     selectedCock.thickness += .3;
@@ -220,13 +222,13 @@ export class FoxBerry extends Consumable {
             CView.text("  You now have a [balls].");
         }
         // Sprouting more!
-        if (changes < changeLimit && this.enhanced && character.body.chest.length < 4 && character.body.chest.get(character.body.chest.length - 1).rating > 1) {
-            const bottomBreastRow = character.body.chest.get(character.body.chest.length - 1);
+        if (changes < changeLimit && this.enhanced && character.body.chest.length < 4 && character.body.chest.get(character.body.chest.length - 1)!.rating > 1) {
+            const bottomBreastRow = character.body.chest.get(character.body.chest.length - 1)!;
             CView.text("\n\nYour belly rumbles unpleasantly for a second as the ");
             if (!this.enhanced) CView.text("berry ");
             else CView.text("drink ");
             CView.text("settles deeper inside you.  A second later, the unpleasant gut-gurgle passes, and you let out a tiny burp of relief.  Before you finish taking a few breaths, there's an itching below your " + describeAllBreasts(character) + ".  You idly scratch at it, but gods be damned, it hurts!  You peel off part of your " + character.inventory.equipment.armor.displayName + " to inspect the unwholesome itch, ");
-            if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 8) CView.text("it's difficult to see past the wall of tits obscuring your view.");
+            if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 8) CView.text("it's difficult to see past the wall of tits obscuring your view.");
             else CView.text("it's hard to get a good look at.");
             CView.text("  A few gentle prods draw a pleasant gasp from your lips, and you realize that you didn't have an itch - you were growing new nipples!");
             CView.text("\n\nA closer examination reveals your new nipples to be just like the ones above in size and shape");
@@ -250,8 +252,8 @@ export class FoxBerry extends Consumable {
             let rowAboveCurrentRow: BreastRow;
             let chance: number;
             for (let indexReverseChestCompare: number = character.body.chest.length - 1; indexReverseChestCompare > 1; indexReverseChestCompare--) {
-                currentRow = character.body.chest.get(indexReverseChestCompare);
-                rowAboveCurrentRow = character.body.chest.get(indexReverseChestCompare - 1);
+                currentRow = character.body.chest.get(indexReverseChestCompare)!;
+                rowAboveCurrentRow = character.body.chest.get(indexReverseChestCompare - 1)!;
                 if (currentRow.rating <= rowAboveCurrentRow.rating - 1 && changes < changeLimit && randInt(2) === 0) {
                     if (tits)
                         CView.text("\n\nThey aren't the only pair to go through a change!  Another row of growing bosom goes through the process with its sisters, getting larger.");
@@ -282,8 +284,10 @@ export class FoxBerry extends Consumable {
             }
         }
         // HEAT!
-        if (character.effects.get(StatusEffectType.Heat).value2 < 30 && randInt(6) === 0 && changes < changeLimit) {
-            if (displayGoIntoHeat(character)) {
+        const heatEffect = character.effects.get(StatusEffectType.Heat);
+        if (heatEffect && heatEffect.value2 < 30 && randInt(6) === 0 && changes < changeLimit) {
+            if (character.canGoIntoHeat()) {
+                displayGoIntoHeat(character);
                 changes++;
             }
         }
@@ -364,14 +368,14 @@ export class FoxBerry extends Consumable {
         }
         // Nipples Turn Back:
         if (character.effects.has(StatusEffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            CView.text("\n\nSomething invisible brushes against your " + describeNipple(character, character.body.chest.firstRow) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.effects.remove(StatusEffectType.BlackNipples);
         }
         // Debugcunt
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0).type !== VaginaType.HUMAN) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && character.body.vaginas.get(0)!.type !== VaginaType.HUMAN) {
             CView.text("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
-            character.body.vaginas.get(0).type = VaginaType.HUMAN;
+            character.body.vaginas.get(0)!.type = VaginaType.HUMAN;
             changes++;
         }
         if (changes === 0) {

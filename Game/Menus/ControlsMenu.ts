@@ -1,5 +1,5 @@
 import { ButtonElement } from '../../Engine/Display/Elements/ButtonElement';
-import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
+import { ListEntryElement } from '../../Engine/Display/Elements/ListEntryElement';
 import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
 import { BindableAction } from '../../Engine/Input/BindableAction';
 import { InputManager } from '../../Engine/Input/InputManager';
@@ -55,6 +55,9 @@ export function controlsMenu(): NextScreenChoices {
 }
 
 function listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {
+    const keyPair = InputManager.get(bindableAction);
+    if (!keyPair) throw new Error('Incorrect bindable action');
+
     const bindElement = new ListEntryElement();
     bindListElement.appendElement(bindElement);
     bindElement.text(text).bold();
@@ -62,8 +65,8 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
     const button1 = new ButtonElement();
     bindElement.appendElement(button1);
     let primaryKeyName = "";
-    if (InputManager.get(bindableAction).primaryKey)
-        primaryKeyName = InputManager.get(bindableAction).primaryKey.toString();
+    if (keyPair.primaryKey)
+        primaryKeyName = keyPair.primaryKey.toString();
     button1.modify(primaryKeyName, () => {
         document.addEventListener("keypress", function keyBind(event: KeyboardEvent) {
             const key = new KeyCombination();
@@ -72,7 +75,8 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
             key.altKey = event.altKey;
             key.ctrlKey = event.ctrlKey;
             key.metaKey = event.metaKey;
-            InputManager.get(bindableAction).primaryKey = key;
+            if (keyPair)
+                keyPair.primaryKey = key;
             controlsMenu();
             document.removeEventListener("keypress", keyBind);
         });
@@ -81,8 +85,8 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
     const button2 = new ButtonElement();
     bindElement.appendElement(button2);
     let secondaryKeyName = "";
-    if (InputManager.get(bindableAction).secondaryKey)
-        secondaryKeyName = InputManager.get(bindableAction).secondaryKey.toString();
+    if (keyPair.secondaryKey)
+        secondaryKeyName = keyPair.secondaryKey.toString();
     button2.modify(secondaryKeyName, () => {
         document.addEventListener("keypress", function keyBind(event: KeyboardEvent) {
             const key = new KeyCombination();
@@ -91,7 +95,8 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
             key.altKey = event.altKey;
             key.ctrlKey = event.ctrlKey;
             key.metaKey = event.metaKey;
-            InputManager.get(bindableAction).secondaryKey = key;
+            if (keyPair)
+                keyPair.secondaryKey = key;
             controlsMenu();
             document.removeEventListener("keypress", keyBind);
         });
@@ -100,7 +105,8 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
     bindElement.style.height = button1.computedStyle.height;
     bindElement.style.width = "200px";
     button1.style.marginLeft = "200px";
-    button2.style.marginLeft = parseFloat(button1.computedStyle.width) + 200 + "px";
+    if (button1.computedStyle.width)
+        button2.style.marginLeft = parseFloat(button1.computedStyle.width) + 200 + "px";
 }
 
 function resetControls(): NextScreenChoices {

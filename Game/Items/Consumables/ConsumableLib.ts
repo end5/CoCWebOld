@@ -70,7 +70,7 @@ import { WetCloth } from './WetCloth';
 import { WhiskerFruit } from './WhiskerFruit';
 import { WhiteSpellbook } from './WhiteSpellbook';
 
-export const ConsumableLib = new Dictionary<Consumable>();
+export const ConsumableLib = new Dictionary<ConsumableName, Consumable>();
 
 ConsumableLib.set(ConsumableName.BeeHoney, new BeeHoney(false, false));
 ConsumableLib.set(ConsumableName.BeeHoneyPure, new BeeHoney(true, false));

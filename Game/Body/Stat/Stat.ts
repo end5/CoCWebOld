@@ -2,7 +2,7 @@ import { ISerializable } from "../../../Engine/Utilities/ISerializable";
 
 export class Stat implements ISerializable<Stat> {
     public constructor(
-        public name,
+        public name: string,
         private curValue = 0,
         public min = 0,
         public max = 0,

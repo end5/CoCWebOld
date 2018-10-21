@@ -8,13 +8,15 @@ function walk(dir: PathLike, modify: (file: string) => void, done: (err: NodeJS.
         let i = 0;
         (function next() {
             let file = list[i++];
-            if (!file) return done(undefined, results);
+            if (!file) return done(new Error('No file found'), results);
             file = dir + '/' + file;
-            stat(file, (err, stats) => {
+            stat(file, (_err, stats) => {
                 if (stats && stats.isDirectory()) {
-                    walk(file, modify, (err, res) => {
-                        results = results.concat(res);
-                        next();
+                    walk(file, modify, (_errr, res) => {
+                        if (res) {
+                            results = results.concat(res);
+                            next();
+                        }
                     });
                 } else {
                     results.push(file);
@@ -50,7 +52,7 @@ function fixText(text: string): string {
     let removeCurlyBraceClose = 0;
     let timeAwareClass = false;
     let monster = false;
-    let className: string;
+    let className: string | undefined;
     const flags: Set<string> = new Set();
     const scenes: Set<string> = new Set();
     let index = 0;
@@ -78,7 +80,7 @@ function fixText(text: string): string {
         }
 
         if (lines[index].trimLeft().startsWith('public class')) {
-            className = lines[index].match(/public class ([\w\d_]+)/)[1];
+            className = lines[index].match(/public class ([\w\d_]+)/)![1];
             if (className.endsWith('Scene'))
                 className = className.substr(0, className.length - 5);
 
@@ -118,10 +120,10 @@ function fixText(text: string): string {
         if (lines[index].trimLeft().startsWith('internal '))
             lines[index] = lines[index].replace('internal ', 'private ');
 
-        if (lines[index].trimLeft().startsWith('public function ' + className + 'Scene'))
+        if (className && lines[index].trimLeft().startsWith('public function ' + className + 'Scene'))
             lines[index] = lines[index].replace('public function ' + className + 'Scene', 'public constructor');
 
-        if (lines[index].trimLeft().startsWith('public function ' + className)) {
+        if (className && lines[index].trimLeft().startsWith('public function ' + className)) {
             if (monster) {
                 lines.splice(index, 0, `export class ${className} extends Character {`);
                 index++;
@@ -599,7 +601,7 @@ function fixBaseContent(text: string, className: string): string {
             ' ] }'
     );
     text = funcReplacer(text, 'doYesNo(', ');', (match, choice1, choice2) => `return { yes: ${choice1}, no: ${choice2} };`);
-    text = funcReplacer(text, 'addButton(', ')', (match, index, choiceText, choiceFunc, ...args) => `choices[${index}] = [${choiceText}, ${args ? [choiceFunc].concat(args).join(', ') : choiceFunc }]`);
+    text = funcReplacer(text, 'addButton(', ')', (match, index, choiceText, choiceFunc, ...args) => `choices[${index}] = [${choiceText}, ${args ? [choiceFunc].concat(args).join(', ') : choiceFunc}]`);
     // Unused - hasButton
     text = text.replace(escRegex('sackDescript()'), 'describeSack(player)');
     // Manual - cockClit

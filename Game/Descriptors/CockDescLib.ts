@@ -1,32 +1,21 @@
-﻿import { Cock, CockType } from '../Body/Cock';
+﻿import { CockType } from '../Body/Cock';
 
-export class CockDescLib {
-    private static library: object = {};
-
-    public static lookupPerk(id: CockType): string {
-        return CockDescLib.library[id];
-    }
-
-    public static getLibrary(): object {
-        return CockDescLib.library;
-    }
-
-    public static init() {
-        CockDescLib.library[CockType.HUMAN] = "human";
-        CockDescLib.library[CockType.HORSE] = "mammal";
-        CockDescLib.library[CockType.DOG] = "mammal";
-        CockDescLib.library[CockType.DEMON] = "super";
-        CockDescLib.library[CockType.TENTACLE] = "tentacle";
-        CockDescLib.library[CockType.CAT] = "mammal";
-        CockDescLib.library[CockType.LIZARD] = "reptile";
-        CockDescLib.library[CockType.ANEMONE] = "seaworld";
-        CockDescLib.library[CockType.KANGAROO] = "mammal";
-        CockDescLib.library[CockType.DRAGON] = "reptile";
-        CockDescLib.library[CockType.DISPLACER] = "other";
-        CockDescLib.library[CockType.FOX] = "mammal";
-        CockDescLib.library[CockType.BEE] = "insect";
-        CockDescLib.library[CockType.UNDEFINED] = "";
-    }
+export const CockDescLib = {
+    [CockType.HUMAN]: "human",
+    [CockType.HORSE]: "mammal",
+    [CockType.DOG]: "mammal",
+    [CockType.DEMON]: "super",
+    [CockType.TENTACLE]: "tentacle",
+    [CockType.CAT]: "mammal",
+    [CockType.LIZARD]: "reptile",
+    [CockType.ANEMONE]: "seaworld",
+    [CockType.KANGAROO]: "mammal",
+    [CockType.DRAGON]: "reptile",
+    [CockType.DISPLACER]: "other",
+    [CockType.FOX]: "mammal",
+    [CockType.BEE]: "insect",
+    [CockType.UNDEFINED]: "",
+};
 
     /* Cock types
     * 0 - human
@@ -66,4 +55,3 @@ export class CockDescLib {
     public static const BEE: CockType = new CockType("insect");
     public static const UNDEFINED: CockType = new CockType("");
     */
-}

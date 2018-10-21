@@ -2,12 +2,12 @@ import { User } from './User';
 import { StatType } from '../Engine/Display/Elements/StatsPanelObserver';
 import { MainScreen } from '../Engine/Display/MainScreen';
 
-export type ClickFunction = (activeCharacter?: any, event?: Event) => NextScreenChoices;
+export type ClickFunction = ((activeCharacter?: any, event?: Event) => void | NextScreenChoices);
 export interface ClickObject {
     func: ClickFunction;
     tooltip: string;
 }
-export type ClickOption = ClickFunction | ClickObject;
+export type ClickOption = ClickFunction | ClickObject | undefined;
 export type ScreenChoice = [string, ClickOption];
 export interface NextScreenChoices {
     yes?: ClickOption;
@@ -39,7 +39,7 @@ function updateStats() {
 const previousScreens: string[] = [];
 let nextScreens: string[] = [];
 
-export function clickFuncWrapper(clickFunc: ClickOption): (event: Event) => void {
+export function clickFuncWrapper(clickFunc: ClickOption): ((event: Event) => void) | undefined {
     if (clickFunc) {
         if (typeof clickFunc === "function") {
             nextScreens.push(clickFunc.name);
@@ -49,16 +49,18 @@ export function clickFuncWrapper(clickFunc: ClickOption): (event: Event) => void
                 displayNextScreenChoices(clickFunc(User.char, event));
             };
         }
-        else if (typeof clickFunc === "object") {
+        else if (typeof clickFunc === "object" && clickFunc.func) {
             nextScreens.push(clickFunc.func.name);
             return (event) => {
-                previousScreens.push(clickFunc.func.name);
-                nextScreens = [];
-                displayNextScreenChoices(clickFunc.func.apply(clickFunc.func, ([User.char] as any[]).concat(clickFunc.args).concat(event)));
+                if (clickFunc.func) {
+                    previousScreens.push(clickFunc.func.name);
+                    nextScreens = [];
+                    displayNextScreenChoices(clickFunc.func.apply(clickFunc.func, [User.char, event]));
+                }
             };
         }
     }
-    return undefined;
+    return;
 }
 
 function displayChoices(choices: ScreenChoice[], persistantChoices?: ScreenChoice[]) {
@@ -67,19 +69,19 @@ function displayChoices(choices: ScreenChoice[], persistantChoices?: ScreenChoic
         MainScreen.hideBottomButtons();
         for (let index = 0; index < choices.length; index++) {
             if (Array.isArray(choices[index])) {
-                MainScreen.getBottomButton(index).modify(choices[index][0], clickFuncWrapper(choices[index][1]));
+                MainScreen.getBottomButton(index)!.modify(choices[index][0], clickFuncWrapper(choices[index][1]));
                 if (choices[index][0] === "")
-                    MainScreen.getBottomButton(index).hide();
+                    MainScreen.getBottomButton(index)!.hide();
             }
         }
-        if (fixedCount > 0) {
+        if (persistantChoices && fixedCount > 0) {
             const startingIndex = MainScreen.NUM_BOT_BUTTONS - fixedCount;
             for (let botButtonIndex = startingIndex; botButtonIndex < MainScreen.NUM_BOT_BUTTONS; botButtonIndex++) {
                 const fixedIndex = botButtonIndex - startingIndex;
                 if (Array.isArray(persistantChoices[fixedIndex])) {
-                    MainScreen.getBottomButton(botButtonIndex).modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
+                    MainScreen.getBottomButton(botButtonIndex)!.modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
                     if (persistantChoices[fixedIndex][0] === "")
-                        MainScreen.getBottomButton(botButtonIndex).hide();
+                        MainScreen.getBottomButton(botButtonIndex)!.hide();
                 }
             }
         }
@@ -97,52 +99,52 @@ function displayPage(startingIndex: number, choices: ScreenChoice[], persistantC
     const fixedCount = persistantChoices ? persistantChoices.length : 0;
     const startingFixedIndex = pageNavIndex - fixedCount;
     for (let index = 0; index < startingFixedIndex && index + startingIndex < choices.length; index++) {
-        MainScreen.getBottomButton(index).modify(choices[index + startingIndex][0], clickFuncWrapper(choices[index + startingIndex][1]));
+        MainScreen.getBottomButton(index)!.modify(choices[index + startingIndex][0], clickFuncWrapper(choices[index + startingIndex][1]));
         if (choices[index][0] === "")
-            MainScreen.getBottomButton(index).hide();
+            MainScreen.getBottomButton(index)!.hide();
     }
-    if (fixedCount > 0) {
+    if (persistantChoices && fixedCount > 0) {
         for (let botButtonIndex = startingFixedIndex; botButtonIndex < pageNavIndex; botButtonIndex++) {
             const fixedIndex = botButtonIndex - startingFixedIndex;
-            MainScreen.getBottomButton(botButtonIndex).modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
+            MainScreen.getBottomButton(botButtonIndex)!.modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
             if (persistantChoices[fixedIndex][0] === "")
-                MainScreen.getBottomButton(botButtonIndex).hide();
+                MainScreen.getBottomButton(botButtonIndex)!.hide();
         }
     }
 
     const hasPrevPage = startingIndex - startingFixedIndex > 0 ? true : false;
     if (hasPrevPage) {
-        MainScreen.getBottomButton(prevButtonIndex).modify("Prev", () => {
+        MainScreen.getBottomButton(prevButtonIndex)!.modify("Prev", () => {
             displayPage(startingIndex - startingFixedIndex, choices, persistantChoices);
         });
     }
     else {
-        MainScreen.getBottomButton(prevButtonIndex).modify("Prev", undefined, true);
+        MainScreen.getBottomButton(prevButtonIndex)!.modify("Prev", undefined, true);
     }
 
     const hasNextPage = startingIndex + startingFixedIndex < choices.length ? true : false;
     if (hasNextPage) {
-        MainScreen.getBottomButton(nextButtonIndex).modify("Next", () => {
+        MainScreen.getBottomButton(nextButtonIndex)!.modify("Next", () => {
             displayPage(startingIndex + startingFixedIndex, choices, persistantChoices);
         });
     }
     else {
-        MainScreen.getBottomButton(nextButtonIndex).modify("Next", undefined, true);
+        MainScreen.getBottomButton(nextButtonIndex)!.modify("Next", undefined, true);
     }
 }
 
 function doNext(func: ClickOption) {
     MainScreen.hideBottomButtons();
-    MainScreen.getBottomButton(MainScreen.NEXT_BUTTON_ID).modify("Next", clickFuncWrapper(func));
+    MainScreen.getBottomButton(MainScreen.NEXT_BUTTON_ID)!.modify("Next", clickFuncWrapper(func));
 }
 
 function doYesNo(yesFunc: ClickOption, noFunc: ClickOption) {
     MainScreen.hideBottomButtons();
-    MainScreen.getBottomButton(MainScreen.YES_BUTTON_ID).modify("Yes", clickFuncWrapper(yesFunc));
-    MainScreen.getBottomButton(MainScreen.NO_BUTTON_ID).modify("No", clickFuncWrapper(noFunc));
+    MainScreen.getBottomButton(MainScreen.YES_BUTTON_ID)!.modify("Yes", clickFuncWrapper(yesFunc));
+    MainScreen.getBottomButton(MainScreen.NO_BUTTON_ID)!.modify("No", clickFuncWrapper(noFunc));
 }
 
-export function displayNextScreenChoices(nextScreen: NextScreenChoices) {
+export function displayNextScreenChoices(nextScreen: void | NextScreenChoices) {
     updateStats();
     if (nextScreen) {
         if (nextScreen.yes && nextScreen.no) {
@@ -151,8 +153,8 @@ export function displayNextScreenChoices(nextScreen: NextScreenChoices) {
         else if (nextScreen.next) {
             doNext(nextScreen.next);
         }
-        else if (nextScreen.choices.length > 0 || (nextScreen.persistantChoices && nextScreen.persistantChoices.length > 0)) {
-            displayChoices(nextScreen.choices, nextScreen.persistantChoices);
+        else if (nextScreen.choices && nextScreen.choices.length > 0 || (nextScreen.persistantChoices && nextScreen.persistantChoices.length > 0)) {
+            displayChoices(nextScreen.choices!, nextScreen.persistantChoices);
         }
     }
     else {

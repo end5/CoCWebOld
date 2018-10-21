@@ -15,7 +15,7 @@ export class CombatEffect extends Effect<CombatEffectType, EffectDescription> {
         value3: number = 0,
         value4: number = 0,
         abilityFlag: CombatAbilityFlag = CombatAbilityFlag.All,
-        inflictedBy?: Character
+        inflictedBy: Character
     ) {
         super(type, new EffectDescription(type, type, ""), value1, value2, value3, value4);
         this.abilityFlag = abilityFlag;

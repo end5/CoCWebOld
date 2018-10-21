@@ -17,8 +17,8 @@ export class ImpFood extends Consumable {
         CView.clear();
         if (character.body.cocks.length > 0) {
             CView.text("The food tastes strange and corrupt - you can't really think of a better word for it, but it's unclean.");
-            if (character.body.cocks.get(0).length < 12) {
-                const growthAmount = growCock(character, character.body.cocks.get(0), randInt(2) + 2);
+            if (character.body.cocks.get(0)!.length < 12) {
+                const growthAmount = growCock(character, character.body.cocks.get(0)!, randInt(2) + 2);
                 CView.text("\n\n");
                 displayLengthChange(character, growthAmount, 1);
             }

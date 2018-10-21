@@ -54,13 +54,16 @@ class CombatManager {
     }
 
     private loadCombatEffects(character: Character) {
+        let effectType: CombatEffectType;
         for (const type of character.effects.keys()) {
-            if (CombatEffectType[type])
-                character.combat.effects.add(CombatEffectType[type] as CombatEffectType);
+            effectType = CombatEffectType[type as keyof typeof CombatEffectType];
+            if (effectType)
+                character.combat.effects.add(effectType, 0, 0, 0, 0, character);
         }
         for (const type of character.perks.keys()) {
-            if (CombatEffectType[type])
-                character.combat.effects.add(CombatEffectType[type] as CombatEffectType);
+            effectType = CombatEffectType[type as keyof typeof CombatEffectType];
+            if (effectType)
+                character.combat.effects.add(effectType, character);
         }
     }
 

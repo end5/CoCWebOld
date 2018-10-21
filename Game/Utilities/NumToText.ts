@@ -27,7 +27,7 @@ export function numToOrdinalText(num: number): string {
     return num.toString() + "th";
 }
 
-export function numToCardinalCapText(num): string {
+export function numToCardinalCapText(num: number): string {
     if (num >= 0 && num <= 10) return NUMBER_WORDS_CARDINAL_CAPITAL[num];
     return num.toString();
 }

@@ -16,7 +16,7 @@ import { WizardsStaff } from './WizardsStaff';
 import { HugeWarhammer } from './HugeWarhammer';
 
 // key: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = undefined, perk: string = ""
-export const WeaponLib = new Dictionary<Weapon>();
+export const WeaponLib = new Dictionary<WeaponName, Weapon>();
 
 WeaponLib.set(WeaponName.Fists, new Weapon(WeaponName.Fists, new ItemDesc("Fists", "fists"), "fists", "punch", 0));
 WeaponLib.set(WeaponName.BeautifulSword, new BeautifulSword());

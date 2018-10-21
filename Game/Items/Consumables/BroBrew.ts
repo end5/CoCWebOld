@@ -89,7 +89,7 @@ export class BroBrew extends Consumable {
 
         // (Tits b' gone)
         if (character.body.chest.length > 0) {
-            const topBreastRow = character.body.chest.get(0);
+            const topBreastRow = character.body.chest.firstRow;
             if (topBreastRow.rating >= 1) {
                 CView.text("A tingle starts in your " + describeNipple(character, topBreastRow) + "s before the tight buds grow warm, hot even.  ");
                 if (topBreastRow.lactationMultiplier >= 1)
@@ -125,7 +125,7 @@ export class BroBrew extends Consumable {
 
         // (has dick less than 10 inches)
         if (character.body.cocks.length > 0) {
-            const cock = character.body.cocks.get(0);
+            const cock = character.body.cocks.get(0)!;
             if (cock.length < 10) {
                 CView.text("As if on cue, the familiar tingling gathers in your groin, and you dimly remember you have one muscle left to enlarge.  If only you had the intelligence left to realize that your penis is not a muscle.  In any event, your " + describeCock(character, cock) + " swells in size, ");
                 if (cock.thickness < 2.75) {
@@ -160,7 +160,7 @@ export class BroBrew extends Consumable {
         }
         // (Pussy b gone)
         if (character.body.vaginas.length > 0) {
-            CView.text("At the same time, your " + describeVagina(character, character.body.vaginas.get(0)) + " burns hot, nearly feeling on fire.  You cuss in a decidedly masculine way for a moment before the pain fades to a dull itch.  Scratching it, you discover your lady-parts are gone.  Only a sensitive patch of skin remains.\n\n");
+            CView.text("At the same time, your " + describeVagina(character, character.body.vaginas.get(0)!) + " burns hot, nearly feeling on fire.  You cuss in a decidedly masculine way for a moment before the pain fades to a dull itch.  Scratching it, you discover your lady-parts are gone.  Only a sensitive patch of skin remains.\n\n");
             while (character.body.vaginas.length > 0) {
                 character.body.vaginas.remove(0);
             }

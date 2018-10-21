@@ -2,7 +2,7 @@ import { ItemDrop } from './ItemDrop';
 import { Item } from '../../Items/Item';
 
 export class WeightedDrop implements ItemDrop {
-    private items: (number | Item)[][] = [];
+    private items: [Item, number][] = [];
     private sum: number = 0;
 
     public constructor(first: Item, firstWeight: number = 0) {
@@ -27,13 +27,15 @@ export class WeightedDrop implements ItemDrop {
     }
 
     // you can pass your own random value from 0 to 1 (so you can use your own RNG)
-    public roll(): Item {
+    public roll(): Item | undefined {
         let random = Math.random() * this.sum;
-        let item: Item;
+        let item: Item | undefined;
         while (random > 0 && this.items.length > 0) {
-            const pair: (number | Item)[] = this.items.shift();
-            item = pair[0] as Item;
-            random -= pair[1] as number;
+            const pair = this.items.shift();
+            if (pair) {
+                item = pair[0];
+                random -= pair[1];
+            }
         }
         return item;
     }

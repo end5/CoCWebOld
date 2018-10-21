@@ -13,6 +13,7 @@ import { describeHair } from '../../Descriptors/HairDescriptor';
 import { skinFurScales } from '../../Descriptors/SkinDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
 import { Womb } from '../../Body/Pregnancy/Womb';
+import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
 
 export class MouseCocoa extends Consumable {
     public constructor() {
@@ -76,21 +77,21 @@ export class MouseCocoa extends Consumable {
             if (character.vaginalCapacity() < 100 && character.body.vaginas.length > 0) {
                 if (!character.effects.has(StatusEffectType.BonusVCapacity))
                     character.effects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
-                character.effects.get(StatusEffectType.BonusVCapacity).value1 = 5;
+                character.effects.get(StatusEffectType.BonusVCapacity)!.value1 = 5;
             }
             else {
                 if (!character.effects.has(StatusEffectType.BonusACapacity))
                     character.effects.add(StatusEffectType.BonusACapacity, 0, 0, 0, 0);
-                character.effects.get(StatusEffectType.BonusACapacity).value1 = 5;
+                character.effects.get(StatusEffectType.BonusACapacity)!.value1 = 5;
             }
             changes++;
         }
         // fem fertility up and heat (suppress if pregnant)
         // not already in heat (add heat and lust)
-        if (character.effects.get(StatusEffectType.Heat).value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
-            const intensified: boolean = character.effects.has(StatusEffectType.Heat);
-            if (character.effects.add(StatusEffectType.Heat)) {
-            // if (character.goIntoHeat()) {
+        const intensified: boolean = character.effects.has(StatusEffectType.Heat);
+        if (intensified && character.effects.get(StatusEffectType.Heat)!.value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
+            if (character.canGoIntoHeat()) {
+                displayGoIntoHeat(character);
                 if (intensified) {
                     CView.text("\n\nYour womb feels achingly empty, and your temperature shoots up.  Try as you might, you can't stop fantasizing about being filled with semen, drenched inside and out with it, enough to make a baker's dozen offspring.  ");
                     // [(no mino cum in inventory)]

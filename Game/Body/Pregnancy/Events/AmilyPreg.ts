@@ -95,7 +95,7 @@ export class AmilyPregEvent implements IPregnancyEvent {
         // FUCKING BIRTH SHIT HERE.
         pcBirthsAmilysKidsQuestVersion(player);
         displayStretchVagina(player, 60, true, true, false);
-        if (player.body.vaginas.get(0).wetness === VaginaWetness.DRY) player.body.vaginas.get(0).wetness++;
+        if (player.body.vaginas.get(0)!.wetness === VaginaWetness.DRY) player.body.vaginas.get(0)!.wetness++;
         player.orgasm();
         player.stats.str += -1;
         player.stats.tou += -2;

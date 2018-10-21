@@ -6,7 +6,8 @@ import { Player } from '../Character/Player/Player';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { PiercingType } from '../Items/Misc/Piercing';
 
-export function describeBreastRow(breastRow: BreastRow): string {
+export function describeBreastRow(breastRow: BreastRow | undefined): string {
+    if (!breastRow) return "";
     const size: number = breastRow.rating;
     const lactation: number = breastRow.lactationMultiplier;
 
@@ -39,10 +40,13 @@ export function describeBreastRow(breastRow: BreastRow): string {
     return description + "breasts";
 }
 
-export function describeNipple(character: Character, breastRow: BreastRow): string {
+export function describeNipple(character: Character, breastRow: BreastRow | undefined): string {
+    if (!breastRow) return "";
     let haveDescription: boolean = false;
     let description: string = "";
     let options: string[] = [];
+    const breastRowIndex = character.body.chest.indexOf(breastRow);
+    const nipplePiercings = character.inventory.equipment.piercings.nipples.get(breastRowIndex);
     // Size descriptors 33% chance
     if (randInt(4) === 0) {
         // TINAHHHH
@@ -165,8 +169,8 @@ export function describeNipple(character: Character, breastRow: BreastRow): stri
             haveDescription = true;
         }
     }
-    if (!haveDescription && randInt(2) === 0 && character.inventory.equipment.piercings.nipples.get(character.body.chest.indexOf(breastRow)).isEquipped()) {
-        if (character.inventory.equipment.piercings.nipples.get(character.body.chest.indexOf(breastRow)).item.name === PiercingType.Chain)
+    if (!haveDescription && randInt(2) === 0 && nipplePiercings && nipplePiercings.isEquipped()) {
+        if (nipplePiercings.item!.name === PiercingType.Chain)
             description += "chained ";
         else
             description += "pierced ";
@@ -216,7 +220,7 @@ export const BreastCupNames: string[] = [
 ];
 
 export function breastCup(size: BreastCup): string {
-    return this.BreastCupNames[Math.min(Math.floor(size), this.BreastCupNames.length - 1)];
+    return BreastCupNames[Math.min(Math.floor(size), BreastCupNames.length - 1)];
 }
 
 /**
@@ -231,10 +235,10 @@ export function breastCupInverse(name: string, defaultValue: BreastCup = 0): Bre
     const big: boolean = name.charAt(name.length - 1) === "+";
     if (big)
         name = name.substr(0, name.length - 1);
-    for (let cup: number = 0; cup < this.BreastCupNames.length; cup++) {
-        if (name === this.BreastCupNames[cup])
+    for (let cup: number = 0; cup < BreastCupNames.length; cup++) {
+        if (name === BreastCupNames[cup])
             return cup;
-        if (this.BreastCupNames[cup].indexOf(name) === 0)
+        if (BreastCupNames[cup].indexOf(name) === 0)
             return cup + (big ? 1 : 0);
     }
     return defaultValue;
@@ -242,7 +246,7 @@ export function breastCupInverse(name: string, defaultValue: BreastCup = 0): Bre
 
 export function describeBiggestBreastRow(character: Character): string {
     let description: string = "";
-    const biggestBreastRow: BreastRow = character.body.chest.sort(BreastRow.Largest)[0];
+    const biggestBreastRow = character.body.chest.sort(BreastRow.Largest).get(0)!;
 
     if (biggestBreastRow.rating < 1)
         return "flat breasts";
@@ -321,46 +325,49 @@ export function describeAllBreasts(character: Character): string {
         case 5:
             desciption += randomChoice("five rows of ", "five-tiered ");
     }
-    desciption += this.describeBiggestBreastRow(character);
+    desciption += describeBiggestBreastRow(character);
     return desciption;
 
 }
 
-export function describeBreastGrowth(player: Player, amount: number, chest: Chest): string {
+export function describeBreastGrowth(character: Character, amount: number): string {
     let text = "";
+    const breastRow = character.body.chest.firstRow;
+    const chest = character.body.chest;
     if (amount <= 2) {
-        if (chest.length > 1) text += "Your rows of " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
-        if (chest.length === 1) text += "Your " + describeBreastRow(player.body.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
+        if (chest.length > 1) text += "Your rows of " + describeBreastRow(breastRow) + " jiggle with added weight, growing a bit larger.";
+        if (chest.length === 1) text += "Your " + describeBreastRow(breastRow) + " jiggle with added weight as they expand, growing a bit larger.";
     }
     else if (amount <= 4) {
-        if (chest.length > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
-        if (chest.length === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(player.body.chest.get(0)) + " expand significantly.";
+        if (chest.length > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + describeBreastRow(breastRow) + " expand significantly.";
+        if (chest.length === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + describeBreastRow(breastRow) + " expand significantly.";
     }
     else {
-        if (chest.length > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your " + describeBreastRow(player.body.chest.get(0)) + " tingle strongly, growing disturbingly large.";
-        if (chest.length === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + describeBreastRow(player.body.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
+        if (chest.length > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your " + describeBreastRow(breastRow) + " tingle strongly, growing disturbingly large.";
+        if (chest.length === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + describeBreastRow(breastRow) + " intensifies as they continue to grow at an obscene rate.";
     }
-    if (chest.sort(BreastRow.Largest)[0].rating >= 8.5 && chest.sort(BreastRow.Largest)[0].nipples.length < 2) {
-        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.Largest)[0].nipples.length = 2;
+    if (chest.sort(BreastRow.Largest).get(0)!.rating >= 8.5 && chest.sort(BreastRow.Largest).get(0)!.nipples.length < 2) {
+        text += "  A tender ratingat your " + describeNipple(character, breastRow) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest).get(0)!.nipples.length = 2;
     }
-    if (chest.sort(BreastRow.Largest)[0].rating >= 7 && chest.sort(BreastRow.Largest)[0].nipples.length < 1) {
-        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.Largest)[0].nipples.length = 1;
+    if (chest.sort(BreastRow.Largest).get(0)!.rating >= 7 && chest.sort(BreastRow.Largest).get(0)!.nipples.length < 1) {
+        text += "  A tender ratingat your " + describeNipple(character, breastRow) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest).get(0)!.nipples.length = 1;
     }
-    if (chest.sort(BreastRow.Largest)[0].rating >= 5 && chest.sort(BreastRow.Largest)[0].nipples.length < .75) {
-        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.Largest)[0].nipples.length = .75;
+    if (chest.sort(BreastRow.Largest).get(0)!.rating >= 5 && chest.sort(BreastRow.Largest).get(0)!.nipples.length < .75) {
+        text += "  A tender ratingat your " + describeNipple(character, breastRow) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest).get(0)!.nipples.length = .75;
     }
-    if (chest.sort(BreastRow.Largest)[0].rating >= 3 && chest.sort(BreastRow.Largest)[0].nipples.length < .5) {
-        text += "  A tender ratingat your " + describeNipple(player, player.body.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
-        chest.sort(BreastRow.Largest)[0].nipples.length = .5;
+    if (chest.sort(BreastRow.Largest).get(0)!.rating >= 3 && chest.sort(BreastRow.Largest).get(0)!.nipples.length < .5) {
+        text += "  A tender ratingat your " + describeNipple(character, breastRow) + "s as they grow to match your burgeoning breast-flesh.";
+        chest.sort(BreastRow.Largest).get(0)!.nipples.length = .5;
     }
     return text;
 }
 
-export function describeTopRowBreastGrowth(amount: number, character: Character, chest: Chest) {
-    const topBreastRow = chest.get(0);
+export function describeTopRowBreastGrowth(character: Character, amount: number) {
+    const chest = character.body.chest;
+    const topBreastRow = chest.firstRow;
     let text = "";
     if (amount <= 2) {
         if (chest.length > 1) text += "Your top row of " + describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
@@ -394,11 +401,11 @@ export function describeTopRowBreastGrowth(amount: number, character: Character,
 }
 
 export function describeChest(character: Character) {
-    if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) return "chest";
+    if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1) return "chest";
     return describeBiggestBreastRow(character);
 }
 
 export function describeAllChest(character: Character) {
-    if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1) return "chest";
+    if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1) return "chest";
     return describeAllBreasts(character);
 }

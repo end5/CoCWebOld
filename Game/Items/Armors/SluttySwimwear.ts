@@ -3,21 +3,21 @@ import { ArmorWithPerk } from './ArmorWithPerk';
 import { BreastRow } from '../../Body/BreastRow';
 import { Cock } from '../../Body/Cock';
 import { Character } from '../../Character/Character';
-import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
 import { describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
+import { Perk } from '../../Effects/Perk';
 
 export class SluttySwimwear extends ArmorWithPerk {
     public constructor() {
-        super(ArmorName.SluttySwimwear, new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", PerkFactory.create(PerkType.SluttySeduction, 6, 0, 0, 0), "", true);
+        super(ArmorName.SluttySwimwear, new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", new Perk(PerkType.SluttySeduction, 6, 0, 0, 0), "", true);
     }
 
     public useText(character: Character): void {
         character.stats.lust += 5;
-        if (character.body.chest.sort(BreastRow.Largest)[0].rating < 1)
+        if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1)
             CView.text("You feel rather stupid putting the top part on like this, but you're willing to bear with it. It could certainly be good for distracting.  ");
         else {
             CView.text("The bikini top clings tightly to your bustline, sending a shiver of pleasure through your body. It serves to turn you on quite nicely.  ");
@@ -40,8 +40,8 @@ export class SluttySwimwear extends ArmorWithPerk {
                 CView.text("You grunt in discomfort, your " + describeCocksLight(character) + " flopping free from the thong's confines. The tight material rubbing against your dicks does manage to turn you on slightly.  ");
             }
             character.stats.lust += 5;
-            if (character.body.cocks.sort(Cock.Largest)[0].area >= 20)
-                CView.text("You do your best to put the thong on, and while the material is very stretchy, it simply can't even begin to cover everything, and your " + describeCock(character, character.body.cocks.sort(Cock.Largest)[0]) + " has popped out of the top, completely exposed.  Maybe if you shrunk your male parts down a little...");
+            if (character.body.cocks.sort(Cock.Largest).get(0)!.area >= 20)
+                CView.text("You do your best to put the thong on, and while the material is very stretchy, it simply can't even begin to cover everything, and your " + describeCock(character, character.body.cocks.sort(Cock.Largest).get(0)) + " has popped out of the top, completely exposed.  Maybe if you shrunk your male parts down a little...");
             // If dick is 7+ inches OR balls are apple-sized]
             else if (character.body.balls.size > 5)
                 CView.text("You do your best to put the thong on, and while the material is very stretchy, it simply can't even begin to cover everything, and your " + describeBalls(true, true, character) + " hang on the sides, exposed.  Maybe if you shrunk your male parts down a little...");

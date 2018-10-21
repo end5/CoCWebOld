@@ -22,7 +22,7 @@ export class Stats implements ISerializable<Stats> {
     public fatigue = new ModifiableStat('fatigue');
     // Combat Stats
     // public HP: number;
-    public bonusHP: number;
+    public bonusHP: number = 0;
     // public lust: number;
     public lustVuln: number = 0;
     // public minLust: number;
