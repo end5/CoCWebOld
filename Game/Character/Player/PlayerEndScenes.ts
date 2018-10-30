@@ -1,10 +1,10 @@
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { DefeatType } from '../../Combat/DefeatEvent';
 import { EndScenes } from '../../Combat/EndScenes';
-import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Character } from '../Character';
 import { CView } from '../../../Engine/Display/ContentView';
+import { timePass } from '../../Menus/InGame/PlayerMenu';
 
 export class PlayerEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean {
@@ -37,84 +37,30 @@ export class PlayerEndScenes extends EndScenes {
         }
     }
 
-    protected beforeEndingScene(howYouLost: DefeatType, enemy: Character): void {
-        // if (this.char.statusAffects.has(StatusAffectType.Infested) && Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] === 0) {
-        //     Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] = 1;
-        //     infestOrgasm();
-        // }
-    }
-
-    public readonly hasVictoryScene = false;
     protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
-        return { next: returnToCampUseOneHour };
+        return { next: timePass(1) };
     }
 
-    public readonly hasDefeatScene = false;
     protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
-        if (enemy.effects.get(StatusEffectType.Sparring).value1 === 2) {
-            CView.clear();
-            CView.text("The cow-girl has defeated you in a practice fight!");
-            CView.text("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
-            // Game.inCombat = false;
-            this.char.stats.HP = 1;
-            return { next: returnToCampUseOneHour };
-        }
-        else if (enemy.effects.has(StatusEffectType.PeachLootLoss)) {
-            // Game.inCombat = false;
-            this.char.stats.HP = 1;
-            return;
-        }
-        else if (enemy.desc.short === "Ember") {
-            // Game.inCombat = false;
-            this.char.stats.HP = 1;
-            return { next: returnToCampUseOneHour };
-        }
-        else {
-            let lostGems: number = randInt(10) + 1;
-            if (lostGems > this.char.inventory.gems) lostGems = this.char.inventory.gems;
-            CView.text("\n\nYou'll probably wake up in eight hours or so, missing " + lostGems + " gems.");
-            this.char.inventory.gems -= lostGems;
-        }
+        let lostGems: number = randInt(10) + 1;
+        if (lostGems > this.char.inventory.gems) lostGems = this.char.inventory.gems;
+        CView.text("\n\nYou'll probably wake up in eight hours or so, missing " + lostGems + " gems.");
+        this.char.inventory.gems -= lostGems;
 
         let temp = randInt(10) + 1 + Math.round(enemy.stats.level / 2);
-        // if (Game.inDungeon) temp += 20 + enemy.stats.level * 2;
         if (temp > this.char.inventory.gems) temp = this.char.inventory.gems;
-        // const timePasses: number = enemy.handleCombatLossText(inDungeon, temp); // Allows enemy's to customize the loss text and the amount of time lost
 
         const gemsLost = randInt(20);
 
-        // if (!inDungeon) {
         CView.text("\n\nYou'll probably come to your senses in eight hours or so");
         if (this.char.inventory.gems > 1)
             CView.text(", missing " + gemsLost + " gems.");
         else if (this.char.inventory.gems === 1)
             CView.text(", missing your only gem.");
         else CView.text(".");
-        // }
-        // else {
-        //     CView.text("\n\nSomehow you came out of that alive");
-        //     if (this.char.inventory.gems > 1)
-        //         CView.text(", but after checking your gem pouch, you realize you're missing " + gemsLost + " gems.");
-        //     else if (this.char.inventory.gems === 1)
-        //         CView.text(", but after checking your gem pouch, you realize you're missing your only gem.");
-        //     else CView.text(".");
-        // }
 
         this.char.inventory.gems -= temp;
-        // inCombat = false;
-        // BUNUS XPZ
-        // if (Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] > 0) {
-        //     this.char.XP += Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE];
-        //     CView.text("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
-        //     Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] = 0;
-        // }
-        // // Bonus lewts
-        // if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] !== "") {
-        //     CView.text("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
-        //     inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), createCallBackFunction(Game.camp.returnToCamp, timePasses));
-        // }
-        // else return { next: createCallBackFunction(Scenes.camp.returnToCamp, timePasses) };
 
-        return { next: returnToCampUseEightHours };
+        return { next: timePass(8) };
     }
 }

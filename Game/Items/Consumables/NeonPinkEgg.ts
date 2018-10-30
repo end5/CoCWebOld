@@ -49,7 +49,7 @@ export class NeonPinkEgg extends Consumable {
         if (this.name === ConsumableName.NeonPinkEggPreg) {
             CView.text("\n<b>Your egg-stuffed ");
             const hasEggFilledVagina = character.body.wombs.find(Womb.PregnantWithType(PregnancyType.BUNNY));
-            const hasEggFilledButt = character.body.buttWomb.isPregnantWith(PregnancyType.BUNNY);
+            const hasEggFilledButt = character.body.buttWomb.pregnancy && character.body.buttWomb.pregnancy.type === PregnancyType.BUNNY;
             if (hasEggFilledVagina) {
                 CView.text("womb ");
                 if (hasEggFilledButt)
@@ -197,7 +197,7 @@ export class NeonPinkEgg extends Consumable {
         if (character.body.vaginas.length > 0 && !character.perks.has(PerkType.BunnyEggs) && changes < changeLimit && randInt(4) === 0 && bunnyRaceScore(character) > 3) {
             CView.text("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n\n");
             CView.text("(<b>Perk Gained: Bunny Eggs</b>)");
-            character.perks.add(PerkType.BunnyEggs, 0, 0, 0, 0);
+            character.perks.add(PerkType.BunnyEggs);
             changes++;
         }
         // Shrink Balls!

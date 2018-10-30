@@ -3,9 +3,9 @@ import { BreastRow } from '../Body/BreastRow';
 import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
-import { User } from '../User';
 import { breastCup, describeBreastRow } from '../Descriptors/BreastDescriptor';
 import { CView } from '../../Engine/Display/ContentView';
+import { Settings } from '../Settings';
 
 /**
  * Finds and grows the smallest breast row N times.
@@ -27,7 +27,7 @@ export function growSmallestBreastRow(character: Character, amount: number, time
     while (times > 0) {
         let growthAmount: number = amount;
         smallestBreastRow = chest.sort(BreastRow.Smallest).get(0)!;
-        if (!User.settings.hyperHappy) {
+        if (!Settings.hyperHappy) {
             // Diminishing returns!
             if (character.perks.has(PerkType.BigTits)) {
                 growthAmount /= smallestBreastRow.rating > 3 ? 1.3 : 1.5;
@@ -57,7 +57,7 @@ export function growTopBreastRowDownwards(character: Character, amount: number, 
     if (character.perks.has(PerkType.BigTits) && randInt(3) === 0 && amount < 1)
         amount = 1;
 
-    if (!User.settings.hyperHappy) {
+    if (!Settings.hyperHappy) {
         const topBreastRow: number = chest.firstRow.rating;
 
         // Diminishing returns!
@@ -96,7 +96,7 @@ export function growTopBreastRow(character: Character, amount: number, times: nu
     if (character.perks.has(PerkType.BigTits) && randInt(3) === 0 && amount < 1)
         amount = 1;
 
-    if (!User.settings.hyperHappy) {
+    if (!Settings.hyperHappy) {
         const topBreastRow: number = chest.firstRow.rating;
 
         // Diminishing returns!
@@ -129,7 +129,7 @@ export function growTits(character: Character, amount: number, rowsGrown: number
 }
 
 export function shrinkTits(character: Character, ignoreHyperHappy: boolean = false): void {
-    if (User.settings.hyperHappy && !ignoreHyperHappy) {
+    if (Settings.hyperHappy && !ignoreHyperHappy) {
         return;
     }
     if (character.body.chest.length === 1) {
@@ -187,7 +187,7 @@ export function boostLactation(character: Character, boostAmt: number): number {
     // Prevent lactation decrease if lactating.
     if (boostAmt >= 0) {
         if (character.effects.has(StatusEffectType.LactationReduction))
-            character.effects.get(StatusEffectType.LactationReduction)!.value1 = 0;
+            character.effects.get(StatusEffectType.LactationReduction)!.values.duration = 0;
         if (character.effects.has(StatusEffectType.LactationReduc0))
             character.effects.remove(StatusEffectType.LactationReduc0);
         if (character.effects.has(StatusEffectType.LactationReduc1))

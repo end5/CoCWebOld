@@ -10,7 +10,6 @@ import { PerkType } from '../../../../Effects/PerkType';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { ArmorName } from '../../../../Items/Armors/ArmorName';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
-import { User } from '../../../../User';
 import { NagaTease } from './NagaTease';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
@@ -23,12 +22,14 @@ import { describeBalls } from '../../../../Descriptors/BallsDescriptor';
 import { describeHair } from '../../../../Descriptors/HairDescriptor';
 import { mf } from '../../../../Descriptors/GenderDescriptor';
 import { describeLeg, describeLegs } from '../../../../Descriptors/LegDescriptor';
-import { combatMenu } from '../../../../Menus/InGame/PlayerCombatMenu';
 import { describeSkin } from '../../../../Descriptors/SkinDescriptor';
 import { PlayerFlags } from '../../PlayerFlags';
 import { Womb } from '../../../../Body/Pregnancy/Womb';
 import { dogRaceScore, spiderRaceScore, kitsuneRaceScore, cowRaceScore } from '../../../../Body/RaceScore';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
+import { Settings } from '../../../../Settings';
+import { InGameMenus } from '../../../../Menus/InGame/InGameMenus';
 
 const enum TeaseType {
     ButtShake,                  // 0 butt shake
@@ -89,9 +90,6 @@ function determineBaseDamage(character: Character): number {
         damage += 2;
     if (character.perks.has(PerkType.Seduction))
         damage += 5;
-    // + slutty armor bonus
-    if (character.perks.has(PerkType.SluttySeduction))
-        damage += character.perks.get(PerkType.SluttySeduction).value1;
     damage += character.stats.level;
     damage += character.stats.teaseLevel * 2;
     return damage;
@@ -127,12 +125,12 @@ function determineBaseChance(character: Character): number {
 
 function determineTeaseChoice(character: Character, monster: Character, bimbo: boolean, bro: boolean, futa: boolean) {
     const buttRating = character.body.butt.rating;
-    const largestBreastRating = character.body.chest.length > 0 ? character.body.chest.sort(BreastRow.Largest)[0].rating : 0;
+    const largestBreastRating = character.body.chest.length > 0 ? character.body.chest.sort(BreastRow.Largest).get(0)!.rating : 0;
     const hasVagina = character.body.vaginas.length > 0;
     const vaginalWetness = hasVagina ? character.body.vaginas.get(0)!.wetness : 0;
     const vaginalCapacity = character.vaginalCapacity();
     const cockCount = character.body.cocks.length;
-    const largestCockArea = cockCount > 0 ? character.body.cocks.sort(Cock.Largest)[0].area : 0;
+    const largestCockArea = cockCount > 0 ? character.body.cocks.sort(Cock.Largest).get(0)!.area : 0;
     const choices: number[] = [];
     choices.length = TeaseType.MaxTeaseTypes;
     for (let index: number = 0; index < TeaseType.MaxTeaseTypes; index++)
@@ -267,10 +265,10 @@ function determineTeaseChoice(character: Character, monster: Character, bimbo: b
     // if (character.pregnancyIncubation <= 216 && character.pregnancyIncubation > 0) {
     if (character.body.wombs.find(Womb.Pregnant) || character.body.buttWomb.isPregnant()) {
         choices[TeaseType.Pregnant]++;
-        const vagIncubationTime: number = character.body.wombs.find(Womb.Pregnant) ? character.body.wombs.filter(Womb.Pregnant).sort(Womb.LargestPregnancy)[0].pregnancy.incubation : 0;
-        const buttIncubationTime: number = character.body.buttWomb.isPregnant() ? character.body.buttWomb.pregnancy.incubation : 0;
+        const vagIncubationTime: number = character.body.wombs.find(Womb.Pregnant) ? character.body.wombs.filter(Womb.Pregnant).sort(Womb.LargestPregnancy).get(0)!.pregnancy!.incubation : 0;
+        const buttIncubationTime: number = character.body.buttWomb.isPregnant() ? character.body.buttWomb.pregnancy!.incubation : 0;
         const incubationTime: number = vagIncubationTime < buttIncubationTime ? vagIncubationTime : buttIncubationTime;
-        if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 1) choices[TeaseType.Pregnant]++;
+        if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 1) choices[TeaseType.Pregnant]++;
         if (incubationTime <= 180) choices[TeaseType.Pregnant]++;
         if (incubationTime <= 120) choices[TeaseType.Pregnant]++;
         if (incubationTime <= 100) choices[TeaseType.Pregnant]++;
@@ -292,7 +290,7 @@ function determineTeaseChoice(character: Character, monster: Character, bimbo: b
         if (vaginalWetness >= 3) choices[TeaseType.Nipplecunts]++;
         if (vaginalWetness >= 5) choices[TeaseType.Nipplecunts]++;
         if (largestBreastRating >= 3) choices[TeaseType.Nipplecunts]++;
-        if (character.body.chest.sort(BreastRow.Largest)[0].nipples.length >= 3) choices[TeaseType.Nipplecunts]++;
+        if (character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length >= 3) choices[TeaseType.Nipplecunts]++;
     }
     // 16 Anal gape
     if (character.body.butt.looseness >= 4) {
@@ -439,23 +437,15 @@ export class Tease implements ICombatAction {
     public isPossible(character: Character): boolean {
         return true;
     }
-    public canUse(character: Character, target?: Character): boolean {
+    public canUse(character: Character, target: Character): boolean {
         return true;
     }
 
     public use(character: Character, target: Character): void | NextScreenChoices {
         CView.clear();
         // You cant tease a blind guy!
-        if (target.effects.has(StatusEffectType.Blind)) {
+        if (target.combat.effects.has(CombatEffectType.Blind)) {
             CView.text("You do your best to tease " + target.desc.a + target.desc.short + " with your body.  It doesn't work - you blinded " + target.desc.objectivePronoun + ", remember?\n\n");
-            return;
-        }
-        if (character.effects.has(StatusEffectType.Sealed) && character.effects.get(StatusEffectType.Sealed).value2 === 1) {
-            CView.text("You do your best to tease " + target.desc.a + target.desc.short + " with your body.  Your artless twirls have no effect, as <b>your ability to tease is sealed.</b>\n\n");
-            return;
-        }
-        if (target.desc.short === "Sirius, a naga hypnotist") {
-            CView.text("He is too focused on your eyes to pay any attention to your teasing moves, <b>looks like you'll have to beat him up.</b>\n\n");
             return;
         }
         if (target.stats.lustVuln === 0) {
@@ -489,7 +479,6 @@ export class Tease implements ICombatAction {
         // Tags used for bonus damage and chance later on
         let breasts: boolean = false;
         let penis: boolean = false;
-        const balls: boolean = false;
         let vagina: boolean = false;
         let anus: boolean = false;
         let ass: boolean = false;
@@ -500,7 +489,7 @@ export class Tease implements ICombatAction {
         // =======================================================
         let choice: TeaseType = determineTeaseChoice(character, target, bimbo, bro, futa);
         if (target.desc.short.indexOf("minotaur") !== -1) {
-            if (character.body.vaginas.length > 0 && character.lactationQ() >= 500 && character.body.chest.sort(BreastRow.Largest)[0].rating >= 6 && cowRaceScore(character) >= 3 && character.body.tails.reduce(Tail.HasType(TailType.COW), false))
+            if (character.body.vaginas.length > 0 && character.lactationQ() >= 500 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 6 && cowRaceScore(character) >= 3 && character.body.tails.reduce(Tail.HasType(TailType.COW), false))
                 choice = TeaseType.Cowgirl;
         }
         // Lets do zis!
@@ -681,7 +670,7 @@ export class Tease implements ICombatAction {
                 break;
             // 11 Show off dick
             case TeaseType.BroShowOffDick:
-                if (User.settings.silly() && randInt(2) === 0) CView.text("You strike a herculean pose and flex, whispering, \"<i>Do you even lift?</i>\" to " + target.desc.a + target.desc.short + ".");
+                if (Settings.silly() && randInt(2) === 0) CView.text("You strike a herculean pose and flex, whispering, \"<i>Do you even lift?</i>\" to " + target.desc.a + target.desc.short + ".");
                 else {
                     CView.text("You open your " + character.inventory.equipment.armor.displayName + " just enough to let your " + describeCock(character, character.body.cocks.get(0)!) + " and " + describeBalls(true, true, character) + " dangle free.  A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you.  ");
                     if (character.perks.has(PerkType.BroBrains)) CView.text("Bitches love a cum-leaking cock.");
@@ -705,12 +694,12 @@ export class Tease implements ICombatAction {
                 // PREG
                 CView.text("You lean back, feigning a swoon while pressing a hand on the small of your back.  The pose juts your huge, pregnant belly forward and makes the shiny spherical stomach look even bigger.  With a teasing groan, you rub the protruding tummy gently, biting your lip gently as you stare at " + target.desc.a + target.desc.short + " through heavily lidded eyes.  \"<i>All of this estrogen is making me frisky,</i>\" you moan, stroking hand gradually shifting to the southern hemisphere of your big baby-bump.");
                 // if lactating
-                if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 1) {
+                if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 1) {
                     CView.text("  Your other hand moves to expose your " + describeChest(character) + ", cupping and squeezing a stream of milk to leak down the front of your " + character.inventory.equipment.armor.displayName + ".  \"<i>Help a mommy out.</i>\"\n\n");
                     chance += 2;
                     damage += 4;
                 }
-                const largestIncubation = character.body.wombs.filter(Womb.Pregnant).sort(Womb.LargestPregnancy)[0].pregnancy.incubation;
+                const largestIncubation = character.body.wombs.filter(Womb.Pregnant).sort(Womb.LargestPregnancy).get(0)!.pregnancy!.incubation;
                 if (largestIncubation < 100) {
                     chance++;
                     damage += 2;
@@ -735,14 +724,14 @@ export class Tease implements ICombatAction {
             // 15 Nipplecunts
             case TeaseType.Nipplecunts:
                 // Req's tits & Pussy
-                if (character.body.chest.sort(BreastRow.Largest)[0].rating > 1 && character.body.vaginas.length > 0 && randInt(2) === 0) {
+                if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 1 && character.body.vaginas.length > 0 && randInt(2) === 0) {
                     CView.text("Closing your eyes, you lean forward and slip a hand under your " + character.inventory.equipment.armor.displayName + ".  You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips.  When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm.  With your other hand, you pull down the top of your " + character.inventory.equipment.armor.displayName + " and bare your " + describeChest(character) + " to " + target.desc.a + target.desc.short + ".\n\n");
                     CView.text("Drawing your lust-slick hand to your " + describeNipple(character, character.body.chest.firstRow!) + "s, the yielding flesh of your cunt-like nipples parts before the teasing digits.  Using your own girl cum as added lubrication, you pump your fingers in and out of your nipples, moaning as you add progressively more digits until only your thumb remains to stroke the inflamed flesh of your over-stimulated chest.  Your throat releases the faintest squeak of your near-orgasmic delight and you pant, withdrawing your hands and readjusting your armor.\n\n");
                     CView.text("Despite how quiet you were, it's clear that every lewd, desperate noise you made was heard by " + target.desc.a + target.desc.short + ".");
                     chance += 2;
                     damage += 4;
                 }
-                else if (character.body.chest.sort(BreastRow.Largest)[0].rating > 1 && randInt(2) === 0) {
+                else if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 1 && randInt(2) === 0) {
                     CView.text("You yank off the top of your " + character.inventory.equipment.armor.displayName + ", revealing your " + describeChest(character) + " and the gaping nipplecunts on each.  With a lusty smirk, you slip a pair of fingers into the nipples of your " + describeChest(character) + ", pulling the nipplecunt lips wide, revealing the lengthy, tight passage within.  You fingerfuck your nipplecunts, giving your enemy a good show before pulling your armor back on, leaving the tantalizing image of your gaping titpussies to linger in your foe's mind.");
                     chance += 1;
                     damage += 2;
@@ -797,7 +786,7 @@ export class Tease implements ICombatAction {
                 break;
             // 23 RUT TEASE
             case TeaseType.Rut:
-                if (character.body.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0 && character.body.cocks.filter(Cock.FilterType(CockType.HORSE)).sort(Cock.Longest)[0].length >= 12) {
+                if (character.body.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0 && character.body.cocks.filter(Cock.FilterType(CockType.HORSE)).sort(Cock.Longest).get(0)!.length >= 12) {
                     CView.text("You whip out your massive horsecock, and are immediately surrounded by a massive, heady musk.  Your enemy swoons, nearly falling to her knees under your oderous assault.  Grinning, you grab her shoulders and force her to her knees.  Before she can defend herself, you slam your horsecock onto her head, running it up and down on her face, her nose acting like a sexy bump in an onahole.  You fuck her face -- literally -- for a moment before throwing her back and sheathing your cock.");
                 }
                 else {
@@ -1052,31 +1041,31 @@ export class Tease implements ICombatAction {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 2) {
+                if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 2) {
                     bonusChance++;
                     bonusDamage += 2;
                 }
-                if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 3) {
+                if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 3) {
                     bonusChance++;
                     bonusDamage += 2;
                 }
-                if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 4) {
+                if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 4) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 7) {
+                if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 7) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 12) {
+                if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 12) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 25) {
+                if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 25) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 50) {
+                if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 50) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
@@ -1146,19 +1135,19 @@ export class Tease implements ICombatAction {
                     bonusChance += 1;
                     bonusDamage += 2;
                 }
-                if (character.body.cocks.sort(Cock.Largest)[0].area >= 15) {
+                if (character.body.cocks.sort(Cock.Largest).get(0)!.area >= 15) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.cocks.sort(Cock.Largest)[0].area >= 30) {
+                if (character.body.cocks.sort(Cock.Largest).get(0)!.area >= 30) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.cocks.sort(Cock.Largest)[0].area >= 60) {
+                if (character.body.cocks.sort(Cock.Largest).get(0)!.area >= 60) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
-                if (character.body.cocks.sort(Cock.Largest)[0].area >= 120) {
+                if (character.body.cocks.sort(Cock.Largest).get(0)!.area >= 120) {
                     bonusChance += .5;
                     bonusDamage += 1;
                 }
@@ -1196,10 +1185,10 @@ export class Tease implements ICombatAction {
                         bonusDamage += 1;
                     }
                 }
-                if (character.body.cocks.sort(Cock.Largest)[0].area < 8) {
+                if (character.body.cocks.sort(Cock.Largest).get(0)!.area < 8) {
                     bonusChance--;
                     bonusDamage -= 2;
-                    if (character.body.cocks.sort(Cock.Largest)[0].area < 5) {
+                    if (character.body.cocks.sort(Cock.Largest).get(0)!.area < 5) {
                         bonusChance--;
                         bonusDamage -= 2;
                     }
@@ -1327,6 +1316,6 @@ export class Tease implements ICombatAction {
             CView.text("\n" + target.desc.capitalA + target.desc.short + " seems unimpressed.");
         }
         CView.text("\n\n");
-        return { next: combatMenu };
+        return { next: InGameMenus.Combat };
     }
 }

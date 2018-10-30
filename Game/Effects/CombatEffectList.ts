@@ -4,6 +4,7 @@ import { CombatEffectConstructorLib, AbilityFlagsLib } from './CombatEffectLib';
 import { CombatEffectType } from './CombatEffectType';
 import { Dictionary } from '../../Engine/Utilities/Dictionary';
 import { Character } from '../Character/Character';
+import { IEffectValues } from './EffectValues';
 
 export class CombatEffectList extends Dictionary<CombatEffectType, CombatEffect> {
     private character: Character;
@@ -12,14 +13,14 @@ export class CombatEffectList extends Dictionary<CombatEffectType, CombatEffect>
         this.character = character;
     }
 
-    public add(type: CombatEffectType, inflictedBy: Character, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
+    public add(type: CombatEffectType, inflictedBy: Character, values?: IEffectValues) {
         let newEffect;
         const abilityFlag = AbilityFlagsLib.has(type) ? CombatAbilityFlag.All : AbilityFlagsLib.get(type);
         const effectConstr = CombatEffectConstructorLib.get(type);
         if (abilityFlag && effectConstr) {
-            newEffect = new effectConstr(type, value1, value2, value3, value4, abilityFlag, inflictedBy);
+            newEffect = new effectConstr(type, abilityFlag, inflictedBy, values);
         }
-        newEffect = new CombatEffect(type, value1, value2, value3, value4, abilityFlag, inflictedBy);
+        newEffect = new CombatEffect(type, abilityFlag, inflictedBy, values);
         this.set(type, newEffect);
         newEffect.onAdd(this.character);
     }

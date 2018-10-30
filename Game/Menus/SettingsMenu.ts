@@ -1,9 +1,8 @@
 import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
 import { NextScreenChoices } from '../ScreenDisplay';
-import { User } from '../User';
-import { mainMenu } from './MainMenu';
-import { controlsMenu } from './ControlsMenu';
 import { CView } from '../../Engine/Display/ContentView';
+import { Settings } from '../Settings';
+import { Menus } from './Menus';
 
 export function settingsMenu(): NextScreenChoices {
     MainScreen.getTopButton(TopButton.MainMenu).show();
@@ -12,28 +11,28 @@ export function settingsMenu(): NextScreenChoices {
     CView.clear();
     CView.text("<b>Settings toggles:</b>\n");
 
-    if (User.settings.debug)
+    if (Settings.debug)
         CView.text("Debug mode enabled: <b>Yes</b>\n	Items will not be consumed by use, fleeing always succeeds, and bad-ends can be ignored.");
     else
         CView.text("Debug mode enabled: <b>No</b>\n	Items consumption will occur as normal.");
 
     CView.text("\n\n");
 
-    if (User.settings.showSprites)
+    if (Settings.showSprites)
         CView.text("Sprites enabled: <b>Yes</b>.\n	You like to look at pretty pictures.");
     else
         CView.text("Sprites enabled: <b>No</b>.\n	There are only words. Nothing else.");
 
     CView.text("\n\n");
 
-    if (User.settings.easyMode)
+    if (Settings.easyMode)
         CView.text("Easy Mode <b>On</b>\n	Bad-ends can be ignored and combat is easier.");
     else
         CView.text("Easy Mode <b>Off</b>\n	Bad-ends can ruin your game and combat is challenging.");
 
     CView.text("\n\n");
 
-    if (User.settings.sillyMode)
+    if (Settings.sillyMode)
         CView.text("Silly Mode <b>On</b>\n	Crazy, nonsensical, and possibly hilarious things may occur.");
     else
         CView.text("Silly Mode <b>Off</b>\n	You're an incorrigable stick-in-the-mud with no sense of humor.");
@@ -43,7 +42,7 @@ export function settingsMenu(): NextScreenChoices {
     CView.text("Additional note: You <b>must</b> be <i>in a game session</i> (e.g. load your save, hit \"Main Menu\", change the flag settings, and then hit \"Resume\") to change these flags. They're saved into the saveGame file, so if you load a save, it will clear them to the state in that save.");
     CView.text("\n\n");
 
-    if (User.settings.lowStandards) {
+    if (Settings.lowStandards) {
         CView.text("Low standards Mode <b>On</b>\n	NPCs ignore body type preferences.");
         CView.text("\n	(Not gender preferences though. You still need the right hole.)");
     }
@@ -52,7 +51,7 @@ export function settingsMenu(): NextScreenChoices {
 
     CView.text("\n\n");
 
-    if (User.settings.hyperHappy) {
+    if (Settings.hyperHappy) {
         CView.text("Hyper Happy mode <b>On</b>\n	Only reducto and humus shrink endowments.");
         CView.text("\n	Incubus draft doesn't affect breasts, and succubi milk doesn't affect cocks.");
     }
@@ -65,56 +64,56 @@ export function settingsMenu(): NextScreenChoices {
             ["Sprite Toggle", toggleSpritesFlag],
             ["EZ Mode", toggleEasyModeFlag],
             ["Larger Font", incFontSize],
-            ["Controls", controlsMenu],
+            ["Controls", Menus.Controls],
             ["Hyper Happy", toggleHyperHappy],
             ["Low Standards", toggleStandards],
             ["Silly Toggle", toggleSillyFlag],
             ["Smaller Font", decFontSize],
         ],
         persistantChoices: [
-            ["Back", mainMenu]
+            ["Back", Menus.Controls]
         ]
     };
 }
 
 function incFontSize(): NextScreenChoices {
-    User.settings.customFontSize++;
-    CView.textElement.style.fontSize = User.settings.customFontSize + "px";
+    Settings.customFontSize++;
+    CView.textElement.style.fontSize = Settings.customFontSize + "px";
     return settingsMenu();
 }
 
 function decFontSize(): NextScreenChoices {
-    User.settings.customFontSize--;
-    CView.textElement.style.fontSize = User.settings.customFontSize + "px";
+    Settings.customFontSize--;
+    CView.textElement.style.fontSize = Settings.customFontSize + "px";
     return settingsMenu();
 }
 
 function toggleStandards(): NextScreenChoices {
-    User.settings.lowStandards = !User.settings.lowStandards;
+    Settings.lowStandards = !Settings.lowStandards;
     return settingsMenu();
 }
 
 function toggleHyperHappy(): NextScreenChoices {
-    User.settings.hyperHappy = !User.settings.hyperHappy;
+    Settings.hyperHappy = !Settings.hyperHappy;
     return settingsMenu();
 }
 
 function toggleDebug(): NextScreenChoices {
-    User.settings.debug = !User.settings.debug;
+    Settings.debug = !Settings.debug;
     return settingsMenu();
 }
 
 function toggleEasyModeFlag(): NextScreenChoices {
-    User.settings.easyMode = !User.settings.easyMode;
+    Settings.easyMode = !Settings.easyMode;
     return settingsMenu();
 }
 
 function toggleSpritesFlag(): NextScreenChoices {
-    User.settings.showSprites = !User.settings.showSprites;
+    Settings.showSprites = !Settings.showSprites;
     return settingsMenu();
 }
 
 function toggleSillyFlag(): NextScreenChoices {
-    User.settings.sillyMode = !User.settings.sillyMode;
+    Settings.sillyMode = !Settings.sillyMode;
     return settingsMenu();
 }

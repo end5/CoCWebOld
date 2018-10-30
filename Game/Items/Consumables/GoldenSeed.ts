@@ -15,7 +15,6 @@ import { WingType } from '../../Body/Wings';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
@@ -29,6 +28,7 @@ import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
 import { shrinkTits } from '../../Modifiers/BreastModifier';
 import { displayModFem, displayModThickness } from '../../Modifiers/BodyModifier';
+import { Settings } from '../../Settings';
 
 export class GoldenSeed extends Consumable {
     private enhanced: boolean;
@@ -166,7 +166,7 @@ export class GoldenSeed extends Consumable {
             character.stats.sens += 10;
         }
         // -Remove extra breast rows
-        if (changes < changeLimit && character.body.chest.length > 1 && randInt(3) === 0 && !User.settings.hyperHappy) {
+        if (changes < changeLimit && character.body.chest.length > 1 && randInt(3) === 0 && !Settings.hyperHappy) {
             changes++;
             const bottomBreastRow = character.body.chest.get(character.body.chest.length - 1);
             CView.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
@@ -181,7 +181,7 @@ export class GoldenSeed extends Consumable {
         }
         // -Shrink tits if above DDs.
         // Cannot happen at same time as row removal
-        else if (changes < changeLimit && character.body.chest.length === 1 && randInt(3) === 0 && character.body.chest.firstRow.rating >= 7 && !User.settings.hyperHappy) {
+        else if (changes < changeLimit && character.body.chest.length === 1 && randInt(3) === 0 && character.body.chest.firstRow.rating >= 7 && !Settings.hyperHappy) {
             changes++;
             // (Use standard breast shrinking mechanism if breasts are under 'h')
             if (character.body.chest.firstRow.rating < 19) {
@@ -337,7 +337,7 @@ export class GoldenSeed extends Consumable {
         // SPECIAL:
         // Harpy Womb � All eggs are automatically upgraded to large, requires legs + tail to be harpy.
         if (!character.perks.has(PerkType.HarpyWomb) && character.body.legs.type === LegType.HARPY && character.body.tails.reduce(Tail.HasType(TailType.HARPY), false) && randInt(4) === 0 && changes < changeLimit) {
-            character.perks.add(PerkType.HarpyWomb, 0, 0, 0, 0);
+            character.perks.add(PerkType.HarpyWomb);
             CView.text("\n\nThere's a rumbling in your womb, signifying that some strange change has taken place in your most feminine area. No doubt something in it has changed to be more like a harpy. (<b>You've gained the Harpy Womb perk! All the eggs you lay will always be large so long as you have harpy legs and a harpy tail.</b>)");
             changes++;
         }

@@ -1,10 +1,11 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Character } from '../../../../Character/Character';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
+import { TrainingRoomFlags } from '../../../../Scenes/TrainingRoom';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class FireBow extends PlayerPhysicalAction {
     public name: string = "Fire Bow";
@@ -19,12 +20,7 @@ export class FireBow extends PlayerPhysicalAction {
             this.reasonCannotUse = "You're too fatigued to fire the bow!";
             return false;
         }
-        // ??????????????????????????????????????????????????????????????
-        // ??????????????????????????????????????????????????????????????
-        // ??????????????????????????????????????????????????????????????
-        // ??????????????????????????????????????????????????????????????
-        // wat VVVVVVVVVVVVVVVV
-        if (monster.effects.has(StatusEffectType.BowDisabled)) {
+        if (player.combat.effects.has(CombatEffectType.BowDisabled)) {
             this.reasonCannotUse = "You can't use your bow right now!";
             return false;
         }
@@ -37,42 +33,33 @@ export class FireBow extends PlayerPhysicalAction {
         // Keep logic sane if this attack brings victory
         // This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Prep messages vary by skill.
-        if (player.effects.get(StatusEffectType.Kelt).value1 < 30) {
+        if (TrainingRoomFlags.BowSkill < 30) {
             CView.text("Fumbling a bit, you nock an arrow and fire!\n");
         }
-        else if (player.effects.get(StatusEffectType.Kelt).value1 < 50) {
+        else if (TrainingRoomFlags.BowSkill < 50) {
             CView.text("You pull an arrow and fire it at " + monster.desc.a + monster.desc.short + "!\n");
         }
-        else if (player.effects.get(StatusEffectType.Kelt).value1 < 80) {
+        else if (TrainingRoomFlags.BowSkill < 80) {
             CView.text("With one smooth motion you draw, nock, and fire your deadly arrow at your opponent!\n");
         }
-        else if (player.effects.get(StatusEffectType.Kelt).value1 <= 99) {
+        else if (TrainingRoomFlags.BowSkill <= 99) {
             CView.text("In the blink of an eye you draw and fire your bow directly at " + monster.desc.a + monster.desc.short + ".\n");
         }
         else {
             CView.text("You casually fire an arrow at " + monster.desc.a + monster.desc.short + " with supreme skill.\n");
             // Keep it from going over 100
-            player.effects.get(StatusEffectType.Kelt).value1 = 100;
+            TrainingRoomFlags.BowSkill = 100;
         }
-        if (monster.effects.has(StatusEffectType.Sandstorm) && randInt(10) > 1) {
+        if (monster.combat.effects.has(CombatEffectType.Sandstorm) && randInt(10) > 1) {
             CView.text("Your shot is blown off target by the tornado of sand and wind.  Damn!\n\n");
             return;
         }
         // [Bow Response]
-        // if (monster.desc.short === "Isabella") {
-        //     if (monster.statusAffects.has(StatusAffectType.Blind))
-        //         CView.text("Isabella hears the shot and turns her shield towards it, completely blocking it with her wall of steel.\n\n");
-        //     else CView.text("You arrow thunks into Isabella's shield, completely blocked by the wall of steel.\n\n");
-        //     if (Scenes.isabellaFollowerScene.isabellaAccent())
-        //         CView.text("\"<i>You remind me of ze horse-people.  They cannot deal vith mein shield either!</i>\" cheers Isabella.\n\n");
-        //     else CView.text("\"<i>You remind me of the horse-people.  They cannot deal with my shield either!</i>\" cheers Isabella.\n\n");
-        //     return;
-        // }
         // worms are immune
         if (monster.desc.short === "worms") {
             CView.text("The arrow slips between the worms, sticking into the ground.\n\n");
@@ -84,17 +71,17 @@ export class FireBow extends PlayerPhysicalAction {
             return;
         }
         // Blind miss chance
-        if (player.effects.has(StatusEffectType.Blind)) {
+        if (player.combat.effects.has(CombatEffectType.Blind)) {
             CView.text("The arrow hits something, but blind as you are, you don't have a chance in hell of hitting anything with a bow.\n\n");
             return;
         }
         // Miss chance 10% based on speed + 10% based on int + 20% based on skill
-        if (monster.desc.short !== "pod" && player.stats.spe / 10 + player.stats.int / 10 + player.effects.get(StatusEffectType.Kelt).value1 / 5 + 60 < randInt(101)) {
+        if (monster.desc.short !== "pod" && player.stats.spe / 10 + player.stats.int / 10 + TrainingRoomFlags.BowSkill / 5 + 60 < randInt(101)) {
             CView.text("The arrow goes wide, disappearing behind your foe.\n\n");
             return;
         }
         // Hit!  Damage calc! 20 +
-        let damage: number = Math.floor((20 + player.stats.str / 3 + player.effects.get(StatusEffectType.Kelt).value1 / 1.2) + player.stats.spe / 3 - randInt(monster.stats.tou) - monster.combat.stats.defense());
+        let damage: number = Math.floor((20 + player.stats.str / 3 + TrainingRoomFlags.BowSkill / 1.2) + player.stats.spe / 3 - randInt(monster.stats.tou) - monster.combat.stats.defense());
         if (damage < 0) damage = 0;
         if (damage === 0) {
             if (monster.stats.int > 0)
@@ -108,8 +95,8 @@ export class FireBow extends PlayerPhysicalAction {
         else if (monster.desc.plural)
             CView.text(monster.desc.capitalA + monster.desc.short + " look down at the arrow that now protrudes from one of " + monster.desc.possessivePronoun + " bodies");
         else CView.text(monster.desc.capitalA + monster.desc.short + " looks down at the arrow that now protrudes from " + monster.desc.possessivePronoun + " body");
-        damage *= monster.combat.stats.physicalAttackMod();
-        damage = monster.combat.stats.loseHP(damage, player);
+        damage *= monster.combat.stats.attack(player);
+        damage = monster.combat.stats.loseHP(damage);
         monster.stats.lust -= 20;
         if (monster.stats.lust < 0) monster.stats.lust = 0;
         if (monster.stats.HP <= 0) {

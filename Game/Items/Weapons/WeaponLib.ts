@@ -3,7 +3,6 @@ import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
 import { Dictionary } from '../../../Engine/Utilities/Dictionary';
 import { ItemDesc } from '../ItemDesc';
-import { BeautifulSword } from './BeautifulSword';
 import { LargeClaymore } from './LargeClaymore';
 import { DragonShellShield } from './DragonShellShield';
 import { EldritchStaff } from './EldritchStaff';
@@ -19,7 +18,7 @@ import { HugeWarhammer } from './HugeWarhammer';
 export const WeaponLib = new Dictionary<WeaponName, Weapon>();
 
 WeaponLib.set(WeaponName.Fists, new Weapon(WeaponName.Fists, new ItemDesc("Fists", "fists"), "fists", "punch", 0));
-WeaponLib.set(WeaponName.BeautifulSword, new BeautifulSword());
+
 WeaponLib.set(WeaponName.LargeClaymore, new LargeClaymore());
 WeaponLib.set(WeaponName.DragonShellShield, new DragonShellShield());
 WeaponLib.set(WeaponName.EldritchStaff, new EldritchStaff());

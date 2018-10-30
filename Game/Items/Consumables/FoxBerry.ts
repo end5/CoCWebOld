@@ -12,24 +12,25 @@ import { VaginaType } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { numToCardinalText, numToOrdinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
 import { describeCock, nounCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
 import { describeAllBreasts, breastCup, describeBreastRow, describeNipple } from '../../Descriptors/BreastDescriptor';
 import { describeSkin, skinFurScales } from '../../Descriptors/SkinDescriptor';
-import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
-import { FlagType } from '../../Utilities/FlagType';
+import { FlagType } from '../../FlagType';
 import { NextScreenChoices } from '../../ScreenDisplay';
+import { Flags } from '../../Flags';
+import { Settings } from '../../Settings';
+import { InGameMenus } from '../../Menus/InGame/InGameMenus';
 
 export const foxBerryFlags = {
     FOX_BAD_END_WARNING: 0,
 };
 
-User.flags.set(FlagType.FoxBerry, foxBerryFlags);
+Flags.set(FlagType.FoxBerry, foxBerryFlags);
 
 export class FoxBerry extends Consumable {
     private enhanced: boolean;
@@ -70,7 +71,7 @@ export class FoxBerry extends Consumable {
                 if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).get(0)!.venom > 1) CView.text("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
                 CView.text("\n\nA sharp spark of pain jolts through your spinal column as the bones shift themselves around, the joints in your hips migrating forward.  You continue to howl in agony even as you feel your intelligence slipping away.  In a way, it's a blessing - as your thoughts grow muddied, the pain is dulled, until you are finally left staring blankly at the sky above, tilting your head curiously.");
                 CView.text("\n\nYou roll over and crawl free of the " + character.inventory.equipment.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
-                return { next: gameOverMenu };
+                return { next: InGameMenus.GameOver };
             }
         }
         // [increase Intelligence, Libido and Sensitivity]
@@ -285,7 +286,7 @@ export class FoxBerry extends Consumable {
         }
         // HEAT!
         const heatEffect = character.effects.get(StatusEffectType.Heat);
-        if (heatEffect && heatEffect.value2 < 30 && randInt(6) === 0 && changes < changeLimit) {
+        if (heatEffect && heatEffect.values.lib.value.flat < 30 && randInt(6) === 0 && changes < changeLimit) {
             if (character.canGoIntoHeat()) {
                 displayGoIntoHeat(character);
                 changes++;
@@ -358,7 +359,7 @@ export class FoxBerry extends Consumable {
         // should work from any face, including other muzzles
         if (character.body.skin.type === SkinType.FUR && character.body.face.type !== FaceType.FOX && changes < changeLimit && randInt(5) === 0) {
             CView.text("\n\nYour face pinches and you clap your hands to it.  Within seconds, your nose is poking through those hands, pushing them slightly to the side as new flesh and bone build and shift behind it, until it stops in a clearly defined, tapered, and familiar point you can see even without the aid of a mirror.  <b>Looks like you now have a fox's face.</b>");
-            if (User.settings.silly()) CView.text("  And they called you crazy...");
+            if (Settings.silly()) CView.text("  And they called you crazy...");
             changes++;
             character.body.face.type = FaceType.FOX;
         }

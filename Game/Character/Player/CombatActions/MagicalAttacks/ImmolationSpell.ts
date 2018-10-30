@@ -16,7 +16,7 @@ export class ImmolationSpell implements ICombatAction {
         return character.effects.has(StatusEffectType.ImmolationSpell);
     }
 
-    public canUse(character: Character): boolean {
+    public canUse(character: Character, monster: Character): boolean {
         return character.effects.has(StatusEffectType.ImmolationSpell);
     }
 
@@ -24,9 +24,8 @@ export class ImmolationSpell implements ICombatAction {
         CView.clear();
         CView.text("You gather energy in your Talisman and unleash the spell contained within.  A wave of burning flames gathers around " + monster.desc.a + monster.desc.short + ", slowly burning " + monster.desc.objectivePronoun + ".");
         let damage: number = Math.floor(75 + (character.stats.int / 3 + randInt(character.stats.int / 2)) * character.combat.stats.spellMod());
-        damage = monster.combat.stats.loseHP(damage, character);
+        damage = monster.combat.stats.loseHP(damage);
         CView.text(" (" + damage + ")\n\n");
         character.effects.remove(StatusEffectType.ImmolationSpell);
-        // Scenes.arianScene.clearTalisman();
     }
 }

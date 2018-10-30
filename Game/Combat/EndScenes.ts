@@ -64,7 +64,7 @@ export abstract class EndScenes extends CharacterHolder {
      * @param howYouWon How this character defeated the enemy.
      * @param enemy The enemy character.
      */
-    public victory(howYouWon: DefeatType, enemy: Character): void | NextScreenChoices {
+    public victory(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
         if (enemy.combat.endScenes.beforeEndingScene)
             enemy.combat.endScenes.beforeEndingScene(howYouWon, this.char);
         if (this.victoryScene && enemy.combat.endScenes.defeatScene) {
@@ -81,6 +81,7 @@ export abstract class EndScenes extends CharacterHolder {
         else if (enemy.combat.endScenes.defeatScene) {
             return enemy.combat.endScenes.defeatScene(howYouWon, this.char);
         }
+        throw new Error('No ending scene was found');
     }
 
     protected defeatAwardScene?(): NextScreenChoices;

@@ -12,7 +12,6 @@ import { WingType } from '../../Body/Wings';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
@@ -21,6 +20,7 @@ import { describeBreastRow, describeNipple } from '../../Descriptors/BreastDescr
 import { CView } from '../../../Engine/Display/ContentView';
 import { displayKillCocks, growCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { displayModFem, displayModThickness, displayModTone } from '../../Modifiers/BodyModifier';
+import { Settings } from '../../Settings';
 
 export class GoblinAle extends Consumable {
     public constructor() {
@@ -28,7 +28,6 @@ export class GoblinAle extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         let changes: number = 0;
         let changeLimit: number = 1;
         if (randInt(2) === 0) changeLimit++;
@@ -93,10 +92,10 @@ export class GoblinAle extends Consumable {
         }
         // Boost vaginal capacity without gaping
         const bonusVCap = character.effects.get(StatusEffectType.BonusVCapacity);
-        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && bonusVCap && bonusVCap.value1 < 40) {
+        if (changes < changeLimit && randInt(3) === 0 && character.body.vaginas.length > 0 && bonusVCap && bonusVCap.values.other!.capacity < 40) {
             if (!character.effects.has(StatusEffectType.BonusVCapacity))
-                character.effects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
-            bonusVCap.value1 = 5;
+                character.effects.add(StatusEffectType.BonusVCapacity);
+            bonusVCap.values.other!.capacity = 5;
             CView.text("\n\nThere is a sudden... emptiness within your " + describeVagina(character, character.body.vaginas.get(0)) + ".  Somehow you know you could accommodate even larger... insertions.");
             changes++;
         }
@@ -107,7 +106,7 @@ export class GoblinAle extends Consumable {
             CView.text("\n\nYou feel strange.  Fertile... somehow.  You don't know how else to think of it, but you're ready to be a mother.");
         }
         // Shrink primary dick to no longer than 12 inches
-        else if (character.body.cocks.length === 1 && randInt(2) === 0 && changes < changeLimit && !User.settings.hyperHappy) {
+        else if (character.body.cocks.length === 1 && randInt(2) === 0 && changes < changeLimit && !Settings.hyperHappy) {
             if (character.body.cocks.get(0)!.length > 12) {
                 changes++;
                 let temp3: number = 0;

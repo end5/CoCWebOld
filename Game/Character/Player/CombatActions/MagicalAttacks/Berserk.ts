@@ -1,10 +1,10 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Berserk implements ICombatAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
@@ -16,13 +16,20 @@ export class Berserk implements ICombatAction {
         return character.perks.has(PerkType.Berzerker);
     }
 
-    public canUse(character: Character): boolean {
-        return !character.effects.has(StatusEffectType.Berzerking);
+    public canUse(character: Character, monster: Character): boolean {
+        return !character.combat.effects.has(CombatEffectType.Berzerking);
     }
 
     public use(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
         CView.text("You roar and unleash your savage fury, forgetting about defense in order to destroy your foe!\n\n");
-        character.effects.add(StatusEffectType.Berzerking, 0, 0, 0, 0);
+        character.combat.effects.add(CombatEffectType.Berzerking, character, {
+            attack: {
+                value: { flat: 30 }
+            },
+            defense: {
+                value: { multi: 0 }
+            }
+        });
     }
 }

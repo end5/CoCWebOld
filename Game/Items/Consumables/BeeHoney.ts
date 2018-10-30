@@ -12,8 +12,6 @@ import { Tail, TailType } from '../../Body/Tail';
 import { WingType } from '../../Body/Wings';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeBreastRow, describeNipple, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
@@ -23,6 +21,7 @@ import { describeRace } from '../../Descriptors/BodyDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
 import { Womb } from '../../Body/Pregnancy/Womb';
 import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Settings } from '../../Settings';
 
 export class BeeHoney extends Consumable {
     private static PURE_HONEY_VALUE: number = 40;
@@ -49,10 +48,10 @@ export class BeeHoney extends Consumable {
     }
 
     public canUse(character: Character) {
-        if (this.value === BeeHoney.SPECIAL_HONEY_VALUE && character.effects.has(StatusEffectType.Exgartuan) && character.effects.get(StatusEffectType.Exgartuan)!.value1 === 1) { // Exgartuan doesn't like the special honey
-            CView.text("You uncork the bottle only to hear Exgartuan suddenly speak up.  <i>“Hey kid, this beautiful cock here doesn’t need any of that special bee shit.  Cork that bottle up right now or I’m going to make it so that you can’t drink anything but me.”</i>  You give an exasperated sigh and put the cork back in the bottle.");
-            return false;
-        }
+        // if (this.value === BeeHoney.SPECIAL_HONEY_VALUE && character.effects.has(StatusEffectType.Exgartuan) && character.effects.get(StatusEffectType.Exgartuan)!.values === 1) { // Exgartuan doesn't like the special honey
+        //     CView.text("You uncork the bottle only to hear Exgartuan suddenly speak up.  <i>“Hey kid, this beautiful cock here doesn’t need any of that special bee shit.  Cork that bottle up right now or I’m going to make it so that you can’t drink anything but me.”</i>  You give an exasperated sigh and put the cork back in the bottle.");
+        //     return false;
+        // }
         return true;
     }
 
@@ -70,7 +69,6 @@ export class BeeHoney extends Consumable {
         const chest = character.body.chest;
 
         CView.clear();
-        character.slimeFeed();
         // Chances of boosting the change limit.
         if (randInt(2) === 0) changeLimit++;
         if (randInt(2) === 0) changeLimit++;
@@ -151,7 +149,7 @@ export class BeeHoney extends Consumable {
             changes++;
         }
         // -Remove extra breast rows
-        if (changes < changeLimit && chest.length > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
+        if (changes < changeLimit && chest.length > 2 && randInt(3) === 0 && !Settings.hyperHappy) {
             changes++;
             const lastBreastRow = chest.get(chest.length - 1)!;
             CView.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
@@ -204,7 +202,7 @@ export class BeeHoney extends Consumable {
         if (changes < changeLimit && !character.perks.has(PerkType.BeeOvipositor) && character.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 1 && randInt(2) === 0) {
             CView.text("\n\nAn odd swelling starts in your insectile abdomen, somewhere along the underside.  Curling around, you reach back to your extended, bulbous bee part and run your fingers along the underside.  You gasp when you feel a tender, yielding slit near the stinger.  As you probe this new orifice, a shock of pleasure runs through you, and a tubular, black, semi-hard appendage drops out, pulsating as heavily as any sexual organ.  <b>The new organ is clearly an ovipositor!</b>  A few gentle prods confirm that it's just as sensitive; you can already feel your internals changing, adjusting to begin the production of unfertilized eggs.  You idly wonder what laying them with your new bee ovipositor will feel like...");
             CView.text("\n\n(<b>Perk Gained:  Bee Ovipositor - Allows you to lay eggs in your foes!</b>)");
-            character.perks.add(PerkType.BeeOvipositor, 0, 0, 0, 0);
+            character.perks.add(PerkType.BeeOvipositor);
             changes++;
         }
         // Bee butt - 66% lower chance if already has a tail

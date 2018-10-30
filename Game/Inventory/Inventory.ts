@@ -1,11 +1,6 @@
 import { ItemStack } from './ItemStack';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import {
-    FilterOption,
-    List,
-    ReduceOption,
-    SortOption
-} from '../../Engine/Utilities/List';
+import { FilterOption, List, ReduceOption, SortOption } from '../../Engine/Utilities/List';
 import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
 import { Character } from '../Character/Character';
 import { Item } from '../Items/Item';

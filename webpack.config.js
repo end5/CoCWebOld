@@ -1,14 +1,19 @@
 module.exports = {
-    entry: "./Build/Loader.js",
-    output: {
-        filename: "./main.js"
+    entry: './Loader.ts',
+    devtool: 'inline-source-map',
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            }
+        ]
     },
-
-    // Enable sourcemaps for debugging webpack's output.
-    devtool: "source-map",
-
     resolve: {
-        // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: [".js", ".json"]
+        extensions: ['.tsx', '.ts', '.js']
     },
-}
+    output: {
+        filename: './main.js',
+    }
+};

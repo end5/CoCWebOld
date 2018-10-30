@@ -42,7 +42,6 @@ export class SnakeOil extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         CView.clear();
         let changes: number = 0;
         let changeLimit: number = 1;

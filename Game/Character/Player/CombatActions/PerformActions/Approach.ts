@@ -15,7 +15,7 @@ export class Approach implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
+    public canUse(character: Character, target: Character): boolean {
         return character.combat.effects.has(CombatEffectType.KnockedBack);
     }
 

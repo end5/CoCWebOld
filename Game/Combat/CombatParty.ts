@@ -8,7 +8,7 @@ export class CombatParty {
     public defeatLog: DefeatEvent[];
     public readonly partyEndScenes?: PartyEndScenes;
 
-    public constructor(party: Character[], partyEndScenes?: PartyEndScenes) {
+    public constructor(party: Character[]) {
         this.allMembers = party;
         this.ableMembers = party.slice();
         this.defeatLog = [];

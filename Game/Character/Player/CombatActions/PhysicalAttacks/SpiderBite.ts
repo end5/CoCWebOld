@@ -2,12 +2,12 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { mf } from '../../../../Descriptors/GenderDescriptor';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class SpiderBite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -26,7 +26,7 @@ export class SpiderBite extends PlayerPhysicalAction {
         CView.clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }

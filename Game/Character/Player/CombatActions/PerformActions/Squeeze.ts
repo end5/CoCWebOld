@@ -1,10 +1,10 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Squeeze implements ICombatAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
@@ -16,8 +16,8 @@ export class Squeeze implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
-        return !!target && target.effects.has(StatusEffectType.Constricted);
+    public canUse(character: Character, target: Character): boolean {
+        return !!target && target.combat.effects.has(CombatEffectType.Constricted);
     }
 
     public use(character: Character, target: Character): void | NextScreenChoices {
@@ -31,7 +31,6 @@ export class Squeeze implements ICombatAction {
             if (target.desc.short === "demons")
                 CView.text("The others quickly back off, terrified at the idea of what you might do to them.");
             CView.text("\n\n");
-            return { next: kGAMECLASS.endHpVictory };
         }
         CView.text("\n\n");
     }

@@ -1,9 +1,10 @@
-import { Perk, PerkDesc } from '../Perk';
+import { Perk } from '../Perk';
+import { PerkDesc } from '../PerkDesc';
 
 export class PentUp extends PerkDesc {
     public description(perk?: Perk): string {
-        if (perk)
-            return "Increases minimum lust by " + Math.round(perk.value1) + " and makes you more vulnerable to seduction.";
+        if (perk && perk.values.other && perk.values.other.value1)
+            return "Increases minimum lust by " + Math.round(perk.values.other.value1) + " and makes you more vulnerable to seduction.";
         return "";
     }
 

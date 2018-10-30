@@ -32,19 +32,19 @@ export class WhiteSpellbook extends Consumable {
         // Smart enough for arouse and doesnt have it
         if (character.stats.int >= 25 && !character.effects.has(StatusEffectType.KnowsCharge)) {
             CView.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Charge Weapon.</b>");
-            character.effects.add(StatusEffectType.KnowsCharge, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsCharge);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (character.stats.int >= 30 && !character.effects.has(StatusEffectType.KnowsBlind)) {
             CView.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Blind.</b>");
-            character.effects.add(StatusEffectType.KnowsBlind, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsBlind);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (character.stats.int >= 40 && !character.effects.has(StatusEffectType.KnowsWhitefire)) {
             CView.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Whitefire.</b>");
-            character.effects.add(StatusEffectType.KnowsWhitefire, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsWhitefire);
         }
     }
 }

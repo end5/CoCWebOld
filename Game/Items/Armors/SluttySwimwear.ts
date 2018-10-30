@@ -12,7 +12,7 @@ import { Perk } from '../../Effects/Perk';
 
 export class SluttySwimwear extends ArmorWithPerk {
     public constructor() {
-        super(ArmorName.SluttySwimwear, new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", new Perk(PerkType.SluttySeduction, 6, 0, 0, 0), "", true);
+        super(ArmorName.SluttySwimwear, new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", new Perk(PerkType.SluttySeduction, { teaseChance: 6 }), "", true);
     }
 
     public useText(character: Character): void {

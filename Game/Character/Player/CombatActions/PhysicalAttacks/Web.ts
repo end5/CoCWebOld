@@ -1,12 +1,12 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Web implements ICombatAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
@@ -19,24 +19,25 @@ export class Web implements ICombatAction {
     }
 
     public canUse(player: Player): boolean {
-        return player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].venom >= 33;
+        const spiderTail = player.body.tails.find(Tail.FilterType(TailType.SPIDER_ABDOMEN));
+        return !!spiderTail && spiderTail.venom >= 33;
     }
 
     public use(player: Player, monster: Character): void | NextScreenChoices {
         CView.clear();
-        player.body.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN))[0].venom -= 33;
+        player.body.tails.find(Tail.FilterType(TailType.SPIDER_ABDOMEN))!.venom -= 33;
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Blind
-        if (player.effects.has(StatusEffectType.Blind)) {
+        if (player.combat.effects.has(CombatEffectType.Blind)) {
             CView.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
         else CView.text("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a + monster.desc.short + "!  ");
         // Determine if dodged!
-        if ((player.effects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
+        if ((player.combat.effects.has(CombatEffectType.Blind) && randInt(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             CView.text("You miss " + monster.desc.a + monster.desc.short + " completely - ");
             CView.text(monster.desc.subjectivePronoun + " moved out of the way!\n\n");

@@ -1,12 +1,12 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class SuperWhisperAttack extends PlayerSpellAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
@@ -22,7 +22,7 @@ export class SuperWhisperAttack extends PlayerSpellAction {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.effects.has(StatusEffectType.ThroatPunch) || character.effects.has(StatusEffectType.WebSilence)) {
+        if (character.combat.effects.has(CombatEffectType.ThroatPunch) || character.combat.effects.has(CombatEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
@@ -42,7 +42,7 @@ export class SuperWhisperAttack extends PlayerSpellAction {
             return;
         }
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.effects.has(StatusEffectType.Shell)) {
+        if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -64,6 +64,8 @@ export class SuperWhisperAttack extends PlayerSpellAction {
             return;
         }
         CView.text("You reach for your enemy's mind, watching as its sudden fear petrifies your foe.\n\n");
-        monster.effects.add(StatusEffectType.Fear, 1, 0, 0, 0);
+        monster.combat.effects.add(CombatEffectType.Fear, character, {
+            duration: 1
+        });
     }
 }

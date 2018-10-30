@@ -1,8 +1,9 @@
-import { User } from './User';
 import { StatType } from '../Engine/Display/Elements/StatsPanelObserver';
 import { MainScreen } from '../Engine/Display/MainScreen';
+import { Character } from './Character/Character';
+import { CharDict } from './CharList';
 
-export type ClickFunction = ((activeCharacter?: any, event?: Event) => void | NextScreenChoices);
+export type ClickFunction = ((char: Character, event: Event) => NextScreenChoices);
 export interface ClickObject {
     func: ClickFunction;
     tooltip: string;
@@ -18,21 +19,21 @@ export interface NextScreenChoices {
 }
 
 function updateStats() {
-    if (User.char) {
-        MainScreen.getStatsPanel().getStat(StatType.Strength).setStat(User.char.stats.str);
-        MainScreen.getStatsPanel().getStat(StatType.Toughness).setStat(User.char.stats.tou);
-        MainScreen.getStatsPanel().getStat(StatType.Speed).setStat(User.char.stats.spe);
-        MainScreen.getStatsPanel().getStat(StatType.Intelligence).setStat(User.char.stats.int);
-        MainScreen.getStatsPanel().getStat(StatType.Libido).setStat(User.char.stats.lib);
-        MainScreen.getStatsPanel().getStat(StatType.Sensitivity).setStat(User.char.stats.sens);
-        MainScreen.getStatsPanel().getStat(StatType.Corruption).setStat(User.char.stats.cor);
-        MainScreen.getStatsPanel().getStat(StatType.HP).setStat(User.char.stats.HP, User.char.stats.maxHP());
-        MainScreen.getStatsPanel().getStat(StatType.Lust).setStat(User.char.stats.lust);
-        MainScreen.getStatsPanel().getStat(StatType.Fatigue).setStat(User.char.stats.fatigue);
-        // MainScreen.getStatsPanel().getStat(StatType.Fullness).setStat(User.char.stats.full);
-        MainScreen.getStatsPanel().getStat(StatType.Level).setStat(User.char.stats.level);
-        MainScreen.getStatsPanel().getStat(StatType.Xp).setStat(User.char.stats.XP);
-        MainScreen.getStatsPanel().getStat(StatType.Gems).setStat(User.char.inventory.gems);
+    if (CharDict.player) {
+        MainScreen.getStatsPanel().getStat(StatType.Strength).setStat(CharDict.player.stats.str);
+        MainScreen.getStatsPanel().getStat(StatType.Toughness).setStat(CharDict.player.stats.tou);
+        MainScreen.getStatsPanel().getStat(StatType.Speed).setStat(CharDict.player.stats.spe);
+        MainScreen.getStatsPanel().getStat(StatType.Intelligence).setStat(CharDict.player.stats.int);
+        MainScreen.getStatsPanel().getStat(StatType.Libido).setStat(CharDict.player.stats.lib);
+        MainScreen.getStatsPanel().getStat(StatType.Sensitivity).setStat(CharDict.player.stats.sens);
+        MainScreen.getStatsPanel().getStat(StatType.Corruption).setStat(CharDict.player.stats.cor);
+        MainScreen.getStatsPanel().getStat(StatType.HP).setStat(CharDict.player.stats.HP, CharDict.player.stats.maxHP());
+        MainScreen.getStatsPanel().getStat(StatType.Lust).setStat(CharDict.player.stats.lust);
+        MainScreen.getStatsPanel().getStat(StatType.Fatigue).setStat(CharDict.player.stats.fatigue);
+        // MainScreen.getStatsPanel().getStat(StatType.Fullness).setStat(CharDict.player.stats.full);
+        MainScreen.getStatsPanel().getStat(StatType.Level).setStat(CharDict.player.stats.level);
+        MainScreen.getStatsPanel().getStat(StatType.Xp).setStat(CharDict.player.stats.XP);
+        MainScreen.getStatsPanel().getStat(StatType.Gems).setStat(CharDict.player.inventory.gems);
     }
 }
 
@@ -46,7 +47,7 @@ export function clickFuncWrapper(clickFunc: ClickOption): ((event: Event) => voi
             return (event) => {
                 previousScreens.push(clickFunc.name);
                 nextScreens = [];
-                displayNextScreenChoices(clickFunc(User.char, event));
+                displayNextScreenChoices(clickFunc(CharDict.player!, event));
             };
         }
         else if (typeof clickFunc === "object" && clickFunc.func) {
@@ -55,7 +56,7 @@ export function clickFuncWrapper(clickFunc: ClickOption): ((event: Event) => voi
                 if (clickFunc.func) {
                     previousScreens.push(clickFunc.func.name);
                     nextScreens = [];
-                    displayNextScreenChoices(clickFunc.func.apply(clickFunc.func, [User.char, event]));
+                    displayNextScreenChoices(clickFunc.func.apply(clickFunc.func, [CharDict.player!, event]));
                 }
             };
         }

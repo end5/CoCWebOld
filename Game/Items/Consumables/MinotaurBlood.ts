@@ -14,7 +14,6 @@ import { VaginaLooseness } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeBalls, describeSack } from '../../Descriptors/BallsDescriptor';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
@@ -26,6 +25,7 @@ import { CView } from '../../../Engine/Display/ContentView';
 import { growCock, thickenCock } from '../../Modifiers/CockModifier';
 import { displayGoIntoRut, displayModFem, displayModTone, displayModThickness } from '../../Modifiers/BodyModifier';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
+import { Settings } from '../../Settings';
 
 export class MinotaurBlood extends Consumable {
     public constructor() {
@@ -33,7 +33,6 @@ export class MinotaurBlood extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         const chest = character.body.chest;
         const vaginas = character.body.vaginas;
         const cocks = character.body.cocks;
@@ -157,7 +156,7 @@ export class MinotaurBlood extends Consumable {
                 changes++;
             }
         }
-        if (!User.settings.hyperHappy) {
+        if (!Settings.hyperHappy) {
             // Kills vagina size (and eventually the whole vagina)
             if (vaginas.length > 0) {
                 const topVagina = vaginas.get(0)!;
@@ -301,7 +300,7 @@ export class MinotaurBlood extends Consumable {
             if (cocks.length > 0) CView.text("\n\nYour " + describeCock(character, cocks.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
             else if (vaginas.length > 0) CView.text("\n\nYour " + describeVagina(character, vaginas.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
             if (cocks.length > 0 || vaginas.length > 0) {
-                character.effects.add(StatusEffectType.Dysfunction, 96, 0, 0, 0);
+                character.effects.add(StatusEffectType.Dysfunction, { duration: 96 });
                 changes++;
             }
         }

@@ -147,7 +147,7 @@ export class TrapOil extends Consumable {
                 CView.text("  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " + describeCocksLight(character) + ", but press perkily upwards.  Heat ringing your ears, you explore your new sack with a careful hand.  You are deeply grateful you apparently haven't reversed puberty, but you discover that though you still have " + numToCardinalText(character.body.balls.count) + ", your balls now look and feel like one: one cute, tight little sissy parcel, its warm, insistent pressure upwards upon the joining of your thighs a never-ending reminder of it.");
                 // [Note: Balls description should no longer say �swings heavily beneath�.  For simplicity's sake sex scenes should continue to assume two balls]
                 character.body.balls.size = 1;
-                character.effects.add(StatusEffectType.Uniball, 0, 0, 0, 0);
+                character.effects.add(StatusEffectType.Uniball);
             }
             else if (character.body.balls.size < 1) character.body.balls.size = 1;
             changes++;
@@ -190,7 +190,7 @@ export class TrapOil extends Consumable {
                 if (character.body.femininity < 70 && character.body.femininity >= 60) {
                     CView.text("\n\nYou laugh as you feel your features once again soften, before stopping abruptly.  Your laugh sounded more like a girly giggle than anything else.  Feeling slightly more sober, you touch the soft flesh of your face prospectively.  The trap oil has changed you profoundly, making your innate maleness... difficult to discern, to say the least.  You suspect you could make yourself look even more like a girl now if you wanted to.");
                     if (!character.perks.has(PerkType.Androgyny)) {
-                        character.perks.add(PerkType.Androgyny, 0, 0, 0, 0);
+                        character.perks.add(PerkType.Androgyny);
                         CView.text("\n\n(<b>Perk Gained: Androgyny</b>)");
                     }
                     character.body.femininity += 10;
@@ -221,7 +221,7 @@ export class TrapOil extends Consumable {
                     // Masculinity Increase Final (max masculinity allowed increased by +10):
                     CView.text("\n\nYou laugh as you feel your features once again soften, before stopping abruptly.  Your laugh sounded more like a boyish crow than anything else.  Feeling slightly more sober, you touch the defined lines of your face prospectively.  The trap oil has changed you profoundly, making your innate femaleness... difficult to discern, to say the least.  You suspect you could make yourself look even more like a boy now if you wanted to.");
                     if (!character.perks.has(PerkType.Androgyny)) {
-                        character.perks.add(PerkType.Androgyny, 0, 0, 0, 0);
+                        character.perks.add(PerkType.Androgyny);
                         CView.text("\n\n(<b>Perk Gained: Androgyny</b>)");
                     }
                 }
@@ -240,7 +240,7 @@ export class TrapOil extends Consumable {
         // Nipples Turn Black:
         if (!character.effects.has(StatusEffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
             CView.text("\n\nA tickling sensation plucks at your nipples and you cringe, trying not to giggle.  Looking down you are in time to see the last spot of flesh tone disappear from your [nipples].  They have turned an onyx black!");
-            character.effects.add(StatusEffectType.BlackNipples, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.BlackNipples);
             changes++;
         }
         // Remove odd eyes

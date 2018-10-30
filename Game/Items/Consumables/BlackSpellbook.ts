@@ -32,19 +32,19 @@ export class BlackSpellbook extends Consumable {
         // Smart enough for arouse and doesnt have it
         if (character.stats.int >= 25 && !character.effects.has(StatusEffectType.KnowsArouse)) {
             CView.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Arouse.</b>");
-            character.effects.add(StatusEffectType.KnowsArouse, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsArouse);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (character.stats.int >= 30 && !character.effects.has(StatusEffectType.KnowsHeal)) {
             CView.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Heal.</b>");
-            character.effects.add(StatusEffectType.KnowsHeal, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsHeal);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (character.stats.int >= 40 && !character.effects.has(StatusEffectType.KnowsMight)) {
             CView.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Might.</b>");
-            character.effects.add(StatusEffectType.KnowsMight, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.KnowsMight);
         }
     }
 }

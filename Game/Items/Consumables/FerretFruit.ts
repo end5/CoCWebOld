@@ -11,22 +11,23 @@ import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
 import { Tail, TailType } from '../../Body/Tail';
 import { Character } from '../../Character/Character';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeCock } from '../../Descriptors/CockDescriptor';
 import { ReptilumFlags } from './Reptilum';
-import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { ferretRaceScore } from '../../Body/RaceScore';
 import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
-import { FlagType } from '../../Utilities/FlagType';
+import { FlagType } from '../../FlagType';
 import { NextScreenChoices } from '../../ScreenDisplay';
+import { Flags } from '../../Flags';
+import { Settings } from '../../Settings';
+import { InGameMenus } from '../../Menus/InGame/InGameMenus';
 
 export const ferretFruitFlags = {
     FERRET_BAD_END_WARNING: 0,
 };
 
-User.flags.set(FlagType.FerretFruit, ferretFruitFlags);
+Flags.set(FlagType.FerretFruit, ferretFruitFlags);
 
 export class FerretFruit extends Consumable {
     public constructor() {
@@ -59,7 +60,7 @@ export class FerretFruit extends Consumable {
             else if (randInt(3) === 0) {
                 // -If you fail to heed the warning, it's game over:
                 CView.text("\n\nAs you down the fruit, you begin to feel all warm and fuzzy inside.  You flop over on your back, eagerly removing your clothes.  You laugh giddily, wanting nothing more than to roll about happily in the grass.  Finally finished, you attempt to get up, but something feels...  different.  Try as you may, you find yourself completely unable to stand upright for a long period of time.  You only manage to move about comfortably on all fours.  Your body now resembles that of a regular ferret.  That can't be good!  As you attempt to comprehend your situation, you find yourself less and less able to focus on the problem.  Your attention eventually drifts to a rabbit in the distance.  You lick your lips. Nevermind that, you have warrens to raid!");
-                return { next: gameOverMenu };
+                return { next: InGameMenus.GameOver };
             }
         }
         // Reset the warning if ferret score drops.
@@ -108,7 +109,7 @@ export class FerretFruit extends Consumable {
         }
 
         // -If male with breasts or female/herm with breasts > B cup:
-        if (!User.settings.hyperHappy && (chest.sort(BreastRow.Largest).get(0)!.rating > 2 || (cocks.length > 0 && chest.sort(BreastRow.Largest).get(0)!.rating >= 1)) && randInt(2) === 0 && changes < changeLimit) {
+        if (!Settings.hyperHappy && (chest.sort(BreastRow.Largest).get(0)!.rating > 2 || (cocks.length > 0 && chest.sort(BreastRow.Largest).get(0)!.rating >= 1)) && randInt(2) === 0 && changes < changeLimit) {
             CView.text("\n\nYou cup your tits as they begin to tingle strangely.  You can actually feel them getting smaller in your hands!");
             for (const breastRow of chest)
                 if (breastRow.rating > 2 || (cocks.length > 0 && breastRow.rating >= 1))
@@ -121,7 +122,7 @@ export class FerretFruit extends Consumable {
             // Find longest cock
             const longestCock = cocks.sort(Cock.Longest).get(0)!;
             if (randInt(2) === 0 && changes < changeLimit) {
-                if (longestCock.length > 6 && !User.settings.hyperHappy) {
+                if (longestCock.length > 6 && !Settings.hyperHappy) {
                     CView.text("\n\nA pinching sensation racks the entire length of your " + describeCock(character, longestCock) + ".  Within moments, the sensation is gone, but it appears to have become smaller.");
                     longestCock.length--;
                     if (randInt(2) === 0)

@@ -7,6 +7,7 @@ import { Character } from '../../../Character';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { describeCockShort, describeCocksLight } from '../../../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../../../Descriptors/VaginaDescriptor';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Arouse extends BlackMagic {
     public name: string = "Arouse";
@@ -18,7 +19,7 @@ export class Arouse extends BlackMagic {
 
     public castSpell(character: Character, monster: Character): void | NextScreenChoices {
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.effects.has(StatusEffectType.Shell)) {
+        if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }

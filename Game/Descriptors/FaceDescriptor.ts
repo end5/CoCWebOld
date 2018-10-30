@@ -108,7 +108,7 @@ export function describeBeard(character: Character): string {
     if (character.body.beard.hasBeard())
         return "beard";
     else {
-        // CoC_User.settings.error("");
+        // CoC_UserSettings.error("");
         return "ERROR: NO BEARD! <b>YOU ARE NOT A VIKING AND SHOULD TELL FEN IMMEDIATELY.</b>";
     }
 }

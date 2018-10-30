@@ -1,16 +1,12 @@
-import { teased } from './Teased';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
-import { PerkType } from '../../Effects/PerkType';
 import { IActionRespond } from '../IActionRespond';
 import { CView } from '../../../Engine/Display/ContentView';
 
 export class DefaultRespond implements IActionRespond {
     public enemyAttack() { }
-    public enemyTease(damage: number, self: Character, enemy: Character): void {
-        teased(damage, self, enemy);
-    }
+    public enemyTease() { }
     public enemyUseItem() { }
     public enemyPhysicalAttack() { }
     public enemyMagicalAttack() { }
@@ -22,25 +18,8 @@ export class DefaultRespond implements IActionRespond {
                 enemy.combat.respond.didNoDamage(enemy, self);
             return;
         }
-        // // Start figuring enemy damage resistance
-        // let reduction: number = randInt(self.stats.tou);
-        // const enemyWeapon = enemy.inventory.equipment.weapon;
-        // // Add in enemy armor if needed
-        // if (enemyWeapon.perks.has(WeaponPerkType.Penetrate)) {
-        //     const penetrationAmount = enemyWeapon.perks.get(WeaponPerkType.Penetrate)(enemy, self);
-        //     if (self.combat.stats.defense() >= penetrationAmount)
-        //         reduction -= penetrationAmount;
-        //     else
-        //         reduction -= self.combat.stats.defense();
-        // }
-        // else {
-        //     reduction += self.combat.stats.defense();
-        //     // Remove half armor for lunging strikes
-        //     if (enemy.perks.has(PerkType.LungingAttacks))
-        //         reduction -= self.combat.stats.defense() / 2;
-        // }
 
-        const damageDone = self.combat.stats.loseHP(damage, enemy);
+        const damageDone = self.combat.stats.loseHP(damage);
 
         if (damageDone > 0) {
             if (enemy.inventory.equipment.weapon.perks.keys.length > 0)
@@ -67,18 +46,14 @@ export class DefaultRespond implements IActionRespond {
         if (crit)
             CView.text(" <b>*CRIT*</b>");
 
-        if (self.perks.has(PerkType.BrutalBlows) && self.stats.str > 75) {
-            if (enemy.combat.stats.defense() > 0)
-                CView.text("\nYour hits are so brutal that you damage " + enemy.desc.a + enemy.desc.short + "'s defenses!");
-            if (enemy.combat.stats.defense() - 10 > 0)
-                enemy.combat.stats.defenseMod -= 10;
-            else
-                enemy.combat.stats.defenseMod = 0;
-        }
     }
 
     public feared() { }
     public stunned() { }
     public constricted() { }
     public blinded() { }
+
+    public onReward() { }
+    public onRewardGems() { }
+    public onRewardItem() { }
 }

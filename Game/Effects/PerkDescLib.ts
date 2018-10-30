@@ -1,4 +1,3 @@
-import { PerkDesc } from './Perk';
 import { PerkType } from './PerkType';
 import { Dictionary } from '../../Engine/Utilities/Dictionary';
 import { ControlledBreath } from './PerkDescs/ControlledBreath';
@@ -22,6 +21,7 @@ import { SpellcastingAffinity } from './PerkDescs/SpellcastingAffinity';
 import { ElvenBounty } from './PerkDescs/ElvenBounty';
 import { Enlightened } from './PerkDescs/Enlightened';
 import { CleansingPalm } from './PerkDescs/CleansingPalm';
+import { PerkDesc } from './PerkDesc';
 
 export const PerkDescLib = new Dictionary<PerkType, PerkDesc>();
 PerkDescLib.set(PerkType.Brawler, new PerkDesc(PerkType.Brawler, "Brawler",

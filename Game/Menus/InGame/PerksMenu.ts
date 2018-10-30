@@ -1,69 +1,69 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import { campMenu } from './PlayerMenu';
-import { perkUpMenu } from './PerkUpMenu';
+import { CView } from '../../../Engine/Display/ContentView';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { InGameMenus } from './InGameMenus';
 
 export function perksMenu(character: Character): NextScreenChoices {
-    DisplayText().clear();
-    for (const key of character.perks.keys()) {
-        DisplayText(character.perks.get(key).type).bold();
-        DisplayText(" - " + character.perks.get(key).desc);
-        DisplayText("\n\n");
+    CView.clear();
+    for (const parks of character.perks) {
+        CView.text("<b>" + parks.type + "</b>");
+        CView.text(" - " + parks.desc);
+        CView.text("\n\n");
     }
 
-    const choices: ScreenChoice[] = [["Next", campMenu]];
+    const choices: ScreenChoice[] = [["Next", InGameMenus.Player]];
 
     if (character.stats.perkPoints > 0) {
-        DisplayText("You have " + numToCardinalText(character.stats.perkPoints) + " perk point").bold();
-        if (character.stats.perkPoints > 1) DisplayText("s").bold();
-        DisplayText(" to spend.").bold();
-        choices.push(["Perk Up", perkUpMenu]);
+        CView.text("<b>You have " + numToCardinalText(character.stats.perkPoints) + " perk point");
+        if (character.stats.perkPoints > 1) CView.text("s");
+        CView.text(" to spend.</b>");
+        choices.push(["Perk Up", InGameMenus.PerkUp]);
     }
     if (character.perks.has(PerkType.DoubleAttack)) {
-        DisplayText("You can adjust your double attack settings.").bold();
+        CView.text("<b>You can adjust your double attack settings.</b>");
         choices.push(["Dbl Options", doubleAttackOptions]);
     }
     return { choices };
 }
 
 function doubleAttackOptions(): NextScreenChoices {
-    DisplayText().clear();
+    CView.clear();
     const choices: ScreenChoice[] = [["All Double", doubleAttackForce], ["Dynamic", doubleAttackDynamic], ["Single", doubleAttackOff]];
-    if (playerFlags.DOUBLE_ATTACK_STYLE === 0) {
-        DisplayText("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
-        DisplayText("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
-        DisplayText("\nYou can change it to always single attack.");
+    if (PlayerFlags.DOUBLE_ATTACK_STYLE === 0) {
+        CView.text("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
+        CView.text("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
+        CView.text("\nYou can change it to always single attack.");
         choices[0][1] = undefined;
     }
-    else if (playerFlags.DOUBLE_ATTACK_STYLE === 1) {
-        DisplayText("You will currently double attack until your strength exceeds sixty, and then single attack.");
-        DisplayText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
-        DisplayText("\nYou can change it to always single attack.");
+    else if (PlayerFlags.DOUBLE_ATTACK_STYLE === 1) {
+        CView.text("You will currently double attack until your strength exceeds sixty, and then single attack.");
+        CView.text("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
+        CView.text("\nYou can change it to always single attack.");
         choices[1][1] = undefined;
     }
     else {
-        DisplayText("You will always single attack your foes in combat.");
-        DisplayText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
-        DisplayText("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
+        CView.text("You will always single attack your foes in combat.");
+        CView.text("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
+        CView.text("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
         choices[2][1] = undefined;
     }
     return { choices, persistantChoices: [["Back", perksMenu]] };
 }
 
 function doubleAttackForce(): NextScreenChoices {
-    playerFlags.DOUBLE_ATTACK_STYLE = 0;
+    PlayerFlags.DOUBLE_ATTACK_STYLE = 0;
     return doubleAttackOptions();
 }
 
 function doubleAttackDynamic(): NextScreenChoices {
-    playerFlags.DOUBLE_ATTACK_STYLE = 1;
+    PlayerFlags.DOUBLE_ATTACK_STYLE = 1;
     return doubleAttackOptions();
 }
 
 function doubleAttackOff(): NextScreenChoices {
-    playerFlags.DOUBLE_ATTACK_STYLE = 2;
+    PlayerFlags.DOUBLE_ATTACK_STYLE = 2;
     return doubleAttackOptions();
 }

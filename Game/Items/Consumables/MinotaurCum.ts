@@ -5,11 +5,11 @@ import { VaginaWetness } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
-import { User } from '../../User';
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeClit, describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
-import { FlagType } from '../../Utilities/FlagType';
+import { FlagType } from '../../FlagType';
+import { Flags } from '../../Flags';
 
 export const MinotaurCumFlags = {
     MINOTAUR_CUM_ADDICTION_STATE: 0,
@@ -17,7 +17,7 @@ export const MinotaurCumFlags = {
     MINOTAUR_CUM_REALLY_ADDICTED_STATE: 0,
 };
 
-User.flags.set(FlagType.MinotaurCum, MinotaurCumFlags);
+Flags.set(FlagType.MinotaurCum, MinotaurCumFlags);
 
 export class MinotaurCum extends Consumable {
     public constructor() {
@@ -25,7 +25,6 @@ export class MinotaurCum extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         // Minotaur cum addiction
         // character.minoCumAddiction(7);
         CView.clear();

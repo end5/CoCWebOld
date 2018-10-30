@@ -4,7 +4,6 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { Cock, CockType } from '../../Body/Cock';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
 import { describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
@@ -22,6 +21,7 @@ import { CView } from '../../../Engine/Display/ContentView';
 import { displayModFem, displayModThickness } from '../../Modifiers/BodyModifier';
 import { growCock, thickenCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { shrinkTits } from '../../Modifiers/BreastModifier';
+import { Settings } from '../../Settings';
 
 export class IncubusDraft extends Consumable {
     public readonly tainted: boolean;
@@ -34,7 +34,6 @@ export class IncubusDraft extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         let changeAmount: number = randInt(100);
         if (character.perks.has(PerkType.HistoryAlchemist))
             changeAmount += 10;
@@ -147,7 +146,7 @@ export class IncubusDraft extends Consumable {
         }
         // TIT CHANGE 25% chance of shrinkage
         if (randInt(4) === 0) {
-            if (!User.settings.hyperHappy) {
+            if (!Settings.hyperHappy) {
                 shrinkTits(character);
             }
         }
@@ -227,7 +226,7 @@ export class IncubusDraft extends Consumable {
         // Shrink breasts a more
         // TIT CHANGE 50% chance of shrinkage
         if (randInt(2) === 0) {
-            if (!User.settings.hyperHappy) {
+            if (!Settings.hyperHappy) {
                 shrinkTits(character);
             }
         }
@@ -247,7 +246,7 @@ export class IncubusDraft extends Consumable {
                 this.growDemonCock(character, 1);
             }
         }
-        if (!User.settings.hyperHappy) {
+        if (!Settings.hyperHappy) {
             shrinkTits(character);
             shrinkTits(character);
         }

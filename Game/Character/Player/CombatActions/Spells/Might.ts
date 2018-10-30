@@ -8,6 +8,7 @@ import { Gender } from '../../../../Body/GenderIdentity';
 import { describeCock, describeCocksLight } from '../../../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../../../Descriptors/VaginaDescriptor';
 import { CView } from '../../../../../Engine/Display/ContentView';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Might extends BlackMagic {
     public name: string = "Might";
@@ -17,12 +18,12 @@ export class Might extends BlackMagic {
         return character.effects.has(StatusEffectType.KnowsMight);
     }
 
-    public canUse(character: Character): boolean {
-        if (character.effects.has(StatusEffectType.Might)) {
+    public canUse(character: Character, monster: Character): boolean {
+        if (character.combat.effects.has(CombatEffectType.Might)) {
             this.reasonCannotUse = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
             return false;
         }
-        return super.canUse(character);
+        return super.canUse(character, monster);
     }
 
     public castSpell(character: Character, monster: Character): void | NextScreenChoices {
@@ -44,16 +45,15 @@ export class Might extends BlackMagic {
         }
         else {
             CView.text("The rush of success and power flows through your body.  You feel like you can do anything!");
-            character.effects.add(StatusEffectType.Might, 0, 0, 0, 0);
             const temp = 5 * character.combat.stats.spellMod();
             let tempStr = temp;
             let tempTou = temp;
             if (character.stats.str + temp > 100) tempStr = 100 - character.stats.str;
             if (character.stats.tou + temp > 100) tempTou = 100 - character.stats.tou;
-            character.effects.get(StatusEffectType.Might).value1 = tempStr;
-            character.effects.get(StatusEffectType.Might).value2 = tempTou;
-            character.stats.str += character.effects.get(StatusEffectType.Might).value1;
-            character.stats.tou += character.effects.get(StatusEffectType.Might).value2;
+            character.combat.effects.add(CombatEffectType.Might, character, {
+                str: { value: { flat: tempStr } },
+                tou: { value: { flat: tempTou } }
+            });
         }
         CView.text("\n\n");
     }

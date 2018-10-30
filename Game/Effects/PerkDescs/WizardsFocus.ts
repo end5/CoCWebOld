@@ -1,9 +1,10 @@
-import { Perk, PerkDesc } from '../Perk';
+import { Perk } from '../Perk';
+import { PerkDesc } from '../PerkDesc';
 
 export class WizardsFocus extends PerkDesc {
     public description(perk?: Perk): string {
-        if (perk)
-            return "Increases your spell effect modifier by " + perk.value1 * 100 + "%.";
+        if (perk && perk.values.other && perk.values.other.value1)
+            return "Increases your spell effect modifier by " + perk.values.other.value1 * 100 + "%.";
         return "";
     }
 

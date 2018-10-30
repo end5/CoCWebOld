@@ -12,7 +12,7 @@ export class Poison extends CombatEffect {
             CView.text("You manage to cleanse the poison from your system with your knowledge of medicine!");
         }
         else {
-            character.combat.stats.loseHP(8 + randInt(character.stats.maxHP() / 20), this.inflictedBy);
+            character.combat.stats.loseHP(8 + randInt(character.stats.maxHP() / 20));
             CView.text("The poison continues to work on your body, wracking you with pain!");
         }
         CView.text("\n\n");

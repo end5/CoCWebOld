@@ -4,11 +4,11 @@ import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { CockSockName } from '../Items/Misc/CockSockName';
-import { User } from '../User';
 import { numToCardinalText } from '../Utilities/NumToText';
 import { describeCock, describeCocksLight, describeCocks } from '../Descriptors/CockDescriptor';
 import { describeSack, describeBallsShort } from '../Descriptors/BallsDescriptor';
 import { CView } from '../../Engine/Display/ContentView';
+import { Settings } from '../Settings';
 
 export function growEachCock(character: Character, lengthDelta: number): number {
     let totalGrowth: number = 0;
@@ -225,7 +225,7 @@ export function displayKillCocks(character: Character, numOfCocksToRemove: numbe
 
 export function displayLengthChange(character: Character, lengthChange: number, ncocks: number): void {
 
-    if (lengthChange < 0 && User.settings.hyperHappy) {  // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
+    if (lengthChange < 0 && Settings.hyperHappy) {  // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
         return;
     }
 

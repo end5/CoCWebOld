@@ -6,15 +6,14 @@ import { Cock, CockType } from '../../Body/Cock';
 import { Character } from '../../Character/Character';
 import { ClickOption, NextScreenChoices } from '../../ScreenDisplay';
 import { ItemDesc } from '../ItemDesc';
-import { ItemType } from '../ItemType';
 import { describeSack, describeBallsShort } from '../../Descriptors/BallsDescriptor';
 import { describeAllBreasts, describeNipple } from '../../Descriptors/BreastDescriptor';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
 import { describeClit, describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
-import { inventoryMenu } from '../../Menus/InGame/PlayerInventoryMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { shrinkTits } from '../../Modifiers/BreastModifier';
+import { InGameMenus } from '../../Menus/InGame/InGameMenus';
 
 export class Reducto extends Consumable {
     public constructor() {
@@ -49,7 +48,7 @@ export class Reducto extends Consumable {
         CView.text("You feel your scrotum shift, shrinking down along with your " + describeBallsShort(character) + ".  Within a few seconds the paste has been totally absorbed and the shrinking stops.");
         character.stats.lib -= 2;
         character.stats.lust -= 10;
-        return { next: inventoryMenu };
+        return { next: InGameMenus.Inventory };
     }
 
     private reductoBreasts(character: Character): NextScreenChoices {
@@ -63,7 +62,7 @@ export class Reducto extends Consumable {
         CView.text("\nThe last of it wicks away into your skin, completing the changes.");
         character.stats.sens -= 2;
         character.stats.lust -= 5;
-        return { next: inventoryMenu };
+        return { next: InGameMenus.Inventory };
     }
 
     private reductoButt(character: Character): NextScreenChoices {
@@ -84,7 +83,7 @@ export class Reducto extends Consumable {
         }
         character.stats.lib -= 2;
         character.stats.lust -= 10;
-        return { next: inventoryMenu };
+        return { next: InGameMenus.Inventory };
     }
 
     private reductoClit(character: Character): NextScreenChoices {
@@ -96,7 +95,7 @@ export class Reducto extends Consumable {
         CView.text("Your " + describeClit(character) + " shrinks rapidly, dwindling down to almost half its old size before it finishes absorbing the paste.");
         character.stats.sens += 2;
         character.stats.lust += 10;
-        return { next: inventoryMenu };
+        return { next: InGameMenus.Inventory };
     }
 
     private reductoCock(character: Character): NextScreenChoices {
@@ -123,7 +122,7 @@ export class Reducto extends Consumable {
         }
         character.stats.sens -= 2;
         character.stats.lust -= 10;
-        return { next: inventoryMenu };
+        return { next: InGameMenus.Inventory };
     }
 
     private reductoHips(character: Character): NextScreenChoices {
@@ -144,7 +143,7 @@ export class Reducto extends Consumable {
         }
         character.stats.lib -= 2;
         character.stats.lust -= 10;
-        return { next: inventoryMenu };
+        return { next: InGameMenus.Inventory };
     }
 
     private reductoNipples(character: Character): NextScreenChoices {
@@ -162,13 +161,13 @@ export class Reducto extends Consumable {
         }
         character.stats.sens -= 5;
         character.stats.lust -= 5;
-        return { next: inventoryMenu };
+        return { next: InGameMenus.Inventory };
     }
 
     private reductoCancel(character: Character): NextScreenChoices {
         CView.clear();
         CView.text("You put the salve away.\n\n");
-        return character.inventory.items.createAdd(character, ConsumableName.Reducto, inventoryMenu);
+        return character.inventory.items.createAdd(character, ConsumableName.Reducto, InGameMenus.Inventory);
         // InventoryDisplay.reverseAction();
         // return { next: Inventory };
     }

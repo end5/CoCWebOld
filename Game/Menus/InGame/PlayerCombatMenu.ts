@@ -1,59 +1,57 @@
 import { Character } from '../../Character/Character';
 import { ICombatAction } from '../../Combat/Actions/ICombatAction';
-import { CombatManager } from '../../Combat/CombatManager';
+import { CombatManager, getEnemies } from '../../Combat/CombatManager';
 import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
-import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
+import { CombatEffectType } from '../../Effects/CombatEffectType';
+import { InGameMenus } from './InGameMenus';
 
 export function combatMenu(character: Character): NextScreenChoices {
-    CView.clear();
-    const enemies = CombatManager.getEnemyParty(character);
-    for (const enemy of enemies.ableMembers) {
-        enemyDescription(character, enemy);
+    if (CombatManager.encounter) {
+        CView.clear();
+        const enemies = getEnemies(CombatManager.encounter, character);
+        for (const enemy of enemies.ableMembers) {
+            enemyDescription(character, enemy);
+        }
+
+        const choices: ScreenChoice[] = [];
+
+        // Main Action          Tease               Spells  Items       Move Away
+        // Physical Specials    Magical Specials    Wait    Fantasize   Inspect
+
+        for (const action of character.combat.action.actions) {
+            showAction(choices, character, action, action.flags);
+        }
+        return { choices };
     }
-
-    const choices = [];
-
-    // Main Action          Tease               Spells  Items       Move Away
-    // Physical Specials    Magical Specials    Wait    Fantasize   Inspect
-
-    const performActions = character.combat.action;
-    showAction(choices, character, performActions.mainAction, CombatAbilityFlag.MainAction);
-    showAction(choices, character, performActions.tease, CombatAbilityFlag.Tease);
-    showAction(choices, character, performActions.spells, CombatAbilityFlag.Spells);
-    showAction(choices, character, performActions.items, CombatAbilityFlag.Items);
-    showAction(choices, character, performActions.moveAway, CombatAbilityFlag.MoveAway);
-    showAction(choices, character, performActions.physicalSpecials, CombatAbilityFlag.PhysSpec);
-    showAction(choices, character, performActions.magicalSpecials, CombatAbilityFlag.MagicSpec);
-    showAction(choices, character, performActions.wait, CombatAbilityFlag.Wait);
-    showAction(choices, character, performActions.fantasize, CombatAbilityFlag.Fantasize);
-    // showAction(INSPECT, character, performActions.inspect, CombatAbilityFlag.None);
-    return { choices };
+    throw new Error('Combat menu displayed when no combat encounter has been created');
 }
 
-export function showActions<T extends ICombatAction>(character: Character, combatActions: T[]): NextScreenChoices {
-    const choices = [];
-    for (const combatAction of combatActions) {
-        if (combatAction.isPossible(character)) {
-            if (combatAction.canUse(character)) {
-                choices.push([combatAction.name, () => selectTarget(character, combatAction.use)]);
-            }
-            else {
-                choices.push([combatAction.name, undefined]);
-            }
-        }
-        else {
-            choices.push(["", undefined]);
-        }
-    }
-    return { choices };
-}
+// export function showActions<T extends ICombatAction>(character: Character, combatActions: T[]): NextScreenChoices {
+//     const choices: ScreenChoice[] = [];
+//     const enemies = getEnemies(CombatManager.encounter!, character);
+//     for (const combatAction of combatActions) {
+//         if (combatAction.isPossible(character)) {
+//             if (enemies.ableMembers.find((enemy) => combatAction.canUse(character, enemy))) {
+//                 choices.push([combatAction.name, () => selectTarget(character, combatAction.use)]);
+//             }
+//             else {
+//                 choices.push([combatAction.name, undefined]);
+//             }
+//         }
+//         else {
+//             choices.push(["", undefined]);
+//         }
+//     }
+//     return { choices };
+// }
 
 function showAction(choices: ScreenChoice[], character: Character, action: ICombatAction, flag: CombatAbilityFlag) {
+    const enemies = getEnemies(CombatManager.encounter!, character);
     if (character.combat.effects.combatAbilityFlag & flag && action.isPossible(character)) {
-        if (action.canUse(character)) {
+        if (enemies.ableMembers.find((enemy) => action.canUse(character, enemy))) {
             choices.push([action.name, () => selectTarget(character, action.use)]);
         }
         else {
@@ -63,25 +61,34 @@ function showAction(choices: ScreenChoice[], character: Character, action: IComb
     else {
         choices.push(["", undefined]);
     }
+    choices.push(['Back', combatMenu]);
 }
 
-function selectTarget(character: Character, use: (char, enemy) => void | NextScreenChoices): NextScreenChoices {
-    const enemies = CombatManager.getEnemyParty(character);
-    if (enemies.ableMembers.length === 1) {
-        const useResult = use(character, enemies.ableMembers[0]);
-        if (useResult)
-            return useResult;
-        else
-            return CombatManager.encounter.performRound();
-        // return display(character);
-    }
-    else {
-        const choices = [];
-        for (const enemy of enemies.ableMembers) {
-            choices.push([enemy.desc.name, () => use(character, enemy)]);
+function selectTarget(character: Character, use: (char: Character, enemy: Character) => void | NextScreenChoices): NextScreenChoices {
+    if (CombatManager.encounter) {
+        const enemies = getEnemies(CombatManager.encounter, character);
+        if (enemies.ableMembers.length === 1) {
+            const useResult = use(character, enemies.ableMembers[0]);
+            if (useResult)
+                return useResult;
+            else
+                return CombatManager.encounter.performRound();
         }
-        return { choices };
+        else {
+            const choices: ScreenChoice[] = [];
+            for (const enemy of enemies.ableMembers) {
+                choices.push([enemy.desc.name, () => {
+                    const result = use(character, enemy);
+                    if (result)
+                        return result;
+                    else
+                        return { next: InGameMenus.Player };
+                }]);
+            }
+            return { choices };
+        }
     }
+    throw new Error('Unable to select target because their is no encounter');
 }
 
 function enemyDescription(character: Character, enemy: Character): void {
@@ -89,25 +96,10 @@ function enemyDescription(character: Character, enemy: Character): void {
     const hpRatio: number = enemy.combat.stats.HPRatio();
     percent = "(<b>" + String(Math.floor(hpRatio * 1000) / 10) + "% HP</b>)";
 
-    // 	if(gameState == 2) CView.text("<b>You are grappling with:\n</b>");
-    // 	else
-    CView.text("<b>You are fighting ");
-    CView.text(enemy.desc.a + enemy.desc.short + ":</b> (Level: " + enemy.stats.level + ")\n");
-    if (character.effects.has(StatusEffectType.Blind)) CView.text("It's impossible to see anything!\n");
+    CView.text("<b>You are fighting " + enemy.desc.a + enemy.desc.short + ":</b> (Level: " + enemy.stats.level + ")\n");
+    if (character.combat.effects.has(CombatEffectType.Blind)) CView.text("It's impossible to see anything!\n");
     else {
         CView.text(enemy.desc.long + "\n");
-        // Bonus sand trap stuff
-        if (enemy.effects.has(StatusEffectType.Level)) {
-            const sandTrapLevel = enemy.effects.get(StatusEffectType.Level).value1;
-            // [(new PG for PC height levels)PC level 4:
-            CView.text("\n");
-            if (sandTrapLevel === 4) CView.text("You are right at the edge of its pit.  If you can just manage to keep your footing here, you'll be safe.");
-            else if (sandTrapLevel === 3) CView.text("The sand sinking beneath your feet has carried you almost halfway into the creature's pit.");
-            else CView.text("The dunes tower above you and the hissing of sand fills your ears.  <b>The leering sandtrap is almost on top of you!</b>");
-            // no new PG)
-            CView.text("  You could try attacking it with your " + character.inventory.equipment.weapon.displayName + ", but that will carry you straight to the bottom.  Alternately, you could try to tease it or hit it at range, or wait and maintain your footing until you can clamber up higher.");
-            CView.text("\n");
-        }
         if (enemy.desc.plural) {
             if (hpRatio >= 1) CView.text("You see " + enemy.desc.subjectivePronoun + " are in perfect health.");
             else if (hpRatio > .75) CView.text("You see " + enemy.desc.subjectivePronoun + " aren't very hurt.");
@@ -129,13 +121,13 @@ function enemyDescription(character: Character, enemy: Character): void {
 
 function showMonsterLust(enemy: Character): void {
     // Entrapped
-    if (enemy.effects.has(StatusEffectType.Constricted)) {
+    if (enemy.combat.effects.has(CombatEffectType.Constricted)) {
         CView.text(enemy.desc.capitalA + enemy.desc.short + " is currently wrapped up in your tail-coils!  ");
     }
     // Venom stuff!
-    if (enemy.effects.has(StatusEffectType.NagaVenom)) {
+    if (enemy.combat.effects.has(CombatEffectType.NagaVenom)) {
         if (enemy.desc.plural) {
-            if (enemy.effects.get(StatusEffectType.NagaVenom).value1 <= 1) {
+            if (enemy.combat.effects.get(CombatEffectType.NagaVenom)!.values.duration <= 1) {
                 CView.text("You notice " + enemy.desc.subjectivePronoun + " are beginning to show signs of weakening, but there still appears to be plenty of fight left in " + enemy.desc.objectivePronoun + ".  ");
             }
             else {
@@ -144,18 +136,13 @@ function showMonsterLust(enemy: Character): void {
         }
         // Not plural
         else {
-            if (enemy.effects.get(StatusEffectType.NagaVenom).value1 <= 1) {
+            if (enemy.combat.effects.get(CombatEffectType.NagaVenom)!.values.duration <= 1) {
                 CView.text("You notice " + enemy.desc.subjectivePronoun + " is beginning to show signs of weakening, but there still appears to be plenty of fight left in " + enemy.desc.objectivePronoun + ".  ");
             }
             else {
                 CView.text("You notice " + enemy.desc.subjectivePronoun + " is obviously affected by your venom, " + enemy.desc.possessivePronoun + " movements become unsure, and " + enemy.desc.possessivePronoun + " balance begins to fade. Sweat is beginning to roll on " + enemy.desc.possessivePronoun + " skin. You wager " + enemy.desc.subjectivePronoun + " is probably beginning to regret provoking you.  ");
             }
         }
-
-        enemy.stats.spe -= enemy.effects.get(StatusEffectType.NagaVenom).value1;
-        enemy.stats.str -= enemy.effects.get(StatusEffectType.NagaVenom).value1;
-        if (enemy.stats.spe < 1) enemy.stats.spe = 1;
-        if (enemy.stats.str < 1) enemy.stats.str = 1;
     }
     if (enemy.desc.short === "harpy") {
         // (Enemy slightly aroused)
@@ -165,17 +152,6 @@ function showMonsterLust(enemy: Character): void {
         // (Enemy dangerously aroused)
         if (enemy.stats.lust >= 90) CView.text("You can see her thighs coated with clear fluids, the feathers matted and sticky as she struggles to contain her lust.");
     }
-    // else if (enemy instanceof Clara) {
-    //     // Clara is becoming aroused
-    //     if (enemy.stats.lust <= 40) { }
-    //     else if (enemy.stats.lust <= 65) CView.text("The anger in her motions is weakening.");
-    //     // Clara is somewhat aroused
-    //     else if (enemy.stats.lust <= 75) CView.text("Clara seems to be becoming more aroused than angry now.");
-    //     // Clara is very aroused
-    //     else if (enemy.stats.lust <= 85) CView.text("Clara is breathing heavily now, the signs of her arousal becoming quite visible now.");
-    //     // Clara is about to give in
-    //     else CView.text("It looks like Clara is on the verge of having her anger overwhelmed by her lusts.");
-    // }
     // {Bonus Lust Descripts}
     else if (enemy.desc.short === "Minerva") {
         if (enemy.stats.lust < 40) { }

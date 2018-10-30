@@ -68,8 +68,8 @@ export class BroBrew extends Consumable {
                 CView.text("<b>(Lost Perk - Bimbo Body)\n");
             character.perks.remove(PerkType.BimboBrains);
             character.perks.remove(PerkType.BimboBody);
-            character.perks.add(PerkType.FutaForm, 0, 0, 0, 0);
-            character.perks.add(PerkType.FutaFaculties, 0, 0, 0, 0);
+            character.perks.add(PerkType.FutaForm);
+            character.perks.add(PerkType.FutaFaculties);
             CView.text("(Gained Perks - Futa Form, Futa Faculties)</b>");
             return;
         }
@@ -175,8 +175,8 @@ export class BroBrew extends Consumable {
         displayModTone(character, 100, 100);
         displayModThickness(character, 100, 50);
         // Bonus cum production!
-        character.perks.add(PerkType.BroBrains, 0, 0, 0, 0);
-        character.perks.add(PerkType.BroBody, 0, 0, 0, 0);
+        character.perks.add(PerkType.BroBrains);
+        character.perks.add(PerkType.BroBody);
         CView.text("<b>(Bro Body - Perk Gained!)\n");
         CView.text("(Bro Brains - Perk Gained!)</b>\n"); // int to 20.  max int 50
         if (character.perks.has(PerkType.Feeder)) {

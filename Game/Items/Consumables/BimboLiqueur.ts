@@ -64,8 +64,8 @@ export class BimboLiqueur extends Consumable {
             CView.text("(Perks Gained: Futa Form, Futa Faculties)\n");
             character.perks.remove(PerkType.BroBody);
             character.perks.remove(PerkType.BroBrains);
-            character.perks.add(PerkType.FutaFaculties, 0, 0, 0, 0);
-            character.perks.add(PerkType.FutaForm, 0, 0, 0, 0);
+            character.perks.add(PerkType.FutaFaculties);
+            character.perks.add(PerkType.FutaForm);
             if (character.stats.int > 35) {
                 character.stats.int = 35;
                 character.stats.int -= 0.1;
@@ -178,11 +178,11 @@ export class BimboLiqueur extends Consumable {
             }
             if (!character.perks.has(PerkType.BimboBody)) {
                 CView.text("<b>(Bimbo Body - Perk Gained!)\n");
-                character.perks.add(PerkType.BimboBody, 0, 0, 0, 0);
+                character.perks.add(PerkType.BimboBody);
             }
             if (!character.perks.has(PerkType.BimboBrains)) {
                 CView.text("(Bimbo Brains - Perk Gained!)\n"); // int to 20.  max int 50
-                character.perks.add(PerkType.BimboBrains, 0, 0, 0, 0);
+                character.perks.add(PerkType.BimboBrains);
                 if (character.stats.int > 21)
                     character.stats.int = 21;
             }

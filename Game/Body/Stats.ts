@@ -27,8 +27,8 @@ export class Stats implements ISerializable<Stats> {
     public lustVuln: number = 0;
     // public minLust: number;
 
-    public HP = new ModifiableStat('str');
-    public lust = new ModifiableStat('str');
+    public HP = new ModifiableStat('hp');
+    public lust = new ModifiableStat('lust');
 
     // Level Stats
     public XP: number = 0;

@@ -1,8 +1,8 @@
 import { displaySaves, saveSlotChoices } from './SaveDisplay';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { NextScreenChoices, ClickFunction } from '../ScreenDisplay';
-import { dataMenu } from './DataMenu';
 import { CView } from '../../Engine/Display/ContentView';
+import { Menus } from './Menus';
 
 export function deleteMenu(): NextScreenChoices {
     CView.text("Slot,  Race,  Sex,  Game Days Played");
@@ -10,7 +10,7 @@ export function deleteMenu(): NextScreenChoices {
 
     displaySaves();
     CView.text("<b>ONCE DELETED, YOUR SAVE IS GONE FOREVER.</b>");
-    return saveSlotChoices(confirmDelete, dataMenu);
+    return saveSlotChoices(confirmDelete, Menus.Data);
 }
 
 function confirmDelete(slotNumber: number): ClickFunction {

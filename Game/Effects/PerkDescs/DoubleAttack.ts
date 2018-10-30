@@ -1,6 +1,7 @@
 import { Character } from '../../Character/Character';
-import { Perk, PerkDesc } from '../Perk';
+import { Perk } from '../Perk';
 import { PerkType } from '../PerkType';
+import { PerkDesc } from '../PerkDesc';
 
 export class DoubleAttack extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {

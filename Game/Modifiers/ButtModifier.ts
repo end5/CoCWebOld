@@ -15,7 +15,7 @@ export function stretchButt(character: Character, buttArea: number): boolean {
         // Reset butt stretchin recovery time
         const buttStretched = character.effects.get(StatusEffectType.ButtStretched);
         if (buttStretched)
-            buttStretched.value1 = 0;
+            buttStretched.values.duration = 0;
     }
     // If within top 10% of capacity, 25% stretch
     if (buttArea < character.analCapacity() && buttArea >= .9 * character.analCapacity() && randInt(4) === 0) {
@@ -37,10 +37,10 @@ export function stretchButt(character: Character, buttArea: number): boolean {
         // Butt Stretched used to determine how long since last enlargement
         const buttStretched = character.effects.get(StatusEffectType.ButtStretched);
         if (!buttStretched)
-            character.effects.add(StatusEffectType.ButtStretched, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.ButtStretched);
         // Reset the timer on it to 0 when restretched.
         else
-            buttStretched.value1 = 0;
+            buttStretched.values.duration = 0;
     }
     if (stretched) {
         console.trace("BUTT STRETCHED TO " + (character.body.butt.looseness) + ".");

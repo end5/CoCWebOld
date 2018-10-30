@@ -1,11 +1,11 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class FoxFire extends PlayerSpellAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
@@ -16,12 +16,12 @@ export class FoxFire extends PlayerSpellAction {
         return character.perks.has(PerkType.EnlightenedNinetails);
     }
 
-    public canUse(character: Character): boolean {
+    public canUse(character: Character, monster: Character): boolean {
         if (!character.perks.has(PerkType.BloodMage) && character.stats.fatigue + this.spellCost(character) > 100) {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.effects.has(StatusEffectType.ThroatPunch) || character.effects.has(StatusEffectType.WebSilence)) {
+        if (character.combat.effects.has(CombatEffectType.ThroatPunch) || character.combat.effects.has(CombatEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
@@ -31,7 +31,7 @@ export class FoxFire extends PlayerSpellAction {
     public use(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.effects.has(StatusEffectType.Shell)) {
+        if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -46,9 +46,9 @@ export class FoxFire extends PlayerSpellAction {
         if (monster.desc.short === "goo-girl") {
             CView.text("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.body.skin.tone + " skin has lost some of its shimmer.");
             if (!monster.perks.has(PerkType.Acid))
-                monster.perks.add(PerkType.Acid, 0, 0, 0, 0);
+                monster.perks.add(PerkType.Acid);
         }
-        damage = monster.combat.stats.loseHP(damage, character);
+        damage = monster.combat.stats.loseHP(damage);
         CView.text("  (" + damage + ")\n\n");
     }
 }

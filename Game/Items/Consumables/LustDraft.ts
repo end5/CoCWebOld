@@ -20,7 +20,6 @@ export class LustDraft extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         CView.clear();
         CView.text("You drink the ");
         if (this.enhanced) CView.text("red");

@@ -61,11 +61,11 @@ export class PlayerAction implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
+    public canUse(character: Character, target: Character): boolean {
         return true;
     }
 
     public use(character: Character, target: Character): void | NextScreenChoices {
-        return randomChoice(this.actions).use(character, target);
+        return randomChoice(...this.actions).use(character, target);
     }
 }

@@ -1,9 +1,10 @@
-import { Perk, PerkDesc } from '../Perk';
+import { Perk } from '../Perk';
+import { PerkDesc } from '../PerkDesc';
 
 export class ElvenBounty extends PerkDesc {
     public description(perk?: Perk): string {
-        if (perk)
-            return "Increases fertility by " + perk.value2 + "% and cum production by " + perk.value1 + "mLs.";
+        if (perk && perk.values.other && perk.values.other.value1 && perk.values.other.value2)
+            return "Increases fertility by " + perk.values.other.value2 + "% and cum production by " + perk.values.other.value1 + "mLs.";
         return "";
     }
 

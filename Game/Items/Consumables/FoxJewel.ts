@@ -8,7 +8,6 @@ import { VaginaType } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
 import { skinFurScales, describeSkin } from '../../Descriptors/SkinDescriptor';
@@ -17,6 +16,7 @@ import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeNipple } from '../../Descriptors/BreastDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
 import { displayModFem } from '../../Modifiers/BodyModifier';
+import { Settings } from '../../Settings';
 
 export class FoxJewel extends Consumable {
     private mystic: boolean;
@@ -133,20 +133,20 @@ export class FoxJewel extends Consumable {
         }
         // [Increase Vaginal Capacity] - requires vagina, of course
         const bonusVCap = character.effects.get(StatusEffectType.BonusVCapacity);
-        if (character.body.vaginas.length > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && bonusVCap && bonusVCap.value1 < 200 && changes < changeLimit) {
+        if (character.body.vaginas.length > 0 && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(3) === 0)) && bonusVCap && bonusVCap.values.other!.capacity < 200 && changes < changeLimit) {
             CView.text("\n\nA gurgling sound issues from your abdomen, and you double over as a trembling ripple passes through your womb.  The flesh of your stomach roils as your internal organs begin to shift, and when the sensation finally passes, you are instinctively aware that your " + describeVagina(character, character.body.vaginas.get(0)) + " is a bit deeper than it was before.");
             if (!character.effects.has(StatusEffectType.BonusVCapacity)) {
-                character.effects.add(StatusEffectType.BonusVCapacity, 0, 0, 0, 0);
+                character.effects.add(StatusEffectType.BonusVCapacity);
             }
-            bonusVCap.value1 = 5 + randInt(10);
+            bonusVCap.values.other!.capacity = 5 + randInt(10);
             changes++;
         }
         // [Vag of Holding] - rare effect, only if PC has high vaginal looseness
-        else if (character.body.vaginas.length > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && bonusVCap && bonusVCap.value1 >= 200 && bonusVCap.value1 < 8000 && changes < changeLimit) {
+        else if (character.body.vaginas.length > 0 && ((this.mystic) || (!this.mystic && randInt(5) === 0)) && bonusVCap && bonusVCap.values.other!.capacity >= 200 && bonusVCap.values.other!.capacity < 8000 && changes < changeLimit) {
             CView.text("\n\nYou clutch your stomach with both hands, dropping to the ground in pain as your internal organs begin to twist and shift violently inside you.  As you clench your eyes shut in agony, you are overcome with a sudden calm.  The pain in your abdomen subsides, and you feel at one with the unfathomable infinity of the universe, warmth radiating through you from the vast swirling cosmos contained within your womb.");
-            if (User.settings.silly()) CView.text("  <b>Your vagina has become a universe unto itself, capable of accepting colossal insertions beyond the scope of human comprehension!</b>");
+            if (Settings.silly()) CView.text("  <b>Your vagina has become a universe unto itself, capable of accepting colossal insertions beyond the scope of human comprehension!</b>");
             else CView.text("  <b>Your vagina is now capable of accepting even the most ludicrously sized insertions with no ill effects.</b>");
-            bonusVCap.value1 = 8000;
+            bonusVCap.values.other!.capacity = 8000;
             changes++;
         }
 
@@ -208,7 +208,7 @@ export class FoxJewel extends Consumable {
             CView.text("Your bushy tails begin to glow with an eerie, ghostly light, and with a crackle of electrical energy, split into nine tails.  <b>You are now a nine-tails!  But something is wrong...  The cosmic power radiating from your body feels...  tainted somehow.  The corruption pouring off your body feels...  good.</b>");
             CView.text("\n\nYou have the inexplicable urge to set fire to the world, just to watch it burn.  With your newfound power, it's a goal that is well within reach.");
             CView.text("\n\n(Perk Gained: Corrupted Nine-tails - Grants two magical special attacks.)");
-            character.perks.add(PerkType.CorruptedNinetails, 0, 0, 0, 0);
+            character.perks.add(PerkType.CorruptedNinetails);
             character.stats.lib += 2;
             character.stats.lust += 10;
             character.stats.cor += 10;

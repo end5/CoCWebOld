@@ -17,6 +17,6 @@ export class PurePearl extends Consumable {
         character.stats.lust += -25;
         character.stats.cor += -10;
         if (!character.perks.has(PerkType.PurityBlessing))
-            character.perks.add(PerkType.PurityBlessing, 0, 0, 0, 0);
+            character.perks.add(PerkType.PurityBlessing);
     }
 }

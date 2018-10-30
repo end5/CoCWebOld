@@ -1,6 +1,16 @@
 import { ISerializable } from '../Engine/Utilities/ISerializable';
 
-export class Settings implements ISerializable<Settings> {
+export interface ISettings {
+    customFontSize: number;
+    lowStandards: boolean;
+    hyperHappy: boolean;
+    debug: boolean;
+    easyMode: boolean;
+    showSprites: boolean;
+    sillyMode: boolean;
+}
+
+class Settings implements ISerializable<ISettings> {
     public customFontSize: number = 16;
     public lowStandards: boolean = false;
     public hyperHappy: boolean = false;
@@ -13,7 +23,7 @@ export class Settings implements ISerializable<Settings> {
         return this.sillyMode;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): ISettings {
         return {
             customFontSize: this.customFontSize,
             lowStandards: this.lowStandards,
@@ -25,7 +35,7 @@ export class Settings implements ISerializable<Settings> {
         };
     }
 
-    public deserialize(saveObject: Settings) {
+    public deserialize(saveObject: ISettings) {
         this.customFontSize = saveObject.customFontSize;
         this.lowStandards = saveObject.lowStandards;
         this.hyperHappy = saveObject.hyperHappy;
@@ -35,3 +45,6 @@ export class Settings implements ISerializable<Settings> {
         this.sillyMode = saveObject.sillyMode;
     }
 }
+
+const settings = new Settings();
+export { settings as Settings };

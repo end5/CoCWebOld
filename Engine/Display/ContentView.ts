@@ -1,4 +1,4 @@
-import { SpriteLibrary } from "./Images/SpriteLibrary";
+import { SpriteLib } from "./Images/SpriteLibrary";
 import { ImageElement } from "./Elements/ImageElement";
 import { ParagraphElement } from "./Elements/ParagraphElement";
 import { loadFromId } from "../Utilities/Html";
@@ -13,7 +13,6 @@ class ContentView {
     public readonly imageElement: ImageElement = new ImageElement();
     public readonly textElement: ParagraphElement = new ParagraphElement();
     public readonly spriteElement: ImageElement = new ImageElement();
-    private spriteLib: SpriteLibrary = new SpriteLibrary();
 
     public constructor() {
         this.imageElement.setHTMLElement(loadFromId("mainImageDisplay") as HTMLImageElement);
@@ -39,8 +38,10 @@ class ContentView {
     public sprite(spriteName: SpriteName): ContentView {
         if (spriteName === SpriteName.None)
             this.spriteElement.hide();
+        else if (SpriteLib.get(spriteName) === undefined)
+            console.error('Unknown sprite');
         else {
-            this.spriteElement.load(this.spriteLib.get(spriteName));
+            this.spriteElement.load(SpriteLib.get(spriteName)!);
             this.spriteElement.show();
         }
         return this;

@@ -1,12 +1,12 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 import { LearnedSpellAction } from '../LearnedSpellAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { PlayerFlags } from '../../PlayerFlags';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class CleansingPalm extends LearnedSpellAction {
     public name: string = "C.Palm";
@@ -19,7 +19,7 @@ export class CleansingPalm extends LearnedSpellAction {
     public castSpell(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.effects.has(StatusEffectType.Shell)) {
+        if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -53,6 +53,6 @@ export class CleansingPalm extends LearnedSpellAction {
             damage = 0;
             CView.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.desc.a + monster.desc.short + ", which they ignore. It is probably best you don’t use this technique against the pure.\n\n");
         }
-        monster.combat.stats.loseHP(damage, character);
+        monster.combat.stats.loseHP(damage);
     }
 }

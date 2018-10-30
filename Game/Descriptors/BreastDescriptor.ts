@@ -2,7 +2,6 @@
 import { BreastCup, BreastRow } from '../Body/BreastRow';
 import { Chest } from '../Body/Chest';
 import { Character } from '../Character/Character';
-import { Player } from '../Character/Player/Player';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { PiercingType } from '../Items/Misc/Piercing';
 

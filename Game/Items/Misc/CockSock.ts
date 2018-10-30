@@ -26,12 +26,12 @@ export class CockSock extends EquipableItem {
     public onEquip(character: Character) {
         if (this.name === CockSockName.Viridian) {
             if (!character.perks.has(PerkType.LustyRegeneration)) {
-                character.perks.add(PerkType.LustyRegeneration, 0, 0, 0, 0);
+                character.perks.add(PerkType.LustyRegeneration);
             }
         }
         else if (this.name === CockSockName.Cockring) {
             if (!character.perks.has(PerkType.PentUp)) {
-                character.perks.add(PerkType.PentUp, 0, 0, 0, 0);
+                character.perks.add(PerkType.PentUp);
             }
             else {
                 const numRings = character.inventory.equipment.cockSocks.reduce((prev: number, cur: EquipSlot<CockSock>) => {
@@ -39,7 +39,7 @@ export class CockSock extends EquipableItem {
                         prev++;
                     return prev;
                 }, -1);
-                character.perks.get(PerkType.PentUp)!.value1 = 5 + (numRings * 5);
+                character.perks.get(PerkType.PentUp)!.values.lust.min.flat = 5 + (numRings * 5);
             }
         }
     }
@@ -61,7 +61,7 @@ export class CockSock extends EquipableItem {
                     character.perks.remove(PerkType.PentUp);
                 }
                 else
-                    character.perks.get(PerkType.PentUp)!.value1 = 5 + (numRings * 5);
+                    character.perks.get(PerkType.PentUp)!.values.lust.min.flat = 5 + (numRings * 5);
             }
         }
     }

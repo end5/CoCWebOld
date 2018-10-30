@@ -7,6 +7,7 @@ import { CharacterType } from '../../../CharacterType';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class DragonBreath extends PlayerSpellAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
@@ -17,7 +18,7 @@ export class DragonBreath extends PlayerSpellAction {
         return character.perks.has(PerkType.Dragonfire);
     }
 
-    public canUse(character: Character): boolean {
+    public canUse(character: Character, monster: Character): boolean {
         if (!character.perks.has(PerkType.BloodMage) && character.stats.fatigue + this.spellCost(character) > 100) {
             this.reasonCannotUse = "You are too tired to breathe fire.";
             return false;
@@ -33,19 +34,19 @@ export class DragonBreath extends PlayerSpellAction {
     public use(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
         character.stats.fatigueMagic(this.baseCost);
-        character.effects.add(StatusEffectType.DragonBreathCooldown, 0, 0, 0, 0);
+        character.effects.add(StatusEffectType.DragonBreathCooldown);
         let damage: number = Math.floor(character.stats.level * 8 + 25 + randInt(10));
         if (character.effects.has(StatusEffectType.DragonBreathBoost)) {
             character.effects.remove(StatusEffectType.DragonBreathBoost);
             damage *= 1.5;
         }
         // Shell
-        if (monster.effects.has(StatusEffectType.Shell)) {
+        if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -54,12 +55,12 @@ export class DragonBreath extends PlayerSpellAction {
             return;
         }
         CView.text("Tapping into the power deep within you, you let loose a bellowing roar at your enemy, so forceful that even the environs crumble around " + monster.desc.objectivePronoun + ".  " + monster.desc.capitalA + monster.desc.short + " does " + monster.desc.possessivePronoun + " best to avoid it, but the wave of force is too fast.");
-        if (monster.effects.has(StatusEffectType.Sandstorm)) {
+        if (monster.combat.effects.has(CombatEffectType.Sandstorm)) {
             CView.text("  <b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>");
             damage = Math.round(0.2 * damage);
         }
         // Miss:
-        if ((character.effects.has(StatusEffectType.Blind) && randInt(2) === 0) || (monster.stats.spe - character.stats.spe > 0 && Math.floor(Math.random() * (((monster.stats.spe - character.stats.spe) / 4) + 80)) > 80)) {
+        if ((character.combat.effects.has(CombatEffectType.Blind) && randInt(2) === 0) || (monster.stats.spe - character.stats.spe > 0 && Math.floor(Math.random() * (((monster.stats.spe - character.stats.spe) / 4) + 80)) > 80)) {
             CView.text("  Despite the heavy impact caused by your roar, " + monster.desc.a + monster.desc.short + " manages to take it at an angle and remain on " + monster.desc.possessivePronoun + " feet and focuses on you, ready to keep fighting.");
         }
         // Special enemy avoidances
@@ -72,7 +73,7 @@ export class DragonBreath extends PlayerSpellAction {
                 CView.text("You use your flexibility to barely fold your body out of the way!");
             }
             else {
-                damage = character.combat.stats.loseHP(damage, monster);
+                damage = character.combat.stats.loseHP(damage);
                 CView.text("Your own fire smacks into your face! (" + damage + ")");
             }
             CView.text("\n\n");
@@ -81,16 +82,16 @@ export class DragonBreath extends PlayerSpellAction {
         else if (monster.desc.short === "goo-girl") {
             CView.text(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.body.skin.tone + " skin has lost some of its shimmer. ");
             if (!monster.perks.has(PerkType.Acid))
-                monster.perks.add(PerkType.Acid, 0, 0, 0, 0);
+                monster.perks.add(PerkType.Acid);
             damage = Math.round(damage * 1.5);
-            damage = monster.combat.stats.loseHP(damage, character);
-            monster.effects.add(StatusEffectType.Stunned, 0, 0, 0, 0);
+            damage = monster.combat.stats.loseHP(damage);
+            monster.combat.effects.add(CombatEffectType.Stunned, character);
             CView.text("(" + damage + ")\n\n");
         }
         else {
             if (!monster.perks.has(PerkType.Resolute)) {
                 CView.text("  " + monster.desc.capitalA + monster.desc.short + " reels as your wave of force slams into " + monster.desc.objectivePronoun + " like a ton of rock!  The impact sends " + monster.desc.objectivePronoun + " crashing to the ground, too dazed to strike back.");
-                monster.effects.add(StatusEffectType.Stunned, 1, 0, 0, 0);
+                monster.combat.effects.add(CombatEffectType.Stunned, character, { duration: 1 });
             }
             else {
                 CView.text("  " + monster.desc.capitalA + monster.desc.short + " reels as your wave of force slams into " + monster.desc.objectivePronoun + " like a ton of rock!  The impact sends " + monster.desc.objectivePronoun + " staggering back, but <b>" + monster.desc.subjectivePronoun + " ");
@@ -98,7 +99,7 @@ export class DragonBreath extends PlayerSpellAction {
                 else CView.text("are");
                 CView.text("too resolute to be stunned by your attack.</b>");
             }
-            damage = monster.combat.stats.loseHP(damage, character);
+            damage = monster.combat.stats.loseHP(damage);
             CView.text(" (" + damage + ")");
         }
         CView.text("\n\n");

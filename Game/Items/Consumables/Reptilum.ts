@@ -23,17 +23,17 @@ import { Gender } from '../../Body/GenderIdentity';
 import { describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
-import { User } from '../../User';
 import { CView } from '../../../Engine/Display/ContentView';
 import { lizardRaceScore } from '../../Body/RaceScore';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
-import { FlagType } from '../../Utilities/FlagType';
+import { FlagType } from '../../FlagType';
+import { Flags } from '../../Flags';
 
 export const ReptilumFlags = {
     HAIR_GROWTH_STOPPED_BECAUSE_LIZARD: 0,
 };
 
-User.flags.set(FlagType.Reptilum, ReptilumFlags);
+Flags.set(FlagType.Reptilum, ReptilumFlags);
 
 export class Reptilum extends Consumable {
     public constructor() {
@@ -45,7 +45,6 @@ export class Reptilum extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         // init variables
         let changes: number = 0;
         let changeLimit: number = 1;
@@ -246,7 +245,7 @@ export class Reptilum extends Consumable {
         if (character.body.vaginas.length > 0 && !character.perks.has(PerkType.Oviposition) && changes < changeLimit && randInt(5) === 0 && lizardRaceScore(character) > 3) {
             CView.text("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n");
             CView.text("(<b>Perk Gained: Oviposition</b>)");
-            character.perks.add(PerkType.Oviposition, 0, 0, 0, 0);
+            character.perks.add(PerkType.Oviposition);
             changes++;
         }
 

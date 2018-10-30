@@ -13,7 +13,7 @@ export abstract class PlayerSpellAction implements ICombatAction, SpellAction {
 
     public abstract isPossible(character: Character): boolean;
 
-    public canUse(character: Character, monster?: Character): boolean {
+    public canUse(character: Character, monster: Character): boolean {
         if (character.perks.has(PerkType.BloodMage) || character.stats.fatigue + this.spellCost(character) <= 100) {
             this.reasonCannotUse = "You are too tired to cast this spell.";
             return false;
@@ -29,10 +29,6 @@ export abstract class PlayerSpellAction implements ICombatAction, SpellAction {
         // Addiditive mods
         let mod: number = this.baseCost;
         let costPercent: number = 100;
-        if (character.perks.has(PerkType.SpellcastingAffinity))
-            costPercent -= character.perks.get(PerkType.SpellcastingAffinity).value1;
-        if (character.perks.has(PerkType.WizardsEndurance))
-            costPercent -= character.perks.get(PerkType.WizardsEndurance).value1;
 
         // Limiting it and multiplicative mods
         if (character.perks.has(PerkType.BloodMage) && costPercent < 50) costPercent = 50;

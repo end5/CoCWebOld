@@ -2,9 +2,9 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { CView } from '../../../Engine/Display/ContentView';
+import { Settings } from '../../Settings';
 
 export class GodsMead extends Consumable {
     public constructor() {
@@ -24,7 +24,7 @@ export class GodsMead extends Consumable {
         character.stats.HP += Math.round(character.stats.maxHP() * .33);
         if (randInt(3) === 0) {
             CView.text("\n\nThe alcohol fills your limbs with vigor, making you feel like you could take on the world with just your fists!");
-            if (User.settings.silly()) CView.text("  Maybe you should run around shirtless, drink, and fight!  Saxton Hale would be proud.");
+            if (Settings.silly()) CView.text("  Maybe you should run around shirtless, drink, and fight!  Saxton Hale would be proud.");
             character.stats.str += 1;
         }
         // Tough:

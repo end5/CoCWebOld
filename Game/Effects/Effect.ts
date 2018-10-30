@@ -1,15 +1,18 @@
-import { EffectDescription } from './EffectDescription';
+import { EffectDesc } from './EffectDescription';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import { ValueContainer } from '../Utilities/ValueContainer';
+import { EffectValues, IEffectValues } from './EffectValues';
 
-export class Effect<Type extends string, Desc extends EffectDescription> extends ValueContainer implements ISerializable<Effect<Type, Desc>> {
+export abstract class Effect<Type extends string, Desc extends EffectDesc = EffectDesc> implements ISerializable<Effect<Type, Desc>> {
     // desc does not need to be serialized
     private effectType: Type;
-    public readonly desc?: Desc;
-    public constructor(type: Type, desc?: Desc, value1?: number, value2?: number, value3?: number, value4?: number) {
-        super(value1, value2, value3, value4);
+    public readonly desc: EffectDesc;
+    public values: EffectValues;
+    protected reducedValues?: IEffectValues;
+    public constructor(type: Type, desc: Desc, values?: IEffectValues) {
         this.effectType = type;
         this.desc = desc;
+        this.values = new EffectValues(values);
+        this.reducedValues = values;
     }
 
     public get type(): Type {
@@ -17,16 +20,15 @@ export class Effect<Type extends string, Desc extends EffectDescription> extends
     }
 
     public serialize(): object {
-        return Object.assign(
-            {
-                type: this.effectType,
-            },
-            super.serialize()
-        );
+        return {
+            type: this.effectType,
+            reducedValues: this.reducedValues,
+        };
     }
 
     public deserialize(saveObject: Effect<Type, Desc>) {
         this.effectType = saveObject.type;
-        super.deserialize(saveObject);
+        this.values = new EffectValues(saveObject.reducedValues);
+        this.reducedValues = saveObject.reducedValues;
     }
 }

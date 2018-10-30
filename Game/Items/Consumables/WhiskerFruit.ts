@@ -11,7 +11,6 @@ import { Tail, TailType } from '../../Body/Tail';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { numToOrdinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
@@ -22,6 +21,7 @@ import { describeFeet } from '../../Descriptors/LegDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 import { displayModThickness, displayModTone, displayModFem } from '../../Modifiers/BodyModifier';
+import { Settings } from '../../Settings';
 
 export class WhiskerFruit extends Consumable {
     public constructor() {
@@ -142,7 +142,7 @@ export class WhiskerFruit extends Consumable {
         }
 
         // Shrink the boobalies down to A for men or C for girls.
-        if (character.body.chest.length > 0 && changes < changeLimit && randInt(4) === 0 && !User.settings.hyperHappy) {
+        if (character.body.chest.length > 0 && changes < changeLimit && randInt(4) === 0 && !Settings.hyperHappy) {
             let breastShrinkageThreshold: number = 0;
             let shrinkingHappened: boolean = false;
             // Determine if shrinkage is required
@@ -194,7 +194,7 @@ export class WhiskerFruit extends Consumable {
             changes++;
         }
         // Cat penorz shrink
-        if (character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0 && randInt(3) === 0 && changes < changeLimit && !User.settings.hyperHappy) {
+        if (character.body.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0 && randInt(3) === 0 && changes < changeLimit && !Settings.hyperHappy) {
             // loop through and find a cat wang.
             let changedCock: number = 0;
             for (const cock of character.body.cocks) {

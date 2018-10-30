@@ -1,12 +1,12 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Hellfire extends PlayerSpellAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
@@ -22,7 +22,7 @@ export class Hellfire extends PlayerSpellAction {
         CView.clear();
         character.stats.fatigueMagic(this.baseCost);
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -31,15 +31,15 @@ export class Hellfire extends PlayerSpellAction {
             return;
         }
         let damage: number = (character.stats.level * 8 + randInt(10) + character.stats.cor / 5);
-        if (!character.effects.has(StatusEffectType.GooArmorSilence)) CView.text("You take in a deep breath and unleash a wave of corrupt red flames from deep within.");
+        if (!character.combat.effects.has(CombatEffectType.GooArmorSilence)) CView.text("You take in a deep breath and unleash a wave of corrupt red flames from deep within.");
 
-        if (character.effects.has(StatusEffectType.WebSilence)) {
+        if (character.combat.effects.has(CombatEffectType.WebSilence)) {
             CView.text("  <b>The fire burns through the webs blocking your mouth!</b>");
-            character.effects.remove(StatusEffectType.WebSilence);
+            character.combat.effects.remove(CombatEffectType.WebSilence);
         }
-        if (character.effects.has(StatusEffectType.GooArmorSilence)) {
+        if (character.combat.effects.has(CombatEffectType.GooArmorSilence)) {
             CView.text("  <b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b>");
-            character.effects.remove(StatusEffectType.GooArmorSilence);
+            character.combat.effects.remove(CombatEffectType.GooArmorSilence);
             damage += 25;
         }
         if (monster.desc.short === "Isabella") {
@@ -68,7 +68,7 @@ export class Hellfire extends PlayerSpellAction {
             if (monster.stats.int < 10) {
                 CView.text("  Your foe lets out a shriek as their form is engulfed in the blistering flames.");
                 damage = Math.floor(damage);
-                damage = monster.combat.stats.loseHP(damage, character);
+                damage = monster.combat.stats.loseHP(damage);
                 CView.text("(" + damage + ")\n");
             }
             else {
@@ -82,7 +82,5 @@ export class Hellfire extends PlayerSpellAction {
             }
         }
         CView.text("\n");
-        // if (monster.desc.short === "Holli" && !monster.statusAffects.has(StatusAffectType.HolliBurning))
-        //     monster.lightHolliOnFireMagically() as Holli;
     }
 }

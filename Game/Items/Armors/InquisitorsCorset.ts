@@ -39,8 +39,8 @@ export class InquisitorsCorset extends Armor {
             character.perks.remove(PerkType.BloodMage);
         while (character.perks.has(PerkType.SluttySeduction))
             character.perks.remove(PerkType.SluttySeduction);
-        character.perks.add(PerkType.BloodMage, 0, 0, 0, 0);
-        character.perks.add(PerkType.SluttySeduction, 10, 0, 0, 0);
+        character.perks.add(PerkType.BloodMage);
+        character.perks.add(PerkType.SluttySeduction, { teaseChance: 10 });
         super.onEquip(character);
     }
 

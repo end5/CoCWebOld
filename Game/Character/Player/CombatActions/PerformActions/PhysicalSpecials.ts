@@ -9,7 +9,6 @@ import { FireBow } from '../PhysicalAttacks/FireBow';
 import { Constrict } from '../PhysicalAttacks/Constrict';
 import { Kick } from '../PhysicalAttacks/Kick';
 import { Gore } from '../PhysicalAttacks/Gore';
-import { Infest } from '../PhysicalAttacks/Infest';
 import { Kiss } from '../PhysicalAttacks/Kiss';
 import { Sting } from '../PhysicalAttacks/Sting';
 import { Web } from '../PhysicalAttacks/Web';
@@ -30,7 +29,6 @@ export class PhysicalSpecials implements ICombatAction {
         new Constrict(),
         new Kick(),
         new Gore(),
-        new Infest(),
         new Kiss(),
         new Sting(),
         new Web(),
@@ -41,12 +39,12 @@ export class PhysicalSpecials implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
+    public canUse(character: Character, target: Character): boolean {
         return !!this.actions.find((action) => action.canUse(character, target));
     }
 
     public use(character: Character, target: Character): void | NextScreenChoices {
-        return randomChoice(this.actions).use(character, target);
+        return randomChoice(...this.actions).use(character, target);
         // return showActions(character, PhysicalActionLib.getPossibleActions(character));
     }
 }

@@ -1,4 +1,4 @@
-export class EffectDescription {
+export class EffectDesc {
     public readonly key: string;
     public readonly name: string;
     private readonly desc: string;

@@ -3,7 +3,7 @@ import { CombatEffect } from '../CombatEffect';
 
 export class Might extends CombatEffect {
     public onRemove(character: Character) {
-        character.stats.str += -this.value1;
-        character.stats.tou += -this.value2;
+        character.stats.str += -this.values.str.value.flat;
+        character.stats.tou += -this.values.tou.value.flat;
     }
 }

@@ -1,9 +1,10 @@
-import { Perk, PerkDesc } from '../Perk';
+import { Perk } from '../Perk';
+import { PerkDesc } from '../PerkDesc';
 
 export class PiercedFertite extends PerkDesc {
     public description(perk?: Perk): string {
-        if (perk)
-            return "Increases cum production by " + Math.round(2 * perk.value1) + "% and fertility by " + Math.round(perk.value1) + ".";
+        if (perk && perk.values.other && perk.values.other.value1)
+            return "Increases cum production by " + Math.round(2 * perk.values.other.value1) + "% and fertility by " + Math.round(perk.values.other.value1) + ".";
         return "";
     }
 

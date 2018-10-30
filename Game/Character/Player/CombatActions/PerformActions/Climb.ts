@@ -14,7 +14,7 @@ export class Climb implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
+    public canUse(character: Character, target: Character): boolean {
         return !!target && target.combat.effects.has(CombatEffectType.Level);
     }
 

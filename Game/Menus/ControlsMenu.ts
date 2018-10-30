@@ -5,8 +5,8 @@ import { BindableAction } from '../../Engine/Input/BindableAction';
 import { InputManager } from '../../Engine/Input/InputManager';
 import { KeyCombination } from '../../Engine/Input/KeyCombination';
 import { NextScreenChoices } from '../ScreenDisplay';
-import { settingsMenu } from './SettingsMenu';
 import { CView } from '../../Engine/Display/ContentView';
+import { Menus } from './Menus';
 
 export function controlsMenu(): NextScreenChoices {
     CView.clear();
@@ -51,7 +51,7 @@ export function controlsMenu(): NextScreenChoices {
     listBindableAction(bindListElement, "Button 9", BindableAction.Button8);
     listBindableAction(bindListElement, "Button 10", BindableAction.Button9);
 
-    return { choices: [["Reset Ctrls", resetControls], ["Clear Ctrls", clearControls]], persistantChoices: [["Back", settingsMenu]] };
+    return { choices: [["Reset Ctrls", resetControls], ["Clear Ctrls", clearControls]], persistantChoices: [["Back", Menus.Settings]] };
 }
 
 function listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {

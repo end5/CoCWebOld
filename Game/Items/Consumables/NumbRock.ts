@@ -39,11 +39,11 @@ export class NumbRock extends Consumable {
                 }
                 if (!(character.body.cocks.length > 0 || character.body.vaginas.length > 0)) CView.text(describeButthole(character.body.butt) + " ");
                 CView.text(" numbs up too.  You give yourself a gentle touch, but are quite disturbed when you realize you can barely feel it.  You can probably still fuck something to get off, but regular masturbation is out of the question...");
-                character.effects.add(StatusEffectType.Dysfunction, 50 + randInt(100), 0, 0, 0);
+                character.effects.add(StatusEffectType.Dysfunction, { duration: 50 + randInt(100) });
             }
             else {
                 CView.text("\n\nSadly your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
-                character.effects.get(StatusEffectType.Dysfunction)!.value1 = 50 + randInt(100);
+                character.effects.get(StatusEffectType.Dysfunction)!.values.duration = 50 + randInt(100);
             }
         }
         else if (randInt(4) === 0 && character.stats.int > 15) {
@@ -55,7 +55,7 @@ export class NumbRock extends Consumable {
             if (character.body.skin.type === SkinType.PLAIN) CView.text("your skin");
             else CView.text("the skin under your " + character.body.skin.desc);
             CView.text(" begins to feel duller, almost... thicker.  You pinch yourself and find that your epidermis feels more resistant to damage, almost like natural armor!\n<b>(Thick Skin - Perk Gained!)</b>");
-            character.perks.add(PerkType.ThickSkin, 0, 0, 0, 0);
+            character.perks.add(PerkType.ThickSkin);
         }
         CView.text("\n\nAfter the sensations pass, your " + character.body.skin.desc + " feels a little less receptive to touch.");
         character.stats.sens += -3;

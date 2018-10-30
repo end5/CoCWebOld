@@ -2,12 +2,12 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { LegType } from '../../../../Body/Legs';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { PlayerFlags } from '../../PlayerFlags';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Kick extends PlayerPhysicalAction {
     public name: string = "Kick";
@@ -49,12 +49,12 @@ export class Kick extends PlayerPhysicalAction {
             return;
         }
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         // Blind
-        if (player.effects.has(StatusEffectType.Blind)) {
+        if (player.combat.effects.has(CombatEffectType.Blind)) {
             CView.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
         // Worms are special
@@ -64,7 +64,7 @@ export class Kick extends PlayerPhysicalAction {
                 let wormDamage = Math.floor(player.stats.str / 5 - randInt(5));
                 if (wormDamage <= 0)
                     wormDamage = 1;
-                wormDamage = monster.combat.stats.loseHP(wormDamage, player);
+                wormDamage = monster.combat.stats.loseHP(wormDamage);
                 CView.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + wormDamage + " damage.\n\n");
             }
             // Fail
@@ -76,7 +76,7 @@ export class Kick extends PlayerPhysicalAction {
         }
         let damage: number;
         // Determine if dodged!
-        if ((player.effects.has(StatusEffectType.Blind) && randInt(2) === 0) ||
+        if ((player.combat.effects.has(CombatEffectType.Blind) && randInt(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             // Akbal dodges special education
             if (monster.desc.short === "Akbal") CView.text("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n");
@@ -106,9 +106,9 @@ export class Kick extends PlayerPhysicalAction {
         // Apply AND DONE!
         damage -= reduction;
         // Damage post processing!
-        damage *= player.combat.stats.physicalAttackMod();
+        damage *= player.combat.stats.attack(monster);
         // (None yet!)
-        if (damage > 0) damage = monster.combat.stats.loseHP(damage, player);
+        if (damage > 0) damage = monster.combat.stats.loseHP(damage);
 
         // BLOCKED
         if (damage <= 0) {

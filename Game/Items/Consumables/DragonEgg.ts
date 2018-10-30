@@ -19,7 +19,7 @@ export class DragonEgg extends Consumable {
         if (character.perks.has(PerkType.Dragonfire)) {
             if (character.effects.has(StatusEffectType.DragonBreathCooldown)) character.effects.remove(StatusEffectType.DragonBreathCooldown);
             else if (!character.effects.has(StatusEffectType.DragonBreathBoost))
-                character.effects.add(StatusEffectType.DragonBreathBoost, 0, 0, 0, 0);
+                character.effects.add(StatusEffectType.DragonBreathBoost);
             // (if PC has breath weapon)
             CView.text("\n\nA sudden surge of energy fills your being and you feel like you could blast anything to atoms with a single breath, like the mighty dragons of legends.");
         }

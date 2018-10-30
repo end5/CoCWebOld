@@ -18,7 +18,7 @@ export class Fantasize implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
+    public canUse(character: Character, target: Character): boolean {
         return true;
     }
 
@@ -37,11 +37,11 @@ export class Fantasize implements ICombatAction {
             CView.text("You aren't sure if it's just the fantasy, but your " + describeBalls(true, true, character) + " do feel fuller than before...\n");
             character.hoursSinceCum += 50;
         }
-        else if (character.body.chest.sort(BreastRow.Largest)[0].rating >= 6 && randInt(2) === 0) {
+        else if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 6 && randInt(2) === 0) {
             CView.text("You fantasize about grabbing " + target.desc.a + target.desc.short + " and shoving " + target.desc.objectivePronoun + " in between your jiggling mammaries, nearly suffocating " + target.desc.objectivePronoun + " as you have your way.\n");
             lustChange = 5 + randInt(character.stats.lib / 8 + character.stats.cor / 8);
         }
-        else if (character.body.chest.sort(BreastRow.LactationMost)[0].lactationMultiplier >= 6 && randInt(2) === 0) {
+        else if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 6 && randInt(2) === 0) {
             CView.text("You fantasize about grabbing " + target.desc.a + target.desc.short + " and forcing " + target.desc.objectivePronoun + " against a " + describeNipple(character, character.body.chest.firstRow!) + ", and feeling your milk let down.  The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.\n");
             lustChange = 5 + randInt(character.stats.lib / 8 + character.stats.cor / 8);
         }

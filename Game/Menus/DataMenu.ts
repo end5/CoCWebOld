@@ -3,13 +3,10 @@ import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Character } from '../Character/Character';
 import { generateSave, loadFromSave } from '../SaveFile';
 import { displayNextScreenChoices, NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
-import { saveMenu } from './SaveMenu';
-import { loadMenu } from './LoadMenu';
-import { deleteMenu } from './DeleteMenu';
-import { mainMenu } from './MainMenu';
 import { CView } from '../../Engine/Display/ContentView';
+import { Menus } from './Menus';
 
-function displayInfo() {
+export function dataMenu(): NextScreenChoices {
     CView.clear();
     CView.text("<b>Where are my saves located?</b>\n");
     CView.text("<i>In Windows Vista/7 (IE/FireFox/Other): <pre>Users/{username}/Appdata/Roaming/Macromedia/Flash Character/#Shared Objects/{GIBBERISH}/</pre>\n\n");
@@ -20,46 +17,29 @@ function displayInfo() {
     CView.text("<i>If you want to be absolutely sure you don't lose a character, copy the .sol file for that slot out and back it up! <b>For more information, google flash shared objects.</b></i>\n\n");
     CView.text("<b>Why does the Save File and Load File option not work?</b>\n");
     CView.text("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
-}
-
-export function dataMenu(character: Character): NextScreenChoices {
-    displayInfo();
 
     const choices: ScreenChoice[] = [
-        ["Save", saveMenu],
-        ["Load", loadMenu],
+        ["Save", Menus.Save],
+        ["Load", Menus.Load],
         ["AutoSav: ON", autosaveToggle],
-        ["Delete", deleteMenu],
+        ["Delete", Menus.Delete],
         ["Save File", saveToFile],
         ["Load File", loadFromFile]
     ];
-
-    // if (Game.state === GameState.GameOver || character.stats.str === 0 || inDungeon) {
-    //     func[0] = undefined;
-    //     func[4] = undefined;
-    // }
 
     if (!SaveManager.autoSave) {
         choices[2][0] = "AutoSav: OFF";
     }
 
-    // const backFunc = Player;
-
-    // if (Game.state === GameState.GameOver)
-    //     backFunc = GameOver;
-    // else if (character.stats.str === 0)
-    //     backFunc = Main;
-
-    // return { choices: [text, func], persistantChoices: [["Back"], [backFunc]] };
-    return { choices, persistantChoices: [["Back", mainMenu]] };
+    return { choices, persistantChoices: [["Back", Menus.Main]] };
 }
 
-function autosaveToggle(character: Character): NextScreenChoices {
+function autosaveToggle(): NextScreenChoices {
     SaveManager.autosaveToggle();
-    return dataMenu(character);
+    return dataMenu();
 }
 
-function saveToFile(character: Character): NextScreenChoices {
+function saveToFile(): NextScreenChoices {
     const saveFile = generateSave();
     const anchor = new AnchorElement();
     CView.textElement.appendElement(anchor);
@@ -71,38 +51,36 @@ function saveToFile(character: Character): NextScreenChoices {
         anchor.href = window.URL.createObjectURL(blob);
     anchor.download = saveFile.name;
     anchor.click();
-    return dataMenu(character);
+    return dataMenu();
 }
 
-function loadFromFile(character: Character, event?: Event): NextScreenChoices {
-    if (event) {
-        const target = (event.target as HTMLInputElement);
-        if (!target.files || target.files.length === 0) {
-            alert("Error in file loading");
-        }
-        else {
-            const file = target.files[0];
-            const fileReader = new FileReader();
-            fileReader.readAsText(file);
-            fileReader.addEventListener("loadend", () => {
-                let obj;
-                try {
-                    obj = JSON.parse(fileReader.result as string);
-                }
-                catch (e) {
-                    console.error(e);
-                    alert("Error parsing file");
-                }
-                if (obj) {
-                    loadFromSave(obj);
-                    displayNextScreenChoices({ next: dataMenu });
-                }
-            });
-            fileReader.addEventListener("error", (evnt) => {
-                console.log(evnt);
-                alert("Error reading file");
-            });
-        }
+function loadFromFile(character: Character, event: Event): NextScreenChoices {
+    const target = (event.target as HTMLInputElement);
+    if (!target.files || target.files.length === 0) {
+        alert("Error in file loading");
     }
-    return dataMenu(character);
+    else {
+        const file = target.files[0];
+        const fileReader = new FileReader();
+        fileReader.readAsText(file);
+        fileReader.addEventListener("loadend", () => {
+            let obj;
+            try {
+                obj = JSON.parse(fileReader.result as string);
+            }
+            catch (e) {
+                console.error(e);
+                alert("Error parsing file");
+            }
+            if (obj) {
+                loadFromSave(obj);
+                displayNextScreenChoices({ next: dataMenu });
+            }
+        });
+        fileReader.addEventListener("error", (evnt) => {
+            console.log(evnt);
+            alert("Error reading file");
+        });
+    }
+    return dataMenu();
 }

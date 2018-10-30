@@ -1,34 +1,22 @@
 import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
 import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
-import { Scenes } from '../../Scenes/Scenes';
-import { clickFuncWrapper, NextScreenChoices } from '../../ScreenDisplay';
-import { mainMenu } from '../MainMenu';
+import { clickFuncWrapper, NextScreenChoices, ClickFunction } from '../../ScreenDisplay';
+import { townSquare } from '../../Scenes/TownSquare';
+import { Menus } from '../Menus';
 
-export function campMenu(character: Character): NextScreenChoices {
+export function playerMenu(character: Character): NextScreenChoices {
     // Safe guard against combat breaking
-    if (CombatManager.inCombat) {
+    if (CombatManager.inCombat && CombatManager.encounter && CombatManager.encounter.performTurnEnd) {
         return CombatManager.encounter.performTurnEnd();
     }
 
-    // if (Game.state !== GameState.InCombat)
-    //     DisplaySprite(SpriteName.None);
-    MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", clickFuncWrapper(mainMenu));
-    // MainScreen.getStatsPanel().nameBox.visible = false;
-    // if (Game.state === GameState.InCombat || Game.state === GameState.InCombatGrapple) {
-    //     Combat.display(character);
-    //     return;
-    // }
-    // Clear restriction on item overlaps if not in combat
-    // plotFight = false;
-    // if (inDungeon) {
-    //     Dungeon.display();
-    //     return;
-    // }
-    // else if (inRoomedDungeon) {
-    //     if (inRoomedDungeonResume != undefined) inRoomedDungeonResume();
-    //     return;
-    // }
-    // Flags.list[FlagEnum.PLAYER_PREGGO_WITH_WORMS] = 0;
-    return Scenes.camp.display(character);
+    MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", clickFuncWrapper(Menus.Main));
+
+    return townSquare();
+}
+
+export function timePass(num: number): ClickFunction {
+
+    return playerMenu;
 }

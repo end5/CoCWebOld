@@ -6,7 +6,6 @@ import { Cock } from '../../Body/Cock';
 import { Vagina, VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { Gender } from '../../Body/GenderIdentity';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
@@ -17,6 +16,7 @@ import { growTopBreastRow } from '../../Modifiers/BreastModifier';
 import { growCock, displayLengthChange, displayKillCocks } from '../../Modifiers/CockModifier';
 import { displayModFem, displayModTone } from '../../Modifiers/BodyModifier';
 import { describeTopRowBreastGrowth } from '../../Descriptors/BreastDescriptor';
+import { Settings } from '../../Settings';
 
 export class SuccubiMilk extends Consumable {
     public readonly tainted: boolean;
@@ -30,7 +30,6 @@ export class SuccubiMilk extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         let chance: number = randInt(100);
         if (character.perks.has(PerkType.HistoryAlchemist)) chance += 10;
         if (chance >= 90 && !this.tainted) chance -= 10;
@@ -101,7 +100,7 @@ export class SuccubiMilk extends Consumable {
                 CView.text(describeTopRowBreastGrowth(character, breastGrowth));
             }
 
-            if (!User.settings.hyperHappy) {
+            if (!Settings.hyperHappy) {
                 // Shrink cocks if you have them.
                 if (character.body.cocks.length > 0) {
                     const longestCock: Cock = character.body.cocks.sort(Cock.Longest).get(0)!;
@@ -136,7 +135,7 @@ export class SuccubiMilk extends Consumable {
         // Increase pussy wetness or grow one!!
         else if (chance > 75 && chance < 90) {
             // Shrink cawk
-            if (character.body.cocks.length > 0 && !User.settings.hyperHappy) {
+            if (character.body.cocks.length > 0 && !Settings.hyperHappy) {
                 CView.text("\n\n");
                 const longestCock = character.body.cocks.sort(Cock.Longest).get(0)!;
                 // Shrink said cock

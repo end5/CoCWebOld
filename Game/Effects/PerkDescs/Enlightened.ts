@@ -1,5 +1,6 @@
 import { Character } from '../../Character/Character';
-import { Perk, PerkDesc } from '../Perk';
+import { Perk } from '../Perk';
+import { PerkDesc } from '../PerkDesc';
 
 export class Enlightened extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {

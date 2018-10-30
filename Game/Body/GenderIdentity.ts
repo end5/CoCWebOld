@@ -1,4 +1,4 @@
-import { Creature } from './Creature';
+import { Character } from "../Character/Character";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -8,17 +8,17 @@ export class GenderIdentity {
     private sex: Gender = Gender.NONE;
     private forced: boolean = false;
     private preferredGender: Gender = Gender.NONE;
-    private creature: Creature;
-    public constructor(creature: Creature) {
-        this.creature = creature;
+    private char: Character;
+    public constructor(char: Character) {
+        this.char = char;
     }
 
     private update() {
-        if (this.creature.body.cocks.length > 0 && this.creature.body.vaginas.length > 0)
+        if (this.char.body.cocks.length > 0 && this.char.body.vaginas.length > 0)
             this.sex = Gender.HERM;
-        else if (this.creature.body.cocks.length > 0)
+        else if (this.char.body.cocks.length > 0)
             this.sex = Gender.MALE;
-        else if (this.creature.body.vaginas.length > 0)
+        else if (this.char.body.vaginas.length > 0)
             this.sex = Gender.FEMALE;
         else
             this.sex = Gender.NONE;

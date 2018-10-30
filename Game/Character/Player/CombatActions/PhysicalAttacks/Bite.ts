@@ -1,11 +1,11 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Bite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -33,15 +33,15 @@ export class Bite extends PlayerPhysicalAction {
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
         CView.clear();
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         CView.text("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
-        if (player.effects.has(StatusEffectType.Blind))
+        if (player.combat.effects.has(CombatEffectType.Blind))
             CView.text("In hindsight, trying to bite someone while blind was probably a bad idea... ");
         // Determine if dodged!
-        if ((player.effects.has(StatusEffectType.Blind) && randInt(3) !== 0) ||
+        if ((player.combat.effects.has(CombatEffectType.Blind) && randInt(3) !== 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Math.floor(randInt(((monster.stats.spe - player.stats.spe) / 4) + 80)) > 80)) {
             if (monster.stats.spe - player.stats.spe < 8)
                 CView.text(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!");
@@ -57,8 +57,8 @@ export class Bite extends PlayerPhysicalAction {
 
         // Deal damage and update based on perks
         if (damage > 0) {
-            damage *= monster.combat.stats.physicalAttackMod();
-            damage = monster.combat.stats.loseHP(damage, player);
+            damage *= monster.combat.stats.attack(player);
+            damage = monster.combat.stats.loseHP(damage);
         }
 
         if (damage <= 0) {

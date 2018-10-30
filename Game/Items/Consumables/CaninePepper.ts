@@ -20,12 +20,12 @@ import { describeBreastRow, breastCup } from '../../Descriptors/BreastDescriptor
 import { Gender } from '../../Body/GenderIdentity';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeLegs, describeFeet } from '../../Descriptors/LegDescriptor';
-import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { thickenCock, growCock } from '../../Modifiers/CockModifier';
 import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
 import { dogRaceScore } from '../../Body/RaceScore';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
+import { InGameMenus } from '../../Menus/InGame/InGameMenus';
 
 export enum CaninePepperType {
     Normal,
@@ -123,7 +123,7 @@ export class CaninePepper extends Consumable {
                     CView.text("All you know is that there is a scent on the wind, and it is time to hunt.");
             }
             else CView.text("\n\nYou devour the sweet pepper, carefully licking your fingers for all the succulent juices of the fruit, and are about to go on your way when suddenly a tightness begins to build in your chest and stomach, horrid cramps working their way first through your chest, then slowly flowing out to your extremities, the feeling soon joined by horrible, blood-curdling cracks as your bones begin to reform, twisting and shifting, your mind exploding with pain. You fall to the ground, reaching one hand forward. No... A paw, you realize in horror, as you try to push yourself back up. You watch in horror, looking down your foreleg as thicker fur erupts from your skin, a " + character.body.hair.color + " coat slowly creeping from your bare flesh to cover your body. Suddenly, you feel yourself slipping away, as if into a dream, your mind warping and twisting, your body finally settling into its new form. With one last crack of bone you let out a yelp, kicking free of the cloth that binds you, wresting yourself from its grasp and fleeing into the now setting sun, eager to find prey to dine on tonight.");
-            return { next: gameOverMenu };
+            return { next: InGameMenus.GameOver };
         }
         return;
     }
@@ -285,7 +285,7 @@ export class CaninePepper extends Consumable {
         }
         // WARNING, overdose is close!
         if (this.pepperType <= 0 && character.body.skin.type === SkinType.FUR && character.body.face.type === FaceType.DOG && character.body.tails.reduce(Tail.HasType(TailType.DOG), false) && character.body.ears.type === EarType.DOG && character.body.legs.type === LegType.DOG && !character.effects.has(StatusEffectType.DogWarning)) {
-            character.effects.add(StatusEffectType.DogWarning, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.DogWarning);
             CView.text("<b>\n\nEating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
         }
         if (this.pepperType === 3) {

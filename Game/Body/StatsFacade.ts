@@ -1,15 +1,23 @@
-﻿import { Creature } from './Creature';
-import { Stats } from './Stats';
-import { User } from '../User';
+﻿import { Stats } from './Stats';
 import { Gender } from './GenderIdentity';
+import { Character } from '../Character/Character';
+import { Settings } from '../Settings';
+
+export enum StatType {
+    str, tou, spe, int, lib, sens, cor, fatigue, hp, lust
+}
 
 export class StatsFacade {
-    private body: Creature;
+    private char: Character;
     private stats: Stats;
 
-    public constructor(body: Creature, baseStats: Stats) {
-        this.body = body;
+    public constructor(char: Character, baseStats: Stats) {
+        this.char = char;
         this.stats = baseStats;
+    }
+
+    public get base(): Stats {
+        return this.stats;
     }
 
     public get str(): number {
@@ -77,9 +85,9 @@ export class StatsFacade {
     private libChange(value: number, _bimboIntReduction: boolean = false) {
         this.stats.lib.value += value;
 
-        if (this.stats.lib.value < 15 && this.body.gender > 0)
+        if (this.stats.lib.value < 15 && this.char.gender > 0)
             this.stats.lib.value = 15;
-        else if (this.stats.lib.value < 10 && this.body.gender === Gender.NONE)
+        else if (this.stats.lib.value < 10 && this.char.gender === Gender.NONE)
             this.stats.lib.value = 10;
         if (this.stats.lib.value < this.minLust() * 2 / 3)
             this.stats.lib.value = this.minLust() * 2 / 3;
@@ -144,8 +152,8 @@ export class StatsFacade {
     public maxHP(): number {
         let max: number = 0;
         max += Math.floor(this.stats.tou.value * 2 + 50);
-        if (this.body.stats.level <= 20)
-            max += this.body.stats.level * 15;
+        if (this.char.stats.level <= 20)
+            max += this.char.stats.level * 15;
         else
             max += 20 * 15;
         max = Math.round(max);
@@ -178,7 +186,7 @@ export class StatsFacade {
     }
 
     private lustChange(value: number, lustResisted: boolean = true) {
-        if (User.settings.easyMode && value > 0 && lustResisted)
+        if (Settings.easyMode && value > 0 && lustResisted)
             value /= 2;
         if (value > 0 && lustResisted)
             value *= this.lustPercent() / 100;

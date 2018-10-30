@@ -20,7 +20,7 @@ export class MoveAway implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
+    public canUse(character: Character, target: Character): boolean {
         if (target) {
             if (this.climb.canUse(character, target)) {
                 this.name = this.climb.name;

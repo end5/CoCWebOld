@@ -1,10 +1,10 @@
-import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { Inventory } from '../../Inventory/Inventory';
 import { ItemStack } from '../../Inventory/ItemStack';
 import { Item } from '../../Items/Item';
 import { ClickOption, NextScreenChoices, ScreenChoice, ClickFunction } from '../../ScreenDisplay';
-import { User } from '../../User';
+import { CView } from '../../../Engine/Display/ContentView';
+import { InGameMenus } from './InGameMenus';
 
 /* better inventory system
     other inv = undefined
@@ -32,15 +32,14 @@ import { User } from '../../User';
     if (page == 2)
         6 = prev page
 */
-type ItemCallback<T extends Item> = (itemStack: ItemStack<T>, pickedUpItem?: ItemStack<T>) => void;
 type ReverseAction = () => void;
 
 interface AddItemsRequest<T extends Item> {
     character: Character;
     itemList: ItemStack<T>[];
     menuToDisplayUponFinish: ClickFunction;
-    otherInventory: Inventory<T>;
-    reverseActionFunc: ReverseAction;
+    otherInventory?: Inventory<T>;
+    reverseActionFunc?: ReverseAction;
 }
 
 /**
@@ -49,17 +48,20 @@ interface AddItemsRequest<T extends Item> {
  * @param persistantChoices A list of ScreenChoices that will trigger when the buttons are clicked. If a string or the ClickFunction is undefined or undefined, the button is disabled.
  */
 export function displayCharInventory(character: Character, persistantChoices: ScreenChoice[]): NextScreenChoices {
-    const choices = [];
+    const choices: ScreenChoice[] = [];
     const inventory = character.inventory.items;
     for (let index = 0; index < inventory.slotCount; index++) {
-        const itemSlot = inventory.get(index);
-        if (itemSlot.quantity > 0) {
+        const itemSlot = inventory.get(index)!;
+        if (itemSlot.item) {
             choices.push([
                 itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
                 () => {
-                    itemSlot.quantity--;
-                    itemSlot.item.use(character);
-                    itemSlot.item.useText(character);
+                    if (itemSlot.item) {
+                        itemSlot.quantity--;
+                        itemSlot.item.use(character);
+                        itemSlot.item.useText(character);
+                    }
+                    return { next: InGameMenus.Player };
                 }
             ]);
         }
@@ -74,12 +76,12 @@ export function displayCharInventory(character: Character, persistantChoices: Sc
  * @param prevMenu The menu to return to by pressing Back.
  */
 export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickOption): NextScreenChoices {
-    const choices = [];
+    const choices: ScreenChoice[] = [];
     const invTakingFrom = inventory;
     const invAddingTo = character.inventory.items;
     for (let index = 0; index < invTakingFrom.slotCount; index++) {
-        const itemSlot = invTakingFrom.get(index);
-        if (itemSlot.quantity > 0) {
+        const itemSlot = invTakingFrom.get(index)!;
+        if (itemSlot.item) {
             choices.push([
                 itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
                 () => {
@@ -88,8 +90,9 @@ export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, ch
                     if (itemsCannotAdd.length > 0) {
                         const request = createAddItemsRequest(character, itemsCannotAdd, () => displayInventoryTake(invTakingFrom, character, prevMenu), invTakingFrom);
                         request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
-                        invFull(request);
+                        return invFull(request);
                     }
+                    return { next: InGameMenus.Player };
                 }
             ]);
         }
@@ -98,13 +101,12 @@ export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, ch
 }
 
 function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickOption): NextScreenChoices {
-    const choices = [];
-    const buttonFunc = [];
+    const choices: ScreenChoice[] = [];
     const invTakingFrom = character.inventory.items;
     const invAddingTo = inventory;
     for (let index = 0; index < invTakingFrom.slotCount; index++) {
-        const itemSlot = invTakingFrom.get(index);
-        if (itemSlot.quantity > 0) {
+        const itemSlot = invTakingFrom.get(index)!;
+        if (itemSlot.item) {
             choices.push([
                 itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
                 () => {
@@ -117,6 +119,7 @@ function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Charac
                         request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
                         invFull(request);
                     }
+                    return { next: InGameMenus.Player };
                 }
             ]);
         }
@@ -143,8 +146,8 @@ function createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpIte
  */
 export function displayCharInventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction): NextScreenChoices {
     if (itemsToAdd.length > 0) {
-        const request = createAddItemsRequest(character, itemsToAdd, nextMenu);
-        invFull(request);
+        const request = createAddItemsRequest(character, itemsToAdd, nextMenu, character.inventory.items);
+        return invFull(request);
     }
     else {
         return { next: nextMenu };
@@ -152,20 +155,20 @@ export function displayCharInventoryFull<T extends Item>(character: Character, i
 }
 
 function invFull<T extends Item>(request: AddItemsRequest<T>): NextScreenChoices {
-    const choices = [];
+    const choices: ScreenChoice[] = [];
     const inventory = request.character.inventory.items;
     const itemToAdd = request.itemList[0];
     for (let index = 0; index < inventory.slotCount; index++) {
-        const itemSlot = inventory.get(index);
-        if (itemSlot.quantity > 0) {
+        const itemSlot = inventory.get(index)!;
+        if (itemSlot.item) {
             choices.push([
                 itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
                 discardFromInventory(request, itemSlot, itemToAdd)
             ]);
         }
     }
-    if (request.itemList.length > 0) {
-        DisplayText("There is no room for " + itemToAdd.item.desc.longName + " in your inventory.  You may replace the contents of a pouch with " + itemToAdd.item.desc.longName + " or abandon it.");
+    if (itemToAdd && itemToAdd.item) {
+        CView.text("There is no room for " + itemToAdd.item.desc.longName + " in your inventory.  You may replace the contents of a pouch with " + itemToAdd.item.desc.longName + " or abandon it.");
         const persistantChoices: ScreenChoice[] = [["Back", request.menuToDisplayUponFinish]];
         if (request.reverseActionFunc) {
             persistantChoices.push(["Put Back", putBack(request)]);
@@ -175,21 +178,24 @@ function invFull<T extends Item>(request: AddItemsRequest<T>): NextScreenChoices
         return { choices, persistantChoices };
     }
     else {
-        return request.menuToDisplayUponFinish(User.char);
+        // return request.menuToDisplayUponFinish(User.char);
+        return { next: request.menuToDisplayUponFinish };
     }
 }
 
 function discardFromInventory<T extends Item>(request: AddItemsRequest<T>, slotInInv: ItemStack<T>, itemToAdd: ItemStack<T>): ClickOption {
     return () => {
-        if (slotInInv.item === itemToAdd.item)
-            DisplayText("You discard " + itemToAdd.item.desc.longName + " from the stack to make room for the new one.");
-        else if (slotInInv.quantity === 1)
-            DisplayText("You throw away " + slotInInv.item.desc.longName + " and replace it with " + itemToAdd.item.desc.longName + ".");
-        else
-            DisplayText("You throw away " + slotInInv.item.desc.longName + "(x" + slotInInv.quantity + ") and replace it with " + itemToAdd.item.desc.longName + ".");
-        slotInInv.item = itemToAdd.item;
-        slotInInv.quantity = itemToAdd.quantity;
-        request.itemList.shift();
+        if (itemToAdd.item && slotInInv.item) {
+            if (slotInInv.item === itemToAdd.item)
+                CView.text("You discard " + itemToAdd.item.desc.longName + " from the stack to make room for the new one.");
+            else if (slotInInv.quantity === 1)
+                CView.text("You throw away " + slotInInv.item.desc.longName + " and replace it with " + itemToAdd.item.desc.longName + ".");
+            else
+                CView.text("You throw away " + slotInInv.item.desc.longName + "(x" + slotInInv.quantity + ") and replace it with " + itemToAdd.item.desc.longName + ".");
+            slotInInv.item = itemToAdd.item;
+            slotInInv.quantity = itemToAdd.quantity;
+            request.itemList.shift();
+        }
         return { next: () => invFull(request) };
     };
 }
@@ -206,21 +212,26 @@ function createAddItemsRequest<T extends Item>(character: Character, itemStackLi
 
 function putBack<T extends Item>(request: AddItemsRequest<T>): ClickOption {
     return () => {
-        request.reverseActionFunc();
-        request.reverseActionFunc = undefined;
-        return displayInventoryTake(request.otherInventory, request.character, request.menuToDisplayUponFinish);
+        if (request.reverseActionFunc) {
+            request.reverseActionFunc();
+            request.reverseActionFunc = undefined;
+        }
+        if (request.otherInventory)
+            return displayInventoryTake(request.otherInventory, request.character, request.menuToDisplayUponFinish);
+        return { next: InGameMenus.Player };
     };
 }
 
 function useNow<T extends Item>(request: AddItemsRequest<T>): ClickOption {
     return () => {
         const itemToAdd = request.itemList[0];
-        if (itemToAdd.item.canUse(request.character)) {
+        if (itemToAdd && itemToAdd.item && itemToAdd.item.canUse(request.character)) {
             itemToAdd.item.use(request.character);
             itemToAdd.item.useText(request.character);
             request.reverseActionFunc = undefined;
             return destroyItem(request);
         }
+        return { next: InGameMenus.Player };
     };
 }
 
@@ -236,7 +247,7 @@ function destroyItem<T extends Item>(request: AddItemsRequest<T>): NextScreenCho
     if (itemToDestroy.quantity <= 0)
         request.itemList.shift();
     if (request.itemList.length > 0)
-        invFull(request);
+        return invFull(request);
     else
         return { next: request.menuToDisplayUponFinish };
 }

@@ -6,6 +6,7 @@ import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Gore extends PlayerPhysicalAction {
     public name: string = "Gore";
@@ -28,7 +29,7 @@ export class Gore extends PlayerPhysicalAction {
         }
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -84,8 +85,8 @@ export class Gore extends PlayerPhysicalAction {
             // CAP 'DAT SHIT
             if (damage > player.stats.level * 10 + 100) damage = player.stats.level * 10 + 100;
             if (damage > 0) {
-                damage *= player.combat.stats.physicalAttackMod();
-                damage = monster.combat.stats.loseHP(damage, player);
+                damage *= player.combat.stats.attack(monster);
+                damage = monster.combat.stats.loseHP(damage);
             }
             // Different horn damage messages
             if (damage < 20) CView.text("You pull yourself free, dealing " + damage + " damage.");

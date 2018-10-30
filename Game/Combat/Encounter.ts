@@ -1,14 +1,14 @@
 import { performActionAI } from './CombatAI';
 import { combatCleanup } from './CombatCleanup';
-import { CombatDrops } from './CombatDrops';
 import { CombatParty } from './CombatParty';
 import { combatRegeneration } from './CombatUtils';
 import { DefeatType } from './DefeatEvent';
 import { Character } from '../Character/Character';
 import { NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
-import { User } from '../User';
-import { campMenu } from '../Menus/InGame/PlayerMenu';
-import { combatMenu } from '../Menus/InGame/PlayerCombatMenu';
+import { awardPlayer } from './CombatDrops';
+import { CharDict } from '../CharList';
+import { InGameMenus } from '../Menus/InGame/InGameMenus';
+import { choiceWrap } from '../Utilities/Partial';
 
 export class Encounter {
     private mainCharacter: Character;
@@ -17,7 +17,7 @@ export class Encounter {
     public allyParty: CombatParty;
     public enemyParty: CombatParty;
     private allyPartyTurn: boolean;
-    public performTurnEnd?: (() => void | NextScreenChoices);
+    public performTurnEnd?: (() => NextScreenChoices);
 
     public constructor(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]) {
         this.mainCharacter = mainCharacter;
@@ -29,7 +29,7 @@ export class Encounter {
         this.allyPartyTurn = true;
     }
 
-    public performRound(): void | NextScreenChoices {
+    public performRound(): NextScreenChoices {
         if (this.performTurnEnd)
             return this.performTurnEnd();
         if (this.allyPartyTurn) {
@@ -40,7 +40,7 @@ export class Encounter {
         }
     }
 
-    private performAllyPartyTurn(): void | NextScreenChoices {
+    private performAllyPartyTurn(): NextScreenChoices {
         const activeMember = this.allyParty.activePartyMember();
         this.performTurnEnd = () => {
             const encounter = this;
@@ -50,17 +50,17 @@ export class Encounter {
             return encounter.endCombatOrNextRound();
         };
         if (!activeMember) {
-            return { next: campMenu };
+            return { next: InGameMenus.Player };
         }
-        else if (activeMember.uuid === User.char.uuid) {
-            return { next: () => combatMenu(this.mainCharacter) };
+        else if (activeMember.uuid === CharDict.player!.uuid) {
+            return { next: choiceWrap(InGameMenus.Combat, this.mainCharacter) };
         }
         else {
             return performActionAI(activeMember);
         }
     }
 
-    private performEnemyPartyTurn(): void | NextScreenChoices {
+    private performEnemyPartyTurn(): NextScreenChoices {
         const activeMember = this.enemyParty.activePartyMember();
         this.performTurnEnd = () => {
             const encounter = this;
@@ -70,24 +70,12 @@ export class Encounter {
             return encounter.endCombatOrNextRound();
         };
         if (!activeMember) {
-            return { next: campMenu };
+            return { next: InGameMenus.Player };
         }
         else return performActionAI(activeMember);
     }
 
-    /*private resolvePlayerRound() {
-        if (monster.statusAffects.has(StatusAffectType.Level)) {
-            if (<SandTrap>monster.trapLevel() <= 1) {
-                this.playerCombatParty.lostFight(CombatEndType.Special, desert.sandTrapScene.sandtrapmentLoss);
-            }
-        }
-        else if (monster.charType == CharacterType.Basilisk && player.stats.spe <= 1) {
-            this.playerCombatParty.lostFight(CombatEndType.Special, basilisk.scene.lost);
-        }
-    }*/
-
-    private combatEffectUpdate(selectedChar: Character, allyParty: Character[], enemyParty: Character[]): void {
-        const allyChar: Character = allyParty[0];
+    private combatEffectUpdate(selectedChar: Character, enemyParty: Character[]): void {
         const enemyChar: Character = enemyParty[0];
 
         if (selectedChar.combat.effects.keys.length > 0)
@@ -100,17 +88,17 @@ export class Encounter {
 
     private resolveEndTurn(character: Character): void {
         if (this.allyPartyTurn) {
-            this.combatEffectUpdate(character, this.allyParty.ableMembers, this.enemyParty.ableMembers);
+            this.combatEffectUpdate(character, this.enemyParty.ableMembers);
             this.allyParty.selectNextPartyMember();
         }
         else {
-            this.combatEffectUpdate(character, this.enemyParty.ableMembers, this.allyParty.ableMembers);
+            this.combatEffectUpdate(character, this.allyParty.ableMembers);
             this.enemyParty.selectNextPartyMember();
         }
         this.allyPartyTurn = !this.allyPartyTurn;
     }
 
-    private endCombatOrNextRound(): void | NextScreenChoices {
+    private endCombatOrNextRound(): NextScreenChoices {
         if (this.allyParty.ableMembers.length === 0 || this.enemyParty.ableMembers.length === 0) {
             combatCleanup(this.mainCharacter, this.allyList, this.enemyList);
             return this.displayDefeatEvent();
@@ -118,7 +106,7 @@ export class Encounter {
         return this.performRound();
     }
 
-    private displayDefeatEvent(): void | NextScreenChoices {
+    private displayDefeatEvent(): NextScreenChoices {
         if (this.allyParty.ableMembers.length === 0) {
             if (this.enemyParty.partyEndScenes) {
                 return this.enemyParty.partyEndScenes.victory(this.allyParty, this.enemyParty);
@@ -127,7 +115,7 @@ export class Encounter {
                 if (this.allyParty.allMembers.length > 1) {
                     // Whoever defeated the player, that is the scene that is displayed
                     for (const defeatEvent of this.enemyParty.defeatLog) {
-                        if (defeatEvent.loser.uuid === User.char.uuid) {
+                        if (defeatEvent.loser.uuid === CharDict.player!.uuid) {
                             return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                         }
                     }
@@ -166,12 +154,13 @@ export class Encounter {
                     const defeatEvent = this.enemyParty.defeatLog[0];
                     if (defeatEvent.how !== DefeatType.Escape) {
                         this.performTurnEnd = () => {
-                            return CombatDrops.awardPlayer(this.mainCharacter, defeatEvent.loser);
+                            return awardPlayer(this.mainCharacter, defeatEvent.loser);
                         };
                     }
                     return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                 }
             }
         }
+        throw new Error('Both parties have able members');
     }
 }

@@ -13,7 +13,7 @@ export class Spellblade extends Weapon {
     public onEquip(character: Character): void {
         while (character.perks.has(PerkType.WizardsFocus))
             character.perks.remove(PerkType.WizardsFocus);
-        character.perks.add(PerkType.WizardsFocus, 0.5, 0, 0, 0);
+        character.perks.add(PerkType.WizardsFocus, { spellCost: { multi: 0.5 } });
     }
 
     public onUnequip(character: Character): void {

@@ -64,7 +64,7 @@ export function SuccubiWhip(self: Character, target: Character) {
 export function Stunning(self: Character, target: Character) {
     if (randInt(10) === 0 && !target.perks.has(PerkType.Resolute)) {
         CView.text("\n" + target.desc.capitalA + target.desc.short + " reels from the brutal blow, stunned.");
-        target.combat.effects.add(CombatEffectType.Stunned, self, 0, 0, 0, 0);
+        target.combat.effects.add(CombatEffectType.Stunned, self);
     }
 }
 
@@ -75,7 +75,7 @@ export function Bleeding(self: Character, target: Character) {
             CView.text("Despite the rents you've torn in its stony exterior, the statue does not bleed.");
         }
         else {
-            target.combat.effects.add(CombatEffectType.IzmaBleed, self, 3, 0, 0, 0);
+            target.combat.effects.add(CombatEffectType.IzmaBleed, self);
             if (target.desc.plural)
                 CView.text("\n" + target.desc.capitalA + target.desc.short + " bleed profusely from the many bloody gashes your hooked gauntlets leave behind.");
             else

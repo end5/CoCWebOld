@@ -24,17 +24,17 @@ export class MainAction implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
-        if (this.approach.canUse(character)) {
+    public canUse(character: Character, target: Character): boolean {
+        if (this.approach.canUse(character, target)) {
             this.name = this.approach.name;
         }
-        else if (this.recover.canUse(character)) {
+        else if (this.recover.canUse(character, target)) {
             this.name = this.recover.name;
         }
-        else if (this.squeeze.canUse(character)) {
+        else if (this.squeeze.canUse(character, target)) {
             this.name = this.squeeze.name;
         }
-        else if (this.struggle.canUse(character)) {
+        else if (this.struggle.canUse(character, target)) {
             this.name = this.struggle.name;
         }
         else {
@@ -44,16 +44,16 @@ export class MainAction implements ICombatAction {
     }
 
     public use(character: Character, target: Character): void | NextScreenChoices {
-        if (this.approach.canUse(character)) {
+        if (this.approach.canUse(character, target)) {
             return this.approach.use(character, target);
         }
-        else if (this.recover.canUse(character)) {
+        else if (this.recover.canUse(character, target)) {
             return this.recover.use(character, target);
         }
-        else if (this.squeeze.canUse(character)) {
+        else if (this.squeeze.canUse(character, target)) {
             return this.squeeze.use(character, target);
         }
-        else if (this.struggle.canUse(character)) {
+        else if (this.struggle.canUse(character, target)) {
             return this.struggle.use(character, target);
         }
         else {

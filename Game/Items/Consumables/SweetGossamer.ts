@@ -12,7 +12,6 @@ import { Tail, TailType } from '../../Body/Tail';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { skinFurScales } from '../../Descriptors/SkinDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
@@ -22,6 +21,7 @@ import { describeBreastRow, describeNipple, describeAllBreasts } from '../../Des
 import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
 import { spiderRaceScore } from '../../Body/RaceScore';
+import { Settings } from '../../Settings';
 
 export class SweetGossamer extends Consumable {
     private sweet: boolean;
@@ -180,7 +180,7 @@ export class SweetGossamer extends Consumable {
             changes++;
         }
         // -Remove breast rows over 2.
-        if (changes < changeLimit && character.body.chest.length > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
+        if (changes < changeLimit && character.body.chest.length > 2 && randInt(3) === 0 && !Settings.hyperHappy) {
             changes++;
             const bottomBreastRow: BreastRow = character.body.chest.get(character.body.chest.length - 1)!;
             CView.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
@@ -207,7 +207,7 @@ export class SweetGossamer extends Consumable {
         // Nipples Turn Black:
         if (!character.effects.has(StatusEffectType.BlackNipples) && randInt(6) === 0 && changes < changeLimit) {
             CView.text("\n\nA tickling sensation plucks at your nipples and you cringe, trying not to giggle.  Looking down you are in time to see the last spot of flesh tone disappear from your [nipples].  They have turned an onyx black!");
-            character.effects.add(StatusEffectType.BlackNipples, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.BlackNipples);
             changes++;
         }
         // eyes!
@@ -256,7 +256,7 @@ export class SweetGossamer extends Consumable {
             CView.text("\n\n(<b>Perk Gained:  Spider Ovipositor - Allows you to lay eggs in your foes!</b>)");
             // V1 - Egg Count
             // V2 - Fertilized Count
-            character.perks.add(PerkType.SpiderOvipositor, 0, 0, 0, 0);
+            character.perks.add(PerkType.SpiderOvipositor);
             // Opens up drider ovipositor scenes from available mobs. The character begins producing unfertilized eggs in their arachnid abdomen. Egg buildup raises minimum lust and eventually lowers speed until the character has gotten rid of them.  This perk may only be used with the drider lower body, so your scenes should reflect that.
             // Any PC can get an Ovipositor perk, but it will be much rarer for characters without vaginas.
             // Eggs are unfertilized by default, but can be fertilized:

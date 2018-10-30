@@ -1,12 +1,12 @@
 import { CharacterHolder } from './CharacterHolder';
-import { Item } from '../Items/Item';
-import { ChainedDrop } from '../Utilities/Drops/ChainedDrop';
+import { ItemDrop } from '../Utilities/Drops/ItemDrop';
+import { Character } from '../Character/Character';
 
-export abstract class CombatRewards extends CharacterHolder {
-    private chainedDrop: ChainedDrop = new ChainedDrop();
-    public drop(): ChainedDrop { return this.chainedDrop; }
-    public addDrop(value: ChainedDrop) {
-        this.chainedDrop = value;
+export class CombatRewards extends CharacterHolder {
+    public drop?: ItemDrop;
+    public constructor(char: Character, drop?: ItemDrop) {
+        super(char);
+        this.drop = drop;
     }
 
     public XP(): number {
@@ -16,8 +16,4 @@ export abstract class CombatRewards extends CharacterHolder {
     public gems(): number {
         return this.char.inventory.gems;
     }
-
-    public abstract onReward(): void;
-    public abstract onRewardItem(item: Item): void;
-    public abstract onRewardGems(gems: number): void;
 }

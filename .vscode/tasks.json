@@ -2,28 +2,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Converter",
-            "type": "shell",
-            "command": "tsc -p Converter",
-            "problemMatcher": [
-                "$tsc"
-            ],
-            "group": "build",
-            "presentation": {
-                "reveal": "silent"
-            }
-        },
-        {
-            "label": "Run Converter",
-            "type": "shell",
-            "command": "node Converter/Build/Converter.js",
-            "group": "none",
-            "presentation": {
-                "reveal": "silent"
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Build CoCWeb",
             "type": "shell",
             "command": "tsc -p tsconfig.json",

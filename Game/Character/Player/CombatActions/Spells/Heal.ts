@@ -39,7 +39,7 @@ export class Heal extends BlackMagic {
             if (character.inventory.equipment.armor.displayName === "skimpy nurse's outfit")
                 hpGain *= 1.2;
             CView.text("You flush with success as your wounds begin to knit (+" + hpGain + ").");
-            character.combat.stats.gainHP(hpGain, character);
+            character.combat.stats.gainHP(hpGain);
         }
         CView.text("\n\n");
     }

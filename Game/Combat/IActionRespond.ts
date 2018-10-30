@@ -1,4 +1,5 @@
 import { Character } from '../Character/Character';
+import { Item } from '../Items/Item';
 
 export interface IActionRespond {
     enemyAttack?(): void;
@@ -18,4 +19,8 @@ export interface IActionRespond {
     stunned?(): void;
     constricted?(): void;
     blinded?(): void;
+
+    onReward(): void;
+    onRewardItem(item: Item): void;
+    onRewardGems(gems: number): void;
 }

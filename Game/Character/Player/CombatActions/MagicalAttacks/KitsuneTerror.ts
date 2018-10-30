@@ -1,11 +1,11 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class KitsuneTerror extends PlayerSpellAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
@@ -16,12 +16,12 @@ export class KitsuneTerror extends PlayerSpellAction {
         return character.perks.has(PerkType.CorruptedNinetails);
     }
 
-    public canUse(character: Character): boolean {
+    public canUse(character: Character, monster: Character): boolean {
         if (!character.perks.has(PerkType.BloodMage) && character.stats.fatigue + this.spellCost(character) > 100) {
             this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
-        if (character.effects.has(StatusEffectType.ThroatPunch) || character.effects.has(StatusEffectType.WebSilence)) {
+        if (character.combat.effects.has(CombatEffectType.ThroatPunch) || character.combat.effects.has(CombatEffectType.WebSilence)) {
             this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
@@ -31,7 +31,7 @@ export class KitsuneTerror extends PlayerSpellAction {
     public use(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
         // Fatigue Cost: 25
-        if (monster.effects.has(StatusEffectType.Shell)) {
+        if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -46,7 +46,9 @@ export class KitsuneTerror extends PlayerSpellAction {
         // (succeed)
         if (character.stats.int / 10 + randInt(20) + 1 > monster.stats.int / 10 + 10) {
             CView.text("  They cower in horror as they succumb to your illusion, believing themselves beset by eldritch horrors beyond their wildest nightmares.\n\n");
-            monster.effects.add(StatusEffectType.Fear, 1, 0, 0, 0);
+            monster.combat.effects.add(CombatEffectType.Fear, character, {
+                duration: 1
+            });
             monster.stats.spe -= 5;
             if (monster.stats.spe < 1)
                 monster.stats.spe = 1;

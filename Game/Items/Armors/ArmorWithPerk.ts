@@ -17,7 +17,7 @@ export class ArmorWithPerk extends Armor {
     public onEquip(character: Character): void {
         while (character.perks.has(this.perk.type))
             character.perks.remove(this.perk.type);
-        character.perks.add(this.perk.type, this.perk.value1, this.perk.value2, this.perk.value3, this.perk.value4);
+        character.perks.add(this.perk.type, this.perk.values);
     }
 
     public onUnequip(character: Character): void {

@@ -2,11 +2,11 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class NagaBite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -25,7 +25,7 @@ export class NagaBite extends PlayerPhysicalAction {
         CView.clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -44,10 +44,23 @@ export class NagaBite extends PlayerPhysicalAction {
             monster.stats.spe -= 5 + randInt(5);
             if (monster.stats.str < 1) monster.stats.str = 1;
             if (monster.stats.spe < 1) monster.stats.spe = 1;
-            if (monster.effects.has(StatusEffectType.NagaVenom)) {
-                monster.effects.get(StatusEffectType.NagaVenom).value1 += 1;
+            const venomEffect = monster.combat.effects.get(CombatEffectType.NagaVenom);
+            if (venomEffect && venomEffect.values && venomEffect.values.duration) {
+                venomEffect.values.duration += 1;
             }
-            else monster.effects.add(StatusEffectType.NagaVenom, 1, 0, 0, 0);
+            monster.combat.effects.add(CombatEffectType.NagaVenom, player, {
+                duration: 1,
+                str: {
+                    value: {
+                        flat: () => 5 + randInt(5)
+                    }
+                },
+                spe: {
+                    value: {
+                        flat: () => 5 + randInt(5)
+                    }
+                }
+            });
         }
         else {
             CView.text("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.");

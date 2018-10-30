@@ -7,7 +7,7 @@ import { Perk } from '../../Effects/Perk';
 
 export class InquisitorsRobes extends ArmorWithPerk {
     public constructor() {
-        super(ArmorName.InquisitorsRobes, new ItemDesc("I.Robes", "inquisitor's robes", "These foreboding red and gold robes are embroidered with the symbols of a lost kingdom.  Wearing them will cause spells to tax your health instead of exhausting you."), "inquisitor's robes", 8, 2000, "Light", new Perk(PerkType.BloodMage, 0, 0, 0, 0));
+        super(ArmorName.InquisitorsRobes, new ItemDesc("I.Robes", "inquisitor's robes", "These foreboding red and gold robes are embroidered with the symbols of a lost kingdom.  Wearing them will cause spells to tax your health instead of exhausting you."), "inquisitor's robes", 8, 2000, "Light", new Perk(PerkType.BloodMage));
     }
 
     public useText(): void {

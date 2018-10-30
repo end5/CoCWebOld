@@ -16,10 +16,10 @@ import { describeFeet } from '../../Descriptors/LegDescriptor';
 import { describeSack, describeBallsShort } from '../../Descriptors/BallsDescriptor';
 import { describeClit } from '../../Descriptors/VaginaDescriptor';
 import { describeCock } from '../../Descriptors/CockDescriptor';
-import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 import { CView } from '../../../Engine/Display/ContentView';
 import { kangaRaceScore } from '../../Body/RaceScore';
 import { NextScreenChoices } from '../../ScreenDisplay';
+import { InGameMenus } from '../../Menus/InGame/InGameMenus';
 
 /*
  General Effects:
@@ -75,7 +75,7 @@ export class KangaFruit extends Consumable {
                 CView.text("\n\nStill hungry and licking your lips in anticipation, you sniff in deep lungfuls of air.  There's more of that wonderful fruit nearby!  You bound off in search of it on your incredibly muscular legs, their shape becoming more and more feral with every hop.  Now guided completely by instinct, you find a few stalks that grow from the ground.  Your belly rumbles, reminding you of your hunger, as you begin to dig into the kanga fruits...");
                 CView.text("\n\nLosing more of what little remains of yourself, your body is now entirely that of a feral kangaroo and your mind has devolved to match it.  After you finish the handful of fruits you found, you move on in search for more of the tasty treats.  Though you pass by your camp later on, there's no memory, no recognition, just a slight feeling of comfort and familiarity.  There's no food here so you hop away.");
                 // [GAME OVER]
-                return { next: gameOverMenu };
+                return { next: InGameMenus.GameOver };
             }
             CView.text("\n\nWhile chewing, your mind becomes more and more tranquil.  You find it hard to even remember your mission, let alone your name.  <b>Maybe more kanga fruits will help?</b>");
         }
@@ -254,7 +254,7 @@ export class KangaFruit extends Consumable {
         // kangaroo perk: - any liquid or food intake will accelerate a pregnancy, but it will not progress otherwise
         if (!character.perks.has(PerkType.Diapause) && kangaRaceScore(character) > 4 && randInt(4) === 0 && changes < changeLimit && character.body.vaginas.length > 0) {
             // Perk name and description:
-            character.perks.add(PerkType.Diapause, 0, 0, 0, 0);
+            character.perks.add(PerkType.Diapause);
             CView.text("\n\nYour womb rumbles as something inside it changes.\n<b>(You have gained the Diapause perk.  Pregnancies will not progress when fluid intake is scarce, and will progress much faster when it isn't.)");
             changes++;
             // trigger effect: Your body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.

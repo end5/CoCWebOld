@@ -17,7 +17,7 @@ export class Possess implements ICombatAction {
         return character.perks.has(PerkType.Incorporeality);
     }
 
-    public canUse(character: Character): boolean {
+    public canUse(character: Character, monster: Character): boolean {
         return true;
     }
 

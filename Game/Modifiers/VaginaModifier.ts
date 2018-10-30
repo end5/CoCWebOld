@@ -39,10 +39,10 @@ export function stretchVagina(character: Character, vaginaArea: number): boolean
         // Cunt Stretched used to determine how long since last enlargement
         const effect = character.effects.get(StatusEffectType.CuntStretched);
         if (!effect)
-            character.effects.add(StatusEffectType.CuntStretched, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.CuntStretched);
         // Reset the timer on it to 0 when restretched.
         else
-            effect.value1 = 0;
+            effect.values.duration = 0;
     }
     return stretched;
 }

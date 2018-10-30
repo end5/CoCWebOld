@@ -3,120 +3,34 @@ import { CombatEffect } from './CombatEffect';
 import { CombatEffectType } from './CombatEffectType';
 import { Dictionary } from '../../Engine/Utilities/Dictionary';
 import { Character } from '../Character/Character';
-import { AcidSlap } from './CombatEffects/AcidSlap';
-import { AkbalSpeed } from './CombatEffects/AkbalSpeed';
-import { AmilyVenom } from './CombatEffects/AmilyVenom';
-import { AnemoneVenom } from './CombatEffects/AnemoneVenom';
-import { BasiliskCompulsion } from './CombatEffects/BasiliskCompulsion';
-import { BasiliskSlow } from './CombatEffects/BasiliskSlow';
 import { Blind } from './CombatEffects/Blind';
-import { Bound } from './CombatEffects/Bound';
-import { CalledShot } from './CombatEffects/CalledShot';
-import { CoonWhip } from './CombatEffects/CoonWhip';
-import { DemonSeed } from './CombatEffects/DemonSeed';
 import { Disarmed } from './CombatEffects/Disarmed';
-import { DriderKiss } from './CombatEffects/DriderKiss';
-import { Earthshield } from './CombatEffects/Earthshield';
-import { GardenerSapSpeed } from './CombatEffects/GardenerSapSpeed';
-import { GnollSpear } from './CombatEffects/GnollSpear';
-import { GooArmorBind } from './CombatEffects/GooArmorBind';
-import { GooArmorSilence } from './CombatEffects/GooArmorSilence';
-import { HarpyBind } from './CombatEffects/HarpyBind';
 import { Heat } from './CombatEffects/Heat';
-import { HolliConstrict } from './CombatEffects/HolliConstrict';
-import { IzmaBleed } from './CombatEffects/IzmaBleed';
 import { KissOfDeath } from './CombatEffects/KissOfDeath';
 import { LustAura } from './CombatEffects/LustAura';
-import { LustStick } from './CombatEffects/LustStick';
-import { LustStones } from './CombatEffects/LustStones';
-import { MilkyUrta } from './CombatEffects/MilkyUrta';
-import { NagaBind } from './CombatEffects/NagaBind';
-import { NagaVenom } from './CombatEffects/NagaVenom';
-import { PCTailTangle } from './CombatEffects/PCTailTangle';
-import { ParalyzeVenom } from './CombatEffects/ParalyzeVenom';
 import { Poison } from './CombatEffects/Poison';
-import { QueenBind } from './CombatEffects/QueenBind';
 import { Rut } from './CombatEffects/Rut';
-import { Sandstorm } from './CombatEffects/Sandstorm';
-import { Sealed } from './CombatEffects/Sealed';
-import { Shell } from './CombatEffects/Shell';
-import { StoneLust } from './CombatEffects/StoneLust';
 import { Stunned } from './CombatEffects/Stunned';
-import { SuccubusAura } from './CombatEffects/SuccubusAura';
-import { TemporaryHeat } from './CombatEffects/TemporaryHeat';
-import { TentacleBind } from './CombatEffects/TentacleBind';
-import { TentacleCoolDown } from './CombatEffects/TentacleCoolDown';
-import { ThroatPunch } from './CombatEffects/ThroatPunch';
-import { Timer } from './CombatEffects/Timer';
-import { UBERWEB } from './CombatEffects/UBERWEB';
-import { WebSilence } from './CombatEffects/WebSilence';
-import { ArousingAura } from './CombatEffects/ArousingAura';
 import { Might } from './CombatEffects/Might';
-import { Web } from './CombatEffects/Web';
+import { IEffectValues } from './EffectValues';
 
 interface CombatEffectConstructor {
     new(type: CombatEffectType,
-        value1: number,
-        value2: number,
-        value3: number,
-        value4: number,
         inabilityFlag: CombatAbilityFlag,
-        inflictedBy: Character
+        inflictedBy: Character,
+        values?: IEffectValues
     ): CombatEffect;
 }
 export const CombatEffectConstructorLib = new Dictionary<CombatEffectType, CombatEffectConstructor>();
-CombatEffectConstructorLib.set(CombatEffectType.AcidSlap, AcidSlap);
-CombatEffectConstructorLib.set(CombatEffectType.AkbalSpeed, AkbalSpeed);
-CombatEffectConstructorLib.set(CombatEffectType.AmilyVenom, AmilyVenom);
-CombatEffectConstructorLib.set(CombatEffectType.AnemoneVenom, AnemoneVenom);
-CombatEffectConstructorLib.set(CombatEffectType.BasiliskCompulsion, BasiliskCompulsion);
-CombatEffectConstructorLib.set(CombatEffectType.BasiliskSlow, BasiliskSlow);
 CombatEffectConstructorLib.set(CombatEffectType.Blind, Blind);
-CombatEffectConstructorLib.set(CombatEffectType.Bound, Bound);
-CombatEffectConstructorLib.set(CombatEffectType.CalledShot, CalledShot);
-CombatEffectConstructorLib.set(CombatEffectType.CoonWhip, CoonWhip);
-CombatEffectConstructorLib.set(CombatEffectType.DemonSeed, DemonSeed);
 CombatEffectConstructorLib.set(CombatEffectType.Disarmed, Disarmed);
-CombatEffectConstructorLib.set(CombatEffectType.DriderKiss, DriderKiss);
-CombatEffectConstructorLib.set(CombatEffectType.Earthshield, Earthshield);
-CombatEffectConstructorLib.set(CombatEffectType.GardenerSapSpeed, GardenerSapSpeed);
-CombatEffectConstructorLib.set(CombatEffectType.GnollSpear, GnollSpear);
-CombatEffectConstructorLib.set(CombatEffectType.GooArmorBind, GooArmorBind);
-CombatEffectConstructorLib.set(CombatEffectType.GooArmorSilence, GooArmorSilence);
-CombatEffectConstructorLib.set(CombatEffectType.HarpyBind, HarpyBind);
 CombatEffectConstructorLib.set(CombatEffectType.Heat, Heat);
-CombatEffectConstructorLib.set(CombatEffectType.HolliConstrict, HolliConstrict);
-CombatEffectConstructorLib.set(CombatEffectType.IzmaBleed, IzmaBleed);
 CombatEffectConstructorLib.set(CombatEffectType.KissOfDeath, KissOfDeath);
 CombatEffectConstructorLib.set(CombatEffectType.LustAura, LustAura);
-CombatEffectConstructorLib.set(CombatEffectType.LustStick, LustStick);
-CombatEffectConstructorLib.set(CombatEffectType.LustStones, LustStones);
 CombatEffectConstructorLib.set(CombatEffectType.Might, Might);
-CombatEffectConstructorLib.set(CombatEffectType.MilkyUrta, MilkyUrta);
-CombatEffectConstructorLib.set(CombatEffectType.NagaBind, NagaBind);
-CombatEffectConstructorLib.set(CombatEffectType.NagaVenom, NagaVenom);
-CombatEffectConstructorLib.set(CombatEffectType.PCTailTangle, PCTailTangle);
-CombatEffectConstructorLib.set(CombatEffectType.ParalyzeVenom, ParalyzeVenom);
 CombatEffectConstructorLib.set(CombatEffectType.Poison, Poison);
-CombatEffectConstructorLib.set(CombatEffectType.QueenBind, QueenBind);
 CombatEffectConstructorLib.set(CombatEffectType.Rut, Rut);
-CombatEffectConstructorLib.set(CombatEffectType.Sandstorm, Sandstorm);
-CombatEffectConstructorLib.set(CombatEffectType.Sealed, Sealed);
-CombatEffectConstructorLib.set(CombatEffectType.Shell, Shell);
-CombatEffectConstructorLib.set(CombatEffectType.StoneLust, StoneLust);
 CombatEffectConstructorLib.set(CombatEffectType.Stunned, Stunned);
-CombatEffectConstructorLib.set(CombatEffectType.SuccubusAura, SuccubusAura);
-CombatEffectConstructorLib.set(CombatEffectType.TemporaryHeat, TemporaryHeat);
-CombatEffectConstructorLib.set(CombatEffectType.TentacleBind, TentacleBind);
-CombatEffectConstructorLib.set(CombatEffectType.TentacleCoolDown, TentacleCoolDown);
-CombatEffectConstructorLib.set(CombatEffectType.ThroatPunch, ThroatPunch);
-CombatEffectConstructorLib.set(CombatEffectType.Timer, Timer);
-CombatEffectConstructorLib.set(CombatEffectType.UBERWEB, UBERWEB);
-CombatEffectConstructorLib.set(CombatEffectType.Web, Web);
-CombatEffectConstructorLib.set(CombatEffectType.WebSilence, WebSilence);
-
-// Perks
-CombatEffectConstructorLib.set(CombatEffectType.ArousingAura, ArousingAura);
 
 export const AbilityFlagsLib = new Dictionary<CombatEffectType, CombatAbilityFlag>();
 AbilityFlagsLib.set(CombatEffectType.IsabellaStunned, CombatAbilityFlag.MainAction);

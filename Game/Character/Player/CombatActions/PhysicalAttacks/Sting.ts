@@ -1,12 +1,12 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
-import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Sting implements ICombatAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
@@ -19,7 +19,8 @@ export class Sting implements ICombatAction {
     }
 
     public canUse(player: Player): boolean {
-        return player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].venom >= 33;
+        const beeTail = player.body.tails.find(Tail.FilterType(TailType.BEE_ABDOMEN));
+        return !!beeTail && beeTail.venom >= 33;
     }
 
     public use(player: Player, monster: Character): void | NextScreenChoices {
@@ -31,7 +32,7 @@ export class Sting implements ICombatAction {
         }
         // Determine if dodged!
         // Amily!
-        if (monster.effects.has(StatusEffectType.Concentration)) {
+        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
             CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -60,8 +61,8 @@ export class Sting implements ICombatAction {
         else if (player.stats.level < 20) damage += 30 + (player.stats.level - 10) * 2;
         else damage += 50;
         monster.stats.lust += monster.stats.lustVuln * damage;
-        if (!monster.effects.has(StatusEffectType.lustvenom))
-            monster.effects.add(StatusEffectType.lustvenom, 0, 0, 0, 0);
+        if (!monster.combat.effects.has(CombatEffectType.lustvenom))
+            monster.combat.effects.add(CombatEffectType.lustvenom, player);
         /* IT used to paralyze 50% of the time, this is no longer the case!
         Paralise the other 50%!
         else {
@@ -78,6 +79,6 @@ export class Sting implements ICombatAction {
         // New line before monster attack
         CView.text("\n\n");
         // Use tail mp
-        player.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].venom -= 25;
+        player.body.tails.find(Tail.FilterType(TailType.BEE_ABDOMEN))!.venom -= 25;
     }
 }

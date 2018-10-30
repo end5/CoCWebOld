@@ -1,5 +1,5 @@
-import { User } from "../../User";
-import { FlagType } from "../../Utilities/FlagType";
+import { FlagType } from "../../FlagType";
+import { Flags } from "../../Flags";
 
 export const PlayerFlags = {
     CERULEAN_POTION_NEUTER_ATTEMPTED: 0,
@@ -38,4 +38,4 @@ export const PlayerFlags = {
     sand: 0,
 };
 
-User.flags.set(FlagType.Player, PlayerFlags);
+Flags.set(FlagType.Player, PlayerFlags);

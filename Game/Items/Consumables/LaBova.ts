@@ -13,7 +13,6 @@ import { Vagina, VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
-import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
 import { describeCock } from '../../Descriptors/CockDescriptor';
@@ -26,6 +25,7 @@ import { CView } from '../../../Engine/Display/ContentView';
 import { growCock, displayLengthChange, displayKillCocks } from '../../Modifiers/CockModifier';
 import { growTopBreastRow, boostLactation } from '../../Modifiers/BreastModifier';
 import { displayModFem, displayModThickness, displayModTone } from '../../Modifiers/BodyModifier';
+import { Settings } from '../../Settings';
 
 export class LaBova extends Consumable {
     /*Purified LaBova:
@@ -60,7 +60,6 @@ export class LaBova extends Consumable {
     }
 
     public use(character: Character) {
-        character.slimeFeed();
         // Changes done
         let changes: number = 0;
         // Change limit
@@ -118,7 +117,7 @@ export class LaBova extends Consumable {
             character.stats.cor += corruptionGain / 10;
         }
         // Sex bits - Duderiffic
-        if (character.body.cocks.length > 0 && randInt(2) === 0 && !User.settings.hyperHappy) {
+        if (character.body.cocks.length > 0 && randInt(2) === 0 && !Settings.hyperHappy) {
             // If the character has at least one dick, decrease the size of each slightly,
             CView.text("\n\n");
             const biggestCock = character.body.cocks.sort(Cock.Largest).get(0)!;
@@ -291,8 +290,8 @@ export class LaBova extends Consumable {
         // (capable of getting them addicted):
         if (!character.effects.has(StatusEffectType.Feeder) && character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 3 && randInt(2) === 0 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 5 && character.stats.cor >= 35) {
             CView.text("\n\nYou start to feel a strange desire to give your milk to other creatures.  For some reason, you know it will be very satisfying.\n\n<b>(You have gained the 'Feeder' perk!)</b>");
-            character.effects.add(StatusEffectType.Feeder, 0, 0, 0, 0);
-            character.perks.add(PerkType.Feeder, 0, 0, 0, 0);
+            character.effects.add(StatusEffectType.Feeder);
+            character.perks.add(PerkType.Feeder);
             changes++;
         }
         // UNFINISHED
@@ -304,10 +303,10 @@ export class LaBova extends Consumable {
                 character.body.vaginas.get(0)!.looseness++;
                 // Cunt Stretched used to determine how long since last enlargement
                 if (!character.effects.has(StatusEffectType.CuntStretched))
-                    character.effects.add(StatusEffectType.CuntStretched, 0, 0, 0, 0);
+                    character.effects.add(StatusEffectType.CuntStretched);
                 // Reset the timer on it to 0 when restretched.
                 else
-                    character.effects.get(StatusEffectType.CuntStretched)!.value1 = 0;
+                    character.effects.get(StatusEffectType.CuntStretched)!.values.duration = 0;
                 character.body.vaginas.get(0)!.looseness++;
                 changes++;
                 character.stats.lust += 10;

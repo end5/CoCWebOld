@@ -3,15 +3,16 @@ import { PerkType } from '../../../Effects/PerkType';
 import { Character } from '../../Character';
 import { ICombatAction } from '../../../Combat/Actions/ICombatAction';
 import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
+import { NextScreenChoices } from '../../../ScreenDisplay';
 
 export abstract class PlayerPhysicalAction implements ICombatAction, PhysicalAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
     public abstract name: string;
-    public reasonCannotUse: string;
+    public reasonCannotUse: string = "";
     public actions: ICombatAction[] = [];
     public abstract isPossible(character: Character): boolean;
     public abstract canUse(character: Character, enemy: Character): boolean;
-    public abstract use(character: Character, enemy: Character);
+    public abstract use(character: Character, enemy: Character): void | NextScreenChoices;
 
     public abstract readonly baseCost: number;
 

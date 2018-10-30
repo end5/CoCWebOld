@@ -2,19 +2,19 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { HairType } from '../../Body/Hair';
 import { Character } from '../../Character/Character';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { ReptilumFlags } from './Reptilum';
 import { CView } from '../../../Engine/Display/ContentView';
-import { FlagType } from '../../Utilities/FlagType';
+import { FlagType } from '../../FlagType';
+import { Flags } from '../../Flags';
 
 export const HairExtensionSerumFlags = {
     INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED: 0,
     INCREASED_HAIR_GROWTH_TIME_REMAINING: 0,
 };
 
-User.flags.set(FlagType.HairExtensionSerum, HairExtensionSerumFlags);
+Flags.set(FlagType.HairExtensionSerum, HairExtensionSerumFlags);
 
 export class HairExtensionSerum extends Consumable {
     public constructor() {

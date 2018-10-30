@@ -1,6 +1,5 @@
 import { Character } from "../../../Character";
 import { Gender } from "../../../../Body/GenderIdentity";
-import { StatusEffectType } from "../../../../Effects/StatusEffectType";
 import { PerkType } from "../../../../Effects/PerkType";
 import { randInt } from "../../../../../Engine/Utilities/SMath";
 import { NextScreenChoices } from "../../../../ScreenDisplay";
@@ -9,6 +8,7 @@ import { ICombatAction } from "../../../../Combat/Actions/ICombatAction";
 import { describeCockShort } from "../../../../Descriptors/CockDescriptor";
 import { fatigueRecovery } from "../../../../Combat/CombatUtils";
 import { CombatAbilityFlag } from "../../../../Effects/CombatAbilityFlag";
+import { CombatEffectType } from "../../../../Effects/CombatEffectType";
 
 export class NagaTease implements ICombatAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.Tease;
@@ -20,14 +20,14 @@ export class NagaTease implements ICombatAction {
         return true;
     }
 
-    public canUse(character: Character, target?: Character): boolean {
-        return target.effects.has(StatusEffectType.Constricted);
+    public canUse(character: Character, target: Character): boolean {
+        return target.combat.effects.has(CombatEffectType.Constricted);
     }
 
     public use(character: Character, target: Character): void | NextScreenChoices {
         CView.clear();
         // (if poisoned)
-        if (target.effects.has(StatusEffectType.NagaVenom)) {
+        if (target.combat.effects.has(CombatEffectType.NagaVenom)) {
             CView.text("You attempt to stimulate " + target.desc.a + target.desc.short + " by rubbing " + target.desc.possessivePronoun + " nether regions, but " + target.desc.possessivePronoun + " seems too affected by your poison to react.\n\n");
         }
         else if (target.gender === Gender.NONE) {
@@ -77,7 +77,7 @@ export class NagaTease implements ICombatAction {
             }
             if (character.perks.has(PerkType.Seduction)) damage += 5;
             // + slutty armor bonus
-            if (character.perks.has(PerkType.SluttySeduction)) damage += character.perks.get(PerkType.SluttySeduction).value1;
+            // if (character.perks.has(PerkType.SluttySeduction)) damage += character.perks.get(PerkType.SluttySeduction).value1;
             // 10% for bimbo shits
             if (bimbo || bro || futa) {
                 damage += 5;
@@ -88,23 +88,14 @@ export class NagaTease implements ICombatAction {
             damage += randInt(7);
             chance += 2;
             // Specific cases for slimes and demons, as the normal ones would make no sense
-            if (target.desc.short === "demons") {
-                CView.text("As you stimulate one of their brethren, the other demons can't help but to feel more aroused by this sight, all wishing to touch and feel the contact of your smooth, scaly body.");
+            if (target.gender === Gender.MALE) {
+                CView.text("Your nimble tail begins to gently stroke his " + describeCockShort(target.body.cocks.get(0)) + ", and you can see it on his face as he tries to hold back the fact that it feels good.");
             }
-            else if (target.desc.short === "slime") {
-                CView.text("You attempt to stimulate the slime despite its lack of any sex organs. Somehow, it works!");
+            if (target.gender === Gender.FEMALE) {
+                CView.text("Your nimble tail manages to work its way between her legs, grinding your tail's scaly skin against her clit. She appears to enjoy it, but it is obvious she is trying to hide it from you.");
             }
-            // Normal cases for other monsters
-            else {
-                if (target.gender === Gender.MALE) {
-                    CView.text("Your nimble tail begins to gently stroke his " + describeCockShort(target.body.cocks.get(0)) + ", and you can see it on his face as he tries to hold back the fact that it feels good.");
-                }
-                if (target.gender === Gender.FEMALE) {
-                    CView.text("Your nimble tail manages to work its way between her legs, grinding your tail's scaly skin against her clit. She appears to enjoy it, but it is obvious she is trying to hide it from you.");
-                }
-                if (target.gender === Gender.HERM) {
-                    CView.text("Your nimble tail manages to work its way between " + target.desc.possessivePronoun + " legs, gaining access to both sets of genitals. As your rough, scaly skin rubs past " + target.desc.possessivePronoun + " clit, your tail gently begins to stroke " + target.desc.possessivePronoun + " cock. The repressed expression on " + target.desc.possessivePronoun + " face betrays " + target.desc.possessivePronoun + " own enjoyment of this kind of treatment.");
-                }
+            if (target.gender === Gender.HERM) {
+                CView.text("Your nimble tail manages to work its way between " + target.desc.possessivePronoun + " legs, gaining access to both sets of genitals. As your rough, scaly skin rubs past " + target.desc.possessivePronoun + " clit, your tail gently begins to stroke " + target.desc.possessivePronoun + " cock. The repressed expression on " + target.desc.possessivePronoun + " face betrays " + target.desc.possessivePronoun + " own enjoyment of this kind of treatment.");
             }
             // Land the hit!
             if (randInt(100) <= chance) {
@@ -113,20 +104,16 @@ export class NagaTease implements ICombatAction {
                 if (character.perks.has(PerkType.HistoryWhore)) {
                     damage *= 1.15;
                 }
-                target.teased(damage);
-                kGAMECLASS.teaseXP(1);
+                target.stats.lust += damage;
+                CView.text("(" + damage + ")");
+                character.stats.teaseXP++;
             }
             // Nuttin honey
             else {
-                kGAMECLASS.teaseXP(5);
+                character.stats.teaseXP += 5;
                 CView.text("\n" + target.desc.capitalA + target.desc.short + " seems unimpressed.");
             }
             CView.text("\n\n");
-            // OLD
-            // monster.lust += 5 + randInt(15);
-            if (target.stats.lust > 99) {
-                return { next: kGAMECLASS.endLustVictory };
-            }
         }
         return;
     }

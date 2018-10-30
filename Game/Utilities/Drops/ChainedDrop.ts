@@ -6,9 +6,9 @@ export class ChainedDrop implements ItemDrop {
     private probs: number[] = [];
     private defaultItem: Item;
 
-    // constructor(defaultItem: Item) {
-    //     this.defaultItem = defaultItem;
-    // }
+    constructor(defaultItem: Item) {
+        this.defaultItem = defaultItem;
+    }
 
     public add(item: Item, prob: number): ChainedDrop {
         if (prob < 0 || prob > 1) {

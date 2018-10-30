@@ -6,7 +6,7 @@ import { ItemDesc } from '../ItemDesc';
 import { describeLegs } from '../../Descriptors/LegDescriptor';
 import { CView } from '../../../Engine/Display/ContentView';
 import { boostLactation } from '../../Modifiers/BreastModifier';
-import { returnToCampUseOneHour } from '../../Scenes/Camp';
+import { timePass } from '../../Menus/InGame/PlayerMenu';
 
 export class TatteredScroll extends Consumable {
     public constructor() {
@@ -86,13 +86,13 @@ export class TatteredScroll extends Consumable {
                 }
             }
             CView.text("\n\nYour mouth curls into a sick smile and, with a voice that isn't your own, speaks, \"<i>I ALWAYS get what I want, dear...</i>\"");
-            return { next: returnToCampUseOneHour };
+            return { next: timePass(1) };
         }
         else {
             CView.text("Your mouth forms a smile of its own volition, reading, \"<i>nuf erutuf rof riah ydnas, nus tresed eht sa ydnas.</i>\"\n\nYou feel a tingling in your scalp, and realize your hair has become a sandy blonde!");
             character.body.hair.color = "sandy blonde";
             CView.text("\n\nYour mouth curls with a sick smile, speaking with a voice that isn't your own, \"<i>I ALWAYS get what I want, dear...</i>\"");
-            return { next: returnToCampUseOneHour };
+            return { next: timePass(1) };
         }
         // if (!Game.inCombat) {
         // RAEP

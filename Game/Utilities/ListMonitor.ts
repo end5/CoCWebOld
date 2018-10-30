@@ -1,21 +1,25 @@
 import { IObserverList } from './IObserverList';
 import { List } from '../../Engine/Utilities/List';
 
+export interface ObjectObserver<T> {
+    observedObject: T;
+}
+
 /**
  * An IObserverList that reflects event changes from the observed List to the provided List.
  */
-export class ListMonitor implements IObserverList<any> {
-    private list: List<any>;
-    private objectConstructor: new (...args: any) => any;
-    private args: any[];
-    public constructor(list: List<any>, objectConstructor: new (...args: any) => any, ...args: any[]) {
+export class ListMonitor<ObservedType, U extends ObjectObserver<ObservedType>, ProvidedList extends List<U>> implements IObserverList<ObservedType> {
+    protected list: ProvidedList;
+    protected objectConstructor: new (item: ObservedType, ...args: any[]) => U;
+    protected args: any[];
+    public constructor(list: ProvidedList, objectConstructor: new (item: ObservedType, ...args: any[]) => U, ...args: any[]) {
         this.list = list;
         this.objectConstructor = objectConstructor;
         this.args = args;
     }
 
-    public onAdd(_item: any): void {
-        this.list.add(new this.objectConstructor(this.args));
+    public onAdd(item: ObservedType): void {
+        this.list.add(new this.objectConstructor(item, ...this.args));
     }
 
     public onRemove(index: number): void {
@@ -26,5 +30,5 @@ export class ListMonitor implements IObserverList<any> {
         this.list.clear();
     }
 
-    public update(_message: string): void { }
+    public update(message: string): void { }
 }

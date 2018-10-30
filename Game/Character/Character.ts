@@ -2,14 +2,26 @@
 import { CharacterType } from './CharacterType';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { randInt } from '../../Engine/Utilities/SMath';
-import { Creature } from '../Body/Creature';
 import { LegType } from '../Body/Legs';
 import { Tail, TailType } from '../Body/Tail';
 import { CombatContainer } from '../Combat/CombatContainer';
 import { CharacterInventory } from '../Inventory/CharacterInventory';
 import { generateUUID } from '../Utilities/Uuid';
+import { GenderIdentity, Gender } from '../Body/GenderIdentity';
+import { Body } from '../Body/Body';
+import { Stats } from '../Body/Stats';
+import { StatsFacade } from '../Body/StatsFacade';
+import { StatusEffectDict } from '../Effects/StatusEffectDict';
+import { PerkDict } from '../Effects/PerkDict';
+import { WingType } from '../Body/Wings';
+import { BreastRow } from '../Body/BreastRow';
+import { Vagina } from '../Body/Vagina';
+import { Womb } from '../Body/Pregnancy/Womb';
+import { DictionarySerializer } from '../../Engine/Utilities/DictionarySerializer';
+import { StatusEffect } from '../Effects/StatusEffect';
+import { Perk } from '../Effects/Perk';
 
-export abstract class Character extends Creature implements ISerializable<Character> {
+export abstract class Character implements ISerializable<Character> {
     public charType: CharacterType;
     public abstract readonly inventory: CharacterInventory;
 
@@ -28,8 +40,29 @@ export abstract class Character extends Creature implements ISerializable<Charac
         return this.combatContainer;
     }
 
+    public genderManager: GenderIdentity = new GenderIdentity(this);
+    public hoursSinceCum: number = 0;
+
+    public body: Body = new Body();
+
+    protected baseStats = new Stats();
+    public stats = new StatsFacade(this, this.baseStats);
+    public effects = new StatusEffectDict(this);
+    public perks = new PerkDict();
+
+    public get gender(): Gender {
+        return this.genderManager.gender;
+    }
+
+    public get genderPref(): Gender {
+        return this.genderManager.preference;
+    }
+
+    public set genderPref(gender: Gender) {
+        this.genderManager.preference = gender;
+    }
+
     public constructor(type: CharacterType) {
-        super();
         this.charType = type;
         this.UUID = generateUUID();
         this.description = new CharacterDescription(this, "", "", "");
@@ -39,16 +72,18 @@ export abstract class Character extends Creature implements ISerializable<Charac
     }
 
     public serialize(): object {
-        return Object.assign(
-            {
-                charType: this.charType,
-                UUID: this.UUID,
-                inventory: this.inventory.serialize(),
-                desc: this.desc.serialize(),
-                creature: super.serialize()
-            },
-            super.serialize()
-        );
+        return {
+            genderPref: this.genderPref,
+            hoursSinceCum: this.hoursSinceCum,
+            torso: this.body.serialize(),
+            baseStats: this.baseStats.serialize(),
+            statusAffects: DictionarySerializer.serialize(this.effects),
+            perks: DictionarySerializer.serialize(this.perks),
+            charType: this.charType,
+            UUID: this.UUID,
+            inventory: this.inventory.serialize(),
+            desc: this.desc.serialize(),
+        };
     }
 
     public deserialize(saveObject: Character) {
@@ -56,12 +91,127 @@ export abstract class Character extends Creature implements ISerializable<Charac
         this.UUID = saveObject.UUID;
         this.inventory.deserialize(saveObject.inventory);
         this.desc.deserialize(saveObject.desc);
-        super.deserialize(saveObject);
+        this.genderPref = saveObject.genderPref;
+        this.hoursSinceCum = saveObject.hoursSinceCum;
+        this.body.deserialize(saveObject.body);
+        this.baseStats.deserialize(saveObject.baseStats);
+        DictionarySerializer.deserialize(saveObject.effects, this.effects, StatusEffect);
+        DictionarySerializer.deserialize(saveObject.perks, this.perks, Perk);
     }
 
     public update(hours: number) {
         this.body.update(hours);
         this.regeneration();
+    }
+
+    public vaginalCapacity(): number {
+        if (this.body.vaginas.length > 0) {
+            let bonus: number = 0;
+            // Centaurs = +50 capacity
+            if (this.body.legs.type === LegType.CENTAUR)
+                bonus = 50;
+            // Naga = +20 capacity
+            else if (this.body.legs.type === LegType.NAGA)
+                bonus = 20;
+            const loosestVagina = this.body.vaginas.sort(Vagina.LoosenessMost).get(0)!;
+            const wettestVagina = this.body.vaginas.sort(Vagina.WetnessMost).get(0)!;
+
+            return (bonus + 8 * loosestVagina.looseness * loosestVagina.looseness) *
+                (1 + wettestVagina.wetness / 10);
+        }
+        return 0;
+    }
+
+    public analCapacity(): number {
+        let bonus: number = 0;
+        // Centaurs = +30 capacity
+        if (this.body.legs.type === LegType.CENTAUR)
+            bonus = 30;
+        if (this.body.butt.wetness > 0)
+            bonus += 15;
+        return ((bonus + 6 * this.body.butt.looseness * this.body.butt.looseness) * (1 + this.body.butt.wetness / 10));
+    }
+
+    // Calculate bonus virility rating!
+    // anywhere from 5% to 100% of normal cum effectiveness thru herbs!
+    public virilityQ(): number {
+        if (this.body.cocks.length > 0) {
+            let percent: number = 0.01;
+            if (this.cumQ() >= 250)
+                percent += 0.01;
+            if (this.cumQ() >= 800)
+                percent += 0.01;
+            if (this.cumQ() >= 1600)
+                percent += 0.02;
+            if (percent > 1)
+                percent = 1;
+            return percent;
+        }
+        return 0;
+    }
+
+    // Calculate cum return
+    public cumQ(): number {
+        if (this.body.cocks.length > 0) {
+            let quantity: number = 0;
+            // Base value is ballsize * ballQ * cumefficiency by a factor of 2.
+            // Other things that affect it:
+            // lust - 50% = normal output.  0 = half output. 100 = +50% output.
+            const lustCoefficient: number = (this.stats.lust + 50) / 10;
+            // Pilgrim's bounty maxxes lust coefficient
+            if (this.body.balls.count === 0)
+                quantity = Math.floor(1.25 * 2 * this.body.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
+            else
+                quantity = Math.floor(this.body.balls.size * this.body.balls.count * this.body.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
+            if (quantity < 2)
+                quantity = 2;
+            return quantity;
+        }
+        return 0;
+    }
+
+    public lactationQ(): number {
+        const chest = this.body.chest;
+        if (chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier < 1)
+            return 0;
+        // (Milk production TOTAL= breastSize x 10 * lactationMultiplier * breast total * milking-endurance (1- default, maxes at 2.  Builds over time as milking as done)
+        // (Small – 0.01 mLs – Size 1 + 1 Multi)
+        // (Large – 0.8 - Size 10 + 4 Multi)
+        // (HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
+        let total: number;
+        total = chest.sort(BreastRow.Largest).get(0)!.rating * 10 * chest.reduce(BreastRow.AverageLactation, 0);
+        return total;
+    }
+
+    public isLactating(): boolean {
+        return this.lactationQ() > 0 ? true : false;
+    }
+
+    // PC can fly?
+    public canFly(): boolean {
+        // web also makes false!
+        switch (this.body.wings.type) {
+            case WingType.BAT_LIKE_LARGE:
+            case WingType.BEE_LIKE_LARGE:
+            case WingType.DRACONIC_LARGE:
+            case WingType.FEATHERED_LARGE:
+            case WingType.GIANT_DRAGONFLY:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public canGoIntoHeat() {
+        return this.body.vaginas.length > 0 && !this.body.wombs.find(Womb.Pregnant);
+    }
+
+    public canGoIntoRut(): boolean {
+        return this.body.cocks.length > 0;
+    }
+
+    public totalFertility(): number {
+        return this.body.fertility;
     }
 
     private totalXP(): number {
@@ -141,15 +291,4 @@ export abstract class Character extends Creature implements ISerializable<Charac
         return this.body.ovipositor.canOviposit() && this.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0;
     }
 
-    public slimeFeed() {
-
-    }
-
-    public milked() {
-
-    }
-
-    public get party(): Character[] {
-        return undefined;
-    }
 }

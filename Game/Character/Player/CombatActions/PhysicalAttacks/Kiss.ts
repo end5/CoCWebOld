@@ -7,6 +7,7 @@ import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Engine/Display/ContentView';
 import { mf } from '../../../../Descriptors/GenderDescriptor';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Kiss implements ICombatAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
@@ -19,7 +20,7 @@ export class Kiss implements ICombatAction {
     }
 
     public canUse(player: Player): boolean {
-        return !player.effects.has(StatusEffectType.Blind);
+        return !player.combat.effects.has(CombatEffectType.Blind);
     }
 
     public use(player: Player, monster: Character): void | NextScreenChoices {
@@ -107,9 +108,15 @@ export class Kiss implements ICombatAction {
         }
         // Add status if not already drugged
         if (!monster.effects.has(StatusEffectType.LustStick))
-            monster.effects.add(StatusEffectType.LustStick, 0, 0, 0, 0);
+            monster.effects.add(StatusEffectType.LustStick, {
+                hp: {
+                    value: {
+                        flat: () => Math.round(damage / 10)
+                    }
+                }
+            });
         // Else add bonus to round damage
-        else monster.effects.get(StatusEffectType.LustStick).value2 = Math.round(damage / 10);
+        else monster.effects.get(StatusEffectType.LustStick)!.values!.hp!.value!.flat! = Math.round(damage / 10);
         // Deal damage
         monster.stats.lust += Math.round(monster.stats.lustVuln * damage);
         // Sets up for end of combat, and if not, goes to AI.

@@ -4,7 +4,6 @@ import { randInt, randomChoice } from '../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../Body/BreastRow';
 import { SkinType } from '../../Body/Skin';
 import { Character } from '../../Character/Character';
-import { User } from '../../User';
 import { ItemDesc } from '../ItemDesc';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
 import { describeHips } from '../../Descriptors/HipDescriptor';
@@ -17,13 +16,14 @@ import { CView } from '../../../Engine/Display/ContentView';
 import { displayModThickness, displayModFem } from '../../Modifiers/BodyModifier';
 import { displayKillCocks, growCock, thickenCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { shrinkTits } from '../../Modifiers/BreastModifier';
-import { FlagType } from '../../Utilities/FlagType';
+import { FlagType } from '../../FlagType';
+import { Flags } from '../../Flags';
 
 export const EggFlags = {
     PC_KNOWS_ABOUT_BLACK_EGGS: 0,
 };
 
-User.flags.set(FlagType.EggFlags, EggFlags);
+Flags.set(FlagType.EggFlags, EggFlags);
 
 export function randLargeEgg(): ConsumableName {
     return randomChoice(
