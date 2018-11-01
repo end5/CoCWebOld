@@ -1,19 +1,20 @@
 import { Character } from "../Character/Character";
 import { NextScreenChoices, choiceWrap } from "../ScreenDisplay";
 import { CView } from "../../Page/ContentView";
-import { timePass } from "../Menus/InGame/PlayerMenu";
+import { passTime } from "../Menus/InGame/PlayerMenu";
 import { InputTextElement } from "../../Engine/Display/Elements/InputTextElement";
+import { Time } from "../Utilities/Time";
 
 export function rest(char: Character): NextScreenChoices {
     CView.clear();
     CView.text("Rest for how long?");
     return {
         choices: [
-            ['One hour', timePass(1)],
-            ['Two hours', timePass(1)],
-            ['Four hours', timePass(1)],
-            ['Until night', timePass(1)],
-            ['Input', choiceWrap(inputTimePass, char)]
+            ['One hour', passTime(1)],
+            ['Two hours', passTime(2)],
+            ['Four hours', passTime(4)],
+            ['Until night', passTime(24 - Time.hour)],
+            ['Input', choiceWrap(inputTimePass)]
         ]
     };
 }
@@ -24,14 +25,13 @@ function inputTimePass(char: Character, numberField?: InputTextElement): NextScr
         CView.textElement.appendElement(numberField);
     }
 
-    return { choices: [["OK", choiceWrap(inputTimePassCheck, char, numberField)]] };
+    return { choices: [["OK", choiceWrap(inputTimePassCheck, numberField)]] };
 }
 
 function inputTimePassCheck(player: Character, numberField: InputTextElement): NextScreenChoices {
     if (numberField.text === "" && !isNaN(+numberField.text)) {
-        CView.clear();
         CView.text("\n\n\n<b>You must input a number.</b>");
         return inputTimePass(player);
     }
-    return { next: timePass(+numberField.text) };
+    return passTime(+numberField.text)(player);
 }

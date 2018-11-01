@@ -4,7 +4,7 @@ import { EndScenes } from '../../Combat/EndScenes';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Character } from '../Character';
 import { CView } from '../../../Page/ContentView';
-import { timePass } from '../../Menus/InGame/PlayerMenu';
+import { passTime } from '../../Menus/InGame/PlayerMenu';
 
 export class PlayerEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean {
@@ -38,7 +38,7 @@ export class PlayerEndScenes extends EndScenes {
     }
 
     protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
-        return { next: timePass(1) };
+        return { next: passTime(1) };
     }
 
     protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
@@ -61,6 +61,6 @@ export class PlayerEndScenes extends EndScenes {
 
         this.char.inventory.gems -= temp;
 
-        return { next: timePass(8) };
+        return { next: passTime(8) };
     }
 }

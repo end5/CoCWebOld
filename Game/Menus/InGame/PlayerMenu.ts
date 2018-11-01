@@ -4,6 +4,8 @@ import { CombatManager } from '../../Combat/CombatManager';
 import { clickFuncWrapper, NextScreenChoices, ClickFunction } from '../../ScreenDisplay';
 import { townSquare } from '../../Scenes/TownSquare';
 import { mainMenu } from '../MainMenu';
+import { Time } from '../../Utilities/Time';
+import { TimeManager } from '../../TimeManager';
 
 export function playerMenu(character: Character): NextScreenChoices {
     // Safe guard against combat breaking
@@ -17,7 +19,10 @@ export function playerMenu(character: Character): NextScreenChoices {
     return townSquare();
 }
 
-export function timePass(num: number): ClickFunction {
-
-    return playerMenu;
+export function passTime(num: number): ClickFunction {
+    return function passHour(char: Character) {
+        Time.hour += num;
+        TimeManager.update(num);
+        return playerMenu(char);
+    };
 }
