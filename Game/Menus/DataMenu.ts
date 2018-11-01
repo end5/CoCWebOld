@@ -34,7 +34,7 @@ export function dataMenu(): NextScreenChoices {
         choices[2][0] = "AutoSav: OFF";
     }
 
-    return { choices, persistantChoices: [["Back", mainMenu]] };
+    return { choices, persistantChoices: [["Back", mainMenu]], needEvent: true };
 }
 
 function autosaveToggle(): NextScreenChoices {
@@ -56,7 +56,9 @@ function saveToFile(): NextScreenChoices {
     return dataMenu();
 }
 
-function loadFromFile(character: Character, event: Event): NextScreenChoices {
+function loadFromFile(character: Character, event?: Event): NextScreenChoices {
+    if (!event) throw new Error('No event was passed');
+
     const target = (event.target as HTMLInputElement);
     if (!target.files || target.files.length === 0) {
         alert("Error in file loading");

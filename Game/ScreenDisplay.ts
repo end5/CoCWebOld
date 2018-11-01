@@ -3,7 +3,7 @@ import { Character } from './Character/Character';
 import { CharDict } from './CharList';
 import { BottomButtons } from '../Page/BottomButtons';
 
-export type ClickFunction = ((char: Character, event: Event) => NextScreenChoices);
+export type ClickFunction = ((char: Character, event?: Event) => NextScreenChoices);
 export interface ClickObject {
     func?: ClickFunction;
     tooltip: string;
@@ -16,44 +16,54 @@ export interface NextScreenChoices {
     next?: ClickOption;
     choices?: ScreenChoice[];
     persistantChoices?: ScreenChoice[];
+    needEvent?: boolean;
 }
 
 const previousScreens: string[] = [];
 let nextScreens: string[] = [];
 
-export function clickFuncWrapper(clickFunc: ClickOption): ((event: Event) => void) | undefined {
-    if (clickFunc) {
-        if (typeof clickFunc === "function") {
-            nextScreens.push(clickFunc.name);
-            return (event) => {
-                previousScreens.push(clickFunc.name);
-                nextScreens = [];
+export function clickFuncWrapper(clickFunc: ClickOption, needEvent?: boolean): ((event: Event) => void) | undefined {
+    if (typeof clickFunc === "function") {
+        nextScreens.push(clickFunc.name);
+        return (event) => {
+            previousScreens.push(clickFunc.name);
+            nextScreens = [];
+            if (needEvent)
                 displayNextScreenChoices(clickFunc(CharDict.player!, event));
-            };
-        }
-        else if (typeof clickFunc === "object" && clickFunc.func) {
-            nextScreens.push(clickFunc.func.name);
-            return (event) => {
-                if (clickFunc.func) {
-                    previousScreens.push(clickFunc.func.name);
-                    nextScreens = [];
-                    displayNextScreenChoices(clickFunc.func.apply(clickFunc.func, [CharDict.player!, event]));
-                }
-            };
-        }
+            else
+                displayNextScreenChoices(clickFunc(CharDict.player!));
+        };
+    }
+    else if (typeof clickFunc === "object" && clickFunc.func) {
+        nextScreens.push(clickFunc.func.name);
+        return (event) => {
+            if (clickFunc.func) {
+                previousScreens.push(clickFunc.func.name);
+                nextScreens = [];
+                if (needEvent)
+                    displayNextScreenChoices(clickFunc.func(CharDict.player!, event));
+                else
+                    displayNextScreenChoices(clickFunc.func(CharDict.player!));
+            }
+        };
     }
     return;
 }
 
-function displayChoices(choices: ScreenChoice[], persistantChoices?: ScreenChoice[]) {
+function displayChoices(choices?: ScreenChoice[], persistantChoices?: ScreenChoice[], needEvent?: boolean) {
     const fixedCount = persistantChoices ? persistantChoices.length : 0;
-    if (choices.length + fixedCount <= BottomButtons.NUM_BOT_BUTTONS) {
-        MainScreen.botButtons.hide();
-        for (let index = 0; index < choices.length; index++) {
-            if (Array.isArray(choices[index])) {
-                MainScreen.botButtons.get(index)!.modify(choices[index][0], clickFuncWrapper(choices[index][1]));
-                if (choices[index][0] === "")
-                    MainScreen.botButtons.get(index)!.hide();
+    if (choices && choices.length + fixedCount > BottomButtons.NUM_BOT_BUTTONS) {
+        displayPage(0, choices, persistantChoices, needEvent);
+    }
+    else {
+        if (choices) {
+            MainScreen.botButtons.hide();
+            for (let index = 0; index < choices.length; index++) {
+                if (Array.isArray(choices[index])) {
+                    MainScreen.botButtons.get(index)!.modify(choices[index][0], clickFuncWrapper(choices[index][1], needEvent));
+                    if (choices[index][0] === "")
+                        MainScreen.botButtons.get(index)!.hide();
+                }
             }
         }
         if (persistantChoices && fixedCount > 0) {
@@ -61,19 +71,16 @@ function displayChoices(choices: ScreenChoice[], persistantChoices?: ScreenChoic
             for (let botButtonIndex = startingIndex; botButtonIndex < BottomButtons.NUM_BOT_BUTTONS; botButtonIndex++) {
                 const fixedIndex = botButtonIndex - startingIndex;
                 if (Array.isArray(persistantChoices[fixedIndex])) {
-                    MainScreen.botButtons.get(botButtonIndex)!.modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
+                    MainScreen.botButtons.get(botButtonIndex)!.modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1], needEvent));
                     if (persistantChoices[fixedIndex][0] === "")
                         MainScreen.botButtons.get(botButtonIndex)!.hide();
                 }
             }
         }
     }
-    else {
-        displayPage(0, choices, persistantChoices);
-    }
 }
 
-function displayPage(startingIndex: number, choices: ScreenChoice[], persistantChoices?: ScreenChoice[]) {
+function displayPage(startingIndex: number, choices: ScreenChoice[], persistantChoices?: ScreenChoice[], needEvent?: boolean) {
     MainScreen.botButtons.hide();
     const pageNavIndex = BottomButtons.NUM_BOT_BUTTONS - 2;
     const prevButtonIndex = pageNavIndex;
@@ -81,14 +88,14 @@ function displayPage(startingIndex: number, choices: ScreenChoice[], persistantC
     const fixedCount = persistantChoices ? persistantChoices.length : 0;
     const startingFixedIndex = pageNavIndex - fixedCount;
     for (let index = 0; index < startingFixedIndex && index + startingIndex < choices.length; index++) {
-        MainScreen.botButtons.get(index)!.modify(choices[index + startingIndex][0], clickFuncWrapper(choices[index + startingIndex][1]));
+        MainScreen.botButtons.get(index)!.modify(choices[index + startingIndex][0], clickFuncWrapper(choices[index + startingIndex][1], needEvent));
         if (choices[index][0] === "")
             MainScreen.botButtons.get(index)!.hide();
     }
     if (persistantChoices && fixedCount > 0) {
         for (let botButtonIndex = startingFixedIndex; botButtonIndex < pageNavIndex; botButtonIndex++) {
             const fixedIndex = botButtonIndex - startingFixedIndex;
-            MainScreen.botButtons.get(botButtonIndex)!.modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
+            MainScreen.botButtons.get(botButtonIndex)!.modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1], needEvent));
             if (persistantChoices[fixedIndex][0] === "")
                 MainScreen.botButtons.get(botButtonIndex)!.hide();
         }
@@ -97,7 +104,7 @@ function displayPage(startingIndex: number, choices: ScreenChoice[], persistantC
     const hasPrevPage = startingIndex - startingFixedIndex >= 0 ? true : false;
     if (hasPrevPage) {
         MainScreen.botButtons.get(prevButtonIndex)!.modify("Prev", () => {
-            displayPage(startingIndex - startingFixedIndex, choices, persistantChoices);
+            displayPage(startingIndex - startingFixedIndex, choices, persistantChoices, needEvent);
         });
     }
     else {
@@ -107,7 +114,7 @@ function displayPage(startingIndex: number, choices: ScreenChoice[], persistantC
     const hasNextPage = startingIndex + startingFixedIndex < choices.length ? true : false;
     if (hasNextPage) {
         MainScreen.botButtons.get(nextButtonIndex)!.modify("Next", () => {
-            displayPage(startingIndex + startingFixedIndex, choices, persistantChoices);
+            displayPage(startingIndex + startingFixedIndex, choices, persistantChoices, needEvent);
         });
     }
     else {
@@ -115,27 +122,27 @@ function displayPage(startingIndex: number, choices: ScreenChoice[], persistantC
     }
 }
 
-function doNext(func: ClickOption) {
+function doNext(func: ClickOption, needEvent?: boolean) {
     MainScreen.botButtons.hide();
-    MainScreen.botButtons.get(BottomButtons.NEXT_BUTTON_ID)!.modify("Next", clickFuncWrapper(func));
+    MainScreen.botButtons.get(BottomButtons.NEXT_BUTTON_ID)!.modify("Next", clickFuncWrapper(func, needEvent));
 }
 
-function doYesNo(yesFunc: ClickOption, noFunc: ClickOption) {
+function doYesNo(yesFunc: ClickOption, noFunc: ClickOption, needEvents?: boolean) {
     MainScreen.botButtons.hide();
-    MainScreen.botButtons.get(BottomButtons.YES_BUTTON_ID)!.modify("Yes", clickFuncWrapper(yesFunc));
-    MainScreen.botButtons.get(BottomButtons.NO_BUTTON_ID)!.modify("No", clickFuncWrapper(noFunc));
+    MainScreen.botButtons.get(BottomButtons.YES_BUTTON_ID)!.modify("Yes", clickFuncWrapper(yesFunc, needEvents));
+    MainScreen.botButtons.get(BottomButtons.NO_BUTTON_ID)!.modify("No", clickFuncWrapper(noFunc, needEvents));
 }
 
 export function displayNextScreenChoices(nextScreen: void | NextScreenChoices) {
     if (nextScreen) {
         if (nextScreen.yes && nextScreen.no) {
-            doYesNo(nextScreen.yes, nextScreen.no);
+            doYesNo(nextScreen.yes, nextScreen.no, nextScreen.needEvent);
         }
         else if (nextScreen.next) {
-            doNext(nextScreen.next);
+            doNext(nextScreen.next, nextScreen.needEvent);
         }
         else if (nextScreen.choices && nextScreen.choices.length > 0 || (nextScreen.persistantChoices && nextScreen.persistantChoices.length > 0)) {
-            displayChoices(nextScreen.choices!, nextScreen.persistantChoices);
+            displayChoices(nextScreen.choices, nextScreen.persistantChoices, nextScreen.needEvent);
         }
     }
     else {
@@ -147,8 +154,8 @@ export function displayNextScreenChoices(nextScreen: void | NextScreenChoices) {
 }
 
 export function choiceWrap(func: (char: Character, ...args: any[]) => NextScreenChoices, ...args: any[]): ClickFunction {
-    const wrapper = (character: Character, event?: Event): NextScreenChoices => {
-        return func(character, args);
+    const wrapper: ClickFunction = (character: Character, event?: Event): NextScreenChoices => {
+        return func(character, ...args);
     };
     Object.defineProperty(wrapper, "name", { value: func.name });
     return wrapper;
