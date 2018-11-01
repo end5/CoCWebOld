@@ -13,7 +13,6 @@ export class StatsPanel extends ScreenElement<HTMLElement> {
     public hp: StatPanel;
     public lust: StatPanel;
     public fatigue: StatPanel;
-    public fullness: StatPanel;
     public level: StatPanel;
     public xp: StatPanel;
     public gems: StatPanel;
@@ -30,7 +29,6 @@ export class StatsPanel extends ScreenElement<HTMLElement> {
         this.hp = new StatPanel(loadFromId("hpPanel"));
         this.lust = new StatPanel(loadFromId("lustPanel"));
         this.fatigue = new StatPanel(loadFromId("fatiguePanel"));
-        this.fullness = new StatPanel(loadFromId("fullnessPanel"));
         this.level = new StatPanel(loadFromId("levelPanel"));
         this.xp = new StatPanel(loadFromId("xpPanel"));
         this.gems = new StatPanel(loadFromId("gemsPanel"));
@@ -52,7 +50,6 @@ export class StatsPanel extends ScreenElement<HTMLElement> {
         this.hp = new StatPanel(loadFromId("hpPanel"));
         this.lust = new StatPanel(loadFromId("lustPanel"));
         this.fatigue = new StatPanel(loadFromId("fatiguePanel"));
-        this.fullness = new StatPanel(loadFromId("fullnessPanel"));
         this.level = new StatPanel(loadFromId("levelPanel"));
         this.xp = new StatPanel(loadFromId("xpPanel"));
         this.gems = new StatPanel(loadFromId("gemsPanel"));
