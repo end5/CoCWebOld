@@ -1,6 +1,14 @@
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export class KeyCombination implements ISerializable<KeyCombination> {
+export interface IKeyCombination {
+    keyCode: number;
+    shiftKey: boolean;
+    altKey: boolean;
+    ctrlKey: boolean;
+    metaKey: boolean;
+}
+
+export class KeyCombination implements ISerializable<IKeyCombination> {
     public keyCode: number = 0;
     public shiftKey: boolean = false;
     public altKey: boolean = false;
@@ -30,7 +38,7 @@ export class KeyCombination implements ISerializable<KeyCombination> {
             String.fromCharCode(this.keyCode);
     }
 
-    public serialize(): object {
+    public serialize(): IKeyCombination {
         return {
             keyCode: this.keyCode,
             shiftKey: this.shiftKey,
@@ -40,7 +48,7 @@ export class KeyCombination implements ISerializable<KeyCombination> {
         };
     }
 
-    public deserialize(saveObject: KeyCombination) {
+    public deserialize(saveObject: IKeyCombination) {
         if (saveObject.keyCode) {
             this.keyCode = saveObject.keyCode;
         }

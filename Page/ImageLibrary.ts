@@ -1,9 +1,9 @@
+import { Dictionary } from '../Engine/Utilities/Dictionary';
+import { randomChoice } from '../Engine/Utilities/SMath';
 import { ImageName } from './ImageName';
-import { Dictionary } from '../../Utilities/Dictionary';
-import { randomChoice } from '../../Utilities/SMath';
 
 interface ImageLoadPromise {
-    imageName: ImageName;
+    imageName: string;
     index: number;
     fileExtension: string[];
 }
@@ -18,7 +18,7 @@ export function getImage(name: string): string {
     else return "";
 }
 
-function loadImage(imageName: ImageName, index: number, fileExtension: string[]) {
+function loadImage(imageName: string, index: number, fileExtension: string[]) {
         new Promise<ImageLoadPromise>((resolve, reject) => {
             const imagePath = constructPath(imageName, index, fileExtension[0]);
             const img = new Image();

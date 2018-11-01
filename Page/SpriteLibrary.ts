@@ -1,5 +1,5 @@
 import { SpriteName } from './SpriteName';
-import { Dictionary } from '../../Utilities/Dictionary';
+import { Dictionary } from '../Engine/Utilities/Dictionary';
 
 const dir = "resource/sprites/";
 

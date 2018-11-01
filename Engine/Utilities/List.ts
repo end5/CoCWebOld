@@ -1,10 +1,12 @@
-﻿export type SortOption<T> = (a: T, b: T) => number;
+﻿import { ISerializable } from "./ISerializable";
+
+export type SortOption<T> = (a: T, b: T) => number;
 export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
 export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
 export type MapOption<T, U> = (value: T, index: number, array: T[]) => U;
 export type FindOption<T> = (value: T, index: number, array: T[]) => boolean;
 
-export class List<T> implements Iterable<T> {
+export class List<T> implements Iterable<T>, ISerializable<T[]> {
     protected list: T[] = [];
     private minLength: number = 0;
 
@@ -126,5 +128,28 @@ export class List<T> implements Iterable<T> {
                 };
             }
         };
+    }
+
+    public serialize<U>(): U[] {
+        return this.map((v) => {
+            if ((v as any).serialize)
+                return (v as any).serialize();
+            else
+                return v;
+        }).toArray();
+    }
+
+    public deserialize<U>(saveObject: U[], entryConstructor?: new (...args: any[]) => any, ...args: any[]): void {
+        this.clear();
+        saveObject.forEach((entry, index) => {
+            if (entryConstructor) {
+                const newObj = new (Function.prototype.bind.apply(entryConstructor, [args]))();
+                this.add(newObj);
+                if (entry && typeof entry === 'object' && (newObj as any).deserialize)
+                    newObj.deserialize(entry);
+            }
+            else
+                this.add(entry as any as T);
+        });
     }
 }

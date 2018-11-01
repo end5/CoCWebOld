@@ -1,7 +1,3 @@
-import { AnchorElement } from '../Display/Elements/AnchorElement';
-import { MainScreen } from '../Display/MainScreen';
-import { CView } from '../Display/ContentView';
-
 class SaveManager {
     private activatedSlot: number = -1;
     private saveSlots: (object | undefined)[];
@@ -9,7 +5,7 @@ class SaveManager {
 
     public constructor() {
         this.saveSlots = [];
-        this.saveSlots.length = this.saveSlotCount();
+        this.saveSlots.length = 20;
         this.autoSave = true;
         this.readSlots();
     }
@@ -46,7 +42,7 @@ class SaveManager {
     }
 
     public saveSlotCount(): number {
-        return MainScreen.NUM_BOT_BUTTONS - 1;
+        return this.saveSlots.length;
     }
 
     public autosaveToggle() {
@@ -70,14 +66,6 @@ class SaveManager {
     public saveToSlot(slotNumber: number, save: object) {
         this.saveSlots[slotNumber] = save;
         this.writeSlots();
-    }
-
-    public saveToFile(save: object, filename: string) {
-        const anchor = new AnchorElement();
-        CView.textElement.appendElement(anchor);
-        anchor.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(save));
-        anchor.download = filename;
-        anchor.click();
     }
 }
 

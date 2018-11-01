@@ -3,9 +3,12 @@ import { DefaultKeyBinds } from './DefaultKeyBinds';
 import { KeyPair } from './KeyPair';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { List } from '../Utilities/List';
-import { ListSerializer } from '../Utilities/ListSerializer';
 
-class InputManager implements ISerializable<InputManager> {
+export interface IInputManager {
+    keyBinds: KeyPair[];
+}
+
+class InputManager implements ISerializable<IInputManager> {
     private keyBinds: List<KeyPair>;
 
     public reset(bindableAction: BindableAction) {
@@ -96,13 +99,13 @@ class InputManager implements ISerializable<InputManager> {
         }
     }
 
-    public serialize(): object | undefined {
-        return { keyBinds: ListSerializer.serialize(this.keyBinds) };
+    public serialize(): IInputManager {
+        return { keyBinds: this.keyBinds.serialize() };
     }
 
-    public deserialize(saveObject: InputManager) {
+    public deserialize(saveObject: IInputManager) {
         // tslint:disable-next-line:no-string-literal
-        ListSerializer.deserialize(saveObject["keyBinds"], this.keyBinds, KeyPair);
+        this.keyBinds.deserialize(saveObject.keyBinds, KeyPair);
     }
 }
 

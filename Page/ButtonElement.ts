@@ -1,5 +1,5 @@
-import { ScreenElement } from './ScreenElement';
-import { randInt } from '../../Utilities/SMath';
+import { ScreenElement } from '../Engine/Display/Elements/ScreenElement';
+import { randInt } from '../Engine/Utilities/SMath';
 
 type EventFunction = (event: Event) => void;
 
@@ -21,7 +21,7 @@ export class ButtonElement extends ScreenElement<HTMLAnchorElement> {
      * @param clickFunc The function that is called when clicked.
      * @param disable Whether or not the button should be clickable.
      */
-    public modify(text: string, clickFunc: EventFunction | undefined, disable: boolean = false) {
+    public modify(text: string, clickFunc?: EventFunction, disable: boolean = false) {
         this.htmlElement.textContent = text;
         this.disable();
         if (clickFunc) {

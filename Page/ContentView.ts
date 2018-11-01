@@ -1,18 +1,16 @@
-import { SpriteLib } from "./Images/SpriteLibrary";
-import { ImageElement } from "./Elements/ImageElement";
-import { ParagraphElement } from "./Elements/ParagraphElement";
-import { loadFromId } from "../Utilities/Html";
-import { SpriteName } from "./Images/SpriteName";
-import { getImage } from "./Images/ImageLibrary";
-
-// function parse(text: string): string {
-//     return text.replace("\n", "<br/>");
-// }
+import { SpriteLib } from "./SpriteLibrary";
+import { ImageElement } from "../Engine/Display/Elements/ImageElement";
+import { ParagraphElement } from "../Engine/Display/Elements/ParagraphElement";
+import { loadFromId } from "../Engine/Utilities/Html";
+import { SpriteName } from "./SpriteName";
+import { getImage } from "./ImageLibrary";
+import { List } from "../Engine/Utilities/List";
 
 class ContentView {
     public readonly imageElement: ImageElement = new ImageElement();
     public readonly textElement: ParagraphElement = new ParagraphElement();
     public readonly spriteElement: ImageElement = new ImageElement();
+    public readonly parsers: List<(text: string) => string> = new List();
 
     public constructor() {
         this.imageElement.setHTMLElement(loadFromId("mainImageDisplay") as HTMLImageElement);
@@ -21,6 +19,7 @@ class ContentView {
     }
 
     public text(content: string): ContentView {
+
         this.textElement.text(content);
         return this;
     }

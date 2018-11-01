@@ -1,4 +1,8 @@
-export class Dictionary<T extends string, U> implements Iterable<U> {
+import { ISerializable } from "./ISerializable";
+
+export interface IDictionary<T> { [x: string]: T; }
+
+export class Dictionary<T extends string, U> implements Iterable<U>, ISerializable<IDictionary<U>> {
     protected dictionary: { [x: string]: any };
 
     public constructor() {
@@ -29,6 +33,10 @@ export class Dictionary<T extends string, U> implements Iterable<U> {
         return Object.keys(this.dictionary).map((key) => [key as T, this.dictionary[key] as U]) as [T, U][];
     }
 
+    public values(): U[] {
+        return Object.keys(this.dictionary).map((key) => this.dictionary[key] as U);
+    }
+
     public clear() {
         this.dictionary = {};
     }
@@ -45,5 +53,33 @@ export class Dictionary<T extends string, U> implements Iterable<U> {
                 };
             }
         };
+    }
+
+    public serialize<V = U>(): IDictionary<V> {
+        const saveObject: { [x: string]: any } = {};
+        const keys = this.keys();
+        for (const key of keys) {
+            const entry = this.get(key);
+            if (entry && 'serialize' in entry && (entry as any).serialize)
+                saveObject[key] = (entry as any).serialize() as any;
+            else
+                saveObject[key] = entry;
+        }
+        return saveObject;
+    }
+
+    public deserialize<V = U>(saveObject: IDictionary<V>, objectConstructor?: new (...args: any[]) => any, ...args: any[]) {
+        const keys = Object.keys(saveObject);
+        this.clear();
+        for (const key of keys) {
+            let entry: any = saveObject[key];
+            if (objectConstructor) {
+                entry = new (Function.prototype.bind.apply(objectConstructor, [args]))();
+                if ((entry as any).deserialize)
+                    entry.deserialize(saveObject[key]);
+            }
+            else
+                this.set(key as T, entry);
+        }
     }
 }
