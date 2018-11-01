@@ -4,11 +4,11 @@ import { CombatParty } from './CombatParty';
 import { combatRegeneration } from './CombatUtils';
 import { DefeatType } from './DefeatEvent';
 import { Character } from '../Character/Character';
-import { NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice, choiceWrap } from '../ScreenDisplay';
 import { awardPlayer } from './CombatDrops';
 import { CharDict } from '../CharList';
-import { InGameMenus } from '../Menus/InGame/InGameMenus';
-import { choiceWrap } from '../Utilities/Partial';
+import { playerMenu } from '../Menus/InGame/PlayerMenu';
+import { combatMenu } from '../Menus/InGame/PlayerCombatMenu';
 
 export class Encounter {
     private mainCharacter: Character;
@@ -50,10 +50,10 @@ export class Encounter {
             return encounter.endCombatOrNextRound();
         };
         if (!activeMember) {
-            return { next: InGameMenus.Player };
+            return { next: playerMenu };
         }
         else if (activeMember.uuid === CharDict.player!.uuid) {
-            return { next: choiceWrap(InGameMenus.Combat, this.mainCharacter) };
+            return { next: choiceWrap(combatMenu, this.mainCharacter) };
         }
         else {
             return performActionAI(activeMember);
@@ -70,7 +70,7 @@ export class Encounter {
             return encounter.endCombatOrNextRound();
         };
         if (!activeMember) {
-            return { next: InGameMenus.Player };
+            return { next: playerMenu };
         }
         else return performActionAI(activeMember);
     }

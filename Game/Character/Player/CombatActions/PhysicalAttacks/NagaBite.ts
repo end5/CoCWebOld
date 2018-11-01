@@ -5,7 +5,7 @@ import { CharacterType } from '../../../../Character/CharacterType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class NagaBite extends PlayerPhysicalAction {
@@ -52,12 +52,12 @@ export class NagaBite extends PlayerPhysicalAction {
                 duration: 1,
                 str: {
                     value: {
-                        flat: () => 5 + randInt(5)
+                        flat: 5 + randInt(5)
                     }
                 },
                 spe: {
                     value: {
-                        flat: () => 5 + randInt(5)
+                        flat: 5 + randInt(5)
                     }
                 }
             });

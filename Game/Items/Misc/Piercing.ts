@@ -3,6 +3,7 @@ import { Character } from '../../Character/Character';
 import { EquipableItem } from '../EquipableItem';
 import { ItemType } from '../ItemType';
 import { ItemDesc } from '../ItemDesc';
+import { IItem } from '../Item';
 
 export enum PiercingType {
     /** 1 */
@@ -17,7 +18,12 @@ export enum PiercingType {
     Chain = "Chain"
 }
 
-export class Piercing extends EquipableItem implements ISerializable<Piercing> {
+export interface IPiercing extends IItem {
+    short: string;
+    long: string;
+}
+
+export class Piercing extends EquipableItem implements ISerializable<IPiercing> {
     public shortDesc: string;
     public longDesc: string;
 
@@ -43,15 +49,16 @@ export class Piercing extends EquipableItem implements ISerializable<Piercing> {
 
     public useText(character: Character) { }
 
-    public serialize(): object | undefined {
-        return {
-            shortDesc: this.desc.shortName,
-            longDesc: this.desc.longName,
-        };
+    public serialize(): IPiercing {
+        return Object.assign({
+            short: this.desc.shortName,
+            long: this.desc.longName,
+        }, super.serialize());
     }
 
-    public deserialize(saveObject: Piercing) {
-        this.shortDesc = saveObject.shortDesc;
-        this.longDesc = saveObject.longDesc;
+    public deserialize(saveObject: IPiercing) {
+        this.shortDesc = saveObject.short;
+        this.longDesc = saveObject.long;
+        super.deserialize(saveObject);
     }
 }

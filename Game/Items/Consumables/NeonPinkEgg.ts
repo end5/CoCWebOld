@@ -21,7 +21,7 @@ import { describeVagina, describeClit } from '../../Descriptors/VaginaDescriptor
 import { describeLegs, describeLeg } from '../../Descriptors/LegDescriptor';
 import { mf } from '../../Descriptors/GenderDescriptor';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Womb } from '../../Body/Pregnancy/Womb';
 import { displayModFem } from '../../Modifiers/BodyModifier';
 import { bunnyRaceScore } from '../../Body/RaceScore';

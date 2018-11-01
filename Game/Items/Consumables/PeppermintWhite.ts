@@ -2,7 +2,7 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 
 export class PeppermintWhite extends Consumable {

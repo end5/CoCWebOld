@@ -3,7 +3,7 @@ import { Character } from '../../Character/Character';
 import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
 import { PerkType } from '../PerkType';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class Poison extends CombatEffect {
     public update(character: Character) {

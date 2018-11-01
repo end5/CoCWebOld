@@ -10,7 +10,7 @@ import { describeSkin } from '../../Descriptors/SkinDescriptor';
 import { describeCock } from '../../Descriptors/CockDescriptor';
 import { describeHips } from '../../Descriptors/HipDescriptor';
 import { describeLegs } from '../../Descriptors/LegDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 
 // Miscellaneous

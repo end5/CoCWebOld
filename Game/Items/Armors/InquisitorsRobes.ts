@@ -2,7 +2,7 @@ import { ArmorName } from './ArmorName';
 import { ArmorWithPerk } from './ArmorWithPerk';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Perk } from '../../Effects/Perk';
 
 export class InquisitorsRobes extends ArmorWithPerk {

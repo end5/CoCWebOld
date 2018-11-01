@@ -3,8 +3,8 @@ import { Inventory } from '../../Inventory/Inventory';
 import { ItemStack } from '../../Inventory/ItemStack';
 import { Item } from '../../Items/Item';
 import { ClickOption, NextScreenChoices, ScreenChoice, ClickFunction } from '../../ScreenDisplay';
-import { CView } from '../../../Engine/Display/ContentView';
-import { InGameMenus } from './InGameMenus';
+import { CView } from '../../../Page/ContentView';
+import { playerMenu } from './PlayerMenu';
 
 /* better inventory system
     other inv = undefined
@@ -61,7 +61,7 @@ export function displayCharInventory(character: Character, persistantChoices: Sc
                         itemSlot.item.use(character);
                         itemSlot.item.useText(character);
                     }
-                    return { next: InGameMenus.Player };
+                    return { next: playerMenu };
                 }
             ]);
         }
@@ -92,7 +92,7 @@ export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, ch
                         request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
                         return invFull(request);
                     }
-                    return { next: InGameMenus.Player };
+                    return { next: playerMenu };
                 }
             ]);
         }
@@ -119,7 +119,7 @@ function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Charac
                         request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
                         invFull(request);
                     }
-                    return { next: InGameMenus.Player };
+                    return { next: playerMenu };
                 }
             ]);
         }
@@ -218,7 +218,7 @@ function putBack<T extends Item>(request: AddItemsRequest<T>): ClickOption {
         }
         if (request.otherInventory)
             return displayInventoryTake(request.otherInventory, request.character, request.menuToDisplayUponFinish);
-        return { next: InGameMenus.Player };
+        return { next: playerMenu };
     };
 }
 
@@ -231,7 +231,7 @@ function useNow<T extends Item>(request: AddItemsRequest<T>): ClickOption {
             request.reverseActionFunc = undefined;
             return destroyItem(request);
         }
-        return { next: InGameMenus.Player };
+        return { next: playerMenu };
     };
 }
 

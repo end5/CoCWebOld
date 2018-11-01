@@ -13,7 +13,15 @@ export enum VaginaLooseness {
     TIGHT, NORMAL, LOOSE, GAPING, GAPING_WIDE, LEVEL_CLOWN_CAR
 }
 
-export class Vagina implements ISerializable<Vagina> {
+export interface IVagina {
+    type: VaginaType;
+    virgin: boolean;
+    wetness: VaginaWetness;
+    looseness: VaginaLooseness;
+    fullness: number;
+}
+
+export class Vagina implements IVagina, ISerializable<IVagina> {
     public static readonly LoosenessMost: SortOption<Vagina> = (a: Vagina, b: Vagina) => {
         return a.looseness - b.looseness;
     }
@@ -91,17 +99,17 @@ export class Vagina implements ISerializable<Vagina> {
         return 10000;
     }
 
-    public serialize(): object {
+    public serialize(): IVagina {
         return {
-            vaginaType: this.type,
+            type: this.type,
             virgin: this.virgin,
-            vaginalWetness: this.wetness,
-            vaginalLooseness: this.looseness,
+            wetness: this.wetness,
+            looseness: this.looseness,
             fullness: this.fullness
         };
     }
 
-    public deserialize(saveObject: Vagina) {
+    public deserialize(saveObject: IVagina) {
         this.type = saveObject.type;
         this.virgin = saveObject.virgin;
         this.wetness = saveObject.wetness;

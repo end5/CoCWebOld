@@ -3,7 +3,12 @@ import { ItemType } from './ItemType';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { Character } from '../Character/Character';
 
-export abstract class Item implements ISerializable<Item> {
+export interface IItem {
+    name: string;
+    type: ItemType;
+}
+
+export abstract class Item implements ISerializable<IItem> {
     public static readonly DefaultValue: number = 6;
     public readonly name: string;
     public readonly type: ItemType;
@@ -27,12 +32,12 @@ export abstract class Item implements ISerializable<Item> {
         return this.desc.description + " (Cost: " + this.value + ")";
     }
 
-    public serialize(): object | undefined {
+    public serialize(): IItem {
         return {
             name: this.name,
             type: this.type
         };
     }
 
-    public deserialize(saveObject: Item) { }
+    public deserialize(saveObject: IItem) { }
 }

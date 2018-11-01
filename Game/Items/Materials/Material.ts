@@ -3,7 +3,7 @@ import { Character } from '../../Character/Character';
 import { Item } from '../Item';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class Material extends Item {
     private readonly useDesc: string = '';

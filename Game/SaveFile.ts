@@ -1,12 +1,13 @@
 import { Gender } from './Body/GenderIdentity';
 import { Time } from './Utilities/Time';
-import { DictionarySerializer } from '../Engine/Utilities/DictionarySerializer';
 import { ISettings, Settings } from './Settings';
 import { Character } from './Character/Character';
 import { CharConstructorLib } from './Character/CharConstructorLib';
 import { CharacterType } from './Character/CharacterType';
 import { CharDict } from './CharList';
 import { Flags } from './Flags';
+import { attachCharToUI } from './ScreenDisplay';
+import { MainScreen } from '../Page/MainScreen';
 
 export interface SaveFile {
     name: string;
@@ -33,9 +34,9 @@ export function generateSave(notes?: string): SaveFile {
         gender: player.gender,
         notes: notes ? notes : (lastSave && lastSave.notes ? lastSave.notes : ""),
         user: {
-            chars: DictionarySerializer.serialize(CharDict),
+            chars: CharDict.serialize(),
             settings: Settings.serialize(),
-            flags: DictionarySerializer.serialize(Flags),
+            flags: Flags.serialize(),
         }
     };
     return lastSave;
@@ -51,8 +52,14 @@ export function loadFromSave(save: SaveFile) {
             CharDict.set(charKey as CharacterType, char);
         }
     }
+    if (!CharDict.player)
+        throw new Error('Player does not exist');
+
+    attachCharToUI(CharDict.player);
+    MainScreen.statsPanel.show();
+
     Settings.deserialize(save.user.settings);
-    DictionarySerializer.deserialize(save.user.flags, Flags);
+    Flags.deserialize(save.user.flags);
     Time.day = save.days;
     Time.hour = save.hour;
     lastSave = save;

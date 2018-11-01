@@ -3,7 +3,7 @@ import { EquipSlot } from '../Inventory/EquipSlot';
 import { Item } from '../Items/Item';
 import { CockSockName } from '../Items/Misc/CockSockName';
 import { NextScreenChoices } from '../ScreenDisplay';
-import { InGameMenus } from '../Menus/InGame/InGameMenus';
+import { playerMenu } from '../Menus/InGame/PlayerMenu';
 
 export function awardPlayer(character: Character, enemy: Character): NextScreenChoices {
     const gildedCockSock = character.inventory.equipment.cockSocks.find(EquipSlot.FilterName(CockSockName.Gilded));
@@ -15,9 +15,9 @@ export function awardPlayer(character: Character, enemy: Character): NextScreenC
     character.stats.XP += enemy.combat.rewards.XP();
     const item = dropItem(enemy);
     if (item) {
-        return character.inventory.items.createAdd(character, item.name, InGameMenus.Player);
+        return character.inventory.items.createAdd(character, item.name, playerMenu);
     }
-    return { next: InGameMenus.Player };
+    return { next: playerMenu };
 }
 
 function dropItem(enemy: Character): Item | undefined {

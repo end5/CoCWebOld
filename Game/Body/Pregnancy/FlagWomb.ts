@@ -1,8 +1,14 @@
-import { Pregnancy } from './Pregnancy';
+import { Pregnancy, IPregnancy } from './Pregnancy';
 import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 
-export class FlagWomb implements ISerializable<FlagWomb> {
-    protected currentPregnancy: Pregnancy | undefined;
+export interface IFlagWomb {
+    pregnancy?: IPregnancy;
+    events: number[];
+    lastEvent: number;
+}
+
+export class FlagWomb implements ISerializable<IFlagWomb> {
+    protected currentPregnancy?: Pregnancy;
     protected events: number[] = [];
     protected lastEvent: number = 0;
 
@@ -49,17 +55,16 @@ export class FlagWomb implements ISerializable<FlagWomb> {
         }
     }
 
-    public serialize(): object | undefined {
+    public serialize(): IFlagWomb | void {
         if (this.currentPregnancy)
             return {
-                currentPregnancy: this.currentPregnancy.serialize(),
+                pregnancy: this.currentPregnancy.serialize(),
                 events: this.events,
                 lastEvent: this.lastEvent,
             };
-        return;
     }
 
-    public deserialize(saveObject: FlagWomb) {
+    public deserialize(saveObject: IFlagWomb) {
         if (saveObject) {
             if (saveObject.pregnancy) {
                 this.currentPregnancy = new Pregnancy();

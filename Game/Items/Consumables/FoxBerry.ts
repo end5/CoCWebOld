@@ -18,13 +18,13 @@ import { describeCock, nounCock, describeCocksLight } from '../../Descriptors/Co
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
 import { describeAllBreasts, breastCup, describeBreastRow, describeNipple } from '../../Descriptors/BreastDescriptor';
 import { describeSkin, skinFurScales } from '../../Descriptors/SkinDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
 import { FlagType } from '../../FlagType';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Flags } from '../../Flags';
 import { Settings } from '../../Settings';
-import { InGameMenus } from '../../Menus/InGame/InGameMenus';
+import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 
 export const foxBerryFlags = {
     FOX_BAD_END_WARNING: 0,
@@ -71,7 +71,7 @@ export class FoxBerry extends Consumable {
                 if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).get(0)!.venom > 1) CView.text("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
                 CView.text("\n\nA sharp spark of pain jolts through your spinal column as the bones shift themselves around, the joints in your hips migrating forward.  You continue to howl in agony even as you feel your intelligence slipping away.  In a way, it's a blessing - as your thoughts grow muddied, the pain is dulled, until you are finally left staring blankly at the sky above, tilting your head curiously.");
                 CView.text("\n\nYou roll over and crawl free of the " + character.inventory.equipment.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
-                return { next: InGameMenus.GameOver };
+                return { next: gameOverMenu };
             }
         }
         // [increase Intelligence, Libido and Sensitivity]

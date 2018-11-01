@@ -4,7 +4,7 @@ import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Blind extends WhiteMagic {

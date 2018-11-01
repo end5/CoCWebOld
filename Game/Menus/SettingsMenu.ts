@@ -1,12 +1,13 @@
-import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
+import { MainScreen } from '../../Page/MainScreen';
 import { NextScreenChoices } from '../ScreenDisplay';
-import { CView } from '../../Engine/Display/ContentView';
+import { CView } from '../../Page/ContentView';
 import { Settings } from '../Settings';
-import { Menus } from './Menus';
+import { controlsMenu } from './ControlsMenu';
+import { mainMenu } from './MainMenu';
 
 export function settingsMenu(): NextScreenChoices {
-    MainScreen.getTopButton(TopButton.MainMenu).show();
-    MainScreen.getTopButton(TopButton.Data).show();
+    MainScreen.topButtons.mainMenu.show();
+    MainScreen.topButtons.data.show();
 
     CView.clear();
     CView.text("<b>Settings toggles:</b>\n");
@@ -64,14 +65,14 @@ export function settingsMenu(): NextScreenChoices {
             ["Sprite Toggle", toggleSpritesFlag],
             ["EZ Mode", toggleEasyModeFlag],
             ["Larger Font", incFontSize],
-            ["Controls", Menus.Controls],
+            ["Controls", controlsMenu],
             ["Hyper Happy", toggleHyperHappy],
             ["Low Standards", toggleStandards],
             ["Silly Toggle", toggleSillyFlag],
             ["Smaller Font", decFontSize],
         ],
         persistantChoices: [
-            ["Back", Menus.Controls]
+            ["Back", mainMenu]
         ]
     };
 }

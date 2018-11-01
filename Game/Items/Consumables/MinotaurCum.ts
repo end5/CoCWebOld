@@ -7,7 +7,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeClit, describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { FlagType } from '../../FlagType';
 import { Flags } from '../../Flags';
 

@@ -14,7 +14,7 @@ import { ItemDesc } from '../ItemDesc';
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { Gender } from '../../Body/GenderIdentity';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayModThickness } from '../../Modifiers/BodyModifier';
 import { growCock } from '../../Modifiers/CockModifier';
 

@@ -1,6 +1,6 @@
 import { Character } from '../../Character/Character';
 import { CombatEffect } from '../CombatEffect';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class KissOfDeath extends CombatEffect {
     public update(character: Character) {

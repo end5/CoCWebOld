@@ -1,8 +1,9 @@
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Character } from '../../Character/Character';
-import { ModifiableStat } from '../../Body/Stat/ModifiableStat';
-import { InGameMenus } from './InGameMenus';
+import { playerMenu } from './PlayerMenu';
+import { RangedStatWithEffects } from '../../Body/Stat/RangedStatWithEffects';
+import { StatWithEffects } from '../../Body/Stat/StatWithEffects';
 
 export function statsMenu(player: Character): NextScreenChoices {
     return stats(player);
@@ -15,7 +16,7 @@ function menuChoices(player: Character, screen: (player: Character) => NextScree
         ["Combat Stats", combatStats],
     ].filter((choice) => choice[1] !== screen) as ScreenChoice[];
 
-    choices[choices.length - 1] = ["Back", InGameMenus.Player];
+    choices[choices.length - 1] = ["Back", playerMenu];
     return { choices };
 }
 
@@ -40,7 +41,7 @@ function effects(player: Character): NextScreenChoices {
 function stats(player: Character): NextScreenChoices {
     CView.clear();
     CView.text('<b><u>Stats: </u></b>');
-    const playerStats: { [x: string]: ModifiableStat | number } = {
+    const playerStats: { [x: string]: StatWithEffects | RangedStatWithEffects | number } = {
         'Strength': player.stats.base.str,
         'Toughness': player.stats.base.tou,
         'Speed': player.stats.base.spe,
@@ -50,7 +51,6 @@ function stats(player: Character): NextScreenChoices {
         'Corruption': player.stats.base.cor,
         'Fatigue': player.stats.base.fatigue,
         'HP': player.stats.base.HP,
-        'Bonus HP': player.stats.base.bonusHP,
         'Lust': player.stats.base.lust,
         'Lust Vulnerability': player.stats.base.lustVuln,
         'XP': player.stats.base.XP,
@@ -60,17 +60,17 @@ function stats(player: Character): NextScreenChoices {
         'Tease Level': player.stats.base.teaseLevel,
     };
 
-    let stat: ModifiableStat | number;
+    let stat: StatWithEffects | RangedStatWithEffects | number;
     for (const statKey of Object.keys(playerStats)) {
         stat = playerStats[statKey];
         if (typeof stat === 'number') {
-            CView.text(statKey + ': ' + stat);
+            CView.text(statKey + ': ' + stat + '\n');
         }
         else {
-            CView.text(statKey + ': ' + stat.value);
+            CView.text(statKey + ': ' + stat.value + '\n');
             for (const mod of player.stats.base.str.effects.entries()) {
                 if (mod[1].toString() !== '')
-                    CView.text('  ' + mod[0] + ': ' + mod[1].toString());
+                    CView.text('  ' + mod[0] + ': ' + mod[1].toString() + '\n');
             }
         }
     }

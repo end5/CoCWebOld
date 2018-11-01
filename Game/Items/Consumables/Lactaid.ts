@@ -5,7 +5,7 @@ import { BreastRow } from '../../Body/BreastRow';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
 import { describeNipple, describeBreastGrowth } from '../../Descriptors/BreastDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { growSmallestBreastRow } from '../../Modifiers/BreastModifier';
 import { displayModFem } from '../../Modifiers/BodyModifier';
 

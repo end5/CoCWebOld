@@ -4,7 +4,7 @@ import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
 import { PerkType } from '../../Effects/PerkType';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export enum WeaponPerkType {
     Penetrate = "Penetrate",

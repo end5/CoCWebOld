@@ -2,7 +2,7 @@ import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 

@@ -4,16 +4,20 @@ export enum ArmType {
     HUMAN, HARPY, SPIDER
 }
 
-export class Arms implements ISerializable<Arms> {
+export interface IArms {
+    type: ArmType;
+}
+
+export class Arms implements IArms, ISerializable<IArms> {
     public type: ArmType = ArmType.HUMAN;
 
-    public serialize(): object {
+    public serialize(): IArms {
         return {
             type: this.type
         };
     }
 
-    public deserialize(saveObject: Arms) {
+    public deserialize(saveObject: IArms) {
         this.type = saveObject.type;
     }
 }

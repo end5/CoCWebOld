@@ -17,7 +17,7 @@ import { TongueType } from '../../Body/Tongue';
 import { LegType } from '../../Body/Legs';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
 import { WingType } from '../../Body/Wings';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayModFem, displayModThickness } from '../../Modifiers/BodyModifier';
 import { growCock, thickenCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { shrinkTits } from '../../Modifiers/BreastModifier';

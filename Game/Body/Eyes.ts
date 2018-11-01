@@ -4,16 +4,20 @@ export enum EyeType {
     HUMAN, FOUR_SPIDER_EYES, BLACK_EYES_SAND_TRAP
 }
 
-export class Eyes implements ISerializable<Eyes> {
+export interface IEyes {
+    type: EyeType;
+}
+
+export class Eyes implements IEyes, ISerializable<IEyes> {
     public type: EyeType = EyeType.HUMAN;
 
-    public serialize(): object {
+    public serialize(): IEyes {
         return {
             type: this.type
         };
     }
 
-    public deserialize(saveObject: Eyes) {
+    public deserialize(saveObject: IEyes) {
         this.type = saveObject.type;
     }
 }

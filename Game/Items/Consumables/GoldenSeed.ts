@@ -25,7 +25,7 @@ import { describeBallsShort, describeSack } from '../../Descriptors/BallsDescrip
 import { describeHips } from '../../Descriptors/HipDescriptor';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
 import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { shrinkTits } from '../../Modifiers/BreastModifier';
 import { displayModFem, displayModThickness } from '../../Modifiers/BodyModifier';
 import { Settings } from '../../Settings';

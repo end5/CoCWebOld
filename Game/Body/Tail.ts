@@ -5,7 +5,13 @@ export enum TailType {
     HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
 }
 
-export class Tail implements ISerializable<Tail> {
+export interface ITail {
+    type: TailType;
+    venom: number;
+    recharge: number;
+}
+
+export class Tail implements ITail, ISerializable<ITail> {
     public static VenomMost: SortOption<Tail> = (a: Tail, b: Tail) => {
         return a.venom - b.venom;
     }
@@ -50,7 +56,7 @@ export class Tail implements ISerializable<Tail> {
         return a.type === TailType.BEE_ABDOMEN || a.type === TailType.SPIDER_ABDOMEN;
     }
 
-    public serialize(): object {
+    public serialize(): ITail {
         return {
             type: this.type,
             venom: this.venom,
@@ -58,7 +64,7 @@ export class Tail implements ISerializable<Tail> {
         };
     }
 
-    public deserialize(saveObject: Tail) {
+    public deserialize(saveObject: ITail) {
         this.type = saveObject.type;
         this.venom = saveObject.venom;
         this.recharge = saveObject.recharge;

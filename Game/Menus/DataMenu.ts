@@ -3,8 +3,11 @@ import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Character } from '../Character/Character';
 import { generateSave, loadFromSave } from '../SaveFile';
 import { displayNextScreenChoices, NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
-import { CView } from '../../Engine/Display/ContentView';
-import { Menus } from './Menus';
+import { CView } from '../../Page/ContentView';
+import { saveMenu } from './SaveMenu';
+import { loadMenu } from './LoadMenu';
+import { deleteMenu } from './DeleteMenu';
+import { mainMenu } from './MainMenu';
 
 export function dataMenu(): NextScreenChoices {
     CView.clear();
@@ -19,10 +22,10 @@ export function dataMenu(): NextScreenChoices {
     CView.text("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
 
     const choices: ScreenChoice[] = [
-        ["Save", Menus.Save],
-        ["Load", Menus.Load],
+        ["Save", saveMenu],
+        ["Load", loadMenu],
         ["AutoSav: ON", autosaveToggle],
-        ["Delete", Menus.Delete],
+        ["Delete", deleteMenu],
         ["Save File", saveToFile],
         ["Load File", loadFromFile]
     ];
@@ -31,7 +34,7 @@ export function dataMenu(): NextScreenChoices {
         choices[2][0] = "AutoSav: OFF";
     }
 
-    return { choices, persistantChoices: [["Back", Menus.Main]] };
+    return { choices, persistantChoices: [["Back", mainMenu]] };
 }
 
 function autosaveToggle(): NextScreenChoices {
@@ -45,10 +48,9 @@ function saveToFile(): NextScreenChoices {
     CView.textElement.appendElement(anchor);
     const blob = new Blob([JSON.stringify(saveFile)], { type: 'text/json' });
     // if (!!window["StyleMedia"]) // IE Edge
-    if (!!window.styleMedia) // IE Edge
-        window.navigator.msSaveBlob(blob, saveFile.name);
-    else
-        anchor.href = window.URL.createObjectURL(blob);
+    // window.navigator.msSaveBlob(blob, saveFile.name);
+    // else
+    anchor.href = URL.createObjectURL(blob);
     anchor.download = saveFile.name;
     anchor.click();
     return dataMenu();

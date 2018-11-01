@@ -1,69 +1,73 @@
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import { ModifiableStat } from './Stat/ModifiableStat';
+import { StatWithEffects, IStatWithEffects } from './Stat/StatWithEffects';
+import { RangedStatWithEffects, IRangedStatWithEffects } from './Stat/RangedStatWithEffects';
 
-export class Stats implements ISerializable<Stats> {
+export interface IStats {
+    str: IRangedStatWithEffects;
+    tou: IRangedStatWithEffects;
+    spe: IRangedStatWithEffects;
+    int: IRangedStatWithEffects;
+    lib: IRangedStatWithEffects;
+    sens: IRangedStatWithEffects;
+    cor: IRangedStatWithEffects;
+    fatigue: IRangedStatWithEffects;
+    HP: IRangedStatWithEffects;
+    lust: IRangedStatWithEffects;
+    lustVuln: number;
+    XP: IStatWithEffects;
+    level: IStatWithEffects;
+    perkPoints: number;
+    teaseXP: number;
+    teaseLevel: number;
+}
+
+export class Stats implements ISerializable<IStats> {
     // Primary stats
-    // public str: number;
-    // public tou: number;
-    // public spe: number;
-    // public int: number;
-    // public lib: number;
-    // public sens: number;
-    // public cor: number;
-    // public fatigue: number;
+    public str = new RangedStatWithEffects();
+    public tou = new RangedStatWithEffects();
+    public spe = new RangedStatWithEffects();
+    public int = new RangedStatWithEffects();
+    public lib = new RangedStatWithEffects();
+    public sens = new RangedStatWithEffects();
+    public cor = new RangedStatWithEffects();
+    public fatigue = new RangedStatWithEffects();
 
-    public str = new ModifiableStat('str');
-    public tou = new ModifiableStat('tou');
-    public spe = new ModifiableStat('spe');
-    public int = new ModifiableStat('int');
-    public lib = new ModifiableStat('lib');
-    public sens = new ModifiableStat('sens');
-    public cor = new ModifiableStat('cor');
-    public fatigue = new ModifiableStat('fatigue');
     // Combat Stats
-    // public HP: number;
-    public bonusHP: number = 0;
-    // public lust: number;
+    public HP = new RangedStatWithEffects();
+    public lust = new RangedStatWithEffects();
     public lustVuln: number = 0;
-    // public minLust: number;
-
-    public HP = new ModifiableStat('hp');
-    public lust = new ModifiableStat('lust');
 
     // Level Stats
-    public XP: number = 0;
-    public level: number = 0;
-    public additionalXP: number = 0;
+    public XP = new StatWithEffects();
+    public level = new StatWithEffects();
     public perkPoints: number = 0;
     public teaseXP: number = 0;
     public teaseLevel: number = 0;
 
-    public serialize(): object {
+    public serialize(): IStats {
         return {
-            strStat: this.str.serialize(),
-            touStat: this.tou.serialize(),
-            speStat: this.spe.serialize(),
-            intStat: this.int.serialize(),
-            libStat: this.lib.serialize(),
-            sensStat: this.sens.serialize(),
-            corStat: this.cor.serialize(),
-            fatigueStat: this.fatigue.serialize(),
-            HPStat: this.HP.serialize(),
-            lustStat: this.lust.serialize(),
+            str: this.str.serialize(),
+            tou: this.tou.serialize(),
+            spe: this.spe.serialize(),
+            int: this.int.serialize(),
+            lib: this.lib.serialize(),
+            sens: this.sens.serialize(),
+            cor: this.cor.serialize(),
+            fatigue: this.fatigue.serialize(),
 
-            bonusHP: this.bonusHP,
+            HP: this.HP.serialize(),
+            lust: this.lust.serialize(),
             lustVuln: this.lustVuln,
 
-            XP: this.XP,
-            level: this.level,
-            additionalXP: this.additionalXP,
+            XP: this.XP.serialize(),
+            level: this.level.serialize(),
             perkPoints: this.perkPoints,
             teaseXP: this.teaseXP,
             teaseLevel: this.teaseLevel
         };
     }
 
-    public deserialize(saveObject: Stats) {
+    public deserialize(saveObject: IStats) {
         this.str.deserialize(saveObject.str);
         this.tou.deserialize(saveObject.tou);
         this.spe.deserialize(saveObject.spe);
@@ -72,15 +76,13 @@ export class Stats implements ISerializable<Stats> {
         this.sens.deserialize(saveObject.sens);
         this.cor.deserialize(saveObject.cor);
         this.fatigue.deserialize(saveObject.fatigue);
+
         this.HP.deserialize(saveObject.HP);
         this.lust.deserialize(saveObject.lust);
-
-        this.bonusHP = saveObject.bonusHP;
         this.lustVuln = saveObject.lustVuln;
 
-        this.XP = saveObject.XP;
-        this.level = saveObject.level;
-        this.additionalXP = saveObject.additionalXP;
+        this.XP.deserialize(saveObject.XP);
+        this.level.deserialize(saveObject.level);
         this.perkPoints = saveObject.perkPoints;
         this.teaseXP = saveObject.teaseXP;
         this.teaseLevel = saveObject.teaseLevel;

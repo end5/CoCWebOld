@@ -6,13 +6,7 @@
     <meta charset="utf-8" />
     <title></title>
     <link href="page.css" rel="stylesheet">
-    <script>
-        document.addEventListener("DOMContentLoaded", function (event) {
-            var tag = document.createElement("script");
-            tag.src = "./dist/main.js";
-            document.getElementsByTagName("head")[0].appendChild(tag);
-        });
-    </script>
+    <script src='./Loader.ts' defer></script>
 </head>
 
 <body>
@@ -33,7 +27,7 @@
             <div class="statsInfo">
                 <div class="statsName">Strength</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -43,7 +37,7 @@
             <div class="statsInfo">
                 <div class="statsName">Toughness</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -53,7 +47,7 @@
             <div class="statsInfo">
                 <div class="statsName">Speed</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -63,7 +57,7 @@
             <div class="statsInfo">
                 <div class="statsName">Intelligence</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -73,7 +67,7 @@
             <div class="statsInfo">
                 <div class="statsName">Libido</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -83,7 +77,7 @@
             <div class="statsInfo">
                 <div class="statsName">Sensitivity</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -93,7 +87,7 @@
             <div class="statsInfo">
                 <div class="statsName">Corruption</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -104,7 +98,7 @@
             <div class="statsInfo">
                 <div class="statsName">HP</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -114,7 +108,7 @@
             <div class="statsInfo">
                 <div class="statsName">Lust</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -124,19 +118,28 @@
             <div class="statsInfo">
                 <div class="statsName">Fatigue</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
             </div>
         </div>
-        <!--<div id="fullnessPanel" class="statsPanel"></div>-->
+        <div id="fullnessPanel" class="statsPanel">
+            <div class="statsInfo">
+                <div class="statsName">Fullness</div>
+                <div class="statsBar"></div>
+                <!-- <div class="statsMax"></div> -->
+            </div>
+            <div class="statsNumbers">
+                <span class="statsCurrent">98</span>
+            </div>
+        </div>
         <h3>Advancement</h3>
         <div id="levelPanel" class="statsPanel">
             <div class="statsInfo">
                 <div class="statsName">Level</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <img id="levelupIcon" src="resource/ui/arrow-up.png" />
             <div class="statsNumbers">
@@ -147,7 +150,7 @@
             <div class="statsInfo">
                 <div class="statsName">Experience</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>
@@ -157,7 +160,7 @@
             <div class="statsInfo">
                 <div class="statsName">Gems</div>
                 <div class="statsBar"></div>
-                <div class="statsMax"></div>
+                <!-- <div class="statsMax"></div> -->
             </div>
             <div class="statsNumbers">
                 <span class="statsCurrent">98</span>

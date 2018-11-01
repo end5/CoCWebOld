@@ -4,7 +4,7 @@ import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { mf } from '../../../../Descriptors/GenderDescriptor';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';

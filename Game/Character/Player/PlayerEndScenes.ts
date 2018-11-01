@@ -3,7 +3,7 @@ import { DefeatType } from '../../Combat/DefeatEvent';
 import { EndScenes } from '../../Combat/EndScenes';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Character } from '../Character';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { timePass } from '../../Menus/InGame/PlayerMenu';
 
 export class PlayerEndScenes extends EndScenes {

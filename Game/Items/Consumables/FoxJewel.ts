@@ -14,7 +14,7 @@ import { skinFurScales, describeSkin } from '../../Descriptors/SkinDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeNipple } from '../../Descriptors/BreastDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayModFem } from '../../Modifiers/BodyModifier';
 import { Settings } from '../../Settings';
 

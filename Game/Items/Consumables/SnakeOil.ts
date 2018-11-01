@@ -11,7 +11,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeLegs, describeFeet } from '../../Descriptors/LegDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 // 9)  Transformation Item - Snake Oil (S. Oil)
 /*Effects:

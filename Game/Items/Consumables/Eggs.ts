@@ -12,7 +12,7 @@ import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeCocks, describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBreastRow, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayModThickness, displayModFem } from '../../Modifiers/BodyModifier';
 import { displayKillCocks, growCock, thickenCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { shrinkTits } from '../../Modifiers/BreastModifier';

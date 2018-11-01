@@ -3,7 +3,7 @@ import { ConsumableName } from './ConsumableName';
 import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class HerbalContraceptive extends Consumable {
     public constructor() {

@@ -6,7 +6,11 @@ export enum LegType {
     DRIDER_LOWER_BODY, FOX, DRAGON, RACCOON, FERRET
 }
 
-export class Legs implements ISerializable<Legs> {
+export interface ILegs {
+    type: LegType;
+}
+
+export class Legs implements ILegs, ISerializable<ILegs> {
     public type: LegType = LegType.HUMAN;
 
     public isBiped(): boolean {
@@ -40,13 +44,13 @@ export class Legs implements ISerializable<Legs> {
         return false;
     }
 
-    public serialize(): object {
+    public serialize(): ILegs {
         return {
             type: this.type
         };
     }
 
-    public deserialize(saveObject: Legs) {
+    public deserialize(saveObject: ILegs) {
         this.type = saveObject.type;
     }
 }

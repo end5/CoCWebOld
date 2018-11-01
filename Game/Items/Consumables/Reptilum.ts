@@ -23,7 +23,7 @@ import { Gender } from '../../Body/GenderIdentity';
 import { describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { lizardRaceScore } from '../../Body/RaceScore';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 import { FlagType } from '../../FlagType';

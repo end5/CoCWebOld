@@ -2,7 +2,7 @@ import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import { InGameMenus } from '../../../../Menus/InGame/InGameMenus';
+import { inventoryMenu } from '../../../../Menus/InGame/PlayerInventoryMenu';
 
 export class Items implements ICombatAction {
     public flags: CombatAbilityFlag = CombatAbilityFlag.Items;
@@ -19,6 +19,6 @@ export class Items implements ICombatAction {
     }
 
     public use(character: Character, target: Character): NextScreenChoices {
-        return InGameMenus.Inventory(character);
+        return inventoryMenu(character);
     }
 }

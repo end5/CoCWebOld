@@ -3,7 +3,7 @@ import { ConsumableName } from './ConsumableName';
 import { BreastRow } from '../../Body/BreastRow';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { boostLactation } from '../../Modifiers/BreastModifier';
 
 export class PurpleFruit extends Consumable {

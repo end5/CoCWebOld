@@ -1,23 +1,28 @@
-import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
+import { MainScreen } from '../../Page/MainScreen';
 import { clickFuncWrapper, NextScreenChoices } from '../ScreenDisplay';
 import { isEaster, isValentine } from '../Utilities/Dates';
-import { CView } from '../../Engine/Display/ContentView';
+import { CView } from '../../Page/ContentView';
 import { CharDict } from '../CharList';
 import { Settings } from '../Settings';
-import { Menus } from './Menus';
-import { InGameMenus } from './InGame/InGameMenus';
+import { statsMenu } from './InGame/StatsMenu';
+import { perkUpMenu } from './InGame/PerkUpMenu';
+import { perksMenu } from './InGame/PerksMenu';
+import { playerMenu } from './InGame/PlayerMenu';
+import { dataMenu } from './DataMenu';
+import { settingsMenu } from './SettingsMenu';
+import { charCreationMenu } from './InGame/CharCreationMenu';
 
 export function mainMenu(): NextScreenChoices {
     if (!CharDict.player)
-        MainScreen.getStatsPanel().hide();
+        MainScreen.statsPanel.hide();
 
-    MainScreen.getTopButton(TopButton.Stats).modify("Stats", clickFuncWrapper(InGameMenus.Stats));
-    MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", clickFuncWrapper(InGameMenus.PerkUp));
-    MainScreen.getTopButton(TopButton.Perks).modify("Perks", clickFuncWrapper(InGameMenus.Perks));
-    MainScreen.getTopButton(TopButton.Appearance).modify("Appearance", undefined);
-    MainScreen.hideTopButtons();
-    MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", clickFuncWrapper(InGameMenus.Player));
-    MainScreen.getTopButton(TopButton.Data).modify("Data", clickFuncWrapper(Menus.Data));
+    MainScreen.topButtons.stats.modify("Stats", clickFuncWrapper(statsMenu));
+    MainScreen.topButtons.perkUp.modify("Perk Up", clickFuncWrapper(perkUpMenu));
+    MainScreen.topButtons.perks.modify("Perks", clickFuncWrapper(perksMenu));
+    MainScreen.topButtons.appearance.modify("Appearance", undefined);
+    MainScreen.topButtons.hide();
+    MainScreen.topButtons.mainMenu.modify("New Game", clickFuncWrapper(charCreationMenu));
+    MainScreen.topButtons.data.modify("Data", clickFuncWrapper(dataMenu));
 
     CView.clear();
     CView.text("<b>Corruption of Champions Web Edition Framework Test</b>\n");
@@ -37,7 +42,7 @@ export function mainMenu(): NextScreenChoices {
 
     return {
         choices: [
-            ["Settings", Menus.Settings], ["Resume", CharDict.player ? InGameMenus.Player : undefined]
+            ["Settings", settingsMenu], ["Resume", CharDict.player ? playerMenu : undefined]
         ]
     };
 }

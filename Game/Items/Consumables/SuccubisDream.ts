@@ -6,7 +6,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeBalls, describeSack } from '../../Descriptors/BallsDescriptor';
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayModFem } from '../../Modifiers/BodyModifier';
 
 export class SuccubisDream extends Consumable {

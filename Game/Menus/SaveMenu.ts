@@ -3,8 +3,8 @@ import { InputTextElement } from '../../Engine/Display/Elements/InputTextElement
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { generateSave, SaveFile } from '../SaveFile';
 import { ClickOption, NextScreenChoices } from '../ScreenDisplay';
-import { CView } from '../../Engine/Display/ContentView';
-import { Menus } from './Menus';
+import { CView } from '../../Page/ContentView';
+import { dataMenu } from './DataMenu';
 
 export function saveMenu(): NextScreenChoices {
     CView.clear();
@@ -21,7 +21,7 @@ export function saveMenu(): NextScreenChoices {
     CView.textElement.appendElement(notesInputElement);
     notesInputElement.style.position = "fixed";
 
-    return saveSlotChoices(createSaveFuncCallback(generateSave(notesInputElement.text)), Menus.Data);
+    return saveSlotChoices(createSaveFuncCallback(generateSave(notesInputElement.text)), dataMenu);
 }
 
 function createSaveFuncCallback(save: SaveFile): (index: number) => ClickOption {

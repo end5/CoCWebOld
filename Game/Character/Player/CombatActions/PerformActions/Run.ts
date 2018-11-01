@@ -8,7 +8,7 @@ import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { describeLegs } from '../../../../Descriptors/LegDescriptor';
 import { describeBalls } from '../../../../Descriptors/BallsDescriptor';
 import { describeHips } from '../../../../Descriptors/HipDescriptor';

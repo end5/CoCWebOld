@@ -1,8 +1,14 @@
 ﻿import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import { Item } from '../Items/Item';
+import { Item, IItem } from '../Items/Item';
 import { getItemFromName } from '../Items/ItemLookup';
 
-export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
+export interface IItemStack {
+    item: IItem;
+    amount: number;
+    maxAmount: number;
+}
+
+export class ItemStack<T extends Item> implements ISerializable<IItemStack> {
     public item?: Item;
     private amount: number;
     private maxAmount: number;
@@ -47,7 +53,7 @@ export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
         return new ItemStack();
     }
 
-    public serialize(): object | void {
+    public serialize(): IItemStack | void {
         if (this.item)
             return {
                 item: this.item.serialize(),
@@ -56,7 +62,7 @@ export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
             };
     }
 
-    public deserialize(saveObject: ItemStack<T>) {
+    public deserialize(saveObject: IItemStack) {
         if (saveObject) {
             if (saveObject.item)
                 this.item = getItemFromName(saveObject.item.name);

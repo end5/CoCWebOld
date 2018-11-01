@@ -1,14 +1,17 @@
-import { ItemStack } from './ItemStack';
+import { ItemStack, IItemStack } from './ItemStack';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption, List, ReduceOption, SortOption } from '../../Engine/Utilities/List';
-import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
 import { Character } from '../Character/Character';
 import { Item } from '../Items/Item';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
 import { NextScreenChoices, ClickFunction } from '../ScreenDisplay';
 import { getItemFromName } from '../Items/ItemLookup';
 
-export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
+export interface IInventory {
+    slots: IItemStack[];
+}
+
+export class Inventory<T extends Item> implements ISerializable<IInventory> {
     private itemSlots: List<ItemStack<T>> = new List();
 
     public unlock(amount: number = 1) {
@@ -171,13 +174,13 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
         }
     }
 
-    public serialize(): object | undefined {
+    public serialize(): IInventory {
         return {
-            itemSlots: ListSerializer.serialize(this.itemSlots)
+            slots: this.itemSlots.serialize()
         };
     }
 
-    public deserialize(saveObject: Inventory<T>) {
-        ListSerializer.deserialize(saveObject.itemSlots, this.itemSlots, ItemStack);
+    public deserialize(saveObject: IInventory) {
+        this.itemSlots.deserialize(saveObject.slots, ItemStack);
     }
 }

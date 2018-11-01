@@ -1,37 +1,32 @@
 import { ISerializable } from "../../../Engine/Utilities/ISerializable";
+import { Dictionary } from "../../../Engine/Utilities/Dictionary";
 
-export class Stat implements ISerializable<Stat> {
-    public constructor(
-        public name: string,
-        private curValue = 0,
-        public min = 0,
-        public max = 0,
-    ) { }
+export interface IStatObserver {
+    onValue(value: number): void;
+}
+
+export interface IStat {
+    value: number;
+}
+
+export class Stat implements IStat, ISerializable<IStat> {
+    public observers = new Dictionary<string, IStatObserver>();
+    protected curValue = 0;
 
     public get value() { return this.curValue; }
-
     public set value(num: number) {
         this.curValue += num;
-        if (this.curValue > this.max)
-            this.curValue = this.max;
-
-        if (this.curValue < this.min)
-            this.curValue = this.min;
+        for (const observers of this.observers)
+            observers.onValue(this.curValue);
     }
 
-    public serialize(): object {
+    public serialize(): IStat {
         return {
-            value: this.value,
-            min: this.min,
-            max: this.max,
-            name: this.name,
+            value: this.value
         };
     }
 
-    public deserialize(saveObject: Stat): void {
+    public deserialize(saveObject: IStat) {
         this.curValue = saveObject.value;
-        this.min = saveObject.min;
-        this.max = saveObject.max;
-        this.name = saveObject.name;
     }
 }

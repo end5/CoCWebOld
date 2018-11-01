@@ -1,7 +1,6 @@
-import { EquipSlot } from './EquipSlot';
+import { EquipSlot, IEquipSlot } from './EquipSlot';
 import { EquipSlotList } from './EquipSlotList';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
 import { Character } from '../Character/Character';
 import { EquipableItem } from '../Items/EquipableItem';
 import { Piercing } from '../Items/Misc/Piercing';
@@ -16,7 +15,20 @@ type NipplePiercingSlot = ObservingEquipSlot<Piercing, BreastRow>;
 type BreastRowMonitor = ListMonitor<BreastRow, NipplePiercingSlot, EquipSlotList<Piercing, NipplePiercingSlot>>;
 type CockMonitor = ListMonitor<Cock, CockPiercingSlot, EquipSlotList<Piercing, CockPiercingSlot>>;
 
-export class PiercingInventory implements ISerializable<PiercingInventory> {
+export interface IPiercingInventory {
+    clit?: IEquipSlot;
+    ears?: IEquipSlot;
+    eyebrow?: IEquipSlot;
+    lip?: IEquipSlot;
+    nose?: IEquipSlot;
+    tongue?: IEquipSlot;
+    labia?: IEquipSlot;
+
+    nipples: IEquipSlot[];
+    cocks: IEquipSlot[];
+}
+
+export class PiercingInventory implements ISerializable<IPiercingInventory> {
     public readonly clit: PiercingSlot;
     public readonly ears: PiercingSlot;
     public readonly eyebrow: PiercingSlot;
@@ -43,8 +55,8 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
 
         this.nipplesMonitor = new ListMonitor<BreastRow, NipplePiercingSlot, EquipSlotList<Piercing, NipplePiercingSlot>>(this.nipples, ObservingEquipSlot, character);
         this.cocksMonitor = new ListMonitor<Cock, CockPiercingSlot, EquipSlotList<Piercing, CockPiercingSlot>>(this.cocks, ObservingEquipSlot, character);
-        character.body.chest.attach(this.nipplesMonitor);
-        character.body.cocks.attach(this.cocksMonitor);
+        character.body.chest.observers.add(this.nipplesMonitor);
+        character.body.cocks.observers.add(this.cocksMonitor);
     }
 
     // 0) **Clit (+2 sens)
@@ -78,29 +90,29 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
         });
     }
 
-    public serialize(): object | undefined {
-        return {
-            clit: this.clit.serialize(),
-            ears: this.ears.serialize(),
-            eyebrow: this.eyebrow.serialize(),
-            lip: this.lip.serialize(),
-            nose: this.nose.serialize(),
-            tongue: this.tongue.serialize(),
-            labia: this.labia.serialize(),
-            nipples: ListSerializer.serialize(this.nipples),
-            cocks: ListSerializer.serialize(this.cocks)
-        };
+    public serialize(): IPiercingInventory {
+        const saveObject: { [x: string]: any } = {};
+        if (this.clit.item) saveObject.clit = this.clit.serialize();
+        if (this.ears.item) saveObject.ears = this.ears.serialize();
+        if (this.eyebrow.item) saveObject.eyebrow = this.eyebrow.serialize();
+        if (this.lip.item) saveObject.lip = this.lip.serialize();
+        if (this.nose.item) saveObject.nose = this.nose.serialize();
+        if (this.tongue.item) saveObject.tongue = this.tongue.serialize();
+        if (this.labia.item) saveObject.labia = this.labia.serialize();
+        saveObject.nipples = this.nipples.serialize();
+        saveObject.cocks = this.cocks.serialize();
+        return saveObject as IPiercingInventory;
     }
 
-    public deserialize(saveObject: PiercingInventory) {
-        this.clit.deserialize(saveObject.clit);
-        this.ears.deserialize(saveObject.ears);
-        this.eyebrow.deserialize(saveObject.eyebrow);
-        this.lip.deserialize(saveObject.lip);
-        this.nose.deserialize(saveObject.nose);
-        this.tongue.deserialize(saveObject.tongue);
-        this.labia.deserialize(saveObject.labia);
-        ListSerializer.deserialize(saveObject.nipples, this.nipples);
-        ListSerializer.deserialize(saveObject.cocks, this.cocks);
+    public deserialize(saveObject: IPiercingInventory) {
+        if (saveObject.clit) this.clit.deserialize(saveObject.clit);
+        if (saveObject.ears) this.ears.deserialize(saveObject.ears);
+        if (saveObject.eyebrow) this.eyebrow.deserialize(saveObject.eyebrow);
+        if (saveObject.lip) this.lip.deserialize(saveObject.lip);
+        if (saveObject.nose) this.nose.deserialize(saveObject.nose);
+        if (saveObject.tongue) this.tongue.deserialize(saveObject.tongue);
+        if (saveObject.labia) this.labia.deserialize(saveObject.labia);
+        this.nipples.deserialize(saveObject.nipples, Piercing);
+        this.cocks.deserialize(saveObject.cocks, Piercing);
     }
 }

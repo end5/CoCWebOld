@@ -2,7 +2,12 @@ import { EffectDesc } from './EffectDescription';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { EffectValues, IEffectValues } from './EffectValues';
 
-export abstract class Effect<Type extends string, Desc extends EffectDesc = EffectDesc> implements ISerializable<Effect<Type, Desc>> {
+export interface IEffect {
+    type: string;
+    values?: IEffectValues;
+}
+
+export abstract class Effect<Type extends string, Desc extends EffectDesc = EffectDesc> implements ISerializable<IEffect> {
     // desc does not need to be serialized
     private effectType: Type;
     public readonly desc: EffectDesc;
@@ -19,16 +24,21 @@ export abstract class Effect<Type extends string, Desc extends EffectDesc = Effe
         return this.effectType;
     }
 
-    public serialize(): object {
-        return {
-            type: this.effectType,
-            reducedValues: this.reducedValues,
-        };
+    public serialize(): IEffect {
+        if (this.reducedValues)
+            return {
+                type: this.effectType,
+            };
+        else
+            return {
+                type: this.effectType,
+                values: this.reducedValues
+            };
     }
 
-    public deserialize(saveObject: Effect<Type, Desc>) {
-        this.effectType = saveObject.type;
-        this.values = new EffectValues(saveObject.reducedValues);
-        this.reducedValues = saveObject.reducedValues;
+    public deserialize(saveObject: IEffect) {
+        this.effectType = saveObject.type as Type;
+        this.values = new EffectValues(saveObject.values);
+        this.reducedValues = saveObject.values;
     }
 }

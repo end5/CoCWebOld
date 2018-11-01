@@ -4,12 +4,18 @@ export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE
 }
 
-export class Hair implements ISerializable<Hair> {
+export interface IHair {
+    type: HairType;
+    color: string;
+    length: number;
+}
+
+export class Hair implements IHair, ISerializable<IHair> {
     public type: HairType = HairType.NORMAL;
     public color: string = "black";
     public length: number = 0;
 
-    public serialize(): object {
+    public serialize(): IHair {
         return {
             type: this.type,
             color: this.color,
@@ -17,7 +23,7 @@ export class Hair implements ISerializable<Hair> {
         };
     }
 
-    public deserialize(saveObject: Hair) {
+    public deserialize(saveObject: IHair) {
         this.type = saveObject.type;
         this.color = saveObject.color;
         this.length = saveObject.length;

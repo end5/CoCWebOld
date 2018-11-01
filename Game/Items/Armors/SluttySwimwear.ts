@@ -7,7 +7,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeBalls } from '../../Descriptors/BallsDescriptor';
 import { describeCock, describeCocksLight } from '../../Descriptors/CockDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Perk } from '../../Effects/Perk';
 
 export class SluttySwimwear extends ArmorWithPerk {

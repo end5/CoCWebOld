@@ -4,7 +4,7 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { SkinType } from '../../Body/Skin';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { growCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 

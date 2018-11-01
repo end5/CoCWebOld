@@ -17,7 +17,7 @@ import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
 import { describeBreastRow, describeNipple } from '../../Descriptors/BreastDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayKillCocks, growCock, displayLengthChange } from '../../Modifiers/CockModifier';
 import { displayModFem, displayModThickness, displayModTone } from '../../Modifiers/BodyModifier';
 import { Settings } from '../../Settings';

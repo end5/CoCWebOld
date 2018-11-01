@@ -3,7 +3,7 @@ import { ButtLooseness } from '../Body/Butt';
 import { Character } from '../Character/Character';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { describeButthole } from '../Descriptors/ButtDescriptor';
-import { CView } from '../../Engine/Display/ContentView';
+import { CView } from '../../Page/ContentView';
 
 export function stretchButt(character: Character, buttArea: number): boolean {
     let stretched: boolean = false;

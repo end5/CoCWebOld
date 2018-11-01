@@ -4,7 +4,7 @@ import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Gender } from '../Body/GenderIdentity';
 import { SaveFile } from '../SaveFile';
 import { ClickOption, NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
-import { CView } from '../../Engine/Display/ContentView';
+import { CView } from '../../Page/ContentView';
 
 export function saveSlotChoices(saveSlotCallback: (index: number) => ClickOption, prevMenu: ClickOption): NextScreenChoices {
     const choices: ScreenChoice[] = [];
@@ -28,14 +28,14 @@ export function displaySaves() {
 export function saveInfo(saveFile: SaveFile, slotName: string, element: ListEntryElement) {
     element.text(slotName + ":  ");
     if (saveFile) {
-        element.text(saveFile.name).bold();
+        element.text("<b>" + saveFile.name + "</b>");
         element.text(" - ");
         if (saveFile.notes)
-            element.text(saveFile.notes).italic();
+            element.text("<i>" + saveFile.notes + "</i>");
         else
             element.text("No notes available.");
-        element.endline();
-        element.text("Days - " + saveFile.days).endline();
+        element.text("\n");
+        element.text("Days - " + saveFile.days + "\n");
         element.text("  Gender - ");
         if (saveFile.gender === Gender.NONE)
             element.text("U");
@@ -45,10 +45,10 @@ export function saveInfo(saveFile: SaveFile, slotName: string, element: ListEntr
             element.text("F");
         if (saveFile.gender === Gender.HERM)
             element.text("H");
-        element.endline();
+        element.text("\n");
     }
     else {
-        element.text("EMPTY").bold();
+        element.text("<b>EMPTY</b>");
         element.text("\n\n");
     }
 }

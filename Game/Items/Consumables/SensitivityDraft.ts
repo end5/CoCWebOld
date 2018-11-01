@@ -4,7 +4,7 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class SensitivityDraft extends Consumable {
     public constructor() {

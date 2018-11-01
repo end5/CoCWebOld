@@ -19,7 +19,7 @@ import { describeButthole, describeButt } from '../../Descriptors/ButtDescriptor
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeBreastRow, describeNipple, describeAllBreasts } from '../../Descriptors/BreastDescriptor';
 import { describeFeet, describeLegs } from '../../Descriptors/LegDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { spiderRaceScore } from '../../Body/RaceScore';
 import { Settings } from '../../Settings';
 

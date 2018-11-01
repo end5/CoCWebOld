@@ -5,11 +5,11 @@ import { randInt } from '../../Engine/Utilities/SMath';
 import { LegType } from '../Body/Legs';
 import { Tail, TailType } from '../Body/Tail';
 import { CombatContainer } from '../Combat/CombatContainer';
-import { CharacterInventory } from '../Inventory/CharacterInventory';
+import { CharacterInventory, ICharInv } from '../Inventory/CharacterInventory';
 import { generateUUID } from '../Utilities/Uuid';
 import { GenderIdentity, Gender } from '../Body/GenderIdentity';
-import { Body } from '../Body/Body';
-import { Stats } from '../Body/Stats';
+import { Body, IBody } from '../Body/Body';
+import { Stats, IStats } from '../Body/Stats';
 import { StatsFacade } from '../Body/StatsFacade';
 import { StatusEffectDict } from '../Effects/StatusEffectDict';
 import { PerkDict } from '../Effects/PerkDict';
@@ -17,11 +17,24 @@ import { WingType } from '../Body/Wings';
 import { BreastRow } from '../Body/BreastRow';
 import { Vagina } from '../Body/Vagina';
 import { Womb } from '../Body/Pregnancy/Womb';
-import { DictionarySerializer } from '../../Engine/Utilities/DictionarySerializer';
 import { StatusEffect } from '../Effects/StatusEffect';
 import { Perk } from '../Effects/Perk';
+import { IEffect } from '../Effects/Effect';
+import { IDictionary } from '../../Engine/Utilities/Dictionary';
 
-export abstract class Character implements ISerializable<Character> {
+export interface ICharacter {
+    type: CharacterType;
+    UUID: string;
+    genderPref: Gender;
+    hoursSinceCum: number;
+    body: IBody;
+    stats: IStats;
+    effects: IDictionary<IEffect>;
+    perks: IDictionary<IEffect>;
+    inventory: ICharInv;
+}
+
+export abstract class Character implements ISerializable<ICharacter> {
     public charType: CharacterType;
     public abstract readonly inventory: CharacterInventory;
 
@@ -71,32 +84,30 @@ export abstract class Character implements ISerializable<Character> {
         }
     }
 
-    public serialize(): object {
+    public serialize(): ICharacter {
         return {
+            type: this.charType,
+            UUID: this.UUID,
             genderPref: this.genderPref,
             hoursSinceCum: this.hoursSinceCum,
-            torso: this.body.serialize(),
-            baseStats: this.baseStats.serialize(),
-            statusAffects: DictionarySerializer.serialize(this.effects),
-            perks: DictionarySerializer.serialize(this.perks),
-            charType: this.charType,
-            UUID: this.UUID,
+            body: this.body.serialize(),
+            stats: this.baseStats.serialize(),
+            effects: this.effects.serialize(),
+            perks: this.perks.serialize(),
             inventory: this.inventory.serialize(),
-            desc: this.desc.serialize(),
         };
     }
 
-    public deserialize(saveObject: Character) {
-        this.charType = saveObject.charType;
+    public deserialize(saveObject: ICharacter) {
+        this.charType = saveObject.type;
         this.UUID = saveObject.UUID;
-        this.inventory.deserialize(saveObject.inventory);
-        this.desc.deserialize(saveObject.desc);
         this.genderPref = saveObject.genderPref;
         this.hoursSinceCum = saveObject.hoursSinceCum;
         this.body.deserialize(saveObject.body);
-        this.baseStats.deserialize(saveObject.baseStats);
-        DictionarySerializer.deserialize(saveObject.effects, this.effects, StatusEffect);
-        DictionarySerializer.deserialize(saveObject.perks, this.perks, Perk);
+        this.baseStats.deserialize(saveObject.stats);
+        this.effects.deserialize(saveObject.effects, StatusEffect);
+        this.perks.deserialize(saveObject.perks, Perk);
+        this.inventory.deserialize(saveObject.inventory);
     }
 
     public update(hours: number) {
@@ -225,7 +236,7 @@ export abstract class Character implements ISerializable<Character> {
         if (difference > 4) difference = 4;
         difference = (5 - difference) * 20.0 / 100.0;
         if (playerLevel - this.stats.level > 10) return 1;
-        return Math.round(this.stats.additionalXP + (this.baseXP() + this.bonusXP()) * difference);
+        return Math.round(/*this.stats.additionalXP +*/(this.baseXP() + this.bonusXP()) * difference);
     }
 
     private baseXP(): number {

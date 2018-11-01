@@ -3,7 +3,7 @@ import { Character } from '../../../Character/Character';
 import { PerkType } from '../../../Effects/PerkType';
 import { NextScreenChoices } from '../../../ScreenDisplay';
 import { PlayerFlags } from '../PlayerFlags';
-import { CView } from '../../../../Engine/Display/ContentView';
+import { CView } from '../../../../Page/ContentView';
 import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
 
 export abstract class LearnedSpellAction extends PlayerSpellAction {

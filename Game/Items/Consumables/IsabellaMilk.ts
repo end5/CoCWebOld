@@ -2,7 +2,7 @@ import { Consumable } from './Consumable';
 import { ConsumableName } from './ConsumableName';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class IsabellaMilk extends Consumable {
     public constructor() {

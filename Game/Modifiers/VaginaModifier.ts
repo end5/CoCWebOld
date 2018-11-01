@@ -4,7 +4,7 @@ import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { describeVagina } from '../Descriptors/VaginaDescriptor';
-import { CView } from '../../Engine/Display/ContentView';
+import { CView } from '../../Page/ContentView';
 
 export function stretchVagina(character: Character, vaginaArea: number): boolean {
     if (character.body.vaginas.length <= 0)

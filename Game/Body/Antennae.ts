@@ -4,16 +4,20 @@ export enum AntennaeType {
     NONE, BEE
 }
 
-export class Antennae implements ISerializable<Antennae> {
+export interface IAntennae {
+    type: AntennaeType;
+}
+
+export class Antennae implements IAntennae, ISerializable<IAntennae> {
     public type: AntennaeType = AntennaeType.NONE;
 
-    public serialize(): object {
+    public serialize(): IAntennae {
         return {
             type: this.type,
         };
     }
 
-    public deserialize(saveObject: Antennae) {
+    public deserialize(saveObject: IAntennae) {
         this.type = saveObject.type;
     }
 }

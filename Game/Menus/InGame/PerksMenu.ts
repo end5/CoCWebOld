@@ -2,25 +2,26 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { PlayerFlags } from '../../Character/Player/PlayerFlags';
-import { InGameMenus } from './InGameMenus';
+import { playerMenu } from './PlayerMenu';
+import { perkUpMenu } from './PerkUpMenu';
 
 export function perksMenu(character: Character): NextScreenChoices {
     CView.clear();
     for (const parks of character.perks) {
         CView.text("<b>" + parks.type + "</b>");
-        CView.text(" - " + parks.desc);
+        CView.text(" - " + parks.desc.longDesc);
         CView.text("\n\n");
     }
 
-    const choices: ScreenChoice[] = [["Next", InGameMenus.Player]];
+    const choices: ScreenChoice[] = [["Next", playerMenu]];
 
     if (character.stats.perkPoints > 0) {
         CView.text("<b>You have " + numToCardinalText(character.stats.perkPoints) + " perk point");
         if (character.stats.perkPoints > 1) CView.text("s");
         CView.text(" to spend.</b>");
-        choices.push(["Perk Up", InGameMenus.PerkUp]);
+        choices.push(["Perk Up", perkUpMenu]);
     }
     if (character.perks.has(PerkType.DoubleAttack)) {
         CView.text("<b>You can adjust your double attack settings.</b>");

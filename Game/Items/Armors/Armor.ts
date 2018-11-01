@@ -4,7 +4,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { EquipableItem } from '../EquipableItem';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
 

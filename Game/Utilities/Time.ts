@@ -1,4 +1,4 @@
-import { MainScreen } from '../../Engine/Display/MainScreen';
+import { MainScreen } from '../../Page/MainScreen';
 
 class TimeHandler {
     private date: Date;
@@ -25,10 +25,10 @@ class TimeHandler {
     }
 
     private updateDisplay() {
-        MainScreen.getTimeHourElement().clear();
-        MainScreen.getTimeHourElement().text(this.hour + ":00");
-        MainScreen.getTimeDayElement().clear();
-        MainScreen.getTimeDayElement().text(this.day.toString());
+        MainScreen.timeHourElement.clear();
+        MainScreen.timeHourElement.text(this.hour + ":00");
+        MainScreen.timeDayElement.clear();
+        MainScreen.timeDayElement.text(this.day.toString());
     }
 }
 

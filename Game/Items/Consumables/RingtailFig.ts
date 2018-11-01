@@ -10,7 +10,7 @@ import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
 import { skinFurScales } from '../../Descriptors/SkinDescriptor';
 import { describeHair } from '../../Descriptors/HairDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayModThickness } from '../../Modifiers/BodyModifier';
 
 export class RingtailFig extends Consumable {

@@ -7,7 +7,7 @@ import { describeButthole } from '../../../../Descriptors/ButtDescriptor';
 import { Gender } from '../../../../Body/GenderIdentity';
 import { describeCock, describeCocksLight } from '../../../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../../../Descriptors/VaginaDescriptor';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Might extends BlackMagic {

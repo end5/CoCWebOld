@@ -1,6 +1,11 @@
 ﻿import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 
-export class Ovipositor implements ISerializable<Ovipositor> {
+export interface IOvipositor {
+    unfertileEggs: number;
+    fertileEggs: number;
+}
+
+export class Ovipositor implements ISerializable<IOvipositor> {
     private unfertileEggs: number = 0;
     private fertileEggs: number = 0;
 
@@ -34,14 +39,14 @@ export class Ovipositor implements ISerializable<Ovipositor> {
         return this.fertileEggs;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): IOvipositor {
         return {
             unfertileEggs: this.unfertileEggs,
             fertileEggs: this.fertileEggs
         };
     }
 
-    public deserialize(saveObject: Ovipositor) {
+    public deserialize(saveObject: IOvipositor) {
         this.unfertileEggs = saveObject.unfertileEggs;
         this.fertileEggs = saveObject.fertileEggs;
     }

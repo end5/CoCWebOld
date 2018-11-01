@@ -2,7 +2,7 @@ import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
 export class Approach implements ICombatAction {

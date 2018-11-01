@@ -1,5 +1,8 @@
 import { displayNextScreenChoices } from './Game/ScreenDisplay';
-import { Menus } from './Game/Menus/Menus';
-import './Game/Menus/MainMenu';
+import { mainMenu } from './Game/Menus/MainMenu';
+import { CView } from './Page/ContentView';
+import { parseCoC } from './Game/Parser';
 
-displayNextScreenChoices(Menus.Main());
+CView.parsers.add(parseCoC);
+
+displayNextScreenChoices(mainMenu());

@@ -4,16 +4,20 @@ export enum HipRating {
     BOYISH, SLENDER, AVERAGE, AMPLE, CURVY, FERTILE, INHUMANLY_WIDE
 }
 
-export class Hips implements ISerializable<Hips> {
+export interface IHips {
+    rating: HipRating;
+}
+
+export class Hips implements IHips, ISerializable<IHips> {
     public rating: HipRating = HipRating.BOYISH;
 
-    public serialize(): object {
+    public serialize(): IHips {
         return {
             rating: this.rating,
         };
     }
 
-    public deserialize(saveObject: Hips) {
+    public deserialize(saveObject: IHips) {
         this.rating = saveObject.rating;
     }
 }

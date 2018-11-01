@@ -7,7 +7,7 @@ import { Gender } from '../../../../Body/GenderIdentity';
 import { describeButthole } from '../../../../Descriptors/ButtDescriptor';
 import { describeCock, describeCocksLight } from '../../../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../../../Descriptors/VaginaDescriptor';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 
 export class Heal extends BlackMagic {
     public name: string = "Heal";

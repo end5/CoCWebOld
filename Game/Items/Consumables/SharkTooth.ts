@@ -17,7 +17,7 @@ import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeFaceShort } from '../../Descriptors/FaceDescriptor';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class SharkTooth extends Consumable {
     private enhanced: boolean;

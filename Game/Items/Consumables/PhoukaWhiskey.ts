@@ -5,7 +5,7 @@ import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Womb } from '../../Body/Pregnancy/Womb';
 import { FlagType } from '../../FlagType';
 import { Flags } from '../../Flags';

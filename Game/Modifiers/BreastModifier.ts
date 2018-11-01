@@ -4,7 +4,7 @@ import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusEffectType } from '../Effects/StatusEffectType';
 import { breastCup, describeBreastRow } from '../Descriptors/BreastDescriptor';
-import { CView } from '../../Engine/Display/ContentView';
+import { CView } from '../../Page/ContentView';
 import { Settings } from '../Settings';
 
 /**

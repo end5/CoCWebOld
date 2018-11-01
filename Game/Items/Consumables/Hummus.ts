@@ -16,7 +16,7 @@ import { Character } from '../../Character/Character';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
 import { Gender } from '../../Body/GenderIdentity';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { humanRaceScore } from '../../Body/RaceScore';
 
 export class Hummus extends Consumable {

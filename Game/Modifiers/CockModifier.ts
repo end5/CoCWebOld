@@ -7,7 +7,7 @@ import { CockSockName } from '../Items/Misc/CockSockName';
 import { numToCardinalText } from '../Utilities/NumToText';
 import { describeCock, describeCocksLight, describeCocks } from '../Descriptors/CockDescriptor';
 import { describeSack, describeBallsShort } from '../Descriptors/BallsDescriptor';
-import { CView } from '../../Engine/Display/ContentView';
+import { CView } from '../../Page/ContentView';
 import { Settings } from '../Settings';
 
 export function growEachCock(character: Character, lengthDelta: number): number {

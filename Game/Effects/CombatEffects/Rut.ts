@@ -3,7 +3,7 @@ import { Character } from '../../Character/Character';
 import { CombatEffect } from '../CombatEffect';
 import { describeCocksLight } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class Rut extends CombatEffect {
     public update(character: Character, enemy: Character) {

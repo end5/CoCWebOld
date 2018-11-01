@@ -2,7 +2,15 @@ import { Character } from './Character';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { mfn } from '../Descriptors/GenderDescriptor';
 
-export class CharacterDescription implements ISerializable<CharacterDescription> {
+export interface ICharDesc {
+    article: string;
+    defaultShort: string;
+    otherShort: string;
+    longDesc: string;
+    isPlural: boolean;
+}
+
+export class CharacterDescription implements ISerializable<ICharDesc> {
     protected character: Character;
     private subjective: string = "";
     private objective: string = "";
@@ -24,9 +32,9 @@ export class CharacterDescription implements ISerializable<CharacterDescription>
     }
 
     public update() {
-        this.subjective = this.plural ? "they" : mfn(this.character.gender, "he", "she", "it");
-        this.objective = this.plural ? "them" : mfn(this.character.gender, "him", "her", "it");
-        this.possessive = this.plural ? "their" : mfn(this.character.gender, "his", "her", "its");
+        this.subjective = this.plural ? "they" : mfn(this.character.genderPref, "he", "she", "it");
+        this.objective = this.plural ? "them" : mfn(this.character.genderPref, "him", "her", "it");
+        this.possessive = this.plural ? "their" : mfn(this.character.genderPref, "his", "her", "its");
         if (this.article === ("a" || "the"))
             this.article = this.plural ? "the" : "a";
     }
@@ -87,25 +95,21 @@ export class CharacterDescription implements ISerializable<CharacterDescription>
         return this.article.charAt(0).toUpperCase() + this.article.substr(1);
     }
 
-    public serialize(): object | undefined {
+    public serialize(): ICharDesc {
         return {
-            // subjective: this.subjective,
-            // objective: this.objective,
-            // possessive: this.possessive,
-            // article: this.article,
+            article: this.article,
             defaultShort: this.short,
-            // longDesc: this.long,
-            // isPlural: this.plural
+            otherShort: this.otherShort,
+            longDesc: this.long,
+            isPlural: this.plural
         };
     }
 
-    public deserialize(saveObject: CharacterDescription) {
-        // this.subjective = saveObject.subjective;
-        // this.objective = saveObject.objective;
-        // this.possessive = saveObject.possessive;
-        // this.article = saveObject.article;
+    public deserialize(saveObject: ICharDesc) {
+        this.article = saveObject.article;
         this.defaultShort = saveObject.defaultShort;
-        // this.longDesc = saveObject.longDesc;
-        // this.isPlural = saveObject.isPlural;
+        this.otherShort = saveObject.otherShort;
+        this.longDesc = saveObject.longDesc;
+        this.isPlural = saveObject.isPlural;
     }
 }

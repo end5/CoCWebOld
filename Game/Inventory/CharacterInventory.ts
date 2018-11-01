@@ -1,40 +1,51 @@
-import { EquipmentInventory } from './EquipmentInventory';
-import { Inventory } from './Inventory';
+import { EquipmentInventory, IEquipmentInventory } from './EquipmentInventory';
+import { Inventory, IInventory } from './Inventory';
 import { KeyItemDict } from './KeyItemDict';
-import { DictionarySerializer } from '../../Engine/Utilities/DictionarySerializer';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { Character } from '../Character/Character';
 import { Item } from '../Items/Item';
-import { KeyItem } from '../Items/KeyItem';
+import { KeyItem, IKeyItem } from '../Items/KeyItem';
 import { Weapon } from '../Items/Weapons/Weapon';
 import { Armor } from '../Items/Armors/Armor';
+import { StatWithEffects, IStatWithEffects } from '../Body/Stat/StatWithEffects';
+import { IDictionary } from '../../Engine/Utilities/Dictionary';
 
-export class CharacterInventory implements ISerializable<CharacterInventory> {
+export interface ICharInv {
+    items: IInventory;
+    equipment: IEquipmentInventory;
+    keyItems: IDictionary<IKeyItem>;
+    gems: IStatWithEffects;
+}
+
+export class CharacterInventory implements ISerializable<ICharInv> {
     public readonly items: Inventory<Item>;
     public readonly equipment: EquipmentInventory;
-    public gems: number;
+    public gemsStat: StatWithEffects;
     public readonly keyItems: KeyItemDict;
 
     public constructor(character: Character, defaultWeapon: Weapon, defaultArmor: Armor) {
         this.items = new Inventory<Item>();
         this.equipment = new EquipmentInventory(character, defaultWeapon, defaultArmor);
-        this.gems = 0;
+        this.gemsStat = new StatWithEffects();
         this.keyItems = new KeyItemDict();
     }
 
-    public serialize(): object | undefined {
+    public get gems() { return this.gemsStat.value; }
+    public set gems(num: number) { this.gemsStat.value = num; }
+
+    public serialize(): ICharInv {
         return {
-            gems: this.gems,
+            gems: this.gemsStat.serialize(),
             items: this.items.serialize(),
             equipment: this.equipment.serialize(),
-            keyItems: DictionarySerializer.serialize(this.keyItems)
+            keyItems: this.keyItems.serialize()
         };
     }
 
-    public deserialize(saveObject: CharacterInventory) {
-        this.gems = saveObject.gems;
+    public deserialize(saveObject: ICharInv) {
+        this.gemsStat.deserialize(saveObject.gems);
         this.items.deserialize(saveObject.items);
         this.equipment.deserialize(saveObject.equipment);
-        DictionarySerializer.deserialize(saveObject.keyItems, this.keyItems, KeyItem);
+        this.keyItems.deserialize(saveObject.keyItems, KeyItem);
     }
 }

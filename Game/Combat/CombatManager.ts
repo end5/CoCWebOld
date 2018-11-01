@@ -1,6 +1,6 @@
 import { CombatParty } from './CombatParty';
 import { Encounter } from './Encounter';
-import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
+import { MainScreen } from '../../Page/MainScreen';
 import { List } from '../../Engine/Utilities/List';
 import { Character } from '../Character/Character';
 import { CombatEffectType } from '../Effects/CombatEffectType';
@@ -17,10 +17,10 @@ class CombatManager {
     public beginBattle(mainCharacter: Character, ...enemies: Character[]): NextScreenChoices {
         this.encounter = new Encounter(mainCharacter, [], enemies);
 
-        MainScreen.getTopButton(TopButton.Data).hide();
-        MainScreen.getTopButton(TopButton.Appearance).hide();
-        MainScreen.getTopButton(TopButton.PerkUp).hide();
-        MainScreen.getTopButton(TopButton.Perks).hide();
+        MainScreen.topButtons.data.hide();
+        MainScreen.topButtons.appearance.hide();
+        MainScreen.topButtons.perkUp.hide();
+        MainScreen.topButtons.perks.hide();
 
         this.loadPartyCombatEffects(this.encounter.allyParty);
         this.loadPartyCombatEffects(this.encounter.enemyParty);

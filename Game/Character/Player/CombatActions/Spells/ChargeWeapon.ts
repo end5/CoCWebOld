@@ -2,7 +2,7 @@ import { WhiteMagic } from './WhiteMagic';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class ChargeWeapon extends WhiteMagic {

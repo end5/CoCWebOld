@@ -1,53 +1,27 @@
-import { IObservableList } from './IObservableList';
-import { IObserverList } from './IObserverList';
+import { IListObserver } from './IListObserver';
 import { List } from '../../Engine/Utilities/List';
 
-export class ObservableList<T> extends List<T> implements IObservableList<T> {
-    private observerList: IObserverList<T>[] = [];
-    public attach(observer: IObserverList<T>) {
-        this.observerList.push(observer);
-    }
+export class ObservableList<T> extends List<T> {
+    public readonly observers: List<IListObserver<T>> = new List();
 
-    public detach(observer: IObserverList<T>) {
-        this.observerList.splice(this.observerList.indexOf(observer), 1);
-    }
-
-    public notify(message: string) {
-        for (const observer of this.observerList) {
-            observer.update(message);
-        }
-    }
-
-    public notifyAdd(item: T) {
-        for (const observer of this.observerList) {
+    public add(item: T) {
+        super.add(item);
+        for (const observer of this.observers) {
             observer.onAdd(item);
         }
     }
 
-    public notifyRemove(index: number) {
-        for (const observer of this.observerList) {
+    public remove(index: number) {
+        super.remove(index);
+        for (const observer of this.observers) {
             observer.onRemove(index);
         }
     }
 
-    public notifyClear() {
-        for (const observer of this.observerList) {
-            observer.onClear();
-        }
-    }
-
-    public add(item: T) {
-        super.add(item);
-        this.notifyAdd(item);
-    }
-
-    public remove(index: number) {
-        super.remove(index);
-        this.notifyRemove(index);
-    }
-
     public clear() {
         super.clear();
-        this.notifyClear();
+        for (const observer of this.observers) {
+            observer.onClear();
+        }
     }
 }

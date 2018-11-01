@@ -14,14 +14,14 @@ import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
 import { describeCock } from '../../Descriptors/CockDescriptor';
 import { ReptilumFlags } from './Reptilum';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { ferretRaceScore } from '../../Body/RaceScore';
 import { displayGoIntoHeat } from '../../Modifiers/BodyModifier';
 import { FlagType } from '../../FlagType';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Flags } from '../../Flags';
 import { Settings } from '../../Settings';
-import { InGameMenus } from '../../Menus/InGame/InGameMenus';
+import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 
 export const ferretFruitFlags = {
     FERRET_BAD_END_WARNING: 0,
@@ -60,7 +60,7 @@ export class FerretFruit extends Consumable {
             else if (randInt(3) === 0) {
                 // -If you fail to heed the warning, it's game over:
                 CView.text("\n\nAs you down the fruit, you begin to feel all warm and fuzzy inside.  You flop over on your back, eagerly removing your clothes.  You laugh giddily, wanting nothing more than to roll about happily in the grass.  Finally finished, you attempt to get up, but something feels...  different.  Try as you may, you find yourself completely unable to stand upright for a long period of time.  You only manage to move about comfortably on all fours.  Your body now resembles that of a regular ferret.  That can't be good!  As you attempt to comprehend your situation, you find yourself less and less able to focus on the problem.  Your attention eventually drifts to a rabbit in the distance.  You lick your lips. Nevermind that, you have warrens to raid!");
-                return { next: InGameMenus.GameOver };
+                return { next: gameOverMenu };
             }
         }
         // Reset the warning if ferret score drops.

@@ -3,7 +3,7 @@ import { ConsumableName } from './ConsumableName';
 import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class PurePearl extends Consumable {
     public constructor() {

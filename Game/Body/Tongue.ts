@@ -4,16 +4,20 @@ export enum TongueType {
     HUMAN, SNAKE, DEMONIC, DRACONIC
 }
 
-export class Tongue implements ISerializable<Tongue> {
+export interface ITongue {
+    type: TongueType;
+}
+
+export class Tongue implements ITongue, ISerializable<ITongue> {
     public type: TongueType = TongueType.HUMAN;
 
-    public serialize(): object {
+    public serialize(): ITongue {
         return {
             type: this.type
         };
     }
 
-    public deserialize(saveObject: Tongue) {
+    public deserialize(saveObject: ITongue) {
         this.type = saveObject.type;
     }
 }

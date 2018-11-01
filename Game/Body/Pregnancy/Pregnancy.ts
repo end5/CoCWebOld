@@ -81,7 +81,12 @@ export enum IncubationTime {
     SALAMANDER = 336,
 }
 
-export class Pregnancy implements ISerializable<Pregnancy> {
+export interface IPregnancy {
+    type: PregnancyType;
+    incubation: IncubationTime;
+}
+
+export class Pregnancy implements ISerializable<IPregnancy> {
     public static LargestIncubationTime: SortOption<Pregnancy> = (first: Pregnancy, second: Pregnancy) => {
         return second.incubation - first.incubation;
     }
@@ -98,14 +103,14 @@ export class Pregnancy implements ISerializable<Pregnancy> {
         this.incubation = incubation;
     }
 
-    public serialize(): object | undefined {
+    public serialize(): IPregnancy {
         return {
             type: this.type,
             incubation: this.incubation
         };
     }
 
-    public deserialize(saveObject: Pregnancy) {
+    public deserialize(saveObject: IPregnancy) {
         this.type = saveObject.type;
         this.incubation = saveObject.incubation;
     }

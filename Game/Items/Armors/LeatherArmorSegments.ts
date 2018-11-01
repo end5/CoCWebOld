@@ -2,7 +2,7 @@ import { Armor } from './Armor';
 import { ArmorName } from './ArmorName';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class LeatherArmorSegments extends Armor {
     public constructor() {

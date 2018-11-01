@@ -1,6 +1,11 @@
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export class Beard implements ISerializable<Beard> {
+export interface IBeard {
+    style: string;
+    length: number;
+}
+
+export class Beard implements IBeard, ISerializable<IBeard> {
     public style: string = "";
     public length: number = 0;
 
@@ -8,14 +13,14 @@ export class Beard implements ISerializable<Beard> {
         return this.length > 0;
     }
 
-   public serialize(): object {
+    public serialize(): IBeard {
         return {
             style: this.style,
             length: this.length
         };
     }
 
-    public deserialize(saveObject: Beard) {
+    public deserialize(saveObject: IBeard) {
         this.style = saveObject.style;
         this.length = saveObject.length;
     }

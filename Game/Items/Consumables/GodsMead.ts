@@ -3,7 +3,7 @@ import { ConsumableName } from './ConsumableName';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Settings } from '../../Settings';
 
 export class GodsMead extends Consumable {

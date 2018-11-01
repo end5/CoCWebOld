@@ -22,13 +22,13 @@ import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeBreastRow, breastCup } from '../../Descriptors/BreastDescriptor';
 import { describeFeet } from '../../Descriptors/LegDescriptor';
 import { describeButthole } from '../../Descriptors/ButtDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { growCock, thickenCock } from '../../Modifiers/CockModifier';
 import { displayGoIntoHeat, displayModTone } from '../../Modifiers/BodyModifier';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { Settings } from '../../Settings';
-import { InGameMenus } from '../../Menus/InGame/InGameMenus';
+import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 
 export class Equinum extends Consumable {
     public constructor() {
@@ -69,7 +69,7 @@ export class Equinum extends Consumable {
                             if (character.gender === Gender.FEMALE) CView.text("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
                             if (character.gender === Gender.HERM) CView.text("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
                             CView.text("As soon as you lay eyes on the creature, a wave of nostalgia overtakes you. Somehow, looking at that creature makes you sad, as if you forgot something important.\n\n\"<i>How strange to see a horse here all alone,</i>\" the creature muses, \"<i>In any case, you're still the least bizarre creature I've met here.  Not to mention the only one that hasn't tried to rape me,</i>\" it says with a sigh.\n\nYou answer with an interrogative whinny.\n\n\"<i>Hey, I've got an idea. I'll take you back to the camp. I'll feed you and in return you can help me complete my quest. What do you say?</i>\"\n\nInstinctively, you utter a happy and approving whinny.\n\nYou failed in your quest, losing your focus and more importantly, losing yourself.  But, even so, you found a new meaning to your life, and have a new chance to succeed where you once failed.");
-                            return { next: InGameMenus.GameOver };
+                            return { next: gameOverMenu };
                         }
                     }
                     // If character has no cocks
@@ -84,7 +84,7 @@ export class Equinum extends Consumable {
                         if (character.gender === Gender.FEMALE) CView.text("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
                         if (character.gender === Gender.HERM) CView.text("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
                         CView.text("As soon as you lay eyes on the creature, a wave of nostalgia overtakes you. Somehow, looking at that creature makes you sad, as if you forgot something important.\n\n\"<i>How strange to see a horse here all alone,</i>\" the creature muses, \"<i>In any case, you're still the least bizarre creature I've met here.  Not to mention the only one that hasn't tried to rape me,</i>\" it says with a sigh.\n\nYou answer with an interrogative whinny.\n\n\"<i>Hey, I've got an idea. I'll take you back to the camp. I'll feed you and in return you can help me to complete my quest. What do you say?</i>\"\n\nInstictively, you utter a happy and approving whinny.\n\nYou failed in your quest, losing you focus and more importantly, losing yourself.  But, even so, you found a new meaning to your life, and have a new chance to achieve what you once failed.");
-                        return { next: InGameMenus.GameOver };
+                        return { next: gameOverMenu };
                     }
                 }
             }

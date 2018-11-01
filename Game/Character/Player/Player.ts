@@ -36,13 +36,21 @@ export class Player extends Character {
     public constructor() {
         super(CharacterType.Player);
         this.baseStats.str.value = 15;
+        this.baseStats.str.max = 100;
         this.baseStats.tou.value = 15;
+        this.baseStats.tou.max = 100;
         this.baseStats.spe.value = 15;
+        this.baseStats.spe.max = 100;
         this.baseStats.int.value = 15;
+        this.baseStats.int.max = 100;
         this.baseStats.sens.value = 15;
+        this.baseStats.sens.max = 100;
         this.baseStats.lib.value = 15;
+        this.baseStats.lib.max = 100;
         this.baseStats.cor.value = 0;
+        this.baseStats.cor.max = 100;
         this.baseStats.lust.value = 15;
+        this.baseStats.lust.max = 100;
 
         this.stats.level = 1;
         this.stats.HP = this.stats.maxHP();

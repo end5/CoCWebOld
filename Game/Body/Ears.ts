@@ -4,18 +4,23 @@ export enum EarType {
     HUMAN, HORSE, DOG, COW, ELFIN, CAT, LIZARD, BUNNY, KANGAROO, FOX, DRAGON, RACCOON, MOUSE, FERRET
 }
 
-export class Ears implements ISerializable<Ears> {
+export interface IEars {
+    type: EarType;
+    value: number;
+}
+
+export class Ears implements IEars, ISerializable<IEars> {
     public type: EarType = EarType.HUMAN;
     public value: number = 0;
 
-    public serialize(): object {
+    public serialize(): IEars {
         return {
             type: this.type,
             value: this.value
         };
     }
 
-    public deserialize(saveObject: Ears) {
+    public deserialize(saveObject: IEars) {
         this.type = saveObject.type;
         this.value = saveObject.value;
     }

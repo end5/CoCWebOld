@@ -5,7 +5,7 @@ import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
 import { describeHair } from '../../Descriptors/HairDescriptor';
 import { ReptilumFlags } from './Reptilum';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { FlagType } from '../../FlagType';
 import { Flags } from '../../Flags';
 

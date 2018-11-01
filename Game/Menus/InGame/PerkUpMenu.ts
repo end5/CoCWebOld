@@ -1,15 +1,15 @@
-import { ButtonElement } from '../../../Engine/Display/Elements/ButtonElement';
+import { ButtonElement } from '../../../Page/ButtonElement';
 import { UnorderedListElement } from '../../../Engine/Display/Elements/UnorderedListElement';
-import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
+import { MainScreen } from '../../../Page/MainScreen';
 import { Character } from '../../Character/Character';
 import { Perk } from '../../Effects/Perk';
 import { PerkType } from '../../Effects/PerkType';
-import { displayNextScreenChoices, NextScreenChoices } from '../../ScreenDisplay';
-import { numToCardinalText } from '../../Utilities/NumToText';
-import { CView } from '../../../Engine/Display/ContentView';
+import { displayNextScreenChoices, NextScreenChoices, choiceWrap } from '../../ScreenDisplay';
+import { CView } from '../../../Page/ContentView';
 import { ListEntryElement } from '../../../Engine/Display/Elements/ListEntryElement';
 import { ParagraphElement } from '../../../Engine/Display/Elements/ParagraphElement';
-import { InGameMenus } from './InGameMenus';
+import { playerMenu } from './PlayerMenu';
+import { numToCardinalText } from '../../Utilities/NumToText';
 
 export function perkUpMenu(character: Character): NextScreenChoices {
     CView.clear();
@@ -19,7 +19,7 @@ export function perkUpMenu(character: Character): NextScreenChoices {
         CView.text("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + numToCardinalText(character.stats.perkPoints) + " perk point");
         if (character.stats.perkPoints > 1) CView.text("s");
         CView.text(".");
-        return { next: InGameMenus.Player };
+        return { next: playerMenu };
     }
     else {
         CView.text("Please select a perk from the list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.");
@@ -27,9 +27,9 @@ export function perkUpMenu(character: Character): NextScreenChoices {
 
         displayPerkList(character);
 
-        MainScreen.getTopButton(TopButton.MainMenu).hide();
+        MainScreen.topButtons.mainMenu.hide();
         // "Okay" button is modified in displayPerkList
-        return { choices: [["Okay", undefined], ["Skip", InGameMenus.Player]] };
+        return { choices: [["Okay", undefined], ["Skip", playerMenu]] };
     }
 }
 
@@ -41,7 +41,7 @@ function confirmPerk(character: Character, selectedPerk: Perk): NextScreenChoice
     CView.text(selectedPerk.desc.longDesc);
     CView.text("\n\n");
     CView.text("If you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
-    return { choices: [["Okay", (char: Character) => applyPerk(char, selectedPerk)], ["Skip", InGameMenus.Player]] };
+    return { choices: [["Okay", choiceWrap(applyPerk, character, selectedPerk)], ["Skip", playerMenu]] };
 }
 
 function displayPerkList(character: Character) {
@@ -56,7 +56,7 @@ function displayPerkList(character: Character) {
         listEntry.appendElement(buttonElement);
         buttonElement.modify(perk.desc.name, () => {
             // Okay button is disabled until perk is selected
-            displayNextScreenChoices({ choices: [["Okay", (char: Character) => confirmPerk(char, perk)], ["Skip", InGameMenus.Player]] });
+            displayNextScreenChoices({ choices: [["Okay", choiceWrap(confirmPerk, character, perk)], ["Skip", playerMenu]] });
         });
 
         const longDescElement = new ParagraphElement();
@@ -83,5 +83,5 @@ function applyPerk(character: Character, selectedPerk: Perk) {
     if (selectedPerk.type === PerkType.Tank2) {
         character.stats.HP += character.stats.tou;
     }
-    return { next: InGameMenus.Player };
+    return { next: playerMenu };
 }

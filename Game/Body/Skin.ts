@@ -4,13 +4,20 @@ export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
 
-export class Skin implements ISerializable<Skin> {
+export interface ISkin {
+    type: SkinType;
+    tone: string;
+    desc: string;
+    adj: string;
+}
+
+export class Skin implements ISkin, ISerializable<ISkin> {
     public type: SkinType = SkinType.PLAIN;
     public tone: string = "albino";
     public desc: string = "skin";
     public adj: string = "";
 
-    public serialize(): object {
+    public serialize(): ISkin {
         return {
             type: this.type,
             tone: this.tone,
@@ -19,7 +26,7 @@ export class Skin implements ISerializable<Skin> {
         };
     }
 
-    public deserialize(saveObject: Skin) {
+    public deserialize(saveObject: ISkin) {
         this.type = saveObject.type;
         this.tone = saveObject.tone;
         this.desc = saveObject.desc;

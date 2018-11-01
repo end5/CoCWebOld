@@ -3,7 +3,7 @@ import { Gender } from "../../../../Body/GenderIdentity";
 import { PerkType } from "../../../../Effects/PerkType";
 import { randInt } from "../../../../../Engine/Utilities/SMath";
 import { NextScreenChoices } from "../../../../ScreenDisplay";
-import { CView } from "../../../../../Engine/Display/ContentView";
+import { CView } from "../../../../../Page/ContentView";
 import { ICombatAction } from "../../../../Combat/Actions/ICombatAction";
 import { describeCockShort } from "../../../../Descriptors/CockDescriptor";
 import { fatigueRecovery } from "../../../../Combat/CombatUtils";

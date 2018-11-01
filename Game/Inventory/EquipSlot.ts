@@ -3,10 +3,15 @@ import { FilterOption } from '../../Engine/Utilities/List';
 import { Character } from '../Character/Character';
 import { EquipableItem } from '../Items/EquipableItem';
 import { getItemFromName } from '../Items/ItemLookup';
+import { IItem } from '../Items/Item';
 
 export type EquipEffect = (item: EquipableItem, character: Character) => void;
 
-export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSlot<T>> {
+export interface IEquipSlot {
+    item: IItem;
+}
+
+export class EquipSlot<T extends EquipableItem> implements ISerializable<IEquipSlot> {
     public static FilterName<T extends EquipableItem>(name: string): FilterOption<EquipSlot<T>> {
         return (a: EquipSlot<T>) => {
             return !!a.item && a.item.name === name;
@@ -67,13 +72,14 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
         this.onUnequipEffects.push(equipEffect);
     }
 
-    public serialize(): object | undefined {
-        return this.equippedItem ? { equippedItem: this.equippedItem.serialize() } : undefined;
+    public serialize(): IEquipSlot | void {
+        if (this.equippedItem)
+            return { item: this.equippedItem.serialize() };
     }
 
-    public deserialize(saveObject: EquipSlot<T>) {
-        if (saveObject && saveObject.equippedItem) {
-            this.equip(getItemFromName(saveObject.equippedItem.name) as T);
+    public deserialize(saveObject: IEquipSlot) {
+        if (saveObject && saveObject.item) {
+            this.equip(getItemFromName(saveObject.item.name) as T);
         }
     }
 }

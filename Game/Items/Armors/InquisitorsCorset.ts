@@ -5,7 +5,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeNipple } from '../../Descriptors/BreastDescriptor';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class InquisitorsCorset extends Armor {
     public constructor() {

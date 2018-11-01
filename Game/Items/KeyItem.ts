@@ -1,29 +1,28 @@
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
-import { ValueContainer } from '../Utilities/ValueContainer';
+import { IDictionary } from '../../Engine/Utilities/Dictionary';
 
-export class KeyItem extends ValueContainer implements ISerializable<KeyItem> {
-    private key: string;
-    public constructor(name: string = "Generic KeyItem", value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
-        super(value1, value2, value3, value4);
-        this.key = name;
+export interface IKeyItem {
+    name: string;
+    values?: IDictionary<any>;
+}
+
+export class KeyItem implements ISerializable<IKeyItem> {
+    public constructor(public name: string = "Generic KeyItem", public values?: IDictionary<any>) {  }
+
+    public serialize(): IKeyItem {
+        if (this.values)
+            return {
+                name: this.name,
+                values: this.values
+            };
+        return {
+            name: this.name,
+        };
     }
 
-    public get name(): string {
-        return this.key;
-    }
-
-    public serialize(): object | undefined {
-        return Object.assign(
-            {
-                name: this.key,
-            },
-            super.serialize()
-        );
-
-    }
-
-    public deserialize(saveObject: KeyItem) {
-        this.key = saveObject.name;
-        super.deserialize(saveObject);
+    public deserialize(saveObject: IKeyItem) {
+        this.name = saveObject.name;
+        if (saveObject.values)
+            this.values = saveObject.values;
     }
 }

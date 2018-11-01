@@ -1,12 +1,13 @@
-import { MainScreen } from '../../../Engine/Display/MainScreen';
+import { MainScreen } from '../../../Page/MainScreen';
 import { Character } from '../../Character/Character';
 import { NextScreenChoices } from '../../ScreenDisplay';
-import { CView } from '../../../Engine/Display/ContentView';
-import { InGameMenus } from './InGameMenus';
+import { CView } from '../../../Page/ContentView';
+import { playerMenu } from './PlayerMenu';
+import { perkUpMenu } from './PerkUpMenu';
 
 export function levelUpMenu(character: Character): NextScreenChoices {
     CView.clear();
-    MainScreen.hideTopButtons();
+    MainScreen.topButtons.hide();
     // MainScreen.getTopButton(TopButton.MainMenu).show();
     // Level up
     if (character.stats.XP >= (character.stats.level) * 100) {
@@ -20,33 +21,33 @@ export function levelUpMenu(character: Character): NextScreenChoices {
             ]
         };
     }
-    return { next: InGameMenus.Player };
+    return { next: playerMenu };
 }
 
 function levelUpStatStrength(character: Character): NextScreenChoices {
     character.stats.str += 5; // Gain +5 Str due to level
     CView.clear();
     CView.text("Your muscles feel significantly stronger from your time adventuring.");
-    return { next: InGameMenus.PerkUp };
+    return { next: perkUpMenu };
 }
 
 function levelUpStatToughness(character: Character): NextScreenChoices {
     character.stats.tou += 5; // Gain +5 Toughness due to level
     CView.clear();
     CView.text("You feel tougher from all the fights you have endured.");
-    return { next: InGameMenus.PerkUp };
+    return { next: perkUpMenu };
 }
 
 function levelUpStatSpeed(character: Character): NextScreenChoices {
     character.stats.spe += 5; // Gain +5 speed due to level
     CView.clear();
     CView.text("Your time in combat has driven you to move faster.");
-    return { next: InGameMenus.PerkUp };
+    return { next: perkUpMenu };
 }
 
 function levelUpStatIntelligence(character: Character): NextScreenChoices {
     character.stats.int += 5; // Gain +5 Intelligence due to level
     CView.clear();
     CView.text("Your time spent fighting the creatures of this realm has sharpened your wit.");
-    return { next: InGameMenus.PerkUp };
+    return { next: perkUpMenu };
 }

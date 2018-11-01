@@ -5,7 +5,7 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 
 export class MarbleMilk extends Consumable {

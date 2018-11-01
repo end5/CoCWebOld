@@ -10,10 +10,10 @@ import { describeSack, describeBallsShort } from '../../Descriptors/BallsDescrip
 import { describeAllBreasts, describeNipple, describeBreastGrowth } from '../../Descriptors/BreastDescriptor';
 import { describeClit } from '../../Descriptors/VaginaDescriptor';
 import { describeCocksLight, describeCock } from '../../Descriptors/CockDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { growSmallestBreastRow } from '../../Modifiers/BreastModifier';
 import { growCock } from '../../Modifiers/CockModifier';
-import { InGameMenus } from '../../Menus/InGame/InGameMenus';
+import { inventoryMenu } from '../../Menus/InGame/PlayerInventoryMenu';
 
 export class GroPlus extends Consumable {
     public constructor() {
@@ -53,7 +53,7 @@ export class GroPlus extends Consumable {
         }
         if (character.body.balls.size > 10) CView.text("Walking gets even tougher with the swollen masses between your legs.  Maybe this was a bad idea.");
         character.stats.lust += 10;
-        return { next: InGameMenus.Inventory };
+        return { next: inventoryMenu };
     }
 
     private growPlusBreasts(character: Character): NextScreenChoices {
@@ -70,7 +70,7 @@ export class GroPlus extends Consumable {
             CView.text(describeBreastGrowth(character, amount));
         }
         character.stats.lust += 10;
-        return { next: InGameMenus.Inventory };
+        return { next: inventoryMenu };
     }
 
     private growPlusClit(character: Character): NextScreenChoices {
@@ -81,7 +81,7 @@ export class GroPlus extends Consumable {
 
         character.stats.sens += 2;
         character.stats.lust += 10;
-        return { next: InGameMenus.Inventory };
+        return { next: inventoryMenu };
     }
 
     private growPlusCock(character: Character): NextScreenChoices {
@@ -108,7 +108,7 @@ export class GroPlus extends Consumable {
         else CView.text("crotch.");
         character.stats.sens += 2;
         character.stats.lust += 10;
-        return { next: InGameMenus.Inventory };
+        return { next: inventoryMenu };
     }
 
     private growPlusNipples(character: Character): NextScreenChoices {
@@ -130,13 +130,13 @@ export class GroPlus extends Consumable {
             // Talk about if anything was changed.
             if (nowFuckable) CView.text("Your " + describeAllBreasts(character) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>\n\n");
         }
-        return { next: InGameMenus.Inventory };
+        return { next: inventoryMenu };
     }
 
     private growPlusCancel(character: Character): NextScreenChoices {
         CView.clear();
         CView.text("You put the vial away.\n\n");
-        return character.inventory.items.createAdd(character, ConsumableName.GroPlus, InGameMenus.Inventory);
+        return character.inventory.items.createAdd(character, ConsumableName.GroPlus, inventoryMenu);
         // InventoryDisplay.reverseAction();
         // return { next: Inventory };
     }

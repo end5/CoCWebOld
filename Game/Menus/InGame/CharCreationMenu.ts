@@ -1,8 +1,8 @@
-import { NextScreenChoices, ScreenChoice } from "../../ScreenDisplay";
-import { MainScreen, TopButton } from "../../../Engine/Display/MainScreen";
+import { NextScreenChoices, ScreenChoice, attachCharToUI } from "../../ScreenDisplay";
+import { MainScreen } from "../../../Page/MainScreen";
 import { Player } from "../../Character/Player/Player";
 import { Time } from "../../Utilities/Time";
-import { CView } from "../../../Engine/Display/ContentView";
+import { CView } from "../../../Page/ContentView";
 import { InputTextElement } from "../../../Engine/Display/Elements/InputTextElement";
 import { BreastRow, BreastCup } from "../../Body/BreastRow";
 import { Cock, CockType } from "../../Body/Cock";
@@ -15,14 +15,14 @@ import { PerkType } from "../../Effects/PerkType";
 import { Character } from "../../Character/Character";
 import { CharDict } from "../../CharList";
 import { CharacterType } from "../../Character/CharacterType";
-import { InGameMenus } from "./InGameMenus";
+import { playerMenu } from "./PlayerMenu";
 
 export function charCreationMenu(): NextScreenChoices {
-    MainScreen.getStatsPanel().hide();
-    MainScreen.getTopButton(TopButton.MainMenu).hide();
-    MainScreen.getTopButton(TopButton.Data).hide();
-    MainScreen.getTopButton(TopButton.Stats).hide();
-    MainScreen.getTopButton(TopButton.Perks).hide();
+    MainScreen.statsPanel.hide();
+    MainScreen.topButtons.mainMenu.hide();
+    MainScreen.topButtons.data.hide();
+    MainScreen.topButtons.stats.hide();
+    MainScreen.topButtons.perks.hide();
 
     const newPlayer = new Player();
     CharDict.set(CharacterType.Player, newPlayer);
@@ -341,7 +341,7 @@ function setEndowmentStrength(player: Character): NextScreenChoices {
     player.body.tone += 7;
     player.body.thickness += 3;
     // Add bonus +25% strength gain
-    player.perks.add(PerkType.Strong, { str: { gain: { multi: 0.25 } } });
+    player.perks.add(PerkType.Strong, { str: { value: { multi: (val) => val + val * 0.25 } } });
     return chooseHistory();
 }
 
@@ -349,7 +349,7 @@ function setEndowmentToughness(player: Character): NextScreenChoices {
     player.stats.tou += 5;
     player.body.tone += 5;
     player.body.thickness += 5;
-    player.perks.add(PerkType.Tough, { tou: { gain: { multi: 0.25 } } });
+    player.perks.add(PerkType.Tough, { tou: { value: { multi: (val) => val + val * 0.25 } } });
     player.stats.HP = player.stats.maxHP();
     return chooseHistory();
 }
@@ -357,26 +357,26 @@ function setEndowmentToughness(player: Character): NextScreenChoices {
 function setEndowmentSpeed(player: Character): NextScreenChoices {
     player.stats.spe += 5;
     player.body.tone += 10;
-    player.perks.add(PerkType.Fast, { spe: { gain: { multi: 0.25 } } });
+    player.perks.add(PerkType.Fast, { spe: { value: { multi: (val) => val + val * 0.25 } } });
     return chooseHistory();
 }
 
 function setEndowmentSmarts(player: Character): NextScreenChoices {
     player.stats.int += 5;
     player.body.thickness -= 5;
-    player.perks.add(PerkType.Smart, { int: { gain: { multi: 0.25 } } });
+    player.perks.add(PerkType.Smart, { int: { value: { multi: (val) => val + val * 0.25 } } });
     return chooseHistory();
 }
 
 function setEndowmentLibido(player: Character): NextScreenChoices {
     player.stats.lib += 5;
-    player.perks.add(PerkType.Lusty, { lib: { gain: { multi: 0.25 } } });
+    player.perks.add(PerkType.Lusty, { lib: { value: { multi: (val) => val + val * 0.25 } } });
     return chooseHistory();
 }
 
 function setEndowmentTouch(player: Character): NextScreenChoices {
     player.stats.sens += 5;
-    player.perks.add(PerkType.Sensitive, { sens: { gain: { multi: 0.25 } } });
+    player.perks.add(PerkType.Sensitive, { sens: { value: { multi: (val) => val + val * 0.25 } } });
     return chooseHistory();
 }
 
@@ -506,7 +506,8 @@ function arrival(player: Character): NextScreenChoices {
         CView.text("and your body seems to feel the same way, flushing as you feel a warmth and dampness between your thighs. ");
     else CView.text("and your body reacts with a sense of growing warmth focusing in your groin, your manhood hardening for no apparent reason. ");
     CView.text("You were warned of this and press forward, ignoring your body's growing needs.  A glowing purple-pink portal swirls and flares with demonic light along the back wall.  Cringing, you press forward, keenly aware that your body seems to be anticipating coming in contact with the tainted magical construct.  Closing your eyes, you gather your resolve and leap forwards.  Vertigo overwhelms you and you black out...");
-    MainScreen.getStatsPanel().show();
+    MainScreen.statsPanel.show();
+    attachCharToUI(player);
     player.stats.lust += 15;
     return { next: arrivalPartTwo };
 }
@@ -537,5 +538,5 @@ function arrivalPartThree(player: Character): NextScreenChoices {
 function arrivalPartFour(): NextScreenChoices {
     CView.clear();
     CView.text("You look around, surveying the hellish landscape as you plot your next move.  The portal is a few yards away, nestled between a formation of rocks.  It does not seem to exude the arousing influence it had on the other side.  The ground and sky are both tinted different shades of red, though the earth beneath your feet feels as normal as any other lifeless patch of dirt.   You settle on the idea of making a camp here and fortifying this side of the portal.  No demons will ravage your beloved hometown on your watch.\n\nIt does not take long to set up your tent and a few simple traps.  You'll need to explore and gather more supplies to fortify it any further.  Perhaps you will even manage to track down the demons who have been abducting the other champions!");
-    return { next: InGameMenus.Player };
+    return { next: playerMenu };
 }

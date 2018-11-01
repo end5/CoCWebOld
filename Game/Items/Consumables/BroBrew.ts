@@ -11,7 +11,7 @@ import { describeCock } from '../../Descriptors/CockDescriptor';
 import { describeSack } from '../../Descriptors/BallsDescriptor';
 import { describeHips } from '../../Descriptors/HipDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';
 import { displayModFem, displayModTone, displayModThickness } from '../../Modifiers/BodyModifier';
 

@@ -4,7 +4,7 @@ import { Character } from '../Character/Character';
 import { Settings } from '../Settings';
 
 export enum StatType {
-    str, tou, spe, int, lib, sens, cor, fatigue, hp, lust
+    str, tou, spe, int, lib, sens, cor, fatigue, hp, lust, fullness
 }
 
 export class StatsFacade {
@@ -160,15 +160,7 @@ export class StatsFacade {
         if (max > 999)
             max = 999;
         this.stats.HP.max = max;
-        return max + this.bonusHP;
-    }
-
-    public get bonusHP(): number {
-        return this.stats.bonusHP;
-    }
-
-    public set bonusHP(value: number) {
-        this.stats.bonusHP = value;
+        return max;
     }
 
     public get lust(): number {
@@ -201,8 +193,8 @@ export class StatsFacade {
     public lustPercent(): number {
         let lust: number = 100;
         // 2.5% lust resistance per level - max 75.
-        if (this.stats.level < 21)
-            lust -= (this.stats.level - 1) * 3;
+        if (this.stats.level.value < 21)
+            lust -= (this.stats.level.value - 1) * 3;
         else lust = 40;
 
         lust = Math.round(lust);
@@ -218,27 +210,19 @@ export class StatsFacade {
     }
 
     public set XP(value: number) {
-        this.stats.XP = value;
+        this.stats.XP.value = value;
     }
 
     public get XP(): number {
-        return this.stats.XP;
+        return this.stats.XP.value;
     }
 
     public set level(value: number) {
-        this.stats.level = value;
+        this.stats.level.value = value;
     }
 
     public get level(): number {
-        return this.stats.level;
-    }
-
-    public set additionalXP(value: number) {
-        this.stats.additionalXP = value;
-    }
-
-    public get additionalXP(): number {
-        return this.stats.additionalXP;
+        return this.stats.level.value;
     }
 
     public set perkPoints(value: number) {

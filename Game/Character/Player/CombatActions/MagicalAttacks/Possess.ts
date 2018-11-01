@@ -4,7 +4,7 @@ import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
 export class Possess implements ICombatAction {

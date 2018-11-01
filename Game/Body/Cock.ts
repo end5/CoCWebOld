@@ -10,7 +10,14 @@ export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
 }
 
-export class Cock implements ISerializable<Cock> {
+export interface ICock {
+    length: number;
+    thickness: number;
+    type: CockType;
+    knotMultiplier: number;
+}
+
+export class Cock implements ICock, ISerializable<ICock> {
     public static readonly Smallest: SortOption<Cock> = (a: Cock, b: Cock) => {
         return a.area - b.area;
     }
@@ -200,7 +207,7 @@ export class Cock implements ISerializable<Cock> {
         return this.length >= 20;
     }
 
-    public serialize(): object {
+    public serialize(): ICock {
         return {
             length: this.length,
             thickness: this.thickness,
@@ -209,7 +216,7 @@ export class Cock implements ISerializable<Cock> {
         };
     }
 
-    public deserialize(saveObject: Cock) {
+    public deserialize(saveObject: ICock) {
         this.length = saveObject.length;
         this.thickness = saveObject.thickness;
         this.type = saveObject.type;

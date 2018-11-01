@@ -4,9 +4,9 @@ import { CombatManager, getEnemies } from '../../Combat/CombatManager';
 import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
-import { InGameMenus } from './InGameMenus';
+import { playerMenu } from './PlayerMenu';
 
 export function combatMenu(character: Character): NextScreenChoices {
     if (CombatManager.encounter) {
@@ -82,7 +82,7 @@ function selectTarget(character: Character, use: (char: Character, enemy: Charac
                     if (result)
                         return result;
                     else
-                        return { next: InGameMenus.Player };
+                        return { next: playerMenu };
                 }]);
             }
             return { choices };

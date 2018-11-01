@@ -1,18 +1,12 @@
 import { CharacterHolder } from './CharacterHolder';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { Character } from '../Character/Character';
-import { CView } from '../../Engine/Display/ContentView';
-import { ModifiableStat } from '../Body/Stat/ModifiableStat';
+import { CView } from '../../Page/ContentView';
+import { StatWithEffects } from '../Body/Stat/StatWithEffects';
 
 export class CombatStats extends CharacterHolder {
-    public readonly attackStat = new ModifiableStat('attack');
-    public readonly defenseStat = new ModifiableStat('defense');
-
-    public constructor(character: Character, bonusHP: number = 0) {
-        super(character);
-        this.char.stats.HP += bonusHP;
-        this.char.stats.bonusHP = bonusHP;
-    }
+    public readonly attackStat = new StatWithEffects();
+    public readonly defenseStat = new StatWithEffects();
 
     public HP(): number {
         return this.char.stats.HP;

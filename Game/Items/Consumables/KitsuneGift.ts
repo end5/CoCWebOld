@@ -5,9 +5,9 @@ import { Character } from '../../Character/Character';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
 import { MaterialName } from '../Materials/MaterialName';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { getItemFromName } from '../ItemLookup';
-import { InGameMenus } from '../../Menus/InGame/InGameMenus';
+import { inventoryMenu } from '../../Menus/InGame/PlayerInventoryMenu';
 
 export class KitsuneGift extends Consumable {
     public constructor() {
@@ -27,7 +27,7 @@ export class KitsuneGift extends Consumable {
             case 0:
                 CView.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, sitting in the center is a small teardrop-shaped jewel!");
                 CView.text("\n\n<b>You've received a shining Fox Jewel from the kitsune's gift!  How generous!</b>  ");
-                character.inventory.items.createAdd(character, ConsumableName.FoxJewel, InGameMenus.Inventory);
+                character.inventory.items.createAdd(character, ConsumableName.FoxJewel, inventoryMenu);
                 break;
 
             // [Fox Berries]
@@ -35,7 +35,7 @@ export class KitsuneGift extends Consumable {
                 CView.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, there is a small cluster of orange-colored berries sitting in the center!");
                 CView.text("\n\n<b>You've received a fox berry from the kitsune's gift!  How generous!</b>  ");
                 // add Fox Berries to inventory
-                character.inventory.items.createAdd(character, ConsumableName.FoxBerry, InGameMenus.Inventory);
+                character.inventory.items.createAdd(character, ConsumableName.FoxBerry, inventoryMenu);
                 break;
 
             // [Gems]
@@ -52,7 +52,7 @@ export class KitsuneGift extends Consumable {
                 CView.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, it contains a small bag of dried tea leaves!");
                 CView.text("\n\n<b>You've received a bag of tea from the kitsune's gift!  How thoughtful!</b>  ");
                 // add Kitsune Tea/Scholar's Tea to inventory
-                character.inventory.items.createAdd(character, ConsumableName.ScholarsTea, InGameMenus.Inventory);
+                character.inventory.items.createAdd(character, ConsumableName.ScholarsTea, inventoryMenu);
                 break;
 
             // [Hair Dye]
@@ -68,7 +68,7 @@ export class KitsuneGift extends Consumable {
 
                 CView.text("\n\n<b>You've received " + hairDyeItem.desc.longName + " from the kitsune's gift!  How generous!</b>  ");
                 // add <color> Dye to inventory
-                character.inventory.items.add(character, hairDyeItem, InGameMenus.Inventory);
+                character.inventory.items.add(character, hairDyeItem, inventoryMenu);
                 break;
 
             // [Knowledge Spell]
@@ -126,7 +126,7 @@ export class KitsuneGift extends Consumable {
             case 11:
                 CView.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, but to your disappointment, the only other contents appear to be nothing more than twigs, leaves, and other forest refuse.  Upon further investigation, though, you find a shard of shiny black chitinous plating mixed in with the other useless junk.");
                 CView.text("\n\n<b>At least you managed to salvage a shard of black chitin from it...</b>  ");
-                character.inventory.items.createAdd(character, MaterialName.BlackChitin, InGameMenus.Inventory);
+                character.inventory.items.createAdd(character, MaterialName.BlackChitin, inventoryMenu);
                 break;
 
             default: console.trace("Kitsune's gift roll foobar...");

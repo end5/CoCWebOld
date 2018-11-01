@@ -4,7 +4,7 @@ import { BreastRow } from '../../Body/BreastRow';
 import { Character } from '../../Character/Character';
 import { ItemDesc } from '../ItemDesc';
 import { describeLegs } from '../../Descriptors/LegDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { boostLactation } from '../../Modifiers/BreastModifier';
 import { timePass } from '../../Menus/InGame/PlayerMenu';
 

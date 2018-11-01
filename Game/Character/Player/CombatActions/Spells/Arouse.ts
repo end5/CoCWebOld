@@ -4,7 +4,7 @@ import { Vagina, VaginaWetness } from '../../../../Body/Vagina';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { describeCockShort, describeCocksLight } from '../../../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../../../Descriptors/VaginaDescriptor';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';

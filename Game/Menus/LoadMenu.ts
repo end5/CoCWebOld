@@ -2,9 +2,9 @@ import { displaySaves, saveSlotChoices } from './SaveDisplay';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { loadFromSave, SaveFile } from '../SaveFile';
 import { NextScreenChoices } from '../ScreenDisplay';
-import { CView } from '../../Engine/Display/ContentView';
-import { Menus } from './Menus';
-import { InGameMenus } from './InGame/InGameMenus';
+import { CView } from '../../Page/ContentView';
+import { playerMenu } from './InGame/PlayerMenu';
+import { dataMenu } from './DataMenu';
 
 export function loadMenu(): NextScreenChoices {
     CView.clear();
@@ -19,11 +19,11 @@ export function loadMenu(): NextScreenChoices {
             loadFromSave(SaveManager.loadFromSlot(index) as SaveFile);
             return loaded();
         };
-    }, Menus.Data);
+    }, dataMenu);
 }
 
 function loaded(): NextScreenChoices {
     CView.clear();
     CView.text("Load Successful.");
-    return { next: InGameMenus.Player };
+    return { next: playerMenu };
 }

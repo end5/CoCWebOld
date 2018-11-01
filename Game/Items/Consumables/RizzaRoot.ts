@@ -5,7 +5,7 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { ItemDesc } from '../ItemDesc';
 import { describeHair } from '../../Descriptors/HairDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class RizzaRoot extends Consumable {
     public constructor() {

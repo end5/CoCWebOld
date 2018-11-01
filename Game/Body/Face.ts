@@ -6,7 +6,11 @@ export enum FaceType {
     RACCOON, BUCKTEETH, MOUSE, FERRET_MASK, FERRET
 }
 
-export class Face implements ISerializable<Face>  {
+export interface IFace {
+    type: FaceType;
+}
+
+export class Face implements IFace, ISerializable<IFace>  {
     public type: FaceType = FaceType.HUMAN;
 
     public hasMuzzle(): boolean {
@@ -24,13 +28,13 @@ export class Face implements ISerializable<Face>  {
         }
     }
 
-    public serialize(): object {
+    public serialize(): IFace {
         return {
             type: this.type,
         };
     }
 
-    public deserialize(saveObject: Face) {
+    public deserialize(saveObject: IFace) {
         this.type = saveObject.type;
     }
 }

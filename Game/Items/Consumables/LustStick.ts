@@ -5,7 +5,7 @@ import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusEffectType } from '../../Effects/StatusEffectType';
 import { ItemDesc } from '../ItemDesc';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class LustStick extends Consumable {
 

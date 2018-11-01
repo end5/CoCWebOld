@@ -3,7 +3,7 @@ import { BreastRow } from '../../../../Body/BreastRow';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { describeBalls } from '../../../../Descriptors/BallsDescriptor';
 import { describeNipple } from '../../../../Descriptors/BreastDescriptor';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';

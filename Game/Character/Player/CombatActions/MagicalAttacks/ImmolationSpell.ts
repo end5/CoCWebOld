@@ -3,7 +3,7 @@ import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 
 export class ImmolationSpell implements ICombatAction {

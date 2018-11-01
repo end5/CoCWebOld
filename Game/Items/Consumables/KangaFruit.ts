@@ -16,10 +16,10 @@ import { describeFeet } from '../../Descriptors/LegDescriptor';
 import { describeSack, describeBallsShort } from '../../Descriptors/BallsDescriptor';
 import { describeClit } from '../../Descriptors/VaginaDescriptor';
 import { describeCock } from '../../Descriptors/CockDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { kangaRaceScore } from '../../Body/RaceScore';
 import { NextScreenChoices } from '../../ScreenDisplay';
-import { InGameMenus } from '../../Menus/InGame/InGameMenus';
+import { gameOverMenu } from '../../Menus/InGame/GameOverMenu';
 
 /*
  General Effects:
@@ -75,7 +75,7 @@ export class KangaFruit extends Consumable {
                 CView.text("\n\nStill hungry and licking your lips in anticipation, you sniff in deep lungfuls of air.  There's more of that wonderful fruit nearby!  You bound off in search of it on your incredibly muscular legs, their shape becoming more and more feral with every hop.  Now guided completely by instinct, you find a few stalks that grow from the ground.  Your belly rumbles, reminding you of your hunger, as you begin to dig into the kanga fruits...");
                 CView.text("\n\nLosing more of what little remains of yourself, your body is now entirely that of a feral kangaroo and your mind has devolved to match it.  After you finish the handful of fruits you found, you move on in search for more of the tasty treats.  Though you pass by your camp later on, there's no memory, no recognition, just a slight feeling of comfort and familiarity.  There's no food here so you hop away.");
                 // [GAME OVER]
-                return { next: InGameMenus.GameOver };
+                return { next: gameOverMenu };
             }
             CView.text("\n\nWhile chewing, your mind becomes more and more tranquil.  You find it hard to even remember your mission, let alone your name.  <b>Maybe more kanga fruits will help?</b>");
         }

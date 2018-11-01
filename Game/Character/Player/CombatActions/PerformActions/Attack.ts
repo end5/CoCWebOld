@@ -4,7 +4,7 @@ import { PerkType } from '../../../../Effects/PerkType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { Character } from '../../../Character';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { PlayerFlags } from '../../PlayerFlags';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';

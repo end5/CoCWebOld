@@ -1,4 +1,4 @@
-﻿import { Nipples } from './Nipples';
+﻿import { Nipples, INipples } from './Nipples';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
 
@@ -13,7 +13,16 @@ export enum BreastCup {
     X, X_LARGE, XX, XX_LARGE, Y, Y_LARGE, YY, YY_LARGE, Z, Z_LARGE, ZZ, ZZ_LARGE, ZZZ, ZZZ_LARGE
 }
 
-export class BreastRow implements ISerializable<BreastRow> {
+export interface IBreastRow {
+    rating: BreastCup;
+    lactationMultiplier: number;
+    milkFullness: number;
+    fullness: number;
+    nipples: INipples;
+    count: number;
+}
+
+export class BreastRow implements IBreastRow, ISerializable<IBreastRow> {
     public static readonly Largest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.rating - b.rating;
     }
@@ -120,7 +129,7 @@ export class BreastRow implements ISerializable<BreastRow> {
         this.lactationMultiplier = lactationMultiplier;
     }
 
-    public serialize(): object {
+    public serialize(): IBreastRow {
         return {
             rating: this.rating,
             lactationMultiplier: this.lactationMultiplier,
@@ -131,7 +140,7 @@ export class BreastRow implements ISerializable<BreastRow> {
         };
     }
 
-    public deserialize(saveObject: BreastRow) {
+    public deserialize(saveObject: IBreastRow) {
         this.rating = saveObject.rating;
         this.lactationMultiplier = saveObject.lactationMultiplier;
         this.milkFullness = saveObject.milkFullness;

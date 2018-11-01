@@ -11,7 +11,7 @@ import { Gender } from '../../Body/GenderIdentity';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeCocks } from '../../Descriptors/CockDescriptor';
 import { demonChanges } from './IncubusDraft';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { growTopBreastRow } from '../../Modifiers/BreastModifier';
 import { growCock, displayLengthChange, displayKillCocks } from '../../Modifiers/CockModifier';
 import { displayModFem, displayModTone } from '../../Modifiers/BodyModifier';

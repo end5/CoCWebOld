@@ -9,7 +9,7 @@ import { ItemDesc } from '../ItemDesc';
 import { describeOneOfYourCocks } from '../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeButthole } from '../../Descriptors/ButtDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class NumbRock extends Consumable {
     public constructor() {

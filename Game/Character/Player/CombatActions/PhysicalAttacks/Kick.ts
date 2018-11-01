@@ -5,7 +5,7 @@ import { Character } from '../../../../Character/Character';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { PlayerFlags } from '../../PlayerFlags';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 

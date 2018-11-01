@@ -1,16 +1,17 @@
 import { displayCharInventory } from './InventoryDisplay';
-import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
-import { MainScreen } from '../../../Engine/Display/MainScreen';
+import { SpriteName } from '../../../Page/SpriteName';
+import { MainScreen } from '../../../Page/MainScreen';
 import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
-import { CView } from '../../../Engine/Display/ContentView';
-import { InGameMenus } from './InGameMenus';
+import { CView } from '../../../Page/ContentView';
+import { playerMenu } from './PlayerMenu';
+import { combatMenu } from './PlayerCombatMenu';
 
 export function inventoryMenu(player: Character): NextScreenChoices {
     CView.sprite(SpriteName.None);
 
-    MainScreen.hideTopButtons();
+    MainScreen.topButtons.hide();
     CView.clear();
     CView.text("<b><u>Equipment:</u></b>\n");
     CView.text("<b>Weapon</b>: " + player.inventory.equipment.weapon.displayName + " (Attack - " + player.inventory.equipment.weapon.attack + ")\n");
@@ -20,8 +21,6 @@ export function inventoryMenu(player: Character): NextScreenChoices {
     for (const keyItem of player.inventory.keyItems.keys())
         CView.text(keyItem + "\n");
 
-    MainScreen.hideTopButtons();
-
     const choices: ScreenChoice[] = [];
 
     if (player.inventory.equipment.equippedWeaponSlot.isEquipped()) {
@@ -29,7 +28,7 @@ export function inventoryMenu(player: Character): NextScreenChoices {
     }
 
     CView.text("\nWhich item will you use?");
-    choices[4] = ["Back", CombatManager.inCombat ? InGameMenus.Combat : InGameMenus.Player];
+    choices[4] = ["Back", CombatManager.inCombat ? combatMenu : playerMenu];
     // Removes empty buttons for more inventory buttons
     while (!choices[0]) {
         choices.shift();

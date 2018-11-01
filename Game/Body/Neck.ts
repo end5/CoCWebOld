@@ -1,15 +1,19 @@
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export class Neck implements ISerializable<Neck> {
+export interface INeck {
+    gills: boolean;
+}
+
+export class Neck implements INeck, ISerializable<INeck> {
     public gills: boolean = false;
 
-    public serialize(): object {
+    public serialize(): INeck {
         return {
-            gilles: this.gills,
+            gills: this.gills,
         };
     }
 
-    public deserialize(saveObject: Neck) {
+    public deserialize(saveObject: INeck) {
         this.gills = saveObject.gills;
     }
 }

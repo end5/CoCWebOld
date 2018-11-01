@@ -9,7 +9,7 @@ import { numToCardinalText } from '../../Utilities/NumToText';
 import { ItemDesc } from '../ItemDesc';
 import { describeNipple } from '../../Descriptors/BreastDescriptor';
 import { ReptilumFlags } from './Reptilum';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class ShriveledTentacle extends Consumable {
     public constructor() {

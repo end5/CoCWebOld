@@ -11,7 +11,7 @@ import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { ArmorName } from '../../../../Items/Armors/ArmorName';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { NagaTease } from './NagaTease';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { describeButt, describeButthole } from '../../../../Descriptors/ButtDescriptor';
 import { describeBreastRow, describeNipple, describeAllBreasts, describeChest } from '../../../../Descriptors/BreastDescriptor';
@@ -29,7 +29,7 @@ import { dogRaceScore, spiderRaceScore, kitsuneRaceScore, cowRaceScore } from '.
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { Settings } from '../../../../Settings';
-import { InGameMenus } from '../../../../Menus/InGame/InGameMenus';
+import { combatMenu } from '../../../../Menus/InGame/PlayerCombatMenu';
 
 const enum TeaseType {
     ButtShake,                  // 0 butt shake
@@ -1316,6 +1316,6 @@ export class Tease implements ICombatAction {
             CView.text("\n" + target.desc.capitalA + target.desc.short + " seems unimpressed.");
         }
         CView.text("\n\n");
-        return { next: InGameMenus.Combat };
+        return { next: combatMenu };
     }
 }

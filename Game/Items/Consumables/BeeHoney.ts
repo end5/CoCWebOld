@@ -18,7 +18,7 @@ import { describeBreastRow, describeNipple, describeAllBreasts } from '../../Des
 import { describeButt } from '../../Descriptors/ButtDescriptor';
 import { describeCocksLight, describeCock } from '../../Descriptors/CockDescriptor';
 import { describeRace } from '../../Descriptors/BodyDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Womb } from '../../Body/Pregnancy/Womb';
 import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 import { Settings } from '../../Settings';

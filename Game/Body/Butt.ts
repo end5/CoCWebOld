@@ -20,7 +20,14 @@ export enum ButtRating {
     INCONCEIVABLY_BIG = 20
 }
 
-export class Butt implements ISerializable<Butt> {
+export interface IButt {
+    rating: ButtRating;
+    wetness: ButtWetness;
+    looseness: ButtLooseness;
+    fullness: number;
+}
+
+export class Butt implements IButt, ISerializable<IButt> {
     public rating: ButtRating = ButtRating.BUTTLESS;
     public wetness: ButtWetness = ButtWetness.DRY;
     public looseness: ButtLooseness = ButtLooseness.VIRGIN;
@@ -28,7 +35,7 @@ export class Butt implements ISerializable<Butt> {
     // Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
 
-    public serialize(): object {
+    public serialize(): IButt {
         return {
             rating: this.rating,
             wetness: this.wetness,
@@ -37,7 +44,7 @@ export class Butt implements ISerializable<Butt> {
         };
     }
 
-    public deserialize(saveObject: Butt) {
+    public deserialize(saveObject: IButt) {
         this.rating = saveObject.rating;
         this.wetness = saveObject.wetness;
         this.looseness = saveObject.looseness;

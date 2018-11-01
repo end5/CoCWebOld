@@ -21,7 +21,7 @@ import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { describeBreastRow, describeNipple, breastCup } from '../../Descriptors/BreastDescriptor';
 import { describeCock, nounCock } from '../../Descriptors/CockDescriptor';
 import { describeButt } from '../../Descriptors/ButtDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { growCock, thickenCock } from '../../Modifiers/CockModifier';
 import { displayGoIntoRut, displayModFem, displayModTone, displayModThickness } from '../../Modifiers/BodyModifier';
 import { displayCharacterHPChange } from '../../Modifiers/StatModifier';

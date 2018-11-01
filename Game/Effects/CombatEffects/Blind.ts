@@ -2,7 +2,7 @@ import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
 import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class Blind extends CombatEffect {
     public update(character: Character, enemy: Character) {

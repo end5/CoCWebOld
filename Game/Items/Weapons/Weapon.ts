@@ -5,7 +5,7 @@ import { Character } from '../../Character/Character';
 import { EquipableItem } from '../EquipableItem';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 
 export class Weapon extends EquipableItem {
     public readonly verb: string;

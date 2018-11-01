@@ -1,12 +1,16 @@
 import { IPregnancyEvent } from './IPregnancyEvent';
-import { Pregnancy, PregnancyType } from './Pregnancy';
+import { Pregnancy, PregnancyType, IPregnancy } from './Pregnancy';
 import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { Body } from '../Body';
 import { FilterOption, SortOption } from '../../../Engine/Utilities/List';
 
-export class Womb implements ISerializable<Womb> {
+export interface IWomb {
+    pregnancy: IPregnancy;
+}
+
+export class Womb implements ISerializable<IWomb> {
     public static readonly LargestPregnancy: SortOption<Womb> = (a: Womb, b: Womb) => {
         return (a.pregnancy ? a.pregnancy.incubation : 0) - (b.pregnancy ? b.pregnancy.incubation : 0);
     }
@@ -29,8 +33,8 @@ export class Womb implements ISerializable<Womb> {
         };
     }
 
-    protected currentPregnancy: Pregnancy | undefined;
-    protected pregEvent: IPregnancyEvent | undefined;
+    protected currentPregnancy?: Pregnancy;
+    protected pregEvent?: IPregnancyEvent;
     protected body: Body;
     public constructor(body: Body) {
         this.body = body;
@@ -77,15 +81,15 @@ export class Womb implements ISerializable<Womb> {
         }
     }
 
-    public serialize(): object | void {
+    public serialize(): IWomb | void {
         if (this.currentPregnancy)
             return {
-                currentPregnancy: this.currentPregnancy
+                pregnancy: this.currentPregnancy
             };
     }
 
-    public deserialize(saveObject: Womb | undefined) {
-        if (saveObject && saveObject.pregnancy) {
+    public deserialize(saveObject: IWomb | undefined) {
+        if (saveObject) {
             this.currentPregnancy = new Pregnancy();
             this.currentPregnancy.deserialize(saveObject.pregnancy);
         }

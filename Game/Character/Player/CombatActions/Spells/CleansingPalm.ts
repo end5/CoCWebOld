@@ -4,7 +4,7 @@ import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 import { LearnedSpellAction } from '../LearnedSpellAction';
-import { CView } from '../../../../../Engine/Display/ContentView';
+import { CView } from '../../../../../Page/ContentView';
 import { PlayerFlags } from '../../PlayerFlags';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 

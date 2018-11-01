@@ -10,7 +10,7 @@ import { describeHair } from '../../Descriptors/HairDescriptor';
 import { describeLegs } from '../../Descriptors/LegDescriptor';
 import { describeNipple, breastCup } from '../../Descriptors/BreastDescriptor';
 import { describeVagina, describeClit } from '../../Descriptors/VaginaDescriptor';
-import { CView } from '../../../Engine/Display/ContentView';
+import { CView } from '../../../Page/ContentView';
 import { displayModFem } from '../../Modifiers/BodyModifier';
 
 export class BimboLiqueur extends Consumable {
