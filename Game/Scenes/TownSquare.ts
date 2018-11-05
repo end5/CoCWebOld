@@ -3,7 +3,7 @@ import { CView } from "../../Page/ContentView";
 import { explore } from "./Explore";
 import { shops } from "./Shops";
 import { rest } from "./Rest";
-import { trainingRoom } from "./TrainingRoom";
+import { dojoEntry } from "./Dojo";
 
 export function townSquare(): NextScreenChoices {
     CView.clear();
@@ -12,7 +12,7 @@ export function townSquare(): NextScreenChoices {
         choices: [
             ['Explore', explore],
             ['Shops', shops],
-            ['Training', trainingRoom],
+            ['Dojo', dojoEntry],
             ['Rest', rest]
         ]
     };

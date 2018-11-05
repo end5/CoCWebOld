@@ -5,17 +5,22 @@ import { Weapon } from "../../Items/Weapons/Weapon";
 import { WeaponLib } from "../../Items/Weapons/WeaponLib";
 import { shops } from "../Shops";
 
+const availableItems = WeaponLib.values()
+    .filter((weapon) => weapon.value > 0);
+
 export function weaponsmith(char: Character): NextScreenChoices {
     CView.clear();
     CView.text("Weaponsmith");
 
+    for (const item of availableItems) {
+        CView.text(item.desc.shortName + ": " + item.desc.longName + " - " + item.value + " gems\n");
+    }
+
     return {
         choices:
-            WeaponLib.values()
-                .filter((weapon) => weapon.value > 0)
-                .map((weapon) => buyWeaponOption(char, weapon)),
+            availableItems.map((weapon) => buyWeaponOption(char, weapon)),
         persistantChoices: [
-            ["Back", shops]
+            ["Leave", shops]
         ]
     };
 }
@@ -30,7 +35,7 @@ function buyWeaponOption(char: Character, weapon: Weapon): ScreenChoice {
 function confirmBuy(char: Character, weapon: Weapon): NextScreenChoices {
     CView.clear();
     CView.text("Do you wish to purchase " + weapon.displayName + "?");
-    return { yes: choiceWrap(boughtArmor, char, weapon), no: weaponsmith};
+    return { yes: choiceWrap(boughtArmor, char, weapon), no: weaponsmith };
 }
 
 function boughtArmor(char: Character, weapon: Weapon): NextScreenChoices {

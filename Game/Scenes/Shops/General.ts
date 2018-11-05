@@ -36,13 +36,17 @@ rotateStock();
 
 export function general(char: Character): NextScreenChoices {
     CView.clear();
-    CView.text("General Shop");
+    CView.text("General Shop\n");
+
+    for (const item of availableItems) {
+        CView.text(item.desc.shortName + ": " + item.desc.longName + " - " + item.value + " gems\n");
+    }
 
     return {
         choices:
             availableItems.map((consumable) => buyConsumableOption(char, consumable)),
         persistantChoices: [
-            ["Back", shops]
+            ["Leave", shops]
         ]
     };
 }

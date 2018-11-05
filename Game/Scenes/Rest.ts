@@ -13,7 +13,7 @@ export function rest(char: Character): NextScreenChoices {
             ['One hour', passTime(1)],
             ['Two hours', passTime(2)],
             ['Four hours', passTime(4)],
-            ['Until night', passTime(24 - Time.hour)],
+            ['Until Morning', passTime(24 + 7 - Time.hour)],
             ['Input', choiceWrap(inputTimePass)]
         ]
     };
