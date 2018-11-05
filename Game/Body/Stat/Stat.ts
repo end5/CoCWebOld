@@ -15,7 +15,7 @@ export class Stat implements IStat, ISerializable<IStat> {
 
     public get value() { return this.curValue; }
     public set value(num: number) {
-        this.curValue += num;
+        this.curValue = num;
         for (const observers of this.observers)
             observers.onValue(this.curValue);
     }

@@ -2,14 +2,13 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { CharacterType } from '../../../CharacterType';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class SuperWhisperAttack extends PlayerSpellAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
+    public flag: CombatActionFlags = CombatActionFlags.MagicSpec;
     public name: string = "Whisper";
     public readonly baseCost: number = 10;
 
@@ -31,16 +30,6 @@ export class SuperWhisperAttack extends PlayerSpellAction {
 
     public use(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
-        if (monster.desc.short === "pod" || monster.stats.int === 0) {
-            CView.text("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n");
-            character.stats.fatigue++;
-            return;
-        }
-        if (monster.charType === CharacterType.LivingStatue) {
-            CView.text("There is nothing inside the golem to whisper to.");
-            character.stats.fatigue++;
-            return;
-        }
         character.stats.fatigueMagic(this.baseCost);
         if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");

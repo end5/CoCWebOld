@@ -1,16 +1,15 @@
-import { ItemDrop } from './ItemDrop';
-import { Item } from '../../Items/Item';
+import { IDrop } from './IDrop';
 
-export class ChainedDrop implements ItemDrop {
-    private items: Item[] = [];
+export class ChainedDrop<T> implements IDrop<T> {
+    private items: T[] = [];
     private probs: number[] = [];
-    private defaultItem: Item;
+    private defaultItem: T;
 
-    constructor(defaultItem: Item) {
+    constructor(defaultItem: T) {
         this.defaultItem = defaultItem;
     }
 
-    public add(item: Item, prob: number): ChainedDrop {
+    public add(item: T, prob: number): ChainedDrop<T> {
         if (prob < 0 || prob > 1) {
             console.error("Invalid probability value " + prob);
         }
@@ -19,12 +18,12 @@ export class ChainedDrop implements ItemDrop {
         return this;
     }
 
-    public elseDrop(item: Item): ChainedDrop {
+    public elseDrop(item: T): ChainedDrop<T> {
         this.defaultItem = item;
         return this;
     }
 
-    public roll(): Item {
+    public roll(): T {
         for (let i = 0; i < this.items.length; i++) {
             if (Math.random() < this.probs[i]) return this.items[i];
         }

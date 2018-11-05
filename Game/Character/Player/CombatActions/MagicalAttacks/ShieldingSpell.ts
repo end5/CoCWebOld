@@ -3,14 +3,14 @@ import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class ShieldingSpell implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
+    public flag: CombatActionFlags = CombatActionFlags.MagicSpec;
     public name: string = "Shielding";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return character.effects.has(StatusEffectType.ShieldingSpell);

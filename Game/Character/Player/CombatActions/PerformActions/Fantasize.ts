@@ -1,18 +1,17 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../../../Body/BreastRow';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
 import { describeBalls } from '../../../../Descriptors/BallsDescriptor';
 import { describeNipple } from '../../../../Descriptors/BreastDescriptor';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Fantasize implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.Fantasize;
+    public flag: CombatActionFlags = CombatActionFlags.Fantasize;
     public name: string = "Fantasize";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -22,7 +21,7 @@ export class Fantasize implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         let lustChange: number = 0;
         CView.clear();
         if (character.inventory.equipment.armor.displayName === "goo armor") {

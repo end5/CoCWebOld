@@ -3,14 +3,13 @@ import { PerkType } from '../../../../Effects/PerkType';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { CharacterType } from '../../../CharacterType';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class DragonBreath extends PlayerSpellAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
+    public flag: CombatActionFlags = CombatActionFlags.MagicSpec;
     public name: string = "DragonFire";
     public readonly baseCost: number = 20;
 
@@ -45,15 +44,6 @@ export class DragonBreath extends PlayerSpellAction {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
-        // Amily!
-        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
-            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
-            return;
-        }
-        if (monster.charType === CharacterType.LivingStatue) {
-            CView.text("The fire courses by the stone skin harmlessly. It does leave the surface of the statue glossier in its wake.");
-            return;
-        }
         CView.text("Tapping into the power deep within you, you let loose a bellowing roar at your enemy, so forceful that even the environs crumble around " + monster.desc.objectivePronoun + ".  " + monster.desc.capitalA + monster.desc.short + " does " + monster.desc.possessivePronoun + " best to avoid it, but the wave of force is too fast.");
         if (monster.combat.effects.has(CombatEffectType.Sandstorm)) {
             CView.text("  <b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>");
@@ -62,31 +52,6 @@ export class DragonBreath extends PlayerSpellAction {
         // Miss:
         if ((character.combat.effects.has(CombatEffectType.Blind) && randInt(2) === 0) || (monster.stats.spe - character.stats.spe > 0 && Math.floor(Math.random() * (((monster.stats.spe - character.stats.spe) / 4) + 80)) > 80)) {
             CView.text("  Despite the heavy impact caused by your roar, " + monster.desc.a + monster.desc.short + " manages to take it at an angle and remain on " + monster.desc.possessivePronoun + " feet and focuses on you, ready to keep fighting.");
-        }
-        // Special enemy avoidances
-        else if (monster.desc.short === "Vala") {
-            CView.text("Vala beats her wings with surprising strength, blowing the fireball back at you! ");
-            if (character.perks.has(PerkType.Evade) && randInt(2) === 0) {
-                CView.text("You dive out of the way and evade it!");
-            }
-            else if (character.perks.has(PerkType.Flexibility) && randInt(4) === 0) {
-                CView.text("You use your flexibility to barely fold your body out of the way!");
-            }
-            else {
-                damage = character.combat.stats.loseHP(damage);
-                CView.text("Your own fire smacks into your face! (" + damage + ")");
-            }
-            CView.text("\n\n");
-        }
-        // Goos burn
-        else if (monster.desc.short === "goo-girl") {
-            CView.text(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.body.skin.tone + " skin has lost some of its shimmer. ");
-            if (!monster.perks.has(PerkType.Acid))
-                monster.perks.add(PerkType.Acid);
-            damage = Math.round(damage * 1.5);
-            damage = monster.combat.stats.loseHP(damage);
-            monster.combat.effects.add(CombatEffectType.Stunned, character);
-            CView.text("(" + damage + ")\n\n");
         }
         else {
             if (!monster.perks.has(PerkType.Resolute)) {
@@ -103,7 +68,5 @@ export class DragonBreath extends PlayerSpellAction {
             CView.text(" (" + damage + ")");
         }
         CView.text("\n\n");
-        // if (monster.desc.short === "Holli" && !monster.statusAffects.has(StatusAffectType.HolliBurning))
-        //     monster.lightHolliOnFireMagically() as Holli;
     }
 }

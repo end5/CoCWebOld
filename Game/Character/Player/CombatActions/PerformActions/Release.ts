@@ -1,15 +1,14 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Release implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MoveAway;
+    public flag: CombatActionFlags = CombatActionFlags.MoveAway;
     public name: string = "Release";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -19,7 +18,7 @@ export class Release implements ICombatAction {
         return !!target && target.combat.effects.has(CombatEffectType.Constricted);
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         CView.clear();
         CView.text("You release " + target.desc.a + target.desc.short + " from " + target.desc.possessivePronoun + " bonds, and " + target.desc.subjectivePronoun + " drops to the ground, catching " + target.desc.possessivePronoun + " breath before " + target.desc.subjectivePronoun + " stands back up, apparently prepared to fight some more.");
         CView.text("\n\n");

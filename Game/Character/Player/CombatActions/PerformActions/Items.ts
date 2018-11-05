@@ -1,14 +1,13 @@
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { inventoryMenu } from '../../../../Menus/InGame/PlayerInventoryMenu';
 
 export class Items implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.Items;
+    public flag: CombatActionFlags = CombatActionFlags.Items;
     public name: string = "Items";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -18,7 +17,7 @@ export class Items implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): NextScreenChoices {
-        return inventoryMenu(character);
+    public use(character: Character, target: Character): void {
+        inventoryMenu(character);
     }
 }

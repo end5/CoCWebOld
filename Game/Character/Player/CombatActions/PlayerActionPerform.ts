@@ -1,5 +1,5 @@
 import { ICombatAction } from '../../../Combat/Actions/ICombatAction';
-import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 import { MainAction } from './PerformActions/MainAction';
 import { Tease } from './PerformActions/Tease';
 import { Spells } from './PerformActions/Spells';
@@ -11,7 +11,6 @@ import { Wait } from './PerformActions/Wait';
 import { Fantasize } from './PerformActions/Fantasize';
 import { Character } from '../../Character';
 import { randomChoice } from '../../../../Engine/Utilities/SMath';
-import { NextScreenChoices } from '../../../ScreenDisplay';
 
 /*
     Old Menu Choice Locations
@@ -43,9 +42,9 @@ import { NextScreenChoices } from '../../../ScreenDisplay';
 
 export class PlayerAction implements ICombatAction {
     public name: string = 'Plauer Action';
-    public flags: CombatAbilityFlag = CombatAbilityFlag.None;
+    public flag: CombatActionFlags = CombatActionFlags.None;
     public reasonCannotUse: string = '';
-    public actions: ICombatAction[] = [
+    public subActions: ICombatAction[] = [
         new MainAction(),
         new Tease(),
         new Spells(),
@@ -65,7 +64,7 @@ export class PlayerAction implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
-        return randomChoice(...this.actions).use(character, target);
+    public use(character: Character, target: Character): void {
+        randomChoice(...this.subActions).use(character, target);
     }
 }

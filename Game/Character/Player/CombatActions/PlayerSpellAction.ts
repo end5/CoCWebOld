@@ -1,15 +1,14 @@
 import { ICombatAction } from '../../../Combat/Actions/ICombatAction';
 import { SpellAction } from '../../../Combat/Actions/SpellAction';
 import { PerkType } from '../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../ScreenDisplay';
 import { Character } from '../../Character';
-import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 
 export abstract class PlayerSpellAction implements ICombatAction, SpellAction {
-    public abstract flags: CombatAbilityFlag;
+    public abstract flag: CombatActionFlags;
     public abstract name: string;
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public abstract isPossible(character: Character): boolean;
 
@@ -21,7 +20,7 @@ export abstract class PlayerSpellAction implements ICombatAction, SpellAction {
         return true;
     }
 
-    public abstract use(character: Character, monster: Character): void | NextScreenChoices;
+    public abstract use(character: Character, monster: Character): void;
 
     public abstract readonly baseCost: number;
 

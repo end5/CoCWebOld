@@ -1,24 +1,23 @@
-import { ItemDrop } from './ItemDrop';
-import { Item } from '../../Items/Item';
+import { IDrop } from './IDrop';
 
-export class WeightedDrop implements ItemDrop {
-    private items: [Item, number][] = [];
+export class WeightedDrop<T> implements IDrop<T> {
+    private items: [T, number][] = [];
     private sum: number = 0;
 
-    public constructor(first: Item, firstWeight: number = 0) {
+    public constructor(first: T, firstWeight: number = 0) {
         if (first) {
             this.items.push([first, firstWeight]);
             this.sum += firstWeight;
         }
     }
 
-    public add(item: Item, weight: number = 1): WeightedDrop {
+    public add(item: T, weight: number = 1): WeightedDrop<T> {
         this.items.push([item, weight]);
         this.sum += weight;
         return this;
     }
 
-    public addMany(weight: number, ...items: Item[]): WeightedDrop {
+    public addMany(weight: number, ...items: T[]): WeightedDrop<T> {
         for (const item of items) {
             this.items.push([item, weight]);
             this.sum += weight;
@@ -27,9 +26,9 @@ export class WeightedDrop implements ItemDrop {
     }
 
     // you can pass your own random value from 0 to 1 (so you can use your own RNG)
-    public roll(): Item | undefined {
+    public roll(): T | undefined {
         let random = Math.random() * this.sum;
-        let item: Item | undefined;
+        let item: T | undefined;
         while (random > 0 && this.items.length > 0) {
             const pair = this.items.shift();
             if (pair) {

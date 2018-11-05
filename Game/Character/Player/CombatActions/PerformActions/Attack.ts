@@ -1,19 +1,18 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { fatigueRecovery } from '../../../../Combat/CombatUtils';
 import { PerkType } from '../../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { Character } from '../../../Character';
 import { CView } from '../../../../../Page/ContentView';
 import { PlayerFlags } from '../../PlayerFlags';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Attack implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
+    public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Attack";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -23,7 +22,7 @@ export class Attack implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         if (!character.combat.effects.has(CombatEffectType.FirstAttack)) {
             CView.clear();
             fatigueRecovery(character);
@@ -48,8 +47,8 @@ export class Attack implements ICombatAction {
                 let damage = determineDamage(character, target, crit);
                 if (character.perks.has(PerkType.HistoryFighter))
                     damage *= 1.1;
-                if (target.combat.respond.attacked)
-                    target.combat.respond.attacked(damage, crit, target, character);
+                if (target.combat.responses.has(this.name))
+                    target.combat.responses.get(this.name)!(target, character, damage, crit);
             }
 
             if (character.combat.effects.has(CombatEffectType.FirstAttack)) {

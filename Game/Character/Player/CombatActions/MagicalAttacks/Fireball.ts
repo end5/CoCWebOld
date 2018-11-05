@@ -2,18 +2,17 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { CharacterType } from '../../../CharacterType';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Fireball implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
+    public flag: CombatActionFlags = CombatActionFlags.MagicSpec;
     public name: string = "Fire Breath";
     public reasonCannotUse: string = "You are too tired to breathe fire.";
-    public readonly fatigueCost: number =  20;
-    public actions: ICombatAction[] = [];
+    public readonly fatigueCost: number = 20;
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return character.perks.has(PerkType.FireLord);
@@ -28,15 +27,6 @@ export class Fireball implements ICombatAction {
         character.stats.fatigue += this.fatigueCost;
         if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
-            return;
-        }
-        // Amily!
-        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
-            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
-            return;
-        }
-        if (monster.charType === CharacterType.LivingStatue) {
-            CView.text("The fire courses by the stone skin harmlessly. It does leave the surface of the statue glossier in its wake.");
             return;
         }
         // [Failure]
@@ -58,40 +48,7 @@ export class Fireball implements ICombatAction {
         }
         else CView.text("A growl rumbles deep with your chest as you charge the terrestrial fire.  When you can hold it no longer, you release an ear splitting roar and hurl a giant green conflagration at your enemy. ");
 
-        if (monster.desc.short === "Isabella") {
-            // CView.text("Isabella shoulders her shield into the path of the emerald flames.  They burst over the wall of steel, splitting around the impenetrable obstruction and washing out harmlessly to the sides.\n\n");
-            // if (Scenes.isabellaFollowerScene.isabellaAccent()) CView.text("\"<i>Is zat all you've got?  It'll take more than a flashy magic trick to beat Izabella!</i>\" taunts the cow-girl.\n\n");
-            // else CView.text("\"<i>Is that all you've got?  It'll take more than a flashy magic trick to beat Isabella!</i>\" taunts the cow-girl.\n\n");
-            return;
-        }
-        else if (monster.desc.short === "Vala") {
-            CView.text("Vala beats her wings with surprising strength, blowing the fireball back at you! ");
-            if (character.perks.has(PerkType.Evade) && randInt(2) === 0) {
-                CView.text("You dive out of the way and evade it!");
-            }
-            else if (character.perks.has(PerkType.Flexibility) && randInt(4) === 0) {
-                CView.text("You use your flexibility to barely fold your body out of the way!");
-            }
-            else {
-                CView.text("Your own fire smacks into your face! (" + damage + ")");
-                character.combat.stats.loseHP(damage);
-            }
-            CView.text("\n\n");
-        }
-        else {
-            // Using fire attacks on the goo]
-            if (monster.desc.short === "goo-girl") {
-                CView.text(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.body.skin.tone + " skin has lost some of its shimmer. ");
-                if (!monster.perks.has(PerkType.Acid))
-                    monster.perks.add(PerkType.Acid);
-                damage = Math.round(damage * 1.5);
-            }
-            if (monster.combat.effects.has(CombatEffectType.Sandstorm)) {
-                CView.text("<b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>  ");
-                damage = Math.round(0.2 * damage);
-            }
-            damage = monster.combat.stats.loseHP(damage);
-            CView.text("(" + damage + ")\n\n");
-        }
+        damage = monster.combat.stats.loseHP(damage);
+        CView.text("(" + damage + ")\n\n");
     }
 }

@@ -1,16 +1,15 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Squeeze implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
+    public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Squeeze";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -20,7 +19,7 @@ export class Squeeze implements ICombatAction {
         return !!target && target.combat.effects.has(CombatEffectType.Constricted);
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         CView.clear();
         // Squeeze -
         CView.text("Your coils wrap tighter around your prey, leaving " + target.desc.objectivePronoun + " short of breath. You can feel it in your tail as " + target.desc.possessivePronoun + " struggles are briefly intensified.");

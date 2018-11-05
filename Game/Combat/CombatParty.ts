@@ -26,7 +26,7 @@ export class CombatParty {
         if (this.ableMembers.length > 0) {
             const member = this.ableMembers.shift();
             if (member)
-                this.ableMembers.push();
+                this.ableMembers.push(member);
         }
     }
 

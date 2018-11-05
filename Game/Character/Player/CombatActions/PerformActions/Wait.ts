@@ -1,14 +1,13 @@
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Wait implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.Wait;
+    public flag: CombatActionFlags = CombatActionFlags.Wait;
     public name: string = "Wait";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -18,7 +17,7 @@ export class Wait implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         CView.clear();
         CView.text("You decide not to take any action this round.\n\n");
     }

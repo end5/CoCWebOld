@@ -1,19 +1,18 @@
 import { PlayerSpellAction } from './PlayerSpellAction';
 import { Character } from '../../../Character/Character';
 import { PerkType } from '../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../ScreenDisplay';
 import { PlayerFlags } from '../PlayerFlags';
 import { CView } from '../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 
 export abstract class LearnedSpellAction extends PlayerSpellAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.Spells;
-    public abstract castSpell(character: Character, enemy: Character): void | NextScreenChoices;
+    public flag: CombatActionFlags = CombatActionFlags.Spells;
+    public abstract castSpell(character: Character, enemy: Character): void;
 
-    public use(character: Character, enemy: Character): void | NextScreenChoices {
+    public use(character: Character, enemy: Character): void {
         PlayerFlags.SPELLS_CAST++;
         this.spellPerkUnlock(character);
-        return this.castSpell(character, enemy);
+        this.castSpell(character, enemy);
     }
 
     protected spellPerkUnlock(character: Character): void {

@@ -5,14 +5,14 @@ import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Sting implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
+    public flag: CombatActionFlags = CombatActionFlags.PhysSpec;
     public name: string = "Sting";
     public reasonCannotUse: string = "You do not have enough venom to sting right now!";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(player: Player): boolean {
         return player.body.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false);

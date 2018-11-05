@@ -1,13 +1,13 @@
 import { Character } from '../../Character/Character';
-import { NextScreenChoices } from '../../ScreenDisplay';
-import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../Effects/CombatActionFlag';
 
 export interface ICombatAction {
     name: string;
-    flags: CombatAbilityFlag;
+    flag: CombatActionFlags;
     reasonCannotUse: string;
-    actions: (ICombatAction)[];
+    subActions: (ICombatAction)[];
     isPossible(character: Character): boolean;
     canUse(character: Character, target: Character): boolean;
-    use(character: Character, target: Character): void | NextScreenChoices;
+    use(character: Character, target: Character): void;
+}
 }

@@ -1,7 +1,6 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
 import { Character } from '../../../../Character/Character';
-import { CharacterType } from '../../../../Character/CharacterType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
@@ -24,15 +23,6 @@ export class NagaBite extends PlayerPhysicalAction {
     public use(player: Player, monster: Character): void | NextScreenChoices {
         CView.clear();
         player.stats.fatiguePhysical(this.baseCost);
-        // Amily!
-        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
-            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
-            return;
-        }
-        if (monster.charType === CharacterType.LivingStatue) {
-            CView.text("Your fangs can't even penetrate the giant's flesh.");
-            return;
-        }
         // Works similar to bee stinger, must be regenerated over time. Shares the same poison-meter
         if (randInt(player.stats.spe / 2 + 40) + 20 > monster.stats.spe / 1.5) {
             // (if monster = demons)

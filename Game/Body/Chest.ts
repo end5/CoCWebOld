@@ -2,6 +2,11 @@
 import { ObservableList } from '../Utilities/ObservableList';
 
 export class Chest extends ObservableList<BreastRow> {
+    public constructor() {
+        super();
+        this.add(new BreastRow());
+    }
+
     public get firstRow(): BreastRow {
         if (this.list.length <= 0) throw new Error('No breast rows exist');
         return this.list[0];

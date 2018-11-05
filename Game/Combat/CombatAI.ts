@@ -7,7 +7,7 @@ import { NextScreenChoices } from '../ScreenDisplay';
 export function performActionAI(character: Character): NextScreenChoices {
     const actions: (() => NextScreenChoices)[] = [];
 
-    for (const action of character.combat.action.actions) {
+    for (const action of character.combat.action.subActions) {
         canPerformAction(actions, character, action);
     }
 
@@ -15,7 +15,7 @@ export function performActionAI(character: Character): NextScreenChoices {
 }
 
 function canPerformAction(actions: (() => NextScreenChoices)[], character: Character, action: ICombatAction) {
-    if (CombatManager.encounter && action && (character.combat.effects.combatAbilityFlag & action.flags) && action.isPossible(character)) {
+    if (CombatManager.encounter && action && (character.combat.effects.combatAbilityFlag & action.flag) && action.isPossible(character)) {
         const enemies = getEnemies(CombatManager.encounter, character);
         for (const enemy of enemies.ableMembers) {
             if (action.canUse(character, enemy)) {

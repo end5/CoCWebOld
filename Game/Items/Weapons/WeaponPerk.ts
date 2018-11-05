@@ -1,7 +1,6 @@
 import { Dictionary } from '../../../Engine/Utilities/Dictionary';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { Character } from '../../Character/Character';
-import { CharacterType } from '../../Character/CharacterType';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
 import { PerkType } from '../../Effects/PerkType';
 import { CView } from '../../../Page/ContentView';
@@ -71,15 +70,10 @@ export function Stunning(self: Character, target: Character) {
 // Hooked Gauntlets
 export function Bleeding(self: Character, target: Character) {
     if (randInt(2) === 0 && target.combat.stats.defense() < 10 && !target.combat.effects.has(CombatEffectType.IzmaBleed)) {
-        if (target.charType === CharacterType.LivingStatue) {
-            CView.text("Despite the rents you've torn in its stony exterior, the statue does not bleed.");
-        }
-        else {
-            target.combat.effects.add(CombatEffectType.IzmaBleed, self);
-            if (target.desc.plural)
-                CView.text("\n" + target.desc.capitalA + target.desc.short + " bleed profusely from the many bloody gashes your hooked gauntlets leave behind.");
-            else
-                CView.text("\n" + target.desc.capitalA + target.desc.short + " bleeds profusely from the many bloody gashes your hooked gauntlets leave behind.");
-        }
+        target.combat.effects.add(CombatEffectType.IzmaBleed, self);
+        if (target.desc.plural)
+            CView.text("\n" + target.desc.capitalA + target.desc.short + " bleed profusely from the many bloody gashes your hooked gauntlets leave behind.");
+        else
+            CView.text("\n" + target.desc.capitalA + target.desc.short + " bleeds profusely from the many bloody gashes your hooked gauntlets leave behind.");
     }
 }

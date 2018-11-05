@@ -1,4 +1,4 @@
-import { CombatAbilityFlag } from './CombatAbilityFlag';
+import { CombatActionFlags } from './CombatActionFlag';
 import { CombatEffectType } from './CombatEffectType';
 import { Effect } from './Effect';
 import { EffectDesc } from './EffectDescription';
@@ -6,12 +6,12 @@ import { Character } from '../Character/Character';
 import { IEffectValues } from './EffectValues';
 
 export class CombatEffect extends Effect<CombatEffectType> {
-    public readonly abilityFlag: CombatAbilityFlag;
+    public readonly abilityFlag: CombatActionFlags;
     public readonly inflictedBy: Character;
 
     public constructor(
         type: CombatEffectType,
-        abilityFlag: CombatAbilityFlag = CombatAbilityFlag.All,
+        abilityFlag: CombatActionFlags = CombatActionFlags.All,
         inflictedBy: Character,
         values?: IEffectValues
     ) {

@@ -1,18 +1,17 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { Approach } from './Approach';
 import { Recover } from './Recover';
 import { Squeeze } from './Squeeze';
 import { Struggle } from './Struggle';
 import { Attack } from './Attack';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class MainAction implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
+    public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "MainAction";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     private approach = new Approach();
     private recover = new Recover();
@@ -43,21 +42,21 @@ export class MainAction implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         if (this.approach.canUse(character, target)) {
-            return this.approach.use(character, target);
+            this.approach.use(character, target);
         }
         else if (this.recover.canUse(character, target)) {
-            return this.recover.use(character, target);
+            this.recover.use(character, target);
         }
         else if (this.squeeze.canUse(character, target)) {
-            return this.squeeze.use(character, target);
+            this.squeeze.use(character, target);
         }
         else if (this.struggle.canUse(character, target)) {
-            return this.struggle.use(character, target);
+            this.struggle.use(character, target);
         }
         else {
-            return this.attack.use(character, target);
+            this.attack.use(character, target);
         }
     }
 }

@@ -1,8 +1,7 @@
 import { Character } from '../../Character/Character';
 import { ICombatAction } from '../../Combat/Actions/ICombatAction';
 import { CombatManager, getEnemies } from '../../Combat/CombatManager';
-import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
-import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice, ClickOption } from '../../ScreenDisplay';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
 import { CView } from '../../../Page/ContentView';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
@@ -16,59 +15,50 @@ export function combatMenu(character: Character): NextScreenChoices {
             enemyDescription(character, enemy);
         }
 
+        return showMenu(character, character.combat.action);
+    }
+    throw new Error('Combat menu displayed when no combat encounter has been created');
+}
+
+function showMenu(char: Character, mainAction?: ICombatAction, prevMenu?: ClickOption): NextScreenChoices {
+    if (CombatManager.encounter) {
+
         const choices: ScreenChoice[] = [];
 
         // Main Action          Tease               Spells  Items       Move Away
         // Physical Specials    Magical Specials    Wait    Fantasize   Inspect
 
-        for (const action of character.combat.action.actions) {
-            showAction(choices, character, action, action.flags);
+        if (!mainAction)
+            mainAction = char.combat.action;
+
+        const enemies = getEnemies(CombatManager.encounter!, char);
+        const curMenu = () => showMenu(char, mainAction, prevMenu);
+        for (const action of mainAction.subActions) {
+            if (char.combat.effects.combatAbilityFlag & action.flag && action.isPossible(char)) {
+                if (action.subActions.length > 0 && action.subActions.find((subAction) => subAction.isPossible(char))) {
+                    choices.push([action.name, () => showMenu(char, action, curMenu)]);
+                }
+                else if (enemies.ableMembers.find((enemy) => action.canUse(char, enemy))) {
+                    choices.push([action.name, () => selectTarget(char, action, curMenu)]);
+                }
+                else {
+                    choices.push([action.name, undefined]);
+                }
+            }
         }
-        return { choices };
+        if (prevMenu && mainAction.subActions.length > 0)
+            return { choices, persistantChoices: [["Back", prevMenu]] };
+        else
+            return { choices };
     }
     throw new Error('Combat menu displayed when no combat encounter has been created');
 }
 
-// export function showActions<T extends ICombatAction>(character: Character, combatActions: T[]): NextScreenChoices {
-//     const choices: ScreenChoice[] = [];
-//     const enemies = getEnemies(CombatManager.encounter!, character);
-//     for (const combatAction of combatActions) {
-//         if (combatAction.isPossible(character)) {
-//             if (enemies.ableMembers.find((enemy) => combatAction.canUse(character, enemy))) {
-//                 choices.push([combatAction.name, () => selectTarget(character, combatAction.use)]);
-//             }
-//             else {
-//                 choices.push([combatAction.name, undefined]);
-//             }
-//         }
-//         else {
-//             choices.push(["", undefined]);
-//         }
-//     }
-//     return { choices };
-// }
-
-function showAction(choices: ScreenChoice[], character: Character, action: ICombatAction, flag: CombatAbilityFlag) {
-    const enemies = getEnemies(CombatManager.encounter!, character);
-    if (character.combat.effects.combatAbilityFlag & flag && action.isPossible(character)) {
-        if (enemies.ableMembers.find((enemy) => action.canUse(character, enemy))) {
-            choices.push([action.name, () => selectTarget(character, action.use)]);
-        }
-        else {
-            choices.push([action.name, undefined]);
-        }
-    }
-    else {
-        choices.push(["", undefined]);
-    }
-    choices.push(['Back', combatMenu]);
-}
-
-function selectTarget(character: Character, use: (char: Character, enemy: Character) => void | NextScreenChoices): NextScreenChoices {
+function selectTarget(character: Character, action: ICombatAction, prevMenu?: ClickOption): NextScreenChoices {
     if (CombatManager.encounter) {
         const enemies = getEnemies(CombatManager.encounter, character);
         if (enemies.ableMembers.length === 1) {
-            const useResult = use(character, enemies.ableMembers[0]);
+            const useResult = action.use(character, enemies.ableMembers[0]);
             if (useResult)
                 return useResult;
             else
@@ -78,14 +68,17 @@ function selectTarget(character: Character, use: (char: Character, enemy: Charac
             const choices: ScreenChoice[] = [];
             for (const enemy of enemies.ableMembers) {
                 choices.push([enemy.desc.name, () => {
-                    const result = use(character, enemy);
+                    const result = action.use(character, enemy);
                     if (result)
                         return result;
                     else
                         return { next: playerMenu };
                 }]);
             }
-            return { choices };
+            if (prevMenu && action.subActions.length > 0)
+                return { choices, persistantChoices: [["Back", prevMenu]] };
+            else
+                return { choices };
         }
     }
     throw new Error('Unable to select target because their is no encounter');

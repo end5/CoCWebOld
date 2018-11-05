@@ -1,15 +1,14 @@
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Approach implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
+    public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Approach";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -19,7 +18,7 @@ export class Approach implements ICombatAction {
         return character.combat.effects.has(CombatEffectType.KnockedBack);
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         CView.clear();
         CView.text("You close the distance between you and " + target.desc.a + target.desc.short + " as quickly as possible.\n\n");
         character.combat.effects.remove(CombatEffectType.KnockedBack);

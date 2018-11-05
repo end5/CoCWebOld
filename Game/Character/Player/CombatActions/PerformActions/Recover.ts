@@ -1,15 +1,14 @@
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Recover implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
+    public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Recover";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -22,7 +21,7 @@ export class Recover implements ICombatAction {
             character.combat.effects.has(CombatEffectType.Confusion);
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         if (character.combat.effects.has(CombatEffectType.IsabellaStunned) || character.combat.effects.has(CombatEffectType.Stunned)) {
             CView.text("\n<b>You're too stunned to attack!</b>  All you can do is wait and try to recover!");
             // MainScreen.getBottomButton(0).modify("Recover", wait);

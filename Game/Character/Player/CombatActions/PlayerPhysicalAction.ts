@@ -2,17 +2,16 @@ import { PhysicalAction } from '../../../Combat/Actions/PhysicalAction';
 import { PerkType } from '../../../Effects/PerkType';
 import { Character } from '../../Character';
 import { ICombatAction } from '../../../Combat/Actions/ICombatAction';
-import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
-import { NextScreenChoices } from '../../../ScreenDisplay';
+import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 
 export abstract class PlayerPhysicalAction implements ICombatAction, PhysicalAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
+    public flag: CombatActionFlags = CombatActionFlags.PhysSpec;
     public abstract name: string;
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
     public abstract isPossible(character: Character): boolean;
     public abstract canUse(character: Character, enemy: Character): boolean;
-    public abstract use(character: Character, enemy: Character): void | NextScreenChoices;
+    public abstract use(character: Character, enemy: Character): void;
 
     public abstract readonly baseCost: number;
 

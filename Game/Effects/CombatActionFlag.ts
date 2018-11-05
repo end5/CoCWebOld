@@ -1,6 +1,6 @@
-export enum CombatAbilityFlag {
+export enum CombatActionFlags {
     None = 0,
-    MainAction = 1 << 0,
+    Attack = 1 << 0,
     Tease = 1 << 1,
     Spells = 1 << 2,
     Items = 1 << 3,
@@ -9,5 +9,5 @@ export enum CombatAbilityFlag {
     MagicSpec = 1 << 6,
     Wait = 1 << 7,
     Fantasize = 1 << 8,
-    All = MainAction | Tease | Spells | Items | MoveAway | PhysSpec | MagicSpec | Wait | Fantasize
+    All = Attack | Tease | Spells | Items | MoveAway | PhysSpec | MagicSpec | Wait | Fantasize
 }

@@ -2,16 +2,15 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { CharacterType } from '../../../CharacterType';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Possess implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
+    public flag: CombatActionFlags = CombatActionFlags.MagicSpec;
     public name: string = "Possess";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return character.perks.has(PerkType.Incorporeality);
@@ -23,14 +22,8 @@ export class Possess implements ICombatAction {
 
     public use(character: Character, monster: Character): void | NextScreenChoices {
         CView.clear();
-        if (monster.desc.short === "plain girl" || monster.perks.has(PerkType.Incorporeality)) {
-            CView.text("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself toward the opponent's frame.  Sadly, it was doomed to fail, as you bounce right off your foe's ghostly form.");
-        }
-        else if (monster.charType === CharacterType.LivingStatue) {
-            CView.text("There is nothing to possess inside the golem.");
-        }
         // Sample possession text (>79 int, perhaps?):
-        else if ((monster.body.cocks.length <= 0 && monster.body.vaginas.length <= 0) || monster.stats.lustVuln === 0 || monster.stats.int === 0 || monster.stats.int > 100) {
+        if ((monster.body.cocks.length <= 0 && monster.body.vaginas.length <= 0) || monster.stats.lustVuln === 0 || monster.stats.int === 0 || monster.stats.int > 100) {
             CView.text("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into the opponent's frame.  Unfortunately, it seems ");
             if (monster.stats.int > 100)
                 CView.text("they were FAR more mentally prepared than anything you can handle, and you're summarily thrown out of their body before you're even able to have fun with them.  Darn, you muse.\n\n");

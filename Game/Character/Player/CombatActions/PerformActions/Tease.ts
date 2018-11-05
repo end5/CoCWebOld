@@ -9,7 +9,6 @@ import { fatigueRecovery } from '../../../../Combat/CombatUtils';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { ArmorName } from '../../../../Items/Armors/ArmorName';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { NagaTease } from './NagaTease';
 import { CView } from '../../../../../Page/ContentView';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
@@ -26,10 +25,9 @@ import { describeSkin } from '../../../../Descriptors/SkinDescriptor';
 import { PlayerFlags } from '../../PlayerFlags';
 import { Womb } from '../../../../Body/Pregnancy/Womb';
 import { dogRaceScore, spiderRaceScore, kitsuneRaceScore, cowRaceScore } from '../../../../Body/RaceScore';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { Settings } from '../../../../Settings';
-import { combatMenu } from '../../../../Menus/InGame/PlayerCombatMenu';
 
 const enum TeaseType {
     ButtShake,                  // 0 butt shake
@@ -429,10 +427,10 @@ function selectChoice(list: number[]): number {
 }
 
 export class Tease implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.Tease;
+    public flag: CombatActionFlags = CombatActionFlags.Tease;
     public name: string = "Tease";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -441,7 +439,7 @@ export class Tease implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         CView.clear();
         // You cant tease a blind guy!
         if (target.combat.effects.has(CombatEffectType.Blind)) {
@@ -1292,8 +1290,8 @@ export class Tease implements ICombatAction {
             // else if (monster.charType === CharacterType.Doppleganger && !monster.statusAffects.has(StatusAffectType.Stunned))
             //     (monster as Doppleganger).mirrorTease(damage, true);
             // else
-            if (target.combat.respond.enemyTease)
-                target.combat.respond.enemyTease(damage, target, character);
+            if (target.combat.responses.has("Tease"))
+                target.combat.responses.get("Tease")!(target, character, damage);
 
             if (PlayerFlags.FETISH >= 1) { // && !urtaQuest.isUrta()) {
                 if (character.stats.lust < 75) CView.text("\nFlaunting your body in such a way gets you a little hot and bothered.");
@@ -1316,6 +1314,5 @@ export class Tease implements ICombatAction {
             CView.text("\n" + target.desc.capitalA + target.desc.short + " seems unimpressed.");
         }
         CView.text("\n\n");
-        return { next: combatMenu };
     }
 }

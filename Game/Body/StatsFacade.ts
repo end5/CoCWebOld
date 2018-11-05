@@ -150,17 +150,7 @@ export class StatsFacade {
     }
 
     public maxHP(): number {
-        let max: number = 0;
-        max += Math.floor(this.stats.tou.value * 2 + 50);
-        if (this.char.stats.level <= 20)
-            max += this.char.stats.level * 15;
-        else
-            max += 20 * 15;
-        max = Math.round(max);
-        if (max > 999)
-            max = 999;
-        this.stats.HP.max = max;
-        return max;
+        return this.stats.HP.max;
     }
 
     public get lust(): number {

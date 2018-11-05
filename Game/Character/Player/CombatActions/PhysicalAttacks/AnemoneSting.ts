@@ -4,13 +4,13 @@ import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class AnemoneSting implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
+    public flag: CombatActionFlags = CombatActionFlags.PhysSpec;
     public name: string = "AnemoneSting";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(player: Player): boolean {
         return player.body.hair.type === 4;

@@ -1,13 +1,13 @@
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
+import { CView } from '../../../../../Page/ContentView';
 
 export class Struggle implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
+    public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Struggle";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -17,7 +17,7 @@ export class Struggle implements ICombatAction {
         return false;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
-        return;
+    public use(character: Character, target: Character): void {
+        CView.text("You struggle.");
     }
 }

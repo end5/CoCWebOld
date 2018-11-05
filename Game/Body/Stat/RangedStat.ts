@@ -15,9 +15,9 @@ export interface IRangedStat {
 
 export class RangedStat implements IRangedStat, ISerializable<IRangedStat> {
     public observers = new Dictionary<string, IRangedStatObserver>();
-    protected curValue = 0;
+    protected curValue = 50;
     protected minValue = 0;
-    protected maxValue = 0;
+    protected maxValue = 100;
 
     public get value() { return this.curValue; }
     public set value(num: number) {

@@ -43,7 +43,7 @@ export abstract class Character implements ISerializable<ICharacter> {
         return this.UUID;
     }
 
-    protected description: CharacterDescription;
+    protected abstract description: CharacterDescription;
     public get desc(): CharacterDescription {
         return this.description;
     }
@@ -78,7 +78,6 @@ export abstract class Character implements ISerializable<ICharacter> {
     public constructor(type: CharacterType) {
         this.charType = type;
         this.UUID = generateUUID();
-        this.description = new CharacterDescription(this, "", "", "");
         if (type !== CharacterType.Player) {
             this.stats.XP = this.totalXP();
         }

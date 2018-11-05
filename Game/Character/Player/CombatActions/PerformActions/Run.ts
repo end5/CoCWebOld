@@ -5,7 +5,6 @@ import { Tail, TailType } from '../../../../Body/Tail';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
@@ -14,13 +13,13 @@ import { describeBalls } from '../../../../Descriptors/BallsDescriptor';
 import { describeHips } from '../../../../Descriptors/HipDescriptor';
 import { describeButt } from '../../../../Descriptors/ButtDescriptor';
 import { describeChest } from '../../../../Descriptors/BreastDescriptor';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Run implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MoveAway;
+    public flag: CombatActionFlags = CombatActionFlags.MoveAway;
     public name: string = "Run";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -30,7 +29,7 @@ export class Run implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         CView.clear();
         // Rut doesnt let you run from dicks.
         if (character.effects.has(StatusEffectType.Rut) && target.body.cocks.length > 0) {

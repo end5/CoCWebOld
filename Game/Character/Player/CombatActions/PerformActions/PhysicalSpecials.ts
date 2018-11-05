@@ -1,11 +1,9 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { AnemoneSting } from '../PhysicalAttacks/AnemoneSting';
 import { Bite } from '../PhysicalAttacks/Bite';
 import { NagaBite } from '../PhysicalAttacks/NagaBite';
 import { SpiderBite } from '../PhysicalAttacks/SpiderBite';
-import { FireBow } from '../PhysicalAttacks/FireBow';
 import { Constrict } from '../PhysicalAttacks/Constrict';
 import { Kick } from '../PhysicalAttacks/Kick';
 import { Gore } from '../PhysicalAttacks/Gore';
@@ -14,18 +12,17 @@ import { Sting } from '../PhysicalAttacks/Sting';
 import { Web } from '../PhysicalAttacks/Web';
 import { TailWhip } from '../PhysicalAttacks/TailWhip';
 import { randomChoice } from '../../../../../Engine/Utilities/SMath';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class PhysicalSpecials implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
+    public flag: CombatActionFlags = CombatActionFlags.PhysSpec;
     public name: string = "P. Special";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [
+    public subActions: ICombatAction[] = [
         new AnemoneSting(),
         new Bite(),
         new NagaBite(),
         new SpiderBite(),
-        new FireBow(),
         new Constrict(),
         new Kick(),
         new Gore(),
@@ -40,11 +37,11 @@ export class PhysicalSpecials implements ICombatAction {
     }
 
     public canUse(character: Character, target: Character): boolean {
-        return !!this.actions.find((action) => action.canUse(character, target));
+        return !!this.subActions.find((action) => action.canUse(character, target));
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
-        return randomChoice(...this.actions).use(character, target);
+    public use(character: Character, target: Character): void {
+        randomChoice(...this.subActions).use(character, target);
         // return showActions(character, PhysicalActionLib.getPossibleActions(character));
     }
 }

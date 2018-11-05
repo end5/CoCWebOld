@@ -19,7 +19,8 @@ class ContentView {
     }
 
     public text(content: string): ContentView {
-
+        for (const parser of this.parsers)
+            content = parser(content);
         this.textElement.text(content);
         return this;
     }

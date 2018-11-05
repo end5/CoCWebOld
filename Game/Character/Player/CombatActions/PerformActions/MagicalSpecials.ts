@@ -1,5 +1,4 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { Berserk } from '../MagicalAttacks/Berserk';
 import { DragonBreath } from '../MagicalAttacks/DragonBreath';
@@ -13,13 +12,13 @@ import { FoxFire } from '../MagicalAttacks/FoxFire';
 import { ShieldingSpell } from '../MagicalAttacks/ShieldingSpell';
 import { ImmolationSpell } from '../MagicalAttacks/ImmolationSpell';
 import { randomChoice } from '../../../../../Engine/Utilities/SMath';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class MagicalSpecials implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MagicSpec;
+    public flag: CombatActionFlags = CombatActionFlags.MagicSpec;
     public name: string = "M. Specials";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [
+    public subActions: ICombatAction[] = [
         new Berserk(),
         new DragonBreath(),
         new Fireball(),
@@ -39,11 +38,11 @@ export class MagicalSpecials implements ICombatAction {
     }
 
     public canUse(character: Character, target: Character): boolean {
-        return !!this.actions.find((action) => action.canUse(character, target));
+        return !!this.subActions.find((action) => action.canUse(character, target));
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
-        return randomChoice(...this.actions).use(character, target);
+    public use(character: Character, target: Character): void {
+        randomChoice(...this.subActions).use(character, target);
         // return showActions(character, MagicalActionLib.getPossibleActions(character));
     }
 }

@@ -2,10 +2,8 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
-import { CharacterType } from '../../../CharacterType';
 import { LearnedSpellAction } from '../LearnedSpellAction';
 import { CView } from '../../../../../Page/ContentView';
-import { PlayerFlags } from '../../PlayerFlags';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class CleansingPalm extends LearnedSpellAction {
@@ -21,19 +19,6 @@ export class CleansingPalm extends LearnedSpellAction {
         character.stats.fatigueMagic(this.baseCost);
         if (monster.combat.effects.has(CombatEffectType.Shell)) {
             CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
-            return;
-        }
-
-        if (monster.desc.short === "Jojo") {
-            // Not a completely corrupted monkmouse
-            if (PlayerFlags.monk < 2) {
-                CView.text("You thrust your palm forward, sending a blast of pure energy towards Jojo. At the last second he sends a blast of his own against yours canceling it out\n\n");
-                return;
-            }
-        }
-
-        if (monster.charType === CharacterType.LivingStatue) {
-            CView.text("You thrust your palm forward, causing a blast of pure energy to slam against the giant stone statue- to no effect!");
             return;
         }
 

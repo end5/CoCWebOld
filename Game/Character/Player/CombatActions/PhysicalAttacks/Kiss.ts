@@ -6,14 +6,14 @@ import { Player } from '../../Player';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { CView } from '../../../../../Page/ContentView';
 import { mf } from '../../../../Descriptors/GenderDescriptor';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
 export class Kiss implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.PhysSpec;
+    public flag: CombatActionFlags = CombatActionFlags.PhysSpec;
     public name: string = "Kiss";
     public reasonCannotUse: string = "There's no way you'd be able to find their lips while you're blind!";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(player: Player): boolean {
         return player.effects.has(StatusEffectType.LustStickApplied);

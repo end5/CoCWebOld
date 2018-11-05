@@ -40,7 +40,7 @@ function effects(player: Character): NextScreenChoices {
 
 function stats(player: Character): NextScreenChoices {
     CView.clear();
-    CView.text('<b><u>Stats: </u></b>');
+    CView.text('<b><u>Stats: </u></b>\n');
     const playerStats: { [x: string]: StatWithEffects | RangedStatWithEffects | number } = {
         'Strength': player.stats.base.str,
         'Toughness': player.stats.base.tou,

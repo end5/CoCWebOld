@@ -1,14 +1,13 @@
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Climb implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.MainAction;
+    public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Climb";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -18,7 +17,7 @@ export class Climb implements ICombatAction {
         return !!target && target.combat.effects.has(CombatEffectType.Level);
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         // if (monster.combat.effects.has(CombatEffectType.Level)) {
         //     (monster as Sandtrap).sandTrapWait();
         // }

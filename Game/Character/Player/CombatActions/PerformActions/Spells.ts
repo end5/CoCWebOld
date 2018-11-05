@@ -1,5 +1,4 @@
 import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { Arouse } from '../Spells/Arouse';
 import { Blind } from '../Spells/Blind';
@@ -9,13 +8,13 @@ import { Heal } from '../Spells/Heal';
 import { Might } from '../Spells/Might';
 import { Whitefire } from '../Spells/Whitefire';
 import { randomChoice } from '../../../../../Engine/Utilities/SMath';
-import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
+import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
 export class Spells implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.Spells;
+    public flag: CombatActionFlags = CombatActionFlags.Spells;
     public name: string = "Spells";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [
+    public subActions: ICombatAction[] = [
         new Arouse(),
         new Blind(),
         new ChargeWeapon(),
@@ -30,11 +29,11 @@ export class Spells implements ICombatAction {
     }
 
     public canUse(character: Character, target: Character): boolean {
-        return !!this.actions.find((action) => action.canUse(character, target));
+        return !!this.subActions.find((action) => action.canUse(character, target));
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
-        return randomChoice(...this.actions).use(character, target);
+    public use(character: Character, target: Character): void {
+        randomChoice(...this.subActions).use(character, target);
         // return showActions(character, SpellActionLib.getPossibleActions(character));
     }
 }

@@ -1,4 +1,4 @@
-import { CombatAbilityFlag } from './CombatAbilityFlag';
+import { CombatActionFlags } from './CombatActionFlag';
 import { CombatEffect } from './CombatEffect';
 import { CombatEffectType } from './CombatEffectType';
 import { Dictionary } from '../../Engine/Utilities/Dictionary';
@@ -16,7 +16,7 @@ import { IEffectValues } from './EffectValues';
 
 interface CombatEffectConstructor {
     new(type: CombatEffectType,
-        inabilityFlag: CombatAbilityFlag,
+        inabilityFlag: CombatActionFlags,
         inflictedBy: Character,
         values?: IEffectValues
     ): CombatEffect;
@@ -32,23 +32,23 @@ CombatEffectConstructorLib.set(CombatEffectType.Poison, Poison);
 CombatEffectConstructorLib.set(CombatEffectType.Rut, Rut);
 CombatEffectConstructorLib.set(CombatEffectType.Stunned, Stunned);
 
-export const AbilityFlagsLib = new Dictionary<CombatEffectType, CombatAbilityFlag>();
-AbilityFlagsLib.set(CombatEffectType.IsabellaStunned, CombatAbilityFlag.MainAction);
-AbilityFlagsLib.set(CombatEffectType.Stunned, CombatAbilityFlag.MainAction);
-AbilityFlagsLib.set(CombatEffectType.Whispered, CombatAbilityFlag.MainAction);
-AbilityFlagsLib.set(CombatEffectType.Confusion, CombatAbilityFlag.MainAction);
-AbilityFlagsLib.set(CombatEffectType.HarpyBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.GooBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.TentacleBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.NagaBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.QueenBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.PCTailTangle, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.HolliConstrict, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.GooArmorBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.Constricted, CombatAbilityFlag.MainAction | CombatAbilityFlag.Tease | CombatAbilityFlag.MoveAway);
-AbilityFlagsLib.set(CombatEffectType.Bound, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.MinotaurEntangled, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.UBERWEB, CombatAbilityFlag.MainAction | CombatAbilityFlag.MagicSpec);
-AbilityFlagsLib.set(CombatEffectType.Chokeslam, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.Titsmother, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-AbilityFlagsLib.set(CombatEffectType.Tentagrappled, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+export const AbilityFlagsLib = new Dictionary<CombatEffectType, CombatActionFlags>();
+AbilityFlagsLib.set(CombatEffectType.IsabellaStunned, CombatActionFlags.Attack);
+AbilityFlagsLib.set(CombatEffectType.Stunned, CombatActionFlags.Attack);
+AbilityFlagsLib.set(CombatEffectType.Whispered, CombatActionFlags.Attack);
+AbilityFlagsLib.set(CombatEffectType.Confusion, CombatActionFlags.Attack);
+AbilityFlagsLib.set(CombatEffectType.HarpyBind, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.GooBind, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.TentacleBind, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.NagaBind, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.QueenBind, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.PCTailTangle, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.HolliConstrict, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.GooArmorBind, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.Constricted, CombatActionFlags.Attack | CombatActionFlags.Tease | CombatActionFlags.MoveAway);
+AbilityFlagsLib.set(CombatEffectType.Bound, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.MinotaurEntangled, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.UBERWEB, CombatActionFlags.Attack | CombatActionFlags.MagicSpec);
+AbilityFlagsLib.set(CombatEffectType.Chokeslam, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.Titsmother, CombatActionFlags.Attack | CombatActionFlags.Wait);
+AbilityFlagsLib.set(CombatEffectType.Tentagrappled, CombatActionFlags.Attack | CombatActionFlags.Wait);

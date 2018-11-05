@@ -2,19 +2,18 @@ import { Character } from "../../../Character";
 import { Gender } from "../../../../Body/GenderIdentity";
 import { PerkType } from "../../../../Effects/PerkType";
 import { randInt } from "../../../../../Engine/Utilities/SMath";
-import { NextScreenChoices } from "../../../../ScreenDisplay";
 import { CView } from "../../../../../Page/ContentView";
 import { ICombatAction } from "../../../../Combat/Actions/ICombatAction";
 import { describeCockShort } from "../../../../Descriptors/CockDescriptor";
 import { fatigueRecovery } from "../../../../Combat/CombatUtils";
-import { CombatAbilityFlag } from "../../../../Effects/CombatAbilityFlag";
+import { CombatActionFlags } from "../../../../Effects/CombatActionFlag";
 import { CombatEffectType } from "../../../../Effects/CombatEffectType";
 
 export class NagaTease implements ICombatAction {
-    public flags: CombatAbilityFlag = CombatAbilityFlag.Tease;
+    public flag: CombatActionFlags = CombatActionFlags.Tease;
     public name: string = "NagaTease";
     public reasonCannotUse: string = "";
-    public actions: ICombatAction[] = [];
+    public subActions: ICombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -24,7 +23,7 @@ export class NagaTease implements ICombatAction {
         return target.combat.effects.has(CombatEffectType.Constricted);
     }
 
-    public use(character: Character, target: Character): void | NextScreenChoices {
+    public use(character: Character, target: Character): void {
         CView.clear();
         // (if poisoned)
         if (target.combat.effects.has(CombatEffectType.NagaVenom)) {
@@ -115,6 +114,5 @@ export class NagaTease implements ICombatAction {
             }
             CView.text("\n\n");
         }
-        return;
     }
 }
