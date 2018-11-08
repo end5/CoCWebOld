@@ -6,6 +6,8 @@ import { townSquare } from '../../Scenes/TownSquare';
 import { mainMenu } from '../MainMenu';
 import { Time } from '../../Utilities/Time';
 import { TimeManager } from '../../TimeManager';
+import { levelUpMenu } from './LevelUpMenu';
+import { perkUpMenu } from './PerkUpMenu';
 
 export function playerMenu(character: Character): NextScreenChoices {
     // Safe guard against combat breaking
@@ -15,6 +17,11 @@ export function playerMenu(character: Character): NextScreenChoices {
 
     MainScreen.topButtons.mainMenu.modify("Main Menu", clickFuncWrapper(mainMenu));
     MainScreen.topButtons.show();
+
+    if (character.canLevelUp())
+        MainScreen.topButtons.levelUp.modify("Level Up", clickFuncWrapper(levelUpMenu));
+    else
+        MainScreen.topButtons.levelUp.modify("Perk Up", clickFuncWrapper(perkUpMenu));
 
     return townSquare();
 }

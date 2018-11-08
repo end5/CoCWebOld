@@ -227,11 +227,15 @@ export function attachCharToUI(char: Character) {
     });
     char.stats.level = char.stats.level;
     char.stats.base.XP.observers.set('ui', {
-        onValue: () => MainScreen.statsPanel.xp.value = char.stats.base.str.value,
+        onValue: () => {
+            MainScreen.statsPanel.xp.value = char.roundXPToLevel();
+            if (char.canLevelUp())
+                MainScreen.levelupIcon.show();
+        }
     });
     char.stats.XP = char.stats.XP;
     char.inventory.gemsStat.observers.set('ui', {
-        onValue: () => MainScreen.statsPanel.gems.value = char.stats.base.str.value,
+        onValue: () => MainScreen.statsPanel.gems.value = char.inventory.gemsStat.value,
     });
     char.inventory.gems = char.inventory.gems;
 }

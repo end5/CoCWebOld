@@ -41,7 +41,7 @@ export class TopButtons {
         return this.topButtons[2];
     }
 
-    public get perkUp() {
+    public get levelUp() {
         return this.topButtons[3];
     }
 

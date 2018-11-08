@@ -17,12 +17,13 @@ export function mainMenu(): NextScreenChoices {
         MainScreen.statsPanel.hide();
 
     MainScreen.topButtons.stats.modify("Stats", clickFuncWrapper(statsMenu));
-    MainScreen.topButtons.perkUp.modify("Perk Up", clickFuncWrapper(perkUpMenu));
+    MainScreen.topButtons.levelUp.modify("Perk Up", clickFuncWrapper(perkUpMenu));
     MainScreen.topButtons.perks.modify("Perks", clickFuncWrapper(perksMenu));
     MainScreen.topButtons.appearance.modify("Appearance", undefined);
     MainScreen.topButtons.hide();
     MainScreen.topButtons.mainMenu.modify("New Game", clickFuncWrapper(charCreationMenu));
     MainScreen.topButtons.data.modify("Data", clickFuncWrapper(dataMenu));
+    MainScreen.levelupIcon.hide();
 
     CView.clear();
     CView.text("<b>Corruption of Champions Web Edition Framework Test</b>\n");

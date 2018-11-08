@@ -301,4 +301,11 @@ export abstract class Character implements ISerializable<ICharacter> {
         return this.body.ovipositor.canOviposit() && this.body.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0;
     }
 
+    public canLevelUp(): boolean {
+        return this.stats.XP >= (this.stats.level) * 100;
+    }
+
+    public roundXPToLevel(): number {
+        return this.canLevelUp() ? this.stats.level * 100 : this.stats.base.XP.value;
+    }
 }

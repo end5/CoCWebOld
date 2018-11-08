@@ -8,9 +8,8 @@ import { perkUpMenu } from './PerkUpMenu';
 export function levelUpMenu(character: Character): NextScreenChoices {
     CView.clear();
     MainScreen.topButtons.hide();
-    // MainScreen.getTopButton(TopButton.MainMenu).show();
-    // Level up
-    if (character.stats.XP >= (character.stats.level) * 100) {
+    if (character.canLevelUp()) {
+        MainScreen.levelupIcon.hide();
         character.stats.level++;
         character.stats.perkPoints++;
         CView.text("<b>You are now level " + character.stats.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
@@ -20,6 +19,9 @@ export function levelUpMenu(character: Character): NextScreenChoices {
                 ["Strength", levelUpStatStrength], ["Toughness", levelUpStatToughness], ["Speed", levelUpStatSpeed], ["Intelligence", levelUpStatIntelligence],
             ]
         };
+    }
+    else if (character.stats.perkPoints > 0) {
+        return perkUpMenu(character);
     }
     return { next: playerMenu };
 }
