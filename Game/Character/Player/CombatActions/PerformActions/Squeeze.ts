@@ -1,15 +1,15 @@
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Character } from '../../../Character';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { CView } from '../../../../../Page/ContentView';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
-export class Squeeze implements ICombatAction {
+export class Squeeze extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Squeeze";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;

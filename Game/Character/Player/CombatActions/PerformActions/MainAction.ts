@@ -1,4 +1,4 @@
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Character } from '../../../Character';
 import { Approach } from './Approach';
 import { Recover } from './Recover';
@@ -7,11 +7,11 @@ import { Struggle } from './Struggle';
 import { Attack } from './Attack';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
-export class MainAction implements ICombatAction {
+export class MainAction extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "MainAction";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     private approach = new Approach();
     private recover = new Recover();

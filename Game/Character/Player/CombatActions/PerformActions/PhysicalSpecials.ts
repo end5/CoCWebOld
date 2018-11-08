@@ -1,35 +1,23 @@
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
 import { Character } from '../../../Character';
 import { AnemoneSting } from '../PhysicalAttacks/AnemoneSting';
 import { Bite } from '../PhysicalAttacks/Bite';
-import { NagaBite } from '../PhysicalAttacks/NagaBite';
-import { SpiderBite } from '../PhysicalAttacks/SpiderBite';
 import { Constrict } from '../PhysicalAttacks/Constrict';
 import { Kick } from '../PhysicalAttacks/Kick';
 import { Gore } from '../PhysicalAttacks/Gore';
-import { Kiss } from '../PhysicalAttacks/Kiss';
-import { Sting } from '../PhysicalAttacks/Sting';
-import { Web } from '../PhysicalAttacks/Web';
-import { TailWhip } from '../PhysicalAttacks/TailWhip';
 import { randomChoice } from '../../../../../Engine/Utilities/SMath';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 
-export class PhysicalSpecials implements ICombatAction {
+export class PhysicalSpecials extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.PhysSpec;
     public name: string = "P. Special";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [
+    public subActions: CombatAction[] = [
         new AnemoneSting(),
         new Bite(),
-        new NagaBite(),
-        new SpiderBite(),
         new Constrict(),
         new Kick(),
         new Gore(),
-        new Kiss(),
-        new Sting(),
-        new Web(),
-        new TailWhip(),
     ];
 
     public isPossible(character: Character): boolean {
@@ -42,6 +30,5 @@ export class PhysicalSpecials implements ICombatAction {
 
     public use(character: Character, target: Character): void {
         randomChoice(...this.subActions).use(character, target);
-        // return showActions(character, PhysicalActionLib.getPossibleActions(character));
     }
 }

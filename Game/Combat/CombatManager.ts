@@ -19,7 +19,7 @@ class CombatManager {
 
         MainScreen.topButtons.data.hide();
         MainScreen.topButtons.appearance.hide();
-        MainScreen.topButtons.perkUp.hide();
+        MainScreen.topButtons.levelUp.hide();
         MainScreen.topButtons.perks.hide();
 
         this.loadPartyCombatEffects(this.encounter.allyParty);

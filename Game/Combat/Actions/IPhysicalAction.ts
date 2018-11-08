@@ -1,7 +1,6 @@
-import { ICombatAction } from './ICombatAction';
 import { Character } from '../../Character/Character';
 
-export interface PhysicalAction extends ICombatAction {
+export interface IPhysicalAction {
     readonly baseCost: number;
     physicalCost(character: Character): number;
 }

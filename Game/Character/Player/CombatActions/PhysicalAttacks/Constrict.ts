@@ -1,7 +1,6 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { LegType } from '../../../../Body/Legs';
 import { Character } from '../../../../Character/Character';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Page/ContentView';
@@ -32,32 +31,23 @@ export class Constrict extends PlayerPhysicalAction {
         return true;
     }
 
-    public use(player: Player, monster: Character): void | NextScreenChoices {
-        // Amily!
+    public checkMiss(char: Character, enemy: Character): boolean {
+        return randInt(char.stats.spe + 40) <= enemy.stats.spe;
+    }
+
+    public missed(char: Character, enemy: Character): void {
+        // Failure (-10 HPs) -
         CView.clear();
-        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
-            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
-            return;
-        }
-        // WRAP IT UPPP
-        if (randInt(player.stats.spe + 40) > monster.stats.spe) {
-            if (monster.desc.short === "demons") {
-                CView.text("You look at the crowd for a moment, wondering which of their number you should wrap up. Your glance lands upon a random demon amongst the crowd. You quickly slither through the demon crowd as it closes in around you and launch yourself towards your chosen prey. You grab him out of the sea of monsters, wrap your long snake tail around his form and squeeze tightly, grinning as you hear his roars of pleasure turn to cries of distress.");
-            }
-            // (Otherwise)
-            else {
-                CView.text("You launch yourself at " + monster.desc.a + monster.desc.short + " and wrap yourself around " + monster.desc.objectivePronoun + ". You squeeze " + monster.desc.objectivePronoun + " tightly and hear " + monster.desc.objectivePronoun + " cry out in pain.");
-            }
-            monster.combat.effects.add(CombatEffectType.Constricted, player, {
-                duration: 1 + randInt(4)
-            });
-        }
-        // Failure
-        else {
-            // Failure (-10 HPs) -
-            CView.text("You launch yourself at your opponent and attempt to wrap yourself around " + monster.desc.objectivePronoun + ". Before you can even get close enough, " + monster.desc.a + monster.desc.short + " jumps out of the way, causing you to fall flat on your face. You quickly pick yourself up and jump back.");
-            player.combat.stats.loseHP(5);
-        }
-        return;
+        CView.text("You launch yourself at your opponent and attempt to wrap yourself around " + enemy.desc.objectivePronoun + ". Before you can even get close enough, " + enemy.desc.a + enemy.desc.short + " jumps out of the way, causing you to fall flat on your face. You quickly pick yourself up and jump back.");
+        char.combat.stats.loseHP(5);
+
+    }
+
+    public applyDamage(char: Character, enemy: Character, damage: number, lust: number, crit: boolean): void {
+        CView.clear();
+        CView.text("You launch yourself at " + enemy.desc.a + enemy.desc.short + " and wrap yourself around " + enemy.desc.objectivePronoun + ". You squeeze " + enemy.desc.objectivePronoun + " tightly and hear " + enemy.desc.objectivePronoun + " cry out in pain.");
+        enemy.combat.effects.add(CombatEffectType.Constricted, char, {
+            duration: 1 + randInt(4)
+        });
     }
 }

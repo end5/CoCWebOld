@@ -1,16 +1,11 @@
-import { ICombatAction } from '../../../Combat/Actions/ICombatAction';
-import { SpellAction } from '../../../Combat/Actions/SpellAction';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
+import { ISpellAction } from '../../../Combat/Actions/ISpellAction';
 import { PerkType } from '../../../Effects/PerkType';
 import { Character } from '../../Character';
-import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 
-export abstract class PlayerSpellAction implements ICombatAction, SpellAction {
-    public abstract flag: CombatActionFlags;
-    public abstract name: string;
+export abstract class PlayerSpellAction extends CombatAction implements ISpellAction {
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
-
-    public abstract isPossible(character: Character): boolean;
+    public subActions: CombatAction[] = [];
 
     public canUse(character: Character, monster: Character): boolean {
         if (character.perks.has(PerkType.BloodMage) || character.stats.fatigue + this.spellCost(character) <= 100) {
@@ -19,8 +14,6 @@ export abstract class PlayerSpellAction implements ICombatAction, SpellAction {
         }
         return true;
     }
-
-    public abstract use(character: Character, monster: Character): void;
 
     public abstract readonly baseCost: number;
 

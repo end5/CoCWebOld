@@ -1,18 +1,18 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { fatigueRecovery } from '../../../../Combat/CombatUtils';
 import { PerkType } from '../../../../Effects/PerkType';
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction, IActionDamage } from '../../../../Combat/Actions/CombatAction';
 import { Character } from '../../../Character';
 import { CView } from '../../../../../Page/ContentView';
 import { PlayerFlags } from '../../PlayerFlags';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
-export class Attack implements ICombatAction {
+export class Attack extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Attack";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -22,59 +22,60 @@ export class Attack implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void {
+    public consumeComponents(character: Character, monster: Character): void {
         if (!character.combat.effects.has(CombatEffectType.FirstAttack)) {
             CView.clear();
             fatigueRecovery(character);
         }
+    }
 
-        if (!missNoAttack(character)) {
-            if (character.perks.has(PerkType.DoubleAttack) && character.stats.spe >= 50 && PlayerFlags.DOUBLE_ATTACK_STYLE < 2) {
-                if (character.combat.effects.has(CombatEffectType.FirstAttack))
-                    character.combat.effects.remove(CombatEffectType.FirstAttack);
-                else {
-                    // Always!
-                    if (PlayerFlags.DOUBLE_ATTACK_STYLE === 0)
-                        character.combat.effects.add(CombatEffectType.FirstAttack, character);
-                    // Alternate!
-                    else if (character.stats.str < 61 && PlayerFlags.DOUBLE_ATTACK_STYLE === 1)
-                        character.combat.effects.add(CombatEffectType.FirstAttack, character);
-                }
+    public useAction(character: Character, target: Character): void {
+        if (character.perks.has(PerkType.DoubleAttack) && character.stats.spe >= 50 && PlayerFlags.DOUBLE_ATTACK_STYLE < 2) {
+            if (character.combat.effects.has(CombatEffectType.FirstAttack))
+                character.combat.effects.remove(CombatEffectType.FirstAttack);
+            else {
+                // Always!
+                if (PlayerFlags.DOUBLE_ATTACK_STYLE === 0)
+                    character.combat.effects.add(CombatEffectType.FirstAttack, character);
+                // Alternate!
+                else if (character.stats.str < 61 && PlayerFlags.DOUBLE_ATTACK_STYLE === 1)
+                    character.combat.effects.add(CombatEffectType.FirstAttack, character);
             }
-
-            if (!missUsedAttack(character, target)) {
-                const crit = canCrit(character);
-                let damage = determineDamage(character, target, crit);
-                if (character.perks.has(PerkType.HistoryFighter))
-                    damage *= 1.1;
-                if (target.combat.responses.has(this.name))
-                    target.combat.responses.get(this.name)!(target, character, damage, crit);
-            }
-
-            if (character.combat.effects.has(CombatEffectType.FirstAttack)) {
-                this.use(character, target);
-                return;
-            }
-            else
-                CView.text("\n");
         }
     }
-}
 
-function missNoAttack(character: Character): boolean {
-    if (PlayerFlags.FETISH >= 3) {
-        CView.text("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Ceraph's piercings have made normal attack impossible!  Maybe you could try something else?\n\n");
-        return true;
+    public checkMiss(character: Character, monster: Character): boolean {
+        return character.combat.effects.has(CombatEffectType.Blind);
     }
-    return false;
-}
 
-function missUsedAttack(character: Character, enemy: Character): boolean {
-    if (character.combat.effects.has(CombatEffectType.Blind)) {
-        CView.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
-        return true;
+    public missed(character: Character, monster: Character): void {
+        if (character.combat.effects.has(CombatEffectType.Blind))
+            CView.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
+        if (character.combat.effects.has(CombatEffectType.FirstAttack)) {
+            this.use(character, monster);
+        }
+        else
+            CView.text("\n");
     }
-    return false;
+
+    public calcDamage(character: Character, monster: Character): IActionDamage {
+        const crit = canCrit(character);
+        let damage = determineDamage(character, monster, crit);
+        if (character.perks.has(PerkType.HistoryFighter))
+            damage *= 1.1;
+        return { damage, crit };
+    }
+
+    public applyDamage(character: Character, monster: Character, damage: number, lust: number, crit: boolean): void {
+        CView.text("You hit " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
+        if (crit) CView.text(" <b>*CRIT*</b>");
+        monster.combat.stats.loseHP(damage);
+        if (character.combat.effects.has(CombatEffectType.FirstAttack)) {
+            this.use(character, monster);
+        }
+        else
+            CView.text("\n");
+    }
 }
 
 function canCrit(character: Character): boolean {
@@ -106,9 +107,6 @@ function determineDamage(character: Character, enemy: Character, crit: boolean):
     // Thunderous Strikes
     if (character.perks.has(PerkType.ThunderousStrikes) && character.stats.str >= 80)
         damage *= 1.2;
-
-    // if (character.perks.has(PerkType.ChiReflowMagic)) damage *= UmasShop.NEEDLEWORK_MAGIC_REGULAR_MULTI;
-    // if (character.perks.has(PerkType.ChiReflowAttack)) damage *= UmasShop.NEEDLEWORK_ATTACK_REGULAR_MULTI;
 
     damage = Math.round(damage);
     return damage;

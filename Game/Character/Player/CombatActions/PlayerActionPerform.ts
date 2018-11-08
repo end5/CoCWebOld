@@ -1,4 +1,4 @@
-import { ICombatAction } from '../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
 import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 import { MainAction } from './PerformActions/MainAction';
 import { Tease } from './PerformActions/Tease';
@@ -40,11 +40,11 @@ import { randomChoice } from '../../../../Engine/Utilities/SMath';
     9 - Inspect
 */
 
-export class PlayerAction implements ICombatAction {
+export class PlayerAction implements CombatAction {
     public name: string = 'Plauer Action';
     public flag: CombatActionFlags = CombatActionFlags.None;
     public reasonCannotUse: string = '';
-    public subActions: ICombatAction[] = [
+    public subActions: CombatAction[] = [
         new MainAction(),
         new Tease(),
         new Spells(),

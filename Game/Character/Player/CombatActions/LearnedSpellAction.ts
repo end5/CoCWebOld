@@ -7,12 +7,11 @@ import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 
 export abstract class LearnedSpellAction extends PlayerSpellAction {
     public flag: CombatActionFlags = CombatActionFlags.Spells;
-    public abstract castSpell(character: Character, enemy: Character): void;
 
     public use(character: Character, enemy: Character): void {
         PlayerFlags.SPELLS_CAST++;
         this.spellPerkUnlock(character);
-        this.castSpell(character, enemy);
+        super.use(character, enemy);
     }
 
     protected spellPerkUnlock(character: Character): void {

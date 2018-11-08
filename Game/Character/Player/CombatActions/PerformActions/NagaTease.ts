@@ -3,17 +3,17 @@ import { Gender } from "../../../../Body/GenderIdentity";
 import { PerkType } from "../../../../Effects/PerkType";
 import { randInt } from "../../../../../Engine/Utilities/SMath";
 import { CView } from "../../../../../Page/ContentView";
-import { ICombatAction } from "../../../../Combat/Actions/ICombatAction";
+import { CombatAction } from "../../../../Combat/Actions/CombatAction";
 import { describeCockShort } from "../../../../Descriptors/CockDescriptor";
 import { fatigueRecovery } from "../../../../Combat/CombatUtils";
 import { CombatActionFlags } from "../../../../Effects/CombatActionFlag";
 import { CombatEffectType } from "../../../../Effects/CombatEffectType";
 
-export class NagaTease implements ICombatAction {
+export class NagaTease extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Tease;
     public name: string = "NagaTease";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;

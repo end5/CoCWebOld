@@ -1,11 +1,11 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { PlayerSpellAction } from '../PlayerSpellAction';
 import { CView } from '../../../../../Page/ContentView';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
+import { IActionDamage } from '../../../../Combat/Actions/CombatAction';
 
 export class FoxFire extends PlayerSpellAction {
     public flag: CombatActionFlags = CombatActionFlags.MagicSpec;
@@ -28,27 +28,27 @@ export class FoxFire extends PlayerSpellAction {
         return true;
     }
 
-    public use(character: Character, monster: Character): void | NextScreenChoices {
-        CView.clear();
+    public consumeComponents(character: Character, monster: Character): void {
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.combat.effects.has(CombatEffectType.Shell)) {
-            CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
-            return;
-        }
+    }
+
+    public useAction(character: Character, monster: Character): void {
+        CView.clear();
         // Deals direct damage and lust regardless of enemy defenses.  Especially effective against corrupted targets.
         CView.text("Holding out your palm, you conjure an ethereal blue flame that dances across your fingertips.  You launch it at " + monster.desc.a + monster.desc.short + " with a ferocious throw, and it bursts on impact, showering dazzling azure sparks everywhere.");
+    }
+
+    public calcDamage(character: Character, monster: Character): IActionDamage {
         let damage: number = Math.floor(10 + (character.stats.int / 3 + randInt(character.stats.int / 2)) * character.combat.stats.spellMod());
         if (monster.stats.cor < 33) damage = Math.round(damage * .66);
         else if (monster.stats.cor < 50) damage = Math.round(damage * .8);
-        // High damage to goes.
-        if (monster.desc.short === "goo-girl") damage = Math.round(damage * 1.5);
-        // Using fire attacks on the goo
-        if (monster.desc.short === "goo-girl") {
-            CView.text("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.body.skin.tone + " skin has lost some of its shimmer.");
-            if (!monster.perks.has(PerkType.Acid))
-                monster.perks.add(PerkType.Acid);
+        return { damage };
+    }
+
+    public applyDamage(character: Character, monster: Character, damage?: number, lust?: number, crit?: boolean): void {
+        if (damage) {
+            damage = monster.combat.stats.loseHP(damage);
+            CView.text("  (" + damage + ")\n\n");
         }
-        damage = monster.combat.stats.loseHP(damage);
-        CView.text("  (" + damage + ")\n\n");
     }
 }

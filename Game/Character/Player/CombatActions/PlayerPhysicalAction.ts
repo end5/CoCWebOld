@@ -1,17 +1,13 @@
-import { PhysicalAction } from '../../../Combat/Actions/PhysicalAction';
+import { IPhysicalAction } from '../../../Combat/Actions/IPhysicalAction';
 import { PerkType } from '../../../Effects/PerkType';
 import { Character } from '../../Character';
-import { ICombatAction } from '../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
 import { CombatActionFlags } from '../../../Effects/CombatActionFlag';
 
-export abstract class PlayerPhysicalAction implements ICombatAction, PhysicalAction {
+export abstract class PlayerPhysicalAction extends CombatAction implements IPhysicalAction {
     public flag: CombatActionFlags = CombatActionFlags.PhysSpec;
-    public abstract name: string;
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
-    public abstract isPossible(character: Character): boolean;
-    public abstract canUse(character: Character, enemy: Character): boolean;
-    public abstract use(character: Character, enemy: Character): void;
+    public subActions: CombatAction[] = [];
 
     public abstract readonly baseCost: number;
 

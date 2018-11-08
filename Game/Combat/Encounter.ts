@@ -1,4 +1,3 @@
-import { performActionAI } from './CombatAI';
 import { combatCleanup } from './CombatCleanup';
 import { CombatParty } from './CombatParty';
 import { combatRegeneration } from './CombatUtils';
@@ -9,6 +8,8 @@ import { awardPlayer } from './CombatDrops';
 import { CharDict } from '../CharList';
 import { playerMenu } from '../Menus/InGame/PlayerMenu';
 import { combatMenu } from '../Menus/InGame/PlayerCombatMenu';
+import { randomChoice } from '../../Engine/Utilities/SMath';
+import { CombatManager } from './CombatManager';
 
 export class Encounter {
     private mainCharacter: Character;
@@ -32,20 +33,18 @@ export class Encounter {
     public performRound(): NextScreenChoices {
         if (this.performTurnEnd)
             return this.performTurnEnd();
-        if (this.allyPartyTurn) {
-            return this.performAllyPartyTurn();
-        }
-        else {
-            return this.performEnemyPartyTurn();
-        }
+        return this.performPartyTurn();
     }
 
-    private performAllyPartyTurn(): NextScreenChoices {
-        const activeMember = this.allyParty.activePartyMember();
+    private performPartyTurn(): NextScreenChoices {
+        const activeMember = this.allyPartyTurn ? this.allyParty.activePartyMember() : this.enemyParty.activePartyMember();
         this.performTurnEnd = () => {
             const encounter = this;
             encounter.performTurnEnd = undefined;
-            encounter.enemyParty.resolveAttacker(activeMember);
+            if (encounter.allyPartyTurn)
+                encounter.enemyParty.resolveAttacker(activeMember);
+            else
+                encounter.allyParty.resolveAttacker(activeMember);
             encounter.resolveEndTurn(activeMember);
             return encounter.endCombatOrNextRound();
         };
@@ -53,26 +52,15 @@ export class Encounter {
             return { next: playerMenu };
         }
         else if (activeMember.uuid === CharDict.player!.uuid) {
-            return { next: choiceWrap(combatMenu, this.mainCharacter) };
+            return { next: choiceWrap(combatMenu, activeMember) };
         }
         else {
-            return performActionAI(activeMember);
+            if (this.allyPartyTurn)
+                activeMember.combat.action.use(activeMember, randomChoice(...this.enemyParty.ableMembers));
+            else
+                activeMember.combat.action.use(activeMember, randomChoice(...this.allyParty.ableMembers));
+            return this.performTurnEnd();
         }
-    }
-
-    private performEnemyPartyTurn(): NextScreenChoices {
-        const activeMember = this.enemyParty.activePartyMember();
-        this.performTurnEnd = () => {
-            const encounter = this;
-            encounter.performTurnEnd = undefined;
-            encounter.allyParty.resolveAttacker(activeMember);
-            encounter.resolveEndTurn(activeMember);
-            return encounter.endCombatOrNextRound();
-        };
-        if (!activeMember) {
-            return { next: playerMenu };
-        }
-        else return performActionAI(activeMember);
     }
 
     private combatEffectUpdate(selectedChar: Character, enemyParty: Character[]): void {
@@ -154,6 +142,7 @@ export class Encounter {
                     const defeatEvent = this.enemyParty.defeatLog[0];
                     if (defeatEvent.how !== DefeatType.Escape) {
                         this.performTurnEnd = () => {
+                            CombatManager.encounter = undefined;
                             return awardPlayer(this.mainCharacter, defeatEvent.loser);
                         };
                     }

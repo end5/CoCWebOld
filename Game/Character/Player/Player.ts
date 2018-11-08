@@ -5,7 +5,6 @@ import { FaceType } from '../../Body/Face';
 import { SkinType } from '../../Body/Skin';
 import { TongueType } from '../../Body/Tongue';
 import { CombatContainer } from '../../Combat/CombatContainer';
-import { DefaultRespond } from '../../Combat/Default/DefaultRespond';
 import { Armor } from '../../Items/Armors/Armor';
 import { ArmorName } from '../../Items/Armors/ArmorName';
 import { Weapon } from '../../Items/Weapons/Weapon';
@@ -14,43 +13,25 @@ import { Character } from '../Character';
 import { CharacterType } from '../CharacterType';
 import { WeaponLib } from '../../Items/Weapons/WeaponLib';
 import { ArmorLib } from '../../Items/Armors/ArmorLib';
-import { EndScenes } from '../../Combat/EndScenes';
-import { CombatRewards } from '../../Combat/CombatRewards';
 import { CharacterInventory } from '../../Inventory/CharacterInventory';
-
-class PlayerCombatContainer extends CombatContainer {
-    public action = new PlayerAction();
-    public respond = new DefaultRespond();
-    public endScenes: EndScenes;
-    public rewards: CombatRewards;
-    public constructor(char: Character) {
-        super(char);
-        this.endScenes = new PlayerEndScenes(char);
-        this.rewards = new CombatRewards(char);
-    }
-}
+import { CharacterDescription } from '../CharacterDescription';
+import { randInt } from '../../../Engine/Utilities/SMath';
+import { PlayerResponses } from './PlayerResponses';
 
 export class Player extends Character {
+    protected description: CharacterDescription = new CharacterDescription(this, "", "", "");
     public inventory: CharacterInventory;
     protected combatContainer: CombatContainer;
     public constructor() {
         super(CharacterType.Player);
         this.baseStats.str.value = 15;
-        this.baseStats.str.max = 100;
         this.baseStats.tou.value = 15;
-        this.baseStats.tou.max = 100;
         this.baseStats.spe.value = 15;
-        this.baseStats.spe.max = 100;
         this.baseStats.int.value = 15;
-        this.baseStats.int.max = 100;
         this.baseStats.sens.value = 15;
-        this.baseStats.sens.max = 100;
         this.baseStats.lib.value = 15;
-        this.baseStats.lib.max = 100;
         this.baseStats.cor.value = 0;
-        this.baseStats.cor.max = 100;
         this.baseStats.lust.value = 15;
-        this.baseStats.lust.max = 100;
 
         this.stats.level = 1;
         this.stats.HP = this.stats.maxHP();
@@ -70,6 +51,8 @@ export class Player extends Character {
         this.inventory.items.unlock(6);
 
         // Combat
-        this.combatContainer = new PlayerCombatContainer(this);
+        this.combatContainer = new CombatContainer(this, new PlayerAction(), PlayerResponses, new PlayerEndScenes(this), {
+            gems: () => randInt(10)
+        });
     }
 }

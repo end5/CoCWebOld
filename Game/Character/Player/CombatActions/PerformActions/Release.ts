@@ -1,14 +1,14 @@
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { Character } from '../../../Character';
 import { CView } from '../../../../../Page/ContentView';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
-export class Release implements ICombatAction {
+export class Release extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.MoveAway;
     public name: string = "Release";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;

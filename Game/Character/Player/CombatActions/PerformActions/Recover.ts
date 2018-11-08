@@ -1,14 +1,14 @@
 import { Character } from '../../../Character';
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CView } from '../../../../../Page/ContentView';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 
-export class Recover implements ICombatAction {
+export class Recover extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Recover";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;

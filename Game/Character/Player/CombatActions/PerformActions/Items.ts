@@ -1,13 +1,13 @@
 import { Character } from '../../../Character';
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { inventoryMenu } from '../../../../Menus/InGame/PlayerInventoryMenu';
 
-export class Items implements ICombatAction {
+export class Items extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Items;
     public name: string = "Items";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -17,7 +17,7 @@ export class Items implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void {
+    public useAction(character: Character, target: Character): void {
         inventoryMenu(character);
     }
 }

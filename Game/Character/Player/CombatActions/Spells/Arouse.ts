@@ -2,12 +2,11 @@ import { BlackMagic } from './BlackMagic';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Vagina, VaginaWetness } from '../../../../Body/Vagina';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CView } from '../../../../../Page/ContentView';
 import { describeCockShort, describeCocksLight } from '../../../../Descriptors/CockDescriptor';
 import { describeVagina } from '../../../../Descriptors/VaginaDescriptor';
-import { CombatEffectType } from '../../../../Effects/CombatEffectType';
+import { IActionDamage } from '../../../../Combat/Actions/CombatAction';
 
 export class Arouse extends BlackMagic {
     public name: string = "Arouse";
@@ -17,25 +16,25 @@ export class Arouse extends BlackMagic {
         return character.effects.has(StatusEffectType.KnowsArouse);
     }
 
-    public castSpell(character: Character, monster: Character): void | NextScreenChoices {
+    public consumeComponents(character: Character, monster: Character): void {
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.combat.effects.has(CombatEffectType.Shell)) {
-            CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
-            return;
-        }
+    }
+
+    public useAction(character: Character, monster: Character): void {
         CView.clear();
         CView.text("You make a series of arcane gestures, drawing on your own lust to inflict it upon your foe!\n");
-        // Worms be immune
-        if (monster.desc.short === "worms") {
-            CView.text("The worms appear to be unaffected by your magic!");
-            CView.text("\n\n");
-            return;
-        }
-        if (monster.stats.lustVuln === 0) {
-            CView.text("It has no effect!  Your foe clearly does not experience lust in the same way as you.\n\n");
-            return;
-        }
-        monster.stats.lust += monster.stats.lustVuln * (character.stats.int / 5 * character.combat.stats.spellMod() + randInt(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
+    }
+
+    public checkHit(character: Character, monster: Character): boolean {
+        return true;
+    }
+
+    public calcDamage(character: Character, monster: Character): void | IActionDamage {
+        return { lust: monster.stats.lustVuln * (character.stats.int / 5 * character.combat.stats.spellMod() + randInt(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5) };
+    }
+
+    public applyDamage(character: Character, monster: Character, damage: number, lust: number, crit: boolean): void {
+        monster.stats.lust += lust;
         if (monster.stats.lust < 30)
             CView.text(monster.desc.capitalA + monster.desc.short + " squirms as the magic affects " + monster.desc.objectivePronoun + ".  ");
         if (monster.stats.lust >= 30 && monster.stats.lust < 60) {

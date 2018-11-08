@@ -1,17 +1,17 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { BreastRow } from '../../../../Body/BreastRow';
 import { Character } from '../../../Character';
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CView } from '../../../../../Page/ContentView';
 import { describeBalls } from '../../../../Descriptors/BallsDescriptor';
 import { describeNipple } from '../../../../Descriptors/BreastDescriptor';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
-export class Fantasize implements ICombatAction {
+export class Fantasize extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Fantasize;
     public name: string = "Fantasize";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -21,7 +21,7 @@ export class Fantasize implements ICombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void {
+    public useAction(character: Character, target: Character): void {
         let lustChange: number = 0;
         CView.clear();
         if (character.inventory.equipment.armor.displayName === "goo armor") {
@@ -45,19 +45,11 @@ export class Fantasize implements ICombatAction {
             lustChange = 5 + randInt(character.stats.lib / 8 + character.stats.cor / 8);
         }
         else {
-            CView.clear();
             CView.text("You fill your mind with perverted thoughts about " + target.desc.a + target.desc.short + ", picturing " + target.desc.objectivePronoun + " in all kinds of perverse situations with you.\n");
             lustChange = 10 + randInt(character.stats.lib / 5 + character.stats.cor / 8);
         }
         if (lustChange >= 20) CView.text("The fantasy is so vivid and pleasurable you wish it was happening now.  You wonder if " + target.desc.a + target.desc.short + " can tell what you were thinking.\n\n");
         else CView.text("\n");
         character.stats.lustNoResist += lustChange;
-        if (character.stats.lust > 99) {
-            if (target.desc.short === "pod") {
-                CView.text("<b>You nearly orgasm, but the terror of the situation reasserts itself, muting your body's need for release.  If you don't escape soon, you have no doubt you'll be too fucked up to ever try again!</b>\n\n");
-                character.stats.lust = 99;
-                character.stats.lust += -25;
-            }
-        }
     }
 }

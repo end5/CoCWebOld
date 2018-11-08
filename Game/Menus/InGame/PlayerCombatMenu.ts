@@ -1,5 +1,5 @@
 import { Character } from '../../Character/Character';
-import { ICombatAction } from '../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../Combat/Actions/CombatAction';
 import { CombatManager, getEnemies } from '../../Combat/CombatManager';
 import { NextScreenChoices, ScreenChoice, ClickOption } from '../../ScreenDisplay';
 import { describeVagina } from '../../Descriptors/VaginaDescriptor';
@@ -20,7 +20,7 @@ export function combatMenu(character: Character): NextScreenChoices {
     throw new Error('Combat menu displayed when no combat encounter has been created');
 }
 
-function showMenu(char: Character, mainAction?: ICombatAction, prevMenu?: ClickOption): NextScreenChoices {
+function showMenu(char: Character, mainAction?: CombatAction, prevMenu?: ClickOption): NextScreenChoices {
     if (CombatManager.encounter) {
 
         const choices: ScreenChoice[] = [];
@@ -35,10 +35,10 @@ function showMenu(char: Character, mainAction?: ICombatAction, prevMenu?: ClickO
         const curMenu = () => showMenu(char, mainAction, prevMenu);
         for (const action of mainAction.subActions) {
             if (char.combat.effects.combatAbilityFlag & action.flag && action.isPossible(char)) {
-                if (action.subActions.length > 0 && action.subActions.find((subAction) => subAction.isPossible(char))) {
+                if (action.subActions.length > 0) {
                     choices.push([action.name, () => showMenu(char, action, curMenu)]);
                 }
-                else if (enemies.ableMembers.find((enemy) => action.canUse(char, enemy))) {
+                else if (enemies.ableMembers.find((enemy) => action.isPossible(char) && action.canUse(char, enemy))) {
                     choices.push([action.name, () => selectTarget(char, action, curMenu)]);
                 }
                 else {
@@ -54,25 +54,19 @@ function showMenu(char: Character, mainAction?: ICombatAction, prevMenu?: ClickO
     throw new Error('Combat menu displayed when no combat encounter has been created');
 }
 
-function selectTarget(character: Character, action: ICombatAction, prevMenu?: ClickOption): NextScreenChoices {
+function selectTarget(character: Character, action: CombatAction, prevMenu?: ClickOption): NextScreenChoices {
     if (CombatManager.encounter) {
         const enemies = getEnemies(CombatManager.encounter, character);
         if (enemies.ableMembers.length === 1) {
-            const useResult = action.use(character, enemies.ableMembers[0]);
-            if (useResult)
-                return useResult;
-            else
-                return CombatManager.encounter.performRound();
+            action.use(character, enemies.ableMembers[0]);
+            return CombatManager.encounter.performRound();
         }
         else {
             const choices: ScreenChoice[] = [];
             for (const enemy of enemies.ableMembers) {
                 choices.push([enemy.desc.name, () => {
-                    const result = action.use(character, enemy);
-                    if (result)
-                        return result;
-                    else
-                        return { next: playerMenu };
+                    action.use(character, enemy);
+                    return { next: playerMenu };
                 }]);
             }
             if (prevMenu && action.subActions.length > 0)

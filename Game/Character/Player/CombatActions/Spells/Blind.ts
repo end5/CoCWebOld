@@ -1,7 +1,6 @@
 import { WhiteMagic } from './WhiteMagic';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CView } from '../../../../../Page/ContentView';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
@@ -22,21 +21,29 @@ export class Blind extends WhiteMagic {
         return super.canUse(character, monster);
     }
 
-    public castSpell(character: Character, monster: Character): void | NextScreenChoices {
-        CView.clear();
+    public consumeComponents(character: Character, monster: Character): void {
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.combat.effects.has(CombatEffectType.Shell)) {
-            CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
-            return;
-        }
+    }
+
+    public useAction(character: Character, monster: Character): void {
+        CView.clear();
         CView.text("You glare at " + monster.desc.a + monster.desc.short + " and point at " + monster.desc.objectivePronoun + ".  A bright flash erupts before " + monster.desc.objectivePronoun + "!\n");
-        if (randInt(3) !== 0) {
-            CView.text(" <b>" + monster.desc.capitalA + monster.desc.short + " ");
-            if (monster.desc.plural && monster.desc.short !== "imp horde") CView.text("are blinded!</b>");
-            else CView.text("is blinded!</b>");
-            monster.combat.effects.add(CombatEffectType.Blind, character, { duration: 5 * character.combat.stats.spellMod() });
-        }
-        else CView.text(monster.desc.capitalA + monster.desc.short + " blinked!");
+    }
+
+    public checkHit(character: Character, monster: Character): boolean {
+        return randInt(3) !== 0;
+    }
+
+    public missed(character: Character, monster: Character): void {
+        CView.text(monster.desc.capitalA + monster.desc.short + " blinked!");
+        CView.text("\n\n");
+    }
+
+    public applyDamage(character: Character, monster: Character, damage: number, lust: number, crit: boolean): void {
+        CView.text(" <b>" + monster.desc.capitalA + monster.desc.short + " ");
+        if (monster.desc.plural && monster.desc.short !== "imp horde") CView.text("are blinded!</b>");
+        else CView.text("is blinded!</b>");
+        monster.combat.effects.add(CombatEffectType.Blind, character, { duration: 5 * character.combat.stats.spellMod() });
         CView.text("\n\n");
     }
 }

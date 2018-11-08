@@ -11,7 +11,7 @@ import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { ArmorName } from '../../../../Items/Armors/ArmorName';
 import { NagaTease } from './NagaTease';
 import { CView } from '../../../../../Page/ContentView';
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { describeButt, describeButthole } from '../../../../Descriptors/ButtDescriptor';
 import { describeBreastRow, describeNipple, describeAllBreasts, describeChest } from '../../../../Descriptors/BreastDescriptor';
 import { describeCock, describeCocksLight, describeOneOfYourCocks } from '../../../../Descriptors/CockDescriptor';
@@ -426,11 +426,11 @@ function selectChoice(list: number[]): number {
     return 0;
 }
 
-export class Tease implements ICombatAction {
+export class Tease extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Tease;
     public name: string = "Tease";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;
@@ -1281,36 +1281,23 @@ export class Tease implements ICombatAction {
                 damage *= 1.15;
                 bonusDamage *= 1.15;
             }
-            // if (character.perks.has(PerkType.ChiReflowLust)) damage *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
             if (target.desc.plural) damage *= 1.3;
             damage = (damage + randInt(bonusDamage)) * target.stats.lustVuln;
 
-            // if (monster.charType === CharacterType.JeanClaude)
-            //     (monster as JeanClaude).handleTease(damage, true);
-            // else if (monster.charType === CharacterType.Doppleganger && !monster.statusAffects.has(StatusAffectType.Stunned))
-            //     (monster as Doppleganger).mirrorTease(damage, true);
-            // else
-            if (target.combat.responses.has("Tease"))
-                target.combat.responses.get("Tease")!(target, character, damage);
+            target.stats.lust += damage;
 
-            if (PlayerFlags.FETISH >= 1) { // && !urtaQuest.isUrta()) {
+            if (PlayerFlags.FETISH >= 1) {
                 if (character.stats.lust < 75) CView.text("\nFlaunting your body in such a way gets you a little hot and bothered.");
                 else CView.text("\nIf you keep exposing yourself you're going to get too horny to fight back.  This exhibitionism fetish makes it hard to resist just stripping naked and giving up.");
                 character.stats.lust += 2 + randInt(3);
             }
 
-            // Similar to fetish check, only add XP if the character IS the character...
-            // if (!urtaQuest.isUrta())
             character.combat.stats.teaseXP(1);
         }
         // Nuttin honey
         else {
-            // if (!urtaQuest.isUrta())
             character.combat.stats.teaseXP(5);
 
-            // if (monster.charType === CharacterType.JeanClaude) (monster as JeanClaude).handleTease(0, false);
-            // else if (monster.charType === CharacterType.Doppleganger) (monster as Doppleganger).mirrorTease(0, false);
-            // else
             CView.text("\n" + target.desc.capitalA + target.desc.short + " seems unimpressed.");
         }
         CView.text("\n\n");

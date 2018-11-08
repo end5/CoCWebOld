@@ -1,17 +1,15 @@
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Character } from '../../../Character';
-import { Climb } from './Climb';
 import { Release } from './Release';
 import { Run } from './Run';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
-export class MoveAway implements ICombatAction {
+export class MoveAway implements CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.MoveAway;
-    public name: string = "MoveAway";
+    public name: string = "Flee";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
-    private climb = new Climb();
     private release = new Release();
     private run = new Run();
 
@@ -21,10 +19,7 @@ export class MoveAway implements ICombatAction {
 
     public canUse(character: Character, target: Character): boolean {
         if (target) {
-            if (this.climb.canUse(character, target)) {
-                this.name = this.climb.name;
-            }
-            else if (this.release.canUse(character, target)) {
+            if (this.release.canUse(character, target)) {
                 this.name = this.release.name;
             }
         }
@@ -35,10 +30,7 @@ export class MoveAway implements ICombatAction {
     }
 
     public use(character: Character, target: Character): void {
-        if (this.climb.canUse(character, target)) {
-            this.climb.use(character, target);
-        }
-        else if (this.release.canUse(character, target)) {
+        if (this.release.canUse(character, target)) {
             this.release.use(character, target);
         }
         else {

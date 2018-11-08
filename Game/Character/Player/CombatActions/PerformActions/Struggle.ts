@@ -1,13 +1,13 @@
 import { Character } from '../../../Character';
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 import { CView } from '../../../../../Page/ContentView';
 
-export class Struggle implements ICombatAction {
+export class Struggle extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Attack;
     public name: string = "Struggle";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;

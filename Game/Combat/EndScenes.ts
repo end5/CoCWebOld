@@ -86,4 +86,7 @@ export abstract class EndScenes extends CharacterHolder {
 
     protected defeatAwardScene?(): NextScreenChoices;
     protected victoryAwardScene?(): NextScreenChoices;
+
+    public rewardItem?(enemy: Character, itemName: string): void;
+    public rewardGems?(enemy: Character, gems: number): void;
 }

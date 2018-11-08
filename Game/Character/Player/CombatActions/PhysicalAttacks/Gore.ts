@@ -2,11 +2,10 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { HornType } from '../../../../Body/Horns';
 import { Character } from '../../../../Character/Character';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatEffectType } from '../../../../Effects/CombatEffectType';
+import { IActionDamage } from '../../../../Combat/Actions/CombatAction';
 
 export class Gore extends PlayerPhysicalAction {
     public name: string = "Gore";
@@ -21,18 +20,11 @@ export class Gore extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character): void | NextScreenChoices {
-        CView.clear();
-        if (monster.desc.short === "worms") {
-            CView.text("Taking advantage of your new natural weapons, you quickly charge at the freak of nature. Sensing impending danger, the creature willingly drops its cohesion, causing the mass of worms to fall to the ground with a sick, wet 'thud', leaving your horns to stab only at air.\n\n");
-            return;
-        }
-        player.stats.fatiguePhysical(this.baseCost);
-        // Amily!
-        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
-            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
-            return;
-        }
+    public consumeComponents(char: Character, enemy: Character): void {
+        char.stats.fatiguePhysical(this.baseCost);
+    }
+
+    public checkMiss(player: Character, monster: Character): boolean {
         // Bigger horns = better success chance.
         // Small horns - 60% hit
         let hitChance: number = 0;
@@ -55,54 +47,65 @@ export class Gore extends PlayerPhysicalAction {
         hitChance -= monster.stats.spe / 2;
         // Account for player speed - up to +50%
         hitChance += player.stats.spe / 2;
-        // Hit & calculation
-        if (hitChance >= randInt(100)) {
-            const horns = player.body.horns;
-            let damage: number = 0;
-            if (horns.count > 40) horns.count = 40;
-            // normal
-            if (randInt(4) > 0) {
-                CView.text("You lower your head and charge, skewering " + monster.desc.a + monster.desc.short + " on one of your bullhorns!  ");
-                // As normal attack + horn length bonus
-                damage = Math.floor(player.stats.str + horns.count * 2 - randInt(monster.stats.tou) - monster.combat.stats.defense());
-            }
-            // CRIT
-            else {
-                // doubles horn bonus damage
-                damage = Math.floor(player.stats.str + horns.count * 4 - randInt(monster.stats.tou) - monster.combat.stats.defense());
-                CView.text("You lower your head and charge, slamming into " + monster.desc.a + monster.desc.short + " and burying both your horns into " + monster.desc.objectivePronoun + "!  ");
-            }
-            // Bonus damage for rut!
-            if (player.effects.has(StatusEffectType.Rut) && monster.body.cocks.length > 0) {
-                CView.text("The fury of your rut lent you strength, increasing the damage!  ");
-                damage += 5;
-            }
-            // Bonus per level damage
-            damage += player.stats.level * 2;
-            // Reduced by defense
-            damage -= monster.combat.stats.defense();
-            if (damage < 0) damage = 5;
-            // CAP 'DAT SHIT
-            if (damage > player.stats.level * 10 + 100) damage = player.stats.level * 10 + 100;
-            if (damage > 0) {
-                damage *= player.combat.stats.attack(monster);
-                damage = monster.combat.stats.loseHP(damage);
-            }
-            // Different horn damage messages
-            if (damage < 20) CView.text("You pull yourself free, dealing " + damage + " damage.");
-            if (damage >= 20 && damage < 40) CView.text("You struggle to pull your horns free, dealing " + damage + " damage.");
-            if (damage >= 40) CView.text("With great difficulty you rip your horns free, dealing " + damage + " damage.");
+        return hitChance < randInt(100);
+    }
+
+    public missed(player: Character, monster: Character): void {
+        // Special vala changes
+        CView.text("You lower your head and charge " + monster.desc.a + monster.desc.short + ", only to be sidestepped at the last moment!");
+        CView.text("\n\n");
+    }
+
+    public calcDamage(player: Character, monster: Character): IActionDamage {
+        const horns = player.body.horns;
+        let damage: number = 0;
+        let crit = false;
+        if (horns.count > 40) horns.count = 40;
+        // normal
+        if (randInt(4) > 0) {
+            // As normal attack + horn length bonus
+            damage = Math.floor(player.stats.str + horns.count * 2 - randInt(monster.stats.tou) - monster.combat.stats.defense());
         }
-        // Miss
+        // CRIT
         else {
-            // Special vala changes
-            if (monster.desc.short === "Vala") {
-                CView.text("You lower your head and charge Vala, but she just flutters up higher, grabs hold of your horns as you close the distance, and smears her juicy, fragrant cunt against your nose.  The sensual smell and her excited moans stun you for a second, allowing her to continue to use you as a masturbation aid, but she quickly tires of such foreplay and flutters back with a wink.\n\n");
-                player.stats.lust += 5;
-            }
-            else CView.text("You lower your head and charge " + monster.desc.a + monster.desc.short + ", only to be sidestepped at the last moment!");
+            // doubles horn bonus damage
+            damage = Math.floor(player.stats.str + horns.count * 4 - randInt(monster.stats.tou) - monster.combat.stats.defense());
+            crit = true;
         }
-        // New line before monster attack
+        // Bonus damage for rut!
+        if (player.effects.has(StatusEffectType.Rut) && monster.body.cocks.length > 0) {
+            damage += 5;
+        }
+        // Bonus per level damage
+        damage += player.stats.level * 2;
+        // Reduced by defense
+        damage -= monster.combat.stats.defense();
+        if (damage < 0) damage = 5;
+        // CAP 'DAT SHIT
+        if (damage > player.stats.level * 10 + 100) damage = player.stats.level * 10 + 100;
+        return { damage, crit };
+    }
+
+    public applyDamage(player: Character, monster: Character, damage: number, lust: number, crit: boolean): void {
+        if (!crit) {
+            CView.text("You lower your head and charge, skewering " + monster.desc.a + monster.desc.short + " on one of your bullhorns!  ");
+        }
+        // CRIT
+        else {
+            CView.text("You lower your head and charge, slamming into " + monster.desc.a + monster.desc.short + " and burying both your horns into " + monster.desc.objectivePronoun + "!  ");
+        }
+        // Bonus damage for rut!
+        if (player.effects.has(StatusEffectType.Rut) && monster.body.cocks.length > 0) {
+            CView.text("The fury of your rut lent you strength, increasing the damage!  ");
+        }
+        if (damage > 0) {
+            damage *= player.combat.stats.attack(monster);
+            damage = monster.combat.stats.loseHP(damage);
+        }
+        // Different horn damage messages
+        if (damage < 20) CView.text("You pull yourself free, dealing " + damage + " damage.");
+        if (damage >= 20 && damage < 40) CView.text("You struggle to pull your horns free, dealing " + damage + " damage.");
+        if (damage >= 40) CView.text("With great difficulty you rip your horns free, dealing " + damage + " damage.");
         CView.text("\n\n");
     }
 }

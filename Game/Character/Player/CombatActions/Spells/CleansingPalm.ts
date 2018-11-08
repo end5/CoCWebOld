@@ -1,10 +1,9 @@
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { LearnedSpellAction } from '../LearnedSpellAction';
 import { CView } from '../../../../../Page/ContentView';
-import { CombatEffectType } from '../../../../Effects/CombatEffectType';
+import { IActionDamage } from '../../../../Combat/Actions/CombatAction';
 
 export class CleansingPalm extends LearnedSpellAction {
     public name: string = "C.Palm";
@@ -14,19 +13,19 @@ export class CleansingPalm extends LearnedSpellAction {
         return character.perks.has(PerkType.CleansingPalm) && character.stats.cor < 10;
     }
 
-    public castSpell(character: Character, monster: Character): void | NextScreenChoices {
-        CView.clear();
+    public consumeComponents(character: Character, monster: Character): void {
         character.stats.fatigueMagic(this.baseCost);
-        if (monster.combat.effects.has(CombatEffectType.Shell)) {
-            CView.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
-            return;
-        }
+    }
 
+    public calcDamage(character: Character, monster: Character): void | IActionDamage {
         let corruptionMulti: number = (monster.stats.cor - 20) / 25;
         if (corruptionMulti > 1.5) corruptionMulti = 1.5;
 
-        let damage = Math.floor((character.stats.int / 4 + randInt(character.stats.int / 3)) * (character.combat.stats.spellMod() * corruptionMulti));
+        return { damage:  Math.floor((character.stats.int / 4 + randInt(character.stats.int / 3)) * (character.combat.stats.spellMod() * corruptionMulti)) };
+    }
 
+    public applyDamage(character: Character, monster: Character, damage: number, lust: number, crit: boolean): void {
+        CView.clear();
         if (damage > 0) {
             CView.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.desc.a + monster.desc.short + ", tossing");
             CView.text(" " + monster.desc.objectivePronoun);

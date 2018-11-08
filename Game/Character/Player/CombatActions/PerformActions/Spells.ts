@@ -1,4 +1,4 @@
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Character } from '../../../Character';
 import { Arouse } from '../Spells/Arouse';
 import { Blind } from '../Spells/Blind';
@@ -10,11 +10,11 @@ import { Whitefire } from '../Spells/Whitefire';
 import { randomChoice } from '../../../../../Engine/Utilities/SMath';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
-export class Spells implements ICombatAction {
+export class Spells extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.Spells;
     public name: string = "Spells";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [
+    public subActions: CombatAction[] = [
         new Arouse(),
         new Blind(),
         new ChargeWeapon(),
@@ -34,6 +34,5 @@ export class Spells implements ICombatAction {
 
     public use(character: Character, target: Character): void {
         randomChoice(...this.subActions).use(character, target);
-        // return showActions(character, SpellActionLib.getPossibleActions(character));
     }
 }

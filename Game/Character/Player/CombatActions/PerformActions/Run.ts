@@ -6,7 +6,7 @@ import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusEffectType } from '../../../../Effects/StatusEffectType';
 import { Character } from '../../../Character';
-import { ICombatAction } from '../../../../Combat/Actions/ICombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CView } from '../../../../../Page/ContentView';
 import { describeLegs } from '../../../../Descriptors/LegDescriptor';
 import { describeBalls } from '../../../../Descriptors/BallsDescriptor';
@@ -15,11 +15,11 @@ import { describeButt } from '../../../../Descriptors/ButtDescriptor';
 import { describeChest } from '../../../../Descriptors/BreastDescriptor';
 import { CombatActionFlags } from '../../../../Effects/CombatActionFlag';
 
-export class Run implements ICombatAction {
+export class Run extends CombatAction {
     public flag: CombatActionFlags = CombatActionFlags.MoveAway;
     public name: string = "Run";
     public reasonCannotUse: string = "";
-    public subActions: ICombatAction[] = [];
+    public subActions: CombatAction[] = [];
 
     public isPossible(character: Character): boolean {
         return true;

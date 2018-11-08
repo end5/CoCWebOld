@@ -2,12 +2,11 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { LegType } from '../../../../Body/Legs';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
-import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 import { CView } from '../../../../../Page/ContentView';
-import { PlayerFlags } from '../../PlayerFlags';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
+import { IActionDamage } from '../../../../Combat/Actions/CombatAction';
 
 export class Kick extends PlayerPhysicalAction {
     public name: string = "Kick";
@@ -22,13 +21,16 @@ export class Kick extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character): void | NextScreenChoices {
-        CView.clear();
+    public consumeComponents(player: Character, monster: Character): void {
         player.stats.fatiguePhysical(this.baseCost);
+    }
+
+    public useAction(player: Character, monster: Character): void {
+        CView.clear();
         // Variant start messages!
         if (player.body.legs.type === LegType.KANGAROO) {
             // (tail)
-            if (player.body.tails.reduce(Tail.HasType(TailType.KANGAROO), false))
+            if (player.body.tails.find(Tail.FilterType(TailType.KANGAROO)))
                 CView.text("You balance on your flexible kangaroo-tail, pulling both legs up before slamming them forward simultaneously in a brutal kick.  ");
             // (no tail)
             else
@@ -44,52 +46,27 @@ export class Kick extends PlayerPhysicalAction {
         else if (player.body.legs.type === LegType.HOOFED)
             CView.text("You twist and lurch as you raise a leg and slam your hoof forward in a kick.  ");
 
-        if (PlayerFlags.FETISH >= 3) {
-            CView.text("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Ceraph's piercings have made normal attack impossible!  Maybe you could try something else?\n\n");
-            return;
-        }
-        // Amily!
-        if (monster.combat.effects.has(CombatEffectType.Concentration)) {
-            CView.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
-            return;
-        }
         // Blind
         if (player.combat.effects.has(CombatEffectType.Blind)) {
             CView.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
-        // Worms are special
-        if (monster.desc.short === "worms") {
-            // 50% chance of hit (int boost)
-            if (randInt(100) + player.stats.int / 3 >= 50) {
-                let wormDamage = Math.floor(player.stats.str / 5 - randInt(5));
-                if (wormDamage <= 0)
-                    wormDamage = 1;
-                wormDamage = monster.combat.stats.loseHP(wormDamage);
-                CView.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + wormDamage + " damage.\n\n");
-            }
-            // Fail
-            else {
-                CView.text("You attempt to crush the worms with your reprisal, only to have the collective move its individual members, creating a void at the point of impact, leaving you to attack only empty air.\n\n");
-            }
+    }
 
-            return;
-        }
+    public checkMiss(player: Character, monster: Character): boolean {
+        return (player.combat.effects.has(CombatEffectType.Blind) && randInt(2) === 0) ||
+            (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80);
+    }
+
+    public missed(player: Character, monster: Character): void {
+        CView.text(monster.desc.capitalA + monster.desc.short + " manage");
+        if (!monster.desc.plural)
+            CView.text("s");
+        CView.text(" to dodge your kick!");
+        CView.text("\n\n");
+    }
+
+    public calcDamage(player: Character, monster: Character): IActionDamage {
         let damage: number;
-        // Determine if dodged!
-        if ((player.combat.effects.has(CombatEffectType.Blind) && randInt(2) === 0) ||
-            (monster.stats.spe - player.stats.spe > 0 && randInt(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
-            // Akbal dodges special education
-            if (monster.desc.short === "Akbal") CView.text("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n");
-            else {
-                CView.text(monster.desc.capitalA + monster.desc.short + " manage");
-                if (!monster.desc.plural)
-                    CView.text("s");
-                CView.text(" to dodge your kick!");
-                CView.text("\n\n");
-            }
-
-            return;
-        }
         // Determine damage
         // Base:
         damage = player.stats.str;
@@ -107,6 +84,10 @@ export class Kick extends PlayerPhysicalAction {
         damage -= reduction;
         // Damage post processing!
         damage *= player.combat.stats.attack(monster);
+        return { damage };
+    }
+
+    public applyDamage(player: Character, monster: Character, damage: number, lust: number, crit: boolean): void {
         // (None yet!)
         if (damage > 0) damage = monster.combat.stats.loseHP(damage);
 
@@ -123,14 +104,6 @@ export class Kick extends PlayerPhysicalAction {
             CView.text(monster.desc.capitalA + monster.desc.short);
             if (!monster.desc.plural) CView.text(" reels from the damaging impact! (" + damage + ")");
             else CView.text(" reel from the damaging impact! (" + damage + ")");
-        }
-        if (damage > 0) {
-            // Lust raised by anemone contact!
-            // if (monster.desc.short === "anemone") {
-            //     CView.text("\nThough you managed to hit the anemone, several of the tentacles surrounding her body sent home jolts of venom when your swing brushed past them.");
-            //     // (gain lust, temp lose str/spd)
-            //     (monster as Anemone).applyVenom((1 + randInt(2)));
-            // }
         }
         CView.text("\n\n");
     }
