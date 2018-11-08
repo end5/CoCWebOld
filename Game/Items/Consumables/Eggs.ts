@@ -23,7 +23,7 @@ export const EggFlags = {
     PC_KNOWS_ABOUT_BLACK_EGGS: 0,
 };
 
-Flags.set(FlagType.EggFlags, EggFlags);
+Flags.set(FlagType.Eggs, EggFlags);
 
 export function randLargeEgg(): ConsumableName {
     return randomChoice(
