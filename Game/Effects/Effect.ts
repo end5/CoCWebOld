@@ -10,7 +10,7 @@ export interface IEffect {
 export abstract class Effect<Type extends string, Desc extends EffectDesc = EffectDesc> implements ISerializable<IEffect> {
     // desc does not need to be serialized
     private effectType: Type;
-    public readonly desc: EffectDesc;
+    public readonly desc: Desc;
     public values: EffectValues;
     protected reducedValues?: IEffectValues;
     public constructor(type: Type, desc: Desc, values?: IEffectValues) {
