@@ -153,6 +153,7 @@ export function displayNextScreenChoices(nextScreen: void | NextScreenChoices) {
     }
 }
 
+type Function0 = (char: Character) => NextScreenChoices;
 type Function1<T1> = (char: Character, t1: T1) => NextScreenChoices;
 type Function2<T1, T2> = (char: Character, t1: T1, t2: T2) => NextScreenChoices;
 type Function3<T1, T2, T3> = (char: Character, t1: T1, t2: T2, t3: T3) => NextScreenChoices;
@@ -164,6 +165,7 @@ type Function5<T1, T2, T3, T4, T5> = (char: Character, t1: T1, t2: T2, t3: T3, t
  * @param func The function to be wrapped
  * @param argsBound Everything other than a character
  */
+export function choiceWrap(func: Function0): ClickFunction;
 export function choiceWrap<T1>(func: Function1<T1>, arg1: T1): ClickFunction;
 export function choiceWrap<T1, T2>(func: Function2<T1, T2>, arg1: T1, arg2: T2): ClickFunction;
 export function choiceWrap<T1, T2, T3>(func: Function3<T1, T2, T3>, arg1: T1, arg2: T2, arg3: T3): ClickFunction;
@@ -184,6 +186,7 @@ export function choiceWrap(func: (char: Character, ...args: any[]) => NextScreen
  * @param char The character that will be used instead of the one passed from the display
  * @param argsBound Everything other than a character
  */
+export function choiceWrapWithChar(func: Function0, char: Character): ClickFunction;
 export function choiceWrapWithChar<T1>(func: Function1<T1>, char: Character, arg1: T1): ClickFunction;
 export function choiceWrapWithChar<T1, T2>(func: Function2<T1, T2>, char: Character, arg1: T1, arg2: T2): ClickFunction;
 export function choiceWrapWithChar<T1, T2, T3>(func: Function3<T1, T2, T3>, char: Character, arg1: T1, arg2: T2, arg3: T3): ClickFunction;
