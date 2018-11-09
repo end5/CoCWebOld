@@ -27,7 +27,7 @@ export function armorsmith(char: Character): NextScreenChoices {
 
 function buyArmorOption(char: Character, armor: Armor): ScreenChoice {
     if (char.inventory.gems >= armor.value) {
-        return [armor.name, choiceWrap(confirmBuy, char, armor)];
+        return [armor.name, choiceWrap(confirmBuy, armor)];
     }
     return [armor.name, { tooltip: "You don't have enough gems to purchase this." }];
 }
@@ -35,7 +35,7 @@ function buyArmorOption(char: Character, armor: Armor): ScreenChoice {
 function confirmBuy(char: Character, armor: Armor): NextScreenChoices {
     CView.clear();
     CView.text("Do you wish to purchase " + armor.displayName + "?");
-    return { yes: choiceWrap(boughtArmor, char, armor), no: armorsmith };
+    return { yes: choiceWrap(boughtArmor, armor), no: armorsmith };
 }
 
 function boughtArmor(char: Character, armor: Armor): NextScreenChoices {

@@ -3,7 +3,7 @@ import { CombatParty } from './CombatParty';
 import { combatRegeneration } from './CombatUtils';
 import { DefeatType } from './DefeatEvent';
 import { Character } from '../Character/Character';
-import { NextScreenChoices, ScreenChoice, choiceWrap } from '../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice, choiceWrapWithChar } from '../ScreenDisplay';
 import { awardPlayer } from './CombatDrops';
 import { CharDict } from '../CharList';
 import { playerMenu } from '../Menus/InGame/PlayerMenu';
@@ -52,7 +52,7 @@ export class Encounter {
             return { next: playerMenu };
         }
         else if (activeMember.uuid === CharDict.player!.uuid) {
-            return { next: choiceWrap(combatMenu, activeMember) };
+            return { next: choiceWrapWithChar(combatMenu, activeMember) };
         }
         else {
             if (this.allyPartyTurn)

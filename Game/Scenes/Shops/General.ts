@@ -53,7 +53,7 @@ export function general(char: Character): NextScreenChoices {
 
 function buyConsumableOption(char: Character, consumable: Consumable): ScreenChoice {
     if (char.inventory.gems >= consumable.value) {
-        return [consumable.name, choiceWrap(buyConsumable, char, consumable)];
+        return [consumable.name, choiceWrap(buyConsumable, consumable)];
     }
     return [consumable.name, { tooltip: "You don't have enough gems to purchase this." }];
 }

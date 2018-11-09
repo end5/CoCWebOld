@@ -153,9 +153,46 @@ export function displayNextScreenChoices(nextScreen: void | NextScreenChoices) {
     }
 }
 
-export function choiceWrap(func: (char: Character, ...args: any[]) => NextScreenChoices, ...args: any[]): ClickFunction {
+type Function1<T1> = (char: Character, t1: T1) => NextScreenChoices;
+type Function2<T1, T2> = (char: Character, t1: T1, t2: T2) => NextScreenChoices;
+type Function3<T1, T2, T3> = (char: Character, t1: T1, t2: T2, t3: T3) => NextScreenChoices;
+type Function4<T1, T2, T3, T4> = (char: Character, t1: T1, t2: T2, t3: T3, t4: T4) => NextScreenChoices;
+type Function5<T1, T2, T3, T4, T5> = (char: Character, t1: T1, t2: T2, t3: T3, t4: T4, t5: T5) => NextScreenChoices;
+
+/**
+ * Wrapper function for choices. Returns a ClickFunction.
+ * @param func The function to be wrapped
+ * @param argsBound Everything other than a character
+ */
+export function choiceWrap<T1>(func: Function1<T1>, arg1: T1): ClickFunction;
+export function choiceWrap<T1, T2>(func: Function2<T1, T2>, arg1: T1, arg2: T2): ClickFunction;
+export function choiceWrap<T1, T2, T3>(func: Function3<T1, T2, T3>, arg1: T1, arg2: T2, arg3: T3): ClickFunction;
+export function choiceWrap<T1, T2, T3, T4>(func: Function4<T1, T2, T3, T4>, arg1: T1, arg2: T2, arg3: T3, arg4: T4): ClickFunction;
+export function choiceWrap<T1, T2, T3, T4, T5>(func: Function5<T1, T2, T3, T4, T5>, arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5): ClickFunction;
+export function choiceWrap(func: (char: Character, ...args: any[]) => NextScreenChoices, ...argsBound: any[]): ClickFunction {
     const wrapper: ClickFunction = (character: Character, event?: Event): NextScreenChoices => {
+        const args = argsBound;
         return func(character, ...args);
+    };
+    Object.defineProperty(wrapper, "name", { value: func.name });
+    return wrapper;
+}
+
+/**
+ * Wrapper function for choices. Returns a ClickFunction.
+ * @param func The function to be wrapped
+ * @param char The character that will be used instead of the one passed from the display
+ * @param argsBound Everything other than a character
+ */
+export function choiceWrapWithChar<T1>(func: Function1<T1>, char: Character, arg1: T1): ClickFunction;
+export function choiceWrapWithChar<T1, T2>(func: Function2<T1, T2>, char: Character, arg1: T1, arg2: T2): ClickFunction;
+export function choiceWrapWithChar<T1, T2, T3>(func: Function3<T1, T2, T3>, char: Character, arg1: T1, arg2: T2, arg3: T3): ClickFunction;
+export function choiceWrapWithChar<T1, T2, T3, T4>(func: Function4<T1, T2, T3, T4>, char: Character, arg1: T1, arg2: T2, arg3: T3, arg4: T4): ClickFunction;
+export function choiceWrapWithChar<T1, T2, T3, T4, T5>(func: Function5<T1, T2, T3, T4, T5>, char: Character, arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5): ClickFunction;
+export function choiceWrapWithChar(func: (char: Character, ...args: any[]) => NextScreenChoices, char: Character, ...argsBound: any[]): ClickFunction {
+    const wrapper: ClickFunction = (character: Character, event?: Event): NextScreenChoices => {
+        const args = argsBound;
+        return func(char, ...args);
     };
     Object.defineProperty(wrapper, "name", { value: func.name });
     return wrapper;

@@ -41,7 +41,7 @@ function confirmPerk(character: Character, selectedPerk: Perk): NextScreenChoice
     CView.text(selectedPerk.desc.longDesc);
     CView.text("\n\n");
     CView.text("If you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
-    return { choices: [["Okay", choiceWrap(applyPerk, character, selectedPerk)], ["Skip", playerMenu]] };
+    return { choices: [["Okay", choiceWrap(applyPerk, selectedPerk)], ["Skip", playerMenu]] };
 }
 
 function displayPerkList(character: Character) {
@@ -56,7 +56,7 @@ function displayPerkList(character: Character) {
         listEntry.appendElement(buttonElement);
         buttonElement.modify(perk.desc.name, () => {
             // Okay button is disabled until perk is selected
-            displayNextScreenChoices({ choices: [["Okay", choiceWrap(confirmPerk, character, perk)], ["Skip", playerMenu]] });
+            displayNextScreenChoices({ choices: [["Okay", choiceWrap(confirmPerk, perk)], ["Skip", playerMenu]] });
         });
 
         const longDescElement = new ParagraphElement();
