@@ -14,11 +14,13 @@
             }
         },
         {
-            "label": "Webpack",
+            "label": "Parcel build",
             "type": "shell",
-            "command": "webpack",
-            "group": "build",
-            "problemMatcher": []
+            "command": "parcel index.html --public-url .",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
