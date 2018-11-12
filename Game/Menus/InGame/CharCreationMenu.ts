@@ -13,8 +13,7 @@ import { HipRating } from "../../Body/Hips";
 import { describeHair } from "../../Descriptors/HairDescriptor";
 import { PerkType } from "../../Effects/PerkType";
 import { Character } from "../../Character/Character";
-import { CharDict } from "../../CharList";
-import { CharacterType } from "../../Character/CharacterType";
+import { CharDict } from "../../CharDict";
 import { playerMenu } from "./PlayerMenu";
 
 export function charCreationMenu(): NextScreenChoices {
@@ -25,7 +24,8 @@ export function charCreationMenu(): NextScreenChoices {
     MainScreen.topButtons.perks.hide();
 
     const newPlayer = new Player();
-    CharDict.set(CharacterType.Player, newPlayer);
+    CharDict.add(newPlayer);
+    CharDict.player = newPlayer;
 
     Time.day = 0;
     Time.hour = 0;

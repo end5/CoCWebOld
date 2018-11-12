@@ -1,6 +1,6 @@
 import { ITimeAware } from './ITimeAware';
 import { IUpdate } from './IUpdate';
-import { CharDict } from './CharList';
+import { CharDict } from './CharDict';
 
 class TimeManager implements IUpdate {
     private timeAwareObjects: ITimeAware[];

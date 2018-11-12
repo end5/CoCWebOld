@@ -8,6 +8,8 @@ import { saveMenu } from './SaveMenu';
 import { loadMenu } from './LoadMenu';
 import { deleteMenu } from './DeleteMenu';
 import { mainMenu } from './MainMenu';
+import { CharDict } from '../CharDict';
+import { playerMenu } from './InGame/PlayerMenu';
 
 export function dataMenu(): NextScreenChoices {
     CView.clear();
@@ -34,7 +36,7 @@ export function dataMenu(): NextScreenChoices {
         choices[2][0] = "AutoSav: OFF";
     }
 
-    return { choices, persistantChoices: [["Back", mainMenu]], needEvent: true };
+    return { choices, persistantChoices: [["Back", CharDict.player ? playerMenu : mainMenu]], needEvent: true };
 }
 
 function autosaveToggle(): NextScreenChoices {

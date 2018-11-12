@@ -1,6 +1,6 @@
 import { MainScreen } from '../Page/MainScreen';
 import { Character } from './Character/Character';
-import { CharDict } from './CharList';
+import { CharDict } from './CharDict';
 import { BottomButtons } from '../Page/BottomButtons';
 
 export type ClickFunction = ((char: Character, event?: Event) => NextScreenChoices);

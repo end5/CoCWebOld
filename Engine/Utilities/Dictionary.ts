@@ -3,18 +3,18 @@ import { ISerializable } from "./ISerializable";
 export interface IDictionary<T> { [x: string]: T; }
 
 export class Dictionary<T extends string, U> implements Iterable<U>, ISerializable<IDictionary<U>> {
-    protected dictionary: { [x: string]: any };
+    protected dictionary: IDictionary<U>;
 
     public constructor() {
         this.dictionary = {};
     }
 
     public get(key: T): U | undefined {
-        return this.dictionary[key];
+        return this.dictionary[key as string];
     }
 
     public set(key: T, entry: U) {
-        this.dictionary[key] = entry;
+        this.dictionary[key as string] = entry;
     }
 
     public remove(key: T) {

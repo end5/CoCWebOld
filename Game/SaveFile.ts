@@ -1,13 +1,13 @@
 import { Gender } from './Body/GenderIdentity';
 import { Time } from './Utilities/Time';
 import { ISettings, Settings } from './Settings';
-import { Character } from './Character/Character';
+import { Character, ICharacter } from './Character/Character';
 import { CharConstructorLib } from './Character/CharConstructorLib';
-import { CharacterType } from './Character/CharacterType';
-import { CharDict } from './CharList';
+import { CharDict } from './CharDict';
 import { Flags } from './Flags';
 import { attachCharToUI } from './ScreenDisplay';
 import { MainScreen } from '../Page/MainScreen';
+import { CombatManager } from './Combat/CombatManager';
 
 export interface SaveFile {
     name: string;
@@ -16,6 +16,7 @@ export interface SaveFile {
     gender: Gender;
     notes: string;
     user: {
+        activeChar: string,
         chars: { [x: string]: any },
         settings: ISettings,
         flags: { [x: string]: any }
@@ -34,6 +35,7 @@ export function generateSave(notes?: string): SaveFile {
         gender: player.gender,
         notes: notes ? notes : (lastSave && lastSave.notes ? lastSave.notes : ""),
         user: {
+            activeChar: CharDict.player.uuid,
             chars: CharDict.serialize(),
             settings: Settings.serialize(),
             flags: Flags.serialize(),
@@ -43,19 +45,21 @@ export function generateSave(notes?: string): SaveFile {
 }
 
 export function loadFromSave(save: SaveFile) {
+    CombatManager.encounter = undefined;
     for (const charKey of Object.keys(save.user.chars)) {
-        const charConstr = CharConstructorLib.get(charKey as CharacterType);
+        const charConstr = CharConstructorLib.get((save.user.chars[charKey] as ICharacter).type);
         if (charConstr) {
             const char: Character = new charConstr();
             if (char.deserialize)
                 char.deserialize(save.user.chars[charKey]);
-            CharDict.set(charKey as CharacterType, char);
+            CharDict.set(charKey, char);
         }
     }
-    if (!CharDict.player)
-        throw new Error('Player does not exist');
+    const player = CharDict.get(save.user.activeChar);
+    if (!player) throw new Error('Player does not exist');
+    CharDict.player = player;
 
-    attachCharToUI(CharDict.player);
+    attachCharToUI(player);
     MainScreen.statsPanel.show();
 
     Settings.deserialize(save.user.settings);

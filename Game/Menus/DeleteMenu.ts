@@ -5,6 +5,7 @@ import { CView } from '../../Page/ContentView';
 import { dataMenu } from './DataMenu';
 
 export function deleteMenu(): NextScreenChoices {
+    CView.clear();
     CView.text("Slot,  Race,  Sex,  Game Days Played");
     CView.text("\n");
 

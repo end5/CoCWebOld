@@ -5,7 +5,7 @@ import { DefeatType } from './DefeatEvent';
 import { Character } from '../Character/Character';
 import { NextScreenChoices, ScreenChoice, choiceWrapWithChar } from '../ScreenDisplay';
 import { awardPlayer } from './CombatDrops';
-import { CharDict } from '../CharList';
+import { CharDict } from '../CharDict';
 import { playerMenu } from '../Menus/InGame/PlayerMenu';
 import { combatMenu } from '../Menus/InGame/PlayerCombatMenu';
 import { randomChoice } from '../../Engine/Utilities/SMath';
@@ -24,7 +24,7 @@ export class Encounter {
         this.mainCharacter = mainCharacter;
         this.allyList = allyParty;
         this.enemyList = enemyParty;
-        this.allyParty = new CombatParty(allyParty.concat(mainCharacter));
+        this.allyParty = new CombatParty([mainCharacter].concat(allyParty));
         this.enemyParty = new CombatParty(enemyParty);
 
         this.allyPartyTurn = true;
