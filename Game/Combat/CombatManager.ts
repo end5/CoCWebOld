@@ -6,6 +6,7 @@ import { Character } from '../Character/Character';
 import { CombatEffectType } from '../Effects/CombatEffectType';
 import { Item } from '../Items/Item';
 import { NextScreenChoices } from '../ScreenDisplay';
+import { PartyDict } from '../PartyDict';
 
 export function getEnemies(encounter: Encounter, character: Character) {
     return encounter.allyParty.allMembers.find((char) => char === character) ? encounter.enemyParty : encounter.allyParty;
@@ -15,7 +16,7 @@ class CombatManager {
     public readonly itemsOnFloor: List<Item> = new List();
     public encounter?: Encounter;
     public beginBattle(mainCharacter: Character, ...enemies: Character[]): NextScreenChoices {
-        this.encounter = new Encounter(mainCharacter, [], enemies);
+        this.encounter = new Encounter(mainCharacter, PartyDict.getMembers(mainCharacter), enemies);
 
         MainScreen.topButtons.data.hide();
         MainScreen.topButtons.appearance.hide();

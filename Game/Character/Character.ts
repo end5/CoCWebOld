@@ -25,6 +25,7 @@ import { IDictionary } from '../../Engine/Utilities/Dictionary';
 export interface ICharacter {
     type: CharacterType;
     UUID: string;
+    partyUUID?: string;
     genderPref: Gender;
     hoursSinceCum: number;
     body: IBody;
@@ -42,6 +43,8 @@ export abstract class Character implements ISerializable<ICharacter> {
     public get uuid(): string {
         return this.UUID;
     }
+
+    public partyUUID?: string;
 
     protected abstract description: CharacterDescription;
     public get desc(): CharacterDescription {
@@ -84,7 +87,7 @@ export abstract class Character implements ISerializable<ICharacter> {
     }
 
     public serialize(): ICharacter {
-        return {
+        const save: ICharacter = {
             type: this.charType,
             UUID: this.UUID,
             genderPref: this.genderPref,
@@ -95,11 +98,16 @@ export abstract class Character implements ISerializable<ICharacter> {
             perks: this.perks.serialize(),
             inventory: this.inventory.serialize(),
         };
+        if (this.partyUUID)
+            save.partyUUID = this.partyUUID;
+        return save;
     }
 
     public deserialize(saveObject: ICharacter) {
         this.charType = saveObject.type;
         this.UUID = saveObject.UUID;
+        if (saveObject.partyUUID)
+            this.partyUUID = saveObject.partyUUID;
         this.genderPref = saveObject.genderPref;
         this.hoursSinceCum = saveObject.hoursSinceCum;
         this.body.deserialize(saveObject.body);

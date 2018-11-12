@@ -54,5 +54,6 @@ export class Player extends Character {
         this.combatContainer = new CombatContainer(this, new PlayerAction(), PlayerResponses, new PlayerEndScenes(this), {
             gems: () => randInt(10)
         });
+        this.combatContainer.useAI = false;
     }
 }

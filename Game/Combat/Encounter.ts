@@ -51,7 +51,7 @@ export class Encounter {
         if (!activeMember) {
             return { next: playerMenu };
         }
-        else if (activeMember.uuid === CharDict.player!.uuid) {
+        else if (!activeMember.combat.useAI) {
             return { next: choiceWrapWithChar(combatMenu, activeMember) };
         }
         else {

@@ -8,6 +8,8 @@ import { Flags } from './Flags';
 import { attachCharToUI } from './ScreenDisplay';
 import { MainScreen } from '../Page/MainScreen';
 import { CombatManager } from './Combat/CombatManager';
+import { IDictionary } from '../Engine/Utilities/Dictionary';
+import { PartyDict, ICharInfo } from './PartyDict';
 
 export interface SaveFile {
     name: string;
@@ -17,9 +19,10 @@ export interface SaveFile {
     notes: string;
     user: {
         activeChar: string,
-        chars: { [x: string]: any },
+        chars: IDictionary<ICharacter>,
+        parties: IDictionary<IDictionary<ICharInfo>>,
         settings: ISettings,
-        flags: { [x: string]: any }
+        flags: IDictionary<object>
     };
 }
 
@@ -37,6 +40,7 @@ export function generateSave(notes?: string): SaveFile {
         user: {
             activeChar: CharDict.player.uuid,
             chars: CharDict.serialize(),
+            parties: PartyDict.serialize(),
             settings: Settings.serialize(),
             flags: Flags.serialize(),
         }

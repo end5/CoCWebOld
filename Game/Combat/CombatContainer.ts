@@ -12,6 +12,7 @@ export type ActionResponse = (self: Character, enemy: Character, damage: number,
 
 export class CombatContainer {
     private character: Character;
+    public useAI: boolean = true;
     public readonly action: CombatAction;
     public readonly endScenes: EndScenes;
     public readonly rewards: ICombatRewards;
