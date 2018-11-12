@@ -4,6 +4,7 @@ import { explore } from "./Explore";
 import { shops } from "./Shops";
 import { rest } from "./Rest";
 import { dojoEntry } from "./Dojo";
+import { tavern } from "./Tavern";
 
 export function townSquare(): NextScreenChoices {
     CView.clear();
@@ -13,6 +14,7 @@ export function townSquare(): NextScreenChoices {
             ['Explore', explore],
             ['Shops', shops],
             ['Dojo', dojoEntry],
+            ['Tavern', tavern],
             ['Rest', rest]
         ]
     };

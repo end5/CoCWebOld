@@ -31,8 +31,11 @@ class GoblinAttack implements CombatAction {
         return true;
     }
     public use(character: Character, target: Character): void | NextScreenChoices {
-        CView.text(character.desc.capitalA + character.desc.short + character.inventory.equipment.weapon.verb + " you with " + character.inventory.equipment.weapon.desc.longName);
-        target.stats.HP -= character.combat.stats.attack(target);
+        CView.text(character.desc.capitalA + character.desc.short + character.inventory.weapon.verb + " you with " + character.inventory.weapon.desc.longName);
+        const damage = character.combat.stats.attack(target);
+        CView.text(`(${damage})`);
+        target.stats.HP -= damage;
+        CView.text("\n\n");
     }
 }
 

@@ -1,4 +1,5 @@
 export enum CharacterType {
     Player = "Player",
-    Goblin = "Goblin"
+    Goblin = "Goblin",
+    Tiberius = "Tiberius"
 }

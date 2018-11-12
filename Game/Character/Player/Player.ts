@@ -24,6 +24,7 @@ export class Player extends Character {
     protected combatContainer: CombatContainer;
     public constructor() {
         super(CharacterType.Player);
+        this.desc.isPlayer = true;
         this.baseStats.str.value = 15;
         this.baseStats.tou.value = 15;
         this.baseStats.spe.value = 15;

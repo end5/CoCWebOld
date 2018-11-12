@@ -8,5 +8,6 @@ export enum FlagType {
     MinotaurCum = "MinotaurCum",
     PhoukaWhiskey = "PhoukaWhiskey",
     Reptilum = "Reptilum",
-    DragonShellShield = "DragonShellShield"
+    DragonShellShield = "DragonShellShield",
+    Tiberius = "Tiberius"
 }

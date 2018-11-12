@@ -20,6 +20,7 @@ export class CharacterDescription implements ISerializable<ICharDesc> {
     private otherShort: string;
     private longDesc: string;
     private isPlural: boolean;
+    private secondPerson: boolean = false;
 
     public constructor(character: Character, article: string, short: string, long: string, plural: boolean = false) {
         this.character = character;
@@ -31,10 +32,15 @@ export class CharacterDescription implements ISerializable<ICharDesc> {
         this.update();
     }
 
+    public set isPlayer(value: boolean) {
+        this.secondPerson = value;
+        this.update();
+    }
+
     public update() {
-        this.subjective = this.plural ? "they" : mfn(this.character.genderPref, "he", "she", "it");
-        this.objective = this.plural ? "them" : mfn(this.character.genderPref, "him", "her", "it");
-        this.possessive = this.plural ? "their" : mfn(this.character.genderPref, "his", "her", "its");
+        this.subjective = this.secondPerson ? "you" : this.plural ? "they" : mfn(this.character.genderPref, "he", "she", "it");
+        this.objective = this.secondPerson ? "you" : this.plural ? "them" : mfn(this.character.genderPref, "him", "her", "it");
+        this.possessive = this.secondPerson ? "your" : this.plural ? "their" : mfn(this.character.genderPref, "his", "her", "its");
         if (this.article === ("a" || "the"))
             this.article = this.plural ? "the" : "a";
     }
@@ -60,21 +66,21 @@ export class CharacterDescription implements ISerializable<ICharDesc> {
     }
 
     /**
-     * Returns subjective pronoun. (ie. he/she/it/they) - pronoun1
+     * Returns subjective pronoun. (ie. you/he/she/it/they) - pronoun1
      */
     public get subjectivePronoun(): string {
         return this.subjective;
     }
 
     /**
-     * Returns objective pronoun. (ie. him/her/it/them) - pronoun2
+     * Returns objective pronoun. (ie. you/him/her/it/them) - pronoun2
      */
     public get objectivePronoun(): string {
         return this.objective;
     }
 
     /**
-     * Returns possessive pronoun. (ie. his/her/its/their) - pronoun3
+     * Returns possessive pronoun. (ie. your/his/her/its/their) - pronoun3
      */
     public get possessivePronoun(): string {
         return this.possessive;
