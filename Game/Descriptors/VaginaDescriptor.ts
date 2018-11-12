@@ -42,7 +42,7 @@ export function describeVagina(character: Character, vagina?: Vagina): string {
         if (vagina.wetness === VaginaWetness.SLAVERING)
             description += "slavering";
     }
-    if (character.inventory.equipment.piercings.labia.isEquipped() && percentChance(33)) {
+    if (character.inventory.piercings.labia.isEquipped() && percentChance(33)) {
         if (description.length > 0)
             description += ", ";
         description += "pierced";
@@ -156,7 +156,7 @@ export function describeClit(character: Character): string {
                 "rapacious");
         }
     }
-    else if (character.inventory.equipment.piercings.clit.isEquipped()) {
+    else if (character.inventory.piercings.clit.isEquipped()) {
         description += "pierced ";
     }
 

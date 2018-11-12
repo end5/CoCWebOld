@@ -83,7 +83,7 @@ export class SharkTooth extends Consumable {
             else if (character.body.cocks.length > 0)
                 CView.text("\n\nAn itch starts on your groin, just below your " + describeCocksLight(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
-            else CView.text("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
+            else CView.text("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
             const newVagina: Vagina = new Vagina();
             character.body.vaginas.add(newVagina);
             character.stats.sens += 10;
@@ -148,7 +148,7 @@ export class SharkTooth extends Consumable {
         // Tail TF
         if (character.body.tails.reduce(Tail.HasType(TailType.SHARK), false) && randInt(3) === 0 && changes < changeLimit) {
             changes++;
-            if (character.body.tails.length >= 1) CView.text("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your brand new shark tail.");
+            if (character.body.tails.length >= 1) CView.text("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your brand new shark tail.");
             else CView.text("\n\nJets of pain shoot down your spine into your tail.  You feel the tail bulging out until it explodes into a large and flexible shark-tail.  You swish it about experimentally, and find it quite easy to control.");
             character.body.tails.clear();
             character.body.tails.add(new Tail(TailType.SHARK));
@@ -184,7 +184,7 @@ export class SharkTooth extends Consumable {
         if (character.body.wings.type !== WingType.SHARK_FIN && changes < changeLimit && randInt(3) === 0) {
             CView.text("\n\n");
             if (character.body.wings.type > WingType.NONE) CView.text("Your wings fold into themselves, merging together with your back.  ");
-            CView.text("You groan and slump down in pain, almost instantly regretting eating the tooth. You start sweating profusely and panting loudly, feeling the space between your shoulder blades shifting about. You hastily remove your " + character.inventory.equipment.armor.displayName + " just in time before a strange fin-like structure bursts from in-between your shoulders. You examine it carefully and make a few modifications to your " + character.inventory.equipment.armor.displayName + " to accommodate your new fin.");
+            CView.text("You groan and slump down in pain, almost instantly regretting eating the tooth. You start sweating profusely and panting loudly, feeling the space between your shoulder blades shifting about. You hastily remove your " + character.inventory.armor.displayName + " just in time before a strange fin-like structure bursts from in-between your shoulders. You examine it carefully and make a few modifications to your " + character.inventory.armor.displayName + " to accommodate your new fin.");
             character.body.wings.type = WingType.SHARK_FIN;
             character.body.wings.desc = "";
             changes++;

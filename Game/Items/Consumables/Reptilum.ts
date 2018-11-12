@@ -118,7 +118,7 @@ export class Reptilum extends Consumable {
         if (character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && character.body.cocks.length > 0 && changes < changeLimit && randInt(4) === 0) {
             // Find the first non-lizzy dick
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character)!;
-            CView.text("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
+            CView.text("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.armor.displayName + " to investigate.  Your " + describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
             if (character.body.cocks.find(Cock.HasSheath)) CView.text("sheath ");
             else CView.text("base ");
             CView.text("to tip, undulating and convulsing as its color lightens, darkens, and finally settles on a purplish hue.  Your " + nounCock(CockType.HUMAN) + " resolves itself into a bulbous form, with a slightly pointed tip.  The 'bulbs' throughout its shape look like they would provide an interesting ride for your sexual partners, but the perverse, alien pecker ");
@@ -144,7 +144,7 @@ export class Reptilum extends Consumable {
         // (CHANGE OTHER DICK)
         // Requires 1 lizard cock, multiple cocks
         if (character.body.cocks.length > 1 && character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0 && character.body.cocks.length > character.body.cocks.filter(Cock.FilterType(CockType.LIZARD)).length && randInt(4) === 0 && changes < changeLimit) {
-            CView.text("\n\nA familiar tingle starts in your crotch, and before you can miss the show, you pull open your " + character.inventory.equipment.armor.displayName + ".  As if operating on a cue, ");
+            CView.text("\n\nA familiar tingle starts in your crotch, and before you can miss the show, you pull open your " + character.inventory.armor.displayName + ".  As if operating on a cue, ");
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character)!;
             if (character.body.cocks.length === 2) CView.text("your other dick");
             else CView.text("another one of your dicks");
@@ -232,7 +232,7 @@ export class Reptilum extends Consumable {
         }
         // -Nipples reduction to 1 per tit.
         if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
-            CView.text("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            CView.text("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
             if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1) CView.text("'breast'.");
             else CView.text("breast.");
             changes++;
@@ -381,7 +381,7 @@ export class Reptilum extends Consumable {
             }
             // (no fur)
             else {
-                CView.text("\n\nYou idly reach back to scratch yourself and nearly jump out of your " + character.inventory.equipment.armor.displayName + " when you hit something hard.  A quick glance down reveals that scales are growing out of your " + character.body.skin.tone + " skin with alarming speed.  As you watch, the surface of your skin is covered in smooth scales.  They interlink together so well that they may as well be seamless.  You peel back your " + character.inventory.equipment.armor.displayName + " and the transformation has already finished on the rest of your body.  <b>You're covered from head to toe in shiny ");
+                CView.text("\n\nYou idly reach back to scratch yourself and nearly jump out of your " + character.inventory.armor.displayName + " when you hit something hard.  A quick glance down reveals that scales are growing out of your " + character.body.skin.tone + " skin with alarming speed.  As you watch, the surface of your skin is covered in smooth scales.  They interlink together so well that they may as well be seamless.  You peel back your " + character.inventory.armor.displayName + " and the transformation has already finished on the rest of your body.  <b>You're covered from head to toe in shiny ");
                 // set new skin.tone
                 if (randInt(10) === 0) {
                     if (randInt(2) === 0) character.body.skin.tone = "purple";

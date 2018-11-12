@@ -27,15 +27,15 @@ export function combatFlexibility(character: Character, monster: Character): boo
 }
 
 export function combatMisdirect(character: Character, monster: Character): boolean {
-    return character.perks.has(PerkType.Misdirection) && randInt(100) < 10 && character.inventory.equipment.armor.displayName === "red, high-society bodysuit";
+    return character.perks.has(PerkType.Misdirection) && randInt(100) < 10 && character.inventory.armor.displayName === "red, high-society bodysuit";
 }
 
 export function combatRegeneration(character: Character): void {
     let healingPercent: number = 0;
     if (character.perks.has(PerkType.Regeneration)) healingPercent += 1;
     if (character.perks.has(PerkType.Regeneration2)) healingPercent += 2;
-    if (character.inventory.equipment.armor.displayName === "skimpy nurse's outfit") healingPercent += 2;
-    if (character.inventory.equipment.armor.displayName === "goo armor") healingPercent += 2;
+    if (character.inventory.armor.displayName === "skimpy nurse's outfit") healingPercent += 2;
+    if (character.inventory.armor.displayName === "goo armor") healingPercent += 2;
     if (character.perks.has(PerkType.LustyRegeneration)) healingPercent += 1;
     if (healingPercent > 5) healingPercent = 5;
     character.stats.HP += (Math.round(character.stats.maxHP() * healingPercent / 100));

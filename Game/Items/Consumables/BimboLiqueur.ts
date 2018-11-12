@@ -43,7 +43,7 @@ export class BimboLiqueur extends Consumable {
             }
             // If vagina = 2tight:
             if (character.body.vaginas.length <= 0) {
-                CView.text("  Before you can even take a breath, an extremely peculiar sensation emanates from your crotch.  You can't see through your " + character.inventory.equipment.armor.displayName + ", but you can certainly feel the vagina splitting " + (character.body.balls.count > 0 ? "from behind your testicles" : "your groin") + ".  Luckily, the cunt-forming doesn't yield any discomfort - on the contrary, you feel yourself falling farther into your chemically-dulled, libido-fueled rut.");
+                CView.text("  Before you can even take a breath, an extremely peculiar sensation emanates from your crotch.  You can't see through your " + character.inventory.armor.displayName + ", but you can certainly feel the vagina splitting " + (character.body.balls.count > 0 ? "from behind your testicles" : "your groin") + ".  Luckily, the cunt-forming doesn't yield any discomfort - on the contrary, you feel yourself falling farther into your chemically-dulled, libido-fueled rut.");
                 if (character.body.hips.rating < 12 || character.body.butt.rating < 12) CView.text("  As if realizing the necessity of womanly proportions to attract the hard cocks your body now craves, your waist pinches slightly inward and your hips and butt swell.  You can't help but run a hand across your newly-feminized pelvis, admiring it.");
                 character.body.vaginas.add(new Vagina());
                 character.body.clit.length = 0.25;

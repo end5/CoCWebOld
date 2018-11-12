@@ -45,7 +45,7 @@ export class Heal extends BlackMagic {
 
     public calcDamage(character: Character, monster: Character): void | IActionDamage {
         let damage = -Math.floor((character.stats.int / (2 + randInt(3)) * character.combat.stats.spellMod()) * (character.stats.maxHP() / 150));
-        if (character.inventory.equipment.armor.displayName === "skimpy nurse's outfit")
+        if (character.inventory.armor.displayName === "skimpy nurse's outfit")
             damage *= 1.2;
         return { damage };
     }

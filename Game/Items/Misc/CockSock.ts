@@ -34,7 +34,7 @@ export class CockSock extends EquipableItem {
                 character.perks.add(PerkType.PentUp);
             }
             else {
-                const numRings = character.inventory.equipment.cockSocks.reduce((prev: number, cur: EquipSlot<CockSock>) => {
+                const numRings = character.inventory.cockSocks.reduce((prev: number, cur: EquipSlot<CockSock>) => {
                     if (cur && cur.item && cur.item.name === CockSockName.Cockring)
                         prev++;
                     return prev;
@@ -52,7 +52,7 @@ export class CockSock extends EquipableItem {
         }
         else if (this.name === CockSockName.Cockring) {
             if (character.perks.has(PerkType.PentUp)) {
-                const numRings = character.inventory.equipment.cockSocks.reduce((prev: number, cur: EquipSlot<CockSock>) => {
+                const numRings = character.inventory.cockSocks.reduce((prev: number, cur: EquipSlot<CockSock>) => {
                     if (cur && cur.item && cur.item.name === CockSockName.Cockring)
                         prev++;
                     return prev;

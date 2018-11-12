@@ -97,7 +97,7 @@ function determineDamage(character: Character, enemy: Character, crit: boolean):
         damage = character.stats.str;
 
     // Weapon addition!
-    damage += character.inventory.equipment.weapon.attack;
+    damage += character.inventory.weapon.attack;
 
     // Determine if critical hit!
     if (crit) {

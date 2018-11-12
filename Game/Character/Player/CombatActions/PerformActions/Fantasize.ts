@@ -24,7 +24,7 @@ export class Fantasize extends CombatAction {
     public useAction(character: Character, target: Character): void {
         let lustChange: number = 0;
         CView.clear();
-        if (character.inventory.equipment.armor.displayName === "goo armor") {
+        if (character.inventory.armor.displayName === "goo armor") {
             CView.text("As you fantasize, you feel Valeria rubbing her gooey body all across your sensitive skin");
             if (character.gender > 0) CView.text(" and genitals");
             CView.text(", arousing you even further.\n");

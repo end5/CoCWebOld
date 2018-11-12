@@ -389,7 +389,7 @@ export function demonChanges(character: Character): void {
         // No wings
         else if (character.body.wings.type === WingType.NONE) {
             CView.text("\n\n");
-            CView.text("A knot of pain forms in your shoulders as they tense up.  With a surprising force, a pair of small demonic wings sprout from your back, ripping a pair of holes in the back of your " + character.inventory.equipment.armor.displayName + ".  <b>You now have tiny demonic wings</b>.");
+            CView.text("A knot of pain forms in your shoulders as they tense up.  With a surprising force, a pair of small demonic wings sprout from your back, ripping a pair of holes in the back of your " + character.inventory.armor.displayName + ".  <b>You now have tiny demonic wings</b>.");
             character.body.wings.type = WingType.BAT_LIKE_TINY;
             character.body.wings.desc = "tiny, bat-like";
         }

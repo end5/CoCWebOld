@@ -14,8 +14,8 @@ export function inventoryMenu(player: Character): NextScreenChoices {
     MainScreen.topButtons.hide();
     CView.clear();
     CView.text("<b><u>Equipment:</u></b>\n");
-    CView.text("<b>Weapon</b>: " + player.inventory.equipment.weapon.displayName + " (Attack - " + player.inventory.equipment.weapon.attack + ")\n");
-    CView.text("<b>Armor : </b>" + player.inventory.equipment.armor.displayName + " (Defense - " + player.inventory.equipment.armor.defense + ")\n");
+    CView.text("<b>Weapon</b>: " + player.inventory.weapon.displayName + " (Attack - " + player.inventory.weapon.attack + ")\n");
+    CView.text("<b>Armor : </b>" + player.inventory.armor.displayName + " (Defense - " + player.inventory.armor.defense + ")\n");
     if (player.inventory.keyItems.keys().length > 0)
         CView.text("<b><u>\nKey Items:</u></b>\n");
     for (const keyItem of player.inventory.keyItems.keys())
@@ -23,8 +23,8 @@ export function inventoryMenu(player: Character): NextScreenChoices {
 
     const choices: ScreenChoice[] = [];
 
-    if (player.inventory.equipment.equippedWeaponSlot.isEquipped()) {
-        choices[0] = ["Unequip", () => player.inventory.items.add(player, player.inventory.equipment.equippedWeaponSlot.unequip()!, inventoryMenu)];
+    if (player.inventory.equippedWeaponSlot.isEquipped()) {
+        choices[0] = ["Unequip", () => player.inventory.items.add(player, player.inventory.equippedWeaponSlot.unequip()!, inventoryMenu)];
     }
 
     CView.text("\nWhich item will you use?");

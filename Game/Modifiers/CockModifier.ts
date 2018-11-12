@@ -39,7 +39,7 @@ export function growCock(character: Character, cock: Cock, lengthDelta: number):
     let threshhold: number = 0;
     const cockIndex = character.body.cocks.indexOf(cock);
     if (cockIndex !== -1) return 0;
-    const cockSockSlot = character.inventory.equipment.cockSocks.get(cockIndex);
+    const cockSockSlot = character.inventory.cockSocks.get(cockIndex);
 
     if (lengthDelta > 0) { // growing
         threshhold = 24;

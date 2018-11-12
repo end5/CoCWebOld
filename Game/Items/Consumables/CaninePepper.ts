@@ -141,7 +141,7 @@ export class CaninePepper extends Consumable {
                 if (character.body.cocks.length === 0) {
                     character.body.cocks.add(new Cock(7 + randInt(7), 1.5 + randInt(10) / 10));
                     character.body.cocks.add(new Cock(7 + randInt(7), 1.5 + randInt(10) / 10));
-                    CView.text("\n\nA painful lump forms on your groin, nearly doubling you over as it presses against your " + character.inventory.equipment.armor.displayName + ".  You rip open your gear and watch, horrified as the discolored skin splits apart, revealing a pair of red-tipped points.  A feeling of relief, and surprising lust grows as they push forward, glistening red and thickening.  The skin bunches up into an animal-like sheath, while a pair of fat bulges pop free.  You now have two nice thick dog-cocks, with decent sized knots.  Both pulse and dribble animal-pre, arousing you in spite of your attempts at self-control.");
+                    CView.text("\n\nA painful lump forms on your groin, nearly doubling you over as it presses against your " + character.inventory.armor.displayName + ".  You rip open your gear and watch, horrified as the discolored skin splits apart, revealing a pair of red-tipped points.  A feeling of relief, and surprising lust grows as they push forward, glistening red and thickening.  The skin bunches up into an animal-like sheath, while a pair of fat bulges pop free.  You now have two nice thick dog-cocks, with decent sized knots.  Both pulse and dribble animal-pre, arousing you in spite of your attempts at self-control.");
                     character.body.cocks.get(0)!.knotMultiplier = 1.7;
                     character.body.cocks.get(0)!.type = CockType.DOG;
                     character.body.cocks.get(1)!.knotMultiplier = 1.7;
@@ -162,7 +162,7 @@ export class CaninePepper extends Consumable {
                 }
                 // 2 dicks+ - convert first 2 to doggie-dom
                 else {
-                    CView.text("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + describeCock(character, character.body.cocks.get(0)!) + " and " + describeCock(character, character.body.cocks.get(1)!) + " both warp and twist, becoming red and pointed, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
+                    CView.text("\n\nYour crotch twitches, and you pull open your " + character.inventory.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + describeCock(character, character.body.cocks.get(0)!) + " and " + describeCock(character, character.body.cocks.get(1)!) + " both warp and twist, becoming red and pointed, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
                     character.body.cocks.get(0)!.type = CockType.DOG;
                     character.body.cocks.get(1)!.type = CockType.DOG;
                     character.body.cocks.get(0)!.knotMultiplier = 1.4;
@@ -186,13 +186,13 @@ export class CaninePepper extends Consumable {
                 if (character.body.cocks.length >= 1) {
                     // if first dick is already doggi'ed
                     if (character.body.cocks.get(0)!.type === CockType.DOG) {
-                        CView.text("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + describeCock(character, character.body.cocks.get(1)!) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
+                        CView.text("\n\nYour crotch twitches, and you pull open your " + character.inventory.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + describeCock(character, character.body.cocks.get(1)!) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
                         character.body.cocks.get(1)!.type = CockType.DOG;
                         character.body.cocks.get(1)!.knotMultiplier = 1.4;
                     }
                     // first dick is not dog
                     else {
-                        CView.text("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + describeCock(character, character.body.cocks.get(0)!) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
+                        CView.text("\n\nYour crotch twitches, and you pull open your " + character.inventory.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + describeCock(character, character.body.cocks.get(0)!) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
                         character.body.cocks.get(0)!.type = CockType.DOG;
                         character.body.cocks.get(0)!.knotMultiplier = 1.4;
                     }

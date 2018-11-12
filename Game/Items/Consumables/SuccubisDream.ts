@@ -48,11 +48,11 @@ export class SuccubisDream extends Consumable {
         if (character.body.balls.count < 4) {
             if (character.body.balls.count > 0) {
                 character.body.balls.count = 4;
-                CView.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + character.inventory.equipment.armor.displayName + ".  In shock, you barely register the sight before your eyes: <b>You have four balls.</b>");
+                CView.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + character.inventory.armor.displayName + ".  In shock, you barely register the sight before your eyes: <b>You have four balls.</b>");
             }
             if (character.body.balls.count === 0) {
                 character.body.balls.count = 2;
-                CView.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + character.inventory.equipment.armor.displayName + ".  In shock, you barely register the sight before your eyes: <b>You have balls!</b>");
+                CView.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + character.inventory.armor.displayName + ".  In shock, you barely register the sight before your eyes: <b>You have balls!</b>");
                 character.body.balls.size = 1;
             }
             changes++;

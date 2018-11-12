@@ -115,7 +115,7 @@ export class GroPlus extends Consumable {
         CView.clear();
         CView.text("You sink the needle into each of your " + describeNipple(character, character.body.chest.firstRow) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
         // Grow nipples
-        CView.text("Your nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");
+        CView.text("Your nipples engorge, prodding hard against the inside of your " + character.inventory.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");
         character.body.chest.get(randInt(character.body.chest.length - 1))!.nipples.length += (randInt(2) + 3) / 10;
         character.stats.lust += 15;
         // NIPPLECUNTZZZ

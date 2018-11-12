@@ -70,7 +70,7 @@ export class FoxBerry extends Consumable {
                 CView.text("\n\nWrithing on the ground, you clutch your hand to your chest, looking on in horror through tear-streaked eyes as the bones in your fingers pop and fuse, rearranging themselves into a dainty paw covered in coarse black fur, fading to a ruddy orange further up.  You desperately try to call out to someone - anyone - for help, but all that comes out is a high-pitched, ear-splitting yap.");
                 if (character.body.tails.filter(Tail.FilterType(TailType.FOX)).get(0)!.venom > 1) CView.text("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
                 CView.text("\n\nA sharp spark of pain jolts through your spinal column as the bones shift themselves around, the joints in your hips migrating forward.  You continue to howl in agony even as you feel your intelligence slipping away.  In a way, it's a blessing - as your thoughts grow muddied, the pain is dulled, until you are finally left staring blankly at the sky above, tilting your head curiously.");
-                CView.text("\n\nYou roll over and crawl free of the " + character.inventory.equipment.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
+                CView.text("\n\nYou roll over and crawl free of the " + character.inventory.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
                 return { next: gameOverMenu };
             }
         }
@@ -228,7 +228,7 @@ export class FoxBerry extends Consumable {
             CView.text("\n\nYour belly rumbles unpleasantly for a second as the ");
             if (!this.enhanced) CView.text("berry ");
             else CView.text("drink ");
-            CView.text("settles deeper inside you.  A second later, the unpleasant gut-gurgle passes, and you let out a tiny burp of relief.  Before you finish taking a few breaths, there's an itching below your " + describeAllBreasts(character) + ".  You idly scratch at it, but gods be damned, it hurts!  You peel off part of your " + character.inventory.equipment.armor.displayName + " to inspect the unwholesome itch, ");
+            CView.text("settles deeper inside you.  A second later, the unpleasant gut-gurgle passes, and you let out a tiny burp of relief.  Before you finish taking a few breaths, there's an itching below your " + describeAllBreasts(character) + ".  You idly scratch at it, but gods be damned, it hurts!  You peel off part of your " + character.inventory.armor.displayName + " to inspect the unwholesome itch, ");
             if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating >= 8) CView.text("it's difficult to see past the wall of tits obscuring your view.");
             else CView.text("it's hard to get a good look at.");
             CView.text("  A few gentle prods draw a pleasant gasp from your lips, and you realize that you didn't have an itch - you were growing new nipples!");

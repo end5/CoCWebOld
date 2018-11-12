@@ -195,8 +195,8 @@ export function nounCock(cockType: CockType): string {
 export function adjectiveCock(character: Character, cock?: Cock, lust: number = 50, cumQ: number = 10, isGooey: boolean = false): string {
     if (!cock) return "";
     const cockIndex = character.body.cocks.indexOf(cock);
-    const cockPiercings = character.inventory.equipment.piercings.cocks;
-    const cockSocks = character.inventory.equipment.cockSocks;
+    const cockPiercings = character.inventory.piercings.cocks;
+    const cockSocks = character.inventory.cockSocks;
     const isPierced: boolean = cockIndex !== -1 && !!cockPiercings.get(cockIndex) && cockPiercings.get(cockIndex)!.isEquipped();
     const hasSock: boolean = cockIndex !== -1 && !!cockSocks.get(cockIndex) && cockSocks.get(cockIndex)!.isEquipped();
     // First, the three possible special cases

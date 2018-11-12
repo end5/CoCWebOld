@@ -197,7 +197,7 @@ export class LaBova extends Consumable {
             if (character.body.chest.firstRow.nipples.count === 1) {
                 changes++;
                 character.body.chest.firstRow.nipples.count = 4;
-                CView.text("\n\nYour " + describeNipple(character, character.body.chest.firstRow) + "s tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as they split into four distinct nipples!  <b>You now have four nipples on each side of your chest!</b>");
+                CView.text("\n\nYour " + describeNipple(character, character.body.chest.firstRow) + "s tingle and itch.  You pull back your " + character.inventory.armor.displayName + " and watch in shock as they split into four distinct nipples!  <b>You now have four nipples on each side of your chest!</b>");
                 if (character.body.chest.length >= 2 && character.body.chest.get(1)!.nipples.count === 1) {
                     CView.text("A moment later your second row of " + describeBreastRow(character.body.chest.get(1)) + " does the same.  <b>You have sixteen nipples now!</b>");
                     character.body.chest.get(1)!.nipples.count = 4;
@@ -221,19 +221,19 @@ export class LaBova extends Consumable {
             // QUAD DAMAGE IF WEIRD SHIT BROKE BEFORE
             else if (character.body.chest.length > 1 && character.body.chest.get(1)!.nipples.count === 1) {
                 if (character.body.chest.get(1)!.nipples.count === 1) {
-                    CView.text("\n\nYour second row of " + describeBreastRow(character.body.chest.get(1)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(1)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your second row of breasts</b>.");
+                    CView.text("\n\nYour second row of " + describeBreastRow(character.body.chest.get(1)) + " tingle and itch.  You pull back your " + character.inventory.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(1)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your second row of breasts</b>.");
                     character.body.chest.get(1)!.nipples.count = 4;
                 }
             }
             else if (character.body.chest.length > 2 && character.body.chest.get(2)!.nipples.count === 1) {
                 if (character.body.chest.get(2)!.nipples.count === 1) {
-                    CView.text("\n\nYour third row of " + describeBreastRow(character.body.chest.get(2)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(2)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your third row of breasts</b>.");
+                    CView.text("\n\nYour third row of " + describeBreastRow(character.body.chest.get(2)) + " tingle and itch.  You pull back your " + character.inventory.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(2)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your third row of breasts</b>.");
                     character.body.chest.get(2)!.nipples.count = 4;
                 }
             }
             else if (character.body.chest.length > 3 && character.body.chest.get(3)!.nipples.count === 1) {
                 if (character.body.chest.get(3)!.nipples.count === 1) {
-                    CView.text("\n\nYour fourth row of " + describeBreastRow(character.body.chest.get(3)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(3)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your fourth row of breasts</b>.");
+                    CView.text("\n\nYour fourth row of " + describeBreastRow(character.body.chest.get(3)) + " tingle and itch.  You pull back your " + character.inventory.armor.displayName + " and watch in shock as your " + describeNipple(character, character.body.chest.get(3)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your fourth row of breasts</b>.");
                     character.body.chest.get(3)!.nipples.count = 4;
                 }
             }

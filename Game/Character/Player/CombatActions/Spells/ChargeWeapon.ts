@@ -26,7 +26,7 @@ export class ChargeWeapon extends WhiteMagic {
 
     public useAction(character: Character, monster: Character): void {
         CView.clear();
-        CView.text("You utter words of power, summoning an electrical charge around your " + character.inventory.equipment.weapon.displayName + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
+        CView.text("You utter words of power, summoning an electrical charge around your " + character.inventory.weapon.displayName + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
     }
 
     public checkHit(character: Character, monster: Character): boolean {

@@ -123,12 +123,12 @@ export class GoldenSeed extends Consumable {
                             if (character.body.cocks.length > 2) CView.text("es rub ");
                             else CView.text("rubs ");
                             CView.text("the skin over her taut, empty belly, drooling your need atop her.  ");
-                            CView.text("You jolt from the vision unexpectedly, finding your " + describeOneOfYourCocks(character) + " is as hard as it was in the dream. The inside of your " + character.inventory.equipment.armor.displayName + " is quite messy from all the pre-cum you've drooled. Perhaps you can find a harpy nearby to lie with.");
+                            CView.text("You jolt from the vision unexpectedly, finding your " + describeOneOfYourCocks(character) + " is as hard as it was in the dream. The inside of your " + character.inventory.armor.displayName + " is quite messy from all the pre-cum you've drooled. Perhaps you can find a harpy nearby to lie with.");
                         }
                     }
                     // (male 2)
                     else {
-                        CView.text("In your fantasy you're lying back in the nest your harem built for you, stroking your dick and watching the sexy bird-girl spread her thighs to deposit another egg onto the pile. The lewd moans do nothing to sate your need, and you beckon for another submissive harpy to approach. She does, her thick thighs swaying to show her understanding of your needs. The bird-woman crawls into your lap, sinking down atop your shaft to snuggle it with her molten heat. She begins kissing you, smearing your mouth with her drugged lipstick until you release the first of many loads. You sigh, riding the bliss, secure in the knowledge that this 'wife' won't let up until she's gravid with another egg. Then it'll be her sister-wife's turn. The tightness of " + describeOneOfYourCocks(character) + " inside your " + character.inventory.equipment.armor.displayName + " rouses you from the dream, reminding you that you're just standing there, leaking your need into your gear.");
+                        CView.text("In your fantasy you're lying back in the nest your harem built for you, stroking your dick and watching the sexy bird-girl spread her thighs to deposit another egg onto the pile. The lewd moans do nothing to sate your need, and you beckon for another submissive harpy to approach. She does, her thick thighs swaying to show her understanding of your needs. The bird-woman crawls into your lap, sinking down atop your shaft to snuggle it with her molten heat. She begins kissing you, smearing your mouth with her drugged lipstick until you release the first of many loads. You sigh, riding the bliss, secure in the knowledge that this 'wife' won't let up until she's gravid with another egg. Then it'll be her sister-wife's turn. The tightness of " + describeOneOfYourCocks(character) + " inside your " + character.inventory.armor.displayName + " rouses you from the dream, reminding you that you're just standing there, leaking your need into your gear.");
                     }
                 }
                 // Cunts!
@@ -139,11 +139,11 @@ export class GoldenSeed extends Consumable {
                         if (character.body.chest.find(BreastRow.FuckableNipples)) CView.text("and pussy leaking over ");
                         else if (character.body.chest.sort(BreastRow.LactationMost).get(0)!.lactationMultiplier >= 1.5) CView.text("dripping milk inside ");
                         else CView.text("rubbing inside ");
-                        CView.text("your " + character.inventory.equipment.armor.displayName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?");
+                        CView.text("your " + character.inventory.armor.displayName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?");
                     }
                     // (female 2)
                     else {
-                        CView.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males � mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + describeNipple(character, character.body.chest.firstRow) + "s pull you out of the fantasy as they rub inside your " + character.inventory.equipment.armor.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.");
+                        CView.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males � mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + describeNipple(character, character.body.chest.firstRow) + "s pull you out of the fantasy as they rub inside your " + character.inventory.armor.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.");
                     }
                 }
             }
@@ -159,7 +159,7 @@ export class GoldenSeed extends Consumable {
             // (dick)
             else if (character.body.cocks.length > 0) CView.text("\n\nAn itch starts on your groin, just below your " + describeCocksLight(character) + ". You pull your manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
-            else CView.text("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
+            else CView.text("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
             character.body.clit.length = 0.25;
             const newVagina = new Vagina();
             character.body.vaginas.add(newVagina);
@@ -196,7 +196,7 @@ export class GoldenSeed extends Consumable {
         // -Grow tits to a B-cup if below.
         if (changes < changeLimit && character.body.chest.firstRow.rating < 2 && randInt(3) === 0) {
             changes++;
-            CView.text("\n\nYour chest starts to tingle, the " + character.body.skin.desc + " warming under your " + character.inventory.equipment.armor.displayName + ". Reaching inside to feel the tender flesh, you're quite surprised when it puffs into your fingers, growing larger and larger until it settles into a pair of B-cup breasts.");
+            CView.text("\n\nYour chest starts to tingle, the " + character.body.skin.desc + " warming under your " + character.inventory.armor.displayName + ". Reaching inside to feel the tender flesh, you're quite surprised when it puffs into your fingers, growing larger and larger until it settles into a pair of B-cup breasts.");
             if (character.body.chest.firstRow.rating < 1) CView.text("  <b>You have breasts now!</b>");
             character.body.chest.firstRow.rating = 2;
         }
@@ -238,7 +238,7 @@ export class GoldenSeed extends Consumable {
         if (character.body.butt.rating < 8 && changes < changeLimit && randInt(3) === 0) {
             character.body.butt.rating++;
             changes++;
-            CView.text("\n\nA slight jiggle works through your rear, but instead of stopping it starts again. You can actually feel your " + character.inventory.equipment.armor.displayName + " being filled out by the growing cheeks. When it stops, you find yourself the proud owner of a " + describeButt(character) + ".");
+            CView.text("\n\nA slight jiggle works through your rear, but instead of stopping it starts again. You can actually feel your " + character.inventory.armor.displayName + " being filled out by the growing cheeks. When it stops, you find yourself the proud owner of a " + describeButt(character) + ".");
         }
         // -Narrow booty if crazy huge.
         if (character.body.butt.rating >= 14 && changes < changeLimit && randInt(4) === 0) {
@@ -292,7 +292,7 @@ export class GoldenSeed extends Consumable {
         }
         // -Propah Wings
         if (character.body.wings.type === WingType.NONE && changes < changeLimit && (this.enhanced || character.body.arms.type === ArmType.HARPY) && randInt(4) === 0) {
-            CView.text("\n\nPain lances through your back, the muscles knotting oddly and pressing up to bulge your " + character.body.skin.desc + ". It hurts, oh gods does it hurt, but you can't get a good angle to feel at the source of your agony. A loud crack splits the air, and then your body is forcing a pair of narrow limbs through a gap in your " + character.inventory.equipment.armor.displayName + ". Blood pumps through the new appendages, easing the pain as they fill out and grow. Tentatively, you find yourself flexing muscles you didn't know you had, and <b>you're able to curve the new growths far enough around to behold your brand new, " + character.body.hair.color + " wings.</b>");
+            CView.text("\n\nPain lances through your back, the muscles knotting oddly and pressing up to bulge your " + character.body.skin.desc + ". It hurts, oh gods does it hurt, but you can't get a good angle to feel at the source of your agony. A loud crack splits the air, and then your body is forcing a pair of narrow limbs through a gap in your " + character.inventory.armor.displayName + ". Blood pumps through the new appendages, easing the pain as they fill out and grow. Tentatively, you find yourself flexing muscles you didn't know you had, and <b>you're able to curve the new growths far enough around to behold your brand new, " + character.body.hair.color + " wings.</b>");
             character.body.wings.type = WingType.FEATHERED_LARGE;
             character.body.wings.desc = "large, feathered";
             changes++;

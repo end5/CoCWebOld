@@ -42,11 +42,11 @@ export class CombatStats extends CharacterHolder {
     }
 
     public defense(): number {
-        return this.char.inventory.equipment.armor.defense;
+        return this.char.inventory.armor.defense;
     }
 
     public attack(enemy: Character): number {
-        return this.char.inventory.equipment.weapon.attack + enemy.combat.stats.defense();
+        return this.char.inventory.weapon.attack + enemy.combat.stats.defense();
     }
 
     public spellMod(): number {

@@ -35,6 +35,7 @@ export class CharacterInventory implements ISerializable<ICharInv> {
     public readonly keyItems: KeyItemDict;
     public readonly unarmedWeaponSlot: EquipSlot<Weapon>;
     public readonly equippedWeaponSlot: EquipSlot<Weapon>;
+    public readonly noArmorSlot: EquipSlot<Armor>;
     public readonly equippedArmorSlot: EquipSlot<Armor>;
     public readonly piercings: PiercingInventory;
     public readonly cockSocks = new EquipSlotList<CockSock, CockSockSlot>();
@@ -42,13 +43,15 @@ export class CharacterInventory implements ISerializable<ICharInv> {
     public armorDescMod: string;
     private character: Character;
 
-    public constructor(character: Character, unarmedWeapon: Weapon, startingWeapon?: Weapon, startingArmor?: Armor) {
+    public constructor(character: Character, unarmedWeapon: Weapon, noArmor: Armor) {
         this.items = new Inventory<Item>();
         this.gemsStat = new StatWithEffects();
         this.keyItems = new KeyItemDict();
         this.unarmedWeaponSlot = new EquipSlot(character);
         this.unarmedWeaponSlot.equip(unarmedWeapon);
         this.equippedWeaponSlot = new EquipSlot(character);
+        this.noArmorSlot = new EquipSlot(character);
+        this.noArmorSlot.equip(noArmor);
         this.equippedArmorSlot = new EquipSlot(character);
         this.piercings = new PiercingInventory(character);
         this.cocksMonitor = new ListMonitor<Cock, CockSockSlot, EquipSlotList<CockSock, CockSockSlot>>(this.cockSocks, ObservingEquipSlot, character);
@@ -64,8 +67,8 @@ export class CharacterInventory implements ISerializable<ICharInv> {
         return this.equippedWeaponSlot.item ? this.equippedWeaponSlot.item : this.unarmedWeaponSlot.item!;
     }
 
-    public get armor(): Armor | undefined {
-        return this.equippedArmorSlot.item;
+    public get armor(): Armor {
+        return this.equippedArmorSlot.item ? this.equippedArmorSlot.item : this.noArmorSlot.item!;
     }
 
     public serialize(): ICharInv {

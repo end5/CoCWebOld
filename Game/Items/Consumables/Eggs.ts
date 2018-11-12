@@ -419,7 +419,7 @@ export class Eggs extends Consumable {
         if (!this.large) {
             // Grow nipples
             if (character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 3 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 0) {
-                CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.");
+                CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.");
                 character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length += .2;
                 character.stats.lust += 15;
             }
@@ -428,7 +428,7 @@ export class Eggs extends Consumable {
         else {
             // Grow nipples
             if (character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length < 3 && character.body.chest.sort(BreastRow.Largest).get(0)!.rating > 0) {
-                CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.");
+                CView.text("\n\nYour nipples engorge, prodding hard against the inside of your " + character.inventory.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.");
                 character.body.chest.sort(BreastRow.Largest).get(0)!.nipples.length += (randInt(2) + 3) / 10;
                 character.stats.lust += 15;
             }

@@ -127,7 +127,7 @@ export class SweetGossamer extends Consumable {
             }
             // If something got thickened
             if (cockGotThickened) {
-                CView.text("\n\nYou can feel your " + describeCocksLight(character) + " filling out in your " + character.inventory.equipment.armor.displayName + ". Pulling ");
+                CView.text("\n\nYou can feel your " + describeCocksLight(character) + " filling out in your " + character.inventory.armor.displayName + ". Pulling ");
                 if (character.body.cocks.length === 1) CView.text("it");
                 else CView.text("them");
                 CView.text(" out, you look closely.  ");
@@ -195,7 +195,7 @@ export class SweetGossamer extends Consumable {
         }
         // -Nipples reduction to 1 per tit.
         if (character.body.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
-            CView.text("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            CView.text("\n\nA chill runs over your " + describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
             if (character.body.chest.sort(BreastRow.Largest).get(0)!.rating < 1) CView.text("'breast'.");
             else CView.text("breast.");
             changes++;

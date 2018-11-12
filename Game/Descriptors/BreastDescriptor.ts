@@ -45,7 +45,7 @@ export function describeNipple(character: Character, breastRow: BreastRow | unde
     let description: string = "";
     let options: string[] = [];
     const breastRowIndex = character.body.chest.indexOf(breastRow);
-    const nipplePiercings = character.inventory.equipment.piercings.nipples.get(breastRowIndex);
+    const nipplePiercings = character.inventory.piercings.nipples.get(breastRowIndex);
     // Size descriptors 33% chance
     if (randInt(4) === 0) {
         // TINAHHHH

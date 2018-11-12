@@ -9,6 +9,6 @@ export class ComfortableClothes extends Armor {
     }
 
     public supportsBulge(character: Character): boolean {
-        return character.inventory.equipment.armorDescMod !== "crotch-hugging clothes";
+        return character.inventory.armorDescMod !== "crotch-hugging clothes";
     }
 }

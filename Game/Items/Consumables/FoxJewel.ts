@@ -157,7 +157,7 @@ export class FoxJewel extends Consumable {
         if (!character.body.tails.reduce(Tail.HasType(TailType.FOX), false) && changes < changeLimit && ((this.mystic && randInt(2) === 0) || (!this.mystic && randInt(4) === 0))) {
             // if PC has no tail
             if (character.body.tails.length >= 1) {
-                CView.text("\n\nA pressure builds on your backside.  You feel under your " + character.inventory.equipment.armor.displayName + " and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it has a mind of its own.  <b>You now have a fox-tail.</b>");
+                CView.text("\n\nA pressure builds on your backside.  You feel under your " + character.inventory.armor.displayName + " and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it has a mind of its own.  <b>You now have a fox-tail.</b>");
             }
             // if PC has another type of tail
             else {

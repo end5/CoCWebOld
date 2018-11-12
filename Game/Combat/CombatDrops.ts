@@ -8,7 +8,7 @@ import { getItemFromName } from '../Items/ItemLookup';
 import { CView } from '../../Page/ContentView';
 
 export function awardPlayer(character: Character, enemy: Character): NextScreenChoices {
-    const gildedCockSock = character.inventory.equipment.cockSocks.find(EquipSlot.FilterName(CockSockName.Gilded));
+    const gildedCockSock = character.inventory.cockSocks.find(EquipSlot.FilterName(CockSockName.Gilded));
     if (gildedCockSock && gildedCockSock.observedObject) {
         enemy.inventory.gems += enemy.inventory.gems * 0.15 + 5 * gildedCockSock.observedObject.length;
     }

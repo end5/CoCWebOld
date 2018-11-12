@@ -143,7 +143,7 @@ function getAvailablePerks(character: Character): Perk[] {
         }
         // Agility - A small portion of your speed is applied to your defense rating when wearing light armors.
         if (character.stats.spe > 75 && character.perks.has(PerkType.Runner) &&
-            (character.inventory.equipment.armor.armorClass === "Light" || character.inventory.equipment.armor.armorClass === "Medium")) {
+            (character.inventory.armor.armorClass === "Light" || character.inventory.armor.armorClass === "Medium")) {
             perkList.push(new Perk(PerkType.Agility));
         }
         if (character.stats.spe >= 60) {
